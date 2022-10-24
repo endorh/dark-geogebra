@@ -61,9 +61,9 @@ public class AlgebraInputTransferHandler extends TransferHandler
 	@Override
 	public boolean canImport(JComponent comp, DataFlavor flavor[]) {
 
-		for (int i = 0, n = flavor.length; i < n; i++) {
-			for (int j = 0, m = supportedFlavors.length; j < m; j++) {
-				if (flavor[i].equals(supportedFlavors[j])) {
+		for (DataFlavor dataFlavor : flavor) {
+			for (DataFlavor supportedFlavor : supportedFlavors) {
+				if (dataFlavor.equals(supportedFlavor)) {
 					return true;
 				}
 			}
@@ -122,8 +122,7 @@ public class AlgebraInputTransferHandler extends TransferHandler
 				ta.setText(text);
 				return true;
 
-			} catch (UnsupportedFlavorException ignored) {
-			} catch (IOException ignored) {
+			} catch (UnsupportedFlavorException | IOException ignored) {
 			}
 		}
 
@@ -150,8 +149,8 @@ public class AlgebraInputTransferHandler extends TransferHandler
 
 	@Override
 	public boolean isDataFlavorSupported(DataFlavor flavor) {
-		for (int i = 0; i < supportedFlavors.length; i++) {
-			if (supportedFlavors[i].equals(flavor)) {
+		for (DataFlavor supportedFlavor : supportedFlavors) {
+			if (supportedFlavor.equals(flavor)) {
 				return true;
 			}
 		}

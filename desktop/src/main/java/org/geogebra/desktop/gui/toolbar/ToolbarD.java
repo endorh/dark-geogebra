@@ -130,8 +130,7 @@ public class ToolbarD extends JToolBar {
 		}
 
 		if (modeToggleMenus != null) {
-			for (int i = 0; i < modeToggleMenus.size(); i++) {
-				ModeToggleMenuD mtm = modeToggleMenus.get(i);
+			for (ModeToggleMenuD mtm : modeToggleMenus) {
 				if (mtm.selectMode(tmpMode)) {
 					success = true;
 					break;
@@ -223,9 +222,9 @@ public class ToolbarD extends JToolBar {
 			ModeToggleMenuD tm = new ModeToggleMenuD(app, this, bg);
 			modeToggleMenus.add(tm);
 
-			for (int k = 0; k < menu.size(); k++) {
+			for (Integer integer : menu) {
 				// separator
-				int addMode = menu.get(k).intValue();
+				int addMode = integer;
 				if (addMode < 0) {
 					// separator within menu:
 					tm.addSeparator();

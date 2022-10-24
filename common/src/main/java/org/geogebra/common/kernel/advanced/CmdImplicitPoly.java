@@ -52,8 +52,7 @@ public class CmdImplicitPoly extends CommandProcessor {
 				GeoElement[] ret = {
 						doCommand(c.getLabel(), (GeoList) arg[0]) };
 				return ret;
-			} else if (arg[0] instanceof GeoFunctionNVar) {
-				GeoFunctionNVar geoFunctionNVar = (GeoFunctionNVar) arg[0];
+			} else if (arg[0] instanceof GeoFunctionNVar geoFunctionNVar) {
 				FunctionVariable[] fvars = geoFunctionNVar.getFunctionVariables();
 				if (fvars.length != 2) {
 					throw new MyError(app.getLocalization(), "InvalidEquation");

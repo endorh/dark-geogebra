@@ -365,19 +365,10 @@ public class PlotterCursor {
 	private void cursor(int i) {
 
 		switch (i) {
-		default:
-		case 0:
-			cursorCross2D();
-			break;
-		case 1:
-			cursorDiamond();
-			break;
-		case 2:
-			cursorCylinder();
-			break;
-		case 3:
-			cursorCross3D();
-			break;
+		case 0 -> cursorCross2D();
+		case 1 -> cursorDiamond();
+		case 2 -> cursorCylinder();
+		case 3 -> cursorCross3D();
 		}
 	}
 

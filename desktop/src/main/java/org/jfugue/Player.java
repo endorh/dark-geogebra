@@ -27,8 +27,6 @@ import java.io.IOException;
 import java.net.URL;
 
 import javax.sound.midi.InvalidMidiDataException;
-import javax.sound.midi.MetaEventListener;
-import javax.sound.midi.MetaMessage;
 import javax.sound.midi.MidiChannel;
 import javax.sound.midi.MidiFileFormat;
 import javax.sound.midi.MidiSystem;
@@ -119,12 +117,9 @@ public class Player {
 
 	private void initSequencer() {
 		// Close the sequencer and synthesizer
-		getSequencer().addMetaEventListener(new MetaEventListener() {
-			@Override
-			public void meta(MetaMessage event) {
-				if (event.getType() == 47) {
-					close();
-				}
+		getSequencer().addMetaEventListener(event -> {
+			if (event.getType() == 47) {
+				close();
 			}
 		});
 	}
@@ -434,8 +429,8 @@ public class Player {
 				synth.open();
 			}
 			MidiChannel[] channels = synth.getChannels();
-			for (int i = 0; i < channels.length; i++) {
-				channels[i].allNotesOff();
+			for (MidiChannel channel : channels) {
+				channel.allNotesOff();
 			}
 		} catch (MidiUnavailableException e) {
 			throw new JFugueException(JFugueException.GENERAL_ERROR);

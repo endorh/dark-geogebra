@@ -17,7 +17,6 @@
 package org.apache.commons.math3.optim.nonlinear.scalar;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -41,7 +40,7 @@ public class MultiStartMultivariateOptimizer
     /** Underlying optimizer. */
     private final MultivariateOptimizer optimizer;
     /** Found optima. */
-    private final List<PointValuePair> optima = new ArrayList<PointValuePair>();
+    private final List<PointValuePair> optima = new ArrayList<>();
 
     /**
      * Create a multi-start optimizer from a single-start optimizer.
@@ -69,7 +68,7 @@ public class MultiStartMultivariateOptimizer
      */
     @Override
     public PointValuePair[] getOptima() {
-        Collections.sort(optima, getPairComparator());
+        optima.sort(getPairComparator());
         return optima.toArray(new PointValuePair[0]);
     }
 
@@ -93,20 +92,20 @@ public class MultiStartMultivariateOptimizer
      * @return a comparator for sorting the optima.
      */
     private Comparator<PointValuePair> getPairComparator() {
-        return new Comparator<PointValuePair>() {
-            /** {@inheritDoc} */
-            public int compare(final PointValuePair o1,
-                               final PointValuePair o2) {
-                if (o1 == null) {
-                    return (o2 == null) ? 0 : 1;
-                } else if (o2 == null) {
-                    return -1;
-                }
-                final double v1 = o1.getValue();
-                final double v2 = o2.getValue();
-                return (optimizer.getGoalType() == GoalType.MINIMIZE) ?
-                    Double.compare(v1, v2) : Double.compare(v2, v1);
-            }
+        return new Comparator<>() {
+	        /** {@inheritDoc} */
+	        public int compare(final PointValuePair o1,
+			        final PointValuePair o2) {
+		        if (o1 == null) {
+			        return (o2 == null) ? 0 : 1;
+		        } else if (o2 == null) {
+			        return -1;
+		        }
+		        final double v1 = o1.getValue();
+		        final double v2 = o2.getValue();
+		        return (optimizer.getGoalType() == GoalType.MINIMIZE) ?
+				        Double.compare(v1, v2) : Double.compare(v2, v1);
+	        }
         };
     }
 }

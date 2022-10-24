@@ -124,20 +124,15 @@ public class AlgoJoinPoints3D extends AlgoElement3D
 		this.geoClassType = geoClassType;
 
 		switch (geoClassType) {
-		case SEGMENT3D:
+		case SEGMENT3D -> {
 			cs = new GeoSegment3D(cons, P, Q);
 			if (poly != null) {
 				((GeoSegment3D) cs).setFromMeta(poly);
 			}
-			break;
-		case LINE3D:
-			cs = new GeoLine3D(cons, P, Q);
-			break;
-		case RAY3D:
-			cs = new GeoRay3D(cons, P, Q);
-			break;
-		default:
-			cs = null;
+		}
+		case LINE3D -> cs = new GeoLine3D(cons, P, Q);
+		case RAY3D -> cs = new GeoRay3D(cons, P, Q);
+		default -> cs = null;
 		}
 
 		setInputOutput();
@@ -222,8 +217,8 @@ public class AlgoJoinPoints3D extends AlgoElement3D
 			return;
 		}
 
-		for (int i = 0; i < input.length; i++) {
-			input[i].removeAlgorithm(this);
+		for (GeoElement geoElement : input) {
+			geoElement.removeAlgorithm(this);
 		}
 
 		P = A;
@@ -252,8 +247,8 @@ public class AlgoJoinPoints3D extends AlgoElement3D
 			return;
 		}
 
-		for (int i = 0; i < input.length; i++) {
-			input[i].removeAlgorithm(this);
+		for (GeoElement geoElement : input) {
+			geoElement.removeAlgorithm(this);
 		}
 
 		poly = p;
@@ -267,15 +262,12 @@ public class AlgoJoinPoints3D extends AlgoElement3D
 
 	@Override
 	public Commands getClassName() {
-		switch (geoClassType) {
-		case SEGMENT3D:
-			return Commands.Segment;
-		case LINE3D:
-			return Commands.Line;
-		case RAY3D:
-			return Commands.Ray;
-		}
-		return null;
+		return switch (geoClassType) {
+			case SEGMENT3D -> Commands.Segment;
+			case LINE3D -> Commands.Line;
+			case RAY3D -> Commands.Ray;
+			default -> null;
+		};
 	}
 
 	@Override
@@ -283,22 +275,14 @@ public class AlgoJoinPoints3D extends AlgoElement3D
 		StringBuilder sb = new StringBuilder();
 
 		switch (geoClassType) {
-		case SEGMENT3D:
-			sb.append(getLoc().getPlain("SegmentAB", ((GeoElement) P).getLabel(tpl),
-					((GeoElement) Q).getLabel(tpl)));
-
-			break;
-		default:
-		case LINE3D:
-			sb.append(getLoc().getPlain("LineAB",
-					((GeoElement) P).getLabel(tpl),
-					((GeoElement) Q).getLabel(tpl)));
-			break;
-		case RAY3D:
-			sb.append(getLoc().getPlain("RayThroughAB",
-					((GeoElement) P).getLabel(tpl),
-					((GeoElement) Q).getLabel(tpl)));
-			break;
+		case SEGMENT3D -> sb.append(getLoc().getPlain("SegmentAB", ((GeoElement) P).getLabel(tpl),
+				((GeoElement) Q).getLabel(tpl)));
+		case LINE3D -> sb.append(getLoc().getPlain("LineAB",
+				((GeoElement) P).getLabel(tpl),
+				((GeoElement) Q).getLabel(tpl)));
+		case RAY3D -> sb.append(getLoc().getPlain("RayThroughAB",
+				((GeoElement) P).getLabel(tpl),
+				((GeoElement) Q).getLabel(tpl)));
 		}
 
 		return sb.toString();

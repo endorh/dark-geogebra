@@ -61,36 +61,36 @@ public class PrintGridable implements Printable {
 		// int pagesHor=0;
 		ArrayList<Integer> boundsHor = new ArrayList<>();
 		boundsHor.add(sum);
-		for (int i = 0; i < colWidths.length; i++) {
-			if ((sum + colWidths[i]
+		for (int colWidth : colWidths) {
+			if ((sum + colWidth
 					- boundsHor.get(boundsHor.size() - 1) > pWidth) && // the
-																		// next
-																		// cell
-																		// won't
-																		// fit
+					// next
+					// cell
+					// won't
+					// fit
 					(sum > boundsHor.get(boundsHor.size() - 1))) { // the size
-																	// increased
+				// increased
 				boundsHor.add(sum);
 			}
-			sum += colWidths[i];
+			sum += colWidth;
 		}
 		boundsHor.add(sum);
 
 		sum = 0;
 		ArrayList<Integer> boundsVer = new ArrayList<>();
 		boundsVer.add(sum);
-		for (int i = 0; i < rowHeights.length; i++) {
-			if ((sum + rowHeights[i]
+		for (int rowHeight : rowHeights) {
+			if ((sum + rowHeight
 					- boundsVer.get(boundsVer.size() - 1) > pHeight) && // the
-																		// next
-																		// cell
-																		// won't
-																		// fit
+					// next
+					// cell
+					// won't
+					// fit
 					(sum > boundsVer.get(boundsVer.size() - 1))) { // the size
-																	// increased
+				// increased
 				boundsVer.add(sum);
 			}
-			sum += rowHeights[i];
+			sum += rowHeight;
 		}
 		boundsVer.add(sum);
 		int pagesHor = boundsHor.size() - 1;
@@ -115,14 +115,14 @@ public class PrintGridable implements Printable {
 		gridable.getApplication().setExporting(ExportType.PRINTING, 10);
 		Component[][] comp = gridable.getPrintComponents();
 		int down = 0;
-		for (int i = 0; i < comp.length; i++) {
+		for (Component[] components : comp) {
 			int height = 0;
 			int left = 0;
-			for (int j = 0; j < comp[i].length; j++) {
-				comp[i][j].print(g2d);
-				g2d.translate(comp[i][j].getWidth(), 0);
-				left += comp[i][j].getWidth();
-				height = Math.max(height, comp[i][j].getHeight());
+			for (Component component : components) {
+				component.print(g2d);
+				g2d.translate(component.getWidth(), 0);
+				left += component.getWidth();
+				height = Math.max(height, component.getHeight());
 			}
 			g2d.translate(-left, height);
 			down += height;

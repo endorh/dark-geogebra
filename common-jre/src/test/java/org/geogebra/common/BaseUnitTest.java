@@ -210,7 +210,7 @@ public class BaseUnitTest {
 
 	protected TypeSafeMatcher<GeoElementND> isDefined() {
 		if (isDefined == null) {
-			isDefined = new TypeSafeMatcher<GeoElementND>() {
+			isDefined = new TypeSafeMatcher<>() {
 				@Override
 				protected boolean matchesSafely(GeoElementND item) {
 					return item.isDefined();
@@ -230,7 +230,7 @@ public class BaseUnitTest {
 	 * @return construction element matcher
 	 */
 	public static TypeSafeMatcher<GeoElementND> hasValue(String val) {
-		return new TypeSafeMatcher<GeoElementND>() {
+		return new TypeSafeMatcher<>() {
 			@Override
 			protected boolean matchesSafely(GeoElementND item) {
 				return val.equals(item.toValueString(StringTemplate.defaultTemplate));

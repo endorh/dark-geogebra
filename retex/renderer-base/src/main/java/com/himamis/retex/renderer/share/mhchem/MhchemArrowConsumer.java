@@ -97,27 +97,26 @@ public class MhchemArrowConsumer implements AtomConsumer {
 		final Atom bot = sub == null ? EmptyAtom.get() : sub;
 		final TeXLength minW = new TeXLength(Unit.EM, 2.);
 
-		switch (arrow) {
-		case left: // <-
-			return new XArrowAtom(top, bot, minW, XArrowAtom.Kind.Left);
-		case right: // ->
-			return new XArrowAtom(top, bot, minW, XArrowAtom.Kind.Right);
-		case leftright: // <->
-			return new XArrowAtom(top, bot, minW, XArrowAtom.Kind.LR);
-		case LeftRight: // <-->
-			return new XArrowAtom(top, bot, minW, XArrowAtom.Kind.RightAndLeft);
-		case leftrightHarpoon: // <=>
-			return new XArrowAtom(top, bot, minW,
-					XArrowAtom.Kind.RightLeftHarpoons);
-		case leftrightSmallHarpoon: // <=>>
-			return new XArrowAtom(top, bot, minW,
-					XArrowAtom.Kind.RightSmallLeftHarpoons);
-		case leftSmallHarpoonRight: // <<=>
-			return new XArrowAtom(top, bot, minW,
-					XArrowAtom.Kind.SmallRightLeftHarpoons);
-		}
+		return switch (arrow) {
+			case left -> // <-
+					new XArrowAtom(top, bot, minW, XArrowAtom.Kind.Left);
+			case right -> // ->
+					new XArrowAtom(top, bot, minW, XArrowAtom.Kind.Right);
+			case leftright -> // <->
+					new XArrowAtom(top, bot, minW, XArrowAtom.Kind.LR);
+			case LeftRight -> // <-->
+					new XArrowAtom(top, bot, minW, XArrowAtom.Kind.RightAndLeft);
+			case leftrightHarpoon -> // <=>
+					new XArrowAtom(top, bot, minW,
+							XArrowAtom.Kind.RightLeftHarpoons);
+			case leftrightSmallHarpoon -> // <=>>
+					new XArrowAtom(top, bot, minW,
+							XArrowAtom.Kind.RightSmallLeftHarpoons);
+			case leftSmallHarpoonRight -> // <<=>
+					new XArrowAtom(top, bot, minW,
+							XArrowAtom.Kind.SmallRightLeftHarpoons);
+		};
 
-		return null;
 	}
 
 	@Override

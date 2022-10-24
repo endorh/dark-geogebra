@@ -16,10 +16,8 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.TreeSet;
 
 import javax.swing.BorderFactory;
@@ -38,7 +36,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.ListCellRenderer;
 import javax.swing.border.BevelBorder;
-import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListDataListener;
 
@@ -105,8 +102,7 @@ public class ToolCreationDialogD extends Dialog
 			// add all currently selected geos to output list
 			ArrayList<GeoElement> selGeos = app.getSelectionManager()
 					.getSelectedGeos();
-			for (int i = 0; i < selGeos.size(); i++) {
-				GeoElement geo = selGeos.get(i);
+			for (GeoElement geo : selGeos) {
 				outputList.addElement(geo);
 			}
 
@@ -127,11 +123,10 @@ public class ToolCreationDialogD extends Dialog
 
 		@Override
 		public void addElement(Object ob) {
-			if (!(ob instanceof GeoElement)) {
+			if (!(ob instanceof GeoElement geo)) {
 				return;
 			}
 
-			GeoElement geo = (GeoElement) ob;
 			if (geo.isIndependent() || contains(geo)) {
 				return;
 			}
@@ -167,11 +162,10 @@ public class ToolCreationDialogD extends Dialog
 
 		@Override
 		public void addElement(Object ob) {
-			if (!(ob instanceof GeoElement)) {
+			if (!(ob instanceof GeoElement geo)) {
 				return;
 			}
 
-			GeoElement geo = (GeoElement) ob;
 			if (!possibleInput(geo) || contains(geo)) {
 				return;
 			}
@@ -327,14 +321,12 @@ public class ToolCreationDialogD extends Dialog
 
 		// determine all free parents of output
 		TreeSet<GeoElement> freeParents = new TreeSet<>();
-		for (int i = 0; i < output.length; i++) {
-			output[i].addPredecessorsToSet(freeParents, true);
+		for (GeoElement geoElement : output) {
+			geoElement.addPredecessorsToSet(freeParents, true);
 		}
 
 		// fill input list with labeled free parents
-		Iterator<GeoElement> it = freeParents.iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
+		for (GeoElement geo : freeParents) {
 			if (geo.isVisibleInputForMacro()) {
 				inputList.addElement(geo);
 			}
@@ -347,9 +339,9 @@ public class ToolCreationDialogD extends Dialog
 		// temporarily to avoid multiple additions to inputList
 		ListDataListener[] listeners = cbModel.getListDataListeners();
 		JComboBox cbListener = null;
-		for (int i = 0; i < listeners.length; i++) {
-			if (listeners[i] instanceof JComboBox) {
-				cbListener = (JComboBox) listeners[i];
+		for (ListDataListener listener : listeners) {
+			if (listener instanceof JComboBox) {
+				cbListener = (JComboBox) listener;
 				break;
 			}
 		}
@@ -392,9 +384,7 @@ public class ToolCreationDialogD extends Dialog
 		// fill combobox models
 		cbInputAddList.addElement(null);
 		cbOutputAddList.addElement(null);
-		Iterator<GeoElement> it = sortedSet.iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
+		for (GeoElement geo : sortedSet) {
 			if (possibleInput(geo)) {
 				cbInputAddList.addElement(geo);
 			}
@@ -502,54 +492,48 @@ public class ToolCreationDialogD extends Dialog
 		btPanel.add(btCancel);
 		btCancel.setText(loc.getMenu("Cancel"));
 
-		ActionListener ac = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Object src = e.getSource();
-				if (src == btNext) {
-					int index = tabbedPane.getSelectedIndex() + 1;
-					if (index == tabbedPane.getTabCount()) {
-						finish();
-					} else {
-						tabbedPane.setSelectedIndex(index);
-					}
-				} else if (src == btBack) {
-					int index = tabbedPane.getSelectedIndex() - 1;
+		ActionListener ac = e -> {
+			Object src = e.getSource();
+			if (src == btNext) {
+				int index = tabbedPane.getSelectedIndex() + 1;
+				if (index == tabbedPane.getTabCount()) {
+					finish();
+				} else {
 					tabbedPane.setSelectedIndex(index);
-				} else if (src == btCancel) {
-					setVisible(false);
 				}
+			} else if (src == btBack) {
+				int index = tabbedPane.getSelectedIndex() - 1;
+				tabbedPane.setSelectedIndex(index);
+			} else if (src == btCancel) {
+				setVisible(false);
 			}
 		};
 		btCancel.addActionListener(ac);
 		btNext.addActionListener(ac);
 		btBack.addActionListener(ac);
 
-		ChangeListener cl = new ChangeListener() {
-			@Override
-			public void stateChanged(ChangeEvent e) {
-				int tab = tabbedPane.getSelectedIndex();
-				btBack.setEnabled(tab > 0);
+		ChangeListener cl = e -> {
+			int tab = tabbedPane.getSelectedIndex();
+			btBack.setEnabled(tab > 0);
 
-				switch (tab) {
-				case 1: // input objects
-					updateInputList();
-					//$FALL-THROUGH$
-				case 0: // output objects
-					btNext.setText(loc.getMenu("Next") + " >");
-					btNext.setEnabled(true);
-					break;
+			switch (tab) {
+			case 1: // input objects
+				updateInputList();
+				//$FALL-THROUGH$
+			case 0: // output objects
+				btNext.setText(loc.getMenu("Next") + " >");
+				btNext.setEnabled(true);
+				break;
 
-				case 2: // name panel (finish)
-					if (createTool()) {
-						btNext.setText(loc.getMenu("Finish"));
-						btNext.setEnabled(
-								inputList.size() > 0 && outputList.size() > 0);
-						namePanel.requestFocus();
-					}
-					break;
-				default:
+			case 2: // name panel (finish)
+				if (createTool()) {
+					btNext.setText(loc.getMenu("Finish"));
+					btNext.setEnabled(
+							inputList.size() > 0 && outputList.size() > 0);
+					namePanel.requestFocus();
 				}
+				break;
+			default:
 			}
 		};
 		tabbedPane.addChangeListener(cl);
@@ -684,61 +668,58 @@ public class ToolCreationDialogD extends Dialog
 		centerPanel.add(outputButtonPanel, loc.borderEast());
 
 		// listener for buttons
-		ActionListener ac = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Object src = e.getSource();
-				DefaultListModel listModel = (DefaultListModel) list.getModel();
-				int[] selIndices = list.getSelectedIndices();
-				if (src == btUp && selIndices != null) {
-					for (int i = 0; i < selIndices.length; i++) {
-						int index = selIndices[i];
-						if (index > 0) {
-							Object ob = listModel.get(index);
-							listModel.remove(index);
-							listModel.add(index - 1, ob);
-							selIndices[i] = index - 1;
-						}
+		ActionListener ac = e -> {
+			Object src = e.getSource();
+			DefaultListModel listModel = (DefaultListModel) list.getModel();
+			int[] selIndices = list.getSelectedIndices();
+			if (src == btUp && selIndices != null) {
+				for (int i = 0; i < selIndices.length; i++) {
+					int index = selIndices[i];
+					if (index > 0) {
+						Object ob = listModel.get(index);
+						listModel.remove(index);
+						listModel.add(index - 1, ob);
+						selIndices[i] = index - 1;
 					}
-					list.setSelectedIndices(selIndices);
-				} else if (src == btDown && selIndices != null) {
-					for (int i = selIndices.length - 1; i >= 0; i--) {
-						int index = selIndices[i];
-						if (index < listModel.size() - 1) {
-							Object ob = listModel.get(index);
-							listModel.remove(index);
-							listModel.add(index + 1, ob);
-							selIndices[i] = index + 1;
-						}
+				}
+				list.setSelectedIndices(selIndices);
+			} else if (src == btDown && selIndices != null) {
+				for (int i = selIndices.length - 1; i >= 0; i--) {
+					int index = selIndices[i];
+					if (index < listModel.size() - 1) {
+						Object ob = listModel.get(index);
+						listModel.remove(index);
+						listModel.add(index + 1, ob);
+						selIndices[i] = index + 1;
 					}
-					list.setSelectedIndices(selIndices);
-				} else if (src == btRemove && selIndices != null) {
-					NameDescriptionComparator comparator = new NameDescriptionComparator();
-					for (int i = selIndices.length - 1; i >= 0; i--) {
-						if (cbAdd != null) {
-							DefaultComboBoxModel cbModel = (DefaultComboBoxModel) cbAdd
-									.getModel();
+				}
+				list.setSelectedIndices(selIndices);
+			} else if (src == btRemove && selIndices != null) {
+				NameDescriptionComparator comparator = new NameDescriptionComparator();
+				for (int i = selIndices.length - 1; i >= 0; i--) {
+					if (cbAdd != null) {
+						DefaultComboBoxModel cbModel = (DefaultComboBoxModel) cbAdd
+								.getModel();
 
-							if (!allowMultiple) {
-								// take from list and insert sorted into
-								// add-combobox
-								GeoElement geo = (GeoElement) listModel
-										.elementAt(selIndices[i]);
-								int k = 0;
-								for (; k < cbModel.getSize(); k++) {
-									GeoElement cbGeo = (GeoElement) cbModel
-											.getElementAt(k);
-									if (comparator.compare(geo, cbGeo) <= 0) {
-										break;
-									}
+						if (!allowMultiple) {
+							// take from list and insert sorted into
+							// add-combobox
+							GeoElement geo = (GeoElement) listModel
+									.elementAt(selIndices[i]);
+							int k = 0;
+							for (; k < cbModel.getSize(); k++) {
+								GeoElement cbGeo = (GeoElement) cbModel
+										.getElementAt(k);
+								if (comparator.compare(geo, cbGeo) <= 0) {
+									break;
 								}
-								cbModel.insertElementAt(geo, k);
 							}
+							cbModel.insertElementAt(geo, k);
 						}
-
-						// remove from list
-						listModel.remove(selIndices[i]);
 					}
+
+					// remove from list
+					listModel.remove(selIndices[i]);
 				}
 			}
 		};
@@ -764,14 +745,12 @@ public class ToolCreationDialogD extends Dialog
 	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
 		int tab = tabbedPane.getSelectedIndex();
 		switch (tab) {
-		case 0: // output objects
-			outputList.addElement(geo);
-			break;
-
-		case 1: // input objects
-			inputList.addElement(geo);
-			break;
-		default:
+		case 0 -> // output objects
+				outputList.addElement(geo);
+		case 1 -> // input objects
+				inputList.addElement(geo);
+		default -> {
+		}
 		}
 
 	}

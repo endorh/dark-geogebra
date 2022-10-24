@@ -23,7 +23,6 @@ import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.StringTokenizer;
 
 import org.geogebra.common.util.FileExtensions;
@@ -168,11 +167,7 @@ public class FileDropTargetListener implements DropTargetListener {
 				// Application.debug("javaFileList is supported");
 				List<File> list = (List<File>) transferable
 						.getTransferData(DataFlavor.javaFileListFlavor);
-				ListIterator<File> it = list.listIterator();
-				while (it.hasNext()) {
-					File f = it.next();
-					al.add(f);
-				}
+				al.addAll(list);
 			} else if (transferable
 					.isDataFlavorSupported(GuiManagerD.uriListFlavor)) {
 				// Application.debug("uri-list flavor is supported");

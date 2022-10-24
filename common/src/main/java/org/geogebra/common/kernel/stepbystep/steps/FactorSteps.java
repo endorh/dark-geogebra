@@ -58,8 +58,8 @@ enum FactorSteps implements SimplificationStepGenerator {
 
 				StepExpression[] operands = new StepExpression[so.noOfOperands()];
 				for (int i = 0; i < so.noOfOperands(); i++) {
-					currentBases.add(new ArrayList<StepExpression>());
-					currentExponents.add(new ArrayList<StepExpression>());
+					currentBases.add(new ArrayList<>());
+					currentExponents.add(new ArrayList<>());
 					so.getOperand(i)
 							.getBasesAndExponents(currentBases.get(i), currentExponents.get(i));
 
@@ -148,8 +148,8 @@ enum FactorSteps implements SimplificationStepGenerator {
 
 				StepExpression[] operands = new StepExpression[so.noOfOperands()];
 				for (int i = 0; i < so.noOfOperands(); i++) {
-					currentBases.add(new ArrayList<StepExpression>());
-					currentExponents.add(new ArrayList<StepExpression>());
+					currentBases.add(new ArrayList<>());
+					currentExponents.add(new ArrayList<>());
 					so.getOperand(i)
 							.getBasesAndExponents(currentBases.get(i), currentExponents.get(i));
 
@@ -306,8 +306,7 @@ enum FactorSteps implements SimplificationStepGenerator {
 		@Override
 		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
 				RegroupTracker tracker) {
-			if (sn instanceof StepOperation) {
-				StepOperation so = (StepOperation) sn;
+			if (sn instanceof StepOperation so) {
 
 				if (so.noOfOperands() >= 3) {
 					StepExpression first = null, second = null, third = null;

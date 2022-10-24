@@ -403,8 +403,8 @@ public class FunctionInspectorModel {
 		double root = Double.NaN;
 
 		// count how many roots in range
-		for (int i = 0; i < rootGeos.length; i++) {
-			GeoPoint p = (GeoPoint) rootGeos[i];
+		for (GeoElementND rootGeo : rootGeos) {
+			GeoPoint p = (GeoPoint) rootGeo;
 			if (p.isDefined()) {
 				double rt = p.inhomX;
 				if (DoubleUtil.isGreaterEqual(rt, xMin)
@@ -416,18 +416,19 @@ public class FunctionInspectorModel {
 		}
 		StringTemplate tpl = StringTemplate.defaultTemplate;
 		switch (count) {
-		case 0:
+		case 0 -> {
 			values.add(loc.getMenu("fncInspector.NoRoots"));
 			value2.add(null);
-			break;
-		case 1:
+		}
+		case 1 -> {
 			values.add(kernel.format(root, tpl));
-			Double[] r = { root };
+			Double[] r = {root};
 			value2.add(r);
-			break;
-		default:
+		}
+		default -> {
 			values.add(loc.getMenu("fncInspector.MultipleRoots"));
 			value2.add(null);
+		}
 		}
 		// get the table
 		final double integral = ((GeoNumeric) integralGeo).getDouble();

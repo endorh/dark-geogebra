@@ -302,19 +302,19 @@ public class GTest {
     private double entropy(final long[][] k) {
         double h = 0d;
         double sum_k = 0d;
-        for (int i = 0; i < k.length; i++) {
-            for (int j = 0; j < k[i].length; j++) {
-                sum_k += (double) k[i][j];
-            }
-        }
-        for (int i = 0; i < k.length; i++) {
-            for (int j = 0; j < k[i].length; j++) {
-                if (k[i][j] != 0) {
-                    final double p_ij = (double) k[i][j] / sum_k;
-                    h += p_ij * Math.log(p_ij);
-                }
-            }
-        }
+	    for (long[] value : k) {
+		    for (long l : value) {
+			    sum_k += (double) l;
+		    }
+	    }
+	    for (long[] longs : k) {
+		    for (long aLong : longs) {
+			    if (aLong != 0) {
+				    final double p_ij = (double) aLong / sum_k;
+				    h += p_ij * Math.log(p_ij);
+			    }
+		    }
+	    }
         return -h;
     }
 
@@ -335,15 +335,15 @@ public class GTest {
     private double entropy(final long[] k) {
         double h = 0d;
         double sum_k = 0d;
-        for (int i = 0; i < k.length; i++) {
-            sum_k += (double) k[i];
-        }
-        for (int i = 0; i < k.length; i++) {
-            if (k[i] != 0) {
-                final double p_i = (double) k[i] / sum_k;
-                h += p_i * Math.log(p_i);
-            }
-        }
+	    for (long value : k) {
+		    sum_k += (double) value;
+	    }
+	    for (long l : k) {
+		    if (l != 0) {
+			    final double p_i = (double) l / sum_k;
+			    h += p_i * Math.log(p_i);
+		    }
+	    }
         return -h;
     }
 

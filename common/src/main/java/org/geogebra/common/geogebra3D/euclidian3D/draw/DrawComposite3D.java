@@ -100,8 +100,8 @@ public abstract class DrawComposite3D extends Drawable3D {
 		}
 
 		// update for list of lists
-		for (int i = 0; i < drawables.size(); i++) {
-			Drawable3D d = (Drawable3D) drawables.get(i);
+		for (DrawableND drawable : drawables) {
+			Drawable3D d = (Drawable3D) drawable;
 			if (d.createdByDrawList()) {
 				if (d.waitForUpdate()) {
 					d.update();
@@ -118,8 +118,8 @@ public abstract class DrawComposite3D extends Drawable3D {
 
 	@Override
 	synchronized public void addLastTrace() {
-		for (int i = 0; i < drawables.size(); i++) {
-			Drawable3D d = (Drawable3D) drawables.get(i);
+		for (DrawableND drawable : drawables) {
+			Drawable3D d = (Drawable3D) drawable;
 			d.addLastTrace();
 		}
 	}
@@ -127,8 +127,8 @@ public abstract class DrawComposite3D extends Drawable3D {
 	@Override
 	synchronized protected void updateForView() {
 		int size = drawables.size();
-		for (int i = 0; i < size; i++) {
-			Drawable3D d = (Drawable3D) drawables.get(i);
+		for (DrawableND drawable : drawables) {
+			Drawable3D d = (Drawable3D) drawable;
 			if (d.createdByDrawList()) {
 				d.updateForView();
 				if (d.waitForUpdate()) {
@@ -141,8 +141,8 @@ public abstract class DrawComposite3D extends Drawable3D {
 	@Override
 	synchronized protected void clearTraceForViewChangedByZoomOrTranslate() {
 		int size = drawables.size();
-		for (int i = 0; i < size; i++) {
-			Drawable3D d = (Drawable3D) drawables.get(i);
+		for (DrawableND drawable : drawables) {
+			Drawable3D d = (Drawable3D) drawable;
 			if (d.createdByDrawList()) {
 				d.clearTraceForViewChangedByZoomOrTranslate();
 			}

@@ -373,24 +373,20 @@ public class FunctionParser {
 	 * @return expression
 	 */
 	public ExpressionNode buildOpNode(Operation op, MyList list) {
-		switch (list.size()) {
-		case 1:
-			return new ExpressionNode(kernel, list.getListElement(0), op, null);
-		case 2:
-			return new ExpressionNode(kernel, list.getListElement(0), op, list.getListElement(1));
-		// for beta regularized
-		case 3:
-			return new ExpressionNode(kernel,
+		return switch (list.size()) {
+			case 1 -> new ExpressionNode(kernel, list.getListElement(0), op, null);
+			case 2 ->
+					new ExpressionNode(kernel, list.getListElement(0), op, list.getListElement(1));
+			// for beta regularized
+			case 3 -> new ExpressionNode(kernel,
 					new MyNumberPair(kernel, list.getListElement(0), list.getListElement(1)), op,
 					list.getListElement(2));
-		// for sum (from CAS)
-		case 4:
-			return new ExpressionNode(kernel,
+			// for sum (from CAS)
+			case 4 -> new ExpressionNode(kernel,
 					new MyNumberPair(kernel, list.getListElement(0), list.getListElement(1)), op,
 					new MyNumberPair(kernel, list.getListElement(2), list.getListElement(3)));
-		default:
-			return null;
-		}
+			default -> null;
+		};
 	}
 
 	/**

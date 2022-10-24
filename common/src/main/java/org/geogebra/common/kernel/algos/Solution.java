@@ -25,16 +25,12 @@ public class Solution {
 		int length = curRealRoots + number;
 		if (length >= curRoots.length) { // ensure space
 			double[] temp = new double[2 * length];
-			for (int i = 0; i < curRealRoots; i++) {
-				temp[i] = curRoots[i];
-			}
+			if (curRealRoots >= 0) System.arraycopy(curRoots, 0, temp, 0, curRealRoots);
 			curRoots = temp;
 		}
 
 		// insert new roots
-		for (int i = 0; i < number; i++) {
-			curRoots[curRealRoots + i] = roots[i];
-		}
+		if (number >= 0) System.arraycopy(roots, 0, curRoots, curRealRoots + 0, number);
 		curRealRoots += number;
 	}
 

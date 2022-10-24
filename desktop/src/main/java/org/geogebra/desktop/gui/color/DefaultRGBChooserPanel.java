@@ -198,19 +198,19 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel {
 			R.setValue(red);
 		}
 		if (RSpinner != null) {
-			RSpinner.setValue(Integer.valueOf(red));
+			RSpinner.setValue(red);
 		}
 		if (G != null) {
 			G.setValue(green);
 		}
 		if (GSpinner != null) {
-			GSpinner.setValue(Integer.valueOf(green));
+			GSpinner.setValue(green);
 		}
 		if (B != null) {
 			B.setValue(blue);
 		}
 		if (BSpinner != null) {
-			BSpinner.setValue(Integer.valueOf(blue));
+			BSpinner.setValue(blue);
 		}
 
 		internalChange = false;

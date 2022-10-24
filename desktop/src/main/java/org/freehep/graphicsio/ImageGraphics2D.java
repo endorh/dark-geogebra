@@ -175,7 +175,7 @@ public class ImageGraphics2D extends PixelGraphics2D {
 				.hasMoreElements();) {
 			String key = (String) e.nextElement();
 			String value = newProperties.getProperty(key);
-			if (key.indexOf("." + format) < 0) {
+			if (!key.contains("." + format)) {
 				key = formatKey + key;
 			}
 			formatProperties.setProperty(key, value);
@@ -481,7 +481,7 @@ public class ImageGraphics2D extends PixelGraphics2D {
 			public int compare(Object arg0, Object arg1) {
 				int order0 = order(arg0);
 				int order1 = order(arg1);
-				return order0 < order1 ? -1 : order0 > order1 ? 1 : 0;
+				return Integer.compare(order0, order1);
 			}
 		});
 		while (iterator.hasNext()) {

@@ -65,7 +65,7 @@ public class CurveFitter<T extends ParametricUnivariateFunction> {
      */
     public CurveFitter(final MultivariateVectorOptimizer optimizer) {
         this.optimizer = optimizer;
-        observations = new ArrayList<WeightedObservedPoint>();
+        observations = new ArrayList<>();
     }
 
     /** Add an observed (x,y) point to the sample with unit weight.
@@ -112,7 +112,7 @@ public class CurveFitter<T extends ParametricUnivariateFunction> {
      * @see #addObservedPoint(WeightedObservedPoint)
      */
     public WeightedObservedPoint[] getObservations() {
-        return observations.toArray(new WeightedObservedPoint[observations.size()]);
+        return observations.toArray(new WeightedObservedPoint[0]);
     }
 
     /**

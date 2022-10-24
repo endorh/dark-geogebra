@@ -128,10 +128,8 @@ public class ScientificFormat extends Format
 	}
 
 	private static DecimalFormat getDecimalFormat(int sigDig) {
-		StringBuffer buffer = new StringBuffer("0.");
-		for (int i = 1; i < sigDig; i++) {
-			buffer.append('0');
-		}
+		StringBuilder buffer = new StringBuilder("0.");
+		buffer.append("0".repeat(Math.max(0, sigDig - 1)));
 		buffer.append("E0");
 		return new DecimalFormat(buffer.toString(),
 				new DecimalFormatSymbols(Locale.US));
@@ -171,14 +169,12 @@ public class ScientificFormat extends Format
 		// We need to fix up the result
 
 		int sign = preliminaryResult.charAt(0) == '-' ? 1 : 0;
-		StringBuffer result = new StringBuffer(
+		StringBuilder result = new StringBuilder(
 				preliminaryResult.substring(sign, sign + 1)
 						+ preliminaryResult.substring(sign + 2, ePos));
 
 		if (exponent >= sigDig) {
-			for (int i = sigDig; i < exponent; i++) {
-				result.append('0');
-			}
+			result.append("0".repeat(Math.max(0, exponent - sigDig)));
 		} else if (exponent < 0) {
 			result.insert(0, ".");
 			for (int i = exponent; i < 0; i++) {

@@ -307,22 +307,17 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		// the entire line when this is a segment or ray
 		doPointChanged(P);
 
-		boolean result;
-		switch (classType) {
-		case SEGMENT:
-			// segment: parameter in [0,1]
-			result = pp.t >= -eps && pp.t <= 1 + eps;
-			break;
-
-		case RAY:
-			// ray: parameter > 0
-			result = pp.t >= -eps;
-			break;
-
-		default:
-			// line: any parameter
-			result = true;
-		}
+		boolean result = switch (classType) {
+			case SEGMENT ->
+				// segment: parameter in [0,1]
+					pp.t >= -eps && pp.t <= 1 + eps;
+			case RAY ->
+				// ray: parameter > 0
+					pp.t >= -eps;
+			default ->
+				// line: any parameter
+					true;
+		};
 
 		// restore old values
 		P.x = px;
@@ -1551,8 +1546,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 			getEndPoint().removeIncidence(this);
 		}
 		if (pointsOnLine != null) {
-			for (int i = 0; i < pointsOnLine.size(); ++i) {
-				GeoPoint p = pointsOnLine.get(i);
+			for (GeoPoint p : pointsOnLine) {
 				p.removeIncidence(this);
 			}
 		}
@@ -1998,16 +1992,9 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 
 	private void setModeWithImplicitEquationAsDefault(int mode) {
 		switch (mode) {
-			case PARAMETRIC:
-			case EQUATION_EXPLICIT:
-			case EQUATION_IMPLICIT_NON_CANONICAL:
-			case EQUATION_GENERAL:
-			case EQUATION_USER:
+		case PARAMETRIC, EQUATION_EXPLICIT, EQUATION_IMPLICIT_NON_CANONICAL, EQUATION_GENERAL, EQUATION_USER ->
 				toStringMode = mode;
-				break;
-
-			default:
-				toStringMode = EQUATION_IMPLICIT;
+		default -> toStringMode = EQUATION_IMPLICIT;
 		}
 	}
 

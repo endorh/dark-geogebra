@@ -45,14 +45,11 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 		cons.addToAlgorithmList(this);
 
 		outputPolyhedron = new OutputHandler<>(
-				new ElementFactory<GeoPolyhedron>() {
-					@Override
-					public GeoPolyhedron newElement() {
-						GeoPolyhedron p = new GeoPolyhedron(cons,
-								getPolyhedronType());
-						p.setParentAlgorithm(AlgoPolyhedron.this);
-						return p;
-					}
+				() -> {
+					GeoPolyhedron p = new GeoPolyhedron(cons,
+							getPolyhedronType());
+					p.setParentAlgorithm(AlgoPolyhedron.this);
+					return p;
 				});
 
 		outputPolyhedron.adjustOutputSize(1);
@@ -101,13 +98,10 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 	 */
 	protected OutputHandler<GeoSegment3D> createOutputSegmentsHandler() {
 		return new OutputHandler<>(
-				new ElementFactory<GeoSegment3D>() {
-					@Override
-					public GeoSegment3D newElement() {
-						GeoSegment3D s = new GeoSegment3D(cons);
-						s.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
-						return s;
-					}
+				() -> {
+					GeoSegment3D s = new GeoSegment3D(cons);
+					s.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
+					return s;
 				});
 	}
 
@@ -121,13 +115,10 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 	 */
 	protected OutputHandler<GeoPolygon3D> createOutputPolygonsHandler() {
 		return new OutputHandler<>(
-				new ElementFactory<GeoPolygon3D>() {
-					@Override
-					public GeoPolygon3D newElement() {
-						GeoPolygon3D p = new GeoPolygon3D(cons);
-						p.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
-						return p;
-					}
+				() -> {
+					GeoPolygon3D p = new GeoPolygon3D(cons);
+					p.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
+					return p;
 				});
 	}
 
@@ -135,8 +126,8 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 	 * Add this to dependency set of all inputs
 	 */
 	protected void addAlgoToInput() {
-		for (int i = 0; i < input.length; i++) {
-			input[i].addAlgorithm(this);
+		for (GeoElement geoElement : input) {
+			geoElement.addAlgorithm(this);
 		}
 	}
 
@@ -179,10 +170,9 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 		// remove dependent algorithms (e.g. segments) from update sets of
 		// objects further up (e.g. polygon) the tree
 		ArrayList<AlgoElement> algoList = oldPoint.getAlgorithmList();
-		for (int k = 0; k < algoList.size(); k++) {
-			AlgoElement algo = algoList.get(k);
-			for (int j = 0; j < input.length; j++) {
-				input[j].removeFromUpdateSets(algo);
+		for (AlgoElement algo : algoList) {
+			for (GeoElement geoElement : input) {
+				geoElement.removeFromUpdateSets(algo);
 			}
 		}
 
@@ -192,8 +182,7 @@ public abstract class AlgoPolyhedron extends AlgoElement3D {
 		// remove dependent segment algorithm that are part of this polygon
 		// to make sure we don't remove the polygon as well
 		GeoPolyhedron poly = getPolyhedron();
-		for (int k = 0; k < algoList.size(); k++) {
-			AlgoElement algo = algoList.get(k);
+		for (AlgoElement algo : algoList) {
 			// make sure we don't remove the polygon as well
 			if (algo instanceof AlgoJoinPoints3D
 					&& ((AlgoJoinPoints3D) algo).getPoly() == poly) {

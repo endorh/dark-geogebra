@@ -112,13 +112,13 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 	@Override
 	public void drawGeometryHidden(Renderer renderer) {
 		switch (((GeoQuadric3D) getGeoElement()).getType()) {
-		default:
-			// do nothing
-			break;
-		case GeoQuadricNDConstants.QUADRIC_LINE:
+		default -> {
+		}
+		// do nothing
+		case GeoQuadricNDConstants.QUADRIC_LINE -> {
 			initDrawLine((GeoQuadric3D) getGeoElement());
 			drawLine.drawGeometryHidden(renderer);
-			break;
+		}
 		}
 	}
 
@@ -126,13 +126,13 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 	public void drawOutline(Renderer renderer) {
 		if (isVisible()) {
 			switch (((GeoQuadric3D) getGeoElement()).getType()) {
-			default:
-				// do nothing
-				break;
-			case GeoQuadricNDConstants.QUADRIC_LINE:
+			default -> {
+			}
+			// do nothing
+			case GeoQuadricNDConstants.QUADRIC_LINE -> {
 				initDrawLine((GeoQuadric3D) getGeoElement());
 				drawLine.drawOutline(renderer);
-				break;
+			}
 			}
 		}
 
@@ -213,25 +213,22 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 		GeoQuadric3D quadric = (GeoQuadric3D) getGeoElement();
 		switch (quadric.getType()) {
-		default:
-			// do nothing
-			break;
-		case GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES:
-		case GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES:
+		default -> {
+		}
+		// do nothing
+		case GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES, GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES -> {
 			initDrawPlanes(quadric);
 			drawPlanes[0].updateColors();
 			drawPlanes[1].updateColors();
-			break;
-
-		case GeoQuadricNDConstants.QUADRIC_PLANE:
+		}
+		case GeoQuadricNDConstants.QUADRIC_PLANE -> {
 			initDrawPlanes(quadric);
 			drawPlanes[0].updateColors();
-			break;
-
-		case GeoQuadricNDConstants.QUADRIC_LINE:
+		}
+		case GeoQuadricNDConstants.QUADRIC_LINE -> {
 			initDrawLine(quadric);
 			drawLine.updateColors();
-			break;
+		}
 		}
 	}
 
@@ -316,15 +313,11 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 	@Override
 	public void enlargeBounds(Coords min, Coords max, boolean dontExtend) {
 		switch (((GeoQuadric3D) getGeoElement()).getType()) {
-		default:
-			// do nothing
-			break;
-		case GeoQuadricNDConstants.QUADRIC_SPHERE:
-		case GeoQuadricNDConstants.QUADRIC_SINGLE_POINT:
-		case GeoQuadricNDConstants.QUADRIC_CONE:
-		case GeoQuadricNDConstants.QUADRIC_CYLINDER:
-			enlargeBounds(min, max, boundsMin, boundsMax);
-			break;
+		default -> {
+		}
+		// do nothing
+		case GeoQuadricNDConstants.QUADRIC_SPHERE, GeoQuadricNDConstants.QUADRIC_SINGLE_POINT, GeoQuadricNDConstants.QUADRIC_CONE, GeoQuadricNDConstants.QUADRIC_CYLINDER ->
+				enlargeBounds(min, max, boundsMin, boundsMax);
 		}
 	}
 
@@ -337,7 +330,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		int type = quadric.getType();
 
 		switch (type) {
-		case GeoQuadricNDConstants.QUADRIC_SPHERE:
+		case GeoQuadricNDConstants.QUADRIC_SPHERE -> {
 			Coords center = quadric.getMidpoint3D();
 			double radius = quadric.getHalfAxis(0);
 			boundsMin.setValues(center, 3);
@@ -359,62 +352,53 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			}
 			hidePlanesIfNotNull();
 			hideLineIfNotNull();
-			break;
-		case GeoQuadricNDConstants.QUADRIC_ELLIPSOID:
+		}
+		case GeoQuadricNDConstants.QUADRIC_ELLIPSOID -> {
 			updateEllipsoid(quadric, renderer);
 			hidePlanesIfNotNull();
 			hideLineIfNotNull();
-			break;
-
-		case GeoQuadricNDConstants.QUADRIC_HYPERBOLOID_ONE_SHEET:
+		}
+		case GeoQuadricNDConstants.QUADRIC_HYPERBOLOID_ONE_SHEET -> {
 			updateHyperboloidOneSheet(quadric, renderer);
 			hidePlanesIfNotNull();
 			hideLineIfNotNull();
-			break;
-
-		case GeoQuadricNDConstants.QUADRIC_HYPERBOLOID_TWO_SHEETS:
+		}
+		case GeoQuadricNDConstants.QUADRIC_HYPERBOLOID_TWO_SHEETS -> {
 			updateHyperboloidTwoSheets(quadric, renderer);
 			hidePlanesIfNotNull();
 			hideLineIfNotNull();
-			break;
-
-		case GeoQuadricNDConstants.QUADRIC_PARABOLOID:
+		}
+		case GeoQuadricNDConstants.QUADRIC_PARABOLOID -> {
 			updateParaboloid(quadric, renderer);
 			hidePlanesIfNotNull();
 			hideLineIfNotNull();
-			break;
-
-		case GeoQuadricNDConstants.QUADRIC_HYPERBOLIC_PARABOLOID:
+		}
+		case GeoQuadricNDConstants.QUADRIC_HYPERBOLIC_PARABOLOID -> {
 			updateHyperbolicParaboloid(quadric, renderer);
 			hidePlanesIfNotNull();
 			hideLineIfNotNull();
-			break;
-
-		case GeoQuadricNDConstants.QUADRIC_PARABOLIC_CYLINDER:
+		}
+		case GeoQuadricNDConstants.QUADRIC_PARABOLIC_CYLINDER -> {
 			updateParabolicCylinder(quadric, renderer);
 			hidePlanesIfNotNull();
 			hideLineIfNotNull();
-			break;
-
-		case GeoQuadricNDConstants.QUADRIC_HYPERBOLIC_CYLINDER:
+		}
+		case GeoQuadricNDConstants.QUADRIC_HYPERBOLIC_CYLINDER -> {
 			updateHyperbolicCylinder(quadric, renderer);
 			hidePlanesIfNotNull();
 			hideLineIfNotNull();
-			break;
-
-		case GeoQuadricNDConstants.QUADRIC_CONE:
+		}
+		case GeoQuadricNDConstants.QUADRIC_CONE -> {
 			updateCone(quadric, renderer);
 			hidePlanesIfNotNull();
 			hideLineIfNotNull();
-			break;
-
-		case GeoQuadricNDConstants.QUADRIC_CYLINDER:
+		}
+		case GeoQuadricNDConstants.QUADRIC_CYLINDER -> {
 			updateCylinder(quadric, renderer);
 			hidePlanesIfNotNull();
 			hideLineIfNotNull();
-			break;
-
-		case GeoQuadricNDConstants.QUADRIC_SINGLE_POINT:
+		}
+		case GeoQuadricNDConstants.QUADRIC_SINGLE_POINT -> {
 			surface = renderer.getGeometryManager().getSurface();
 			setPackSurface();
 			surface.start(getReusableSurfaceIndex());
@@ -424,48 +408,43 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			surface.drawSphere(quadric.getLineThickness(), m, thickness);
 			setSurfaceIndex(surface.end());
 			endPacking();
-
 			boundsMin.setValues(m, 3);
 			boundsMax.setValues(m, 3);
 			boundsMin.addInside(-thickness);
 			boundsMax.addInside(thickness);
 			hidePlanesIfNotNull();
 			hideLineIfNotNull();
-			break;
-
-		case GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES:
-		case GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES:
+		}
+		case GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES, GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES -> {
 			initDrawPlanes(quadric);
 			drawPlanes[0].updateForItSelf();
 			drawPlanes[1].updateForItSelf();
 			hideSurface();
 			hideLineIfNotNull();
-			break;
-
-		case GeoQuadricNDConstants.QUADRIC_PLANE:
+		}
+		case GeoQuadricNDConstants.QUADRIC_PLANE -> {
 			initDrawPlanes(quadric);
 			drawPlanes[0].updateForItSelf();
 			if (shouldBePackedForManager()) {
-			    if (drawPlanes[1] != null) {
-                    drawPlanes[1].setSurfaceIndexNotVisible();
-                    drawPlanes[1].setGeometryIndexNotVisible();
-                }
+				if (drawPlanes[1] != null) {
+					drawPlanes[1].setSurfaceIndexNotVisible();
+					drawPlanes[1].setGeometryIndexNotVisible();
+				}
 			}
 			hideSurface();
 			hideLineIfNotNull();
-			break;
-
-		case GeoQuadricNDConstants.QUADRIC_LINE:
+		}
+		case GeoQuadricNDConstants.QUADRIC_LINE -> {
 			initDrawLine(quadric);
 			drawLine.updateForItSelf();
 			hideSurface();
 			hidePlanesIfNotNull();
-			break;
-
-		default:
+		}
+		default -> {
 			setSurfaceIndexNotVisible();
 			hideLineIfNotNull();
 			hidePlanesIfNotNull();
+		}
 		}
 
 		return true;
@@ -1130,26 +1109,20 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 	protected void recordTrace() {
 		GeoQuadric3D quadric = (GeoQuadric3D) getGeoElement();
 		switch (quadric.getType()) {
-		case GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES:
-		case GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES:
+		case GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES, GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES -> {
 			initDrawPlanes(quadric);
 			drawPlanes[0].recordTrace();
 			drawPlanes[1].recordTrace();
-			break;
-
-		case GeoQuadricNDConstants.QUADRIC_PLANE:
+		}
+		case GeoQuadricNDConstants.QUADRIC_PLANE -> {
 			initDrawPlanes(quadric);
 			drawPlanes[0].recordTrace();
-			break;
-
-		case GeoQuadricNDConstants.QUADRIC_LINE:
+		}
+		case GeoQuadricNDConstants.QUADRIC_LINE -> {
 			initDrawLine(quadric);
 			drawLine.recordTrace();
-			break;
-
-		default:
-			super.recordTrace();
-			break;
+		}
+		default -> super.recordTrace();
 		}
 	}
 
@@ -1179,23 +1152,22 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		int type = quadric.getType();
 
 		switch (type) {
-		default:
-			// do nothing
-			break;
-		case GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES:
-		case GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES:
+		default -> {
+		}
+		// do nothing
+		case GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES, GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES -> {
 			initDrawPlanes(quadric);
 			drawPlanes[0].setWaitForUpdate();
 			drawPlanes[1].setWaitForUpdate();
-			break;
-		case GeoQuadricNDConstants.QUADRIC_PLANE:
+		}
+		case GeoQuadricNDConstants.QUADRIC_PLANE -> {
 			initDrawPlanes(quadric);
 			drawPlanes[0].setWaitForUpdate();
-			break;
-		case GeoQuadricNDConstants.QUADRIC_LINE:
+		}
+		case GeoQuadricNDConstants.QUADRIC_LINE -> {
 			initDrawLine(quadric);
 			drawLine.setWaitForUpdate();
-			break;
+		}
 		}
 	}
 
@@ -1220,18 +1192,14 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 	@Override
 	public void addToDrawable3DLists(Drawable3DLists lists) {
 		switch (((GeoQuadric3D) getGeoElement()).getType()) {
-		case GeoQuadricNDConstants.QUADRIC_SPHERE:
-		case GeoQuadricNDConstants.QUADRIC_ELLIPSOID:
-		case GeoQuadricNDConstants.QUADRIC_CONE:
-		case GeoQuadricNDConstants.QUADRIC_CYLINDER:
-		case GeoQuadricNDConstants.QUADRIC_HYPERBOLOID_ONE_SHEET:
+		case GeoQuadricNDConstants.QUADRIC_SPHERE, GeoQuadricNDConstants.QUADRIC_ELLIPSOID, GeoQuadricNDConstants.QUADRIC_CONE, GeoQuadricNDConstants.QUADRIC_CYLINDER, GeoQuadricNDConstants.QUADRIC_HYPERBOLOID_ONE_SHEET -> {
 			addToDrawable3DLists(lists, DRAW_TYPE_CLOSED_SURFACES_CURVED);
 			surfaceDrawTypeAdded = DRAW_TYPE_CLOSED_SURFACES_CURVED;
-			break;
-		default:
+		}
+		default -> {
 			addToDrawable3DLists(lists, DRAW_TYPE_SURFACES);
 			surfaceDrawTypeAdded = DRAW_TYPE_SURFACES;
-			break;
+		}
 		}
 		addToDrawable3DLists(lists, DRAW_TYPE_CURVES);
 	}
@@ -1566,25 +1534,22 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		super.updateForViewVisible();
 		GeoQuadric3D quadric = (GeoQuadric3D) getGeoElement();
 		switch (quadric.getType()) {
-		default:
-			// do nothing
-			break;
-		case GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES:
-		case GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES:
+		default -> {
+		}
+		// do nothing
+		case GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES, GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES -> {
 			initDrawPlanes(quadric);
 			drawPlanes[0].updateForViewVisible();
 			drawPlanes[1].updateForViewVisible();
-			break;
-
-		case GeoQuadricNDConstants.QUADRIC_PLANE:
+		}
+		case GeoQuadricNDConstants.QUADRIC_PLANE -> {
 			initDrawPlanes(quadric);
 			drawPlanes[0].updateForViewVisible();
-			break;
-
-		case GeoQuadricNDConstants.QUADRIC_LINE:
+		}
+		case GeoQuadricNDConstants.QUADRIC_LINE -> {
 			initDrawLine(quadric);
 			drawLine.updateForViewVisible();
-			break;
+		}
 		}
 	}
 
@@ -1607,34 +1572,28 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 		GeoQuadric3D quadric = (GeoQuadric3D) getGeoElement();
 		switch (quadric.getType()) {
-		case GeoQuadricNDConstants.QUADRIC_SINGLE_POINT:
-			super.setWaitForUpdate();
-			break;
-		case GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES:
-		case GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES:
+		case GeoQuadricNDConstants.QUADRIC_SINGLE_POINT -> super.setWaitForUpdate();
+		case GeoQuadricNDConstants.QUADRIC_PARALLEL_PLANES, GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES -> {
 			initDrawPlanes(quadric);
 			drawPlanes[0].setWaitForUpdateVisualStyle(prop);
-            if (drawPlanes[1] != null) {
-                drawPlanes[1].setWaitForUpdateVisualStyle(prop);
-            }
+			if (drawPlanes[1] != null) {
+				drawPlanes[1].setWaitForUpdateVisualStyle(prop);
+			}
 			super.setWaitForUpdate();
-			break;
-
-		case GeoQuadricNDConstants.QUADRIC_PLANE:
+		}
+		case GeoQuadricNDConstants.QUADRIC_PLANE -> {
 			initDrawPlanes(quadric);
 			drawPlanes[0].setWaitForUpdateVisualStyle(prop);
 			super.setWaitForUpdate();
-			break;
-
-		case GeoQuadricNDConstants.QUADRIC_LINE:
+		}
+		case GeoQuadricNDConstants.QUADRIC_LINE -> {
 			initDrawLine(quadric);
 			drawLine.setWaitForUpdateVisualStyle(prop);
 			super.setWaitForUpdate();
-			break;
-
-		default:
-			// do nothing
-			break;
+		}
+		default -> {
+		}
+		// do nothing
 		}
 
         super.setWaitForUpdateVisualStyle(prop);

@@ -22,6 +22,7 @@ import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
 
 import org.mozilla.javascript.annotations.JSConstructor;
 import org.mozilla.javascript.annotations.JSFunction;
@@ -262,8 +263,7 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
                 }
             } else {
                 Context cx = Context.getContext();
-                if (setter instanceof MemberBox) {
-                    MemberBox nativeSetter = (MemberBox)setter;
+                if (setter instanceof MemberBox nativeSetter) {
                     Class<?> pTypes[] = nativeSetter.argTypes;
                     // XXX: cache tag since it is already calculated in
                     // defineProperty ?
@@ -281,8 +281,7 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
                         args = new Object[] { start, actualArg };
                     }
                     nativeSetter.invoke(setterThis, args);
-                } else if (setter instanceof Function) {
-                    Function f = (Function)setter;
+                } else if (setter instanceof Function f) {
                     f.call(cx, f.getParentScope(), start,
                            new Object[] { value });
                 }
@@ -294,8 +293,7 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
         @Override
         Object getValue(Scriptable start) {
             if (getter != null) {
-                if (getter instanceof MemberBox) {
-                    MemberBox nativeGetter = (MemberBox)getter;
+                if (getter instanceof MemberBox nativeGetter) {
                     Object getterThis;
                     Object[] args;
                     if (nativeGetter.delegateTo == null) {
@@ -306,16 +304,14 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
                         args = new Object[] { start };
                     }
                     return nativeGetter.invoke(getterThis, args);
-                } else if (getter instanceof Function) {
-                    Function f = (Function)getter;
+                } else if (getter instanceof Function f) {
                     Context cx = Context.getContext();
                     return f.call(cx, f.getParentScope(), start,
                                   ScriptRuntime.emptyArgs);
                 }
             }
             Object val = this.value;
-            if (val instanceof LazilyLoadedCtor) {
-                LazilyLoadedCtor initializer = (LazilyLoadedCtor)val;
+            if (val instanceof LazilyLoadedCtor initializer) {
                 try {
                     initializer.init();
                 } finally {
@@ -818,8 +814,7 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
         Slot slot = unwrapSlot(getSlot(name, index, SLOT_QUERY));
         if (slot == null)
             return null;
-        if (slot instanceof GetterSlot) {
-            GetterSlot gslot = (GetterSlot)slot;
+        if (slot instanceof GetterSlot gslot) {
             Object result = isSetter ? gslot.setter : gslot.getter;
             return result != null ? result : Undefined.instance;
         } else
@@ -1031,9 +1026,8 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
                 args[0] = hint;
             }
             Object v = getProperty(object, methodName);
-            if (!(v instanceof Function))
+            if (!(v instanceof Function fun))
                 continue;
-            Function fun = (Function) v;
             if (cx == null)
                 cx = Context.getContext();
             v = fun.call(cx, fun.getParentScope(), object, args);
@@ -1293,27 +1287,24 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
                InvocationTargetException
     {
         Method[] methods = FunctionObject.getMethodList(clazz);
-        for (int i=0; i < methods.length; i++) {
-            Method method = methods[i];
+        for (Method method : methods) {
             if (!method.getName().equals("init"))
                 continue;
             Class<?>[] parmTypes = method.getParameterTypes();
             if (parmTypes.length == 3 &&
-                parmTypes[0] == ScriptRuntime.ContextClass &&
-                parmTypes[1] == ScriptRuntime.ScriptableClass &&
-                parmTypes[2] == Boolean.TYPE &&
-                Modifier.isStatic(method.getModifiers()))
-            {
-                Object args[] = { Context.getContext(), scope,
-                                  sealed ? Boolean.TRUE : Boolean.FALSE };
+                    parmTypes[0] == ScriptRuntime.ContextClass &&
+                    parmTypes[1] == ScriptRuntime.ScriptableClass &&
+                    parmTypes[2] == Boolean.TYPE &&
+                    Modifier.isStatic(method.getModifiers())) {
+                Object args[] = {Context.getContext(), scope,
+                        sealed ? Boolean.TRUE : Boolean.FALSE};
                 method.invoke(null, args);
                 return null;
             }
             if (parmTypes.length == 1 &&
-                parmTypes[0] == ScriptRuntime.ScriptableClass &&
-                Modifier.isStatic(method.getModifiers()))
-            {
-                Object args[] = { scope };
+                    parmTypes[0] == ScriptRuntime.ScriptableClass &&
+                    Modifier.isStatic(method.getModifiers())) {
+                Object args[] = {scope};
                 method.invoke(null, args);
                 return null;
             }
@@ -1325,9 +1316,9 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
 
         Constructor<?>[] ctors = clazz.getConstructors();
         Constructor<?> protoCtor = null;
-        for (int i=0; i < ctors.length; i++) {
-            if (ctors[i].getParameterTypes().length == 0) {
-                protoCtor = ctors[i];
+        for (Constructor<?> constructor : ctors) {
+            if (constructor.getParameterTypes().length == 0) {
+                protoCtor = constructor;
                 break;
             }
         }
@@ -1409,8 +1400,8 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
         ctor.initAsConstructor(scope, proto);
 
         Method finishInit = null;
-        HashSet<String> staticNames = new HashSet<String>(),
-                        instanceNames = new HashSet<String>();
+        HashSet<String> staticNames = new HashSet<>(),
+                        instanceNames = new HashSet<>();
         for (Method method : methods) {
             if (method == ctorMember) {
                 continue;
@@ -1624,11 +1615,10 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
                                       String propertyName, Object value,
                                       int attributes)
     {
-        if (!(destination instanceof ScriptableObject)) {
+        if (!(destination instanceof ScriptableObject so)) {
             destination.put(propertyName, destination, value);
             return;
         }
-        ScriptableObject so = (ScriptableObject)destination;
         so.defineProperty(propertyName, value, attributes);
     }
 
@@ -1641,8 +1631,7 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
     public static void defineConstProperty(Scriptable destination,
                                            String propertyName)
     {
-        if (destination instanceof ConstProperties) {
-            ConstProperties cp = (ConstProperties)destination;
+        if (destination instanceof ConstProperties cp) {
             cp.defineConst(propertyName, destination);
         } else
             defineProperty(destination, propertyName, Undefined.instance, CONST);
@@ -2102,12 +2091,11 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
                                          int attributes)
     {
         Method[] methods = FunctionObject.getMethodList(clazz);
-        for (int i=0; i < names.length; i++) {
-            String name = names[i];
+        for (String name : names) {
             Method m = FunctionObject.findSingleMethod(methods, name);
             if (m == null) {
                 throw Context.reportRuntimeError2(
-                    "msg.method.not.found", name, clazz.getName());
+                        "msg.method.not.found", name, clazz.getName());
             }
             FunctionObject f = new FunctionObject(name, m, this);
             defineProperty(name, f, attributes);
@@ -2160,8 +2148,7 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
         Object proto;
         if (ctor instanceof BaseFunction) {
             proto = ((BaseFunction)ctor).getPrototypeProperty();
-        } else if (ctor instanceof Scriptable) {
-            Scriptable ctorObj = (Scriptable)ctor;
+        } else if (ctor instanceof Scriptable ctorObj) {
             proto = ctorObj.get("prototype", ctorObj);
         } else {
             return null;
@@ -2215,8 +2202,7 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
             Slot slot = firstAdded;
             while (slot != null) {
                 Object value = slot.value;
-                if (value instanceof LazilyLoadedCtor) {
-                    LazilyLoadedCtor initializer = (LazilyLoadedCtor) value;
+                if (value instanceof LazilyLoadedCtor initializer) {
                     try {
                         initializer.init();
                     } finally {
@@ -2384,8 +2370,7 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
         Scriptable base = getBase(obj, name);
         if (base == null)
             return;
-        if (base instanceof ConstProperties) {
-            ConstProperties cp = (ConstProperties)base;
+        if (base instanceof ConstProperties cp) {
 
             if (cp.isConst(name))
                 throw ScriptRuntime.typeError1("msg.const.redecl", name);
@@ -2591,10 +2576,9 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
                                     Object[] args)
     {
         Object funObj = getProperty(obj, methodName);
-        if (!(funObj instanceof Function)) {
+        if (!(funObj instanceof Function fun)) {
             throw ScriptRuntime.notFunctionError(obj, methodName);
         }
-        Function fun = (Function)funObj;
         // XXX: What should be the scope when calling funObj?
         // The following favor scope stored in the object on the assumption
         // that is more useful especially under dynamic scope setup.
@@ -2658,8 +2642,7 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
     {
         scope = ScriptableObject.getTopLevelScope(scope);
         for (;;) {
-            if (scope instanceof ScriptableObject) {
-                ScriptableObject so = (ScriptableObject)scope;
+            if (scope instanceof ScriptableObject so) {
                 Object value = so.getAssociatedValue(key);
                 if (value != null) {
                     return value;
@@ -2689,7 +2672,7 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
         if (value == null) throw new IllegalArgumentException();
         Map<Object,Object> h = associatedValues;
         if (h == null) {
-            h = new HashMap<Object,Object>();
+            h = new HashMap<>();
             associatedValues = h;
         }
         return Kit.initHash(h, key, value);
@@ -2810,8 +2793,7 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
                  slot = slot.next) {
                 Object sname = slot.name;
                 if (indexOrHash == slot.indexOrHash &&
-                        (sname == name ||
-                                (name != null && name.equals(sname)))) {
+                        (Objects.equals(name, sname))) {
                     break;
                 }
             }
@@ -2856,8 +2838,7 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
             Slot slot = prev;
             while (slot != null) {
                 if (slot.indexOrHash == indexOrHash &&
-                        (slot.name == name ||
-                                (name != null && name.equals(slot.name))))
+                        (Objects.equals(name, slot.name)))
                 {
                     break;
                 }
@@ -2946,8 +2927,7 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
             Slot slot = prev;
             while (slot != null) {
                 if (slot.indexOrHash == indexOrHash &&
-                        (slot.name == name ||
-                                (name != null && name.equals(slot.name))))
+                        (Objects.equals(name, slot.name)))
                 {
                     break;
                 }
@@ -3049,7 +3029,7 @@ public abstract class ScriptableObject implements Scriptable, Serializable,
         } else {
             a = new Object[externalLen];
             for (int i = 0; i < externalLen; i++) {
-                a[i] = Integer.valueOf(i);
+                a[i] = i;
             }
         }
         if (s == null) {

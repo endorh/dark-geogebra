@@ -41,20 +41,18 @@ public class CmdFitImplicit extends CommandProcessor {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg = resArgs(c);
 		switch (n) {
-		case 2:
+		case 2 -> {
 			if ((arg[0].isGeoList()) && (arg[1] instanceof GeoNumberValue)) {
 
 				AlgoFitImplicit algo = new AlgoFitImplicit(cons, c.getLabel(),
 						(GeoList) arg[0], (GeoNumberValue) arg[1]);
 
-				GeoElement[] ret = { algo.getFit().toGeoElement() };
+				GeoElement[] ret = {algo.getFit().toGeoElement()};
 				return ret;
 			}
 			throw argErr(c, arg[0]);
-
-		default:
-
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

@@ -12,8 +12,7 @@ public class ArcTrigReplacer implements Traversing {
 
 	@Override
 	public ExpressionValue process(ExpressionValue ev) {
-		if (ev instanceof ExpressionNode) {
-			ExpressionNode en = (ExpressionNode) ev;
+		if (ev instanceof ExpressionNode en) {
 			Operation op = en.getOperation();
 			Operation newOp = getDegreeInverseTrigOp(op);
 
@@ -33,19 +32,15 @@ public class ArcTrigReplacer implements Traversing {
 		if (op == null) {
 			return null;
 		}
-		switch (op) {
-			default:
+		return switch (op) {
+			default ->
 				// do nothing
-				return op;
-			case ARCSIN:
-				return Operation.ARCSIND;
-			case ARCCOS:
-				return Operation.ARCCOSD;
-			case ARCTAN:
-				return Operation.ARCTAND;
-			case ARCTAN2:
-				return Operation.ARCTAN2D;
-		}
+					op;
+			case ARCSIN -> Operation.ARCSIND;
+			case ARCCOS -> Operation.ARCCOSD;
+			case ARCTAN -> Operation.ARCTAND;
+			case ARCTAN2 -> Operation.ARCTAN2D;
+		};
 	}
 
 	/**

@@ -86,7 +86,7 @@ public class JavaFontRenderingBox extends Box {
 		this.size = size;
 		Font f = f0;
 		if (kerning && KERNING != null) {
-			Map<TextAttribute, Object> map = new HashMap<TextAttribute, Object>();
+			Map<TextAttribute, Object> map = new HashMap<>();
 			map.put(KERNING, KERNING_ON);
 			map.put(LIGATURES, LIGATURES_ON);
 			f = f.deriveFont(map);

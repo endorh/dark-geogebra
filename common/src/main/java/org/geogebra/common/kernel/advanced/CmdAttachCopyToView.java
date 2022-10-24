@@ -35,10 +35,8 @@ public class CmdAttachCopyToView extends CommandProcessor {
 		GeoElement[] ret;
 
 		switch (n) {
-		case 6:
-		case 2:
+		case 6, 2 -> {
 			arg = resArgs(c);
-
 			if (arg[1] instanceof GeoNumberValue) {
 				GeoPointND corner1, corner3, screenCorner1, screenCorner3;
 				int viewID = (int) arg[1].evaluateDouble();
@@ -95,7 +93,7 @@ public class CmdAttachCopyToView extends CommandProcessor {
 							c.getLabel(), arg[0], (GeoNumberValue) arg[1],
 							corner1, corner3, screenCorner1, screenCorner3);
 
-					ret = new GeoElement[] { algo.getResult() };
+					ret = new GeoElement[]{algo.getResult()};
 					if (n == 2 && ev != app.getActiveEuclidianView()) {
 						ret[0].addView(ev.getViewID());
 						ret[0].removeView(
@@ -108,9 +106,8 @@ public class CmdAttachCopyToView extends CommandProcessor {
 				throw argErr(c, arg[0]);
 			}
 			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

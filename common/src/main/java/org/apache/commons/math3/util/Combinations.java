@@ -135,12 +135,10 @@ public class Combinations implements Iterable<int[]> {
             return new SingletonIterator(MathArrays.natural(k));
         }
 
-        switch (iterationOrder) {
-        case LEXICOGRAPHIC:
-            return new LexicographicIterator(n, k);
-        default:
-            throw new MathInternalError(); // Should never happen.
-        }
+	    return switch (iterationOrder) {
+		    case LEXICOGRAPHIC -> new LexicographicIterator(n, k);
+		    default -> throw new MathInternalError(); // Should never happen.
+	    };
     }
 
     /**
@@ -368,13 +366,7 @@ public class Combinations implements Iterable<int[]> {
             final long v1 = lexNorm(c1s);
             final long v2 = lexNorm(c2s);
 
-            if (v1 < v2) {
-                return -1;
-            } else if (v1 > v2) {
-                return 1;
-            } else {
-                return 0;
-            }
+	        return Long.compare(v1, v2);
         }
 
         /**
@@ -398,7 +390,7 @@ public class Combinations implements Iterable<int[]> {
                     throw new OutOfRangeException(digit, 0, n - 1);
                 }
 
-                ret += c[i] * ArithmeticUtils.pow(n, i);
+                ret += (long) c[i] * ArithmeticUtils.pow(n, i);
             }
             return ret;
         }

@@ -529,8 +529,7 @@ final public class Geo3DVec extends ValidExpression
 		double m, n, o, p, xx, yy, zz, ww;
 
 		boolean vector = false;
-		if (rt instanceof GeoPointND) { // 3D point
-			GeoPointND point = (GeoPointND) rt;
+		if (rt instanceof GeoPointND point) { // 3D point
 			// use homogeneous coordinates
 			Coords coords = point.getCoordsInD3();
 			xx = coords.getX();

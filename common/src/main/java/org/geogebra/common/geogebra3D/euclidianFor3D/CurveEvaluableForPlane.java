@@ -76,9 +76,7 @@ public class CurveEvaluableForPlane implements CurveEvaluable {
 		if (Double.isInfinite(z) || Double.isNaN(z) || !DoubleUtil.isZero(z)) {
 			out[0] = Double.NaN;
 		} else {
-			for (int i = 0; i < out.length; i++) {
-				out[i] = parentOutInView.val[i];
-			}
+			System.arraycopy(parentOutInView.val, 0, out, 0, out.length);
 		}
 
 	}

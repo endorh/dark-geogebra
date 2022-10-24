@@ -425,8 +425,7 @@ public class AlgoIterationList extends AlgoElement {
 		// by their current values
 		if (expIsFunctionOrCurve) {
 			// GeoFunction
-			if (listElement instanceof CasEvaluableFunction) {
-				CasEvaluableFunction fun = (CasEvaluableFunction) listElement;
+			if (listElement instanceof CasEvaluableFunction fun) {
 				for (int i = 0; i < varCount; i++) {
 					fun.replaceChildrenByValues(vars[i]);
 				}
@@ -520,8 +519,8 @@ public class AlgoIterationList extends AlgoElement {
 
 	private void computeSimple() {
 		list.setDefined(true);
-		for (int i = 0; i < input.length; i++) {
-			if (!input[i].isDefined()) {
+		for (GeoElement geoElement : input) {
+			if (!geoElement.isDefined()) {
 				list.setUndefined();
 				return;
 			}
@@ -547,8 +546,8 @@ public class AlgoIterationList extends AlgoElement {
 
 	private void computeDouble() {
 		list.setDefined(true);
-		for (int i = 0; i < input.length; i++) {
-			if (!input[i].isDefined()) {
+		for (GeoElement geoElement : input) {
+			if (!geoElement.isDefined()) {
 				list.setUndefined();
 				return;
 			}

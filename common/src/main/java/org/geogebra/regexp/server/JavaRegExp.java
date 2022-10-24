@@ -103,20 +103,10 @@ public final class JavaRegExp implements RegExp {
 		int javaPatternFlags = Pattern.UNIX_LINES;
 		for (char flag : parseFlags(flags)) {
 			switch (flag) {
-			case 'g':
-				globalFlag = true;
-				break;
-
-			case 'i':
-				javaPatternFlags |= Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE;
-				break;
-
-			case 'm':
-				javaPatternFlags |= Pattern.MULTILINE;
-				break;
-
-			default:
-				throw new IllegalArgumentException("Unknown regexp flag: '" + flag + "'");
+			case 'g' -> globalFlag = true;
+			case 'i' -> javaPatternFlags |= Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE;
+			case 'm' -> javaPatternFlags |= Pattern.MULTILINE;
+			default -> throw new IllegalArgumentException("Unknown regexp flag: '" + flag + "'");
 			}
 		}
 

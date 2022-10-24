@@ -10,7 +10,7 @@ public class CommandT extends Command1A {
 
 	@Override
 	public Atom newI(TeXParser tp, Atom a) {
-		return new RotateAtom(a, 180., new HashMap<String, String>() {
+		return new RotateAtom(a, 180., new HashMap<>() {
 			{
 				put("origin", "cc");
 			}

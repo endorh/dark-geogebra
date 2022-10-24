@@ -39,8 +39,7 @@ public class ChangeableParent {
 	 */
 	static public GeoNumeric getGeoNumeric(NumberValue v) {
 
-		if (v instanceof GeoNumeric) {
-			GeoNumeric geo = (GeoNumeric) v;
+		if (v instanceof GeoNumeric geo) {
 			if (geo.isIndependent()) {
 				return geo;
 			}

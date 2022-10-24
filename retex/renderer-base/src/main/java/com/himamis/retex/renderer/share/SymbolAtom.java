@@ -236,9 +236,7 @@ public class SymbolAtom extends CharSymbol {
 	}
 
 	public static void getAll(final List<String> l) {
-		for (final String k : Configuration.getSymbolAtoms().keySet()) {
-			l.add(k);
-		}
+		l.addAll(Configuration.getSymbolAtoms().keySet());
 	}
 
 	public String getName() {

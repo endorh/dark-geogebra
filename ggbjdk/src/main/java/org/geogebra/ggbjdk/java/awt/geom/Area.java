@@ -105,7 +105,7 @@ import org.geogebra.ggbjdk.sun.awt.geom.Curve;
  * @since 1.2
  */
 public class Area implements Shape, GArea {
-    private static Vector<?> EmptyCurves = new Vector<Object>();
+    private static Vector<?> EmptyCurves = new Vector<>();
 
     private Vector<?> curves;
 
@@ -136,7 +136,7 @@ public class Area implements Shape, GArea {
     }
 
     private static Vector<?> pathToCurves(GPathIterator pi) {
-        Vector<?> curves = new Vector<Object>();
+        Vector<?> curves = new Vector<>();
         int windingRule = pi.getWindingRule();
         // coords array is big enough for holding:
         //     coordinates returned from currentSegment (6)
@@ -157,40 +157,40 @@ public class Area implements Shape, GArea {
         double curx = 0, cury = 0;
         double newx, newy;
         while (!pi.isDone()) {
-            switch (pi.currentSegment(coords)) {
-			case GPathIterator.SEG_MOVETO:
-                Curve.insertLine(curves, curx, cury, movx, movy);
-                curx = movx = coords[0];
-                cury = movy = coords[1];
-                Curve.insertMove(curves, movx, movy);
-                break;
-			case GPathIterator.SEG_LINETO:
-                newx = coords[0];
-                newy = coords[1];
-                Curve.insertLine(curves, curx, cury, newx, newy);
-                curx = newx;
-                cury = newy;
-                break;
-			case GPathIterator.SEG_QUADTO:
-                newx = coords[2];
-                newy = coords[3];
-                Curve.insertQuad(curves, curx, cury, coords);
-                curx = newx;
-                cury = newy;
-                break;
-			case GPathIterator.SEG_CUBICTO:
-                newx = coords[4];
-                newy = coords[5];
-                Curve.insertCubic(curves, curx, cury, coords);
-                curx = newx;
-                cury = newy;
-                break;
-			case GPathIterator.SEG_CLOSE:
-                Curve.insertLine(curves, curx, cury, movx, movy);
-                curx = movx;
-                cury = movy;
-                break;
-            }
+	        switch (pi.currentSegment(coords)) {
+	        case GPathIterator.SEG_MOVETO -> {
+		        Curve.insertLine(curves, curx, cury, movx, movy);
+		        curx = movx = coords[0];
+		        cury = movy = coords[1];
+		        Curve.insertMove(curves, movx, movy);
+	        }
+	        case GPathIterator.SEG_LINETO -> {
+		        newx = coords[0];
+		        newy = coords[1];
+		        Curve.insertLine(curves, curx, cury, newx, newy);
+		        curx = newx;
+		        cury = newy;
+	        }
+	        case GPathIterator.SEG_QUADTO -> {
+		        newx = coords[2];
+		        newy = coords[3];
+		        Curve.insertQuad(curves, curx, cury, coords);
+		        curx = newx;
+		        cury = newy;
+	        }
+	        case GPathIterator.SEG_CUBICTO -> {
+		        newx = coords[4];
+		        newy = coords[5];
+		        Curve.insertCubic(curves, curx, cury, coords);
+		        curx = newx;
+		        cury = newy;
+	        }
+	        case GPathIterator.SEG_CLOSE -> {
+		        Curve.insertLine(curves, curx, cury, movx, movy);
+		        curx = movx;
+		        cury = movy;
+	        }
+	        }
             pi.next();
         }
         Curve.insertLine(curves, curx, cury, movx, movy);
@@ -346,7 +346,7 @@ public class Area implements Shape, GArea {
      * @since 1.2
      */
     public void reset() {
-        curves = new Vector<Object>();
+        curves = new Vector<>();
         invalidateBounds();
     }
 

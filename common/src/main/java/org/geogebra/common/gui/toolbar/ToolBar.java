@@ -64,7 +64,7 @@ public class ToolBar {
 	/**
 	 * Integer used to indicate a separator in the toolbar.
 	 */
-	public static final Integer SEPARATOR = Integer.valueOf(-1);
+	public static final Integer SEPARATOR = -1;
 
 	/**
 	 * Returns with the default definition of the general tool bar without
@@ -781,6 +781,7 @@ public class ToolBar {
 			for (int i = 0; i < digits && mayStartWithMacro; i++) {
 				if (after.charAt(i) > '9' || after.charAt(i) < '0') {
 					mayStartWithMacro = false;
+					break;
 				}
 			}
 			if (mayStartWithMacro) {
@@ -891,6 +892,7 @@ public class ToolBar {
 			for (int j = 0; j < defaults.length && !found; j++) {
 				if (defaults[j].equals(menu)) {
 					found = true;
+					break;
 				}
 			}
 			if (!found) {

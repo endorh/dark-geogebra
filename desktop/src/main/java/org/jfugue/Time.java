@@ -70,7 +70,7 @@ public final class Time implements JFugueElement {
 	 */
 	@Override
 	public String getMusicString() {
-		StringBuffer buffy = new StringBuffer();
+		StringBuilder buffy = new StringBuilder();
 		buffy.append("@");
 		buffy.append(getTime());
 		return buffy.toString();
@@ -83,7 +83,7 @@ public final class Time implements JFugueElement {
 	 */
 	@Override
 	public String getVerifyString() {
-		StringBuffer buffy = new StringBuffer();
+		StringBuilder buffy = new StringBuilder();
 		buffy.append("Time: time=");
 		buffy.append(getTime());
 		return buffy.toString();

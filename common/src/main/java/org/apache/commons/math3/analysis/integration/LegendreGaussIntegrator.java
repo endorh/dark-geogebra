@@ -139,28 +139,27 @@ public class LegendreGaussIntegrator extends BaseAbstractUnivariateIntegrator {
                                    final int maximalIterationCount)
         throws MathIllegalArgumentException, NotStrictlyPositiveException, NumberIsTooSmallException {
         super(relativeAccuracy, absoluteAccuracy, minimalIterationCount, maximalIterationCount);
-        switch(n) {
-        case 2 :
-            abscissas = ABSCISSAS_2;
-            weights   = WEIGHTS_2;
-            break;
-        case 3 :
-            abscissas = ABSCISSAS_3;
-            weights   = WEIGHTS_3;
-            break;
-        case 4 :
-            abscissas = ABSCISSAS_4;
-            weights   = WEIGHTS_4;
-            break;
-        case 5 :
-            abscissas = ABSCISSAS_5;
-            weights   = WEIGHTS_5;
-            break;
-        default :
-            throw new MathIllegalArgumentException(
-                    LocalizedFormats.N_POINTS_GAUSS_LEGENDRE_INTEGRATOR_NOT_SUPPORTED,
-                    n, 2, 5);
-        }
+	    switch (n) {
+	    case 2 -> {
+		    abscissas = ABSCISSAS_2;
+		    weights = WEIGHTS_2;
+	    }
+	    case 3 -> {
+		    abscissas = ABSCISSAS_3;
+		    weights = WEIGHTS_3;
+	    }
+	    case 4 -> {
+		    abscissas = ABSCISSAS_4;
+		    weights = WEIGHTS_4;
+	    }
+	    case 5 -> {
+		    abscissas = ABSCISSAS_5;
+		    weights = WEIGHTS_5;
+	    }
+	    default -> throw new MathIllegalArgumentException(
+			    LocalizedFormats.N_POINTS_GAUSS_LEGENDRE_INTEGRATOR_NOT_SUPPORTED,
+			    n, 2, 5);
+	    }
 
     }
 

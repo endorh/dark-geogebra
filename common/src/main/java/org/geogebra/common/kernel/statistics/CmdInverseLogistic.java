@@ -31,7 +31,7 @@ public class CmdInverseLogistic extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 3:
+		case 3 -> {
 			arg = resArgs(c);
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
@@ -41,14 +41,13 @@ public class CmdInverseLogistic extends CommandProcessor {
 						c.getLabel(), (GeoNumberValue) arg[0],
 						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2]);
 
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 				return ret;
 
 			}
 			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

@@ -56,7 +56,7 @@ public class AxesStyleListRenderer extends JPanel implements ListCellRenderer {
 
 		// get the selected point style
 		style = value == null ? EuclidianStyleConstants.AXES_LINE_TYPE_FULL
-				: ((Integer) value).intValue();
+				: (Integer) value;
 
 		setBackground(ThemeD.color(
 				isSelected ? ColorKeys.BACKGROUND_SELECTED : ColorKeys.BACKGROUND));
@@ -113,8 +113,8 @@ public class AxesStyleListRenderer extends JPanel implements ListCellRenderer {
 
 		gp.reset();
 		gp.moveTo(0, IMG_HEIGHT / 2.0);
-		gp.lineTo(0 + filledArrowLength, IMG_HEIGHT / 2.0 + arrowSize);
-		gp.lineTo(0 + filledArrowLength, IMG_HEIGHT / 2.0 - arrowSize);
+		gp.lineTo(filledArrowLength, IMG_HEIGHT / 2.0 + arrowSize);
+		gp.lineTo(filledArrowLength, IMG_HEIGHT / 2.0 - arrowSize);
 
 		g2.fill(gp);
 		
@@ -145,11 +145,11 @@ public class AxesStyleListRenderer extends JPanel implements ListCellRenderer {
 
 	private void leftArrow(Graphics2D g2) {
 
-		tempLine.setLine(0, IMG_HEIGHT / 2.0, 0 + arrowSize,
+		tempLine.setLine(0, IMG_HEIGHT / 2.0, arrowSize,
 				IMG_HEIGHT / 2.0 + arrowSize);
 		g2.draw(tempLine);
 
-		tempLine.setLine(0, IMG_HEIGHT / 2.0, 0 + arrowSize,
+		tempLine.setLine(0, IMG_HEIGHT / 2.0, arrowSize,
 				IMG_HEIGHT / 2.0 - arrowSize);
 		g2.draw(tempLine);
 		

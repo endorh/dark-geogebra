@@ -18,6 +18,7 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.arithmetic;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -100,7 +101,7 @@ public abstract class ValidExpression
 		if (size == 0) {
 			return null;
 		}
-		return labels.toArray(new String[labels.size()]);
+		return labels.toArray(new String[0]);
 	}
 
 	/**
@@ -130,9 +131,7 @@ public abstract class ValidExpression
 		if (str == null) {
 			return;
 		}
-		for (int i = 0; i < str.length; i++) {
-			labels.add(str[i]);
-		}
+		labels.addAll(Arrays.asList(str));
 	}
 
 	public List<String> getLocalVariables() {
@@ -466,13 +465,7 @@ public abstract class ValidExpression
 	 * @return deep check for function variable
 	 */
 	public final boolean containsFunctionVariable() {
-		return this.inspect(new Inspecting() {
-
-			@Override
-			public boolean check(ExpressionValue v) {
-				return v instanceof FunctionVariable;
-			}
-		});
+		return this.inspect(v -> v instanceof FunctionVariable);
 	}
 
 	/**
@@ -481,14 +474,8 @@ public abstract class ValidExpression
 	 * @return deep check for function variable with given name
 	 */
 	public final boolean containsFunctionVariable(final String name) {
-		return this.inspect(new Inspecting() {
-
-			@Override
-			public boolean check(ExpressionValue v) {
-				return v instanceof FunctionVariable && (name == null || name
-						.equals(((FunctionVariable) v).getSetVarString()));
-			}
-		});
+		return this.inspect(v -> v instanceof FunctionVariable && (name == null || name
+				.equals(((FunctionVariable) v).getSetVarString())));
 	}
 
 	/**
@@ -498,14 +485,8 @@ public abstract class ValidExpression
 	 */
 	public final boolean containsFunctionVariableOtherThan(
 			final FunctionVariable[] vars) {
-		return this.inspect(new Inspecting() {
-
-			@Override
-			public boolean check(ExpressionValue v) {
-				return v instanceof FunctionVariable
-						&& ExpressionNode.doesNotInclude(vars, v);
-			}
-		});
+		return this.inspect(v -> v instanceof FunctionVariable
+				&& ExpressionNode.doesNotInclude(vars, v));
 	}
 
 	/**
@@ -526,13 +507,7 @@ public abstract class ValidExpression
 	 * @return whether expression is included
 	 */
 	public boolean containsDeep(final ExpressionValue needle) {
-		return inspect(new Inspecting() {
-
-			@Override
-			public boolean check(ExpressionValue v) {
-				return v == needle;
-			}
-		});
+		return inspect(v -> v == needle);
 	}
 
 	/**

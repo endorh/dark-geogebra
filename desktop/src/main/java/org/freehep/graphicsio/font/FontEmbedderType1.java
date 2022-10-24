@@ -221,8 +221,8 @@ public class FontEmbedderType1 extends FontEmbedder {
 		byte[] binaryString = bytes.toByteArray();
 		encrypted.print(
 				"/" + characterName + " " + binaryString.length + " RD ");
-		for (int i = 0; i < binaryString.length; i++) {
-			encrypted.write(binaryString[i] & 0x00ff);
+		for (byte b : binaryString) {
+			encrypted.write(b & 0x00ff);
 		}
 		encrypted.println("ND");
 		encrypted.flush();

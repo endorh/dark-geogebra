@@ -107,7 +107,7 @@ public class Lattice2DGenerator<V, E> implements GraphGenerator<V, E> {
 	public Graph<V, E> create() {
 		int vertex_count = row_count * col_count;
 		Graph<V, E> graph = graph_factory.create();
-		v_array = new ArrayList<V>(vertex_count);
+		v_array = new ArrayList<>(vertex_count);
 		for (int i = 0; i < vertex_count; i++) {
 			V v = vertex_factory.create();
 			graph.addVertex(v);

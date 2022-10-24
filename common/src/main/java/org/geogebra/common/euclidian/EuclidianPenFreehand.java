@@ -146,19 +146,17 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 		resetParameters();
 		switch (expected) {
-		case circleThreePoints:
+		case circleThreePoints -> {
 			CIRCLE_MAX_SCORE = 0.15;
 			CIRCLE_MIN_DET = 0.9;
-			break;
-		case polygon:
-		case rigidPolygon:
-		case vectorPolygon:
+		}
+		case polygon, rigidPolygon, vectorPolygon -> {
 			RECTANGLE_LINEAR_TOLERANCE = 0.25;
 			POLYGON_LINEAR_TOLERANCE = 0.25;
 			RECTANGLE_ANGLE_TOLERANCE = 17 * Math.PI / 180;
-			break;
-		default:
-			break;
+		}
+		default -> {
+		}
 		}
 	}
 
@@ -313,18 +311,12 @@ public class EuclidianPenFreehand extends EuclidianPen {
 			return shapeCreated;
 		}
 
-		switch (this.expected) {
-		case polygon:
-		case rigidPolygon:
-		case vectorPolygon:
-			return createPolygon();
-		case circleThreePoints:
-			return createCircle();
-		case function:
-			return createFunction();
-		}
+		return switch (this.expected) {
+			case polygon, rigidPolygon, vectorPolygon -> createPolygon();
+			case circleThreePoints -> createCircle();
+			case function -> createFunction();
+		};
 
-		return null;
 	}
 
 	/**

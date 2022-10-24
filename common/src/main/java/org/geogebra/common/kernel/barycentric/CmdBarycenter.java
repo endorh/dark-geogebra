@@ -31,14 +31,14 @@ public class CmdBarycenter extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2:
+		case 2 -> {
 			arg = resArgs(c);
 			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoList())) {
 
 				AlgoBarycenter algo = new AlgoBarycenter(cons, c.getLabel(),
 						(GeoList) arg[0], (GeoList) arg[1]);
 
-				GeoElement[] ret = { algo.getResult().toGeoElement() };
+				GeoElement[] ret = {algo.getResult().toGeoElement()};
 				return ret;
 
 			}
@@ -46,8 +46,8 @@ public class CmdBarycenter extends CommandProcessor {
 				throw argErr(c, arg[0]);
 			}
 			throw argErr(c, arg[1]);
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

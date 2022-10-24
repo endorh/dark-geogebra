@@ -30,22 +30,21 @@ public class CmdSlope extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
+		case 1 -> {
 			arg = resArgs(c);
 			if (arg[0].isGeoLine()) {
-				GeoElement[] ret = { getAlgoDispatcher().slope(c.getLabel(),
-						(GeoLine) arg[0], null) };
+				GeoElement[] ret = {getAlgoDispatcher().slope(c.getLabel(),
+						(GeoLine) arg[0], null)};
 				return ret;
 			}
 			if (arg[0].isGeoFunction()) {
-				GeoElement[] ret = { getAlgoDispatcher().slope(c.getLabel(),
-						null, (GeoFunction) arg[0]) };
+				GeoElement[] ret = {getAlgoDispatcher().slope(c.getLabel(),
+						null, (GeoFunction) arg[0])};
 				return ret;
 			}
 			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

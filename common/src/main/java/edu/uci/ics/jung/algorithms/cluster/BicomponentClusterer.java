@@ -58,14 +58,14 @@ public class BicomponentClusterer<V, E>
 	 */
 	@Override
 	public Set<Set<V>> transform(UndirectedGraph<V, E> theGraph) {
-		Set<Set<V>> bicomponents = new LinkedHashSet<Set<V>>();
+		Set<Set<V>> bicomponents = new LinkedHashSet<>();
 
 		if (theGraph.getVertices().isEmpty()) {
 			return bicomponents;
 		}
 
 		// initialize DFS number for each vertex to 0
-		dfs_num = new HashMap<V, Number>();
+		dfs_num = new HashMap<>();
 		for (V v : theGraph.getVertices()) {
 			dfs_num.put(v, 0);
 		}
@@ -74,9 +74,9 @@ public class BicomponentClusterer<V, E>
 			if (dfs_num.get(v).intValue() == 0) // if we haven't hit this vertex
 												// yet...
 			{
-				high = new HashMap<V, Number>();
-				stack = new Stack<E>();
-				parents = new HashMap<V, V>();
+				high = new HashMap<>();
+				stack = new Stack<>();
+				parents = new HashMap<>();
 				converse_depth = theGraph.getVertexCount();
 				// find the biconnected components for this subgraph, starting
 				// from v
@@ -85,7 +85,7 @@ public class BicomponentClusterer<V, E>
 				// if we only visited one vertex, this method won't have
 				// ID'd it as a biconnected component, so mark it as one
 				if (theGraph.getVertexCount() - converse_depth == 1) {
-					Set<V> s = new HashSet<V>();
+					Set<V> s = new HashSet<>();
 					s.add(v);
 					bicomponents.add(s);
 				}
@@ -149,7 +149,7 @@ public class BicomponentClusterer<V, E>
 					// i.e., v is an articulation point
 					// thus, everything between the top of the stack and
 					// v is part of a single biconnected component
-					Set<V> bicomponent = new HashSet<V>();
+					Set<V> bicomponent = new HashSet<>();
 					E e;
 					do {
 						e = stack.pop();

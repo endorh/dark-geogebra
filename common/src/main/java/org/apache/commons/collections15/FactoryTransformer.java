@@ -51,7 +51,7 @@ public class FactoryTransformer<I, T>
 		if (factory == null) {
 			throw new IllegalArgumentException("Factory must not be null");
 		}
-		return new FactoryTransformer<K, T>(factory);
+		return new FactoryTransformer<>(factory);
 	}
 
 	/**

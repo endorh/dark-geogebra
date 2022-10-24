@@ -39,13 +39,7 @@ public class UndirectedSparseGraph<V, E> extends AbstractTypedGraph<V, E>
 	 *            the edge type for the graph factory
 	 */
 	public static <V, E> Factory<UndirectedGraph<V, E>> getFactory() {
-		return new Factory<UndirectedGraph<V, E>>() {
-
-			@Override
-			public UndirectedGraph<V, E> create() {
-				return new UndirectedSparseGraph<V, E>();
-			}
-		};
+		return UndirectedSparseGraph::new;
 	}
 
 	protected Map<V, Map<V, E>> vertices; // Map of vertices to adjacency maps
@@ -57,8 +51,8 @@ public class UndirectedSparseGraph<V, E> extends AbstractTypedGraph<V, E>
 	 */
 	public UndirectedSparseGraph() {
 		super(EdgeType.UNDIRECTED);
-		vertices = new HashMap<V, Map<V, E>>();
-		edges = new HashMap<E, Pair<V>>();
+		vertices = new HashMap<>();
+		edges = new HashMap<>();
 	}
 
 	@Override
@@ -127,7 +121,7 @@ public class UndirectedSparseGraph<V, E> extends AbstractTypedGraph<V, E>
 		if (!containsVertex(v1) || !containsVertex(v2)) {
 			return null;
 		}
-		ArrayList<E> edge_collection = new ArrayList<E>(1);
+		ArrayList<E> edge_collection = new ArrayList<>(1);
 		// if (!containsVertex(v1) || !containsVertex(v2))
 		// return edge_collection;
 		E e = findEdge(v1, v2);
@@ -217,7 +211,7 @@ public class UndirectedSparseGraph<V, E> extends AbstractTypedGraph<V, E>
 			throw new IllegalArgumentException("vertex may not be null");
 		}
 		if (!containsVertex(vertex)) {
-			vertices.put(vertex, new HashMap<V, E>());
+			vertices.put(vertex, new HashMap<>());
 			return true;
 		}
 		return false;
@@ -230,7 +224,7 @@ public class UndirectedSparseGraph<V, E> extends AbstractTypedGraph<V, E>
 		}
 
 		// iterate over copy of incident edge collection
-		for (E edge : new ArrayList<E>(vertices.get(vertex).values())) {
+		for (E edge : new ArrayList<>(vertices.get(vertex).values())) {
 			removeEdge(edge);
 		}
 
@@ -258,7 +252,7 @@ public class UndirectedSparseGraph<V, E> extends AbstractTypedGraph<V, E>
 
 	@Override
 	public UndirectedSparseGraph<V, E> newInstance() {
-		return new UndirectedSparseGraph<V, E>();
+		return new UndirectedSparseGraph<>();
 	}
 
 }

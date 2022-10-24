@@ -81,13 +81,9 @@ public final class NativeGenerator extends IdScriptableObject {
 
         public Object run(Context cx) {
             Scriptable scope = ScriptableObject.getTopLevelScope(generator);
-            Callable closeGenerator = new Callable() {
-                public Object call(Context cx, Scriptable scope,
-                                   Scriptable thisObj, Object[] args) {
-                     return ((NativeGenerator)thisObj).resume(cx, scope,
-                             GENERATOR_CLOSE, new GeneratorClosedException());
-                }
-            };
+            Callable closeGenerator =
+                    (cx1, scope1, thisObj, args) -> ((NativeGenerator)thisObj).resume(cx1, scope1,
+                            GENERATOR_CLOSE, new GeneratorClosedException());
             return ScriptRuntime.doTopCall(closeGenerator, cx, scope,
                                            generator, null);
         }
@@ -98,12 +94,27 @@ public final class NativeGenerator extends IdScriptableObject {
         String s;
         int arity;
         switch (id) {
-          case Id_close:          arity=1; s="close";          break;
-          case Id_next:           arity=1; s="next";           break;
-          case Id_send:           arity=0; s="send";           break;
-          case Id_throw:          arity=0; s="throw";          break;
-          case Id___iterator__:   arity=1; s="__iterator__";   break;
-          default: throw new IllegalArgumentException(String.valueOf(id));
+        case Id_close -> {
+            arity = 1;
+            s = "close";
+        }
+        case Id_next -> {
+            arity = 1;
+            s = "next";
+        }
+        case Id_send -> {
+            arity = 0;
+            s = "send";
+        }
+        case Id_throw -> {
+            arity = 0;
+            s = "throw";
+        }
+        case Id___iterator__ -> {
+            arity = 1;
+            s = "__iterator__";
+        }
+        default -> throw new IllegalArgumentException(String.valueOf(id));
         }
         initPrototypeMethod(GENERATOR_TAG, id, s, arity);
     }
@@ -117,12 +128,10 @@ public final class NativeGenerator extends IdScriptableObject {
         }
         int id = f.methodId();
 
-        if (!(thisObj instanceof NativeGenerator))
+        if (!(thisObj instanceof NativeGenerator generator))
             throw incompatibleCallError(f);
 
-        NativeGenerator generator = (NativeGenerator) thisObj;
-
-        switch (id) {
+	    switch (id) {
 
           case Id_close:
             // need to run any pending finally clauses

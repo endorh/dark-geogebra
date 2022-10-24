@@ -18,8 +18,6 @@ import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
@@ -83,12 +81,7 @@ public class ConstructionProtocolExportDialogD extends Dialog
 
 		TitlePanel tp = new TitlePanel(app);
 		cp.add(tp, BorderLayout.NORTH);
-		tp.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				kernelChanged = true;
-			}
-		});
+		tp.addActionListener(e -> kernelChanged = true);
 
 		// checkbox: insert picture of drawing pad
 		JPanel picPanel = new JPanel(new BorderLayout(20, 5));
@@ -119,92 +112,64 @@ public class ConstructionProtocolExportDialogD extends Dialog
 		cbColor.setSelected(false);
 
 		// disable width and height field when checkbox is deselected
-		cbDrawingPadPicture.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				boolean flag = cbDrawingPadPicture.isSelected();
-				sizePanel.setEnabled(flag);
-				if (flag) {
-					cbScreenshotPicture.setSelected(false);
-				}
+		cbDrawingPadPicture.addActionListener(e -> {
+			boolean flag = cbDrawingPadPicture.isSelected();
+			sizePanel.setEnabled(flag);
+			if (flag) {
+				cbScreenshotPicture.setSelected(false);
 			}
 		});
-		cbScreenshotPicture.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				boolean flag = cbScreenshotPicture.isSelected();
-				sizePanel.setEnabled(false);
-				if (flag) {
-					cbDrawingPadPicture.setSelected(false);
-				}
+		cbScreenshotPicture.addActionListener(e -> {
+			boolean flag = cbScreenshotPicture.isSelected();
+			sizePanel.setEnabled(false);
+			if (flag) {
+				cbDrawingPadPicture.setSelected(false);
 			}
 		});
-		cbColor.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				prot.setUseColors(cbColor.isSelected());
-			}
-		});
+		cbColor.addActionListener(e -> prot.setUseColors(cbColor.isSelected()));
 
 		// Cancel and Export Button
 		JButton cancelButton = new JButton(loc.getMenu("Cancel"));
-		cancelButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-			}
-		});
+		cancelButton.addActionListener(e -> dispose());
 		JButton exportButton = new JButton(loc.getMenu("Export"));
-		exportButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Thread runner = new Thread() {
-					@Override
-					public void run() {
-						dispose();
-						if (kernelChanged) {
-							app.storeUndoInfo();
-						}
-						exportHTML(cbDrawingPadPicture.isSelected(),
-								cbScreenshotPicture.isSelected(),
-								cbColor.isSelected(), true);
-					}
-				};
-				runner.start();
-			}
+		exportButton.addActionListener(e -> {
+			Thread runner = new Thread(() -> {
+				dispose();
+				if (kernelChanged) {
+					app.storeUndoInfo();
+				}
+				exportHTML(cbDrawingPadPicture.isSelected(),
+						cbScreenshotPicture.isSelected(),
+						cbColor.isSelected(), true);
+			});
+			runner.start();
 		});
 
 		JButton clipboardButton = new JButton(loc.getMenu("Clipboard"));
-		clipboardButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Thread runner = new Thread() {
-					@Override
-					public void run() {
-						dispose();
-						if (kernelChanged) {
-							app.storeUndoInfo();
-						}
-						try {
-							Toolkit toolkit = Toolkit.getDefaultToolkit();
-							Clipboard clipboard = toolkit.getSystemClipboard();
-							
+		clipboardButton.addActionListener(e -> {
+			Thread runner = new Thread(() -> {
+				dispose();
+				if (kernelChanged) {
+					app.storeUndoInfo();
+				}
+				try {
+					Toolkit toolkit = Toolkit.getDefaultToolkit();
+					Clipboard clipboard = toolkit.getSystemClipboard();
 
-							StringSelection stringSelection = new StringSelection(
-									ConstructionProtocolView.getHTML(null,
-											app.getLocalization(),
-											app.getKernel(), prot.getColumns(),
-											prot.getUseColors()));
-							clipboard.setContents(stringSelection, null);
-						} catch (Exception ex) {
-							ex.printStackTrace();
-							app.showError(Errors.SaveFileFailed);
-							Log.debug(ex.toString());
-						}
-					}
-				};
-				runner.start();
-			}
+
+					StringSelection stringSelection = new StringSelection(
+							ConstructionProtocolView.getHTML(null,
+									app.getLocalization(),
+									app.getKernel(), prot.getColumns(),
+									prot.getUseColors()));
+					clipboard.setContents(stringSelection, null);
+				} catch (Exception ex) {
+					ex.printStackTrace();
+					app.showError(Errors.SaveFileFailed);
+					Log.debug(ex.toString());
+				}
+			});
+			runner.start();
 		});
 
 		JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -302,19 +267,16 @@ public class ConstructionProtocolExportDialogD extends Dialog
 			// geogebra/export/WorksheetExportDialog.java.
 			// open browser
 			final File HTMLfile = file;
-			Thread runner = new Thread() {
-				@Override
-				public void run() {
-					try {
-						// open html file in browser
-						((GuiManagerD) app.getGuiManager())
-								.showURLinBrowser(HTMLfile.toURI().toURL());
-					} catch (Exception ex) {
-						app.showError(Errors.SaveFileFailed);
-						Log.debug(ex.toString());
-					}
+			Thread runner = new Thread(() -> {
+				try {
+					// open html file in browser
+					((GuiManagerD) app.getGuiManager())
+							.showURLinBrowser(HTMLfile.toURI().toURL());
+				} catch (Exception ex) {
+					app.showError(Errors.SaveFileFailed);
+					Log.debug(ex.toString());
 				}
-			};
+			});
 			runner.start();
 
 		} catch (IOException ex) {

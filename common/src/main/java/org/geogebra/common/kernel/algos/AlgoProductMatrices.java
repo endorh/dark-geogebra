@@ -119,10 +119,8 @@ public class AlgoProductMatrices extends AlgoElement {
 
 			// fill working matrix
 			for (int r = 0; r < matrix.size(); r++) {
-				for (int c = 0; c < matrix.size(); c++) {
-					working[r][c] = working2[r][c];
-					// Log.debug(working2[r][c]);
-				}
+				// Log.debug(working2[r][c]);
+				System.arraycopy(working2[r], 0, working[r], 0, matrix.size());
 			}
 
 			// do the multiplication for one matrix

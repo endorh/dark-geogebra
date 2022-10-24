@@ -242,29 +242,24 @@ public class Graphics2DD implements Graphics2DInterface {
 	}
 
 	private static Key getNativeRenderingKey(int key) {
-		switch (key) {
-		case RenderingHints.KEY_ANTIALIASING:
-			return java.awt.RenderingHints.KEY_ANTIALIASING;
-		case RenderingHints.KEY_RENDERING:
-			return java.awt.RenderingHints.KEY_RENDERING;
-		case RenderingHints.KEY_TEXT_ANTIALIASING:
-			return java.awt.RenderingHints.KEY_TEXT_ANTIALIASING;
-		default:
-			return null;
-		}
+		return switch (key) {
+			case RenderingHints.KEY_ANTIALIASING -> java.awt.RenderingHints.KEY_ANTIALIASING;
+			case RenderingHints.KEY_RENDERING -> java.awt.RenderingHints.KEY_RENDERING;
+			case RenderingHints.KEY_TEXT_ANTIALIASING ->
+					java.awt.RenderingHints.KEY_TEXT_ANTIALIASING;
+			default -> null;
+		};
 	}
 
 	private static Object getNativeRenderingValue(int value) {
-		switch (value) {
-		case RenderingHints.VALUE_ANTIALIAS_ON:
-			return java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
-		case RenderingHints.VALUE_RENDER_QUALITY:
-			return java.awt.RenderingHints.VALUE_RENDER_QUALITY;
-		case RenderingHints.VALUE_TEXT_ANTIALIAS_ON:
-			return java.awt.RenderingHints.VALUE_TEXT_ANTIALIAS_ON;
-		default:
-			return null;
-		}
+		return switch (value) {
+			case RenderingHints.VALUE_ANTIALIAS_ON -> java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
+			case RenderingHints.VALUE_RENDER_QUALITY ->
+					java.awt.RenderingHints.VALUE_RENDER_QUALITY;
+			case RenderingHints.VALUE_TEXT_ANTIALIAS_ON ->
+					java.awt.RenderingHints.VALUE_TEXT_ANTIALIAS_ON;
+			default -> null;
+		};
 	}
 
 	private static int getRenderingValue(Object value) {

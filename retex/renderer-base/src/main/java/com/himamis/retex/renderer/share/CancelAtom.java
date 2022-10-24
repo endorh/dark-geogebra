@@ -91,8 +91,7 @@ public class CancelAtom extends Atom {
 		tp.parse();
 		tp.pop();
 		final Atom c = sac.get();
-		if (c instanceof ColorAtom) {
-			final ColorAtom ca = (ColorAtom) c;
+		if (c instanceof final ColorAtom ca) {
 			Color col = ca.getFg();
 			if (col == null) {
 				col = ca.getBg();

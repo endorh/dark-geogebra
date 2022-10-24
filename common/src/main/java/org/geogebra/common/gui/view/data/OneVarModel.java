@@ -47,27 +47,22 @@ public class OneVarModel {
 		NormalDistribution normalDist;
 		try {
 			switch (selectedPlot) {
-
-			default:
-				// do nothing
-				break;
-			case StatisticsModel.INFER_ZTEST:
-			case StatisticsModel.INFER_ZINT:
+			default -> {
+			}
+			// do nothing
+			case StatisticsModel.INFER_ZTEST, StatisticsModel.INFER_ZINT -> {
 				normalDist = new NormalDistribution(0, 1);
 				se = sigma / Math.sqrt(N);
 				testStat = (mean - hypMean) / se;
 				P = 2.0 * normalDist.cumulativeProbability(-Math.abs(testStat));
 				P = adjustedPValue(P, testStat, tail);
-
 				double zCritical = normalDist
 						.inverseCumulativeProbability((confLevel + 1d) / 2);
 				me = zCritical * se;
 				upper = mean + me;
 				lower = mean - me;
-				break;
-
-			case StatisticsModel.INFER_TTEST:
-			case StatisticsModel.INFER_TINT:
+			}
+			case StatisticsModel.INFER_TTEST, StatisticsModel.INFER_TINT -> {
 				if (tTestImpl == null) {
 					tTestImpl = new TTest();
 				}
@@ -76,14 +71,13 @@ public class OneVarModel {
 				testStat = tTestImpl.t(hypMean, sample);
 				P = tTestImpl.tTest(hypMean, sample);
 				P = adjustedPValue(P, testStat, tail);
-
 				tDist = new TDistribution(N - 1);
 				double tCritical = tDist
 						.inverseCumulativeProbability((confLevel + 1d) / 2);
 				me = tCritical * se;
 				upper = mean + me;
 				lower = mean - me;
-				break;
+			}
 			}
 
 		} catch (RuntimeException e) {
@@ -137,19 +131,17 @@ public class OneVarModel {
 		ArrayList<String> nameList = new ArrayList<>();
 
 		switch (selectedPlot) {
-		default:
-			// do nothing
-			break;
-		case StatisticsModel.INFER_ZTEST:
+		default -> {
+		}
+		// do nothing
+		case StatisticsModel.INFER_ZTEST -> {
 			nameList.add(loc.getMenu("PValue"));
 			nameList.add(loc.getMenu("ZStatistic"));
 			nameList.add(loc.getMenu(""));
 			nameList.add(loc.getMenu("Length.short"));
 			nameList.add(loc.getMenu("Mean"));
-
-			break;
-
-		case StatisticsModel.INFER_TTEST:
+		}
+		case StatisticsModel.INFER_TTEST -> {
 			nameList.add(loc.getMenu("PValue"));
 			nameList.add(loc.getMenu("TStatistic"));
 			nameList.add(loc.getMenu("DegreesOfFreedom.short"));
@@ -157,9 +149,8 @@ public class OneVarModel {
 			nameList.add(loc.getMenu(""));
 			nameList.add(loc.getMenu("Length.short"));
 			nameList.add(loc.getMenu("Mean"));
-			break;
-
-		case StatisticsModel.INFER_ZINT:
+		}
+		case StatisticsModel.INFER_ZINT -> {
 			nameList.add(loc.getMenu("Interval"));
 			nameList.add(loc.getMenu("LowerLimit"));
 			nameList.add(loc.getMenu("UpperLimit"));
@@ -167,9 +158,8 @@ public class OneVarModel {
 			nameList.add(loc.getMenu(""));
 			nameList.add(loc.getMenu("Length.short"));
 			nameList.add(loc.getMenu("Mean"));
-			break;
-
-		case StatisticsModel.INFER_TINT:
+		}
+		case StatisticsModel.INFER_TINT -> {
 			nameList.add(loc.getMenu("Interval"));
 			nameList.add(loc.getMenu("LowerLimit"));
 			nameList.add(loc.getMenu("UpperLimit"));
@@ -179,7 +169,7 @@ public class OneVarModel {
 			nameList.add(loc.getMenu(""));
 			nameList.add(loc.getMenu("Length.short"));
 			nameList.add(loc.getMenu("Mean"));
-			break;
+		}
 		}
 		return nameList;
 	}

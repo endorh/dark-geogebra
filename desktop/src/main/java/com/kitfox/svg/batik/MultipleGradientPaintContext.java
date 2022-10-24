@@ -329,8 +329,8 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 
 		float Imin = 1;
 
-		for (int i = 0; i < n; i++) {
-			Imin = (Imin > normalizedIntervals[i]) ? normalizedIntervals[i]
+		for (float interval : normalizedIntervals) {
+			Imin = (Imin > interval) ? interval
 					: Imin;
 		}
 
@@ -345,8 +345,8 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 			estimatedSize = Integer.MAX_VALUE;
 			hasDiscontinuity = true;
 		} else {
-			for (int i = 0; i < normalizedIntervals.length; i++) {
-				estimatedSize += (normalizedIntervals[i] / Imin)
+			for (float normalizedInterval : normalizedIntervals) {
+				estimatedSize += (normalizedInterval / Imin)
 						* GRADIENT_SIZE;
 			}
 		}
@@ -456,10 +456,10 @@ abstract class MultipleGradientPaintContext implements PaintContext {
 		// Put all gradients in a single array
 		gradient = new int[gradientsTot];
 		int curOffset = 0;
-		for (int i = 0; i < gradients.length; i++) {
-			System.arraycopy(gradients[i], 0, gradient, curOffset,
-					gradients[i].length);
-			curOffset += gradients[i].length;
+		for (int[] ints : gradients) {
+			System.arraycopy(ints, 0, gradient, curOffset,
+					ints.length);
+			curOffset += ints.length;
 		}
 		gradient[gradient.length - 1] = hiColors[hiColors.length - 1].getRGB();
 

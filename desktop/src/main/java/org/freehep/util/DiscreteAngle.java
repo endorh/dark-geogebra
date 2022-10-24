@@ -4,6 +4,7 @@ package org.freehep.util;
 import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import org.geogebra.common.util.debug.Log;
 
@@ -23,10 +24,10 @@ import org.geogebra.common.util.debug.Log;
  */
 public class DiscreteAngle {
 
-	private SortedSet angles;
+	private SortedSet<Double> angles;
 
 	public DiscreteAngle() {
-		angles = new TreeSet();
+		angles = new TreeSet<>();
 	}
 
 	/**
@@ -39,29 +40,28 @@ public class DiscreteAngle {
 			return angle;
 		}
 
-		Iterator i = angles.iterator();
-		Double prev = (Double) i.next();
+		Iterator<Double> i = angles.iterator();
+		double prev = i.next();
 		if (!i.hasNext()) {
-			return prev.doubleValue();
+			return prev;
 		}
 
 		while (i.hasNext()) {
-			Double cur = (Double) i.next();
-			double cutoff = (cur.doubleValue() - prev.doubleValue()) / 2.0
-					+ prev.doubleValue();
+			double cur = i.next();
+			double cutoff = (cur - prev) / 2.0 + prev;
 			if (angle <= cutoff) {
-				return prev.doubleValue();
+				return prev;
 			}
 			prev = cur;
 		}
-		return prev.doubleValue();
+		return prev;
 	}
 
 	/**
 	 * Adds a discrete angle to the set.
 	 */
-	public Double addAngle(double angle) {
-		Double a = new Double(angle);
+	public double addAngle(double angle) {
+		double a = angle;
 		angles.add(a);
 		return a;
 	}
@@ -70,9 +70,8 @@ public class DiscreteAngle {
 	 * Removes a discrete angle from the set.
 	 */
 	public boolean removeAngle(double angle) {
-		for (Iterator i = angles.iterator(); i.hasNext();) {
-			Double r = (Double) i.next();
-			if (r.doubleValue() == angle) {
+		for (double r : angles) {
+			if (r == angle) {
 				return removeAngle(r);
 			}
 		}
@@ -83,21 +82,13 @@ public class DiscreteAngle {
 	 * Removes a discrete angle from the set.
 	 */
 	public boolean removeAngle(Double angle) {
-		return (angle != null) ? angles.remove(angle) : false;
+		return angle != null && angles.remove(angle);
 	}
 
 	@Override
 	public String toString() {
-		StringBuffer s = new StringBuffer();
-		s.append("Angles: ");
-		for (Iterator i = angles.iterator(); i.hasNext();) {
-			Double r = (Double) i.next();
-			s.append(r.doubleValue());
-			if (i.hasNext()) {
-				s.append(", ");
-			}
-		}
-		return s.toString();
+		return "Angles: " + angles.stream()
+				.map(String::valueOf).collect(Collectors.joining(", "));
 	}
 
 	public static void main(String[] args) {

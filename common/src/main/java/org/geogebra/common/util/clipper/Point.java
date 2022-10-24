@@ -173,13 +173,11 @@ public abstract class Point<T extends Number & Comparable<T>> {
 		if (obj == null) {
 			return false;
 		}
-		if (obj instanceof DoublePoint) {
-			final DoublePoint a = (DoublePoint) obj;
+		if (obj instanceof final DoublePoint a) {
 			return DoubleUtil.isEqual((Double)x, a.getX())
 					&& DoubleUtil.isEqual((Double)y, a.getY());
 		}
-		if (obj instanceof Point<?>) {
-			final Point<?> a = (Point<?>) obj;
+		if (obj instanceof final Point<?> a) {
 			return NUMBER_COMPARATOR.compare(x, a.x) == 0
 					&& NUMBER_COMPARATOR.compare(y, a.y) == 0;
 		}

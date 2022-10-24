@@ -172,13 +172,7 @@ public class ExportToPrinter3D {
 			if (v1 > o.v1) {
 				return 1;
 			}
-			if (v2 < o.v2) {
-				return -1;
-			}
-			if (v2 > o.v2) {
-				return 1;
-			}
-			return 0;
+			return Integer.compare(v2, o.v2);
 		}
 
 		@Override

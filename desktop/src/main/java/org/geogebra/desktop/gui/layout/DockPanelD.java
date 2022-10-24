@@ -1170,7 +1170,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 			if (def.length() == 0) {
 				def.append(defType);
 			} else {
-				def.append("," + defType);
+				def.append(",").append(defType);
 			}
 
 			current = parent;

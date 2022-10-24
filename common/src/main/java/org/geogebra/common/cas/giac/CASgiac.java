@@ -5,7 +5,6 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
@@ -27,7 +26,6 @@ import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant.ArbconstReplace
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
-import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.Traversing.DiffReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.PowerRootReplacer;
 import org.geogebra.common.kernel.arithmetic.Traversing.PrefixRemover;
@@ -587,7 +585,7 @@ public abstract class CASgiac implements CASGenericInterface {
 
 	protected void addResultToCache(String input, String result) {
 		boolean inputContainsExcludedString =
-				EXCLUDE_FROM_CACHE.stream().anyMatch(str -> input.contains(str));
+				EXCLUDE_FROM_CACHE.stream().anyMatch(input::contains);
 		if (!inputContainsExcludedString) {
 			casGiacCache.put(input, result);
 		}
@@ -764,9 +762,9 @@ public abstract class CASgiac implements CASGenericInterface {
 		if (nrOfVars > 0) {
 			// get array of potential results
 			String[] partsOfResult = plainResult.split("},");
-			for (int i = 0; i < partsOfResult.length; i++) {
+			for (String s : partsOfResult) {
 				// get array of solutions
-				String[] partsOfCurrSol = partsOfResult[i].split(",");
+				String[] partsOfCurrSol = s.split(",");
 				// append only asked solutions
 				for (int j = 0; j < nrOfVars; j++) {
 					if (j == nrOfVars - 1) {
@@ -824,34 +822,25 @@ public abstract class CASgiac implements CASGenericInterface {
 				arbconst, kernel);
 		// replace rational exponents by roots or vice versa
 
-		ve = ve.traverse(new Traversing() {
-
-			@Override
-			public ExpressionValue process(ExpressionValue ev) {
-				if (ev instanceof MyVecNDNode
-						&& ((MyVecNDNode) ev).isCASVector()) {
-					return new ExpressionNode(kernel,
-							new Variable(kernel, "ggbvect"), Operation.FUNCTION,
-							ev);
-				}
-				return ev;
+		ve = ve.traverse(ev -> {
+			if (ev instanceof MyVecNDNode
+					&& ((MyVecNDNode) ev).isCASVector()) {
+				return new ExpressionNode(kernel,
+						new Variable(kernel, "ggbvect"), Operation.FUNCTION,
+						ev);
 			}
+			return ev;
 		});
 
-		ve = ve.traverse(new Traversing() {
-
-			@Override
-			public ExpressionValue process(ExpressionValue ev) {
-				if (ev instanceof ExpressionNode) {
-					ExpressionNode node = (ExpressionNode) ev;
-					if (node.isLeaf() && tpl.isRad(node.unwrap())) {
-						node.setOperation(Operation.MULTIPLY);
-						node.setRight(node.getLeft());
-						node.setLeft(new MyDouble(kernel, 1));
-					}
+		ve = ve.traverse(ev -> {
+			if (ev instanceof ExpressionNode node) {
+				if (node.isLeaf() && tpl.isRad(node.unwrap())) {
+					node.setOperation(Operation.MULTIPLY);
+					node.setRight(node.getLeft());
+					node.setLeft(new MyDouble(kernel, 1));
 				}
-				return ev;
 			}
+			return ev;
 		});
 
 		return casParser.toGeoGebraString(ve, tpl);
@@ -1195,10 +1184,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	static String substitutionsString(
 			HashMap<PVariable, BigInteger> substitutions) {
 		StringBuilder ret = new StringBuilder();
-		Iterator<Entry<PVariable, BigInteger>> it = substitutions.entrySet()
-				.iterator();
-		while (it.hasNext()) {
-			Entry<PVariable, BigInteger> v = it.next();
+		for (Entry<PVariable, BigInteger> v : substitutions.entrySet()) {
 			ret.append(",");
 			ret.append(v.getKey().toString());
 			ret.append("=");
@@ -1242,9 +1228,7 @@ public abstract class CASgiac implements CASGenericInterface {
 				rawResult);
 		double[][][] retval = new double[coeffSquarefree.length + 1][][];
 		retval[0] = coeff;
-		for (int i = 0; i < coeffSquarefree.length; ++i) {
-			retval[i + 1] = coeffSquarefree[i];
-		}
+		System.arraycopy(coeffSquarefree, 0, retval, 1, coeffSquarefree.length);
 		return retval;
 	}
 
@@ -1402,7 +1386,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	 */
 	protected String postProcess(String s) {
 
-		if (s.indexOf("GIAC_ERROR") > -1) {
+		if (s.contains("GIAC_ERROR")) {
 			// GIAC_ERROR: canonical_form(3*ggbtmpvarx^4+ggbtmpvarx^2) Error:
 			// Bad Argument Value
 			Log.debug("error from Giac: " + s);
@@ -1442,12 +1426,12 @@ public abstract class CASgiac implements CASGenericInterface {
 		// return "?";
 		// }
 
-		if (ret.indexOf("integrate(") > -1) {
+		if (ret.contains("integrate(")) {
 			// eg Integral[sqrt(sin(x))]
 			return "?";
 		}
 
-		if (ret.indexOf("c_") > -1) {
+		if (ret.contains("c_")) {
 			// TODO with the current lookup constant numbers need to be globally
 			// unique -- we should reset the lookup table for each computation
 			// instead (e.g. revert r19766)
@@ -1458,7 +1442,7 @@ public abstract class CASgiac implements CASGenericInterface {
 					"arbconst($1+" + nrOfReplacedConst + ")");
 		}
 
-		if (ret.indexOf("n_") > -1) {
+		if (ret.contains("n_")) {
 			Log.debug("replacing arbitrary integers in " + ret);
 			ret = ret.replaceAll("n_([0-9]*)", "arbint($1)");
 		}

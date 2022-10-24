@@ -424,8 +424,7 @@ public class SpreadsheetKeyListenerD implements KeyListener {
 		// check if cell fixed
 		Object o = model.getValueAt(table.getSelectedRow(),
 				table.getSelectedColumn());
-		if (o != null && o instanceof GeoElement) {
-			GeoElement geo = (GeoElement) o;
+		if (o != null && o instanceof GeoElement geo) {
 			if (geo.isProtected(EventType.UPDATE)) {
 				return;
 			}
@@ -442,12 +441,9 @@ public class SpreadsheetKeyListenerD implements KeyListener {
 
 		// workaround for Mac OS X 10.5 problem (first character typed deleted)
 		if (AppD.MAC_OS) {
-			SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					f.setSelectionStart(1);
-					f.setSelectionEnd(1);
-				}
+			SwingUtilities.invokeLater(() -> {
+				f.setSelectionStart(1);
+				f.setSelectionEnd(1);
 			});
 		}
 

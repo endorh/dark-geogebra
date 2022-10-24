@@ -32,10 +32,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
@@ -289,25 +286,18 @@ public class DataSourcePanel extends JPanel
 		// sourceTable.getTable().setCellEditor(new MyCellEditor(app));
 
 		sourceTable.getTable().getModel()
-				.addTableModelListener(new TableModelListener() {
-
-					@Override
-					public void tableChanged(TableModelEvent e) {
-						if (e.getType() == TableModelEvent.UPDATE) {
-							// updateTableEdit(e.getColumn());
-						}
+				.addTableModelListener(e -> {
+					if (e.getType() == TableModelEvent.UPDATE) {
+						// updateTableEdit(e.getColumn());
 					}
 				});
 
 		setColumnHeaders(sourceTable.getTable());
 
 		sourceTable.getTable().getColumnModel().getSelectionModel()
-				.addListSelectionListener(new ListSelectionListener() {
-					@Override
-					public void valueChanged(ListSelectionEvent e) {
-						sourceTable.revalidate();
-						sourceTable.repaint();
-					}
+				.addListSelectionListener(e -> {
+					sourceTable.revalidate();
+					sourceTable.repaint();
 				});
 
 	}
@@ -865,23 +855,17 @@ public class DataSourcePanel extends JPanel
 			final JCheckBoxMenuItem itmNumeric = new JCheckBoxMenuItem(
 					loc.getMenu("Number"));
 			itmNumeric.setSelected(var.getGeoClass() == GeoClass.NUMERIC);
-			itmNumeric.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					var.setGeoClass(GeoClass.NUMERIC);
-					updatePanel(mode, false);
-				}
+			itmNumeric.addActionListener(arg0 -> {
+				var.setGeoClass(GeoClass.NUMERIC);
+				updatePanel(mode, false);
 			});
 
 			final JCheckBoxMenuItem itemTypeText = new JCheckBoxMenuItem(
 					loc.getMenu("Type.Text"));
 			itemTypeText.setSelected(var.getGeoClass() == GeoClass.TEXT);
-			itemTypeText.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					var.setGeoClass(GeoClass.TEXT);
-					updatePanel(mode, false);
-				}
+			itemTypeText.addActionListener(arg0 -> {
+				var.setGeoClass(GeoClass.TEXT);
+				updatePanel(mode, false);
 			});
 
 			ButtonGroup grp = new ButtonGroup();
@@ -897,42 +881,33 @@ public class DataSourcePanel extends JPanel
 			final JCheckBoxMenuItem itmRawData = new JCheckBoxMenuItem(
 					loc.getMenu("RawData"));
 			itmRawData.setSelected(var.getGroupType() == GroupType.RAWDATA);
-			itmRawData.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					if (itmRawData.isSelected()
-							&& var.getGroupType() != GroupType.RAWDATA) {
-						var.setGroupType(GroupType.RAWDATA);
-						updatePanel(mode, false);
-					}
+			itmRawData.addActionListener(arg0 -> {
+				if (itmRawData.isSelected()
+						&& var.getGroupType() != GroupType.RAWDATA) {
+					var.setGroupType(GroupType.RAWDATA);
+					updatePanel(mode, false);
 				}
 			});
 
 			final JCheckBoxMenuItem itmFrequency = new JCheckBoxMenuItem(
 					loc.getMenu("DataWithFrequency"));
 			itmFrequency.setSelected(var.getGroupType() == GroupType.FREQUENCY);
-			itmFrequency.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					if (itmFrequency.isSelected()
-							&& var.getGroupType() != GroupType.FREQUENCY) {
-						var.setGroupType(GroupType.FREQUENCY);
-						updatePanel(mode, false);
-					}
+			itmFrequency.addActionListener(arg0 -> {
+				if (itmFrequency.isSelected()
+						&& var.getGroupType() != GroupType.FREQUENCY) {
+					var.setGroupType(GroupType.FREQUENCY);
+					updatePanel(mode, false);
 				}
 			});
 
 			final JCheckBoxMenuItem itmClass = new JCheckBoxMenuItem(
 					loc.getMenu("ClassWithFrequency"));
 			itmClass.setSelected(var.getGroupType() == GroupType.CLASS);
-			itmClass.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					if (itmClass.isSelected()
-							&& var.getGroupType() != GroupType.CLASS) {
-						var.setGroupType(GroupType.CLASS);
-						updatePanel(mode, false);
-					}
+			itmClass.addActionListener(arg0 -> {
+				if (itmClass.isSelected()
+						&& var.getGroupType() != GroupType.CLASS) {
+					var.setGroupType(GroupType.CLASS);
+					updatePanel(mode, false);
 				}
 			});
 
@@ -956,28 +931,22 @@ public class DataSourcePanel extends JPanel
 			final JCheckBoxMenuItem itmNumeric = new JCheckBoxMenuItem(
 					loc.getMenu("Number"));
 			itmNumeric.setSelected(var.getGeoClass() == GeoClass.NUMERIC);
-			itmNumeric.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					ArrayList<DataItem> itemList = new ArrayList<>();
-					itemList.add(new DataItem());
-					itemList.add(new DataItem());
-					var.setDataVariableAsRawData(GeoClass.NUMERIC, itemList);
-					updatePanel(mode, false);
-				}
+			itmNumeric.addActionListener(arg0 -> {
+				ArrayList<DataItem> itemList = new ArrayList<>();
+				itemList.add(new DataItem());
+				itemList.add(new DataItem());
+				var.setDataVariableAsRawData(GeoClass.NUMERIC, itemList);
+				updatePanel(mode, false);
 			});
 
 			final JCheckBoxMenuItem itmPoint = new JCheckBoxMenuItem(
 					app.getLocalization().getMenu("Point"));
 			itmPoint.setSelected(var.getGeoClass() == GeoClass.POINT);
-			itmPoint.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					ArrayList<DataItem> itemList = new ArrayList<>();
-					itemList.add(new DataItem());
-					var.setDataVariableAsRawData(GeoClass.POINT, itemList);
-					updatePanel(mode, false);
-				}
+			itmPoint.addActionListener(arg0 -> {
+				ArrayList<DataItem> itemList = new ArrayList<>();
+				itemList.add(new DataItem());
+				var.setDataVariableAsRawData(GeoClass.POINT, itemList);
+				updatePanel(mode, false);
 			});
 
 			ButtonGroup grp = new ButtonGroup();
@@ -997,13 +966,10 @@ public class DataSourcePanel extends JPanel
 		final JCheckBoxMenuItem itmHeader = new JCheckBoxMenuItem(
 				loc.getMenu("UseHeaderAsTitle"));
 		itmHeader.setSelected(dataSource.enableHeader());
-		itmHeader.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				if (dataSource.enableHeader() != itmHeader.isSelected()) {
-					dataSource.setEnableHeader(itmHeader.isSelected());
-					updatePanel(mode, false);
-				}
+		itmHeader.addActionListener(arg0 -> {
+			if (dataSource.enableHeader() != itmHeader.isSelected()) {
+				dataSource.setEnableHeader(itmHeader.isSelected());
+				updatePanel(mode, false);
 			}
 		});
 

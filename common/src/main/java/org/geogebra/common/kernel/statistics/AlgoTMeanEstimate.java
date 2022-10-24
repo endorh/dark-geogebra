@@ -169,8 +169,8 @@ public class AlgoTMeanEstimate extends AlgoElement {
 				}
 
 				stats = new SummaryStatistics();
-				for (int i = 0; i < val.length; i++) {
-					stats.addValue(val[i]);
+				for (double v : val) {
+					stats.addValue(v);
 				}
 
 				n = stats.getN();

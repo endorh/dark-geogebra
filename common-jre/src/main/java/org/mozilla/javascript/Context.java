@@ -494,12 +494,7 @@ public class Context
         if(factory == null) {
             factory = ContextFactory.getGlobal();
         }
-        return call(factory, new ContextAction() {
-            @Override
-			public Object run(Context cx) {
-                return callable.call(cx, scope, thisObj, args);
-            }
-        });
+        return call(factory, cx -> callable.call(cx, scope, thisObj, args));
     }
 
     /**
@@ -647,29 +642,19 @@ public class Context
         Object listeners = propertyListeners;
         if (listeners != null && version != this.version) {
             firePropertyChangeImpl(listeners, languageVersionProperty,
-                               Integer.valueOf(this.version),
-                               Integer.valueOf(version));
+                    this.version,
+                    version);
         }
         this.version = version;
     }
 
     public static boolean isValidLanguageVersion(int version)
     {
-        switch (version) {
-            case VERSION_DEFAULT:
-            case VERSION_1_0:
-            case VERSION_1_1:
-            case VERSION_1_2:
-            case VERSION_1_3:
-            case VERSION_1_4:
-            case VERSION_1_5:
-            case VERSION_1_6:
-            case VERSION_1_7:
-            case VERSION_1_8:
-            case VERSION_ES6:
-                return true;
-        }
-        return false;
+        return switch (version) {
+            case VERSION_DEFAULT, VERSION_1_0, VERSION_1_1, VERSION_1_2, VERSION_1_3, VERSION_1_4, VERSION_1_5, VERSION_1_6, VERSION_1_7, VERSION_1_8, VERSION_ES6 ->
+                    true;
+            default -> false;
+        };
     }
 
     public static void checkLanguageVersion(int version)
@@ -709,25 +694,19 @@ public class Context
             // There will be many manifests in the world -- enumerate all of them until we find the right one.
             while (urls.hasMoreElements()) {
                 URL metaUrl = urls.nextElement();
-                InputStream is = null;
-                try {
-                    is = metaUrl.openStream();
-                    Manifest mf = new Manifest(is);
-                    Attributes attrs = mf.getMainAttributes();
-                    if ("Mozilla Rhino".equals(attrs.getValue("Implementation-Title"))) {
-                        implementationVersion =
-                            "Rhino " + attrs.getValue("Implementation-Version") + " " + attrs.getValue("Built-Date").replaceAll("-", " ");
-                        return implementationVersion;
-                    }
-                } catch (IOException e) {
-                    // Ignore this unlikely event
-                } finally {
-                    try {
-                        if (is != null) is.close();
-                    } catch (IOException e) {
-                        // Ignore this even unlikelier event
-                    }
-                }
+	            try (InputStream is = metaUrl.openStream()) {
+		            Manifest mf = new Manifest(is);
+		            Attributes attrs = mf.getMainAttributes();
+		            if ("Mozilla Rhino".equals(attrs.getValue("Implementation-Title"))) {
+			            implementationVersion =
+					            "Rhino " + attrs.getValue("Implementation-Version") + " "
+							            + attrs.getValue("Built-Date").replaceAll("-", " ");
+			            return implementationVersion;
+		            }
+	            } catch (IOException e) {
+		            // Ignore this unlikely event
+	            }
+	            // Ignore this even unlikelier event
             }
         }
 
@@ -849,8 +828,7 @@ public class Context
             Object l = Kit.getListener(listeners, i);
             if (l == null)
                 break;
-            if (l instanceof PropertyChangeListener) {
-                PropertyChangeListener pcl = (PropertyChangeListener)l;
+            if (l instanceof PropertyChangeListener pcl) {
                 pcl.propertyChange(new PropertyChangeEvent(
                     this, property, oldValue, newValue));
             }
@@ -1587,8 +1565,7 @@ public class Context
      */
     public final String decompileFunctionBody(Function fun, int indent)
     {
-        if (fun instanceof BaseFunction) {
-            BaseFunction bf = (BaseFunction)fun;
+        if (fun instanceof BaseFunction bf) {
             return bf.decompile(indent, Decompiler.ONLY_BODY_FLAG);
         }
         // ALERT: not sure what the right response here is.
@@ -2160,7 +2137,7 @@ public class Context
     {
         if (sealed) onSealedMutation();
         if (threadLocalMap == null)
-            threadLocalMap = new HashMap<Object,Object>();
+            threadLocalMap = new HashMap<>();
         threadLocalMap.put(key, value);
     }
 
@@ -2531,8 +2508,7 @@ public class Context
                                            returnFunction);
         if (debugger != null) {
             if (sourceString == null) Kit.codeBug();
-            if (bytecode instanceof DebuggableScript) {
-                DebuggableScript dscript = (DebuggableScript)bytecode;
+            if (bytecode instanceof DebuggableScript dscript) {
                 notifyDebugger_r(this, dscript, sourceString);
             } else {
                 throw new RuntimeException("NOT SUPPORTED");
@@ -2651,7 +2627,7 @@ public class Context
     {
         if (sealed) onSealedMutation();
         if (activationNames == null)
-            activationNames = new HashSet<String>();
+            activationNames = new HashSet<>();
         activationNames.add(name);
     }
 

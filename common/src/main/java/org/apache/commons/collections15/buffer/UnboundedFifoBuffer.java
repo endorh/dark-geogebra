@@ -256,7 +256,7 @@ public class UnboundedFifoBuffer<E> extends AbstractCollection<E>
 	 */
 	@Override
 	public Iterator<E> iterator() {
-		return new Iterator<E>() {
+		return new Iterator<>() {
 
 			private int index = head;
 			private int lastReturnedIndex = -1;

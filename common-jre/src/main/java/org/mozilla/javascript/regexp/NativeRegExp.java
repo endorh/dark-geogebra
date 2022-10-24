@@ -7,6 +7,7 @@
 package org.mozilla.javascript.regexp;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Function;
@@ -173,13 +174,12 @@ public class NativeRegExp extends IdScriptableObject implements Function
 
     Scriptable compile(Context cx, Scriptable scope, Object[] args)
     {
-        if (args.length > 0 && args[0] instanceof NativeRegExp) {
+        if (args.length > 0 && args[0] instanceof NativeRegExp thatObj) {
             if (args.length > 1 && args[1] != Undefined.instance) {
                 // report error
                 throw ScriptRuntime.typeError0("msg.bad.regexp.compile");
             }
-            NativeRegExp thatObj = (NativeRegExp) args[0];
-            this.re = thatObj.re;
+	        this.re = thatObj.re;
             this.lastIndex = thatObj.lastIndex;
             return this;
         }
@@ -348,28 +348,19 @@ public class NativeRegExp extends IdScriptableObject implements Function
 
         // If re starts with literal, init anchorCh accordingly
         switch (regexp.program[0]) {
-            case REOP_UCFLAT1:
-            case REOP_UCFLAT1i:
-                regexp.anchorCh = (char)getIndex(regexp.program, 1);
-                break;
-            case REOP_FLAT1:
-            case REOP_FLAT1i:
-                regexp.anchorCh = (char)(regexp.program[1] & 0xFF);
-                break;
-            case REOP_FLAT:
-            case REOP_FLATi:
-                int k = getIndex(regexp.program, 1);
-                regexp.anchorCh = regexp.source[k];
-                break;
-            case REOP_BOL:
+        case REOP_UCFLAT1, REOP_UCFLAT1i -> regexp.anchorCh = (char) getIndex(regexp.program, 1);
+        case REOP_FLAT1, REOP_FLAT1i -> regexp.anchorCh = (char) (regexp.program[1] & 0xFF);
+        case REOP_FLAT, REOP_FLATi -> {
+            int k = getIndex(regexp.program, 1);
+            regexp.anchorCh = regexp.source[k];
+        }
+        case REOP_BOL -> regexp.anchorCh = ANCHOR_BOL;
+        case REOP_ALT -> {
+            RENode n = state.result;
+            if (n.kid.op == REOP_BOL && n.kid2.op == REOP_BOL) {
                 regexp.anchorCh = ANCHOR_BOL;
-                break;
-            case REOP_ALT:
-                RENode n = state.result;
-                if (n.kid.op == REOP_BOL && n.kid2.op == REOP_BOL) {
-                    regexp.anchorCh = ANCHOR_BOL;
-                }
-                break;
+            }
+        }
         }
 
         if (debug) {
@@ -528,11 +519,8 @@ public class NativeRegExp extends IdScriptableObject implements Function
             if (state.cp == state.cpend || source[state.cp] == '|'
                 || (state.parenNesting != 0 && source[state.cp] == ')'))
             {
-                if (headTerm == null) {
-                    state.result = new RENode(REOP_EMPTY);
-                }
-                else
-                    state.result = headTerm;
+                state.result =
+                        Objects.requireNonNullElseGet(headTerm, () -> new RENode(REOP_EMPTY));
                 return true;
             }
             if (!parseTerm(state))
@@ -575,7 +563,7 @@ public class NativeRegExp extends IdScriptableObject implements Function
             int localMax = 0;
             nDigits = 2;
             switch (src[index]) {
-            case '\\':
+            case '\\' -> {
                 ++index;
                 c = src[index++];
                 switch (c) {
@@ -599,10 +587,10 @@ public class NativeRegExp extends IdScriptableObject implements Function
                     break;
                 case 'c':
                     if ((index < end) && isControlLetter(src[index]))
-                        localMax = (char)(src[index++] & 0x1F);
+                        localMax = (char) (src[index++] & 0x1F);
                     else
                         --index;
-                        localMax = '\\';
+                    localMax = '\\';
                     break;
                 case 'u':
                     nDigits += 2;
@@ -676,10 +664,8 @@ public class NativeRegExp extends IdScriptableObject implements Function
                     localMax = c;
                     break;
                 }
-                break;
-            default:
-                localMax = src[index++];
-                break;
+            }
+            default -> localMax = src[index++];
             }
             if (inRange) {
                 if (rangeStart > localMax) {
@@ -1104,79 +1090,79 @@ public class NativeRegExp extends IdScriptableObject implements Function
         }
         boolean hasQ = false;
         switch (src[state.cp]) {
-            case '+':
-                state.result = new RENode(REOP_QUANT);
-                state.result.min = 1;
-                state.result.max = -1;
-                /* <PLUS>, <parencount>, <parenindex>, <next> ... <ENDCHILD> */
-                state.progLength += 8;
-                hasQ = true;
-                break;
-            case '*':
-                state.result = new RENode(REOP_QUANT);
-                state.result.min = 0;
-                state.result.max = -1;
-                /* <STAR>, <parencount>, <parenindex>, <next> ... <ENDCHILD> */
-                state.progLength += 8;
-                hasQ = true;
-                break;
-            case '?':
-                state.result = new RENode(REOP_QUANT);
-                state.result.min = 0;
-                state.result.max = 1;
-                /* <OPT>, <parencount>, <parenindex>, <next> ... <ENDCHILD> */
-                state.progLength += 8;
-                hasQ = true;
-                break;
-            case '{':  /* balance '}' */
-            {
-                int min = 0;
-                int max = -1;
-                int leftCurl = state.cp;
+        case '+' -> {
+            state.result = new RENode(REOP_QUANT);
+            state.result.min = 1;
+            state.result.max = -1;
+            /* <PLUS>, <parencount>, <parenindex>, <next> ... <ENDCHILD> */
+            state.progLength += 8;
+            hasQ = true;
+        }
+        case '*' -> {
+            state.result = new RENode(REOP_QUANT);
+            state.result.min = 0;
+            state.result.max = -1;
+            /* <STAR>, <parencount>, <parenindex>, <next> ... <ENDCHILD> */
+            state.progLength += 8;
+            hasQ = true;
+        }
+        case '?' -> {
+            state.result = new RENode(REOP_QUANT);
+            state.result.min = 0;
+            state.result.max = 1;
+            /* <OPT>, <parencount>, <parenindex>, <next> ... <ENDCHILD> */
+            state.progLength += 8;
+            hasQ = true;
+        }
+        case '{' ->  /* balance '}' */
+        {
+            int min = 0;
+            int max = -1;
+            int leftCurl = state.cp;
 
-               /* For Perl etc. compatibility, if quntifier does not match
-                * \{\d+(,\d*)?\} exactly back off from it
-                * being a quantifier, and chew it up as a literal
-                * atom next time instead.
-                */
+            /* For Perl etc. compatibility, if quntifier does not match
+             * \{\d+(,\d*)?\} exactly back off from it
+             * being a quantifier, and chew it up as a literal
+             * atom next time instead.
+             */
 
-                if (++state.cp < src.length && isDigit(c = src[state.cp])) {
-                    ++state.cp;
-                    min = getDecimalValue(c, state, 0xFFFF,
-                                          "msg.overlarge.min");
-                    c = src[state.cp];
-                    if (c == ',') {
-                        c = src[++state.cp];
-                        if (isDigit(c)) {
-                            ++state.cp;
-                            max = getDecimalValue(c, state, 0xFFFF,
-                                                  "msg.overlarge.max");
-                            c = src[state.cp];
-                            if (min > max) {
-                                reportError("msg.max.lt.min",
-                                            String.valueOf(src[state.cp]));
-                                return false;
-                            }
+            if (++state.cp < src.length && isDigit(c = src[state.cp])) {
+                ++state.cp;
+                min = getDecimalValue(c, state, 0xFFFF,
+                        "msg.overlarge.min");
+                c = src[state.cp];
+                if (c == ',') {
+                    c = src[++state.cp];
+                    if (isDigit(c)) {
+                        ++state.cp;
+                        max = getDecimalValue(c, state, 0xFFFF,
+                                "msg.overlarge.max");
+                        c = src[state.cp];
+                        if (min > max) {
+                            reportError("msg.max.lt.min",
+                                    String.valueOf(src[state.cp]));
+                            return false;
                         }
-                    } else {
-                        max = min;
                     }
-                    /* balance '{' */
-                    if (c == '}') {
-                        state.result = new RENode(REOP_QUANT);
-                        state.result.min = min;
-                        state.result.max = max;
-                        // QUANT, <min>, <max>, <parencount>,
-                        // <parenindex>, <next> ... <ENDCHILD>
-                        state.progLength += 12;
-                        hasQ = true;
-                    }
+                } else {
+                    max = min;
                 }
-                if (!hasQ) {
-                    state.cp = leftCurl;
+                /* balance '{' */
+                if (c == '}') {
+                    state.result = new RENode(REOP_QUANT);
+                    state.result.min = min;
+                    state.result.max = max;
+                    // QUANT, <min>, <max>, <parencount>,
+                    // <parenindex>, <next> ... <ENDCHILD>
+                    state.progLength += 12;
+                    hasQ = true;
                 }
-                break;
             }
+            if (!hasQ) {
+                state.cp = leftCurl;
+            }
+            break;
+        }
         }
         if (!hasQ)
             return true;
@@ -1569,7 +1555,7 @@ public class NativeRegExp extends IdScriptableObject implements Function
         while (src != end) {
             nDigits = 2;
             switch (gData.regexp.source[src]) {
-            case '\\':
+            case '\\' -> {
                 ++src;
                 c = gData.regexp.source[src++];
                 switch (c) {
@@ -1593,7 +1579,7 @@ public class NativeRegExp extends IdScriptableObject implements Function
                     break;
                 case 'c':
                     if ((src < end) && isControlLetter(gData.regexp.source[src]))
-                        thisCh = (char)(gData.regexp.source[src++] & 0x1F);
+                        thisCh = (char) (gData.regexp.source[src++] & 0x1F);
                     else {
                         --src;
                         thisCh = '\\';
@@ -1617,7 +1603,7 @@ public class NativeRegExp extends IdScriptableObject implements Function
                         }
                         n = (n << 4) | digit;
                     }
-                    thisCh = (char)(n);
+                    thisCh = (char) (n);
                     break;
                 case '0':
                 case '1':
@@ -1648,48 +1634,44 @@ public class NativeRegExp extends IdScriptableObject implements Function
                                 src--;
                         }
                     }
-                    thisCh = (char)(n);
+                    thisCh = (char) (n);
                     break;
 
                 case 'd':
                     addCharacterRangeToCharSet(charSet, '0', '9');
                     continue;   /* don't need range processing */
                 case 'D':
-                    addCharacterRangeToCharSet(charSet, (char)0, (char)('0' - 1));
-                    addCharacterRangeToCharSet(charSet, (char)('9' + 1),
-                                                (char)(charSet.length - 1));
+                    addCharacterRangeToCharSet(charSet, (char) 0, (char) ('0' - 1));
+                    addCharacterRangeToCharSet(charSet, (char) ('9' + 1),
+                            (char) (charSet.length - 1));
                     continue;
                 case 's':
                     for (i = (charSet.length - 1); i >= 0; i--)
                         if (isREWhiteSpace(i))
-                            addCharacterToCharSet(charSet, (char)(i));
+                            addCharacterToCharSet(charSet, (char) (i));
                     continue;
                 case 'S':
                     for (i = (charSet.length - 1); i >= 0; i--)
                         if (!isREWhiteSpace(i))
-                            addCharacterToCharSet(charSet, (char)(i));
+                            addCharacterToCharSet(charSet, (char) (i));
                     continue;
                 case 'w':
                     for (i = (charSet.length - 1); i >= 0; i--)
-                        if (isWord((char)i))
-                            addCharacterToCharSet(charSet, (char)(i));
+                        if (isWord((char) i))
+                            addCharacterToCharSet(charSet, (char) (i));
                     continue;
                 case 'W':
                     for (i = (charSet.length - 1); i >= 0; i--)
-                        if (!isWord((char)i))
-                            addCharacterToCharSet(charSet, (char)(i));
+                        if (!isWord((char) i))
+                            addCharacterToCharSet(charSet, (char) (i));
                     continue;
                 default:
                     thisCh = c;
                     break;
 
                 }
-                break;
-
-            default:
-                thisCh = gData.regexp.source[src++];
-                break;
-
+            }
+            default -> thisCh = gData.regexp.source[src++];
             }
             if (inRange) {
                 if ((gData.regexp.flags & JSREG_FOLD) != 0) {
@@ -2401,7 +2383,7 @@ public class NativeRegExp extends IdScriptableObject implements Function
             gData.cp = i;
             gData.skipped = i - start;
             for (int j = 0; j < re.parenCount; j++) {
-                gData.parens[j] = -1l;
+                gData.parens[j] = -1L;
             }
             boolean result = executeREBytecode(gData, input, end);
 
@@ -2499,7 +2481,7 @@ public class NativeRegExp extends IdScriptableObject implements Function
              * Define the index and input properties last for better for/in loop
              * order (so they come after the elements).
              */
-            obj.put("index", obj, Integer.valueOf(start + gData.skipped));
+            obj.put("index", obj, start + gData.skipped);
             obj.put("input", obj, str);
         }
 
@@ -2608,52 +2590,39 @@ public class NativeRegExp extends IdScriptableObject implements Function
 
         if (id == 0) return super.findInstanceIdInfo(s);
 
-        int attr;
-        switch (id) {
-          case Id_lastIndex:
-            attr = lastIndexAttr;
-            break;
-          case Id_source:
-          case Id_global:
-          case Id_ignoreCase:
-          case Id_multiline:
-            attr = PERMANENT | READONLY | DONTENUM;
-            break;
-          default:
-            throw new IllegalStateException();
-        }
+        int attr = switch (id) {
+            case Id_lastIndex -> lastIndexAttr;
+            case Id_source, Id_global, Id_ignoreCase, Id_multiline ->
+                    PERMANENT | READONLY | DONTENUM;
+            default -> throw new IllegalStateException();
+        };
         return instanceIdInfo(attr, id);
     }
 
     @Override
     protected String getInstanceIdName(int id)
     {
-        switch (id) {
-            case Id_lastIndex:  return "lastIndex";
-            case Id_source:     return "source";
-            case Id_global:     return "global";
-            case Id_ignoreCase: return "ignoreCase";
-            case Id_multiline:  return "multiline";
-        }
-        return super.getInstanceIdName(id);
+        return switch (id) {
+            case Id_lastIndex -> "lastIndex";
+            case Id_source -> "source";
+            case Id_global -> "global";
+            case Id_ignoreCase -> "ignoreCase";
+            case Id_multiline -> "multiline";
+            default -> super.getInstanceIdName(id);
+        };
     }
 
     @Override
     protected Object getInstanceIdValue(int id)
     {
-        switch (id) {
-          case Id_lastIndex:
-            return lastIndex;
-          case Id_source:
-            return new String(re.source);
-          case Id_global:
-            return ScriptRuntime.wrapBoolean((re.flags & JSREG_GLOB) != 0);
-          case Id_ignoreCase:
-            return ScriptRuntime.wrapBoolean((re.flags & JSREG_FOLD) != 0);
-          case Id_multiline:
-            return ScriptRuntime.wrapBoolean((re.flags & JSREG_MULTILINE) != 0);
-        }
-        return super.getInstanceIdValue(id);
+        return switch (id) {
+            case Id_lastIndex -> lastIndex;
+            case Id_source -> new String(re.source);
+            case Id_global -> ScriptRuntime.wrapBoolean((re.flags & JSREG_GLOB) != 0);
+            case Id_ignoreCase -> ScriptRuntime.wrapBoolean((re.flags & JSREG_FOLD) != 0);
+            case Id_multiline -> ScriptRuntime.wrapBoolean((re.flags & JSREG_MULTILINE) != 0);
+            default -> super.getInstanceIdValue(id);
+        };
     }
 
     @Override
@@ -2675,9 +2644,10 @@ public class NativeRegExp extends IdScriptableObject implements Function
     @Override
     protected void setInstanceIdAttributes(int id, int attr) {
         switch (id) {
-          case Id_lastIndex:
+        case Id_lastIndex -> {
             lastIndexAttr = attr;
             return;
+        }
         }
         super.setInstanceIdAttributes(id, attr);
     }
@@ -2688,13 +2658,31 @@ public class NativeRegExp extends IdScriptableObject implements Function
         String s;
         int arity;
         switch (id) {
-          case Id_compile:  arity=2; s="compile";  break;
-          case Id_toString: arity=0; s="toString"; break;
-          case Id_toSource: arity=0; s="toSource"; break;
-          case Id_exec:     arity=1; s="exec";     break;
-          case Id_test:     arity=1; s="test";     break;
-          case Id_prefix:   arity=1; s="prefix";   break;
-          default: throw new IllegalArgumentException(String.valueOf(id));
+        case Id_compile -> {
+            arity = 2;
+            s = "compile";
+        }
+        case Id_toString -> {
+            arity = 0;
+            s = "toString";
+        }
+        case Id_toSource -> {
+            arity = 0;
+            s = "toSource";
+        }
+        case Id_exec -> {
+            arity = 1;
+            s = "exec";
+        }
+        case Id_test -> {
+            arity = 1;
+            s = "test";
+        }
+        case Id_prefix -> {
+            arity = 1;
+            s = "prefix";
+        }
+        default -> throw new IllegalArgumentException(String.valueOf(id));
         }
         initPrototypeMethod(REGEXP_TAG, id, s, arity);
     }
@@ -2743,17 +2731,36 @@ public class NativeRegExp extends IdScriptableObject implements Function
         int id;
 // #generated# Last update: 2007-05-09 08:16:24 EDT
         L0: { id = 0; String X = null; int c;
-            L: switch (s.length()) {
-            case 4: c=s.charAt(0);
-                if (c=='e') { X="exec";id=Id_exec; }
-                else if (c=='t') { X="test";id=Id_test; }
-                break L;
-            case 6: X="prefix";id=Id_prefix; break L;
-            case 7: X="compile";id=Id_compile; break L;
-            case 8: c=s.charAt(3);
-                if (c=='o') { X="toSource";id=Id_toSource; }
-                else if (c=='t') { X="toString";id=Id_toString; }
-                break L;
+            L:
+            switch (s.length()) {
+            case 4 -> {
+                c = s.charAt(0);
+                if (c == 'e') {
+                    X = "exec";
+                    id = Id_exec;
+                } else if (c == 't') {
+                    X = "test";
+                    id = Id_test;
+                }
+            }
+            case 6 -> {
+                X = "prefix";
+                id = Id_prefix;
+            }
+            case 7 -> {
+                X = "compile";
+                id = Id_compile;
+            }
+            case 8 -> {
+                c = s.charAt(3);
+                if (c == 'o') {
+                    X = "toSource";
+                    id = Id_toSource;
+                } else if (c == 't') {
+                    X = "toString";
+                    id = Id_toString;
+                }
+            }
             }
             if (X!=null && X!=s && !X.equals(s)) id = 0;
             break L0;

@@ -41,18 +41,17 @@ public class CmdResidualPlot extends CommandProcessor {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg = resArgs(c);
 		switch (n) {
-		case 2:
+		case 2 -> {
 			if ((arg[0].isGeoList()) && (arg[1].isRealValuedFunction())) {
 				AlgoResidualPlot algo = new AlgoResidualPlot(cons,
 						(GeoList) arg[0], (GeoFunctionable) arg[1]);
 				algo.getResult().setLabel(c.getLabel());
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 				return ret;
 			}
 			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

@@ -6,7 +6,6 @@ import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.power;
 import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.subtract;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -251,12 +250,7 @@ enum InequalitySteps implements SolveStepGenerator<StepInequality> {
 				}
 			}
 
-			Collections.sort(roots, new Comparator<StepExpression>() {
-				@Override
-				public int compare(StepExpression s1, StepExpression s2) {
-					return Double.compare(s1.getValue(), s2.getValue());
-				}
-			});
+			roots.sort(Comparator.comparingDouble(StepExpression::getValue));
 
 			roots.add(0, StepConstant.NEG_INF);
 			roots.add(StepConstant.POS_INF);

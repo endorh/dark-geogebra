@@ -54,8 +54,7 @@ public class LabelController {
 	 *            construction element
 	 */
 	public void ensureHasLabel(GeoElementND elementND) {
-		if (elementND instanceof GeoElement) {
-			GeoElement element = (GeoElement) elementND;
+		if (elementND instanceof GeoElement element) {
 			if (!hasLabel(element)) {
 				showLabel(element);
 			}

@@ -37,16 +37,16 @@ public class CmdSpline extends CommandProcessor {
 		GeoElement[] arg;
 		arg = resArgs(c);
 		switch (n) {
-		case 0:
-			throw argNumErr(c);
-		case 1:
+		case 0 -> throw argNumErr(c);
+		case 1 -> {
 			arg = resArgs(c);
 			if (arg[0].isGeoList() && arePoint((GeoList) arg[0])) {
-				GeoElement[] ret = { spline(c.getLabel(), (GeoList) arg[0]) };
+				GeoElement[] ret = {spline(c.getLabel(), (GeoList) arg[0])};
 				return ret;
 			}
 			throw argErr(c, arg[0]);
-		case 2:
+		}
+		case 2 -> {
 			arg = resArgs(c);
 			if (arg[0].isGeoList() && arePoint((GeoList) arg[0])) {
 				int degree = (int) c.getArgument(1).evaluateDouble();
@@ -58,11 +58,12 @@ public class CmdSpline extends CommandProcessor {
 				AlgoSpline algo = new AlgoSpline(cons, c.getLabel(),
 						(GeoList) arg[0], degreeNum, null);
 				GeoCurveCartesianND list = algo.getSpline();
-				GeoElement[] ret = { list };
+				GeoElement[] ret = {list};
 				return ret;
 			}
 			throw argErr(c, arg[0]);
-		case 3:
+		}
+		case 3 -> {
 			arg = resArgs(c);
 			if (!arg[2].isGeoFunctionNVar()) {
 				throw argErr(c, arg[2]);
@@ -77,18 +78,19 @@ public class CmdSpline extends CommandProcessor {
 				AlgoSpline algo = new AlgoSpline(cons, c.getLabel(),
 						(GeoList) arg[0], degreeNum, (GeoFunctionNVar) arg[2]);
 				GeoCurveCartesianND list = algo.getSpline();
-				GeoElement[] ret = { list };
+				GeoElement[] ret = {list};
 				return ret;
 			}
 			throw argErr(c, arg[0]);
-		default:
+		}
+		default -> {
 			GeoList list = wrapInList(kernel, arg, arg.length, GeoClass.POINT);
 			if (list != null) {
-				GeoElement[] ret = { spline(c.getLabel(), list) };
+				GeoElement[] ret = {spline(c.getLabel(), list)};
 				return ret;
 			}
-
 			throw argNumErr(c);
+		}
 		}
 	}
 

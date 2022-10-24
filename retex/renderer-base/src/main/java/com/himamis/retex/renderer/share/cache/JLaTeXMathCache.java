@@ -70,8 +70,9 @@ import com.himamis.retex.renderer.share.platform.graphics.Transform;
 public final class JLaTeXMathCache {
 
 	private static final Transform identity = new Graphics().createTransform();
-	private static ConcurrentMap<CachedTeXFormula, SoftReference<CachedImage>> cache = new ConcurrentHashMap<CachedTeXFormula, SoftReference<CachedImage>>(
-			128);
+	private static ConcurrentMap<CachedTeXFormula, SoftReference<CachedImage>> cache =
+			new ConcurrentHashMap<>(
+					128);
 	private static int max = Integer.MAX_VALUE;
 	private static ReferenceQueue queue = new ReferenceQueue();
 
@@ -87,7 +88,7 @@ public final class JLaTeXMathCache {
 	public static void setMaxCachedObjects(int max) {
 		JLaTeXMathCache.max = Math.max(max, 1);
 		cache.clear();
-		cache = new ConcurrentHashMap<CachedTeXFormula, SoftReference<CachedImage>>(
+		cache = new ConcurrentHashMap<>(
 				JLaTeXMathCache.max);
 	}
 
@@ -121,10 +122,9 @@ public final class JLaTeXMathCache {
 	 */
 	public static int[] getCachedTeXFormulaDimensions(Object o)
 			throws ParseException {
-		if (o == null || !(o instanceof CachedTeXFormula)) {
+		if (o == null || !(o instanceof CachedTeXFormula cached)) {
 			return new int[] { 0, 0, 0 };
 		}
-		CachedTeXFormula cached = (CachedTeXFormula) o;
 		SoftReference<CachedImage> img = cache.get(cached);
 		if (img == null || img.get() == null) {
 			img = makeImage(cached);
@@ -289,10 +289,9 @@ public final class JLaTeXMathCache {
 	 */
 	public static Image getCachedTeXFormulaImage(Object o)
 			throws ParseException {
-		if (o == null || !(o instanceof CachedTeXFormula)) {
+		if (o == null || !(o instanceof CachedTeXFormula cached)) {
 			return null;
 		}
-		CachedTeXFormula cached = (CachedTeXFormula) o;
 		SoftReference<CachedImage> img = cache.get(cached);
 		if (img == null || img.get() == null) {
 			img = makeImage(cached);
@@ -385,8 +384,7 @@ public final class JLaTeXMathCache {
 		 */
 		@Override
 		public boolean equals(Object o) {
-			if (o != null && o instanceof CachedTeXFormula) {
-				CachedTeXFormula c = (CachedTeXFormula) o;
+			if (o != null && o instanceof CachedTeXFormula c) {
 				boolean b = (c.f.equals(f) && c.style == style && c.type == type
 						&& c.size == size && c.inset == inset
 						&& c.fgcolor.equals(fgcolor));

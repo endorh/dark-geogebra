@@ -29,19 +29,16 @@ public class CmdRunUpdateScript extends CmdScripting {
 		GeoElement[] args;
 
 		switch (n) {
-
-		case 1:
+		case 1 -> {
 			args = resArgs(c);
 			if (args[0].getScript(EventType.UPDATE) == null) {
 				return args;
 			}
-
 			kernel.getApplication()
 					.dispatchEvent(new Event(EventType.UPDATE, args[0]).setAlwaysDispatched(true));
 			return args;
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 
 	}

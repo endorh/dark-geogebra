@@ -63,8 +63,8 @@ public class HermiteRuleFactory extends BaseRuleFactory<Double> {
 
         if (numberOfPoints == 1) {
             // Break recursion.
-            return new Pair<Double[], Double[]>(new Double[] { 0d },
-                                                new Double[] { SQRT_PI });
+            return new Pair<>(new Double[]{0d},
+		            new Double[]{SQRT_PI});
         }
 
         // Get previous rule.
@@ -84,9 +84,9 @@ public class HermiteRuleFactory extends BaseRuleFactory<Double> {
         final int iMax = numberOfPoints / 2;
         for (int i = 0; i < iMax; i++) {
             // Lower-bound of the interval.
-            double a = (i == 0) ? -sqrtTwoTimesLastNumPoints : previousPoints[i - 1].doubleValue();
+            double a = (i == 0) ? -sqrtTwoTimesLastNumPoints : previousPoints[i - 1];
             // Upper-bound of the interval.
-            double b = (iMax == 1) ? -0.5 : previousPoints[i].doubleValue();
+            double b = (iMax == 1) ? -0.5 : previousPoints[i];
 
             // H[j-1](a)
             double hma = H0;
@@ -172,6 +172,6 @@ public class HermiteRuleFactory extends BaseRuleFactory<Double> {
             weights[iMax] = w;
         }
 
-        return new Pair<Double[], Double[]>(points, weights);
+        return new Pair<>(points, weights);
     }
 }

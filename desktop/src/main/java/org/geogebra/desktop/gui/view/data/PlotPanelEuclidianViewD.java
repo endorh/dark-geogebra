@@ -393,7 +393,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 	public ArrayList<AbstractAction> getActionList() {
 
 		if (actionList == null) {
-			actionList = new ArrayList<AbstractAction>();
+			actionList = new ArrayList<>();
 			Localization loc = getApplication().getLocalization();
 			if (exportToEVAction != null) {
 				exportToEVAction.putValue(Action.NAME,
@@ -419,26 +419,23 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			Thread runner = new Thread() {
-				@Override
-				public void run() {
-					getApplication().setWaitCursor();
-					try {
-						getApplication().getSelectionManager()
-								.clearSelectedGeos(true, false);
-						getApplication().updateSelection(false);
+			Thread runner = new Thread(() -> {
+				getApplication().setWaitCursor();
+				try {
+					getApplication().getSelectionManager()
+							.clearSelectedGeos(true, false);
+					getApplication().updateSelection(false);
 
-						// use reflection for
-						JDialog d = new GraphicExportDialog(getApplication(),
-								plotPanelEV);
-						d.setVisible(true);
+					// use reflection for
+					JDialog d = new GraphicExportDialog(getApplication(),
+							plotPanelEV);
+					d.setVisible(true);
 
-					} catch (Exception ex) {
-						Log.debug("GraphicExportDialog not available");
-					}
-					getApplication().setDefaultCursor();
+				} catch (Exception ex) {
+					Log.debug("GraphicExportDialog not available");
 				}
-			};
+				getApplication().setDefaultCursor();
+			});
 			runner.start();
 
 		}
@@ -458,14 +455,11 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 					false);
 			getApplication().updateSelection(false);
 
-			Thread runner = new Thread() {
-				@Override
-				public void run() {
-					getApplication().setWaitCursor();
-					getApplication().copyGraphicsViewToClipboard(plotPanelEV);
-					getApplication().setDefaultCursor();
-				}
-			};
+			Thread runner = new Thread(() -> {
+				getApplication().setWaitCursor();
+				getApplication().copyGraphicsViewToClipboard(plotPanelEV);
+				getApplication().setDefaultCursor();
+			});
 			runner.start();
 		}
 	};
@@ -544,8 +538,8 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD
 
 		@Override
 		public boolean isDataFlavorSupported(DataFlavor flavor) {
-			for (int i = 0; i < supportedFlavors.length; i++) {
-				if (flavor.equals(supportedFlavors[i])) {
+			for (DataFlavor supportedFlavor : supportedFlavors) {
+				if (flavor.equals(supportedFlavor)) {
 					return true;
 				}
 			}

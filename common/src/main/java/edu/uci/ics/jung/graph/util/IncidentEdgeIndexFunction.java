@@ -26,7 +26,7 @@ import edu.uci.ics.jung.graph.Graph;
  */
 public class IncidentEdgeIndexFunction<V, E>
 		implements EdgeIndexFunction<V, E> {
-	protected Map<E, Integer> edge_index = new HashMap<E, Integer>();
+	protected Map<E, Integer> edge_index = new HashMap<>();
 
 	private IncidentEdgeIndexFunction() {
 	}
@@ -40,7 +40,7 @@ public class IncidentEdgeIndexFunction<V, E>
 	 *            the edge type
 	 */
 	public static <V, E> IncidentEdgeIndexFunction<V, E> getInstance() {
-		return new IncidentEdgeIndexFunction<V, E>();
+		return new IncidentEdgeIndexFunction<>();
 	}
 
 	/**
@@ -60,11 +60,11 @@ public class IncidentEdgeIndexFunction<V, E>
 				index = getIndex(graph, e, u, v);
 			}
 		}
-		return index.intValue();
+		return index;
 	}
 
 	protected int getIndex(Graph<V, E> graph, E e, V u, V v) {
-		Collection<E> commonEdgeSet = new HashSet<E>(graph.getIncidentEdges(u));
+		Collection<E> commonEdgeSet = new HashSet<>(graph.getIncidentEdges(u));
 		int count = 0;
 		for (E other : commonEdgeSet) {
 			if (e.equals(other) == false) {
@@ -77,7 +77,7 @@ public class IncidentEdgeIndexFunction<V, E>
 	}
 
 	protected int getIndex(Graph<V, E> graph, E e, V v) {
-		Collection<E> commonEdgeSet = new HashSet<E>();
+		Collection<E> commonEdgeSet = new HashSet<>();
 		for (E another : graph.getIncidentEdges(v)) {
 			V u = graph.getOpposite(v, another);
 			if (u.equals(v)) {

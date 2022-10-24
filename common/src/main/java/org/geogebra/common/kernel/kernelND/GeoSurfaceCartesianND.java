@@ -952,8 +952,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement
 
 	@Override
 	public boolean isEqual(GeoElementND other) {
-		if (other instanceof GeoSurfaceCartesianND) {
-			GeoSurfaceCartesianND otherSurface = (GeoSurfaceCartesianND) other;
+		if (other instanceof GeoSurfaceCartesianND otherSurface) {
 			if (point != null && otherSurface.point != null) {
 				return isDifferenceZeroInCAS(other);
 			}

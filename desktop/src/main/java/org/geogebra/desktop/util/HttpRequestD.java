@@ -35,7 +35,7 @@ public class HttpRequestD extends HttpRequest {
 		}
 
 		else {
-			SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
+			SwingWorker<Void, Void> worker = new SwingWorker<>() {
 
 				@Override
 				protected Void doInBackground() throws Exception {

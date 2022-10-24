@@ -27,7 +27,7 @@ public class CmdCenterView extends CmdScripting {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
-		case 1:
+		case 1 -> {
 			GeoElement[] arg = resArgs(c);
 			if (arg[0].isGeoPoint()) {
 				GeoPointND p = (GeoPointND) arg[0];
@@ -38,9 +38,8 @@ public class CmdCenterView extends CmdScripting {
 
 			}
 			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

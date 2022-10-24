@@ -558,9 +558,9 @@ public class Complex {
 		double[] xgh = { x[0] + 5.5, x[1] };
 		double[] s = ONE_;
 		double[] anum = { x[0], x[1] };
-		for (int i = 0; i < c.length; ++i) {
+		for (double v : c) {
 			anum = add(anum, ONE_);
-			s = add(s, divide(c[i], anum));
+			s = add(s, divide(v, anum));
 		}
 		s = multiply(2.506628275, s);
 		// g = pow(xgh, xh) * s / exp(xgh);
@@ -821,9 +821,9 @@ public class Complex {
 		double[] xgh = { x[0] + 5.5, x[1] };
 		double[] s = ONE_;
 		double[] anum = { x[0], x[1] };
-		for (int i = 0; i < c.length; ++i) {
+		for (double v : c) {
 			anum = add(anum, ONE_);
-			s = add(s, divide(c[i], anum));
+			s = add(s, divide(v, anum));
 		}
 		s = multiply(2.506628275, s);
 		// g = xh * log(xgh) + log(s) - xgh;

@@ -19,9 +19,9 @@ public class TestMaterialCallback implements MaterialCallbackI {
 	@Override
 	public final void onLoaded(List<Material> result, ArrayList<Chapter> meta) {
 		loaded = true;
-		for (int i = 0; i < result.size(); i++) {
-			String title = result.get(i).getTitle();
-			if (handleMaterial(result.get(i))) {
+		for (Material material : result) {
+			String title = material.getTitle();
+			if (handleMaterial(material)) {
 				titles.add(title);
 			}
 		}

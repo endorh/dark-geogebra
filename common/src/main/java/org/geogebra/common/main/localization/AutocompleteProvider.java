@@ -1,6 +1,7 @@
 package org.geogebra.common.main.localization;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
@@ -91,9 +92,7 @@ public class AutocompleteProvider {
 
 			return;
 		}
-		for (String syntax : syntaxString.split("\\n")) {
-			syntaxes.add(syntax);
-		}
+		syntaxes.addAll(Arrays.asList(syntaxString.split("\\n")));
 	}
 
 	/**

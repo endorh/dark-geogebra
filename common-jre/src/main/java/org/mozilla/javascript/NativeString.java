@@ -130,52 +130,187 @@ final class NativeString extends IdScriptableObject
         String s;
         int arity;
         switch (id) {
-          case Id_constructor:       arity=1; s="constructor";       break;
-          case Id_toString:          arity=0; s="toString";          break;
-          case Id_toSource:          arity=0; s="toSource";          break;
-          case Id_valueOf:           arity=0; s="valueOf";           break;
-          case Id_charAt:            arity=1; s="charAt";            break;
-          case Id_charCodeAt:        arity=1; s="charCodeAt";        break;
-          case Id_indexOf:           arity=1; s="indexOf";           break;
-          case Id_lastIndexOf:       arity=1; s="lastIndexOf";       break;
-          case Id_split:             arity=2; s="split";             break;
-          case Id_substring:         arity=2; s="substring";         break;
-          case Id_toLowerCase:       arity=0; s="toLowerCase";       break;
-          case Id_toUpperCase:       arity=0; s="toUpperCase";       break;
-          case Id_substr:            arity=2; s="substr";            break;
-          case Id_concat:            arity=1; s="concat";            break;
-          case Id_slice:             arity=2; s="slice";             break;
-          case Id_bold:              arity=0; s="bold";              break;
-          case Id_italics:           arity=0; s="italics";           break;
-          case Id_fixed:             arity=0; s="fixed";             break;
-          case Id_strike:            arity=0; s="strike";            break;
-          case Id_small:             arity=0; s="small";             break;
-          case Id_big:               arity=0; s="big";               break;
-          case Id_blink:             arity=0; s="blink";             break;
-          case Id_sup:               arity=0; s="sup";               break;
-          case Id_sub:               arity=0; s="sub";               break;
-          case Id_fontsize:          arity=0; s="fontsize";          break;
-          case Id_fontcolor:         arity=0; s="fontcolor";         break;
-          case Id_link:              arity=0; s="link";              break;
-          case Id_anchor:            arity=0; s="anchor";            break;
-          case Id_equals:            arity=1; s="equals";            break;
-          case Id_equalsIgnoreCase:  arity=1; s="equalsIgnoreCase";  break;
-          case Id_match:             arity=1; s="match";             break;
-          case Id_search:            arity=1; s="search";            break;
-          case Id_replace:           arity=2; s="replace";           break;
-          case Id_localeCompare:     arity=1; s="localeCompare";     break;
-          case Id_toLocaleLowerCase: arity=0; s="toLocaleLowerCase"; break;
-          case Id_toLocaleUpperCase: arity=0; s="toLocaleUpperCase"; break;
-          case Id_trim:              arity=0; s="trim";              break;
-          case Id_trimLeft:          arity=0; s="trimLeft";          break;
-          case Id_trimRight:         arity=0; s="trimRight";         break;
-          case Id_includes:          arity=1; s="includes";          break;
-          case Id_startsWith:        arity=1; s="startsWith";        break;
-          case Id_endsWith:          arity=1; s="endsWith";          break;
-          case Id_normalize:         arity=0; s="normalize";         break;
-          case Id_repeat:            arity=1; s="repeat";            break;
-          case Id_codePointAt:       arity=1; s="codePointAt";       break;
-          default: throw new IllegalArgumentException(String.valueOf(id));
+        case Id_constructor -> {
+            arity = 1;
+            s = "constructor";
+        }
+        case Id_toString -> {
+            arity = 0;
+            s = "toString";
+        }
+        case Id_toSource -> {
+            arity = 0;
+            s = "toSource";
+        }
+        case Id_valueOf -> {
+            arity = 0;
+            s = "valueOf";
+        }
+        case Id_charAt -> {
+            arity = 1;
+            s = "charAt";
+        }
+        case Id_charCodeAt -> {
+            arity = 1;
+            s = "charCodeAt";
+        }
+        case Id_indexOf -> {
+            arity = 1;
+            s = "indexOf";
+        }
+        case Id_lastIndexOf -> {
+            arity = 1;
+            s = "lastIndexOf";
+        }
+        case Id_split -> {
+            arity = 2;
+            s = "split";
+        }
+        case Id_substring -> {
+            arity = 2;
+            s = "substring";
+        }
+        case Id_toLowerCase -> {
+            arity = 0;
+            s = "toLowerCase";
+        }
+        case Id_toUpperCase -> {
+            arity = 0;
+            s = "toUpperCase";
+        }
+        case Id_substr -> {
+            arity = 2;
+            s = "substr";
+        }
+        case Id_concat -> {
+            arity = 1;
+            s = "concat";
+        }
+        case Id_slice -> {
+            arity = 2;
+            s = "slice";
+        }
+        case Id_bold -> {
+            arity = 0;
+            s = "bold";
+        }
+        case Id_italics -> {
+            arity = 0;
+            s = "italics";
+        }
+        case Id_fixed -> {
+            arity = 0;
+            s = "fixed";
+        }
+        case Id_strike -> {
+            arity = 0;
+            s = "strike";
+        }
+        case Id_small -> {
+            arity = 0;
+            s = "small";
+        }
+        case Id_big -> {
+            arity = 0;
+            s = "big";
+        }
+        case Id_blink -> {
+            arity = 0;
+            s = "blink";
+        }
+        case Id_sup -> {
+            arity = 0;
+            s = "sup";
+        }
+        case Id_sub -> {
+            arity = 0;
+            s = "sub";
+        }
+        case Id_fontsize -> {
+            arity = 0;
+            s = "fontsize";
+        }
+        case Id_fontcolor -> {
+            arity = 0;
+            s = "fontcolor";
+        }
+        case Id_link -> {
+            arity = 0;
+            s = "link";
+        }
+        case Id_anchor -> {
+            arity = 0;
+            s = "anchor";
+        }
+        case Id_equals -> {
+            arity = 1;
+            s = "equals";
+        }
+        case Id_equalsIgnoreCase -> {
+            arity = 1;
+            s = "equalsIgnoreCase";
+        }
+        case Id_match -> {
+            arity = 1;
+            s = "match";
+        }
+        case Id_search -> {
+            arity = 1;
+            s = "search";
+        }
+        case Id_replace -> {
+            arity = 2;
+            s = "replace";
+        }
+        case Id_localeCompare -> {
+            arity = 1;
+            s = "localeCompare";
+        }
+        case Id_toLocaleLowerCase -> {
+            arity = 0;
+            s = "toLocaleLowerCase";
+        }
+        case Id_toLocaleUpperCase -> {
+            arity = 0;
+            s = "toLocaleUpperCase";
+        }
+        case Id_trim -> {
+            arity = 0;
+            s = "trim";
+        }
+        case Id_trimLeft -> {
+            arity = 0;
+            s = "trimLeft";
+        }
+        case Id_trimRight -> {
+            arity = 0;
+            s = "trimRight";
+        }
+        case Id_includes -> {
+            arity = 1;
+            s = "includes";
+        }
+        case Id_startsWith -> {
+            arity = 1;
+            s = "startsWith";
+        }
+        case Id_endsWith -> {
+            arity = 1;
+            s = "endsWith";
+        }
+        case Id_normalize -> {
+            arity = 0;
+            s = "normalize";
+        }
+        case Id_repeat -> {
+            arity = 1;
+            s = "repeat";
+        }
+        case Id_codePointAt -> {
+            arity = 1;
+            s = "codePointAt";
+        }
+        default -> throw new IllegalArgumentException(String.valueOf(id));
         }
         initPrototypeMethod(STRING_TAG, id, s, arity);
     }
@@ -212,8 +347,7 @@ final class NativeString extends IdScriptableObject
                         thisObj = ScriptRuntime.toObject(cx, scope,
                             ScriptRuntime.toCharSequence(args[0]));
                         Object[] newArgs = new Object[args.length - 1];
-                        for (int i = 0; i < newArgs.length; i++)
-                            newArgs[i] = args[i + 1];
+	                    System.arraycopy(args, 1, newArgs, 0, newArgs.length);
                         args = newArgs;
                     } else {
                         thisObj = ScriptRuntime.toObject(cx, scope,

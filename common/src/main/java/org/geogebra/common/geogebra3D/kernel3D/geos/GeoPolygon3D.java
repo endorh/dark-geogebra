@@ -531,11 +531,9 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 		}
 
 		// TODO remove that
-		if (!(PI instanceof GeoPoint3D)) {
+		if (!(PI instanceof GeoPoint3D P)) {
 			return;
 		}
-
-		GeoPoint3D P = (GeoPoint3D) PI;
 
 		PathParameter pp = P.getPathParameter();
 

@@ -30,7 +30,7 @@ public class CmdEnds extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
+		case 1 -> {
 			arg = resArgs(c);
 			if (arg[0] instanceof GeoQuadric3DLimited) {
 
@@ -38,11 +38,9 @@ public class CmdEnds extends CommandProcessor {
 						(GeoQuadric3DLimited) arg[0]);
 				return algo.getSections();
 			}
-
 			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 
 	}

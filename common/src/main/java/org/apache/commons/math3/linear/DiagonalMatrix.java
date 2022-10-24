@@ -360,11 +360,11 @@ public class DiagonalMatrix extends AbstractRealMatrix
      * @since 3.3
      */
     public boolean isSingular(double threshold) {
-        for (int i = 0; i < data.length; i++) {
-            if (Precision.equals(data[i], 0.0, threshold)) {
-                return true;
-            }
-        }
+	    for (double datum : data) {
+		    if (Precision.equals(datum, 0.0, threshold)) {
+			    return true;
+		    }
+	    }
         return false;
     }
 }

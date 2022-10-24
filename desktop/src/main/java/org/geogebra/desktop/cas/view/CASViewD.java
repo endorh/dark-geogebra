@@ -15,7 +15,6 @@ import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
-import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import org.geogebra.common.cas.view.CASInputHandler;
@@ -122,43 +121,37 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 
 		updateFonts();
 
-		Thread initCAS = new Thread() {
-			@Override
-			public void run() {
-				getCAS().initCurrentCAS();
-				GuiManagerD gm = (GuiManagerD) app.getGuiManager();
-				if (gm != null) {
-					gm.reInitHelpPanel(true);
-				}
-
+		Thread initCAS = new Thread(() -> {
+			getCAS().initCurrentCAS();
+			GuiManagerD gm = (GuiManagerD) app.getGuiManager();
+			if (gm != null) {
+				gm.reInitHelpPanel(true);
 			}
-		};
+
+		});
 		initCAS.start();
 	}
 
 	private ListSelectionListener selectionListener() {
-		return new ListSelectionListener() {
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				if (e.getValueIsAdjusting()) {
-					return;
-				}
+		return e -> {
+			if (e.getValueIsAdjusting()) {
+				return;
+			}
 
-				// table selection changed -> update stylebar
-				int[] selRows = getConsoleTable().getSelectedRows();
-				if (selRows.length > 0) {
-					// update list of selected objects in the stylebar
-					ArrayList<GeoElement> targetCells = new ArrayList<>();
-					for (int i = 0; i < getConsoleTable().getRowCount(); i++) {
-						GeoElement cell = getConsoleTable()
-								.getGeoCasCell(selRows[0]);
-						if (cell != null) {
-							targetCells.add(cell);
-						}
+			// table selection changed -> update stylebar
+			int[] selRows = getConsoleTable().getSelectedRows();
+			if (selRows.length > 0) {
+				// update list of selected objects in the stylebar
+				ArrayList<GeoElement> targetCells = new ArrayList<>();
+				for (int i = 0; i < getConsoleTable().getRowCount(); i++) {
+					GeoElement cell = getConsoleTable()
+							.getGeoCasCell(selRows[0]);
+					if (cell != null) {
+						targetCells.add(cell);
 					}
-					if (styleBar != null) {
-						styleBar.setSelectedRows(targetCells);
-					}
+				}
+				if (styleBar != null) {
+					styleBar.setSelectedRows(targetCells);
 				}
 			}
 		};
@@ -210,15 +203,12 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 		if (subDialog != null && subDialog.isShowing()) {
 			return;
 		}
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				CASSubDialogD d = new CASSubDialogD(getCASViewD(), prefix,
-						evalText, postfix, selRow);
-				d.setAlwaysOnTop(true);
-				d.setVisible(true);
-				setSubstituteDialog(d);
-			}
+		SwingUtilities.invokeLater(() -> {
+			CASSubDialogD d = new CASSubDialogD(getCASViewD(), prefix,
+					evalText, postfix, selRow);
+			d.setAlwaysOnTop(true);
+			d.setVisible(true);
+			setSubstituteDialog(d);
 		});
 	}
 

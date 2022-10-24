@@ -150,7 +150,7 @@ public class EpsGraphicsD extends EpsGraphics {
 					+ " mul string readhexstring pop} bind");
 			append("false 3 colorimage");
 		}
-		StringBuffer line = new StringBuffer();
+		StringBuilder line = new StringBuilder();
 		for (int y = 0; y < height; y++) {
 			for (int x = 0; x < width; x++) {
 				GColor color = GColor.newColorRGB(pixels[x + width * y]);
@@ -165,13 +165,12 @@ public class EpsGraphicsD extends EpsGraphics {
 					line.append(toHexString((color.getRed() + color.getGreen()
 							+ color.getBlue()) / 3));
 				} else {// TODO: no difference between RGB and CMYK
-					line.append(toHexString(color.getRed())
-							+ toHexString(color.getGreen())
-							+ toHexString(color.getBlue()));
+					line.append(toHexString(color.getRed())).append(toHexString(color.getGreen()))
+							.append(toHexString(color.getBlue()));
 				}
 				if (line.length() > 64) {
 					append(line.toString());
-					line = new StringBuffer();
+					line = new StringBuilder();
 				}
 			}
 		}

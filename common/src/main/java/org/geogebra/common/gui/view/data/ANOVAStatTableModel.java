@@ -35,8 +35,7 @@ public class ANOVAStatTableModel extends StatTableModel {
 
 			for (int i = 0; i < list.size(); i++) {
 				GeoElement geo = list.get(i);
-				if (geo instanceof NumberValue) {
-					NumberValue num = (NumberValue) geo;
+				if (geo instanceof NumberValue num) {
 					valueArray[i] = num.getDouble();
 				}
 			}
@@ -94,9 +93,7 @@ public class ANOVAStatTableModel extends StatTableModel {
 			SumOfSquares sumsq = new SumOfSquares();
 			int num = 0;
 
-			for (int i = 0; i < data.length; i++) {
-				double val = data[i];
-
+			for (double val : data) {
 				// within category
 				num++;
 				sum.increment(val);

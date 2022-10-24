@@ -226,8 +226,8 @@ public class AlgoListElement extends AlgoElement {
 
 		} else {
 
-			for (int k = 0; k < num2.length; k++) {
-				if (!num2[k].toGeoElement().isDefined()) {
+			for (GeoNumberValue geoNumberValue : num2) {
+				if (!geoNumberValue.toGeoElement().isDefined()) {
 					element.setUndefined();
 					return;
 				}
@@ -245,11 +245,10 @@ public class AlgoListElement extends AlgoElement {
 					return;
 				}
 			}
-			if (!(current instanceof GeoList)) { // not deep enough
+			if (!(current instanceof GeoList list)) { // not deep enough
 				element.setUndefined();
 				return;
 			}
-			GeoList list = (GeoList) current;
 
 			if (m >= 0 && m < list.size()) {
 				current = list.get(m);

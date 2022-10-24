@@ -29,15 +29,12 @@ public class CmdAxisStepX extends CommandProcessor {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
-		case 0:
-
+		case 0 -> {
 			AlgoAxisStep algo = new AlgoAxisStep(cons, c.getLabel(), axis);
-
-			GeoElement[] ret = { algo.getResult() };
+			GeoElement[] ret = {algo.getResult()};
 			return ret;
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

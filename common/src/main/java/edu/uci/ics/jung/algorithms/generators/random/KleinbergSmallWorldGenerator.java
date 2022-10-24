@@ -154,7 +154,7 @@ public class KleinbergSmallWorldGenerator<V, E>
 			int row_offset = row < row_count / 2 ? -row_count : row_count;
 			int col_offset = col < col_count / 2 ? -col_count : col_count;
 
-			Map<V, Float> vertex_weights = new HashMap<V, Float>();
+			Map<V, Float> vertex_weights = new HashMap<>();
 			for (int j = 0; j < row_count; j++) {
 				for (int k = 0; k < col_count; k++) {
 					if (j == row && k == col) {
@@ -178,7 +178,7 @@ public class KleinbergSmallWorldGenerator<V, E>
 			}
 
 			for (int j = 0; j < this.num_connections; j++) {
-				weighted_choice = new WeightedChoice<V>(vertex_weights, random);
+				weighted_choice = new WeightedChoice<>(vertex_weights, random);
 				V target = weighted_choice.nextItem();
 				graph.addEdge(edge_factory.create(), source, target);
 			}

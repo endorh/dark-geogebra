@@ -7,12 +7,10 @@ public enum ExtendedBoolean {
 	 * @return boolean value, default false
 	 */
 	final public boolean boolVal() {
-		switch (this) {
-		case TRUE:
-			return true;
-		default:
-			return false;
-		}
+		return switch (this) {
+			case TRUE -> true;
+			default -> false;
+		};
 
 	}
 

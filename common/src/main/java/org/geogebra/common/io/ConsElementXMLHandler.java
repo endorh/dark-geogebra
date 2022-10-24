@@ -214,11 +214,10 @@ public class ConsElementXMLHandler {
 	}
 
 	private boolean handleCurveParam(LinkedHashMap<String, String> attrs) {
-		if (!(geo instanceof GeoVec3D)) {
+		if (!(geo instanceof GeoVec3D v)) {
 			Log.debug("wrong element type for <curveParam>: " + geo.getClass());
 			return false;
 		}
-		GeoVec3D v = (GeoVec3D) geo;
 
 		try {
 			String tAttr = attrs.get("t");
@@ -352,12 +351,11 @@ public class ConsElementXMLHandler {
 	}
 
 	private void handleContentParam(LinkedHashMap<String, String> attrs) {
-		if (!(geo instanceof GeoInline)) {
+		if (!(geo instanceof GeoInline inlineText)) {
 			Log.error("wrong element type for <content>: " + geo.getClass());
 			return;
 		}
 
-		GeoInline inlineText = (GeoInline) geo;
 		inlineText.setContent(attrs.get("val"));
 	}
 
@@ -415,7 +413,7 @@ public class ConsElementXMLHandler {
 	}
 
 	private boolean handleVariables(LinkedHashMap<String, String> attrs) {
-		if (!(geo instanceof GeoSymbolic)) {
+		if (!(geo instanceof GeoSymbolic symbolic)) {
 			return false;
 		}
 		String variableString = attrs.get("val");
@@ -427,7 +425,6 @@ public class ConsElementXMLHandler {
 		for (int i = 0; i < variables.length; i++) {
 			fVars[i] = new FunctionVariable(xmlHandler.kernel, variables[i]);
 		}
-		GeoSymbolic symbolic = (GeoSymbolic) geo;
 		symbolic.setVariables(Arrays.asList(fVars));
 		return true;
 	}
@@ -461,31 +458,21 @@ public class ConsElementXMLHandler {
 
 	// for point or vector
 	private boolean handleCoordStyle(LinkedHashMap<String, String> attrs) {
-		if (!(geo instanceof CoordStyle)) {
+		if (!(geo instanceof CoordStyle v)) {
 			Log.error("wrong element type for <coordStyle>: " + geo.getClass());
 			return false;
 		}
-		CoordStyle v = (CoordStyle) geo;
 		String style = attrs.get("style");
 		switch (style) {
-		case "cartesian":
-			v.setCartesian();
-			break;
-		case "polar":
-			v.setPolar();
-			break;
-		case "complex":
-			v.setComplex();
-			break;
-		case "cartesian3d":
-			v.setCartesian3D();
-			break;
-		case "spherical":
-			v.setSpherical();
-			break;
-		default:
+		case "cartesian" -> v.setCartesian();
+		case "polar" -> v.setPolar();
+		case "complex" -> v.setComplex();
+		case "cartesian3d" -> v.setCartesian3D();
+		case "spherical" -> v.setSpherical();
+		default -> {
 			Log.error("unknown style in <coordStyle>: " + style);
 			return false;
+		}
 		}
 		return true;
 	}
@@ -1123,38 +1110,45 @@ public class ConsElementXMLHandler {
 		if (!"".equals(attrs.get("key")) && !"".equals(attrs.get("value"))
 				&& !"".equals(attrs.get("barNumber"))) {
 			switch (attrs.get("key")) {
-			case "barAlpha":
+			case "barAlpha" -> {
 				algo.setBarAlpha(Float.parseFloat(attrs.get("value")),
 						Integer.parseInt(attrs.get("barNumber")));
 				return true;
-			case "barHatchDistance":
+			}
+			case "barHatchDistance" -> {
 				algo.setBarHatchDistance(Integer.parseInt(attrs.get("value")),
 						Integer.parseInt(attrs.get("barNumber")));
 				return true;
-			case "barFillType":
+			}
+			case "barFillType" -> {
 				algo.setBarFillType(
 						FillType.values()[Integer.parseInt(attrs.get("value"))],
 						Integer.parseInt(attrs.get("barNumber")));
 				return true;
-			case "barHatchAngle":
+			}
+			case "barHatchAngle" -> {
 				algo.setBarHatchAngle(Integer.parseInt(attrs.get("value")),
 						Integer.parseInt(attrs.get("barNumber")));
 				return true;
-			case "barImage":
+			}
+			case "barImage" -> {
 				algo.setBarImage(attrs.get("value"),
 						Integer.parseInt(attrs.get("barNumber")));
 				return true;
-			case "barSymbol":
+			}
+			case "barSymbol" -> {
 				algo.setBarSymbol(attrs.get("value"),
 						Integer.parseInt(attrs.get("barNumber")));
 				return true;
-			case "barColor":
+			}
+			case "barColor" -> {
 				String[] c = attrs.get("value").split(",");
 				algo.setBarColor(
 						GColor.newColor(Integer.parseInt(c[0].substring(5)),
 								Integer.parseInt(c[1]), Integer.parseInt(c[2])),
 						Integer.parseInt(attrs.get("barNumber")));
 				return true;
+			}
 			}
 		}
 		return false;
@@ -1183,18 +1177,21 @@ public class ConsElementXMLHandler {
 
 			// old GeoEmbeds are represented by three rw points
 			String number = attrs.get("number");
-			if (geo instanceof GeoEmbed && number != null) {
-				GeoEmbed embed = (GeoEmbed) geo;
+			if (geo instanceof GeoEmbed embed && number != null) {
 
-				if ("0".equals(number)) {
+				switch (number) {
+				case "0" -> {
 					embedY = y;
 					return;
-				} else if ("1".equals(number)) {
+				}
+				case "1" -> {
 					embedX = x;
 					return;
-				} else if ("2".equals(number)) {
+				}
+				case "2" -> {
 					embed.setRealWidth(embedX - x);
 					embed.setRealHeight(y - embedY);
+				}
 				}
 			}
 
@@ -1203,12 +1200,10 @@ public class ConsElementXMLHandler {
 			return;
 		}
 
-		if (!(geo instanceof Locateable)) {
+		if (!(geo instanceof Locateable locGeo)) {
 			Log.error("wrong element type for <startPoint>: " + geo.getClass());
 			return;
 		}
-
-		Locateable locGeo = (Locateable) geo;
 
 		// relative start point (expression or label expected)
 		String exp = attrs.get("exp");
@@ -1271,8 +1266,7 @@ public class ConsElementXMLHandler {
 		String eval = attrs.get("eval");
 		String display = attrs.get("display");
 
-		if (geo instanceof GeoInputBox) {
-			GeoInputBox inputBox = (GeoInputBox) geo;
+		if (geo instanceof GeoInputBox inputBox) {
 
 			if (inputBox.getLinkedGeo().isGeoText() && !inputBox.getLinkedGeo().isLabelSet()) {
 				((GeoText) inputBox.getLinkedGeo()).setTextString(eval);
@@ -1755,27 +1749,28 @@ public class ConsElementXMLHandler {
 				int start = 0;
 				for (int c = 1; c < data.length(); c++) {
 					switch (data.charAt(c)) {
-					default:
-						// do nothing
-						break;
-					case '[':
+					default -> {
+					}
+					// do nothing
+					case '[' -> {
 						if (newRow.size() > 0) {
 							return false;
 						}
 						start = c + 1;
-						break;
-					case ']':
+					}
+					case ']' -> {
 						newRow.add(StringUtil
 								.parseDouble(data.substring(start, c)));
 						start = c + 1;
 						collect.add(newRow);
 						newRow = new ArrayList<>();
 						c++; // jump over ','
-						break;
-					case ',':
+					}
+					case ',' -> {
 						newRow.add(StringUtil
 								.parseDouble(data.substring(start, c)));
 						start = c + 1;
+					}
 					}
 				}
 				double[][] coeff = new double[collect.size()][];
@@ -2431,8 +2426,7 @@ public class ConsElementXMLHandler {
 			Log.error("malformed <contentSize>");
 		}
 
-		if (geo instanceof GeoEmbed) {
-			GeoEmbed geoEmbed = (GeoEmbed) geo;
+		if (geo instanceof GeoEmbed geoEmbed) {
 			geoEmbed.setContentWidth(width);
 			geoEmbed.setContentHeight(height);
 		} else {

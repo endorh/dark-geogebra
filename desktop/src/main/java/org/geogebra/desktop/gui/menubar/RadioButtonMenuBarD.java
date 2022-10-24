@@ -2,7 +2,6 @@ package org.geogebra.desktop.gui.menubar;
 
 import java.awt.Component;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ButtonGroup;
@@ -53,13 +52,7 @@ public class RadioButtonMenuBarD extends JMenu implements RadioButtonMenuBar {
 				if (alistener instanceof ActionListener) {
 					mi.addActionListener((ActionListener) alistener);
 				} else {
-					mi.addActionListener(new ActionListener() {
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							alistener.actionPerformed(e.getActionCommand());
-						}
-
-					});
+					mi.addActionListener(e -> alistener.actionPerformed(e.getActionCommand()));
 				}
 
 				buttonGroup.add(mi);

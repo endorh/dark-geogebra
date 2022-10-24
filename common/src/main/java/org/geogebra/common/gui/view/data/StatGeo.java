@@ -268,7 +268,7 @@ public class StatGeo {
 		double density = -1;
 
 		if (settings.getFrequencyType() == StatPanelSettings.TYPE_RELATIVE) {
-			density = 1.0 * settings.getClassWidth() / dataList.size();
+			density = settings.getClassWidth() / dataList.size();
 		} else if (settings
 				.getFrequencyType() == StatPanelSettings.TYPE_NORMALIZED) {
 			density = 1.0 / dataList.size();
@@ -585,17 +585,11 @@ public class StatGeo {
 	public GeoElement createFrequencyTableGeo(GeoNumeric chart,
 			PlotType plotType) throws Exception {
 
-		AlgoFrequencyTable al = null;
-		switch (plotType) {
-		case HISTOGRAM:
-			al = new AlgoFrequencyTable(cons, chart);
-			break;
-		case BARCHART:
-			al = new AlgoFrequencyTable(cons, chart);
-			break;
-		default:
-			throw new Exception("unexpected plotType: " + plotType);
-		}
+		AlgoFrequencyTable al = switch (plotType) {
+			case HISTOGRAM -> new AlgoFrequencyTable(cons, chart);
+			case BARCHART -> new AlgoFrequencyTable(cons, chart);
+			default -> throw new Exception("unexpected plotType: " + plotType);
+		};
 
 		removeFromConstructionList(al);
 		return al.getOutput(0);

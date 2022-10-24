@@ -101,8 +101,8 @@ public class ByteOrderOutputStream extends BitOutputStream
 	public void writeByte(byte[] bytes) throws IOException {
 
 		byteAlign();
-		for (int i = 0; i < bytes.length; i++) {
-			write(bytes[i]);
+		for (byte aByte : bytes) {
+			write(aByte);
 		}
 	}
 
@@ -131,8 +131,8 @@ public class ByteOrderOutputStream extends BitOutputStream
 	public void writeUnsignedByte(int[] bytes) throws IOException {
 
 		byteAlign();
-		for (int i = 0; i < bytes.length; i++) {
-			write(bytes[i]);
+		for (int aByte : bytes) {
+			write(aByte);
 		}
 	}
 
@@ -162,8 +162,8 @@ public class ByteOrderOutputStream extends BitOutputStream
 	 */
 	public void writeShort(short[] shorts) throws IOException {
 
-		for (int i = 0; i < shorts.length; i++) {
-			writeShort(shorts[i]);
+		for (short aShort : shorts) {
+			writeShort(aShort);
 		}
 	}
 
@@ -197,8 +197,8 @@ public class ByteOrderOutputStream extends BitOutputStream
 	 */
 	public void writeUnsignedShort(int[] shorts) throws IOException {
 
-		for (int i = 0; i < shorts.length; i++) {
-			writeUnsignedShort(shorts[i]);
+		for (int aShort : shorts) {
+			writeUnsignedShort(aShort);
 		}
 	}
 
@@ -231,8 +231,8 @@ public class ByteOrderOutputStream extends BitOutputStream
 	 */
 	public void writeInt(int[] ints) throws IOException {
 
-		for (int i = 0; i < ints.length; i++) {
-			writeInt(ints[i]);
+		for (int anInt : ints) {
+			writeInt(anInt);
 		}
 	}
 
@@ -269,8 +269,8 @@ public class ByteOrderOutputStream extends BitOutputStream
 	 */
 	public void writeUnsignedInt(long[] ints) throws IOException {
 
-		for (int i = 0; i < ints.length; i++) {
-			writeUnsignedInt(ints[i]);
+		for (long anInt : ints) {
+			writeUnsignedInt(anInt);
 		}
 	}
 

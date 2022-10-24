@@ -121,8 +121,7 @@ public class MyCellRendererD extends DefaultTableCellRenderer {
 		Object c = formatHandler.getCellFormat(column, row,
 				CellFormat.FORMAT_BGCOLOR);
 
-		if (c instanceof GColor) {
-			GColor col = (GColor) c;
+		if (c instanceof GColor col) {
 			bgColor = ThemeD.awtColor(col);
 		} else {
 			bgColor = null;

@@ -68,15 +68,15 @@ public class ExtLogPen implements EMFConstants {
 
 	@Override
 	public String toString() {
-		StringBuffer s = new StringBuffer();
+		StringBuilder s = new StringBuilder();
 		s.append("  ExtLogPen\n");
-		s.append("    penStyle: " + Integer.toHexString(penStyle) + "\n");
-		s.append("    width: " + width + "\n");
-		s.append("    brushStyle: " + brushStyle + "\n");
-		s.append("    color: " + color + "\n");
-		s.append("    hatch: " + hatch + "\n");
+		s.append("    penStyle: ").append(Integer.toHexString(penStyle)).append("\n");
+		s.append("    width: ").append(width).append("\n");
+		s.append("    brushStyle: ").append(brushStyle).append("\n");
+		s.append("    color: ").append(color).append("\n");
+		s.append("    hatch: ").append(hatch).append("\n");
 		for (int i = 0; i < style.length; i++) {
-			s.append("      style[" + i + "]: " + style[i] + "\n");
+			s.append("      style[").append(i).append("]: ").append(style[i]).append("\n");
 		}
 		return s.toString();
 	}

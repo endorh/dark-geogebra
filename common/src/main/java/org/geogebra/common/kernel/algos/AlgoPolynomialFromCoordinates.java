@@ -13,6 +13,8 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Objects;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -216,20 +218,12 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 			boolean negativeCoeff = coeff < 0;
 
 			// build the expression x^k
-			ExpressionValue powerExp;
-			switch (k) {
-			case 0:
-				powerExp = null;
-				break;
-
-			case 1:
-				powerExp = fVar;
-				break;
-
-			default:
-				powerExp = new ExpressionNode(kernel, fVar, Operation.POWER,
+			ExpressionValue powerExp = switch (k) {
+				case 0 -> null;
+				case 1 -> fVar;
+				default -> new ExpressionNode(kernel, fVar, Operation.POWER,
 						new MyDouble(kernel, k));
-			}
+			};
 
 			// build the expression
 			// (coeff) * x^k
@@ -239,11 +233,7 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 			// coefficient was 0, eg FitPoly[{(1,-1),(0,0),(-1,-1),(2,-4)},3]
 			if (DoubleUtil.isEqual(coeff, 1.0)
 					|| (poly != null && DoubleUtil.isEqual(coeff, -1.0))) {
-				if (powerExp == null) {
-					partExp = new MyDouble(kernel, 1.0);
-				} else {
-					partExp = powerExp;
-				}
+				partExp = Objects.requireNonNullElseGet(powerExp, () -> new MyDouble(kernel, 1.0));
 			} else {
 				coeffMyDouble = coeff == -1 ? new MinusOne(kernel) : new MyDouble(kernel, coeff);
 				if (powerExp == null) {
@@ -291,11 +281,11 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 		BigDecimal[] cof = new BigDecimal[n];
 		BigDecimal[] s = new BigDecimal[n];
 		int k, j, i;
-		BigDecimal minusone = new BigDecimal(-1.0d);
+		BigDecimal minusone = BigDecimal.valueOf(-1.0d);
 		BigDecimal phi, ff, b;
 		for (i = 0; i < n; i++) {
-			x[i] = new BigDecimal(xx[i]);
-			y[i] = new BigDecimal(yy[i]);
+			x[i] = BigDecimal.valueOf(xx[i]);
+			y[i] = BigDecimal.valueOf(yy[i]);
 		}
 		// double[] s = new double[n];
 		for (i = 0; i < n; i++) {
@@ -309,14 +299,14 @@ public class AlgoPolynomialFromCoordinates extends AlgoElement {
 			s[n - 1] = s[n - 1].subtract(x[i]);
 		}
 		for (j = 0; j < n; j++) {
-			phi = new BigDecimal((double) n);
+			phi = BigDecimal.valueOf((double) n);
 			for (k = n - 1; k > 0; k--) {
-				BigDecimal kk = new BigDecimal((double) k);
+				BigDecimal kk = BigDecimal.valueOf((double) k);
 				phi = (kk.multiply(s[k])).add(x[j].multiply(phi));
 			}
 
 			// must specify a scale, otherwise 1/2 gives 1 not 0.5
-			ff = y[j].divide(phi, 50, BigDecimal.ROUND_HALF_UP);
+			ff = y[j].divide(phi, 50, RoundingMode.HALF_UP);
 
 			b = BigDecimal.ONE;
 			for (k = n - 1; k >= 0; k--) {

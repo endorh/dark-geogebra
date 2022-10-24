@@ -60,10 +60,10 @@ import com.himamis.retex.renderer.share.platform.graphics.Graphics2DInterface;
 public class HorizontalBox extends Box {
 
 	protected List<Integer> breakPositions;
-	protected ArrayList<Box> children = new ArrayList<Box>();
+	protected ArrayList<Box> children = new ArrayList<>();
 
 	public HorizontalBox(Box b, double w, TeXConstants.Align alignment) {
-		children = new ArrayList<Box>();
+		children = new ArrayList<>();
 		if (w != Double.POSITIVE_INFINITY) {
 			double rest = w - b.getWidth();
 			if (rest > 0) {
@@ -98,7 +98,7 @@ public class HorizontalBox extends Box {
 	}
 
 	public HorizontalBox(int n) {
-		children = new ArrayList<Box>(n);
+		children = new ArrayList<>(n);
 	}
 
 	public HorizontalBox() {
@@ -205,7 +205,7 @@ public class HorizontalBox extends Box {
 
 	public void addBreakPosition(int pos) {
 		if (breakPositions == null) {
-			breakPositions = new ArrayList<Integer>();
+			breakPositions = new ArrayList<>();
 		}
 		breakPositions.add(pos);
 	}
@@ -230,9 +230,9 @@ public class HorizontalBox extends Box {
 		}
 
 		if (breakPositions != null) {
-			for (int i = 0; i < breakPositions.size(); i++) {
-				if (breakPositions.get(i) > position + 1) {
-					hb2.addBreakPosition(breakPositions.get(i) - position - 1);
+			for (Integer breakPosition : breakPositions) {
+				if (breakPosition > position + 1) {
+					hb2.addBreakPosition(breakPosition - position - 1);
 				}
 			}
 		}

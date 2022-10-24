@@ -40,54 +40,31 @@ public enum Stat {
 	 * @return translation key
 	 */
 	public String getTranslationKey() {
-		switch (this) {
-		case LENGTH:
-			return "Length.short";
-		case MEAN:
-			return "Mean";
-		case SD:
-			return "StandardDeviation.short";
-		case SAMPLE_SD:
-			return "SampleStandardDeviation.short";
-		case SUM:
-			return "Sum";
-		case SIGMAXX:
-			return "Sum2";
-		case MIN:
-			return "Minimum.short";
-		case Q1:
-			return "LowerQuartile.short";
-		case MEDIAN:
-			return "Median";
-		case Q3:
-			return "UpperQuartile.short";
-		case MAX:
-			return "Maximum.short";
-		case MEANX:
-			return "MeanX";
-		case MEANY:
-			return "MeanY";
-		case SX:
-			return "Sx";
-		case SY:
-			return "Sy";
-		case PMCC:
-			return "CorrelationCoefficient.short";
-		case SPEARMAN:
-			return "Spearman.short";
-		case SXX:
-			return "Sxx";
-		case SYY:
-			return "Syy";
-		case SXY:
-			return "Sxy";
-		case RSQUARE:
-			return "RSquare.Short";
-		case SSE:
-			return "SumSquaredErrors.short";
-		default:
-			return null;
-		}
+		return switch (this) {
+			case LENGTH -> "Length.short";
+			case MEAN -> "Mean";
+			case SD -> "StandardDeviation.short";
+			case SAMPLE_SD -> "SampleStandardDeviation.short";
+			case SUM -> "Sum";
+			case SIGMAXX -> "Sum2";
+			case MIN -> "Minimum.short";
+			case Q1 -> "LowerQuartile.short";
+			case MEDIAN -> "Median";
+			case Q3 -> "UpperQuartile.short";
+			case MAX -> "Maximum.short";
+			case MEANX -> "MeanX";
+			case MEANY -> "MeanY";
+			case SX -> "Sx";
+			case SY -> "Sy";
+			case PMCC -> "CorrelationCoefficient.short";
+			case SPEARMAN -> "Spearman.short";
+			case SXX -> "Sxx";
+			case SYY -> "Syy";
+			case SXY -> "Sxy";
+			case RSQUARE -> "RSquare.Short";
+			case SSE -> "SumSquaredErrors.short";
+			default -> null;
+		};
 	}
 
 	public String getLocalizedName(Localization loc) {

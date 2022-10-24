@@ -84,9 +84,9 @@ public final class Util {
 	 */
 	public static int getNextHigestNumberInSortedList(int num, int[] nums) {
 
-		for (int i = 0; i < nums.length; i++) {
-			if (num <= nums[i]) {
-				return nums[i];
+		for (int j : nums) {
+			if (num <= j) {
+				return j;
 			}
 		}
 

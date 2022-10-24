@@ -71,7 +71,7 @@ public class KNeighborhoodFilter<V, E> implements Filter<V, E> {
 	 *            0 for in/out edges, 1 for in-edges, 2 for out-edges
 	 */
 	public KNeighborhoodFilter(V rootNode, int radiusK, EdgeType edgeType) {
-		this.rootNodes = new HashSet<V>();
+		this.rootNodes = new HashSet<>();
 		this.rootNodes.add(rootNode);
 		this.radiusK = radiusK;
 		this.edgeType = edgeType;
@@ -86,10 +86,10 @@ public class KNeighborhoodFilter<V, E> implements Filter<V, E> {
 		// generate a Set of Vertices we want
 		// add all to the UG
 		int currentDepth = 0;
-		List<V> currentVertices = new ArrayList<V>();
-		Set<V> visitedVertices = new HashSet<V>();
-		Set<E> visitedEdges = new HashSet<E>();
-		Set<V> acceptedVertices = new HashSet<V>();
+		List<V> currentVertices = new ArrayList<>();
+		Set<V> visitedVertices = new HashSet<>();
+		Set<E> visitedEdges = new HashSet<>();
+		Set<V> acceptedVertices = new HashSet<>();
 		// Copy, mark, and add all the root nodes to the new subgraph
 		for (V currentRoot : rootNodes) {
 
@@ -101,22 +101,14 @@ public class KNeighborhoodFilter<V, E> implements Filter<V, E> {
 		// Use BFS to locate the neighborhood around the root nodes within
 		// distance k
 		while (currentDepth < radiusK) {
-			newVertices = new ArrayList<V>();
+			newVertices = new ArrayList<>();
 			for (V currentVertex : currentVertices) {
 
-				Collection<E> edges = null;
-				switch (edgeType) {
-				default:
-				case IN_OUT:
-					edges = graph.getIncidentEdges(currentVertex);
-					break;
-				case IN:
-					edges = graph.getInEdges(currentVertex);
-					break;
-				case OUT:
-					edges = graph.getOutEdges(currentVertex);
-					break;
-				}
+				Collection<E> edges = switch (edgeType) {
+					case IN_OUT -> graph.getIncidentEdges(currentVertex);
+					case IN -> graph.getInEdges(currentVertex);
+					case OUT -> graph.getOutEdges(currentVertex);
+				};
 				for (E currentEdge : edges) {
 
 					V currentNeighbor = graph.getOpposite(currentVertex,

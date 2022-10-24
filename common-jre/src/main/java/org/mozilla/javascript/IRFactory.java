@@ -395,7 +395,7 @@ public final class IRFactory extends Parser
                 array.addChildToBack(transform(elem));
             } else {
                 if (skipIndexes == null) {
-                    skipIndexes = new ArrayList<Integer>();
+                    skipIndexes = new ArrayList<>();
                 }
                 skipIndexes.add(i);
             }
@@ -434,7 +434,7 @@ public final class IRFactory extends Parser
             pushScope((Scope)node);
         }
         try {
-            List<Node> kids = new ArrayList<Node>();
+            List<Node> kids = new ArrayList<>();
             for (Node kid : node) {
                 kids.add(transform((AstNode)kid));
             }
@@ -1982,10 +1982,7 @@ public final class IRFactory extends Parser
         int childType = child.getType();
 
         switch (childType) {
-          case Token.NAME:
-          case Token.GETPROP:
-          case Token.GETELEM:
-          case Token.GET_REF: {
+        case Token.NAME, Token.GETPROP, Token.GETELEM, Token.GET_REF -> {
             Node n = new Node(nodeType, child);
             int incrDecrMask = 0;
             if (nodeType == Token.DEC) {
@@ -1996,7 +1993,7 @@ public final class IRFactory extends Parser
             }
             n.putIntProp(Node.INCRDECR_PROP, incrDecrMask);
             return n;
-          }
+        }
         }
         throw Kit.codeBug();
     }
@@ -2240,31 +2237,30 @@ public final class IRFactory extends Parser
 
         int nodeType = left.getType();
         switch (nodeType) {
-          case Token.NAME: {
+        case Token.NAME -> {
             Node op = new Node(assignOp, left, right);
             Node lvalueLeft = Node.newString(Token.BINDNAME, left.getString());
             return new Node(Token.SETNAME, lvalueLeft, op);
-          }
-          case Token.GETPROP:
-          case Token.GETELEM: {
+        }
+        case Token.GETPROP, Token.GETELEM -> {
             Node obj = left.getFirstChild();
             Node id = left.getLastChild();
 
             int type = nodeType == Token.GETPROP
-                       ? Token.SETPROP_OP
-                       : Token.SETELEM_OP;
+                    ? Token.SETPROP_OP
+                    : Token.SETELEM_OP;
 
             Node opLeft = new Node(Token.USE_STACK);
             Node op = new Node(assignOp, opLeft, right);
             return new Node(type, obj, id, op);
-          }
-          case Token.GET_REF: {
+        }
+        case Token.GET_REF -> {
             ref = left.getFirstChild();
             checkMutableReference(ref);
             Node opLeft = new Node(Token.USE_STACK);
             Node op = new Node(assignOp, opLeft, right);
             return new Node(Token.SET_REF_OP, ref, op);
-          }
+        }
         }
 
         throw Kit.codeBug();

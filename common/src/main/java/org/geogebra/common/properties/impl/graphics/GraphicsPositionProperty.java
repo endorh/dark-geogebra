@@ -41,40 +41,26 @@ public class GraphicsPositionProperty implements ActionsEnumerableProperty {
         if (euclidianView.isXREnabled()) {
             if (callbacksAR == null) {
                 callbacksAR = new Runnable[]{
-                        new Runnable() {
-                            @Override
-                            public void run() {
-                                // restart AR session
-                                EuclidianView3D euclidianView3D = (EuclidianView3D) euclidianView;
-                                euclidianView3D.getRenderer().setARShouldRestart();
-                            }
-                        },
-                        new Runnable() {
-                            @Override
-                            public void run() {
-                                EuclidianView3D euclidianView3D = (EuclidianView3D) euclidianView;
-                                euclidianView3D.getRenderer().fitThicknessInAR();
-                            }
-                        }
+		                () -> {
+		                    // restart AR session
+		                    EuclidianView3D euclidianView3D = (EuclidianView3D) euclidianView;
+		                    euclidianView3D.getRenderer().setARShouldRestart();
+		                },
+		                () -> {
+		                    EuclidianView3D euclidianView3D = (EuclidianView3D) euclidianView;
+		                    euclidianView3D.getRenderer().fitThicknessInAR();
+		                }
                 };
             }
             return callbacksAR;
         } else {
             if (callbacks == null) {
                 callbacks = new Runnable[]{
-                        new Runnable() {
-                            @Override
-                            public void run() {
-                                euclidianView.setStandardView(true);
-                            }
-                        },
-                        new Runnable() {
-                            @Override
-                            public void run() {
-                                boolean keepRatio = app.getConfig().shouldKeepRatioEuclidian();
-                                euclidianView.setViewShowAllObjects(true, keepRatio);
-                            }
-                        }
+		                () -> euclidianView.setStandardView(true),
+		                () -> {
+		                    boolean keepRatio = app.getConfig().shouldKeepRatioEuclidian();
+		                    euclidianView.setViewShowAllObjects(true, keepRatio);
+		                }
                 };
             }
             return callbacks;

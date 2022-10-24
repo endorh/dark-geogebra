@@ -778,23 +778,16 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * whether to clear selection rectangle when mode selected
 	 */
 	final private static boolean clearRectangle(int mode) {
-		switch (mode) {
-		// case EuclidianConstants.MODE_PENCIL:
-		case EuclidianConstants.MODE_PEN:
-			return true; // changed
-		case EuclidianConstants.MODE_MIRROR_AT_LINE:
-			return false;
-		case EuclidianConstants.MODE_MIRROR_AT_POINT:
-			return false;
-		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
-			return false;
-		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
-			return false;
-		case EuclidianConstants.MODE_DILATE_FROM_POINT:
-			return false;
-		default:
-			return true;
-		}
+		return switch (mode) {
+			// case EuclidianConstants.MODE_PENCIL:
+			case EuclidianConstants.MODE_PEN -> true; // changed
+			case EuclidianConstants.MODE_MIRROR_AT_LINE -> false;
+			case EuclidianConstants.MODE_MIRROR_AT_POINT -> false;
+			case EuclidianConstants.MODE_ROTATE_BY_ANGLE -> false;
+			case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR -> false;
+			case EuclidianConstants.MODE_DILATE_FROM_POINT -> false;
+			default -> true;
+		};
 	}
 
 	/**
@@ -2177,8 +2170,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	private void setupPreviewsSpecsPointDrawable(GeoElement specialPoint) {
 		DrawableND drawable = getDrawableFor(specialPoint);
-		if (drawable instanceof DrawPoint) {
-			DrawPoint drawPoint = (DrawPoint) drawable;
+		if (drawable instanceof DrawPoint drawPoint) {
 			drawPoint.setPreview(true);
 		}
 	}
@@ -2656,14 +2648,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	@Override
 	public int getViewID() {
-		switch (evNo) {
-		case 1:
-			return App.VIEW_EUCLIDIAN;
-		case 2:
-			return App.VIEW_EUCLIDIAN2;
-		default:
-			return App.VIEW_NONE;
-		}
+		return switch (evNo) {
+			case 1 -> App.VIEW_EUCLIDIAN;
+			case 2 -> App.VIEW_EUCLIDIAN2;
+			default -> App.VIEW_NONE;
+		};
 	}
 
 	@Override
@@ -2851,20 +2840,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @return true if given mode can use selection rectangle as input
 	 */
 	final public static boolean usesSelectionAsInput(int mode) {
-		switch (mode) {
-		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
-			return false; // changed for new "drag" behaviour
-		case EuclidianConstants.MODE_MIRROR_AT_POINT:
-		case EuclidianConstants.MODE_MIRROR_AT_LINE:
-		case EuclidianConstants.MODE_DILATE_FROM_POINT:
-		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
-		case EuclidianConstants.MODE_PEN:
-			// case EuclidianConstants.MODE_PENCIL:
-			return true;
-
-		default:
-			return false;
-		}
+		return switch (mode) {
+			case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR ->
+					false; // changed for new "drag" behaviour
+			case EuclidianConstants.MODE_MIRROR_AT_POINT, EuclidianConstants.MODE_MIRROR_AT_LINE, EuclidianConstants.MODE_DILATE_FROM_POINT, EuclidianConstants.MODE_ROTATE_BY_ANGLE, EuclidianConstants.MODE_PEN ->
+				// case EuclidianConstants.MODE_PENCIL:
+					true;
+			default -> false;
+		};
 	}
 
 	/**
@@ -2873,20 +2856,15 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @return true if mode can handle selection rectangle as input
 	 */
 	final public static boolean usesSelectionRectangleAsInput(int mode) {
-		switch (mode) {
-		case EuclidianConstants.MODE_FITLINE:
-		case EuclidianConstants.MODE_CREATE_LIST:
+		return switch (mode) {
 			// case EuclidianConstants.MODE_PEN:
-		case EuclidianConstants.MODE_MIRROR_AT_LINE:
-		case EuclidianConstants.MODE_MIRROR_AT_POINT:
-		case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
-		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
-		case EuclidianConstants.MODE_DILATE_FROM_POINT:
-		case EuclidianConstants.MODE_COPY_VISUAL_STYLE:
-			return true;
-		default:
-			return false;
-		}
+			case EuclidianConstants.MODE_FITLINE, EuclidianConstants.MODE_CREATE_LIST,
+					EuclidianConstants.MODE_MIRROR_AT_LINE, EuclidianConstants.MODE_MIRROR_AT_POINT,
+					EuclidianConstants.MODE_ROTATE_BY_ANGLE, EuclidianConstants.MODE_TRANSLATE_BY_VECTOR,
+					EuclidianConstants.MODE_DILATE_FROM_POINT, EuclidianConstants.MODE_COPY_VISUAL_STYLE ->
+					true;
+			default -> false;
+		};
 	}
 
 	// getters and Setters for axis control vars
@@ -3041,9 +3019,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public String[] getAxesLabels(boolean addBoldItalicTags) {
 		String[] ret = new String[axesLabels.length];
 
-		for (int axis = 0; axis < axesLabels.length; axis++) {
-			ret[axis] = axesLabels[axis];
-		}
+		System.arraycopy(axesLabels, 0, ret, 0, axesLabels.length);
 
 		if (addBoldItalicTags) {
 			for (int axis = 0; axis < axesLabels.length; axis++) {
@@ -3193,9 +3169,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	@Override
 	public void setAxesUnitLabels(String[] axesUnitLabels) {
-		for (int i = 0; i < this.axesUnitLabels.length; i++) {
-			this.axesUnitLabels[i] = axesUnitLabels[i];
-		}
+		System.arraycopy(axesUnitLabels, 0, this.axesUnitLabels, 0, this.axesUnitLabels.length);
 
 		// check if pi is an axis unit
 		for (int i = 0; i < getDimension(); i++) {
@@ -3976,23 +3950,11 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		g2.setStroke(gridStroke);
 
 		switch (gridType) {
-
-		case GRID_CARTESIAN:
-
-			drawGrid.drawCartesianGrid(g2, xCrossPix, yCrossPix, false);
-
-			break;
-		case GRID_CARTESIAN_WITH_SUBGRID:
-
-			drawGrid.drawCartesianGrid(g2, xCrossPix, yCrossPix, true);
-
-			break;
-
-		case GRID_ISOMETRIC:
-			drawIsometricGrid(g2, xCrossPix, yCrossPix);
-			break;
-
-		case GRID_POLAR: // G.Sturr 2010-8-13
+		case GRID_CARTESIAN -> drawGrid.drawCartesianGrid(g2, xCrossPix, yCrossPix, false);
+		case GRID_CARTESIAN_WITH_SUBGRID ->
+				drawGrid.drawCartesianGrid(g2, xCrossPix, yCrossPix, true);
+		case GRID_ISOMETRIC -> drawIsometricGrid(g2, xCrossPix, yCrossPix);
+		case GRID_POLAR -> { // G.Sturr 2010-8-13
 
 			// find minimum grid radius
 			double min;
@@ -4013,11 +3975,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			// max = max distance of origin to screen corners
 			double d1 = MyMath.length(getXZero(), getYZero()); // upper left
 			double d2 = MyMath.length(getXZero(), getYZero() - getHeight()); // lower
-																				// left
+
+			// left
 			double d3 = MyMath.length(getXZero() - getWidth(), getYZero()); // upper
-																			// right
+
+			// right
 			double d4 = MyMath.length(getXZero() - getWidth(), getYZero()
 					- getHeight()); // lower
+
 			// right
 			double max = Math.max(Math.max(d1, d2), Math.max(d3, d4));
 
@@ -4036,8 +4001,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			// draw the radial grid lines
 			double angleStep = gridDistances[2];
 			double y1,
-			y2,
-			m;
+					y2,
+					m;
 
 			// horizontal axis
 			tempLine.setLine(0, getYZero(), getWidth(), getYZero());
@@ -4057,8 +4022,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				}
 				g2.draw(tempLine);
 			}
-
-			break;
+		}
 		}
 
 	}
@@ -4193,8 +4157,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		DrawDropDownList selected = null;
 		DrawDropDownList opened = null;
 		for (Drawable d : allDrawableList) {
-			if (d instanceof DrawDropDownList) {
-				DrawDropDownList dl = (DrawDropDownList) d;
+			if (d instanceof DrawDropDownList dl) {
 				dl.updateIfNeeded();
 
 				if (selected == null && dl.isSelected()) {
@@ -5249,9 +5212,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		GeoElement geo1 = kernel.lookupLabel(EXPORT1);
 		GeoElement geo2 = kernel.lookupLabel(EXPORT2);
 
-		if (geo1 instanceof GeoPoint && geo2 instanceof GeoPoint) {
-			GeoPoint export1 = (GeoPoint) geo1;
-			GeoPoint export2 = (GeoPoint) geo2;
+		if (geo1 instanceof GeoPoint export1 && geo2 instanceof GeoPoint export2) {
 
 			double[] ret = new double[4];
 			double[] xy1 = new double[2];
@@ -5318,12 +5279,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		tempArrayList.clear();
 		tempArrayList.add(geo);
 
-		AsyncOperation<Boolean> callback = new AsyncOperation<Boolean>() {
-			@Override
-			public void callback(Boolean arg) {
-				if (arg.equals(true)) {
-					euclidianController.storeUndoInfo();
-				}
+		AsyncOperation<Boolean> callback = arg -> {
+			if (arg.equals(true)) {
+				euclidianController.storeUndoInfo();
 			}
 		};
 		boolean changedKernel = euclidianController.processMode(tempArrayList,
@@ -6103,8 +6061,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public void closeDropDowns(int x, int y) {
 		boolean repaintNeeded = false;
 		for (Drawable d : allDrawableList) {
-			if (d instanceof DrawDropDownList) {
-				DrawDropDownList dl = (DrawDropDownList) d;
+			if (d instanceof DrawDropDownList dl) {
 				if (!(dl.isControlHit(x, y) || dl.isOptionsHit(x, y))) {
 					dl.closeOptions();
 					repaintNeeded = true;
@@ -6122,8 +6079,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 */
 	public void closeAllDropDowns() {
 		for (Drawable d : allDrawableList) {
-			if (d instanceof DrawDropDownList) {
-				DrawDropDownList dl = (DrawDropDownList) d;
+			if (d instanceof DrawDropDownList dl) {
 				dl.closeOptions();
 			}
 		}

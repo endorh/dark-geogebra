@@ -107,8 +107,7 @@ public class CommandMathStyles {
 		public final boolean init(TeXParser tp) {
 			tp.close();
 			final AtomConsumer ac = tp.peek();
-			if (ac instanceof OpenBracket) {
-				final OpenBracket ob = (OpenBracket) ac;
+			if (ac instanceof final OpenBracket ob) {
 				if (ob.opener == opener) {
 					tp.popMode();
 					tp.closeConsumer(new MathAtom(ob.ra.simplify(), style));

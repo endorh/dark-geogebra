@@ -464,7 +464,7 @@ public class DataAnalysisViewD extends JPanel
 	}
 
 	public void doPrint() {
-		List<Printable> l = new ArrayList<Printable>();
+		List<Printable> l = new ArrayList<>();
 		l.add(this);
 		PrintPreviewD.get(app, App.VIEW_DATA_ANALYSIS, PageFormat.LANDSCAPE)
 				.setVisible(true);

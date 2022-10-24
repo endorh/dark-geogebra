@@ -74,8 +74,8 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 	protected void initElements() {
 		super.initElements();
 
-		for (int i = 0; i < P.length; i++) {
-			setOutputDependencies(P[i]);
+		for (org.geogebra.common.kernel.geos.GeoPoint geoPoint : P) {
+			setOutputDependencies(geoPoint);
 		}
 
 		tMin = g.getMinParameter();
@@ -131,26 +131,22 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 		numberOfOutputLines = 0;
 		initCurrentPartIsInRegion();
 
-		switch (intersectionType) {
-		case INTERSECTION_PRODUCING_LINE: // contained in degenerate conic
-		case INTERSECTION_ASYMPTOTIC_LINE: // intersect at no point
-		case INTERSECTION_PASSING_LINE: // intersect at no point
+		switch (intersectionType) { // contained in degenerate conic
+		// intersect at no point
+		case INTERSECTION_PRODUCING_LINE, INTERSECTION_ASYMPTOTIC_LINE, INTERSECTION_PASSING_LINE -> { // intersect at no point
 			lines[1].setUndefined();
 			lines[2].setUndefined();
 			lines[3].setUndefined();
-
 			if (!currentPartIsInRegion) {
 				lines[0].setUndefined();
 			} else {
 				lines[0].set(g);
 				numberOfOutputLines++;
 			}
-			break;
-		default:
-		case INTERSECTION_MEETING_LINE:
+		}
+		case INTERSECTION_MEETING_LINE -> {
 			lines[0].setUndefined();
 			lines[2].setUndefined();
-
 			if (currentPartIsInRegion) {
 				lines[3].setUndefined();
 				// set line[1]
@@ -186,12 +182,10 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 					}
 				}
 			}
-			break;
-
-		case INTERSECTION_TANGENT_LINE: // tangent at one point
+		}
+		case INTERSECTION_TANGENT_LINE -> { // tangent at one point
 
 			lines[0].setUndefined();
-
 			if (currentPartIsInRegion) {
 				// set line[1] and line[3]
 				double t = g.getPossibleParameter(Q[0].getCoords());
@@ -225,8 +219,8 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 				lines[1].setUndefined();
 				lines[3].setUndefined();
 			}
-			break;
-		case INTERSECTION_SECANT_LINE: // intersect at two points
+		}
+		case INTERSECTION_SECANT_LINE -> { // intersect at two points
 
 			// get parameters of two intersection points
 			double t1 = g.getPossibleParameter(Q[0].getCoords());
@@ -242,7 +236,6 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 				j1 = 0;
 				j0 = 1;
 			}
-
 			lines[0].setUndefined();
 			if (currentPartIsInRegion) {
 				lines[2].setUndefined();
@@ -288,7 +281,7 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 					numberOfOutputLines++;
 				}
 			}
-			break;
+		}
 		}
 
 		refreshOutput();
@@ -314,9 +307,9 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 		super.setOutputLength(numberOfOutputLines);
 
 		int index = 0;
-		for (int i = 0; i < lines.length; i++) {
-			if (lines[i].isDefined()) {
-				super.setOutput(index, lines[i]);
+		for (GeoLine line : lines) {
+			if (line.isDefined()) {
+				super.setOutput(index, line);
 				index++;
 			}
 		}
@@ -339,21 +332,15 @@ public class AlgoIntersectLineConicRegion extends AlgoIntersectLineConic {
 
 	void initCurrentPartIsInRegion() {
 
-		switch (intersectionType) {
-		case INTERSECTION_PRODUCING_LINE: // contained in degenerate conic
-		case INTERSECTION_ASYMPTOTIC_LINE: // intersect at no point
-		case INTERSECTION_PASSING_LINE: // intersect at no point
-			numberOfLineParts = 1;
-			break;
-		case INTERSECTION_MEETING_LINE:
-			numberOfLineParts = 2;
-			break;
-		case INTERSECTION_TANGENT_LINE: // tangent at one point
-		case INTERSECTION_SECANT_LINE: // intersect at two points
-			numberOfLineParts = 3;
-			break;
-		default:
-			numberOfLineParts = -1;
+		switch (intersectionType) { // contained in degenerate conic
+		// intersect at no point
+		case INTERSECTION_PRODUCING_LINE, INTERSECTION_ASYMPTOTIC_LINE, INTERSECTION_PASSING_LINE -> // intersect at no point
+				numberOfLineParts = 1;
+		case INTERSECTION_MEETING_LINE -> numberOfLineParts = 2;
+		// tangent at one point
+		case INTERSECTION_TANGENT_LINE, INTERSECTION_SECANT_LINE -> // intersect at two points
+				numberOfLineParts = 3;
+		default -> numberOfLineParts = -1;
 		}
 
 		// decide whether the full line starts inside or outside the region

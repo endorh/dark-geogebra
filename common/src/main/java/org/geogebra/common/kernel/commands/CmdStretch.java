@@ -35,9 +35,8 @@ public class CmdStretch extends CommandProcessor {
 		GeoElement[] ret;
 
 		switch (n) {
-		case 2:
+		case 2 -> {
 			arg = resArgs(c);
-
 			if (arg[1] instanceof GeoVector) {
 
 				if (arg[0].isMatrixTransformable() || arg[0].isGeoFunction()
@@ -50,9 +49,9 @@ public class CmdStretch extends CommandProcessor {
 				throw argErr(c, arg[0]);
 			}
 			throw argErr(c, arg[1]);
-		case 3:
+		}
+		case 3 -> {
 			arg = resArgs(c);
-
 			if ((arg[1] instanceof GeoLine) && arg[2].isGeoNumeric()) {
 
 				if (arg[0].isMatrixTransformable() || arg[0].isGeoFunction()
@@ -69,9 +68,8 @@ public class CmdStretch extends CommandProcessor {
 				throw argErr(c, arg[1]);
 			}
 			throw argErr(c, arg[2]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

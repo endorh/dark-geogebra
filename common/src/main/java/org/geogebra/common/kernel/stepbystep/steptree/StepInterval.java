@@ -70,8 +70,7 @@ public class StepInterval extends StepLogical {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof StepInterval) {
-			StepInterval si = (StepInterval) obj;
+		if (obj instanceof StepInterval si) {
 			return si.leftClosed == leftClosed && si.rightClosed == rightClosed
 					&& si.leftBound.equals(leftBound)
 					&& si.rightBound.equals(rightBound);

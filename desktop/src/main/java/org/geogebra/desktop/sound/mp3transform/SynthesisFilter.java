@@ -323,7 +323,7 @@ final class SynthesisFilter {
 		// double[] x2 = actual_v + actual_write_pos;
 		double[] dest = actualV;
 		int pos = actualWritePos;
-		dest[0 + pos] = nv0;
+		dest[pos] = nv0;
 		dest[16 + pos] = nv1;
 		dest[32 + pos] = nv2;
 		dest[48 + pos] = nv3;
@@ -359,7 +359,7 @@ final class SynthesisFilter {
 		dest[496 + pos] = -nv1;
 		// insert V[32] (== -nv[0]) into other v:
 		dest = (actualV == v1) ? v2 : v1;
-		dest[0 + pos] = -nv0;
+		dest[pos] = -nv0;
 		// insert V[33-48] (== nv[16-31]) into other v:
 		dest[16 + pos] = nv16;
 		dest[32 + pos] = nv17;
@@ -401,7 +401,7 @@ final class SynthesisFilter {
 		int dvp = 0;
 		for (int i = 0; i < 32; i++) {
 			final double[] dp = D16[i];
-			double pcmSample = (((vp[0 + dvp] * dp[0]) + (vp[15 + dvp] * dp[1])
+			double pcmSample = (((vp[dvp] * dp[0]) + (vp[15 + dvp] * dp[1])
 					+ (vp[14 + dvp] * dp[2]) + (vp[13 + dvp] * dp[3])
 					+ (vp[12 + dvp] * dp[4]) + (vp[11 + dvp] * dp[5])
 					+ (vp[10 + dvp] * dp[6]) + (vp[9 + dvp] * dp[7])
@@ -421,7 +421,7 @@ final class SynthesisFilter {
 		int dvp = 0;
 		for (int i = 0; i < 32; i++) {
 			final double[] dp = D16[i];
-			double pcmSample = (((vp[1 + dvp] * dp[0]) + (vp[0 + dvp] * dp[1])
+			double pcmSample = (((vp[1 + dvp] * dp[0]) + (vp[dvp] * dp[1])
 					+ (vp[15 + dvp] * dp[2]) + (vp[14 + dvp] * dp[3])
 					+ (vp[13 + dvp] * dp[4]) + (vp[12 + dvp] * dp[5])
 					+ (vp[11 + dvp] * dp[6]) + (vp[10 + dvp] * dp[7])
@@ -442,7 +442,7 @@ final class SynthesisFilter {
 		for (int i = 0; i < 32; i++) {
 			final double[] dp = D16[i];
 			double pcmSample = (((vp[2 + dvp] * dp[0]) + (vp[1 + dvp] * dp[1])
-					+ (vp[0 + dvp] * dp[2]) + (vp[15 + dvp] * dp[3])
+					+ (vp[dvp] * dp[2]) + (vp[15 + dvp] * dp[3])
 					+ (vp[14 + dvp] * dp[4]) + (vp[13 + dvp] * dp[5])
 					+ (vp[12 + dvp] * dp[6]) + (vp[11 + dvp] * dp[7])
 					+ (vp[10 + dvp] * dp[8]) + (vp[9 + dvp] * dp[9])
@@ -462,7 +462,7 @@ final class SynthesisFilter {
 		for (int i = 0; i < 32; i++) {
 			final double[] dp = D16[i];
 			double pcmSample = (((vp[3 + dvp] * dp[0]) + (vp[2 + dvp] * dp[1])
-					+ (vp[1 + dvp] * dp[2]) + (vp[0 + dvp] * dp[3])
+					+ (vp[1 + dvp] * dp[2]) + (vp[dvp] * dp[3])
 					+ (vp[15 + dvp] * dp[4]) + (vp[14 + dvp] * dp[5])
 					+ (vp[13 + dvp] * dp[6]) + (vp[12 + dvp] * dp[7])
 					+ (vp[11 + dvp] * dp[8]) + (vp[10 + dvp] * dp[9])
@@ -483,7 +483,7 @@ final class SynthesisFilter {
 			final double[] dp = D16[i];
 			double pcmSample = (((vp[4 + dvp] * dp[0]) + (vp[3 + dvp] * dp[1])
 					+ (vp[2 + dvp] * dp[2]) + (vp[1 + dvp] * dp[3])
-					+ (vp[0 + dvp] * dp[4]) + (vp[15 + dvp] * dp[5])
+					+ (vp[dvp] * dp[4]) + (vp[15 + dvp] * dp[5])
 					+ (vp[14 + dvp] * dp[6]) + (vp[13 + dvp] * dp[7])
 					+ (vp[12 + dvp] * dp[8]) + (vp[11 + dvp] * dp[9])
 					+ (vp[10 + dvp] * dp[10]) + (vp[9 + dvp] * dp[11])
@@ -503,7 +503,7 @@ final class SynthesisFilter {
 			final double[] dp = D16[i];
 			double pcmSample = (((vp[5 + dvp] * dp[0]) + (vp[4 + dvp] * dp[1])
 					+ (vp[3 + dvp] * dp[2]) + (vp[2 + dvp] * dp[3])
-					+ (vp[1 + dvp] * dp[4]) + (vp[0 + dvp] * dp[5])
+					+ (vp[1 + dvp] * dp[4]) + (vp[dvp] * dp[5])
 					+ (vp[15 + dvp] * dp[6]) + (vp[14 + dvp] * dp[7])
 					+ (vp[13 + dvp] * dp[8]) + (vp[12 + dvp] * dp[9])
 					+ (vp[11 + dvp] * dp[10]) + (vp[10 + dvp] * dp[11])
@@ -524,7 +524,7 @@ final class SynthesisFilter {
 			double pcmSample = (((vp[6 + dvp] * dp[0]) + (vp[5 + dvp] * dp[1])
 					+ (vp[4 + dvp] * dp[2]) + (vp[3 + dvp] * dp[3])
 					+ (vp[2 + dvp] * dp[4]) + (vp[1 + dvp] * dp[5])
-					+ (vp[0 + dvp] * dp[6]) + (vp[15 + dvp] * dp[7])
+					+ (vp[dvp] * dp[6]) + (vp[15 + dvp] * dp[7])
 					+ (vp[14 + dvp] * dp[8]) + (vp[13 + dvp] * dp[9])
 					+ (vp[12 + dvp] * dp[10]) + (vp[11 + dvp] * dp[11])
 					+ (vp[10 + dvp] * dp[12]) + (vp[9 + dvp] * dp[13])
@@ -544,7 +544,7 @@ final class SynthesisFilter {
 			double pcmSample = (((vp[7 + dvp] * dp[0]) + (vp[6 + dvp] * dp[1])
 					+ (vp[5 + dvp] * dp[2]) + (vp[4 + dvp] * dp[3])
 					+ (vp[3 + dvp] * dp[4]) + (vp[2 + dvp] * dp[5])
-					+ (vp[1 + dvp] * dp[6]) + (vp[0 + dvp] * dp[7])
+					+ (vp[1 + dvp] * dp[6]) + (vp[dvp] * dp[7])
 					+ (vp[15 + dvp] * dp[8]) + (vp[14 + dvp] * dp[9])
 					+ (vp[13 + dvp] * dp[10]) + (vp[12 + dvp] * dp[11])
 					+ (vp[11 + dvp] * dp[12]) + (vp[10 + dvp] * dp[13])
@@ -565,7 +565,7 @@ final class SynthesisFilter {
 					+ (vp[6 + dvp] * dp[2]) + (vp[5 + dvp] * dp[3])
 					+ (vp[4 + dvp] * dp[4]) + (vp[3 + dvp] * dp[5])
 					+ (vp[2 + dvp] * dp[6]) + (vp[1 + dvp] * dp[7])
-					+ (vp[0 + dvp] * dp[8]) + (vp[15 + dvp] * dp[9])
+					+ (vp[dvp] * dp[8]) + (vp[15 + dvp] * dp[9])
 					+ (vp[14 + dvp] * dp[10]) + (vp[13 + dvp] * dp[11])
 					+ (vp[12 + dvp] * dp[12]) + (vp[11 + dvp] * dp[13])
 					+ (vp[10 + dvp] * dp[14]) + (vp[9 + dvp] * dp[15]))
@@ -585,7 +585,7 @@ final class SynthesisFilter {
 					+ (vp[7 + dvp] * dp[2]) + (vp[6 + dvp] * dp[3])
 					+ (vp[5 + dvp] * dp[4]) + (vp[4 + dvp] * dp[5])
 					+ (vp[3 + dvp] * dp[6]) + (vp[2 + dvp] * dp[7])
-					+ (vp[1 + dvp] * dp[8]) + (vp[0 + dvp] * dp[9])
+					+ (vp[1 + dvp] * dp[8]) + (vp[dvp] * dp[9])
 					+ (vp[15 + dvp] * dp[10]) + (vp[14 + dvp] * dp[11])
 					+ (vp[13 + dvp] * dp[12]) + (vp[12 + dvp] * dp[13])
 					+ (vp[11 + dvp] * dp[14]) + (vp[10 + dvp] * dp[15]))
@@ -606,7 +606,7 @@ final class SynthesisFilter {
 					+ (vp[6 + dvp] * dp[4]) + (vp[5 + dvp] * dp[5])
 					+ (vp[4 + dvp] * dp[6]) + (vp[3 + dvp] * dp[7])
 					+ (vp[2 + dvp] * dp[8]) + (vp[1 + dvp] * dp[9])
-					+ (vp[0 + dvp] * dp[10]) + (vp[15 + dvp] * dp[11])
+					+ (vp[dvp] * dp[10]) + (vp[15 + dvp] * dp[11])
 					+ (vp[14 + dvp] * dp[12]) + (vp[13 + dvp] * dp[13])
 					+ (vp[12 + dvp] * dp[14]) + (vp[11 + dvp] * dp[15]))
 					* scaleFactor);
@@ -626,7 +626,7 @@ final class SynthesisFilter {
 					+ (vp[7 + dvp] * dp[4]) + (vp[6 + dvp] * dp[5])
 					+ (vp[5 + dvp] * dp[6]) + (vp[4 + dvp] * dp[7])
 					+ (vp[3 + dvp] * dp[8]) + (vp[2 + dvp] * dp[9])
-					+ (vp[1 + dvp] * dp[10]) + (vp[0 + dvp] * dp[11])
+					+ (vp[1 + dvp] * dp[10]) + (vp[dvp] * dp[11])
 					+ (vp[15 + dvp] * dp[12]) + (vp[14 + dvp] * dp[13])
 					+ (vp[13 + dvp] * dp[14]) + (vp[12 + dvp] * dp[15]))
 					* scaleFactor);
@@ -647,7 +647,7 @@ final class SynthesisFilter {
 					+ (vp[6 + dvp] * dp[6]) + (vp[5 + dvp] * dp[7])
 					+ (vp[4 + dvp] * dp[8]) + (vp[3 + dvp] * dp[9])
 					+ (vp[2 + dvp] * dp[10]) + (vp[1 + dvp] * dp[11])
-					+ (vp[0 + dvp] * dp[12]) + (vp[15 + dvp] * dp[13])
+					+ (vp[dvp] * dp[12]) + (vp[15 + dvp] * dp[13])
 					+ (vp[14 + dvp] * dp[14]) + (vp[13 + dvp] * dp[15]))
 					* scaleFactor);
 			tmpOut[i] = pcmSample;
@@ -667,7 +667,7 @@ final class SynthesisFilter {
 					+ (vp[7 + dvp] * dp[6]) + (vp[6 + dvp] * dp[7])
 					+ (vp[5 + dvp] * dp[8]) + (vp[4 + dvp] * dp[9])
 					+ (vp[3 + dvp] * dp[10]) + (vp[2 + dvp] * dp[11])
-					+ (vp[1 + dvp] * dp[12]) + (vp[0 + dvp] * dp[13])
+					+ (vp[1 + dvp] * dp[12]) + (vp[dvp] * dp[13])
 					+ (vp[15 + dvp] * dp[14]) + (vp[14 + dvp] * dp[15]))
 					* scaleFactor);
 			tmpOut[i] = pcmSample;
@@ -688,7 +688,7 @@ final class SynthesisFilter {
 					+ (vp[6 + dvp] * dp[8]) + (vp[5 + dvp] * dp[9])
 					+ (vp[4 + dvp] * dp[10]) + (vp[3 + dvp] * dp[11])
 					+ (vp[2 + dvp] * dp[12]) + (vp[1 + dvp] * dp[13])
-					+ (vp[0 + dvp] * dp[14]) + (vp[15 + dvp] * dp[15]))
+					+ (vp[dvp] * dp[14]) + (vp[15 + dvp] * dp[15]))
 					* scaleFactor);
 			tmpOut[i] = pcmSample;
 			dvp += 16;
@@ -708,7 +708,7 @@ final class SynthesisFilter {
 					+ (vp[7 + dvp] * dp[8]) + (vp[6 + dvp] * dp[9])
 					+ (vp[5 + dvp] * dp[10]) + (vp[4 + dvp] * dp[11])
 					+ (vp[3 + dvp] * dp[12]) + (vp[2 + dvp] * dp[13])
-					+ (vp[1 + dvp] * dp[14]) + (vp[0 + dvp] * dp[15]))
+					+ (vp[1 + dvp] * dp[14]) + (vp[dvp] * dp[15]))
 					* scaleFactor);
 			tmpOut[i] = pcmSample;
 			dvp += 16;
@@ -717,55 +717,24 @@ final class SynthesisFilter {
 
 	private void computePcmSamples() {
 		switch (actualWritePos) {
-		case 0:
-			computePcmSamples0();
-			break;
-		case 1:
-			computePcmSamples1();
-			break;
-		case 2:
-			computePcmSamples2();
-			break;
-		case 3:
-			computePcmSamples3();
-			break;
-		case 4:
-			computePcmSamples4();
-			break;
-		case 5:
-			computePcmSamples5();
-			break;
-		case 6:
-			computePcmSamples6();
-			break;
-		case 7:
-			computePcmSamples7();
-			break;
-		case 8:
-			computePcmSamples8();
-			break;
-		case 9:
-			computePcmSamples9();
-			break;
-		case 10:
-			computePcmSamples10();
-			break;
-		case 11:
-			computePcmSamples11();
-			break;
-		case 12:
-			computePcmSamples12();
-			break;
-		case 13:
-			computePcmSamples13();
-			break;
-		case 14:
-			computePcmSamples14();
-			break;
-		case 15:
-			computePcmSamples15();
-			break;
-		default:
+		case 0 -> computePcmSamples0();
+		case 1 -> computePcmSamples1();
+		case 2 -> computePcmSamples2();
+		case 3 -> computePcmSamples3();
+		case 4 -> computePcmSamples4();
+		case 5 -> computePcmSamples5();
+		case 6 -> computePcmSamples6();
+		case 7 -> computePcmSamples7();
+		case 8 -> computePcmSamples8();
+		case 9 -> computePcmSamples9();
+		case 10 -> computePcmSamples10();
+		case 11 -> computePcmSamples11();
+		case 12 -> computePcmSamples12();
+		case 13 -> computePcmSamples13();
+		case 14 -> computePcmSamples14();
+		case 15 -> computePcmSamples15();
+		default -> {
+		}
 		}
 	}
 
@@ -773,9 +742,7 @@ final class SynthesisFilter {
 	 * Calculate 32 PCM samples and write them
 	 */
 	void calculatePcmSamples(double[] s, Decoder player) {
-		for (int i = 0; i < 32; i++) {
-			samples[i] = s[i];
-		}
+		System.arraycopy(s, 0, samples, 0, 32);
 		computeNewV();
 		computePcmSamples();
 		player.appendSamples(channel, tmpOutBuffer);

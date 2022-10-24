@@ -49,11 +49,11 @@ public String toString() {
     if (swigValue < swigValues.length && swigValue >= 0 && swigValues[swigValue].swigValue == swigValue) {
 		return swigValues[swigValue];
 	}
-    for (int i = 0; i < swigValues.length; i++) {
-		if (swigValues[i].swigValue == swigValue) {
-			return swigValues[i];
-		}
-	}
+	  for (gen_comp_subtypes value : swigValues) {
+		  if (value.swigValue == swigValue) {
+			  return value;
+		  }
+	  }
     throw new IllegalArgumentException("No enum " + gen_comp_subtypes.class + " with value " + swigValue);
   }
 

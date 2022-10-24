@@ -749,37 +749,36 @@ public abstract class RealVector {
      */
     public Iterator<Entry> iterator() {
         final int dim = getDimension();
-        return new Iterator<Entry>() {
+        return new Iterator<>() {
 
-            /** Current index. */
-            private int i = 0;
+	        /** Current index. */
+	        private int i = 0;
 
-            /** Current entry. */
-            private Entry e = new Entry();
+	        /** Current entry. */
+	        private Entry e = new Entry();
 
-            /** {@inheritDoc} */
-            public boolean hasNext() {
-                return i < dim;
-            }
+	        /** {@inheritDoc} */
+	        public boolean hasNext() {
+		        return i < dim;
+	        }
 
-            /** {@inheritDoc} */
-            public Entry next() {
-                if (i < dim) {
-                    e.setIndex(i++);
-                    return e;
-                } else {
-                    throw new NoSuchElementException();
-                }
-            }
+	        /** {@inheritDoc} */
+	        public Entry next() {
+		        if (i < dim) {
+			        e.setIndex(i++);
+			        return e;
+		        } else {
+			        throw new NoSuchElementException();
+		        }
+	        }
 
-            /**
-             * {@inheritDoc}
-             *
-             * @throws MathUnsupportedOperationException in all circumstances.
-             */
-            public void remove() throws MathUnsupportedOperationException {
-                throw new MathUnsupportedOperationException();
-            }
+	        /**
+	         * {@inheritDoc}
+	         * @throws MathUnsupportedOperationException in all circumstances.
+	         */
+	        public void remove() throws MathUnsupportedOperationException {
+		        throw new MathUnsupportedOperationException();
+	        }
         };
     }
 
@@ -1233,30 +1232,29 @@ public abstract class RealVector {
             @Override
             public Iterator<Entry> iterator() {
                 final Iterator<Entry> i = v.iterator();
-                return new Iterator<Entry>() {
-                    /** The current entry. */
-                    private final UnmodifiableEntry e = new UnmodifiableEntry();
+                return new Iterator<>() {
+	                /** The current entry. */
+	                private final UnmodifiableEntry e = new UnmodifiableEntry();
 
-                    /** {@inheritDoc} */
-                    public boolean hasNext() {
-                        return i.hasNext();
-                    }
+	                /** {@inheritDoc} */
+	                public boolean hasNext() {
+		                return i.hasNext();
+	                }
 
-                    /** {@inheritDoc} */
-                    public Entry next() {
-                        e.setIndex(i.next().getIndex());
-                        return e;
-                    }
+	                /** {@inheritDoc} */
+	                public Entry next() {
+		                e.setIndex(i.next().getIndex());
+		                return e;
+	                }
 
-                    /**
-                     * {@inheritDoc}
-                     *
-                     * @throws MathUnsupportedOperationException in all
-                     * circumstances.
-                     */
-                    public void remove() throws MathUnsupportedOperationException {
-                        throw new MathUnsupportedOperationException();
-                    }
+	                /**
+	                 * {@inheritDoc}
+	                 * @throws MathUnsupportedOperationException in all
+	                 * circumstances.
+	                 */
+	                public void remove() throws MathUnsupportedOperationException {
+		                throw new MathUnsupportedOperationException();
+	                }
                 };
             }
 
@@ -1265,31 +1263,30 @@ public abstract class RealVector {
             public Iterator<Entry> sparseIterator() {
                 final Iterator<Entry> i = v.sparseIterator();
 
-                return new Iterator<Entry>() {
-                    /** The current entry. */
-                    private final UnmodifiableEntry e = new UnmodifiableEntry();
+                return new Iterator<>() {
+	                /** The current entry. */
+	                private final UnmodifiableEntry e = new UnmodifiableEntry();
 
-                    /** {@inheritDoc} */
-                    public boolean hasNext() {
-                        return i.hasNext();
-                    }
+	                /** {@inheritDoc} */
+	                public boolean hasNext() {
+		                return i.hasNext();
+	                }
 
-                    /** {@inheritDoc} */
-                    public Entry next() {
-                        e.setIndex(i.next().getIndex());
-                        return e;
-                    }
+	                /** {@inheritDoc} */
+	                public Entry next() {
+		                e.setIndex(i.next().getIndex());
+		                return e;
+	                }
 
-                    /**
-                     * {@inheritDoc}
-                     *
-                     * @throws MathUnsupportedOperationException in all
-                     * circumstances.
-                     */
-                    public void remove()
-                        throws MathUnsupportedOperationException {
-                        throw new MathUnsupportedOperationException();
-                    }
+	                /**
+	                 * {@inheritDoc}
+	                 * @throws MathUnsupportedOperationException in all
+	                 * circumstances.
+	                 */
+	                public void remove()
+			                throws MathUnsupportedOperationException {
+		                throw new MathUnsupportedOperationException();
+	                }
                 };
             }
 

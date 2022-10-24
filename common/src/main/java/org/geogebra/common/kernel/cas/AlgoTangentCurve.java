@@ -81,15 +81,11 @@ public class AlgoTangentCurve extends AlgoElement implements TangentAlgo {
 
 		// check if P is defined as a point of the curve's graph
 		pointOnCurve = false;
-		if (P.getParentAlgorithm() instanceof AlgoPointOnPath) {
-			AlgoPointOnPath algoPOP = (AlgoPointOnPath) P.getParentAlgorithm();
+		if (P.getParentAlgorithm() instanceof AlgoPointOnPath algoPOP) {
 			pointOnCurve = algoPOP.getPath() == f;
-		} else if (P.getParentAlgorithm() instanceof AlgoDependentPoint) {
+		} else if (P.getParentAlgorithm() instanceof AlgoDependentPoint algoDP) {
 
 			// special code for curve(t)
-
-			AlgoDependentPoint algoDP = (AlgoDependentPoint) P
-					.getParentAlgorithm();
 
 			ExpressionNode en = algoDP.getExpression();
 

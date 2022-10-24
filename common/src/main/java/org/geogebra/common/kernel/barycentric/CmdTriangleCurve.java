@@ -37,7 +37,7 @@ public class CmdTriangleCurve extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 4:
+		case 4 -> {
 			GeoNumeric ta = null, tb = null, tc = null;
 			arg = new GeoElement[4];
 			for (int i = 0; i < 3; i++) {
@@ -64,23 +64,24 @@ public class CmdTriangleCurve extends CommandProcessor {
 					&& (ok[1] = arg[1] instanceof GeoPoint)
 					&& (ok[2] = arg[2] instanceof GeoPoint)
 					&& (ok[3] = arg[3].isGeoImplicitCurve()
-							&& arg[3].getParentAlgorithm() instanceof AlgoDependentImplicitPoly)) {
+					&& arg[3].getParentAlgorithm() instanceof AlgoDependentImplicitPoly)) {
 
 				AlgoTriangleCurve algo = new AlgoTriangleCurve(cons,
 						c.getLabel(), (GeoPoint) arg[0], (GeoPoint) arg[1],
 						(GeoPoint) arg[2], (GeoImplicit) arg[3], ta, tb, tc);
 
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 				clearLocal();
 				return ret;
 
 			}
 			clearLocal();
 			throw argErr(c, getBadArg(ok, arg));
-
-		default:
+		}
+		default -> {
 			clearLocal();
 			throw argNumErr(c);
+		}
 		}
 	}
 

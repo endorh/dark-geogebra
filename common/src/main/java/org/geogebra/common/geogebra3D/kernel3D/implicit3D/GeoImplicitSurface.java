@@ -477,8 +477,8 @@ public class GeoImplicitSurface extends GeoElement3D
 		}
 		StringBuilder sb = new StringBuilder();
 		sb.append("{");
-		for (int i = 0; i < coords.length; i++) {
-			sb.append(coords[i]);
+		for (double coord : coords) {
+			sb.append(coord);
 		}
 		sb.append("}");
 		return sb.toString();

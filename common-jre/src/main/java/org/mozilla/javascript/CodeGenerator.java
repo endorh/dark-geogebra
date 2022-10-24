@@ -498,143 +498,116 @@ class CodeGenerator extends Icode {
         Node child = node.getFirstChild();
         int savedStackDepth = stackDepth;
         switch (type) {
-
-          case Token.FUNCTION:
-            {
-                int fnIndex = node.getExistingIntProp(Node.FUNCTION_PROP);
-                FunctionNode fn = scriptOrFn.getFunctionNode(fnIndex);
-                // See comments in visitStatement for Token.FUNCTION case
-                if (fn.getFunctionType() != FunctionNode.FUNCTION_EXPRESSION) {
-                    throw Kit.codeBug();
-                }
-                addIndexOp(Icode_CLOSURE_EXPR, fnIndex);
-                stackChange(1);
+        case Token.FUNCTION -> {
+            int fnIndex = node.getExistingIntProp(Node.FUNCTION_PROP);
+            FunctionNode fn = scriptOrFn.getFunctionNode(fnIndex);
+            // See comments in visitStatement for Token.FUNCTION case
+            if (fn.getFunctionType() != FunctionNode.FUNCTION_EXPRESSION) {
+                throw Kit.codeBug();
             }
-            break;
-
-          case Token.LOCAL_LOAD:
-            {
-                int localIndex = getLocalBlockRef(node);
-                addIndexOp(Token.LOCAL_LOAD, localIndex);
-                stackChange(1);
-            }
-            break;
-
-          case Token.COMMA:
-            {
-                Node lastChild = node.getLastChild();
-                while (child != lastChild) {
-                    visitExpression(child, 0);
-                    addIcode(Icode_POP);
-                    stackChange(-1);
-                    child = child.getNext();
-                }
-                // Preserve tail context flag if any
-                visitExpression(child, contextFlags & ECF_TAIL);
-            }
-            break;
-
-          case Token.USE_STACK:
-            // Indicates that stack was modified externally,
-            // like placed catch object
+            addIndexOp(Icode_CLOSURE_EXPR, fnIndex);
             stackChange(1);
-            break;
-
-          case Token.REF_CALL:
-          case Token.CALL:
-          case Token.NEW:
-            {
-                if (type == Token.NEW) {
-                    visitExpression(child, 0);
-                } else {
-                    generateCallFunAndThis(child);
-                }
-                int argCount = 0;
-                while ((child = child.getNext()) != null) {
-                    visitExpression(child, 0);
-                    ++argCount;
-                }
-                int callType = node.getIntProp(Node.SPECIALCALL_PROP,
-                                               Node.NON_SPECIALCALL);
-                if (type != Token.REF_CALL && callType != Node.NON_SPECIALCALL) {
-                    // embed line number and source filename
-                    addIndexOp(Icode_CALLSPECIAL, argCount);
-                    addUint8(callType);
-                    addUint8(type == Token.NEW ? 1 : 0);
-                    addUint16(lineNumber & 0xFFFF);
-                } else {
-                    // Only use the tail call optimization if we're not in a try
-                    // or we're not generating debug info (since the
-                    // optimization will confuse the debugger)
-                    if (type == Token.CALL && (contextFlags & ECF_TAIL) != 0 &&
-                        !compilerEnv.isGenerateDebugInfo() && !itsInTryFlag)
-                    {
-                        type = Icode_TAIL_CALL;
-                    }
-                    addIndexOp(type, argCount);
-                }
-                // adjust stack
-                if (type == Token.NEW) {
-                    // new: f, args -> result
-                    stackChange(-argCount);
-                } else {
-                    // call: f, thisObj, args -> result
-                    // ref_call: f, thisObj, args -> ref
-                    stackChange(-1 - argCount);
-                }
-                if (argCount > itsData.itsMaxCalleeArgs) {
-                    itsData.itsMaxCalleeArgs = argCount;
-                }
-            }
-            break;
-
-          case Token.AND:
-          case Token.OR:
-            {
+        }
+        case Token.LOCAL_LOAD -> {
+            int localIndex = getLocalBlockRef(node);
+            addIndexOp(Token.LOCAL_LOAD, localIndex);
+            stackChange(1);
+        }
+        case Token.COMMA -> {
+            Node lastChild = node.getLastChild();
+            while (child != lastChild) {
                 visitExpression(child, 0);
-                addIcode(Icode_DUP);
-                stackChange(1);
-                int afterSecondJumpStart = iCodeTop;
-                int jump = (type == Token.AND) ? Token.IFNE : Token.IFEQ;
-                addGotoOp(jump);
-                stackChange(-1);
                 addIcode(Icode_POP);
                 stackChange(-1);
                 child = child.getNext();
-                // Preserve tail context flag if any
-                visitExpression(child, contextFlags & ECF_TAIL);
-                resolveForwardGoto(afterSecondJumpStart);
             }
-            break;
-
-          case Token.HOOK:
-            {
-                Node ifThen = child.getNext();
-                Node ifElse = ifThen.getNext();
+            // Preserve tail context flag if any
+            visitExpression(child, contextFlags & ECF_TAIL);
+        }
+        case Token.USE_STACK ->
+            // Indicates that stack was modified externally,
+            // like placed catch object
+                stackChange(1);
+        case Token.REF_CALL, Token.CALL, Token.NEW -> {
+            if (type == Token.NEW) {
                 visitExpression(child, 0);
-                int elseJumpStart = iCodeTop;
-                addGotoOp(Token.IFNE);
-                stackChange(-1);
-                // Preserve tail context flag if any
-                visitExpression(ifThen, contextFlags & ECF_TAIL);
-                int afterElseJumpStart = iCodeTop;
-                addGotoOp(Token.GOTO);
-                resolveForwardGoto(elseJumpStart);
-                stackDepth = savedStackDepth;
-                // Preserve tail context flag if any
-                visitExpression(ifElse, contextFlags & ECF_TAIL);
-                resolveForwardGoto(afterElseJumpStart);
+            } else {
+                generateCallFunAndThis(child);
             }
-            break;
-
-          case Token.GETPROP:
-          case Token.GETPROPNOWARN:
+            int argCount = 0;
+            while ((child = child.getNext()) != null) {
+                visitExpression(child, 0);
+                ++argCount;
+            }
+            int callType = node.getIntProp(Node.SPECIALCALL_PROP,
+                    Node.NON_SPECIALCALL);
+            if (type != Token.REF_CALL && callType != Node.NON_SPECIALCALL) {
+                // embed line number and source filename
+                addIndexOp(Icode_CALLSPECIAL, argCount);
+                addUint8(callType);
+                addUint8(type == Token.NEW ? 1 : 0);
+                addUint16(lineNumber & 0xFFFF);
+            } else {
+                // Only use the tail call optimization if we're not in a try
+                // or we're not generating debug info (since the
+                // optimization will confuse the debugger)
+                if (type == Token.CALL && (contextFlags & ECF_TAIL) != 0 &&
+                        !compilerEnv.isGenerateDebugInfo() && !itsInTryFlag) {
+                    type = Icode_TAIL_CALL;
+                }
+                addIndexOp(type, argCount);
+            }
+            // adjust stack
+            if (type == Token.NEW) {
+                // new: f, args -> result
+                stackChange(-argCount);
+            } else {
+                // call: f, thisObj, args -> result
+                // ref_call: f, thisObj, args -> ref
+                stackChange(-1 - argCount);
+            }
+            if (argCount > itsData.itsMaxCalleeArgs) {
+                itsData.itsMaxCalleeArgs = argCount;
+            }
+        }
+        case Token.AND, Token.OR -> {
+            visitExpression(child, 0);
+            addIcode(Icode_DUP);
+            stackChange(1);
+            int afterSecondJumpStart = iCodeTop;
+            int jump = (type == Token.AND) ? Token.IFNE : Token.IFEQ;
+            addGotoOp(jump);
+            stackChange(-1);
+            addIcode(Icode_POP);
+            stackChange(-1);
+            child = child.getNext();
+            // Preserve tail context flag if any
+            visitExpression(child, contextFlags & ECF_TAIL);
+            resolveForwardGoto(afterSecondJumpStart);
+        }
+        case Token.HOOK -> {
+            Node ifThen = child.getNext();
+            Node ifElse = ifThen.getNext();
+            visitExpression(child, 0);
+            int elseJumpStart = iCodeTop;
+            addGotoOp(Token.IFNE);
+            stackChange(-1);
+            // Preserve tail context flag if any
+            visitExpression(ifThen, contextFlags & ECF_TAIL);
+            int afterElseJumpStart = iCodeTop;
+            addGotoOp(Token.GOTO);
+            resolveForwardGoto(elseJumpStart);
+            stackDepth = savedStackDepth;
+            // Preserve tail context flag if any
+            visitExpression(ifElse, contextFlags & ECF_TAIL);
+            resolveForwardGoto(afterElseJumpStart);
+        }
+        case Token.GETPROP, Token.GETPROPNOWARN -> {
             visitExpression(child, 0);
             child = child.getNext();
             addStringOp(type, child.getString());
-            break;
-
-          case Token.DELPROP:
+        }
+        case Token.DELPROP -> {
             boolean isName = child.getType() == Token.BINDNAME;
             visitExpression(child, 0);
             child = child.getNext();
@@ -646,43 +619,15 @@ class CodeGenerator extends Icode {
                 addToken(Token.DELPROP);
             }
             stackChange(-1);
-            break;
-
-          case Token.GETELEM:
-          case Token.BITAND:
-          case Token.BITOR:
-          case Token.BITXOR:
-          case Token.LSH:
-          case Token.RSH:
-          case Token.URSH:
-          case Token.ADD:
-          case Token.SUB:
-          case Token.MOD:
-          case Token.DIV:
-          case Token.MUL:
-          case Token.EQ:
-          case Token.NE:
-          case Token.SHEQ:
-          case Token.SHNE:
-          case Token.IN:
-          case Token.INSTANCEOF:
-          case Token.LE:
-          case Token.LT:
-          case Token.GE:
-          case Token.GT:
+        }
+        case Token.GETELEM, Token.BITAND, Token.BITOR, Token.BITXOR, Token.LSH, Token.RSH, Token.URSH, Token.ADD, Token.SUB, Token.MOD, Token.DIV, Token.MUL, Token.EQ, Token.NE, Token.SHEQ, Token.SHNE, Token.IN, Token.INSTANCEOF, Token.LE, Token.LT, Token.GE, Token.GT -> {
             visitExpression(child, 0);
             child = child.getNext();
             visitExpression(child, 0);
             addToken(type);
             stackChange(-1);
-            break;
-
-          case Token.POS:
-          case Token.NEG:
-          case Token.NOT:
-          case Token.BITNOT:
-          case Token.TYPEOF:
-          case Token.VOID:
+        }
+        case Token.POS, Token.NEG, Token.NOT, Token.BITNOT, Token.TYPEOF, Token.VOID -> {
             visitExpression(child, 0);
             if (type == Token.VOID) {
                 addIcode(Icode_POP);
@@ -690,36 +635,28 @@ class CodeGenerator extends Icode {
             } else {
                 addToken(type);
             }
-            break;
-
-          case Token.GET_REF:
-          case Token.DEL_REF:
+        }
+        case Token.GET_REF, Token.DEL_REF -> {
             visitExpression(child, 0);
             addToken(type);
-            break;
-
-          case Token.SETPROP:
-          case Token.SETPROP_OP:
-            {
-                visitExpression(child, 0);
-                child = child.getNext();
-                String property = child.getString();
-                child = child.getNext();
-                if (type == Token.SETPROP_OP) {
-                    addIcode(Icode_DUP);
-                    stackChange(1);
-                    addStringOp(Token.GETPROP, property);
-                    // Compensate for the following USE_STACK
-                    stackChange(-1);
-                }
-                visitExpression(child, 0);
-                addStringOp(Token.SETPROP, property);
+        }
+        case Token.SETPROP, Token.SETPROP_OP -> {
+            visitExpression(child, 0);
+            child = child.getNext();
+            String property = child.getString();
+            child = child.getNext();
+            if (type == Token.SETPROP_OP) {
+                addIcode(Icode_DUP);
+                stackChange(1);
+                addStringOp(Token.GETPROP, property);
+                // Compensate for the following USE_STACK
                 stackChange(-1);
             }
-            break;
-
-          case Token.SETELEM:
-          case Token.SETELEM_OP:
+            visitExpression(child, 0);
+            addStringOp(Token.SETPROP, property);
+            stackChange(-1);
+        }
+        case Token.SETELEM, Token.SETELEM_OP -> {
             visitExpression(child, 0);
             child = child.getNext();
             visitExpression(child, 0);
@@ -735,10 +672,8 @@ class CodeGenerator extends Icode {
             visitExpression(child, 0);
             addToken(Token.SETELEM);
             stackChange(-2);
-            break;
-
-          case Token.SET_REF:
-          case Token.SET_REF_OP:
+        }
+        case Token.SET_REF, Token.SET_REF_OP -> {
             visitExpression(child, 0);
             child = child.getNext();
             if (type == Token.SET_REF_OP) {
@@ -751,195 +686,135 @@ class CodeGenerator extends Icode {
             visitExpression(child, 0);
             addToken(Token.SET_REF);
             stackChange(-1);
-            break;
-
-          case Token.STRICT_SETNAME:
-          case Token.SETNAME:
-            {
-                String name = child.getString();
-                visitExpression(child, 0);
-                child = child.getNext();
-                visitExpression(child, 0);
-                addStringOp(type, name);
-                stackChange(-1);
-            }
-            break;
-
-          case Token.SETCONST:
-            {
-                String name = child.getString();
-                visitExpression(child, 0);
-                child = child.getNext();
-                visitExpression(child, 0);
-                addStringOp(Icode_SETCONST, name);
-                stackChange(-1);
-            }
-            break;
-
-          case Token.TYPEOFNAME:
-            {
-                int index = -1;
-                // use typeofname if an activation frame exists
-                // since the vars all exist there instead of in jregs
-                if (itsInFunctionFlag && !itsData.itsNeedsActivation)
-                    index = scriptOrFn.getIndexForNameNode(node);
-                if (index == -1) {
-                    addStringOp(Icode_TYPEOFNAME, node.getString());
-                    stackChange(1);
-                } else {
-                    addVarOp(Token.GETVAR, index);
-                    stackChange(1);
-                    addToken(Token.TYPEOF);
-                }
-            }
-            break;
-
-          case Token.BINDNAME:
-          case Token.NAME:
-          case Token.STRING:
-            addStringOp(type, node.getString());
-            stackChange(1);
-            break;
-
-          case Token.INC:
-          case Token.DEC:
-            visitIncDec(node, child);
-            break;
-
-          case Token.NUMBER:
-            {
-                double num = node.getDouble();
-                int inum = (int)num;
-                if (inum == num) {
-                    if (inum == 0) {
-                        addIcode(Icode_ZERO);
-                        // Check for negative zero
-                        if (1.0 / num < 0.0) {
-                            addToken(Token.NEG);
-                        }
-                    } else if (inum == 1) {
-                        addIcode(Icode_ONE);
-                    } else if ((short)inum == inum) {
-                        addIcode(Icode_SHORTNUMBER);
-                        // write short as uin16 bit pattern
-                        addUint16(inum & 0xFFFF);
-                    } else {
-                        addIcode(Icode_INTNUMBER);
-                        addInt(inum);
-                    }
-                } else {
-                    int index = getDoubleIndex(num);
-                    addIndexOp(Token.NUMBER, index);
-                }
+        }
+        case Token.STRICT_SETNAME, Token.SETNAME -> {
+            String name = child.getString();
+            visitExpression(child, 0);
+            child = child.getNext();
+            visitExpression(child, 0);
+            addStringOp(type, name);
+            stackChange(-1);
+        }
+        case Token.SETCONST -> {
+            String name = child.getString();
+            visitExpression(child, 0);
+            child = child.getNext();
+            visitExpression(child, 0);
+            addStringOp(Icode_SETCONST, name);
+            stackChange(-1);
+        }
+        case Token.TYPEOFNAME -> {
+            int index = -1;
+            // use typeofname if an activation frame exists
+            // since the vars all exist there instead of in jregs
+            if (itsInFunctionFlag && !itsData.itsNeedsActivation)
+                index = scriptOrFn.getIndexForNameNode(node);
+            if (index == -1) {
+                addStringOp(Icode_TYPEOFNAME, node.getString());
                 stackChange(1);
-            }
-            break;
-
-          case Token.GETVAR:
-            {
-                if (itsData.itsNeedsActivation) Kit.codeBug();
-                int index = scriptOrFn.getIndexForNameNode(node);
+            } else {
                 addVarOp(Token.GETVAR, index);
                 stackChange(1);
+                addToken(Token.TYPEOF);
             }
-            break;
-
-          case Token.SETVAR:
-            {
-                if (itsData.itsNeedsActivation) Kit.codeBug();
-                int index = scriptOrFn.getIndexForNameNode(child);
-                child = child.getNext();
-                visitExpression(child, 0);
-                addVarOp(Token.SETVAR, index);
+        }
+        case Token.BINDNAME, Token.NAME, Token.STRING -> {
+            addStringOp(type, node.getString());
+            stackChange(1);
+        }
+        case Token.INC, Token.DEC -> visitIncDec(node, child);
+        case Token.NUMBER -> {
+            double num = node.getDouble();
+            int inum = (int) num;
+            if (inum == num) {
+                if (inum == 0) {
+                    addIcode(Icode_ZERO);
+                    // Check for negative zero
+                    if (1.0 / num < 0.0) {
+                        addToken(Token.NEG);
+                    }
+                } else if (inum == 1) {
+                    addIcode(Icode_ONE);
+                } else if ((short) inum == inum) {
+                    addIcode(Icode_SHORTNUMBER);
+                    // write short as uin16 bit pattern
+                    addUint16(inum & 0xFFFF);
+                } else {
+                    addIcode(Icode_INTNUMBER);
+                    addInt(inum);
+                }
+            } else {
+                int index = getDoubleIndex(num);
+                addIndexOp(Token.NUMBER, index);
             }
-            break;
-
-          case Token.SETCONSTVAR:
-            {
-                if (itsData.itsNeedsActivation) Kit.codeBug();
-                int index = scriptOrFn.getIndexForNameNode(child);
-                child = child.getNext();
-                visitExpression(child, 0);
-                addVarOp(Token.SETCONSTVAR, index);
-            }
-            break;
-
-          case Token.NULL:
-          case Token.THIS:
-          case Token.THISFN:
-          case Token.FALSE:
-          case Token.TRUE:
+            stackChange(1);
+        }
+        case Token.GETVAR -> {
+            if (itsData.itsNeedsActivation) Kit.codeBug();
+            int index = scriptOrFn.getIndexForNameNode(node);
+            addVarOp(Token.GETVAR, index);
+            stackChange(1);
+        }
+        case Token.SETVAR -> {
+            if (itsData.itsNeedsActivation) Kit.codeBug();
+            int index = scriptOrFn.getIndexForNameNode(child);
+            child = child.getNext();
+            visitExpression(child, 0);
+            addVarOp(Token.SETVAR, index);
+        }
+        case Token.SETCONSTVAR -> {
+            if (itsData.itsNeedsActivation) Kit.codeBug();
+            int index = scriptOrFn.getIndexForNameNode(child);
+            child = child.getNext();
+            visitExpression(child, 0);
+            addVarOp(Token.SETCONSTVAR, index);
+        }
+        case Token.NULL, Token.THIS, Token.THISFN, Token.FALSE, Token.TRUE -> {
             addToken(type);
             stackChange(1);
-            break;
-
-          case Token.ENUM_NEXT:
-          case Token.ENUM_ID:
+        }
+        case Token.ENUM_NEXT, Token.ENUM_ID -> {
             addIndexOp(type, getLocalBlockRef(node));
             stackChange(1);
-            break;
-
-          case Token.REGEXP:
-            {
-                int index = node.getExistingIntProp(Node.REGEXP_PROP);
-                addIndexOp(Token.REGEXP, index);
-                stackChange(1);
-            }
-            break;
-
-          case Token.ARRAYLIT:
-          case Token.OBJECTLIT:
-            visitLiteral(node, child);
-            break;
-
-          case Token.ARRAYCOMP:
-            visitArrayComprehension(node, child, child.getNext());
-            break;
-
-          case Token.REF_SPECIAL:
+        }
+        case Token.REGEXP -> {
+            int index = node.getExistingIntProp(Node.REGEXP_PROP);
+            addIndexOp(Token.REGEXP, index);
+            stackChange(1);
+        }
+        case Token.ARRAYLIT, Token.OBJECTLIT -> visitLiteral(node, child);
+        case Token.ARRAYCOMP -> visitArrayComprehension(node, child, child.getNext());
+        case Token.REF_SPECIAL -> {
             visitExpression(child, 0);
-            addStringOp(type, (String)node.getProp(Node.NAME_PROP));
-            break;
-
-          case Token.REF_MEMBER:
-          case Token.REF_NS_MEMBER:
-          case Token.REF_NAME:
-          case Token.REF_NS_NAME:
-            {
-                int memberTypeFlags = node.getIntProp(Node.MEMBER_TYPE_PROP, 0);
-                // generate possible target, possible namespace and member
-                int childCount = 0;
-                do {
-                    visitExpression(child, 0);
-                    ++childCount;
-                    child = child.getNext();
-                } while (child != null);
-                addIndexOp(type, memberTypeFlags);
-                stackChange(1 - childCount);
-            }
-            break;
-
-          case Token.DOTQUERY:
-            {
-                int queryPC;
-                updateLineNumber(node);
+            addStringOp(type, (String) node.getProp(Node.NAME_PROP));
+        }
+        case Token.REF_MEMBER, Token.REF_NS_MEMBER, Token.REF_NAME, Token.REF_NS_NAME -> {
+            int memberTypeFlags = node.getIntProp(Node.MEMBER_TYPE_PROP, 0);
+            // generate possible target, possible namespace and member
+            int childCount = 0;
+            do {
                 visitExpression(child, 0);
-                addIcode(Icode_ENTERDQ);
-                stackChange(-1);
-                queryPC = iCodeTop;
-                visitExpression(child.getNext(), 0);
-                addBackwardGoto(Icode_LEAVEDQ, queryPC);
-            }
-            break;
-
-          case Token.DEFAULTNAMESPACE :
-          case Token.ESCXMLATTR :
-          case Token.ESCXMLTEXT :
+                ++childCount;
+                child = child.getNext();
+            } while (child != null);
+            addIndexOp(type, memberTypeFlags);
+            stackChange(1 - childCount);
+        }
+        case Token.DOTQUERY -> {
+            int queryPC;
+            updateLineNumber(node);
+            visitExpression(child, 0);
+            addIcode(Icode_ENTERDQ);
+            stackChange(-1);
+            queryPC = iCodeTop;
+            visitExpression(child.getNext(), 0);
+            addBackwardGoto(Icode_LEAVEDQ, queryPC);
+        }
+        case Token.DEFAULTNAMESPACE, Token.ESCXMLATTR, Token.ESCXMLTEXT -> {
             visitExpression(child, 0);
             addToken(type);
-            break;
-
-          case Token.YIELD:
+        }
+        case Token.YIELD -> {
             if (child != null) {
                 visitExpression(child, 0);
             } else {
@@ -948,9 +823,8 @@ class CodeGenerator extends Icode {
             }
             addToken(Token.YIELD);
             addUint16(node.getLineno() & 0xFFFF);
-            break;
-
-          case Token.WITHEXPR: {
+        }
+        case Token.WITHEXPR -> {
             Node enterWith = node.getFirstChild();
             Node with = enterWith.getNext();
             visitExpression(enterWith.getFirstChild(), 0);
@@ -959,10 +833,8 @@ class CodeGenerator extends Icode {
             visitExpression(with.getFirstChild(), 0);
             addToken(Token.LEAVEWITH);
             break;
-          }
-
-          default:
-            throw badTree(node);
+        }
+        default -> throw badTree(node);
         }
         if (savedStackDepth + 1 != stackDepth) {
             Kit.codeBug();
@@ -974,15 +846,14 @@ class CodeGenerator extends Icode {
         // Generate code to place on stack function and thisObj
         int type = left.getType();
         switch (type) {
-          case Token.NAME: {
+        case Token.NAME -> {
             String name = left.getString();
             // stack: ... -> ... function thisObj
             addStringOp(Icode_NAME_AND_THIS, name);
             stackChange(2);
             break;
-          }
-          case Token.GETPROP:
-          case Token.GETELEM: {
+        }
+        case Token.GETPROP, Token.GETELEM -> {
             Node target = left.getFirstChild();
             visitExpression(target, 0);
             Node id = target.getNext();
@@ -997,14 +868,14 @@ class CodeGenerator extends Icode {
                 addIcode(Icode_ELEM_AND_THIS);
             }
             break;
-          }
-          default:
+        }
+        default -> {
             // Including Token.GETVAR
             visitExpression(left, 0);
             // stack: ... value -> ... function thisObj
             addIcode(Icode_VALUE_AND_THIS);
             stackChange(1);
-            break;
+        }
         }
     }
 
@@ -1014,30 +885,30 @@ class CodeGenerator extends Icode {
         int incrDecrMask = node.getExistingIntProp(Node.INCRDECR_PROP);
         int childType = child.getType();
         switch (childType) {
-          case Token.GETVAR : {
+        case Token.GETVAR -> {
             if (itsData.itsNeedsActivation) Kit.codeBug();
             int i = scriptOrFn.getIndexForNameNode(child);
             addVarOp(Icode_VAR_INC_DEC, i);
             addUint8(incrDecrMask);
             stackChange(1);
             break;
-          }
-          case Token.NAME : {
+        }
+        case Token.NAME -> {
             String name = child.getString();
             addStringOp(Icode_NAME_INC_DEC, name);
             addUint8(incrDecrMask);
             stackChange(1);
             break;
-          }
-          case Token.GETPROP : {
+        }
+        case Token.GETPROP -> {
             Node object = child.getFirstChild();
             visitExpression(object, 0);
             String property = object.getNext().getString();
             addStringOp(Icode_PROP_INC_DEC, property);
             addUint8(incrDecrMask);
             break;
-          }
-          case Token.GETELEM : {
+        }
+        case Token.GETELEM -> {
             Node object = child.getFirstChild();
             visitExpression(object, 0);
             Node index = object.getNext();
@@ -1046,17 +917,17 @@ class CodeGenerator extends Icode {
             addUint8(incrDecrMask);
             stackChange(-1);
             break;
-          }
-          case Token.GET_REF : {
+        }
+        case Token.GET_REF -> {
             Node ref = child.getFirstChild();
             visitExpression(ref, 0);
             addIcode(Icode_REF_INC_DEC);
             addUint8(incrDecrMask);
             break;
-          }
-          default : {
+        }
+        default -> {
             throw badTree(node);
-          }
+        }
         }
     }
 

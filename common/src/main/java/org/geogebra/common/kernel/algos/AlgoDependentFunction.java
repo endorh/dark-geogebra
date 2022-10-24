@@ -13,7 +13,6 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import java.util.HashSet;
-import java.util.Iterator;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
@@ -195,16 +194,15 @@ public class AlgoDependentFunction extends AlgoElement
 
 	private boolean inputDefined() {
 		if (this.unconditionalInput == null) {
-			for (int i = 0; i < input.length; i++) {
-				if (!input[i].isDefined()) {
+			for (GeoElement geoElement : input) {
+				if (!geoElement.isDefined()) {
 					return false;
 				}
 			}
 			return true;
 		}
-		Iterator<GeoElement> it = this.unconditionalInput.iterator();
-		while (it.hasNext()) {
-			if (!it.next().isDefined()) {
+		for (GeoElement geoElement : this.unconditionalInput) {
+			if (!geoElement.isDefined()) {
 				return false;
 			}
 		}
@@ -227,8 +225,8 @@ public class AlgoDependentFunction extends AlgoElement
 			ExpressionValue in, boolean fast, FunctionVariable[] vars) {
 		ExpressionValue ev = expandFunctionDerivativeNodes(in, fast);
 		ExpressionNode en = ev.wrap();
-		for (int i = 0; i < vars.length; i++) {
-			en.replaceVariables(vars[i].getSetVarString(), vars[i]);
+		for (FunctionVariable var : vars) {
+			en.replaceVariables(var.getSetVarString(), var);
 		}
 		return ev;
 	}
@@ -316,8 +314,7 @@ public class AlgoDependentFunction extends AlgoElement
 			case ELEMENT_OF:
 				// list(x,x) cannot be expanded
 				ExpressionValue rt = node.getRight().unwrap();
-				if (rt instanceof ListValue) {
-					ListValue list = (ListValue) rt;
+				if (rt instanceof ListValue list) {
 					int constants = list.size();
 					for (int i = 0; i < list.size() - 1; i++) {
 						if (list.getListElement(i).wrap()
@@ -388,11 +385,9 @@ public class AlgoDependentFunction extends AlgoElement
 				.getCopy(funN.getKernel());
 		// with f(A) where A is a point we should not get there, but
 		// still
-		if (!(right instanceof MyList)) {
+		if (!(right instanceof MyList rightList)) {
 			return null;
 		}
-
-		MyList rightList = (MyList) right;
 
 		// now replace every x in function by the expanded argument
 		for (int i = 0; i < xy.length; i++) {
@@ -410,8 +405,7 @@ public class AlgoDependentFunction extends AlgoElement
 		Kernel kernel0 = list.getKernel();
 
 		if (list.getLength() == 1
-				&& list.getListElement(0).unwrap() instanceof GeoPointND) {
-			GeoPointND point = (GeoPointND) list.getListElement(0).unwrap();
+				&& list.getListElement(0).unwrap() instanceof GeoPointND point) {
 			if (i == 0) {
 				return new MyDouble(kernel0, point.getInhomX());
 			} else if (i == 1) {
@@ -537,8 +531,7 @@ public class AlgoDependentFunction extends AlgoElement
 
 						ExpressionValue evR = enLL.getRight();
 
-						if (evR instanceof NumberValue) {
-							NumberValue num = (NumberValue) evR;
+						if (evR instanceof NumberValue num) {
 							double val = num.getDouble();
 
 							if (val > 0d && DoubleUtil.isInteger(val)) {

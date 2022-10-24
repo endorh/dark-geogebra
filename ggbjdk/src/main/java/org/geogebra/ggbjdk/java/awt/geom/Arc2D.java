@@ -1149,7 +1149,7 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
         bits += java.lang.Double.doubleToLongBits(getHeight()) * 47;
         bits += java.lang.Double.doubleToLongBits(getAngleStart()) * 53;
         bits += java.lang.Double.doubleToLongBits(getAngleExtent()) * 59;
-        bits += getArcType() * 61;
+        bits += getArcType() * 61L;
         return (((int) bits) ^ ((int) (bits >> 32)));
     }
 
@@ -1172,9 +1172,8 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
         if (obj == this) {
             return true;
         }
-        if (obj instanceof Arc2D) {
-            Arc2D a2d = (Arc2D) obj;
-            return ((getX() == a2d.getX()) &&
+        if (obj instanceof Arc2D a2d) {
+	        return ((getX() == a2d.getX()) &&
                     (getY() == a2d.getY()) &&
                     (getWidth() == a2d.getWidth()) &&
                     (getHeight() == a2d.getHeight()) &&

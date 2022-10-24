@@ -83,7 +83,7 @@ public class LazyMap<K, V> extends AbstractMapDecorator<K, V>
 	 *             if map or factory is null
 	 */
 	public static <K, V> Map<K, V> decorate(Map<K, V> map, Factory<V> factory) {
-		return new LazyMap<K, V>(map, factory);
+		return new LazyMap<>(map, factory);
 	}
 
 	/**
@@ -98,7 +98,7 @@ public class LazyMap<K, V> extends AbstractMapDecorator<K, V>
 	 */
 	public static <K, V> Map<K, V> decorate(Map<K, V> map,
 			Transformer<K, V> transformer) {
-		return new LazyMap<K, V>(map, transformer);
+		return new LazyMap<>(map, transformer);
 	}
 
 	// -----------------------------------------------------------------------
@@ -117,7 +117,7 @@ public class LazyMap<K, V> extends AbstractMapDecorator<K, V>
 		if (factory == null) {
 			throw new IllegalArgumentException("Factory must not be null");
 		}
-		this.transformer = new FactoryTransformer<K, V>(factory);
+		this.transformer = new FactoryTransformer<>(factory);
 	}
 
 	/**

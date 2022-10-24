@@ -106,8 +106,8 @@ public class GraphicSizePanel extends JPanel
 	@Override
 	public void setEnabled(boolean flag) {
 		Object[] comp = getComponents();
-		for (int i = 0; i < comp.length; i++) {
-			((JComponent) comp[i]).setEnabled(flag);
+		for (Object o : comp) {
+			((JComponent) o).setEnabled(flag);
 		}
 	}
 

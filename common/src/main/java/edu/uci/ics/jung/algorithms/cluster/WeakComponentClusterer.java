@@ -46,17 +46,17 @@ public class WeakComponentClusterer<V, E>
 	@Override
 	public Set<Set<V>> transform(Graph<V, E> graph) {
 
-		Set<Set<V>> clusterSet = new HashSet<Set<V>>();
+		Set<Set<V>> clusterSet = new HashSet<>();
 
-		HashSet<V> unvisitedVertices = new HashSet<V>(graph.getVertices());
+		HashSet<V> unvisitedVertices = new HashSet<>(graph.getVertices());
 
 		while (!unvisitedVertices.isEmpty()) {
-			Set<V> cluster = new HashSet<V>();
+			Set<V> cluster = new HashSet<>();
 			V root = unvisitedVertices.iterator().next();
 			unvisitedVertices.remove(root);
 			cluster.add(root);
 
-			Buffer<V> queue = new UnboundedFifoBuffer<V>();
+			Buffer<V> queue = new UnboundedFifoBuffer<>();
 			queue.add(root);
 
 			while (!queue.isEmpty()) {

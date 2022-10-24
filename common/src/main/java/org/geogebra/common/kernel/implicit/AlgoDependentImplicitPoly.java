@@ -74,15 +74,11 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 		}
 		switch (deg) {
 		// linear equation -> LINE
-		case 1:
-			geoElement = new GeoLine(c);
-			break;
+		case 1 -> geoElement = new GeoLine(c);
+
 		// quadratic equation -> CONIC
-		case 2:
-			geoElement = new GeoConic(c);
-			break;
-		default:
-			geoElement = kernel.newImplicitPoly(c);
+		case 2 -> geoElement = new GeoConic(c);
+		default -> geoElement = kernel.newImplicitPoly(c);
 		}
 
 		geoElement.setDefinition(definition);
@@ -150,7 +146,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 				// boolean functionChanged=false;
 				Set<FunctionNVar> functions = new HashSet<>();
 				addAllFunctionalDescendents(this, functions,
-						new TreeSet<AlgoElement>());
+						new TreeSet<>());
 
 				if (!functions.equals(dependentFromFunctions)
 						|| equationExpanded.hasVariableDegree()
@@ -313,14 +309,14 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 	protected void addAllFunctionalDescendents(AlgoElement algo,
 			Set<FunctionNVar> set, Set<AlgoElement> algos) {
 		GeoElement[] in = algo.getInput();
-		for (int i = 0; i < in.length; i++) {
-			AlgoElement p = in[i].getParentAlgorithm();
+		for (GeoElement element : in) {
+			AlgoElement p = element.getParentAlgorithm();
 			if (p != null && !algos.contains(p)) {
 				algos.add(p);
 				addAllFunctionalDescendents(p, set, algos);
 			}
-			if (in[i] instanceof FunctionalNVar) {
-				set.add(((FunctionalNVar) in[i]).getFunction());
+			if (element instanceof FunctionalNVar) {
+				set.add(((FunctionalNVar) element).getFunction());
 			}
 		}
 	}
@@ -331,7 +327,7 @@ public class AlgoDependentImplicitPoly extends AlgoElement {
 			setInputFrom(geoElement.getDefinition());
 			dependentFromFunctions = new HashSet<>();
 			addAllFunctionalDescendents(this, dependentFromFunctions,
-					new TreeSet<AlgoElement>());
+					new TreeSet<>());
 		}
 		if (getOutputLength() == 0) {
 			setOutputLength(1);

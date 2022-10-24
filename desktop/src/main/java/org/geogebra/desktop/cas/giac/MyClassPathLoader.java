@@ -85,9 +85,7 @@ public class MyClassPathLoader {
 
 		File tmpFile = new File(System.getProperty("java.io.tmpdir"), filename);
 		UtilD.delete(tmpFile);
-		FileOutputStream fos = null;
-		try {
-			fos = new FileOutputStream(tmpFile);
+		try (FileOutputStream fos = new FileOutputStream(tmpFile)) {
 
 			byte[] buffer = new byte[1024];
 			int len;
@@ -104,9 +102,6 @@ public class MyClassPathLoader {
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			}
-			if (fos != null) {
-				fos.close();
 			}
 		}
 		return tmpFile;

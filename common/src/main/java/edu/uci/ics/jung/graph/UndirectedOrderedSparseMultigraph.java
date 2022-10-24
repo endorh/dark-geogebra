@@ -39,20 +39,15 @@ public class UndirectedOrderedSparseMultigraph<V, E> extends
 	 *            the edge type for the graph factory
 	 */
 	public static <V, E> Factory<UndirectedGraph<V, E>> getFactory() {
-		return new Factory<UndirectedGraph<V, E>>() {
-			@Override
-			public UndirectedGraph<V, E> create() {
-				return new UndirectedOrderedSparseMultigraph<V, E>();
-			}
-		};
+		return UndirectedOrderedSparseMultigraph::new;
 	}
 
 	/**
 	 * Creates a new instance.
 	 */
 	public UndirectedOrderedSparseMultigraph() {
-		vertices = new LinkedHashMap<V, Set<E>>();
-		edges = new LinkedHashMap<E, Pair<V>>();
+		vertices = new LinkedHashMap<>();
+		edges = new LinkedHashMap<>();
 	}
 
 	@Override
@@ -61,7 +56,7 @@ public class UndirectedOrderedSparseMultigraph<V, E> extends
 			throw new IllegalArgumentException("vertex may not be null");
 		}
 		if (!containsVertex(vertex)) {
-			vertices.put(vertex, new LinkedHashSet<E>());
+			vertices.put(vertex, new LinkedHashSet<>());
 			return true;
 		}
 		return false;
@@ -73,7 +68,7 @@ public class UndirectedOrderedSparseMultigraph<V, E> extends
 			return null;
 		}
 
-		Set<V> neighbors = new LinkedHashSet<V>();
+		Set<V> neighbors = new LinkedHashSet<>();
 		for (E edge : getIncident_internal(vertex)) {
 			Pair<V> endpoints = this.getEndpoints(edge);
 			V e_a = endpoints.getFirst();

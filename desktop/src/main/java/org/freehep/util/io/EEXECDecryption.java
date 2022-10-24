@@ -65,8 +65,8 @@ public class EEXECDecryption extends InputStream implements EEXECConstants {
 				}
 			}
 			if (notHex) {
-				for (int i = 0; i < bytes.length; i++) {
-					decrypt(bytes[i] & 0x00ff);
+				for (byte aByte : bytes) {
+					decrypt(aByte & 0x00ff);
 				}
 			} else {
 				InputStream tempIn = new ASCIIHexInputStream(

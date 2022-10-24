@@ -397,10 +397,10 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 	protected void setInputOutput() {
 
 		switch (type) {
-		default:
-			// do nothing
-			break;
-		case TYPE_QUARTILES:
+		default -> {
+		}
+		// do nothing
+		case TYPE_QUARTILES -> {
 			input = new GeoElement[7];
 			input[0] = ageo;
 			input[1] = bgeo;
@@ -409,33 +409,26 @@ public class AlgoBoxPlot extends AlgoElement implements DrawInformationAlgo {
 			input[4] = medianGeo;
 			input[5] = Q3geo;
 			input[6] = maxGeo;
-			break;
-
-		case TYPE_RAW:
+		}
+		case TYPE_RAW -> {
 			input = new GeoElement[3 + (useOutliersGeo == null ? 0 : 1)];
 			input[0] = ageo;
 			input[1] = bgeo;
 			input[2] = list1;
-
 			if (useOutliersGeo != null) {
 				input[3] = useOutliersGeo;
 			}
-
-			break;
-
-		case TYPE_FREQUENCY:
+		}
+		case TYPE_FREQUENCY -> {
 			input = new GeoElement[4 + (useOutliersGeo == null ? 0 : 1)];
 			input[0] = ageo;
 			input[1] = bgeo;
 			input[2] = list1;
 			input[3] = freqList;
-
 			if (useOutliersGeo != null) {
 				input[4] = useOutliersGeo;
 			}
-
-			break;
-
+		}
 		}
 
 		setOutputLength(1);

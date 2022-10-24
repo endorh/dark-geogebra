@@ -319,7 +319,7 @@ public class TeXParser {
 	}
 
 	public void popMode() {
-		ignoreWhiteSpace = modeStack.pop().booleanValue();
+		ignoreWhiteSpace = modeStack.pop();
 	}
 
 	public boolean isHandlingArg() {
@@ -402,48 +402,16 @@ public class TeXParser {
 		while (pos < len || removeString()) {
 			final char c = parseString.charAt(pos);
 			switch (c) {
-			case '\u0000':
-			case '\u0001':
-			case '\u0002':
-			case '\u0003':
-			case '\u0004':
-			case '\u0005':
-			case '\u0006':
-			case '\u0007':
-			case '\u0008':
-			case '\u0009':
-				++pos;
-				break;
-			case '\n':
-				newLine();
-				// removed to make double spaces after a newline work inside
-				// \text{} like in jlm1
-				//skipWhites();
-				break;
-			case '\u000B':
-			case '\u000C':
-			case '\r':
-			case '\u000E':
-			case '\u000F':
-			case '\u0010':
-			case '\u0011':
-			case '\u0012':
-			case '\u0013':
-			case '\u0014':
-			case '\u0015':
-			case '\u0016':
-			case '\u0017':
-			case '\u0018':
-			case '\u0019':
-			case '\u001A':
-			case '\u001B':
-			case '\u001C':
-			case '\u001D':
-			case '\u001E':
-			case '\u001F':
-				++pos;
-				break;
-			case ' ':
+			case '\u0000', '\u0001', '\u0002', '\u0003', '\u0004', '\u0005', '\u0006', '\u0007', '\u0008', '\u0009' ->
+					++pos;
+			case '\n' -> newLine();
+
+			// removed to make double spaces after a newline work inside
+			// \text{} like in jlm1
+			//skipWhites();
+			case '\u000B', '\u000C', '\r', '\u000E', '\u000F', '\u0010', '\u0011', '\u0012', '\u0013', '\u0014', '\u0015', '\u0016', '\u0017', '\u0018', '\u0019', '\u001A', '\u001B', '\u001C', '\u001D', '\u001E', '\u001F' ->
+					++pos;
+			case ' ' -> {
 				++pos;
 				if (isTextMode()) { // We are in a mbox
 					if (peek() instanceof GroupConsumer) {
@@ -456,20 +424,20 @@ public class TeXParser {
 					// like in jlm1
 					// skipPureWhites();
 				}
-				break;
-			case '$':
+			}
+			case '$' -> {
 				++pos;
 				processDollar();
-				break;
-			case '%':
+			}
+			case '%' -> {
 				++line;
 				col = pos++;
 
 				// We've a comment
 				++pos;
 				skipUntilCr();
-				break;
-			case '&':
+			}
+			case '&' -> {
 				close();
 				if (isAmpersandAllowed()) {
 					++pos;
@@ -478,151 +446,73 @@ public class TeXParser {
 					throw new ParseException(this,
 							"Character '&' is only available in array mode !");
 				}
-				break;
-			case '!':
-			case '(':
-			case ')':
-			case '*':
-			case '+':
-			case ',':
-			case '-':
-			case '.':
-			case '/':
-			case ':':
-			case ';':
-			case '<':
-			case '=':
-			case '>':
-			case '?':
-			case '`':
-			case '#':
-			case '@':
+			}
+			case '!', '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '`', '#', '@' -> {
 				++pos;
 				charMapping.replaceUnsafe(c, this);
-				break;
-			case '\'':
+			}
+			case '\'' -> {
 				++pos;
 				if (isTextMode()) {
 					charMapping.replaceUnsafe('\'', this);
 				} else {
 					cumSupSymbols(Symbols.PRIME);
 				}
-				break;
-			case '\"':
+			}
+			case '\"' -> {
 				++pos;
 				charMapping.replaceUnsafe('\'', this);
 				charMapping.replaceUnsafe('\'', this);
-				break;
-			case '[':
+			}
+			case '[' -> {
 				++pos;
 				charMapping.replaceUnsafe('[', this);
-				break;
-			case '\\':
+			}
+			case '\\' -> {
 				prevpos = pos;
 				final String command = getCommand();
 				if (!command.isEmpty()) {
 					processCommand(command);
 				}
-				break;
-			case ']':
+			}
+			case ']' -> {
 				++pos;
 				if (!processRSqBracket()) {
 					charMapping.replaceUnsafe(']', this);
 				}
-				break;
-			case '^':
+			}
+			case '^' -> {
 				++pos;
 				processSubSup('^');
-				break;
-			case '_':
+			}
+			case '_' -> {
 				++pos;
 				processSubSup('_');
-				break;
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
-			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
+			}
+			case 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' -> {
 				++pos;
 				convertASCIIChar(c, false);
-				break;
-			case '{':
+			}
+			case '{' -> {
 				++pos;
 				processLBrace();
-				break;
-			case '|':
+			}
+			case '|' -> {
 				++pos;
 				charMapping.replaceUnsafe('|', this);
-				break;
-			case '}':
+			}
+			case '}' -> {
 				++pos;
 				processRBrace();
-				break;
-			case '~':
+			}
+			case '~' -> {
 				++pos;
 				addToConsumer(new SpaceAtom());
-				break;
-			default:
+			}
+			default -> {
 				++pos;
 				convertCharacter(c, false);
-				break;
+			}
 			}
 		}
 	}
@@ -658,8 +548,8 @@ public class TeXParser {
 			digits[i] = (char) (zero + (n % 10));
 			n /= 10;
 		}
-		for (int i = 0; i < digits.length; ++i) {
-			ra.add(new CharAtom(digits[i], mathMode));
+		for (char digit : digits) {
+			ra.add(new CharAtom(digit, mathMode));
 		}
 		return ra;
 	}
@@ -1098,7 +988,7 @@ public class TeXParser {
 				while (pos < len) {
 					final char c = parseString.charAt(pos);
 					switch (c) {
-					case '=':
+					case '=' -> {
 						if (key != null) {
 							throw new ParseException(this,
 									"Invalid '=' in options");
@@ -1107,9 +997,8 @@ public class TeXParser {
 						++pos;
 						skipPureWhites();
 						spos = pos;
-						break;
-					case ',':
-					case ';':
+					}
+					case ',', ';' -> {
 						final String k = getStringForKV(spos, epos);
 						if (key == null) {
 							if (!k.isEmpty()) {
@@ -1122,8 +1011,8 @@ public class TeXParser {
 						++pos;
 						skipPureWhites();
 						spos = pos;
-						break;
-					case ']':
+					}
+					case ']' -> {
 						if (key == null) {
 							if (spos == pos) {
 								++pos;
@@ -1135,15 +1024,16 @@ public class TeXParser {
 						}
 						++pos;
 						return map;
-					case ' ':
-					case '\t':
+					}
+					case ' ', '\t' -> {
 						epos = pos;
 						++pos;
 						skipPureWhites();
-						break;
-					default:
+					}
+					default -> {
 						epos = -1;
 						++pos;
+					}
 					}
 				}
 			}
@@ -1330,7 +1220,7 @@ public class TeXParser {
 						skipPureWhites();
 					} else if (c == stop) {
 						switch (arr.size()) {
-						case 1:
+						case 1 -> {
 							final DoubleOrInt n = arr.get(0);
 							if (n.isdouble) {
 								final int g = (int) (255. * Colors.clamp(n.f)
@@ -1339,14 +1229,14 @@ public class TeXParser {
 								return FactoryProvider.getInstance()
 										.getGraphicsFactory().createColor(g);
 							}
-
 							cancelPrevPos();
 							// we've 123456 which could be #123456
 							// 123 => 3 + 2 * 16 + 1 * 16^2
 							return FactoryProvider.getInstance()
 									.getGraphicsFactory()
 									.createColor(convertIntToHex(n.i));
-						case 3:
+						}
+						case 3 -> {
 							final DoubleOrInt R = arr.get(0);
 							final DoubleOrInt G = arr.get(1);
 							final DoubleOrInt B = arr.get(2);
@@ -1360,19 +1250,18 @@ public class TeXParser {
 										.getGraphicsFactory().createColor(
 												(Ri << 16) | (Gi << 8) | Bi);
 							}
-
 							final int Rf = (int) (255.
 									* Colors.clamp(R.getDouble()) + 0.5);
 							final int Gf = (int) (255.
 									* Colors.clamp(G.getDouble()) + 0.5);
 							final int Bf = (int) (255.
 									* Colors.clamp(B.getDouble()) + 0.5);
-
 							cancelPrevPos();
 							return FactoryProvider.getInstance()
 									.getGraphicsFactory()
 									.createColor((Rf << 16) | (Gf << 8) | Bf);
-						case 4:
+						}
+						case 4 -> {
 							final double C = Colors
 									.clamp(arr.get(0).getDouble());
 							final double M = Colors
@@ -1381,12 +1270,11 @@ public class TeXParser {
 									.clamp(arr.get(2).getDouble());
 							final double K = Colors
 									.clamp(arr.get(3).getDouble());
-
 							cancelPrevPos();
 							return Colors.conv(C, M, Y, K);
-						default:
-							throw new ParseException(this,
-									"Invalid color definition");
+						}
+						default -> throw new ParseException(this,
+								"Invalid color definition");
 						}
 					} else {
 						// We have a number followed by a character (not a stop)
@@ -1805,8 +1693,7 @@ public class TeXParser {
 
 	public boolean hasGroupConsumer(final TeXConstants.Opener opener) {
 		final AtomConsumer ac = stack.peek();
-		if ((ac instanceof GroupConsumer)) {
-			final GroupConsumer gc = (GroupConsumer) ac;
+		if ((ac instanceof final GroupConsumer gc)) {
 			return gc.getOpener() == opener;
 		}
 		return false;
@@ -1818,8 +1705,7 @@ public class TeXParser {
 
 	private GroupConsumer getGroupConsumerOption() {
 		for (AtomConsumer ac : stack) {
-			if ((ac instanceof GroupConsumer)) {
-				final GroupConsumer gc = (GroupConsumer) ac;
+			if ((ac instanceof final GroupConsumer gc)) {
 				if (gc.getOpener() == TeXConstants.Opener.LSQBRACKET) {
 					return gc;
 				}
@@ -1961,7 +1847,7 @@ public class TeXParser {
 	}
 
 	public ArrayList<String> getArgsAsStrings(final int nargs) {
-		final ArrayList<String> args = new ArrayList<String>(nargs);
+		final ArrayList<String> args = new ArrayList<>(nargs);
 		for (int i = 0; i < nargs; ++i) {
 			skipPureWhites();
 			if (pos < len) {
@@ -2635,60 +2521,55 @@ public class TeXParser {
 		while (pos < len) {
 			final char c = parseString.charAt(pos);
 			switch (c) {
-			case 'c':
+			case 'c' -> {
 				++pos;
 				options.addAlignment(TeXConstants.Align.CENTER);
-				break;
-			case 'l':
+			}
+			case 'l' -> {
 				++pos;
 				options.addAlignment(TeXConstants.Align.LEFT);
-				break;
-			case 'r':
+			}
+			case 'r' -> {
 				++pos;
 				options.addAlignment(TeXConstants.Align.RIGHT);
-				break;
-			case '|':
-				options.addVline(getNumberOf('|'));
-				break;
-			case '@':
+			}
+			case '|' -> options.addVline(getNumberOf('|'));
+			case '@' -> {
 				// @{\pi} \pi is the column separator
 				++pos;
 				final String code = getGroupAsArgument();
 				final SingleAtomConsumer cons = new SingleAtomConsumer();
 				addConsumer(cons);
 				addString(code, true /*
-										 * to come back here after the code has
-										 * been parsed
-										 */);
+				 * to come back here after the code has
+				 * been parsed
+				 */);
 				parse();
 				pop(); // remove cons from the stack
 				final Atom sep = cons.get();
 				options.addSeparator(sep);
-				break;
-			case '*':
+			}
+			case '*' -> {
 				// *{num}{str}
 				// *{3}{c|} <=> c|c|c|
 				++pos;
 				final int num = getArgAsPositiveInteger();
 				final String str = getGroupAsArgument();
 				final StringBuilder buf = new StringBuilder(str.length() * num);
-				for (int i = 0; i < num; ++i) {
-					buf.append(str);
-				}
+				buf.append(str.repeat(Math.max(0, num)));
 				addString(buf.toString());
 				parseArrayOptions(options);
 				popString();
-				break;
-			case ' ':
-			case '\t':
-				++pos;
-				break;
-			case '}':
+			}
+			case ' ', '\t' -> ++pos;
+			case '}' -> {
 				++pos;
 				return;
-			default:
+			}
+			default -> {
 				++pos;
 				options.addAlignment(TeXConstants.Align.CENTER);
+			}
 			}
 		}
 	}

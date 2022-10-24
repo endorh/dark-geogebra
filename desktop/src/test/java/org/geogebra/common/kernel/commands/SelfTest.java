@@ -19,8 +19,8 @@ public class SelfTest {
 				ProveCommandTest.class };
 		for (Class<?> c : classes) {
 			Method[] mtds = c.getMethods();
-			for (int i = 0; i < mtds.length; i++) {
-				methodNames.add(mtds[i].getName());
+			for (Method mtd : mtds) {
+				methodNames.add(mtd.getName());
 			}
 		}
 

@@ -86,13 +86,7 @@ public class PVariable implements Comparable<PVariable> {
 	@Override
 	public int compareTo(PVariable v) {
 		int vId = v.getId();
-		if (id < vId) {
-			return 1;
-		}
-		if (id > vId) {
-			return -1;
-		}
-		return 0;
+		return Integer.compare(vId, id);
 	}
 
 	@Override

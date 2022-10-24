@@ -31,30 +31,27 @@ public class CmdJoin extends CommandProcessor {
 		arg = resArgs(c);
 
 		switch (n) {
-		case 1:
-
+		case 1 -> {
 			ok[0] = arg[0].isGeoList();
-
 			if (ok[0]) {
-				GeoElement[] ret = { join(c.getLabel(), (GeoList) arg[0]) };
+				GeoElement[] ret = {join(c.getLabel(), (GeoList) arg[0])};
 				return ret;
-			} else
-
-			if (!ok[0]) {
+			} else if (!ok[0]) {
 				throw argErr(c, arg[0]);
 			} else {
 				throw argErr(c, arg[1]);
 			}
-
-		default:
+		}
+		default -> {
 			// try to create list of numbers
 			GeoList list = wrapInList(arg, arg.length, GeoClass.LIST,
 					c);
 			if (list != null) {
-				GeoElement[] ret = { join(c.getLabel(), list) };
+				GeoElement[] ret = {join(c.getLabel(), list)};
 				return ret;
 			}
 			throw argNumErr(c);
+		}
 		}
 	}
 

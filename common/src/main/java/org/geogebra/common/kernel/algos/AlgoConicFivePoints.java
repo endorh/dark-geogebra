@@ -117,17 +117,17 @@ public class AlgoConicFivePoints extends AlgoElement
 	private void checkCriticalCase() {
 		criticalCase = false;
 
-		for (int i = 0; i < P.length; i++) {
-			if (P[i].getIncidenceList() == null) {
+		for (GeoPoint geoPoint : P) {
+			if (geoPoint.getIncidenceList() == null) {
 				return;
 			}
 		}
 
 		ArrayList<GeoElement> firstList = P[0].getIncidenceList();
 
-		for (int j = 0; j < firstList.size(); j++) {
-			if (firstList.get(j).isGeoConic()) {
-				GeoConic p = (GeoConic) firstList.get(j);
+		for (GeoElement geoElement : firstList) {
+			if (geoElement.isGeoConic()) {
+				GeoConic p = (GeoConic) geoElement;
 				if (p.getType() == GeoConicNDConstants.CONIC_PARABOLA) {
 					criticalCase = true;
 					for (int i = 1; i < 5; i++) {
@@ -152,8 +152,8 @@ public class AlgoConicFivePoints extends AlgoElement
 	 *         for special cases of e.g. AlgoIntersectLineConic
 	 */
 	private void addIncidence() {
-		for (int i = 0; i < P.length; ++i) {
-			P[i].addIncidence(conic, false);
+		for (GeoPoint geoPoint : P) {
+			geoPoint.addIncidence(conic, false);
 		}
 	}
 

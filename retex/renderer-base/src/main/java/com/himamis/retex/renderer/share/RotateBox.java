@@ -70,7 +70,7 @@ public class RotateBox extends Box {
 	private static final int CC = 10;
 	private static final int CR = 11;
 
-	private static final Map<String, Integer> map = new HashMap<String, Integer>() {
+	private static final Map<String, Integer> map = new HashMap<>() {
 		{
 			put("bl", BL);
 			put("lb", BL);
@@ -147,27 +147,20 @@ public class RotateBox extends Box {
 		}
 
 		if (option.length() == 1) {
-			switch (option.charAt(0)) {
-			case 'b':
-				return BC;
-			case 'c':
-				return CC;
-			case 'l':
-				return CL;
-			case 'r':
-				return CR;
-			case 't':
-				return TC;
-			case 'B':
-				return BBC;
-			default:
-				return BBL;
-			}
+			return switch (option.charAt(0)) {
+				case 'b' -> BC;
+				case 'c' -> CC;
+				case 'l' -> CL;
+				case 'r' -> CR;
+				case 't' -> TC;
+				case 'B' -> BBC;
+				default -> BBL;
+			};
 		}
 
 		final Integer v = map.get(option);
 		if (v != null) {
-			return v.intValue();
+			return v;
 		}
 		return BBL;
 	}
@@ -176,55 +169,56 @@ public class RotateBox extends Box {
 		Point2D p = new Geom().createPoint2D(0, -b.depth);
 
 		switch (option) {
-		case BL:
+		case BL -> {
 			p.setX(0.);
 			p.setY(-b.depth);
-			break;
-		case BR:
+		}
+		case BR -> {
 			p.setX(b.width);
 			p.setY(-b.depth);
-			break;
-		case BC:
+		}
+		case BC -> {
 			p.setX(b.width / 2.);
 			p.setY(-b.depth);
-			break;
-		case TL:
+		}
+		case TL -> {
 			p.setX(0.);
 			p.setY(b.height);
-			break;
-		case TR:
+		}
+		case TR -> {
 			p.setX(b.width);
 			p.setY(b.height);
-			break;
-		case TC:
+		}
+		case TC -> {
 			p.setX(b.width / 2.);
 			p.setY(b.height);
-			break;
-		case BBL:
+		}
+		case BBL -> {
 			p.setX(0.);
 			p.setY(0.);
-			break;
-		case BBR:
+		}
+		case BBR -> {
 			p.setX(b.width);
 			p.setY(0.);
-			break;
-		case BBC:
+		}
+		case BBC -> {
 			p.setX(b.width / 2.);
 			p.setY(0.);
-			break;
-		case CL:
+		}
+		case CL -> {
 			p.setX(0.);
 			p.setY((b.height - b.depth) / 2.);
-			break;
-		case CR:
+		}
+		case CR -> {
 			p.setX(b.width);
 			p.setY((b.height - b.depth) / 2.);
-			break;
-		case CC:
+		}
+		case CC -> {
 			p.setX(b.width / 2.);
 			p.setY((b.height - b.depth) / 2.);
-			break;
-		default:
+		}
+		default -> {
+		}
 		}
 
 		return p;

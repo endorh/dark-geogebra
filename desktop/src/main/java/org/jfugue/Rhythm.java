@@ -53,7 +53,7 @@ public class Rhythm {
 	private int PERCUSSION_TRACK = 9;
 
 	public Rhythm() {
-		charToNote = new HashMap<Character, String>();
+		charToNote = new HashMap<>();
 		layers = new String[MAX_LAYERS];
 		voices = new String[MAX_VOICES];
 		voiceDetails = new String[MAX_VOICES];
@@ -122,7 +122,7 @@ public class Rhythm {
 	}
 
 	public String getMusicString() {
-		StringBuffer buffy = new StringBuffer();
+		StringBuilder buffy = new StringBuilder();
 
 		// Start by adding the percussion track
 		buffy.append("V9 ");

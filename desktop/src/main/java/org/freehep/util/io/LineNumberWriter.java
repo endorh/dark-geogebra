@@ -84,22 +84,22 @@ public class LineNumberWriter extends Writer {
 			default:
 			case UNKNOWN:
 				switch (previous) {
-				case '\r':
+				case '\r' -> {
 					lineNo++;
 					lineSeparator = (c == '\n') ? CRLF : CR;
 					if (c == '\r') {
 						lineNo++;
 					}
-					break;
-				case '\n':
+				}
+				case '\n' -> {
 					lineNo++;
 					lineSeparator = (c == '\r') ? LFCR : LF;
 					if (c == '\n') {
 						lineNo++;
 					}
-					break;
-				default:
-					break;
+				}
+				default -> {
+				}
 				}
 				break;
 			case CR:

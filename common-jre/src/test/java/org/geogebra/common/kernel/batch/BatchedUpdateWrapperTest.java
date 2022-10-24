@@ -21,7 +21,6 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
-import org.mockito.invocation.InvocationOnMock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 
@@ -59,12 +58,8 @@ public class BatchedUpdateWrapperTest extends BaseUnitTest {
 
 	@Before
 	public void setupBatchedUpdateWrapperTest() {
-		when(utilFactory.newTimer(any(GTimerListener.class), anyInt())).then(new Answer<GTimer>() {
-			@Override
-			public GTimer answer(InvocationOnMock invocation) {
-				return timer;
-			}
-		});
+		when(utilFactory.newTimer(any(GTimerListener.class), anyInt())).then(
+				(Answer<GTimer>) invocation -> timer);
 		wrappedView = Mockito.mock(WrappedViewTest.class,
 				Mockito.CALLS_REAL_METHODS);
 		wrapper = new BatchedUpdateWrapper(wrappedView, utilFactory);
@@ -138,12 +133,9 @@ public class BatchedUpdateWrapperTest extends BaseUnitTest {
 
 		wrapper.add(line1);
 
-		doAnswer(new Answer() {
-			@Override
-			public Object answer(InvocationOnMock invocation) throws Throwable {
-				addLine();
-				return null;
-			}
+		doAnswer(invocation -> {
+			addLine();
+			return null;
 		}).when(wrappedView).add(eq(line1));
 
 		wrapper.onRun();

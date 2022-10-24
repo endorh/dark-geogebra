@@ -3,6 +3,7 @@ package org.geogebra.common.main.settings;
 //import geogebra.gui.view.probcalculator.ProbabilityManager;
 
 import java.util.LinkedList;
+import java.util.Objects;
 
 import org.geogebra.common.gui.view.probcalculator.StatisticsCollection;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
@@ -103,11 +104,8 @@ public class ProbabilityCalculatorSettings extends AbstractSettings {
 	 *            dist type
 	 */
 	public void setDistributionType(Dist distributionType) {
-		if (distributionType == null) {
-			this.distributionType = Dist.NORMAL; // default guard
-		} else {
-			this.distributionType = distributionType;
-		}
+		// default guard
+		this.distributionType = Objects.requireNonNullElse(distributionType, Dist.NORMAL);
 		settingChanged();
 	}
 

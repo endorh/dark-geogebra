@@ -56,9 +56,7 @@ public abstract class SolutionStep {
 			return this;
 		}
 
-		for (int i = 0; i < substeps.size(); i++) {
-			substeps.set(i, substeps.get(i).cleanupSteps());
-		}
+		substeps.replaceAll(SolutionStep::cleanupSteps);
 
 		if (getType() == SolutionStepType.GROUP_WRAPPER) {
 			if (substeps.get(0).substeps != null && substeps.get(0).substeps.size() == 1) {

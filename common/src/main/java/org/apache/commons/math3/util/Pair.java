@@ -16,6 +16,8 @@
  */
 package org.apache.commons.math3.util;
 
+import java.util.Objects;
+
 /**
  * Generic pair.
  * <br/>
@@ -105,16 +107,11 @@ public class Pair<K, V> {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Pair)) {
+        if (!(o instanceof Pair<?, ?> oP)) {
             return false;
         } else {
-            Pair<?, ?> oP = (Pair<?, ?>) o;
-            return (key == null ?
-                    oP.key == null :
-                    key.equals(oP.key)) &&
-                (value == null ?
-                 oP.value == null :
-                 value.equals(oP.value));
+	        return (Objects.equals(key, oP.key)) &&
+                (Objects.equals(value, oP.value));
         }
     }
 
@@ -151,6 +148,6 @@ public class Pair<K, V> {
      * @since 3.3
      */
     public static <K, V> Pair<K, V> create(K k, V v) {
-        return new Pair<K, V>(k, v);
+        return new Pair<>(k, v);
     }
 }

@@ -213,28 +213,24 @@ public class GDIPlusObject extends EMFPlusTag {
 
 	@Override
 	public String toString() {
-		StringBuffer sb = new StringBuffer(super.toString());
+		StringBuilder sb = new StringBuilder(super.toString());
 		sb.append("\n  ");
 		int type = flags & 0x0000FF00;
 		switch (type) {
-		case BRUSH:
-			sb.append("brush: " + brush);
-			break;
-		case PEN:
+		case BRUSH -> sb.append("brush: " + brush);
+		case PEN -> {
 			sb.append("stroke: " + stroke);
 			sb.append("\n  brush: " + brush);
-			break;
-		case PATH:
+		}
+		case PATH -> {
 			sb.append("fillMode: " + pathFillMode);
 			sb.append("\n  n: " + path.length);
-			for (int i = 0; i < path.length; i++) {
-				sb.append("\n  0x" + Integer.toHexString(path[i].getType())
-						+ " (" + path[i].getX() + ", " + path[i].getY() + ")");
+			for (PathPoint pathPoint : path) {
+				sb.append("\n  0x" + Integer.toHexString(pathPoint.getType())
+						+ " (" + pathPoint.getX() + ", " + pathPoint.getY() + ")");
 			}
-			break;
-		default:
-			sb.append("UNKNOWN");
-			break;
+		}
+		default -> sb.append("UNKNOWN");
 		}
 		return sb.toString();
 	}
@@ -277,8 +273,7 @@ public class GDIPlusObject extends EMFPlusTag {
 		if (brush instanceof Color) {
 			emf.writeUINT(BRUSH_TYPE_SOLID_COLOR);
 			emf.writeCOLOR((Color) brush);
-		} else if (brush instanceof GradientPaint) {
-			GradientPaint paint = (GradientPaint) brush;
+		} else if (brush instanceof GradientPaint paint) {
 			emf.writeUINT(BRUSH_TYPE_LINEAR_GRADIENT);
 			emf.writeUINT(0x02); // write Matrix
 			emf.writeUINT(paint.isCyclic() ? WRAP_MODE_TYLE_FLIP_XY
@@ -309,8 +304,7 @@ public class GDIPlusObject extends EMFPlusTag {
 			transform.scale(scale, scale);
 			transform.rotate(angle);
 			writeTransform(emf, transform);
-		} else if (brush instanceof TexturePaint) {
-			TexturePaint paint = (TexturePaint) brush;
+		} else if (brush instanceof TexturePaint paint) {
 			emf.writeUINT(BRUSH_TYPE_TEXTURE_GRADIENT);
 			emf.writeUINT(0); // no special mode
 			emf.writeUINT(WRAP_MODE_TYLE);

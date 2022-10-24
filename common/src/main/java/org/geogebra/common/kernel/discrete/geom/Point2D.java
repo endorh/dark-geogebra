@@ -41,10 +41,9 @@ public class Point2D implements Comparable<Point2D> {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof Point2D)) {
+		if (!(obj instanceof Point2D other)) {
 			return false;
 		}
-		Point2D other = (Point2D) obj;
 		return x == other.x && y == other.y;
 	}
 

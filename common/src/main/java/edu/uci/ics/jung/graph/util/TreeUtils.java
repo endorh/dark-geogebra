@@ -31,7 +31,7 @@ public class TreeUtils {
 	 *            the edge type
 	 */
 	public static <V, E> List<V> getRoots(Forest<V, E> forest) {
-		List<V> roots = new ArrayList<V>();
+		List<V> roots = new ArrayList<>();
 		for (Tree<V, E> tree : forest.getTrees()) {
 			roots.add(tree.getRoot());
 		}

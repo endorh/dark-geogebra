@@ -32,31 +32,30 @@ public class CmdDiameter extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2:
+		case 2 -> {
 			arg = resArgs(c);
 
 			// diameter line conjugate to vector relative to conic
 			if ((ok[0] = (arg[0].isGeoVector()))
 					&& (ok[1] = (arg[1].isGeoConic()))) {
-				GeoElement[] ret = { diameter(c.getLabel(),
-						(GeoVectorND) arg[0], (GeoConicND) arg[1]) };
+				GeoElement[] ret = {diameter(c.getLabel(),
+						(GeoVectorND) arg[0], (GeoConicND) arg[1])};
 				return ret;
 			}
 
 			// diameter line conjugate to line relative to conic
 			if ((ok[0] = (arg[0].isGeoLine()))
 					&& (ok[1] = (arg[1].isGeoConic()))) {
-				GeoElement[] ret = { diameter(c.getLabel(), (GeoLineND) arg[0],
-						(GeoConicND) arg[1]) };
+				GeoElement[] ret = {diameter(c.getLabel(), (GeoLineND) arg[0],
+						(GeoConicND) arg[1])};
 				return ret;
 			}
 			if (!ok[0]) {
 				throw argErr(c, arg[0]);
 			}
 			throw argErr(c, arg[1]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

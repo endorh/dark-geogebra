@@ -222,7 +222,7 @@ public class DataItem {
 		}
 
 		switch (sourceType) {
-		case LIST:
+		case LIST -> {
 			if (geoList == null) {
 				return false;
 			}
@@ -231,8 +231,8 @@ public class DataItem {
 					return true;
 				}
 			}
-			break;
-		case SPREADSHEET:
+		}
+		case SPREADSHEET -> {
 			if (rangeList == null) {
 				return false;
 			}
@@ -241,7 +241,7 @@ public class DataItem {
 					return true;
 				}
 			}
-			break;
+		}
 		}
 		return false;
 	}
@@ -256,20 +256,14 @@ public class DataItem {
 		 * if(getGeoCount() == 0){ return false; }
 		 */
 
-		switch (sourceType) {
-		case LIST:
-			return geoList == null;
-		case SPREADSHEET:
-			return rangeList == null;
-		case CLASS:
-			return leftBorder == null;
-		case INTERNAL:
-			return strInternal == null;
-		case EMPTY:
-			return true;
-		default:
-			return false;
-		}
+		return switch (sourceType) {
+			case LIST -> geoList == null;
+			case SPREADSHEET -> rangeList == null;
+			case CLASS -> leftBorder == null;
+			case INTERNAL -> strInternal == null;
+			case EMPTY -> true;
+			default -> false;
+		};
 	}
 
 	/**
@@ -306,30 +300,15 @@ public class DataItem {
 	 */
 	public String getSourceString(App app) {
 
-		String sourceString;
-
-		switch (sourceType) {
-		case LIST:
-			sourceString = getGeoList()
+		return switch (sourceType) {
+			case LIST -> getGeoList()
 					.getLabel(StringTemplate.defaultTemplate);
-			break;
-
-		case SPREADSHEET:
-			sourceString = spreadsheetTable(app).getCellRangeProcessor()
+			case SPREADSHEET -> spreadsheetTable(app).getCellRangeProcessor()
 					.getCellRangeString(getRangeList());
-			break;
-
-		case INTERNAL:
-			sourceString = "Untitled";
-			break;
-
-		default:
-		case CLASS:
-			sourceString = " ";
-			break;
-		}
-
-		return sourceString;
+			case INTERNAL -> "Untitled";
+			// case CLASS,
+			default -> " ";
+		};
 	}
 
 	/**
@@ -344,7 +323,7 @@ public class DataItem {
 		if (!enableHeader || sourceType == SourceType.LIST) {
 			return getSourceString(app);
 
-		} else if (enableHeader && sourceType == SourceType.SPREADSHEET) {
+		} else if (sourceType == SourceType.SPREADSHEET) {
 
 			StringTemplate tpl = StringTemplate.defaultTemplate;
 			CellRange range = getRangeList().get(0);
@@ -439,10 +418,10 @@ public class DataItem {
 			cons.setSuppressLabelCreation(true);
 
 			list = new GeoList(cons);
-			for (int i = 0; i < s.length; i++) {
+			for (String value : s) {
 
 				try {
-					double num = Double.parseDouble(s[i]);
+					double num = Double.parseDouble(value);
 					// System.out.println(num);
 					GeoElement geo = new GeoNumeric(cons);
 					((GeoNumeric) geo).setValue(num);
@@ -542,7 +521,7 @@ public class DataItem {
 		if (list == null) {
 			return new String[0];
 		}
-		return list.toArray(new String[list.size()]);
+		return list.toArray(new String[0]);
 	}
 
 	/**
@@ -590,19 +569,19 @@ public class DataItem {
 					ArrayList<GeoElement> list = cr.toGeoList();
 
 					// iterate through the list and set the row values
-					for (int i = 0; i < list.size(); i++) {
+					for (GeoElement geoElement : list) {
 						if (skipFirstCell) {
 							skipFirstCell = false;
 							continue;
 						}
-						if (list.get(i) == null || !(list.get(i).isDefined())) {
+						if (geoElement == null || !(geoElement.isDefined())) {
 							continue;
 						}
-						if (isValidDataType(list.get(i))) {
-							strList.add(list.get(i).getValueForInputBar());
+						if (isValidDataType(geoElement)) {
+							strList.add(geoElement.getValueForInputBar());
 						} else {
 							strList.add("<html><i><font color = gray>"
-									+ list.get(i).getValueForInputBar()
+									+ geoElement.getValueForInputBar()
 									+ "</font></i></html>");
 						}
 					}
@@ -614,7 +593,7 @@ public class DataItem {
 
 				// load the array into the column
 				for (int i = 0; i < str.length; i++) {
-					if (i < str.length && str[i] != null) {
+					if (str[i] != null) {
 						strList.add(i, str[i]);
 					} else {
 						strList.add(i, " ");
@@ -628,7 +607,7 @@ public class DataItem {
 
 				// load the array into the column
 				for (int i = 0; i < leftBorder1.length - 1; i++) {
-					if (i < leftBorder1.length && leftBorder1[i] != null) {
+					if (leftBorder1[i] != null) {
 						String interval = leftBorder1[i] + " - "
 								+ leftBorder1[i + 1];
 						strList.add(i, interval);

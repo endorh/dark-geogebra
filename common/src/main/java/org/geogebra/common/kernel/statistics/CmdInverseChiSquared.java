@@ -29,7 +29,7 @@ public class CmdInverseChiSquared extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2:
+		case 2 -> {
 			arg = resArgs(c);
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
@@ -38,14 +38,13 @@ public class CmdInverseChiSquared extends CommandProcessor {
 						c.getLabel(), (GeoNumberValue) arg[0],
 						(GeoNumberValue) arg[1]);
 
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 				return ret;
 
 			}
 			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

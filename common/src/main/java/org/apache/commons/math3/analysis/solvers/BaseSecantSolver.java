@@ -240,20 +240,14 @@ public abstract class BaseSecantSolver
             // are satisfied with the current approximation.
             if (Math.abs(x1 - x0) < Math.max(rtol * Math.abs(x1),
                                                      atol)) {
-                switch (allowed) {
-                case ANY_SIDE:
-                    return x1;
-                case LEFT_SIDE:
-                    return inverted ? x1 : x0;
-                case RIGHT_SIDE:
-                    return inverted ? x0 : x1;
-                case BELOW_SIDE:
-                    return (f1 <= 0) ? x1 : x0;
-                case ABOVE_SIDE:
-                    return (f1 >= 0) ? x1 : x0;
-                default:
-                    throw new MathInternalError();
-                }
+	            return switch (allowed) {
+		            case ANY_SIDE -> x1;
+		            case LEFT_SIDE -> inverted ? x1 : x0;
+		            case RIGHT_SIDE -> inverted ? x0 : x1;
+		            case BELOW_SIDE -> (f1 <= 0) ? x1 : x0;
+		            case ABOVE_SIDE -> (f1 >= 0) ? x1 : x0;
+		            default -> throw new MathInternalError();
+	            };
             }
         }
     }

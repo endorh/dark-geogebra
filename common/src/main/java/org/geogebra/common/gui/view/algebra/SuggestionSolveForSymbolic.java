@@ -8,7 +8,6 @@ import java.util.List;
 import org.geogebra.common.gui.view.algebra.scicalc.LabelHiderCallback;
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.arithmetic.Equation;
-import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.geos.GeoDummyVariable;
@@ -196,15 +195,9 @@ public final class SuggestionSolveForSymbolic extends SuggestionSolve {
 	}
 
 	private static Inspecting newEquationInspecting(final String[] vars) {
-		return new Inspecting() {
-
-			@Override
-			public boolean check(ExpressionValue var) {
-				return isAlgebraEquation((GeoElement) var)
-						&& subset(getVariables((GeoSymbolic) var), vars)
-						&& !SuggestionSolve
-						.checkDependentAlgo((GeoElement) var, SINGLE_SOLVE, null);
-			}
-		};
+		return var -> isAlgebraEquation((GeoElement) var)
+				&& subset(getVariables((GeoSymbolic) var), vars)
+				&& !SuggestionSolve
+				.checkDependentAlgo((GeoElement) var, SINGLE_SOLVE, null);
 	}
 }

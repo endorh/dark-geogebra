@@ -37,7 +37,7 @@ class PollardRho {
      * @return the list of prime factors of n.
      */
     public static List<Integer> primeFactors(int n) {
-        final List<Integer> factors = new ArrayList<Integer>();
+        final List<Integer> factors = new ArrayList<>();
 
         n = SmallPrimes.smallTrialDivision(n, factors);
         if (1 == n) {

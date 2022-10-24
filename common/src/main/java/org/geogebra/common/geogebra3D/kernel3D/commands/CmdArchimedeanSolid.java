@@ -39,7 +39,7 @@ public class CmdArchimedeanSolid extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
+		case 1 -> {
 			arg = resArgs(c);
 			ok[0] = arg[0].isGeoPolygon();
 			if (ok[0]) {
@@ -49,7 +49,8 @@ public class CmdArchimedeanSolid extends CommandProcessor {
 				return ret;
 			}
 			throw argErr(c, arg[0]);
-		case 2:
+		}
+		case 2 -> {
 			arg = resArgs(c);
 			if ((ok[0] = arg[0].isGeoPoint())
 					&& (ok[1] = arg[1].isGeoPoint())) {
@@ -71,8 +72,8 @@ public class CmdArchimedeanSolid extends CommandProcessor {
 					throw argErr(c, arg[i]);
 				}
 			}
-			break;
-		case 3:
+		}
+		case 3 -> {
 			arg = resArgs(c);
 			if ((ok[0] = arg[0].isGeoPoint())
 					&& (ok[1] = arg[1].isGeoPoint())) {
@@ -97,13 +98,12 @@ public class CmdArchimedeanSolid extends CommandProcessor {
 
 				ok[2] = false;
 			}
-
 			for (int i = 0; i < 3; i++) {
 				if (!ok[i]) {
 					throw argErr(c, arg[i]);
 				}
 			}
-			break;
+		}
 		}
 
 		throw argNumErr(c);

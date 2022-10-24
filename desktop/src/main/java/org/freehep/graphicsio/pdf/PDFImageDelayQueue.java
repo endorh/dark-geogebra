@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.image.RenderedImage;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -74,8 +73,8 @@ public class PDFImageDelayQueue {
 
 	/** Creates a stream for every delayed image that is not written yet. */
 	public void processAll() throws IOException {
-		for (Iterator i = imageList.iterator(); i.hasNext();) {
-			Entry entry = (Entry) i.next();
+		for (Object o : imageList) {
+			Entry entry = (Entry) o;
 
 			if (!entry.written) {
 				entry.written = true;
@@ -83,11 +82,11 @@ public class PDFImageDelayQueue {
 				String[] encode;
 				if (entry.writeAs.equals(ImageConstants.ZLIB)
 						|| (entry.maskName != null)) {
-					encode = new String[] { "Flate", "ASCII85" };
+					encode = new String[]{"Flate", "ASCII85"};
 				} else if (entry.writeAs.equals(ImageConstants.JPG)) {
-					encode = new String[] { "DCT", "ASCII85" };
+					encode = new String[]{"DCT", "ASCII85"};
 				} else {
-					encode = new String[] { null, "ASCII85" };
+					encode = new String[]{null, "ASCII85"};
 				}
 
 				PDFStream img = pdf.openStream(entry.name);
@@ -115,8 +114,8 @@ public class PDFImageDelayQueue {
 	public int addXObjects() throws IOException {
 		if (imageList.size() > 0) {
 			PDFDictionary xobj = pdf.openDictionary("XObjects");
-			for (Iterator i = imageList.iterator(); i.hasNext();) {
-				Entry entry = (Entry) i.next();
+			for (Object o : imageList) {
+				Entry entry = (Entry) o;
 				xobj.entry(entry.name, pdf.ref(entry.name));
 				if (entry.maskName != null) {
 					xobj.entry(entry.maskName, pdf.ref(entry.maskName));

@@ -427,9 +427,8 @@ public class CASInputHandler {
 				return sb.toString();
 			}
 			// use NSolve tool with list of equations
-			else if (expandValidExp.unwrap() instanceof MyList) {
+			else if (expandValidExp.unwrap() instanceof MyList equList) {
 				isEquList = true;
-				MyList equList = (MyList) expandValidExp.unwrap();
 				// handle case list with two equations
 				// TODO handle list with n equations
 				casResult = cas.getCurrentCAS()
@@ -457,9 +456,7 @@ public class CASInputHandler {
 				HashSet<GeoElement> vars = ve
 						.getVariables(SymbolicMode.NONE);
 				if (!vars.isEmpty()) {
-					Iterator<GeoElement> it = vars.iterator();
-					while (it.hasNext()) {
-						GeoElement next = it.next();
+					for (GeoElement next : vars) {
 						if (next instanceof GeoDummyVariable) {
 							// for non-polynomial equation list
 							// we have to add all vars
@@ -468,10 +465,7 @@ public class CASInputHandler {
 								Set<String> varsStrSet = getVariableStrSet(
 										vars);
 								if (!varsStrSet.isEmpty()) {
-									Iterator<String> itStrSet = varsStrSet
-											.iterator();
-									while (itStrSet.hasNext()) {
-										String nextStr = itStrSet.next();
+									for (String nextStr : varsStrSet) {
 										sb.append(nextStr);
 										sb.append("=1");
 										sb.append(",");
@@ -532,9 +526,7 @@ public class CASInputHandler {
 	private static Set<String> getVariableStrSet(HashSet<GeoElement> vars) {
 		Set<String> varsStrSet = new HashSet<>();
 		if (!vars.isEmpty()) {
-			Iterator<GeoElement> it = vars.iterator();
-			while (it.hasNext()) {
-				GeoElement next = it.next();
+			for (GeoElement next : vars) {
 				if (next instanceof GeoDummyVariable) {
 					String var = next.toString(StringTemplate.defaultTemplate);
 					if (!varsStrSet.contains(var)) {
@@ -562,7 +554,7 @@ public class CASInputHandler {
 		if (trimmed.length() == 0) {
 			return false;
 		}
-		if (trimmed.length() == 1 && "]})".indexOf(trimmed) > -1) {
+		if (trimmed.length() == 1 && "]})".contains(trimmed)) {
 			return false;
 		}
 		return true;
@@ -607,9 +599,9 @@ public class CASInputHandler {
 
 		// remove empty cells because empty cells' inputVE vars are null
 		ArrayList<Integer> l = new ArrayList<>();
-		for (int i = 0; i < selectedIndices.length; i++) {
-			if (!casView.isRowEmpty(selectedIndices[i])) {
-				l.add(selectedIndices[i]);
+		for (int selectedIndex : selectedIndices) {
+			if (!casView.isRowEmpty(selectedIndex)) {
+				l.add(selectedIndex);
 			}
 		}
 		selectedIndices = new int[l.size()];
@@ -663,9 +655,7 @@ public class CASInputHandler {
 							.evaluateRaw(inputStr.toString());
 					HashSet<GeoElement> cellVars = selCellValue.getInputVE()
 							.getVariables(SymbolicMode.NONE);
-					Iterator<GeoElement> it = cellVars.iterator();
-					while (it.hasNext()) {
-						GeoElement curr = it.next();
+					for (GeoElement curr : cellVars) {
 						// if input was geoCasCell
 						if (curr instanceof GeoCasCell) {
 							// we should use only the variables from output
@@ -702,7 +692,7 @@ public class CASInputHandler {
 							int j;
 							for (j = 0; j < vars.size(); j++) {
 								if (curr.toString(
-										StringTemplate.defaultTemplate)
+												StringTemplate.defaultTemplate)
 										.equals(vars.get(j).toString(
 												StringTemplate.defaultTemplate))) {
 									break;
@@ -754,13 +744,13 @@ public class CASInputHandler {
 		if (!vars.isEmpty() && foundNonPolynomial) {
 			cellText.append(",{");
 			boolean first = true;
-			for (int i = 0; i < vars.size(); i++) {
+			for (GeoElement var : vars) {
 				if (!first) {
 					cellText.append(",");
 				}
-				if (vars.get(i) instanceof GeoDummyVariable) {
+				if (var instanceof GeoDummyVariable) {
 					first = false;
-					cellText.append(vars.get(i).toString(
+					cellText.append(var.toString(
 							StringTemplate.defaultTemplate));
 					cellText.append("=1");
 				}
@@ -1005,7 +995,7 @@ public class CASInputHandler {
 		}
 
 		if (parantheses && !noParentheses) {
-			sb.append("(" + reference + ")");
+			sb.append("(").append(reference).append(")");
 		} else {
 			sb.append(reference);
 		}
@@ -1034,8 +1024,7 @@ public class CASInputHandler {
 		boolean isPlottable = true;
 		int dim = cell.getKernel().getApplication().is3D() ? 3 : 2;
 		if (ve != null) {
-			if (ve.unwrap() instanceof MyList) {
-				MyList ml = (MyList) ve.unwrap();
+			if (ve.unwrap() instanceof MyList ml) {
 				int i = 0;
 				while (i < ml.size() && isPlottable) {
 					isPlottable &= !(ml.getItem(i)

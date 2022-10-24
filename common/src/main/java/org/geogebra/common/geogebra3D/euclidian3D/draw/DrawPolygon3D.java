@@ -482,8 +482,8 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		}
 
 		// update segments
-		for (Iterator<DrawSegment3D> s = segments.iterator(); s.hasNext();) {
-			s.next().updatePreview();
+		for (DrawSegment3D segment : segments) {
+			segment.updatePreview();
 		}
 
 		// Application.debug("DrawList3D:\n"+getView3D().getDrawList3D().toString());
@@ -500,8 +500,8 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		GeoPointND[] points = new GeoPointND[selectedPoints.size() + 1];
 
 		index = 0;
-		for (Iterator<GeoPointND> p = selectedPoints.iterator(); p.hasNext();) {
-			points[index] = p.next();
+		for (GeoPointND selectedPoint : selectedPoints) {
+			points[index] = selectedPoint;
 			index++;
 		}
 

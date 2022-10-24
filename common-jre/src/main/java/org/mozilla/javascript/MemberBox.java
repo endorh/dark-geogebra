@@ -188,8 +188,8 @@ final class MemberBox implements Serializable
                     if (Modifier.isPublic(intf.getModifiers())) {
                         try {
                             return intf.getMethod(name, params);
-                        } catch (NoSuchMethodException ex) {
-                        } catch (SecurityException ex) {  }
+                        } catch (NoSuchMethodException | SecurityException ex) {
+                        }
                     }
                 }
                 for (;;) {
@@ -204,8 +204,8 @@ final class MemberBox implements Serializable
                             {
                                 return m;
                             }
-                        } catch (NoSuchMethodException ex) {
-                        } catch (SecurityException ex) {  }
+                        } catch (NoSuchMethodException | SecurityException ex) {
+                        }
                     }
                 }
             }
@@ -305,23 +305,22 @@ final class MemberBox implements Serializable
     {
         out.writeShort(parms.length);
     outer:
-        for (int i=0; i < parms.length; i++) {
-            Class<?> parm = parms[i];
-            boolean primitive = parm.isPrimitive();
-            out.writeBoolean(primitive);
-            if (!primitive) {
-                out.writeObject(parm);
-                continue;
-            }
-            for (int j=0; j < primitives.length; j++) {
-                if (parm.equals(primitives[j])) {
-                    out.writeByte(j);
-                    continue outer;
-                }
-            }
-            throw new IllegalArgumentException("Primitive " + parm +
-                                               " not found");
-        }
+    for (Class<?> parm : parms) {
+	    boolean primitive = parm.isPrimitive();
+	    out.writeBoolean(primitive);
+	    if (!primitive) {
+		    out.writeObject(parm);
+		    continue;
+	    }
+	    for (int j = 0; j < primitives.length; j++) {
+		    if (parm.equals(primitives[j])) {
+			    out.writeByte(j);
+			    continue outer;
+		    }
+	    }
+	    throw new IllegalArgumentException("Primitive " + parm +
+			    " not found");
+    }
     }
 
     /**

@@ -7,8 +7,8 @@ import org.geogebra.common.geogebra3D.input3D.EuclidianViewInput3DCompanion;
 import org.geogebra.common.geogebra3D.input3D.Input3D;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianView3DD;
-import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.desktop.RendererCheckGLVersionD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl;
+import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.desktop.RendererCheckGLVersionD;
 
 /**
  * EuclidianView3D with controller using 3D input

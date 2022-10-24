@@ -12,29 +12,18 @@
 
 package org.geogebra.desktop.euclidian;
 
-import static java.lang.Math.max;
-
-import java.awt.AWTException;
 import java.awt.Component;
-import java.awt.MouseInfo;
-import java.awt.Point;
-import java.awt.PointerInfo;
-import java.awt.Robot;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 
 import javax.swing.ToolTipManager;
 
-import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.kernel.Kernel;
-import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.euclidian.event.MouseEventD;
 import org.geogebra.desktop.main.AppD;
-
-import edu.umd.cs.findbugs.annotations.Nullable;
 
 /**
  * EuclidianController.java

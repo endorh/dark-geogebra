@@ -125,22 +125,17 @@ public class AlgoCircumferenceConic extends AlgoElement {
 
 		// standard case: conic
 		switch (type) {
-		case GeoConicNDConstants.CONIC_CIRCLE:
+		case GeoConicNDConstants.CONIC_CIRCLE -> {
 			// r is length of one of the half axes
 			double r = conic.getHalfAxis(0);
 			circum.setValue(2 * r * Math.PI);
-			break;
-
-		case GeoConicNDConstants.CONIC_ELLIPSE:
+		}
+		case GeoConicNDConstants.CONIC_ELLIPSE ->
 
 			// new, more accurate method
 			// https://jira.geogebra.org/browse/GGB-692
-			circum.setValue(conic.getEllipseCircumference());
-
-			break;
-
-		default:
-			circum.setUndefined();
+				circum.setValue(conic.getEllipseCircumference());
+		default -> circum.setUndefined();
 		}
 	}
 

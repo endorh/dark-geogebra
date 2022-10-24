@@ -14,8 +14,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
@@ -36,8 +34,6 @@ import javax.swing.JToolBar;
 import javax.swing.ListCellRenderer;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import org.geogebra.common.gui.view.data.DataAnalysisModel;
 import org.geogebra.common.gui.view.data.DataDisplayModel;
@@ -257,12 +253,7 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 		optionsPanel = new OptionsPanelD(app, daModel,
 				getModel().getSettings());
 		optionsPanel.addPropertyChangeListener("settings",
-				new PropertyChangeListener() {
-					@Override
-					public void propertyChange(PropertyChangeEvent evt) {
-						getModel().updatePlot(true);
-					}
-				});
+				evt -> getModel().updatePlot(true));
 		optionsPanel.setVisible(false);
 
 		frequencyTable = new FrequencyTablePanel(app);
@@ -371,15 +362,12 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 
 		sliderNumClasses.setMajorTickSpacing(1);
 		sliderNumClasses.setSnapToTicks(true);
-		sliderNumClasses.addChangeListener(new ChangeListener() {
-			@Override
-			public void stateChanged(ChangeEvent evt) {
-				JSlider slider = (JSlider) evt.getSource();
-				getModel().getSettings().setNumClasses(slider.getValue());
-				fldNumClasses.setText(
-						("" + getModel().getSettings().getNumClasses()));
-				getModel().updatePlot(true);
-			}
+		sliderNumClasses.addChangeListener(evt -> {
+			JSlider slider = (JSlider) evt.getSource();
+			getModel().getSettings().setNumClasses(slider.getValue());
+			fldNumClasses.setText(
+					("" + getModel().getSettings().getNumClasses()));
+			getModel().updatePlot(true);
 		});
 
 		sliderNumClasses.addMouseListener(new MouseAdapter() {
@@ -581,8 +569,8 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 
 	private static JPanel flowPanel(JComponent... comp) {
 		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		for (int i = 0; i < comp.length; i++) {
-			p.add(comp[i]);
+		for (JComponent jComponent : comp) {
+			p.add(jComponent);
 		}
 		// p.setBackground(Color.white);
 		return p;
@@ -590,8 +578,8 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 
 	private static JPanel flowPanelRight(JComponent... comp) {
 		JPanel p = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
-		for (int i = 0; i < comp.length; i++) {
-			p.add(comp[i]);
+		for (JComponent jComponent : comp) {
+			p.add(jComponent);
 		}
 		// p.setBackground(Color.white);
 		return p;

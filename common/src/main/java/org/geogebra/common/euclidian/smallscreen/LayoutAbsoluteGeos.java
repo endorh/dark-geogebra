@@ -1,7 +1,6 @@
 package org.geogebra.common.euclidian.smallscreen;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -118,11 +117,11 @@ public class LayoutAbsoluteGeos {
 	}
 
 	private void sortX() {
-		Collections.sort(all, comparatorX);
+		all.sort(comparatorX);
 	}
 
 	private void sortY() {
-		Collections.sort(all, comparatorY);
+		all.sort(comparatorY);
 	}
 
 	// private static String buttonDetails(AbsoluteScreenLocateable absGeo,

@@ -52,12 +52,7 @@ public class OrderedKAryTree<V, E> extends AbstractTypedGraph<V, E>
 	 */
 	public static <V, E> Factory<DirectedGraph<V, E>> getFactory(
 			final int order) {
-		return new Factory<DirectedGraph<V, E>>() {
-			@Override
-			public DirectedGraph<V, E> create() {
-				return new OrderedKAryTree<V, E>(order);
-			}
-		};
+		return () -> new OrderedKAryTree<>(order);
 	}
 
 	/**
@@ -68,8 +63,8 @@ public class OrderedKAryTree<V, E> extends AbstractTypedGraph<V, E>
 		super(EdgeType.DIRECTED);
 		this.order = order;
 		this.height = -1;
-		this.edge_vpairs = new HashMap<E, Pair<V>>();
-		this.vertex_data = new HashMap<V, VertexData>();
+		this.edge_vpairs = new HashMap<>();
+		this.vertex_data = new HashMap<>();
 	}
 
 	/**
@@ -142,7 +137,7 @@ public class OrderedKAryTree<V, E> extends AbstractTypedGraph<V, E>
 		if (edges == null) {
 			return Collections.emptySet();
 		}
-		Collection<V> children = new ArrayList<V>(order);
+		Collection<V> children = new ArrayList<>(order);
 		for (E edge : edges) {
 			children.add(this.getOpposite(vertex, edge));
 		}
@@ -209,7 +204,7 @@ public class OrderedKAryTree<V, E> extends AbstractTypedGraph<V, E>
 	 */
 	@Override
 	public Collection<Tree<V, E>> getTrees() {
-		Collection<Tree<V, E>> forest = new ArrayList<Tree<V, E>>(1);
+		Collection<Tree<V, E>> forest = new ArrayList<>(1);
 		forest.add(this);
 		return forest;
 	}
@@ -246,7 +241,7 @@ public class OrderedKAryTree<V, E> extends AbstractTypedGraph<V, E>
 					"'index' must be in [0, [order-1]]");
 		}
 
-		Pair<V> endpoints = new Pair<V>(parent, child);
+		Pair<V> endpoints = new Pair<>(parent, child);
 		if (containsEdge(e)) {
 			if (!endpoints.equals(edge_vpairs.get(e))) {
 				throw new IllegalArgumentException("Tree already includes edge"
@@ -260,7 +255,7 @@ public class OrderedKAryTree<V, E> extends AbstractTypedGraph<V, E>
 		List<E> outedges = parent_data.child_edges;
 
 		if (outedges == null) {
-			outedges = new ArrayList<E>(this.order);
+			outedges = new ArrayList<>(this.order);
 		}
 
 		boolean edge_placed = false;
@@ -564,7 +559,7 @@ public class OrderedKAryTree<V, E> extends AbstractTypedGraph<V, E>
 		if (vertices instanceof Pair) {
 			endpoints = (Pair<V>) vertices;
 		} else {
-			endpoints = new Pair<V>(vertices);
+			endpoints = new Pair<>(vertices);
 		}
 		V v1 = endpoints.getFirst();
 		V v2 = endpoints.getSecond();
@@ -729,7 +724,7 @@ public class OrderedKAryTree<V, E> extends AbstractTypedGraph<V, E>
 		if (!containsVertex(vertex)) {
 			return null;
 		}
-		ArrayList<E> edges = new ArrayList<E>(order + 1);
+		ArrayList<E> edges = new ArrayList<>(order + 1);
 		VertexData v_data = vertex_data.get(vertex);
 		if (v_data.parent_edge != null) {
 			edges.add(v_data.parent_edge);
@@ -774,7 +769,7 @@ public class OrderedKAryTree<V, E> extends AbstractTypedGraph<V, E>
 		if (!containsVertex(vertex)) {
 			return null;
 		}
-		ArrayList<V> vertices = new ArrayList<V>(order + 1);
+		ArrayList<V> vertices = new ArrayList<>(order + 1);
 		VertexData v_data = vertex_data.get(vertex);
 		if (v_data.parent_edge != null) {
 			vertices.add(edge_vpairs.get(v_data.parent_edge).getFirst());

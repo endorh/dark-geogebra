@@ -68,17 +68,11 @@ class ArcIterator implements GPathIterator {
                 arcSegs = 0;
             }
         }
-        switch (a.getArcType()) {
-        case Arc2D.OPEN:
-            lineSegs = 0;
-            break;
-        case Arc2D.CHORD:
-            lineSegs = 1;
-            break;
-        case Arc2D.PIE:
-            lineSegs = 2;
-            break;
-        }
+	    switch (a.getArcType()) {
+	    case Arc2D.OPEN -> lineSegs = 0;
+	    case Arc2D.CHORD -> lineSegs = 1;
+	    case Arc2D.PIE -> lineSegs = 2;
+	    }
         if (w < 0 || h < 0) {
             arcSegs = lineSegs = -1;
         }

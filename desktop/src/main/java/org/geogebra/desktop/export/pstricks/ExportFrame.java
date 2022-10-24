@@ -1,17 +1,13 @@
 package org.geogebra.desktop.export.pstricks;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
-import java.util.Iterator;
 import java.util.TreeSet;
 
 import javax.swing.DefaultComboBoxModel;
@@ -141,16 +137,13 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 		jcbAsyCse5.setSelected(false);
 		jcbAsyCse5.setEnabled(false);
 		jcbDotColors.setSelected(false);
-		jcbAsyCompact.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (jcbAsyCompact.isSelected()) {
-					jcbAsyCse5.setEnabled(true);
-					jcbPairName.setSelected(true);
-				} else {
-					jcbAsyCse5.setSelected(false);
-					jcbAsyCse5.setEnabled(false);
-				}
+		jcbAsyCompact.addActionListener(e -> {
+			if (jcbAsyCompact.isSelected()) {
+				jcbAsyCse5.setEnabled(true);
+				jcbPairName.setSelected(true);
+			} else {
+				jcbAsyCse5.setSelected(false);
+				jcbAsyCse5.setEnabled(false);
 			}
 		});
 		final String[] comboFillText = { loc.getMenu("None"),
@@ -167,73 +160,58 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 		comboModel = new DefaultComboBoxModel();
 		TreeSet<GeoElement> sortedSet = app.getKernel().getConstruction()
 				.getGeoSetNameDescriptionOrder();
-		Iterator<GeoElement> it = sortedSet.iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
+		for (GeoElement geo : sortedSet) {
 			if (geo.isGeoNumeric() && ((GeoNumeric) geo).isIntervalMinActive()
 					&& ((GeoNumeric) geo).isIntervalMaxActive()) {
 				comboModel.addElement(geo);
 			}
 		}
 		cbSliders = new JComboBox(comboModel);
-		button.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				ggb.setBeamer(isBeamer());
-				ggb.generateAllCode();
-			}
+		button.addActionListener(e -> {
+			ggb.setBeamer(isBeamer());
+			ggb.generateAllCode();
 		});
-		button_copy.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				textarea.copy();
-			}
-		});
+		button_copy.addActionListener(e -> textarea.copy());
 		js = new JScrollPane();
 		textarea = new JTextArea();
 		buttonSave = new JButton(loc.getMenu("SaveAs"));
-		buttonSave.addActionListener(new ActionListener() {
+		buttonSave.addActionListener(e -> {
+			currentFile = app.getGuiManager().showSaveDialog(fileExtension,
+					currentFile, fileExtensionMsg + loc.getMenu("Files"),
+					true, false);
+			if (currentFile == null) {
+				return;
+			}
+			try {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				currentFile = app.getGuiManager().showSaveDialog(fileExtension,
-						currentFile, fileExtensionMsg + loc.getMenu("Files"),
-						true, false);
-				if (currentFile == null) {
-					return;
-				}
-				try {
-
-					FileOutputStream f = new FileOutputStream(currentFile);
-					BufferedOutputStream b = new BufferedOutputStream(f);
-					/*
-					 * java.util.Enumeration en=System.getProperties().keys();
-					 * while(en.hasMoreElements()){ String
-					 * s=en.nextElement().toString(); System.out.println(s+" "
-					 * +System.getProperty(s)); }
-					 */
-					OutputStreamWriter osw = new OutputStreamWriter(b,
-							Charsets.getUtf8());
-					StringBuilder sb = new StringBuilder(textarea.getText());
-					if (isLaTeX()) {
-						int id = sb.indexOf("\\usepackage{");
-						if (id != -1) {
-							sb.insert(id, "\\usepackage[utf8]{inputenc}\n");
-						}
-					} else if (isConTeXt()) {
-						int id = sb.indexOf("\\usemodule[");
-						if (id != -1) {
-							sb.insert(id, "\\enableregime[utf]\n");
-						}
+				FileOutputStream f = new FileOutputStream(currentFile);
+				BufferedOutputStream b = new BufferedOutputStream(f);
+				/*
+				 * java.util.Enumeration en=System.getProperties().keys();
+				 * while(en.hasMoreElements()){ String
+				 * s=en.nextElement().toString(); System.out.println(s+" "
+				 * +System.getProperty(s)); }
+				 */
+				OutputStreamWriter osw = new OutputStreamWriter(b,
+						Charsets.getUtf8());
+				StringBuilder sb = new StringBuilder(textarea.getText());
+				if (isLaTeX()) {
+					int id = sb.indexOf("\\usepackage{");
+					if (id != -1) {
+						sb.insert(id, "\\usepackage[utf8]{inputenc}\n");
 					}
-					osw.write(sb.toString());
-					osw.close();
-					b.close();
-					f.close();
-				} catch (FileNotFoundException e1) {
-				} catch (UnsupportedEncodingException e2) {
-				} catch (IOException e3) {
+				} else if (isConTeXt()) {
+					int id = sb.indexOf("\\usemodule[");
+					if (id != -1) {
+						sb.insert(id, "\\enableregime[utf]\n");
+					}
 				}
+				osw.write(sb.toString());
+				osw.close();
+				b.close();
+				f.close();
+			} catch (UnsupportedEncodingException e2) {
+			} catch (IOException e1) {
 			}
 		});
 	}
@@ -299,15 +277,12 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 
 	@Override
 	public int getFontSize() {
-		switch (comboFontSize.getSelectedIndex()) {
-		case 0:
-			return 10;
-		case 1:
-			return 11;
-		case 2:
-			return 12;
-		}
-		return 10;
+		return switch (comboFontSize.getSelectedIndex()) {
+			case 0 -> 10;
+			case 1 -> 11;
+			case 2 -> 12;
+			default -> 10;
+		};
 	}
 
 	@Override
@@ -411,35 +386,40 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 		@Override
 		public void keyReleased(KeyEvent e) {
 			String cmd = e.getSource().toString();
-			if (cmd.equals(TEXT_XUNIT)) {
+			switch (cmd) {
+			case TEXT_XUNIT:
 				try {
 					double value = textXUnit.getValue();
 					ggb.setXunit(value);
 					textwidth.setValue(value * width);
 				} catch (NumberFormatException e1) {
 				}
-			} else if (cmd.equals(TEXT_YUNIT)) {
+				break;
+			case TEXT_YUNIT:
 				try {
 					double value = textYUnit.getValue();
 					ggb.setYunit(value);
 					textheight.setValue(value * height);
 				} catch (NumberFormatException e1) {
 				}
-			} else if (cmd.equals(TEXT_WIDTH)) {
+				break;
+			case TEXT_WIDTH:
 				try {
 					double value = textwidth.getValue() / width;
 					ggb.setXunit(value);
 					textXUnit.setValue(value);
 				} catch (NumberFormatException e1) {
 				}
-			} else if (cmd.equals(TEXT_HEIGHT)) {
+				break;
+			case TEXT_HEIGHT:
 				try {
 					double value = textheight.getValue() / height;
 					ggb.setYunit(value);
 					textYUnit.setValue(value);
 				} catch (NumberFormatException e1) {
 				}
-			} else if (cmd.equals(TEXT_XMIN)) {
+				break;
+			case TEXT_XMIN:
 				try {
 					double xmax = ggb.getXmax();
 					double m = textXmin.getValue();
@@ -460,7 +440,8 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 					ggb.refreshSelectionRectangle();
 				} catch (NumberFormatException e1) {
 				}
-			} else if (cmd.equals(TEXT_XMAX)) {
+				break;
+			case TEXT_XMAX:
 				try {
 					double xmin = ggb.getxmin();
 					double m = textXmax.getValue();
@@ -481,7 +462,8 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 					ggb.refreshSelectionRectangle();
 				} catch (NumberFormatException e1) {
 				}
-			} else if (cmd.equals(TEXT_YMIN)) {
+				break;
+			case TEXT_YMIN:
 				try {
 					double ymax = ggb.getymax();
 					double m = textYmin.getValue();
@@ -503,7 +485,8 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 					ggb.refreshSelectionRectangle();
 				} catch (NumberFormatException e1) {
 				}
-			} else if (cmd.equals(TEXT_YMAX)) {
+				break;
+			case TEXT_YMAX:
 				try {
 					double ymin = ggb.getymin();
 					double m = textYmax.getValue();
@@ -525,6 +508,7 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 				} catch (NumberFormatException e1) {
 				}
 
+				break;
 			}
 
 		}

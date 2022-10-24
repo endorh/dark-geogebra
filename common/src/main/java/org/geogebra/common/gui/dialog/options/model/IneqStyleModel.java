@@ -55,11 +55,10 @@ public class IneqStyleModel extends BooleanOptionModel {
 	@Override
 	public boolean isValidAt(int index) {
 		GeoElement geo = getGeoAt(index).getGeoElementForPropertiesDialog();
-		if (!(geo instanceof GeoFunction)) {
+		if (!(geo instanceof GeoFunction gfun)) {
 			return false;
 		}
 
-		GeoFunction gfun = (GeoFunction) geo;
 		if (!gfun.isBooleanFunction() || gfun
 				.getVarString(StringTemplate.defaultTemplate).equals("y")) {
 			return false;

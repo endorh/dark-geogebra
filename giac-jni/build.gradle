@@ -4,8 +4,11 @@ plugins {
 
 description 'Java Native Interface to connect Giac and GeoGebra'
 
-sourceCompatibility = 17
-targetCompatibility = 17
+tasks.withType(JavaCompile) {
+	sourceCompatibility = 17
+	targetCompatibility = 17
+	options.encoding = 'UTF-8'
+}
 
 import org.gradle.internal.os.OperatingSystem;
 

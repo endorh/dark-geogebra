@@ -291,14 +291,11 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 	@Override
 	public Coords getPointInD(int dimension, double lambda) {
 		Coords v = getPoint(lambda);
-		switch (dimension) {
-		case 3:
-			return v;
-		case 2:
-			return new Coords(v.getX(), v.getY(), v.getW());
-		default:
-			return null;
-		}
+		return switch (dimension) {
+			case 3 -> v;
+			case 2 -> new Coords(v.getX(), v.getY(), v.getW());
+			default -> null;
+		};
 	}
 
 	/** @return cs unit */
@@ -972,8 +969,7 @@ public abstract class GeoCoordSys1D extends GeoElement3D
 		Coords O = coordsys.getOrigin(); // TODO inhom coords, also copied from
 										// toString
 		Coords V = coordsys.getVx();
-		if (getParentAlgorithm() instanceof AlgoLinePoint) {
-			AlgoLinePoint algoLP = (AlgoLinePoint) getParentAlgorithm();
+		if (getParentAlgorithm() instanceof AlgoLinePoint algoLP) {
 
 			GeoElement[] geos = algoLP.getInput();
 

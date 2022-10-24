@@ -166,7 +166,7 @@ public class AlgebraControllerD extends AlgebraTreeController
 	public void dragGestureRecognized(DragGestureEvent dge) {
 
 		if (geoLabelList == null) {
-			geoLabelList = new ArrayList<String>();
+			geoLabelList = new ArrayList<>();
 		} else {
 			geoLabelList.clear();
 		}

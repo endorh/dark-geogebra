@@ -283,9 +283,7 @@ public class DataDisplayModel {
 
 		try {
 			switch (getSelectedPlot()) {
-
-			case HISTOGRAM:
-
+			case HISTOGRAM -> {
 				if (doCreate) {
 					if (histogram != null) {
 						histogram.remove();
@@ -336,9 +334,7 @@ public class DataDisplayModel {
 				// update settings
 				statGeo.getHistogramSettings(dataListSelected, histogram,
 						settings);
-
 				listener.updatePlotPanelSettings();
-
 				if (hasControlPanel && settings.getDataSource()
 						.getGroupType() != GroupType.CLASS) {
 					if (settings.isUseManualClasses()) {
@@ -348,11 +344,9 @@ public class DataDisplayModel {
 
 					}
 				}
-
 				listener.showPlotPanel();
-				break;
-
-			case BOXPLOT:
+			}
+			case BOXPLOT -> {
 				if (doCreate) {
 					if (boxPlot != null) {
 						boxPlot.remove();
@@ -363,9 +357,8 @@ public class DataDisplayModel {
 				statGeo.getBoxPlotSettings(dataListSelected, settings);
 				listener.updatePlotPanelSettings();
 				listener.showPlotPanel();
-				break;
-
-			case BARCHART:
+			}
+			case BARCHART -> {
 				if (doCreate) {
 					if (barChart != null) {
 						barChart.remove();
@@ -404,9 +397,8 @@ public class DataDisplayModel {
 						barChart);
 				listener.updatePlotPanelSettings();
 				listener.showPlotPanel();
-				break;
-
-			case DOTPLOT:
+			}
+			case DOTPLOT -> {
 				if (doCreate) {
 					if (dotPlot != null) {
 						dotPlot.remove();
@@ -414,19 +406,16 @@ public class DataDisplayModel {
 					dotPlot = statGeo.createDotPlot(dataListSelected);
 					plotGeoList.add(dotPlot);
 				}
-
 				statGeo.updateDotPlot(dataListSelected, dotPlot, settings);
 				listener.updatePlotPanelSettings();
 				listener.showPlotPanel();
-				break;
-
-			case STEMPLOT:
+			}
+			case STEMPLOT -> {
 				String latex = statGeo.getStemPlotLatex(dataListSelected,
 						settings.getStemAdjust());
 				listener.updateStemPlot(latex);
-				break;
-
-			case NORMALQUANTILE:
+			}
+			case NORMALQUANTILE -> {
 				if (doCreate) {
 					if (nqPlot != null) {
 						nqPlot.remove();
@@ -437,10 +426,8 @@ public class DataDisplayModel {
 				statGeo.updateNormalQuantilePlot(dataListSelected, settings);
 				listener.updatePlotPanelSettings();
 				listener.showPlotPanel();
-				break;
-
-			case SCATTERPLOT:
-
+			}
+			case SCATTERPLOT -> {
 				if (doCreate) {
 					Log.debug("[DDMODEL]  UPDATE SCATTERPLOT");
 					scatterPlot = statGeo.createScatterPlot(dataListSelected);
@@ -466,10 +453,8 @@ public class DataDisplayModel {
 				statGeo.getScatterPlotSettings(dataListSelected, settings);
 				listener.updatePlotPanelSettings();
 				listener.showPlotPanel();
-
-				break;
-
-			case RESIDUAL:
+			}
+			case RESIDUAL -> {
 				if (doCreate) {
 					if (!daModel.getRegressionMode().equals(Regression.NONE)) {
 						residualPlot = statGeo.createRegressionPlot(
@@ -485,29 +470,25 @@ public class DataDisplayModel {
 					}
 				}
 				listener.showPlotPanel();
-				break;
-
-			case MULTIBOXPLOT:
+			}
+			case MULTIBOXPLOT -> {
 				if (doCreate) {
 					GeoElement[] boxPlots = statGeo
 							.createMultipleBoxPlot(dataListSelected, settings);
-					for (int i = 0; i < boxPlots.length; i++) {
-						plotGeoList.add(boxPlots[i]);
+					for (GeoElement plot : boxPlots) {
+						plotGeoList.add(plot);
 					}
 				}
-
 				statGeo.getMultipleBoxPlotSettings(dataListSelected, settings);
 				listener.updatePlotPanelSettings();
 				boxPlotTitles = statGeo.createBoxPlotTitles(daModel, settings);
-				for (int i = 0; i < boxPlotTitles.length; i++) {
-					plotGeoList.add(boxPlotTitles[i]);
+				for (GeoElement boxPlotTitle : boxPlotTitles) {
+					plotGeoList.add(boxPlotTitle);
 				}
-
 				listener.showPlotPanel();
-				break;
-
-			default:
-
+			}
+			default -> {
+			}
 			}
 
 			// ==============================================

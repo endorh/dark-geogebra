@@ -664,26 +664,25 @@ public abstract class GuiManager implements GuiManagerInterface {
 		urlSB.append(getApp().getLocalization().getLanguage()); // eg en_GB
 
 		switch (type) {
-		case COMMAND:
+		case COMMAND -> {
 			String cmdPageName = getApp().getLocalization().getEnglishCommand(
 					pageName);
 			urlSB.append("/cmd/");
 			urlSB.append(cmdPageName);
-			break;
-		case TOOL:
+		}
+		case TOOL -> {
 			urlSB.append("/tool/");
 			urlSB.append(pageName);
-			break;
-		case GENERIC:
+		}
+		case GENERIC -> {
 			// eg openHelp("Custom_Tools", Help.GENERIC)
 			// returns http://help.geogebra.org/hu/article/Custom_Tools
 			// wiki redirects to correct page
 			// ie http://wiki.geogebra.org/hu/Egy%E9ni_eszk%F6z%F6k
 			urlSB.append("/article/");
 			urlSB.append(pageName);
-			break;
-		default:
-			Log.error("Bad getHelpURL call");
+		}
+		default -> Log.error("Bad getHelpURL call");
 		}
 
 		return urlSB.toString();

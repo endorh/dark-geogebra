@@ -62,7 +62,7 @@ public class InspectorTable extends JTable {
 		setDefaultRenderer(Object.class, new MyCellRenderer(this));
 		setDefaultEditor(Object.class, new MyEditor());
 
-		editableCell = new HashSet<Point>();
+		editableCell = new HashSet<>();
 	}
 
 	public boolean isDoRedNegative() {

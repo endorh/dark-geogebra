@@ -93,39 +93,39 @@ public class HtmlStepBuilder implements StepGuiBuilder {
 	public void buildStepGui(SolutionStep step, boolean detailed, int indent) {
 		List<SolutionStep> substeps = step.getSubsteps();
 
-		if (step instanceof SolutionLine) {
-			SolutionLine line = (SolutionLine) step;
+		if (step instanceof SolutionLine line) {
 
 			switch (line.getType()) {
-				case WRAPPER:
-					for (int i = 0; substeps != null && i < substeps.size(); i++) {
-						buildStepGui(substeps.get(i), true, indent + 1);
-						if (i != substeps.size() - 1) {
-							linebreak();
-						}
+			case WRAPPER -> {
+				for (int i = 0; substeps != null && i < substeps.size(); i++) {
+					buildStepGui(substeps.get(i), true, indent + 1);
+					if (i != substeps.size() - 1) {
+						linebreak();
 					}
-					return;
-				case GROUP_WRAPPER:
-					for (SolutionStep substep : substeps) {
-						buildStepGui(substep, true, indent);
+				}
+				return;
+			}
+			case GROUP_WRAPPER -> {
+				for (SolutionStep substep : substeps) {
+					buildStepGui(substep, true, indent);
+				}
+				return;
+			}
+			case SUBSTEP_WRAPPER -> {
+				startDefault();
+				buildStepGui(substeps.get(1), false, indent);
+				addDefaultButton();
+				buildStepGui(substeps.get(substeps.size() - 1), false, indent);
+				switchToDetailed();
+				for (int i = 0; i < substeps.size(); i++) {
+					buildStepGui(substeps.get(i), true, indent);
+					if (i == 0) {
+						addDetailedButton();
 					}
-					return;
-				case SUBSTEP_WRAPPER:
-					startDefault();
-					buildStepGui(substeps.get(1), false, indent);
-					addDefaultButton();
-					buildStepGui(substeps.get(substeps.size() - 1), false, indent);
-
-					switchToDetailed();
-					for (int i = 0; i < substeps.size(); i++) {
-						buildStepGui(substeps.get(i), true, indent);
-						if (i == 0) {
-							addDetailedButton();
-						}
-					}
-
-					endDetailed();
-					return;
+				}
+				endDetailed();
+				return;
+			}
 			}
 		}
 

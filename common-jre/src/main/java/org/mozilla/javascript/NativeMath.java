@@ -45,51 +45,162 @@ final class NativeMath extends IdScriptableObject
             String name;
             int arity;
             switch (id) {
-              case Id_toSource: arity = 0; name = "toSource"; break;
-              case Id_abs:      arity = 1; name = "abs";      break;
-              case Id_acos:     arity = 1; name = "acos";     break;
-              case Id_asin:     arity = 1; name = "asin";     break;
-              case Id_atan:     arity = 1; name = "atan";     break;
-              case Id_atan2:    arity = 2; name = "atan2";    break;
-              case Id_cbrt:     arity = 1; name = "cbrt";     break;
-              case Id_ceil:     arity = 1; name = "ceil";     break;
-              case Id_cos:      arity = 1; name = "cos";      break;
-              case Id_cosh:     arity = 1; name = "cosh";     break;
-              case Id_exp:      arity = 1; name = "exp";      break;
-              case Id_expm1:    arity = 1; name = "expm1";    break;
-              case Id_floor:    arity = 1; name = "floor";    break;
-              case Id_hypot:    arity = 2; name = "hypot";    break;
-              case Id_imul:     arity = 2; name = "imul";     break;
-              case Id_log:      arity = 1; name = "log";      break;
-              case Id_log1p:    arity = 1; name = "log1p";    break;
-              case Id_log10:    arity = 1; name = "log10";    break;
-              case Id_max:      arity = 2; name = "max";      break;
-              case Id_min:      arity = 2; name = "min";      break;
-              case Id_pow:      arity = 2; name = "pow";      break;
-              case Id_random:   arity = 0; name = "random";   break;
-              case Id_round:    arity = 1; name = "round";    break;
-              case Id_sin:      arity = 1; name = "sin";      break;
-              case Id_sinh:     arity = 1; name = "sinh";     break;
-              case Id_sqrt:     arity = 1; name = "sqrt";     break;
-              case Id_tan:      arity = 1; name = "tan";      break;
-              case Id_tanh:     arity = 1; name = "tanh";     break;
-              case Id_trunc:    arity = 1; name = "trunc";    break;
-              default: throw new IllegalStateException(String.valueOf(id));
+            case Id_toSource -> {
+                arity = 0;
+                name = "toSource";
+            }
+            case Id_abs -> {
+                arity = 1;
+                name = "abs";
+            }
+            case Id_acos -> {
+                arity = 1;
+                name = "acos";
+            }
+            case Id_asin -> {
+                arity = 1;
+                name = "asin";
+            }
+            case Id_atan -> {
+                arity = 1;
+                name = "atan";
+            }
+            case Id_atan2 -> {
+                arity = 2;
+                name = "atan2";
+            }
+            case Id_cbrt -> {
+                arity = 1;
+                name = "cbrt";
+            }
+            case Id_ceil -> {
+                arity = 1;
+                name = "ceil";
+            }
+            case Id_cos -> {
+                arity = 1;
+                name = "cos";
+            }
+            case Id_cosh -> {
+                arity = 1;
+                name = "cosh";
+            }
+            case Id_exp -> {
+                arity = 1;
+                name = "exp";
+            }
+            case Id_expm1 -> {
+                arity = 1;
+                name = "expm1";
+            }
+            case Id_floor -> {
+                arity = 1;
+                name = "floor";
+            }
+            case Id_hypot -> {
+                arity = 2;
+                name = "hypot";
+            }
+            case Id_imul -> {
+                arity = 2;
+                name = "imul";
+            }
+            case Id_log -> {
+                arity = 1;
+                name = "log";
+            }
+            case Id_log1p -> {
+                arity = 1;
+                name = "log1p";
+            }
+            case Id_log10 -> {
+                arity = 1;
+                name = "log10";
+            }
+            case Id_max -> {
+                arity = 2;
+                name = "max";
+            }
+            case Id_min -> {
+                arity = 2;
+                name = "min";
+            }
+            case Id_pow -> {
+                arity = 2;
+                name = "pow";
+            }
+            case Id_random -> {
+                arity = 0;
+                name = "random";
+            }
+            case Id_round -> {
+                arity = 1;
+                name = "round";
+            }
+            case Id_sin -> {
+                arity = 1;
+                name = "sin";
+            }
+            case Id_sinh -> {
+                arity = 1;
+                name = "sinh";
+            }
+            case Id_sqrt -> {
+                arity = 1;
+                name = "sqrt";
+            }
+            case Id_tan -> {
+                arity = 1;
+                name = "tan";
+            }
+            case Id_tanh -> {
+                arity = 1;
+                name = "tanh";
+            }
+            case Id_trunc -> {
+                arity = 1;
+                name = "trunc";
+            }
+            default -> throw new IllegalStateException(String.valueOf(id));
             }
             initPrototypeMethod(MATH_TAG, id, name, arity);
         } else {
             String name;
             double x;
             switch (id) {
-              case Id_E:       x = Math.E;             name = "E";       break;
-              case Id_PI:      x = Math.PI;            name = "PI";      break;
-              case Id_LN10:    x = 2.302585092994046;  name = "LN10";    break;
-              case Id_LN2:     x = 0.6931471805599453; name = "LN2";     break;
-              case Id_LOG2E:   x = 1.4426950408889634; name = "LOG2E";   break;
-              case Id_LOG10E:  x = 0.4342944819032518; name = "LOG10E";  break;
-              case Id_SQRT1_2: x = 0.7071067811865476; name = "SQRT1_2"; break;
-              case Id_SQRT2:   x = 1.4142135623730951; name = "SQRT2";   break;
-              default: throw new IllegalStateException(String.valueOf(id));
+            case Id_E -> {
+                x = Math.E;
+                name = "E";
+            }
+            case Id_PI -> {
+                x = Math.PI;
+                name = "PI";
+            }
+            case Id_LN10 -> {
+                x = 2.302585092994046;
+                name = "LN10";
+            }
+            case Id_LN2 -> {
+                x = 0.6931471805599453;
+                name = "LN2";
+            }
+            case Id_LOG2E -> {
+                x = 1.4426950408889634;
+                name = "LOG2E";
+            }
+            case Id_LOG10E -> {
+                x = 0.4342944819032518;
+                name = "LOG10E";
+            }
+            case Id_SQRT1_2 -> {
+                x = 0.7071067811865476;
+                name = "SQRT1_2";
+            }
+            case Id_SQRT2 -> {
+                x = 1.4142135623730951;
+                name = "SQRT2";
+            }
+            default -> throw new IllegalStateException(String.valueOf(id));
             }
             initPrototypeValue(id, name, ScriptRuntime.wrapNumber(x),
                                DONTENUM | READONLY | PERMANENT);

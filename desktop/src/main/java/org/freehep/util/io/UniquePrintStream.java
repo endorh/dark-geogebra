@@ -3,7 +3,6 @@ package org.freehep.util.io;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.util.Iterator;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -42,8 +41,8 @@ public class UniquePrintStream extends PrintStream
 
 	@Override
 	public void finish() {
-		for (Iterator i = msg.iterator(); i.hasNext();) {
-			String s = (String) i.next();
+		for (Object o : msg) {
+			String s = (String) o;
 			super.println(s);
 		}
 		msg = new TreeSet();

@@ -1,6 +1,5 @@
 package org.geogebra.desktop.gui.view.algebra;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -19,12 +18,9 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.theme.ColorKeys;
-import org.geogebra.desktop.gui.theme.ThemeColor;
 import org.geogebra.desktop.gui.theme.ThemeD;
-import org.geogebra.desktop.gui.theme.ThemeImageIcon;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
-import org.geogebra.desktop.util.ImageManagerD;
 
 /**
  * Algebra view cell renderer

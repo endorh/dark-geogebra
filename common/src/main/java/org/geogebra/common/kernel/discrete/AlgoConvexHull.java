@@ -162,8 +162,7 @@ public class AlgoConvexHull extends AlgoElement implements GraphAlgo {
 
 	private static boolean contains(ArrayList<Point2D> vl2, double x,
 			double y) {
-		for (int i = 0; i < vl2.size(); i++) {
-			Point2D p = vl2.get(i);
+		for (Point2D p : vl2) {
 			if (DoubleUtil.isEqual(p.getX(), x) && DoubleUtil.isEqual(p.getY(), y)) {
 				return true;
 			}

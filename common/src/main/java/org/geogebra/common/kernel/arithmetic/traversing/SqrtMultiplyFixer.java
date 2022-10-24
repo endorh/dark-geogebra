@@ -14,18 +14,11 @@ public class SqrtMultiplyFixer implements Traversing {
 		if (ev.isExpressionNode()) {
 			ExpressionNode node = (ExpressionNode) ev;
 			switch (node.getOperation()) {
-			case POWER:
-			case FACTORIAL:
-				node.fixPowerFactorial(Operation.MULTIPLY_OR_FUNCTION);
-				break;
-			case SQRT_SHORT:
-				node.fixSqrtShort(Operation.MULTIPLY_OR_FUNCTION);
-				break;
-			case MULTIPLY_OR_FUNCTION:
-				node.setOperation(Operation.MULTIPLY);
-				break;
-			default:
-				break;
+			case POWER, FACTORIAL -> node.fixPowerFactorial(Operation.MULTIPLY_OR_FUNCTION);
+			case SQRT_SHORT -> node.fixSqrtShort(Operation.MULTIPLY_OR_FUNCTION);
+			case MULTIPLY_OR_FUNCTION -> node.setOperation(Operation.MULTIPLY);
+			default -> {
+			}
 			}
 		}
 		return ev;

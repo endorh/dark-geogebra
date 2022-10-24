@@ -20,8 +20,7 @@ public class DegreeVariableChecker implements Inspecting {
 
 	@Override
 	public boolean check(ExpressionValue ev) {
-		if (ev instanceof ExpressionNode) {
-			ExpressionNode en = (ExpressionNode) ev;
+		if (ev instanceof ExpressionNode en) {
 			Operation op = en.getOperation();
 			return op.hasDegreeInput() && getHighestTermKind(en.getLeftTree()) == VARIABLE;
 		}

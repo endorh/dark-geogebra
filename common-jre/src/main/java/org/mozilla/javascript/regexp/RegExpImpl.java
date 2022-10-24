@@ -44,85 +44,78 @@ public class RegExpImpl implements RegExpProxy {
         data.str = ScriptRuntime.toString(thisObj);
 
         switch (actionType) {
-          case RA_MATCH:
-            {
-                NativeRegExp re = createRegExp(cx, scope, args, 1, false);
-                Object rval = matchOrReplace(cx, scope, thisObj, args,
-                                             this, data, re);
-                return data.arrayobj == null ? rval : data.arrayobj;
+        case RA_MATCH -> {
+            NativeRegExp re = createRegExp(cx, scope, args, 1, false);
+            Object rval = matchOrReplace(cx, scope, thisObj, args,
+                    this, data, re);
+            return data.arrayobj == null ? rval : data.arrayobj;
+        }
+        case RA_SEARCH -> {
+            NativeRegExp re = createRegExp(cx, scope, args, 1, false);
+            return matchOrReplace(cx, scope, thisObj, args,
+                    this, data, re);
+        }
+        case RA_REPLACE -> {
+            boolean useRE = (args.length > 0 && args[0] instanceof NativeRegExp)
+                    || args.length > 2;
+            NativeRegExp re = null;
+            String search = null;
+            if (useRE) {
+                re = createRegExp(cx, scope, args, 2, true);
+            } else {
+                Object arg0 = args.length < 1 ? Undefined.instance : args[0];
+                search = ScriptRuntime.toString(arg0);
             }
 
-          case RA_SEARCH:
-            {
-                NativeRegExp re = createRegExp(cx, scope, args, 1, false);
-                return matchOrReplace(cx, scope, thisObj, args,
-                                      this, data, re);
+            Object arg1 = args.length < 2 ? Undefined.instance : args[1];
+            String repstr = null;
+            Function lambda = null;
+            if (arg1 instanceof Function) {
+                lambda = (Function) arg1;
+            } else {
+                repstr = ScriptRuntime.toString(arg1);
             }
 
-          case RA_REPLACE:
-            {
-                boolean useRE = (args.length > 0 && args[0] instanceof NativeRegExp)
-                                || args.length > 2;
-                NativeRegExp re = null;
-                String search = null;
-                if (useRE) {
-                    re = createRegExp(cx, scope, args, 2, true);
+            data.lambda = lambda;
+            data.repstr = repstr;
+            data.dollar = repstr == null ? -1 : repstr.indexOf('$');
+            data.charBuf = null;
+            data.leftIndex = 0;
+
+            Object val;
+            if (useRE) {
+                val = matchOrReplace(cx, scope, thisObj, args,
+                        this, data, re);
+            } else {
+                String str = data.str;
+                int index = str.indexOf(search);
+                if (index >= 0) {
+                    int slen = search.length();
+                    this.lastParen = null;
+                    this.leftContext = new SubString(str, 0, index);
+                    this.lastMatch = new SubString(str, index, slen);
+                    this.rightContext =
+                            new SubString(str, index + slen, str.length() - index - slen);
+                    val = Boolean.TRUE;
                 } else {
-                    Object arg0 = args.length < 1 ? Undefined.instance : args[0];
-                    search = ScriptRuntime.toString(arg0);
+                    val = Boolean.FALSE;
                 }
-
-                Object arg1 = args.length < 2 ? Undefined.instance : args[1];
-                String repstr = null;
-                Function lambda = null;
-                if (arg1 instanceof Function) {
-                    lambda = (Function) arg1;
-                } else {
-                    repstr = ScriptRuntime.toString(arg1);
-                }
-
-                data.lambda = lambda;
-                data.repstr = repstr;
-                data.dollar = repstr == null ? -1 : repstr.indexOf('$');
-                data.charBuf = null;
-                data.leftIndex = 0;
-
-                Object val;
-                if (useRE) {
-                    val = matchOrReplace(cx, scope, thisObj, args,
-                                         this, data, re);
-                } else {
-                    String str = data.str;
-                    int index = str.indexOf(search);
-                    if (index >= 0) {
-                        int slen = search.length();
-                        this.lastParen = null;
-                        this.leftContext = new SubString(str, 0, index);
-                        this.lastMatch = new SubString(str, index, slen);
-                        this.rightContext = new SubString(str, index + slen, str.length() - index - slen);
-                        val = Boolean.TRUE;
-                    } else {
-                        val = Boolean.FALSE;
-                    }
-                }
-
-                if (data.charBuf == null) {
-                    if (data.global || val == null
-                        || !val.equals(Boolean.TRUE))
-                    {
-                        /* Didn't match even once. */
-                        return data.str;
-                    }
-                    SubString lc = this.leftContext;
-                    replace_glob(data, cx, scope, this, lc.index, lc.length);
-                }
-                SubString rc = this.rightContext;
-                data.charBuf.append(rc.str, rc.index, rc.index + rc.length);
-                return data.charBuf.toString();
             }
 
-          default:
-            throw Kit.codeBug();
+            if (data.charBuf == null) {
+                if (data.global || val == null
+                        || !val.equals(Boolean.TRUE)) {
+                    /* Didn't match even once. */
+                    return data.str;
+                }
+                SubString lc = this.leftContext;
+                replace_glob(data, cx, scope, this, lc.index, lc.length);
+            }
+            SubString rc = this.rightContext;
+            data.charBuf.append(rc.str, rc.index, rc.index + rc.length);
+            return data.charBuf.toString();
+        }
+        default -> throw Kit.codeBug();
         }
     }
 
@@ -168,9 +161,9 @@ public class RegExpImpl implements RegExpProxy {
             result = re.executeRegExp(cx, scope, reImpl,
                                       str, indexp, NativeRegExp.TEST);
             if (result != null && result.equals(Boolean.TRUE))
-                result = Integer.valueOf(reImpl.leftContext.length);
+                result = reImpl.leftContext.length;
             else
-                result = Integer.valueOf(-1);
+                result = -1;
         } else if (data.global) {
             re.lastIndex = 0d;
             for (int count = 0; indexp[0] <= str.length(); count++) {
@@ -331,7 +324,7 @@ public class RegExpImpl implements RegExpProxy {
                     args[i+1] = Undefined.instance;
                 }
             }
-            args[parenCount+1] = Integer.valueOf(reImpl.leftContext.length);
+            args[parenCount+1] = reImpl.leftContext.length;
             args[parenCount+2] = rdata.str;
             // This is a hack to prevent expose of reImpl data to
             // JS function which can run new regexps modifing

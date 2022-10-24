@@ -39,12 +39,7 @@ public class SparseGraph<V, E> extends AbstractGraph<V, E>
 	 *            the edge type for the graph factory
 	 */
 	public static <V, E> Factory<Graph<V, E>> getFactory() {
-		return new Factory<Graph<V, E>>() {
-			@Override
-			public Graph<V, E> create() {
-				return new SparseGraph<V, E>();
-			}
-		};
+		return SparseGraph::new;
 	}
 
 	protected static final int INCOMING = 0;
@@ -64,9 +59,9 @@ public class SparseGraph<V, E> extends AbstractGraph<V, E>
 	 * Creates an instance.
 	 */
 	public SparseGraph() {
-		vertex_maps = new HashMap<V, Map<V, E>[]>();
-		directed_edges = new HashMap<E, Pair<V>>();
-		undirected_edges = new HashMap<E, Pair<V>>();
+		vertex_maps = new HashMap<>();
+		directed_edges = new HashMap<>();
+		undirected_edges = new HashMap<>();
 	}
 
 	@Override
@@ -86,7 +81,7 @@ public class SparseGraph<V, E> extends AbstractGraph<V, E>
 		if (!containsVertex(v1) || !containsVertex(v2)) {
 			return null;
 		}
-		Collection<E> edges = new ArrayList<E>(2);
+		Collection<E> edges = new ArrayList<>(2);
 		E e1 = vertex_maps.get(v1)[OUTGOING].get(v2);
 		if (e1 != null) {
 			edges.add(e1);
@@ -148,7 +143,7 @@ public class SparseGraph<V, E> extends AbstractGraph<V, E>
 		}
 
 		// combine directed inedges and undirected
-		Collection<E> in = new HashSet<E>(
+		Collection<E> in = new HashSet<>(
 				vertex_maps.get(vertex)[INCOMING].values());
 		in.addAll(vertex_maps.get(vertex)[INCIDENT].values());
 		return Collections.unmodifiableCollection(in);
@@ -161,7 +156,7 @@ public class SparseGraph<V, E> extends AbstractGraph<V, E>
 		}
 
 		// combine directed outedges and undirected
-		Collection<E> out = new HashSet<E>(
+		Collection<E> out = new HashSet<>(
 				vertex_maps.get(vertex)[OUTGOING].values());
 		out.addAll(vertex_maps.get(vertex)[INCIDENT].values());
 		return Collections.unmodifiableCollection(out);
@@ -174,7 +169,7 @@ public class SparseGraph<V, E> extends AbstractGraph<V, E>
 		}
 
 		// consider directed inedges and undirected
-		Collection<V> preds = new HashSet<V>(
+		Collection<V> preds = new HashSet<>(
 				vertex_maps.get(vertex)[INCOMING].keySet());
 		preds.addAll(vertex_maps.get(vertex)[INCIDENT].keySet());
 		return Collections.unmodifiableCollection(preds);
@@ -187,7 +182,7 @@ public class SparseGraph<V, E> extends AbstractGraph<V, E>
 		}
 
 		// consider directed outedges and undirected
-		Collection<V> succs = new HashSet<V>(
+		Collection<V> succs = new HashSet<>(
 				vertex_maps.get(vertex)[OUTGOING].keySet());
 		succs.addAll(vertex_maps.get(vertex)[INCIDENT].keySet());
 		return Collections.unmodifiableCollection(succs);
@@ -270,7 +265,7 @@ public class SparseGraph<V, E> extends AbstractGraph<V, E>
 
 	@Override
 	public Collection<E> getEdges() {
-		Collection<E> edges = new ArrayList<E>(directed_edges.keySet());
+		Collection<E> edges = new ArrayList<>(directed_edges.keySet());
 		edges.addAll(undirected_edges.keySet());
 		return Collections.unmodifiableCollection(edges);
 	}
@@ -307,7 +302,7 @@ public class SparseGraph<V, E> extends AbstractGraph<V, E>
 			return null;
 		}
 		// consider directed edges and undirected edges
-		Collection<V> neighbors = new HashSet<V>(
+		Collection<V> neighbors = new HashSet<>(
 				vertex_maps.get(vertex)[INCOMING].keySet());
 		neighbors.addAll(vertex_maps.get(vertex)[OUTGOING].keySet());
 		neighbors.addAll(vertex_maps.get(vertex)[INCIDENT].keySet());
@@ -319,7 +314,7 @@ public class SparseGraph<V, E> extends AbstractGraph<V, E>
 		if (!containsVertex(vertex)) {
 			return null;
 		}
-		Collection<E> incident = new HashSet<E>(
+		Collection<E> incident = new HashSet<>(
 				vertex_maps.get(vertex)[INCOMING].values());
 		incident.addAll(vertex_maps.get(vertex)[OUTGOING].values());
 		incident.addAll(vertex_maps.get(vertex)[INCIDENT].values());
@@ -347,7 +342,7 @@ public class SparseGraph<V, E> extends AbstractGraph<V, E>
 		}
 
 		// copy to avoid concurrent modification in removeEdge
-		Collection<E> incident = new ArrayList<E>(getIncidentEdges(vertex));
+		Collection<E> incident = new ArrayList<>(getIncidentEdges(vertex));
 
 		for (E edge : incident) {
 			removeEdge(edge);
@@ -400,7 +395,7 @@ public class SparseGraph<V, E> extends AbstractGraph<V, E>
 
 	@Override
 	public SparseGraph<V, E> newInstance() {
-		return new SparseGraph<V, E>();
+		return new SparseGraph<>();
 	}
 
 }

@@ -1069,12 +1069,11 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 */
 	public ExpressionValue handleFunctionNVar(ExpressionValue lt,
 			ExpressionValue rt) {
-		if (rt instanceof ListValue && (lt instanceof FunctionalNVar)) {
+		if (rt instanceof ListValue list && (lt instanceof FunctionalNVar)) {
 			FunctionNVar funN = ((FunctionalNVar) lt).getFunction();
 			if (funN == null) {
 				return new MyDouble(kernel, Double.NaN);
 			}
-			ListValue list = (ListValue) rt;
 			if (funN.getVarNumber() == list.size()
 					|| funN.getVarNumber() == 1) {
 				double[] args = list.toDouble(0);
@@ -1083,8 +1082,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				ExpressionValue ev = list.getMyList().getListElement(0)
 						.evaluate(StringTemplate.defaultTemplate);
 				if ((funN.getVarNumber() == 2 || funN.getVarNumber() == 3)
-						&& (ev instanceof VectorNDValue)) {
-					VectorNDValue pt = (VectorNDValue) ev;
+						&& (ev instanceof VectorNDValue pt)) {
 					return evaluateFunctionNvar(funN, pt, lt);
 				} else if ((ev instanceof ListValue) && (((ListValue) ev)
 						.getMyList().size() > 0) && ((ListValue) ev)
@@ -1324,10 +1322,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			ExpressionValue rt, int skip) {
 		// TODO not implemented #1115
 		// Application.debug(rt.getClass()+" "+rt.getClass());
-		if (lt instanceof GeoList && rt instanceof ListValue) {
+		if (lt instanceof GeoList sublist && rt instanceof ListValue lv) {
 
-			GeoList sublist = (GeoList) lt;
-			ListValue lv = (ListValue) rt;
 			int idx = -1;
 			// convert list1(1,2) into Element[Element[list1,1],2]
 			boolean sublistUndefined = false;

@@ -210,28 +210,24 @@ public class NaturalRanking implements RankingAlgorithm {
 
         // Recode, remove or record positions of NaNs
         List<Integer> nanPositions = null;
-        switch (nanStrategy) {
-            case MAXIMAL: // Replace NaNs with +INFs
-                recodeNaNs(ranks, Double.POSITIVE_INFINITY);
-                break;
-            case MINIMAL: // Replace NaNs with -INFs
-                recodeNaNs(ranks, Double.NEGATIVE_INFINITY);
-                break;
-            case REMOVED: // Drop NaNs from data
-                ranks = removeNaNs(ranks);
-                break;
-            case FIXED:   // Record positions of NaNs
-                nanPositions = getNanPositions(ranks);
-                break;
-            case FAILED:
-                nanPositions = getNanPositions(ranks);
-                if (nanPositions.size() > 0) {
-                    throw new NotANumberException();
-                }
-                break;
-            default: // this should not happen unless NaNStrategy enum is changed
-                throw new MathInternalError();
-        }
+	    switch (nanStrategy) {
+	    case MAXIMAL -> // Replace NaNs with +INFs
+			    recodeNaNs(ranks, Double.POSITIVE_INFINITY);
+	    case MINIMAL -> // Replace NaNs with -INFs
+			    recodeNaNs(ranks, Double.NEGATIVE_INFINITY);
+	    case REMOVED -> // Drop NaNs from data
+			    ranks = removeNaNs(ranks);
+	    case FIXED ->   // Record positions of NaNs
+			    nanPositions = getNanPositions(ranks);
+	    case FAILED -> {
+		    nanPositions = getNanPositions(ranks);
+		    if (nanPositions.size() > 0) {
+			    throw new NotANumberException();
+		    }
+	    }
+	    default -> // this should not happen unless NaNStrategy enum is changed
+			    throw new MathInternalError();
+	    }
 
         // Sort the IntDoublePairs
         Arrays.sort(ranks);
@@ -241,7 +237,7 @@ public class NaturalRanking implements RankingAlgorithm {
         double[] out = new double[ranks.length];
         int pos = 1;  // position in sorted array
         out[ranks[0].getPosition()] = pos;
-        List<Integer> tiesTrace = new ArrayList<Integer>();
+        List<Integer> tiesTrace = new ArrayList<>();
         tiesTrace.add(ranks[0].getPosition());
         for (int i = 1; i < ranks.length; i++) {
             if (Double.compare(ranks[i].getValue(), ranks[i - 1].getValue()) > 0) {
@@ -250,7 +246,7 @@ public class NaturalRanking implements RankingAlgorithm {
                 if (tiesTrace.size() > 1) {  // if seq is nontrivial, resolve
                     resolveTie(out, tiesTrace);
                 }
-                tiesTrace = new ArrayList<Integer>();
+                tiesTrace = new ArrayList<>();
                 tiesTrace.add(ranks[i].getPosition());
             } else {
                 // tie sequence continues
@@ -320,11 +316,11 @@ public class NaturalRanking implements RankingAlgorithm {
      * @return true iff ranks contains one or more NaNs
      */
     private boolean containsNaNs(IntDoublePair[] ranks) {
-        for (int i = 0; i < ranks.length; i++) {
-            if (Double.isNaN(ranks[i].getValue())) {
-                return true;
-            }
-        }
+	    for (IntDoublePair rank : ranks) {
+		    if (Double.isNaN(rank.getValue())) {
+			    return true;
+		    }
+	    }
         return false;
     }
 
@@ -391,9 +387,8 @@ public class NaturalRanking implements RankingAlgorithm {
      * @param value value to set
      */
     private void fill(double[] data, List<Integer> tiesTrace, double value) {
-        Iterator<Integer> iterator = tiesTrace.iterator();
-        while (iterator.hasNext()) {
-            data[iterator.next()] = value;
+        for (Integer integer : tiesTrace) {
+            data[integer] = value;
         }
     }
 
@@ -407,9 +402,8 @@ public class NaturalRanking implements RankingAlgorithm {
         if (nanPositions.size() == 0) {
             return;
         }
-        Iterator<Integer> iterator = nanPositions.iterator();
-        while (iterator.hasNext()) {
-            ranks[iterator.next().intValue()] = Double.NaN;
+        for (Integer nanPosition : nanPositions) {
+            ranks[nanPosition] = Double.NaN;
         }
 
     }
@@ -421,10 +415,10 @@ public class NaturalRanking implements RankingAlgorithm {
      * @return list of indexes i such that <code>ranks[i] = NaN</code>
      */
     private List<Integer> getNanPositions(IntDoublePair[] ranks) {
-        ArrayList<Integer> out = new ArrayList<Integer>();
+        ArrayList<Integer> out = new ArrayList<>();
         for (int i = 0; i < ranks.length; i++) {
             if (Double.isNaN(ranks[i].getValue())) {
-                out.add(Integer.valueOf(i));
+                out.add(i);
             }
         }
         return out;

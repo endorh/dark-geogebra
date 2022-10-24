@@ -63,8 +63,8 @@ public class ListDialog extends JDialog {
 		// list
 		listModel = new DefaultListModel();
 		list = new JList(listModel);
-		for (int i = 0; i < data.size(); i++) {
-			GeoLabel label = new GeoLabel(data.get(i));
+		for (GeoElement datum : data) {
+			GeoLabel label = new GeoLabel(datum);
 			listModel.addElement(label);
 		}
 

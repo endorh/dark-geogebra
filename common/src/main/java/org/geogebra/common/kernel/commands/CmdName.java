@@ -26,17 +26,14 @@ public class CmdName extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
+		case 1 -> {
 			// Name[ <GeoElement> ]
 			arg = resArgs(c);
-
 			AlgoName algo = new AlgoName(cons, c.getLabel(), arg[0]);
-
-			GeoElement[] ret = { algo.getGeoText() };
+			GeoElement[] ret = {algo.getGeoText()};
 			return ret;
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

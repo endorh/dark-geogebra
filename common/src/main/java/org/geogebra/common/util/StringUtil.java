@@ -79,10 +79,10 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	 */
 	public static String convertToHex(byte[] data) {
 		StringBuilder buf = new StringBuilder();
-		for (int i = 0; i < data.length; i++) {
+		for (byte datum : data) {
 
-			buf.append(Character.forDigit((data[i] >> 4) & 0xF, 16));
-			buf.append(Character.forDigit(data[i] & 0xF, 16));
+			buf.append(Character.forDigit((datum >> 4) & 0xF, 16));
+			buf.append(Character.forDigit(datum & 0xF, 16));
 		}
 
 		return buf.toString();
@@ -96,7 +96,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	 *            unicode char
 	 */
 	final public static String toHexString(char c) {
-		int i = c + 0;
+		int i = c;
 
 		StringBuilder hexSB = new StringBuilder(8);
 		hexSB.append("\\u");
@@ -217,39 +217,31 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 				} else {
 					switch (code) {
 					// Firefox is fussy about this one
-					case '/':
-					sb.append("&#x2F;");
-						break;
-					case '<':
-						sb.append("&lt;");
-						break; // <
-					case '>':
-						sb.append("&gt;");
-						break; // >
+					case '/' -> sb.append("&#x2F;");
+					case '<' -> sb.append("&lt;");
+					// <
+					case '>' -> sb.append("&gt;");
+					// >
 
-					default:
+					default ->
 						// do not convert
-						sb.append(c);
+							sb.append(c);
 					}
 				}
 			}
 			// special characters
 			else {
 				switch (code) {
-				case '\n':
-				case '\r': // replace LF or CR with <br/>
-					sb.append("<br/>\n");
-					break;
-
-				case '\t': // replace TAB with space
-					sb.append("&nbsp;"); // space
-					break;
-
-				default:
+				case '\n', '\r' -> // replace LF or CR with <br/>
+						sb.append("<br/>\n");
+				case '\t' -> // replace TAB with space
+						sb.append("&nbsp;"); // space
+				default -> {
 					// convert special character to escaped HTML
 					sb.append("&#");
 					sb.append(code);
 					sb.append(';');
+				}
 				}
 			}
 		}
@@ -311,24 +303,12 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 			} else {
 
 				switch (c) {
-				case '>':
-					sb.append("&gt;");
-					break;
-				case '<':
-					sb.append("&lt;");
-					break;
-				case '"':
-					sb.append("&quot;");
-					break;
-				case '\'':
-					sb.append("&apos;");
-					break;
-				case '&':
-					sb.append("&amp;");
-					break;
-
-				default:
-					sb.append((char) c);
+				case '>' -> sb.append("&gt;");
+				case '<' -> sb.append("&lt;");
+				case '"' -> sb.append("&quot;");
+				case '\'' -> sb.append("&apos;");
+				case '&' -> sb.append("&amp;");
+				default -> sb.append((char) c);
 				}
 			}
 		}
@@ -511,9 +491,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 
 		StringBuilder sb = new StringBuilder(s.length() * n);
 
-		for (int i = 0; i < n; i++) {
-			sb.append(s);
-		}
+		sb.append(s.repeat(n));
 
 		return sb.toString();
 	}
@@ -644,9 +622,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	 */
 	public static String repeat(char c, int count) {
 		StringBuilder ret = new StringBuilder();
-		for (int i = 0; i < count; i++) {
-			ret.append(c);
-		}
+		ret.append(String.valueOf(c).repeat(Math.max(0, count)));
 		return ret.toString();
 	}
 
@@ -656,14 +632,12 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	 * @return whether it's localized digit or underscore
 	 */
 	public static boolean isLetterOrDigitOrUnderscore(final char character) {
-		switch (character) {
-		case '_': // allow underscore as a valid letter in an autocompletion
-					// word
-			return true;
-
-		default:
-			return isLetterOrDigit(character);
-		}
+		return switch (character) {
+			case '_' -> // allow underscore as a valid letter in an autocompletion
+				// word
+					true;
+			default -> isLetterOrDigit(character);
+		};
 	}
 
 	/**
@@ -851,45 +825,43 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 			}
 
 			switch (ch) {
-			default:
-				// do nothing
-				break;
-			case '"':
-				comment = !comment;
-				break;
-			case '}':
+			default -> {
+			}
+			// do nothing
+			case '"' -> comment = !comment;
+			case '}' -> {
 				closingBrackets.add(i);
 				curly++;
-				break;
-			case '{':
+			}
+			case '{' -> {
 				curly--;
 				if (curly < 0) {
 					return i;
 				}
 				closingBrackets.pop();
-				break;
-			case ']':
+			}
+			case ']' -> {
 				square++;
 				closingBrackets.add(i);
-				break;
-			case '[':
+			}
+			case '[' -> {
 				square--;
 				if (square < 0) {
 					return i;
 				}
 				closingBrackets.pop();
-				break;
-			case ')':
+			}
+			case ')' -> {
 				round++;
 				closingBrackets.add(i);
-				break;
-			case '(':
+			}
+			case '(' -> {
 				round--;
 				if (round < 0) {
 					return i;
 				}
 				closingBrackets.pop();
-				break;
+			}
 			}
 		}
 		if (!closingBrackets.isEmpty()) {
@@ -1056,7 +1028,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		String s = s0;
 		// if we have eg 6.048554268711413E7
 		// convert to exact(6.048554268711413e7)
-		if (s.indexOf("E") > -1) {
+		if (s.contains("E")) {
 			s = s.replace("E", "e");
 		}
 
@@ -1081,7 +1053,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 			// GGB-641 this is just for ProverBotanasMethod
 			sb1.append("(");
 			long[] l = kernel.doubleToRational(x);
-			sb1.append(l[0] + "/" + l[1]);
+			sb1.append(l[0]).append("/").append(l[1]);
 			sb1.append(')');
 		} else {
 			sb1.append("exact(");
@@ -1129,8 +1101,8 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 		// ArrayList is easier for now as we don't know
 		// the length of the returned String yet
 		ArrayList<String> ret = new ArrayList<>();
-		Character actChar;
-		String actWord = "";
+		char actChar;
+		StringBuilder actWord = new StringBuilder();
 
 		// 1st, 2nd, 3rd, 4th, ...
 		// 0, 1, 2, 3, ...
@@ -1147,23 +1119,23 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 			// here, as it is easier and will not change the outcome
 			if (isLetterOrDigitOrUnderscore(actChar)) {
 				if (odd) {
-					actWord += actChar;
+					actWord.append(actChar);
 				} else {
-					ret.add(actWord);
-					actWord = "" + actChar;
+					ret.add(actWord.toString());
+					actWord = new StringBuilder("" + actChar);
 					odd = true;
 				}
 			} else {
 				if (odd) {
-					ret.add(actWord);
-					actWord = "" + actChar;
+					ret.add(actWord.toString());
+					actWord = new StringBuilder("" + actChar);
 					odd = false;
 				} else {
-					actWord += actChar;
+					actWord.append(actChar);
 				}
 			}
 		}
-		ret.add(actWord);
+		ret.add(actWord.toString());
 
 		// the last one should always be a non-word, like the first one
 		// but odd should have changed sign in the previous command
@@ -1306,7 +1278,7 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	public static char processQuotes(StringBuilder sb, String content,
 			char ret) {
 		char currentQuote = ret;
-		if (content.indexOf("\"") == -1) {
+		if (!content.contains("\"")) {
 			sb.append(content);
 			return currentQuote;
 		}
@@ -1353,41 +1325,32 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 			// standard characters have code 32 to 126
 			if (code >= 32 && code <= 126) {
 				switch (code) {
-				case '"':
+				case '"' ->
 					// replace " with \"
-					sb.append("\\\"");
-					break;
-				case '\'':
+						sb.append("\\\"");
+				case '\'' ->
 					// replace ' with \'
-					sb.append("\\'");
-					break;
-				case '\\':
+						sb.append("\\'");
+				case '\\' ->
 					// replace \ with \\
-					sb.append("\\\\");
-					break;
-
-				default:
+						sb.append("\\\\");
+				default ->
 					// do not convert
-					sb.append(c);
+						sb.append(c);
 				}
 			}
 			// special characters
 			else {
 				switch (code) {
-				case 10: // CR
-					sb.append("\\n");
-					break;
-				case 13: // LF
-					sb.append("\\r");
-					break;
-
-				case 9: // replace TAB
-					sb.append("\\t"); // space
-					break;
-
-				default:
+				case 10 -> // CR
+						sb.append("\\n");
+				case 13 -> // LF
+						sb.append("\\r");
+				case 9 -> // replace TAB
+						sb.append("\\t"); // space
+				default ->
 					// convert special character to \u0123 format
-					sb.append(toHexString(c));
+						sb.append(toHexString(c));
 				}
 			}
 		}
@@ -1494,26 +1457,17 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	 * @return localized gray color name
 	 */
 	public static String getGrayString(char c, Localization loc) {
-		switch (c) {
-		case '0':
-			return loc.getColor("white");
-		case '1':
-			return loc.getPlain("AGray", Unicode.FRACTION1_8 + "");
-		case '2':
-			return loc.getPlain("AGray", Unicode.FRACTION1_4 + ""); // silver
-		case '3':
-			return loc.getPlain("AGray", Unicode.FRACTION3_8 + "");
-		case '4':
-			return loc.getPlain("AGray", Unicode.FRACTION1_2 + "");
-		case '5':
-			return loc.getPlain("AGray", Unicode.FRACTION5_8 + "");
-		case '6':
-			return loc.getPlain("AGray", Unicode.FRACTION3_4 + "");
-		case '7':
-			return loc.getPlain("AGray", Unicode.FRACTION7_8 + "");
-		default:
-			return loc.getColor("black");
-		}
+		return switch (c) {
+			case '0' -> loc.getColor("white");
+			case '1' -> loc.getPlain("AGray", Unicode.FRACTION1_8 + "");
+			case '2' -> loc.getPlain("AGray", Unicode.FRACTION1_4 + ""); // silver
+			case '3' -> loc.getPlain("AGray", Unicode.FRACTION3_8 + "");
+			case '4' -> loc.getPlain("AGray", Unicode.FRACTION1_2 + "");
+			case '5' -> loc.getPlain("AGray", Unicode.FRACTION5_8 + "");
+			case '6' -> loc.getPlain("AGray", Unicode.FRACTION3_4 + "");
+			case '7' -> loc.getPlain("AGray", Unicode.FRACTION7_8 + "");
+			default -> loc.getColor("black");
+		};
 	}
 
 	/**
@@ -1757,9 +1711,9 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	public static String newlinesToHTML(String text) {
 		String[] lines = text.split("\n");
 		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < lines.length; i++) {
+		for (String line : lines) {
 			sb.append("<div>");
-			sb.append(lines[i].isEmpty() ? "<br>" : lines[i]);
+			sb.append(line.isEmpty() ? "<br>" : line);
 			sb.append("</div>");
 		}
 		return sb.toString();
@@ -1793,8 +1747,8 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 			// eg &#x1D5AA (doesn't fit in a single char)
 			char[] chars = Character.toChars(ch);
 
-			for (int i = 0; i < chars.length; i++) {
-				sb.append(chars[i]);
+			for (char aChar : chars) {
+				sb.append(aChar);
 			}
 		}
 

@@ -138,8 +138,8 @@ public class AlgoLocusList extends AlgoElement {
 				try_steps = MIN_STEPS_REALLY;
 			}
 			int arrLocusSize = arrLocus.size();
-			for (int i = arrLocusSize - 1; i >= ((GeoList) path).size(); i--) {
-				arrLocus.remove(i);
+			if (arrLocusSize > ((GeoList) path).size()) {
+				arrLocus.subList(((GeoList) path).size(), arrLocusSize).clear();
 			}
 			arrLocusSize = arrLocus.size();
 			for (int i = 0; i < ((GeoList) path).size(); i++) {
@@ -314,8 +314,8 @@ public class AlgoLocusList extends AlgoElement {
 
 		AlgoElement actLocus;
 		GeoLocus actGeo;
-		for (int i = 0; i < arrLocus.size(); i++) {
-			actLocus = arrLocus.get(i);
+		for (AlgoElement algoElement : arrLocus) {
+			actLocus = algoElement;
 			if (actLocus instanceof AlgoLocusList) {
 				actGeo = ((AlgoLocusList) actLocus).getLocus();
 			} else if (actLocus instanceof AlgoLocus) {

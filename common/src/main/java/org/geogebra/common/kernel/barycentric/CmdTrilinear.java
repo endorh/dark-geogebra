@@ -32,7 +32,7 @@ public class CmdTrilinear extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 6:
+		case 6 -> {
 			arg = resArgs(c);
 			if ((ok[0] = arg[0].isGeoPoint()) && (ok[1] = arg[1].isGeoPoint())
 					&& (ok[2] = arg[2].isGeoPoint())
@@ -45,13 +45,13 @@ public class CmdTrilinear extends CommandProcessor {
 						(GeoPointND) arg[2], (GeoNumberValue) arg[3],
 						(GeoNumberValue) arg[4], (GeoNumberValue) arg[5]);
 
-				GeoElement[] ret = { algo.getResult().toGeoElement() };
+				GeoElement[] ret = {algo.getResult().toGeoElement()};
 				return ret;
 
 			}
 			throw argErr(c, getBadArg(ok, arg));
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

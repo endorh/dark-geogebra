@@ -43,7 +43,7 @@ public class CmdFillCells extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2:
+		case 2 -> {
 			app.setScrollToShow(false);
 			arg = resArgs(c);
 			if (arg[0].isGeoList()) {
@@ -51,14 +51,11 @@ public class CmdFillCells extends CommandProcessor {
 				GeoList cellRange = (GeoList) arg[0];
 
 				if (!(cellRange
-						.getParentAlgorithm() instanceof AlgoCellRange)) {
+						.getParentAlgorithm() instanceof AlgoCellRange algo)) {
 					Log.debug("not cell range");
 					throw argErr(c, arg[0]);
 
 				}
-
-				AlgoCellRange algo = (AlgoCellRange) cellRange
-						.getParentAlgorithm();
 
 				GPoint[] points = algo.getRectangle();
 
@@ -219,90 +216,88 @@ public class CmdFillCells extends CommandProcessor {
 
 			}
 
-		// arg[0] not list
-		{
+			// arg[0] not list
+			{
 
-			if (GeoElementSpreadsheet.hasSpreadsheetLabel(arg[0])) {
+				if (GeoElementSpreadsheet.hasSpreadsheetLabel(arg[0])) {
 
-				if (!arg[1].isGeoList()) {
-					app.setScrollToShow(true);
-					throw argErr(c, arg[1]);
-				}
-
-				GeoList list = (GeoList) arg[1];
-
-				MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern
-						.exec(arg[0].getLabel(StringTemplate.defaultTemplate));
-				int column = GeoElementSpreadsheet
-						.getSpreadsheetColumn(matcher);
-				int row = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
-
-				if (row == -1 || column == -1) {
-					app.setScrollToShow(true);
-					throw argErr(c, arg[0]);
-				}
-
-				if (list.isMatrix()) {
-					// 2D fill
-					// FillCells[B3,{"a","b"}] will autocreate B3=0 so we
-					// need to remove B3
-					if (arg[0] != null) {
-						arg[0].remove();
+					if (!arg[1].isGeoList()) {
+						app.setScrollToShow(true);
+						throw argErr(c, arg[1]);
 					}
 
-					try {
-						int rows = list.size();
-						int cols = ((GeoList) list.get(0)).size();
-						for (int r = 0; r < rows; r++) {
-							GeoList rowList = (GeoList) list.get(r);
-							for (int c1 = 0; c1 < cols; c1++) {
+					GeoList list = (GeoList) arg[1];
+
+					MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern
+							.exec(arg[0].getLabel(StringTemplate.defaultTemplate));
+					int column = GeoElementSpreadsheet
+							.getSpreadsheetColumn(matcher);
+					int row = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
+
+					if (row == -1 || column == -1) {
+						app.setScrollToShow(true);
+						throw argErr(c, arg[0]);
+					}
+
+					if (list.isMatrix()) {
+						// 2D fill
+						// FillCells[B3,{"a","b"}] will autocreate B3=0 so we
+						// need to remove B3
+						if (arg[0] != null) {
+							arg[0].remove();
+						}
+
+						try {
+							int rows = list.size();
+							int cols = ((GeoList) list.get(0)).size();
+							for (int r = 0; r < rows; r++) {
+								GeoList rowList = (GeoList) list.get(r);
+								for (int c1 = 0; c1 < cols; c1++) {
+									kernel.getGeoElementSpreadsheet()
+											.setSpreadsheetCell(app, row + r,
+													column + c1,
+													rowList.get(c1).copy());
+								}
+							}
+						} catch (Exception e) {
+							app.setScrollToShow(true);
+							throw argErr(c, list);
+						}
+
+					} else {
+						// 1D fill
+						// FillCells[B3,{"a","b"}] will autocreate B3=0 so we
+						// need to remove B3
+						if (arg[0] != null) {
+							arg[0].remove();
+						}
+
+						for (int i = list.size() - 1; i >= 0; i--) {
+							try {
+								// Application.debug("setting "+row+" "+(column+i)+"
+								// to "+list.get(i).toString());
 								kernel.getGeoElementSpreadsheet()
-										.setSpreadsheetCell(app, row + r,
-												column + c1,
-												rowList.get(c1).copy());
+										.setSpreadsheetCell(app, row, column + i,
+												list.get(i).copy());
+							} catch (Exception e) {
+								Log.debug(e);
+								app.setScrollToShow(true);
+								throw argErr(c, arg[1]);
 							}
 						}
-					} catch (Exception e) {
-						app.setScrollToShow(true);
-						throw argErr(c, list);
 					}
 
 				} else {
-					// 1D fill
-					// FillCells[B3,{"a","b"}] will autocreate B3=0 so we
-					// need to remove B3
-					if (arg[0] != null) {
-						arg[0].remove();
-					}
-
-					for (int i = list.size() - 1; i >= 0; i--) {
-						try {
-							// Application.debug("setting "+row+" "+(column+i)+"
-							// to "+list.get(i).toString());
-							kernel.getGeoElementSpreadsheet()
-									.setSpreadsheetCell(app, row, column + i,
-											list.get(i).copy());
-						} catch (Exception e) {
-							Log.debug(e);
-							app.setScrollToShow(true);
-							throw argErr(c, arg[1]);
-						}
-					}
+					app.setScrollToShow(true);
+					throw argErr(c, arg[0]);
 				}
-
-			} else {
-				app.setScrollToShow(true);
-				throw argErr(c, arg[0]);
 			}
-		}
-
 			GeoElement[] ret = {};
 			app.storeUndoInfo();
 			app.setScrollToShow(true);
 			return ret;
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

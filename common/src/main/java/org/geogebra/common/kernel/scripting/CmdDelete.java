@@ -32,23 +32,20 @@ public class CmdDelete extends CmdScripting {
 	protected final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		switch (n) {
-		case 1:
+		case 1 -> {
 			GeoElement[] arg;
 			try {
 				arg = resArgs(c);
 			} catch (Error e) {
 				return new GeoElement[0];
 			}
-
 			GeoElement geo = arg[0];
-
 			AlgoElement algoParent = geo.getParentAlgorithm();
 			if (algoParent instanceof AlgoDependentGeoCopy) {
 				algoParent.getInput(0)
 						.removeOrSetUndefinedIfHasFixedDescendent();
-			} else if (algoParent instanceof AlgoCellRange) {
+			} else if (algoParent instanceof AlgoCellRange algo) {
 				// delete cells
-				AlgoCellRange algo = (AlgoCellRange) algoParent;
 				GPoint startCoords = GeoElementSpreadsheet
 						.getSpreadsheetCoordsForLabel(algo.getStart());
 				GPoint endCoords = GeoElementSpreadsheet
@@ -60,11 +57,9 @@ public class CmdDelete extends CmdScripting {
 				// delete object
 				geo.removeOrSetUndefinedIfHasFixedDescendent();
 			}
-
 			return arg;
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

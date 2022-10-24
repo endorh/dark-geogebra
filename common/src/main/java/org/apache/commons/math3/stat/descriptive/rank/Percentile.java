@@ -443,24 +443,22 @@ public class Percentile extends AbstractUnivariateStatistic implements Serializa
             if (values == getDataRef()) {
                 work = getDataRef();
             } else {
-                switch (nanStrategy) {
-                case MAXIMAL:// Replace NaNs with +INFs
-                    work = replaceAndSlice(values, begin, length, Double.NaN, Double.POSITIVE_INFINITY);
-                    break;
-                case MINIMAL:// Replace NaNs with -INFs
-                    work = replaceAndSlice(values, begin, length, Double.NaN, Double.NEGATIVE_INFINITY);
-                    break;
-                case REMOVED:// Drop NaNs from data
-                    work = removeAndSlice(values, begin, length, Double.NaN);
-                    break;
-                case FAILED:// just throw exception as NaN is un-acceptable
-                    work = copyOf(values, begin, length);
-                    MathArrays.checkNotNaN(work);
-                    break;
-                default: //FIXED
-                    work = copyOf(values,begin,length);
-                    break;
-                }
+	            switch (nanStrategy) {
+	            case MAXIMAL ->// Replace NaNs with +INFs
+			            work = replaceAndSlice(values, begin, length, Double.NaN,
+					            Double.POSITIVE_INFINITY);
+	            case MINIMAL ->// Replace NaNs with -INFs
+			            work = replaceAndSlice(values, begin, length, Double.NaN,
+					            Double.NEGATIVE_INFINITY);
+	            case REMOVED ->// Drop NaNs from data
+			            work = removeAndSlice(values, begin, length, Double.NaN);
+	            case FAILED -> {// just throw exception as NaN is un-acceptable
+		            work = copyOf(values, begin, length);
+		            MathArrays.checkNotNaN(work);
+	            }
+	            default -> //FIXED
+			            work = copyOf(values, begin, length);
+	            }
             }
             return work;
     }

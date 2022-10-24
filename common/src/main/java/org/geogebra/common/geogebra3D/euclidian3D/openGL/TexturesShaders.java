@@ -53,9 +53,7 @@ public class TexturesShaders extends Textures {
 		// packed dashing
 		int length = DESCRIPTIONS_LENGTH * DESCRIPTIONS_LENGTH;
 		byte[] bytes = new byte[length];
-		for (int i = 0; i < DASH_DESCRIPTIONS.length; i++) {
-			bytes[i] = DASH_DESCRIPTIONS[i];
-		}
+		System.arraycopy(DASH_DESCRIPTIONS, 0, bytes, 0, DASH_DESCRIPTIONS.length);
 		packedDashIndex = renderer.createAlphaTexture(DESCRIPTIONS_LENGTH, DESCRIPTIONS_LENGTH,
 				bytes);
 	}

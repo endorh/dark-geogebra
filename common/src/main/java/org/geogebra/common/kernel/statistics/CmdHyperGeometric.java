@@ -30,8 +30,7 @@ public class CmdHyperGeometric extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-
-		case 3:
+		case 3 -> {
 			arg = resArgs(c);
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
@@ -41,7 +40,7 @@ public class CmdHyperGeometric extends CommandProcessor {
 						cons, c.getLabel(), (GeoNumberValue) arg[0],
 						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2]);
 
-				GeoElement[] ret = { algo.getSum() };
+				GeoElement[] ret = {algo.getSum()};
 				return ret;
 
 			} else if (!ok[0]) {
@@ -51,8 +50,8 @@ public class CmdHyperGeometric extends CommandProcessor {
 			} else {
 				throw argErr(c, arg[2]);
 			}
-
-		case 4:
+		}
+		case 4 -> {
 			arg = resArgs(c);
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
@@ -64,7 +63,7 @@ public class CmdHyperGeometric extends CommandProcessor {
 						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
 						(GeoBoolean) arg[3]);
 
-				GeoElement[] ret = { algo.getSum() };
+				GeoElement[] ret = {algo.getSum()};
 				return ret;
 
 			} else if (!ok[0]) {
@@ -76,8 +75,8 @@ public class CmdHyperGeometric extends CommandProcessor {
 			} else {
 				throw argErr(c, arg[3]);
 			}
-
-		case 5:
+		}
+		case 5 -> {
 			arg = resArgs(c);
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
@@ -90,7 +89,7 @@ public class CmdHyperGeometric extends CommandProcessor {
 						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
 						(GeoNumberValue) arg[3], (GeoBoolean) arg[4]);
 
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 				return ret;
 
 			} else if (!ok[0]) {
@@ -104,9 +103,8 @@ public class CmdHyperGeometric extends CommandProcessor {
 			} else {
 				throw argErr(c, arg[4]);
 			}
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

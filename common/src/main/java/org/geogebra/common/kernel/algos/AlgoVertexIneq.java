@@ -157,41 +157,23 @@ public class AlgoVertexIneq extends AlgoElement {
 			break;
 		case INEQUALITY_PARAMETRIC_Y:
 			switch (b.getType()) {
-			case INEQUALITY_PARAMETRIC_Y:
-				intParamParam(a, b, ai, bi, false);
-				break;
-			case INEQUALITY_LINEAR:
-				intParamYLinear(a, b, ai, bi);
-				break;
-			case INEQUALITY_CONIC:
-				intParamConic(a, b, ai, bi, false);
-				break;
-			case INEQUALITY_1VAR_X:
-				intParamYX(a, b);
-				break;
-			case INEQUALITY_1VAR_Y:
-				intParamOneVar(a, b, ai, bi, false);
-				break;
-			default:
-				break;
+			case INEQUALITY_PARAMETRIC_Y -> intParamParam(a, b, ai, bi, false);
+			case INEQUALITY_LINEAR -> intParamYLinear(a, b, ai, bi);
+			case INEQUALITY_CONIC -> intParamConic(a, b, ai, bi, false);
+			case INEQUALITY_1VAR_X -> intParamYX(a, b);
+			case INEQUALITY_1VAR_Y -> intParamOneVar(a, b, ai, bi, false);
+			default -> {
+			}
 			}
 			break;
 		case INEQUALITY_LINEAR:
 			switch (b.getType()) {
-			case INEQUALITY_LINEAR:
-				intLinearLinear(a, b);
-				break;
-			case INEQUALITY_CONIC:
-				intLinearConic(a, b, ai, bi);
-				break;
-			case INEQUALITY_1VAR_X:
-				intLinearX(a, b);
-				break;
-			case INEQUALITY_1VAR_Y:
-				intLinearY(a, b);
-				break;
-			default:
-				break;
+			case INEQUALITY_LINEAR -> intLinearLinear(a, b);
+			case INEQUALITY_CONIC -> intLinearConic(a, b, ai, bi);
+			case INEQUALITY_1VAR_X -> intLinearX(a, b);
+			case INEQUALITY_1VAR_Y -> intLinearY(a, b);
+			default -> {
+			}
 			}
 			break;
 		case INEQUALITY_CONIC:
@@ -401,8 +383,8 @@ public class AlgoVertexIneq extends AlgoElement {
 		}
 
 		GeoElement[] output = helpers[i][j].getOutput();
-		for (int k = 0; k < output.length; k++) {
-			GeoPoint pt = (GeoPoint) output[k];
+		for (GeoElement geoElement : output) {
+			GeoPoint pt = (GeoPoint) geoElement;
 			double x = pt.getX() / pt.getZ();
 			pt.setCoords(x, b.getFunBorder().value(x), 1);
 			if (vertices.size() <= validVertices) {
@@ -541,9 +523,9 @@ public class AlgoVertexIneq extends AlgoElement {
 	private void addVertices(AlgoElement algoElement, boolean transpose,
 			boolean copy) {
 		GeoElement[] output = algoElement.getOutput();
-		for (int k = 0; k < output.length; k++) {
-			GeoPoint pt = copy ? (GeoPoint) output[k].copy()
-					: (GeoPoint) output[k];
+		for (GeoElement geoElement : output) {
+			GeoPoint pt = copy ? (GeoPoint) geoElement.copy()
+					: (GeoPoint) geoElement;
 			if (transpose) {
 				double x = pt.getX() / pt.getZ();
 				double y = pt.getY() / pt.getZ();
@@ -597,14 +579,11 @@ public class AlgoVertexIneq extends AlgoElement {
 	}
 
 	private OutputHandler<GeoElement> createOutputPoints() {
-		return new OutputHandler<>(new ElementFactory<GeoElement>() {
-			@Override
-			public GeoPoint newElement() {
-				GeoPoint pt = new GeoPoint(cons);
-				pt.setCoords(0, 0, 1);
-				pt.setParentAlgorithm(AlgoVertexIneq.this);
-				return pt;
-			}
+		return new OutputHandler<>(() -> {
+			GeoPoint pt = new GeoPoint(cons);
+			pt.setCoords(0, 0, 1);
+			pt.setParentAlgorithm(AlgoVertexIneq.this);
+			return pt;
 		});
 	}
 

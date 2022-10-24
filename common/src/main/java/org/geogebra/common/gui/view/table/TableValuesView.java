@@ -237,8 +237,7 @@ public class TableValuesView implements TableValues, SettingListener {
 	public void add(GeoElement geo) {
 		elements.add(geo);
 		// Show element if it's loaded from file
-		if (geo instanceof GeoEvaluatable) {
-			GeoEvaluatable evaluatable = (GeoEvaluatable) geo;
+		if (geo instanceof GeoEvaluatable evaluatable) {
 			if (evaluatable.getTableColumn() >= 0) {
 				doShowColumn(evaluatable);
 			}
@@ -252,8 +251,7 @@ public class TableValuesView implements TableValues, SettingListener {
 	}
 
 	private void removeFromModel(GeoElement geo) {
-		if (geo instanceof GeoEvaluatable) {
-			GeoEvaluatable evaluatable = (GeoEvaluatable) geo;
+		if (geo instanceof GeoEvaluatable evaluatable) {
 			if (model.getEvaluatableIndex(evaluatable) > -1) {
 				model.removeEvaluatable(evaluatable, false);
 			}
@@ -262,8 +260,7 @@ public class TableValuesView implements TableValues, SettingListener {
 
 	@Override
 	public void rename(GeoElement geo) {
-		if (geo instanceof GeoEvaluatable) {
-			GeoEvaluatable evaluatable = (GeoEvaluatable) geo;
+		if (geo instanceof GeoEvaluatable evaluatable) {
 			if (labelController.hasLabel(geo)) {
 				model.updateEvaluatableName(evaluatable);
 			} else {
@@ -274,8 +271,7 @@ public class TableValuesView implements TableValues, SettingListener {
 
 	@Override
 	public void update(GeoElement geo) {
-		if (geo instanceof GeoEvaluatable) {
-			GeoEvaluatable evaluatable = (GeoEvaluatable) geo;
+		if (geo instanceof GeoEvaluatable evaluatable) {
 			if (geo.hasTableOfValues() || geo == getValues()) {
 				model.updateEvaluatable(evaluatable);
 			} else {

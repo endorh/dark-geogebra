@@ -63,7 +63,7 @@ public class MD5EncrypterGWTImpl {
 			BB = b;
 			CC = c;
 			DD = d;
-			a = ff(a, b, c, d, x[k + 0], S11, 0xD76AA478);
+			a = ff(a, b, c, d, x[k], S11, 0xD76AA478);
 			d = ff(d, a, b, c, x[k + 1], S12, 0xE8C7B756);
 			c = ff(c, d, a, b, x[k + 2], S13, 0x242070DB);
 			b = ff(b, c, d, a, x[k + 3], S14, 0xC1BDCEEE);
@@ -82,7 +82,7 @@ public class MD5EncrypterGWTImpl {
 			a = gg(a, b, c, d, x[k + 1], S21, 0xF61E2562);
 			d = gg(d, a, b, c, x[k + 6], S22, 0xC040B340);
 			c = gg(c, d, a, b, x[k + 11], S23, 0x265E5A51);
-			b = gg(b, c, d, a, x[k + 0], S24, 0xE9B6C7AA);
+			b = gg(b, c, d, a, x[k], S24, 0xE9B6C7AA);
 			a = gg(a, b, c, d, x[k + 5], S21, 0xD62F105D);
 			d = gg(d, a, b, c, x[k + 10], S22, 0x2441453);
 			c = gg(c, d, a, b, x[k + 15], S23, 0xD8A1E681);
@@ -104,14 +104,14 @@ public class MD5EncrypterGWTImpl {
 			c = hh(c, d, a, b, x[k + 7], S33, 0xF6BB4B60);
 			b = hh(b, c, d, a, x[k + 10], S34, 0xBEBFBC70);
 			a = hh(a, b, c, d, x[k + 13], S31, 0x289B7EC6);
-			d = hh(d, a, b, c, x[k + 0], S32, 0xEAA127FA);
+			d = hh(d, a, b, c, x[k], S32, 0xEAA127FA);
 			c = hh(c, d, a, b, x[k + 3], S33, 0xD4EF3085);
 			b = hh(b, c, d, a, x[k + 6], S34, 0x4881D05);
 			a = hh(a, b, c, d, x[k + 9], S31, 0xD9D4D039);
 			d = hh(d, a, b, c, x[k + 12], S32, 0xE6DB99E5);
 			c = hh(c, d, a, b, x[k + 15], S33, 0x1FA27CF8);
 			b = hh(b, c, d, a, x[k + 2], S34, 0xC4AC5665);
-			a = ii(a, b, c, d, x[k + 0], S41, 0xF4292244);
+			a = ii(a, b, c, d, x[k], S41, 0xF4292244);
 			d = ii(d, a, b, c, x[k + 7], S42, 0x432AFF97);
 			c = ii(c, d, a, b, x[k + 14], S43, 0xAB9423A7);
 			b = ii(b, c, d, a, x[k + 5], S44, 0xFC93A039);

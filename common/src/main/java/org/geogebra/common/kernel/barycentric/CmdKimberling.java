@@ -33,7 +33,7 @@ public class CmdKimberling extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 4:
+		case 4 -> {
 			arg = resArgs(c);
 			if ((ok[0] = arg[0].isGeoPoint()) && (ok[1] = arg[1].isGeoPoint())
 					&& (ok[2] = arg[2].isGeoPoint())
@@ -43,13 +43,13 @@ public class CmdKimberling extends CommandProcessor {
 						(GeoPointND) arg[0], (GeoPointND) arg[1],
 						(GeoPointND) arg[2], (GeoNumberValue) arg[3]);
 
-				GeoElement[] ret = { algo.getResult().toGeoElement() };
+				GeoElement[] ret = {algo.getResult().toGeoElement()};
 				return ret;
 
 			}
 			throw argErr(c, getBadArg(ok, arg));
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

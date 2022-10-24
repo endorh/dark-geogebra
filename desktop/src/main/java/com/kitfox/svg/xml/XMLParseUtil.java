@@ -102,10 +102,9 @@ public class XMLParseUtil {
 		int size = nl.getLength();
 		for (int i = 0; i < size; i++) {
 			Node node = nl.item(i);
-			if (!(node instanceof Element)) {
+			if (!(node instanceof Element ele)) {
 				continue;
 			}
-			Element ele = (Element) node;
 			if (ele.getTagName().equals(name)) {
 				return ele;
 			}
@@ -221,7 +220,7 @@ public class XMLParseUtil {
 		Iterator it = doubList.iterator();
 		int idx = 0;
 		while (it.hasNext()) {
-			retArr[idx++] = ((Double) it.next()).doubleValue();
+			retArr[idx++] = (Double) it.next();
 		}
 
 		return retArr;
@@ -283,7 +282,7 @@ public class XMLParseUtil {
 		Iterator it = floatList.iterator();
 		int idx = 0;
 		while (it.hasNext()) {
-			retArr[idx++] = ((Float) it.next()).floatValue();
+			retArr[idx++] = (Float) it.next();
 		}
 
 		return retArr;
@@ -344,7 +343,7 @@ public class XMLParseUtil {
 		Iterator it = intList.iterator();
 		int idx = 0;
 		while (it.hasNext()) {
-			retArr[idx++] = ((Integer) it.next()).intValue();
+			retArr[idx++] = (Integer) it.next();
 		}
 
 		return retArr;
@@ -509,10 +508,9 @@ public class XMLParseUtil {
 		int size = nl.getLength();
 		for (int i = 0; i < size; i++) {
 			Node node = nl.item(i);
-			if (!(node instanceof Element)) {
+			if (!(node instanceof Element ele)) {
 				continue;
 			}
-			Element ele = (Element) node;
 			if (!ele.getTagName().equals(name)) {
 				continue;
 			}
@@ -559,10 +557,9 @@ public class XMLParseUtil {
 		int size = nl.getLength();
 		for (int i = 0; i < size; i++) {
 			Node node = nl.item(i);
-			if (!(node instanceof Element)) {
+			if (!(node instanceof Element ele)) {
 				continue;
 			}
-			Element ele = (Element) node;
 			if (!ele.getTagName().equals(name)) {
 				continue;
 			}
@@ -605,10 +602,9 @@ public class XMLParseUtil {
 		int size = nl.getLength();
 		for (int i = 0; i < size; i++) {
 			Node node = nl.item(i);
-			if (!(node instanceof Element)) {
+			if (!(node instanceof Element ele)) {
 				continue;
 			}
-			Element ele = (Element) node;
 			if (!ele.getTagName().equals(name)) {
 				continue;
 			}
@@ -649,10 +645,9 @@ public class XMLParseUtil {
 		int size = nl.getLength();
 		for (int i = 0; i < size; i++) {
 			Node node = nl.item(i);
-			if (!(node instanceof Element)) {
+			if (!(node instanceof Element ele)) {
 				continue;
 			}
-			Element ele = (Element) node;
 			if (!ele.getTagName().equals(name)) {
 				continue;
 			}
@@ -709,10 +704,9 @@ public class XMLParseUtil {
 
 		for (int i = 0; i < size; i++) {
 			Node node = nl.item(i);
-			if (!(node instanceof Element)) {
+			if (!(node instanceof Element ele)) {
 				continue;
 			}
-			Element ele = (Element) node;
 			if (!ele.getTagName().equals(name)) {
 				continue;
 			}
@@ -724,14 +718,14 @@ public class XMLParseUtil {
 			} catch (Exception e) {
 			}
 
-			elementCache.addLast(Integer.valueOf(eleVal));
+			elementCache.addLast(eleVal);
 		}
 
 		int[] retArr = new int[elementCache.size()];
 		Iterator it = elementCache.iterator();
 		int idx = 0;
 		while (it.hasNext()) {
-			retArr[idx++] = ((Integer) it.next()).intValue();
+			retArr[idx++] = (Integer) it.next();
 		}
 
 		return retArr;
@@ -754,10 +748,9 @@ public class XMLParseUtil {
 
 		for (int i = 0; i < size; i++) {
 			Node node = nl.item(i);
-			if (!(node instanceof Element)) {
+			if (!(node instanceof Element ele)) {
 				continue;
 			}
-			Element ele = (Element) node;
 			if (!ele.getTagName().equals(name)) {
 				continue;
 			}
@@ -802,18 +795,18 @@ public class XMLParseUtil {
 
 		String[] styles = patSemi.split(styleString);
 
-		for (int i = 0; i < styles.length; i++) {
-			if (styles[i].length() == 0) {
+		for (String style : styles) {
+			if (style.length() == 0) {
 				continue;
 			}
 
-			int colon = styles[i].indexOf(':');
+			int colon = style.indexOf(':');
 			if (colon == -1) {
 				continue;
 			}
 
-			String key = styles[i].substring(0, colon).trim();
-			String value = styles[i].substring(colon + 1).trim();
+			String key = style.substring(0, colon).trim();
+			String value = style.substring(colon + 1).trim();
 
 			map.put(key, new StyleAttribute(key, value));
 		}

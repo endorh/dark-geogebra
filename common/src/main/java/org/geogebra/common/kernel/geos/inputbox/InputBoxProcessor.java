@@ -78,8 +78,7 @@ public class InputBoxProcessor {
 	}
 
 	private String maybeClampInputForNumeric(String inputText, StringTemplate tpl) {
-		if (!inputBox.isSymbolicMode() && linkedGeo instanceof GeoNumeric) {
-			GeoNumeric number = (GeoNumeric) linkedGeo;
+		if (!inputBox.isSymbolicMode() && linkedGeo instanceof GeoNumeric number) {
 
 			double num = Double.NaN;
 			try {

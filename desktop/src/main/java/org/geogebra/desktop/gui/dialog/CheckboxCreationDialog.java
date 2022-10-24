@@ -107,8 +107,7 @@ public class CheckboxCreationDialog extends Dialog implements
 					return;
 				}
 
-				if (ob instanceof GeoElement) {
-					GeoElement geo = (GeoElement) ob;
+				if (ob instanceof GeoElement geo) {
 					if (geo.isEuclidianShowable()) {
 						super.addElement(geo);
 						comboModel.removeElement(geo);
@@ -140,8 +139,7 @@ public class CheckboxCreationDialog extends Dialog implements
 				: geoBoolean.getCaption(StringTemplate.defaultTemplate);
 		InputPanelD ip = new InputPanelD(initString, app, 1, 15, true);
 		tfCaption = ip.getTextComponent();
-		if (tfCaption instanceof AutoCompleteTextFieldD) {
-			AutoCompleteTextFieldD atf = (AutoCompleteTextFieldD) tfCaption;
+		if (tfCaption instanceof AutoCompleteTextFieldD atf) {
 			atf.setAutoComplete(false);
 		}
 

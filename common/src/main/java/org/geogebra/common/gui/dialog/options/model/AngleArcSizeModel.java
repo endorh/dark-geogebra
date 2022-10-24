@@ -62,8 +62,7 @@ public class AngleArcSizeModel extends OptionsModel {
 	 *            this model
 	 */
 	public static boolean match(GeoElement geo) {
-		if (geo instanceof AngleProperties) {
-			AngleProperties angle = (AngleProperties) geo;
+		if (geo instanceof AngleProperties angle) {
 			if (angle.isIndependent() || !angle.isDrawable()) {
 				return false;
 			}

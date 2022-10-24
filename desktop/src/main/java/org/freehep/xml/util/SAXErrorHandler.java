@@ -63,22 +63,22 @@ public class SAXErrorHandler implements ErrorHandler {
 
 	private void handle(SAXParseException exception, int level,
 			String levelName) throws SAXException {
-		StringBuffer message = new StringBuffer(levelName);
+		StringBuilder message = new StringBuilder(levelName);
 		String fileName = exception.getPublicId();
 		if (fileName == null) {
 			fileName = exception.getSystemId();
 		}
 		if (fileName != null) {
-			message.append(" at " + fileName);
+			message.append(" at ").append(fileName);
 		}
-		message.append(" line " + exception.getLineNumber());
+		message.append(" line ").append(exception.getLineNumber());
 		if (level > maxLevel) {
 			maxLevel = level;
 		}
 		if (level >= minLevel) {
 			throw new BadXMLException(message.toString(), exception);
 		}
-		message.append(": " + exception);
+		message.append(": ").append(exception);
 		Log.debug(message + "");
 
 	}

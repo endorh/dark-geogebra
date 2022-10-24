@@ -587,8 +587,8 @@ public class AlgoDispatcher {
 		if (isIndependent) {
 			GeoList list = new GeoList(cons);
 			int size = geoElementList.size();
-			for (int i = 0; i < size; i++) {
-				list.add(geoElementList.get(i));
+			for (GeoElement geoElement : geoElementList) {
+				list.add(geoElement);
 			}
 			list.setLabel(label);
 			return list;
@@ -666,14 +666,13 @@ public class AlgoDispatcher {
 		String pointLabel = null, segmentLabel = null;
 		if (labels != null) {
 			switch (labels.length) {
-			case 2:
+			case 2 -> {
 				segmentLabel = labels[0];
 				pointLabel = labels[1];
-				break;
-			case 1:
-				segmentLabel = labels[0];
-				break;
-			default:
+			}
+			case 1 -> segmentLabel = labels[0];
+			default -> {
+			}
 			}
 		}
 
@@ -2866,8 +2865,8 @@ public class AlgoDispatcher {
 		}
 		int size = intersectionAlgos.size();
 		AlgoElement algo;
-		for (int i = 0; i < size; i++) {
-			algo = intersectionAlgos.get(i);
+		for (AlgoIntersectAbstract intersectionAlgo : intersectionAlgos) {
+			algo = intersectionAlgo;
 			GeoElement[] input = algo.getInput();
 			if (a == input[0] && b == input[1]
 					|| a == input[1] && b == input[0]) {
@@ -3484,10 +3483,8 @@ public class AlgoDispatcher {
 		GeoAngle angle = null;
 
 		// did we get two segments?
-		if ((line1 instanceof GeoSegment) && (line2 instanceof GeoSegment)) {
+		if ((line1 instanceof GeoSegment a) && (line2 instanceof GeoSegment b)) {
 			// check if the segments have one point in common
-			GeoSegment a = (GeoSegment) line1;
-			GeoSegment b = (GeoSegment) line2;
 			// get endpoints
 			GeoPoint a1 = a.getStartPoint();
 			GeoPoint a2 = a.getEndPoint();

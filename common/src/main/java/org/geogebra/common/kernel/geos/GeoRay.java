@@ -276,9 +276,8 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 				: null;
 
 		// CREATE RAY
-		if (parent instanceof AlgoJoinPointsRay) {
+		if (parent instanceof AlgoJoinPointsRay algo) {
 			// transform points
-			AlgoJoinPointsRay algo = (AlgoJoinPointsRay) parent;
 			GeoPointND[] points = { algo.getP(), algo.getQ() };
 			points = t.transformPoints(points);
 			if (t.isAffine()) {

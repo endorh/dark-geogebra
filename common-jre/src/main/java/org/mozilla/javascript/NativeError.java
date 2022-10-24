@@ -48,7 +48,7 @@ final class NativeError extends IdScriptableObject
         ScriptableObject.putProperty(obj, "name", "Error");
         ScriptableObject.putProperty(obj, "message", "");
         ScriptableObject.putProperty(obj, "fileName", "");
-        ScriptableObject.putProperty(obj, "lineNumber", Integer.valueOf(0));
+        ScriptableObject.putProperty(obj, "lineNumber", 0);
         obj.setAttributes("name", ScriptableObject.DONTENUM);
         obj.setAttributes("message", ScriptableObject.DONTENUM);
         obj.exportAsJSClass(MAX_PROTOTYPE_ID, scope, sealed);
@@ -75,7 +75,7 @@ final class NativeError extends IdScriptableObject
                 if (arglen >= 3) {
                     int line = ScriptRuntime.toInt32(args[2]);
                     ScriptableObject.putProperty(obj, "lineNumber",
-                            Integer.valueOf(line));
+		                    line);
                 }
             }
         }
@@ -123,10 +123,19 @@ final class NativeError extends IdScriptableObject
         String s;
         int arity;
         switch (id) {
-          case Id_constructor: arity=1; s="constructor"; break;
-          case Id_toString:    arity=0; s="toString";    break;
-          case Id_toSource:    arity=0; s="toSource";    break;
-          default: throw new IllegalArgumentException(String.valueOf(id));
+        case Id_constructor -> {
+            arity = 1;
+            s = "constructor";
+        }
+        case Id_toString -> {
+            arity = 0;
+            s = "toString";
+        }
+        case Id_toSource -> {
+            arity = 0;
+            s = "toSource";
+        }
+        default -> throw new IllegalArgumentException(String.valueOf(id));
         }
         initPrototypeMethod(ERROR_TAG, id, s, arity);
     }

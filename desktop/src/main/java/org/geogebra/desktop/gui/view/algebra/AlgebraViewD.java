@@ -151,8 +151,7 @@ public class AlgebraViewD extends AlgebraTree
 	protected void initModel() {
 		// build default tree structure
 		switch (treeMode) {
-		default:
-		case DEPENDENCY:
+		case DEPENDENCY -> {
 			// don't re-init anything
 			if (rootDependency == null) {
 				rootDependency = new DefaultMutableTreeNode();
@@ -175,35 +174,29 @@ public class AlgebraViewD extends AlgebraTree
 							rootDependency.getChildCount());
 				}
 			}
-			break;
-
-		case ORDER:
+		}
+		case ORDER -> {
 			if (rootOrder == null) {
 				rootOrder = new DefaultMutableTreeNode();
 			}
-
 			checkRemoveAuxiliaryNode();
 
 			// set the root
 			model.setRoot(rootOrder);
-			break;
-
-		case TYPE:
-			super.initModel();
-			break;
-		case LAYER:
+		}
+		case TYPE -> super.initModel();
+		case LAYER -> {
 			// don't re-init anything
 			if (rootLayer == null) {
 				rootLayer = new DefaultMutableTreeNode();
 				layerNodesMap = new HashMap<>(
 						10);
 			}
-
 			checkRemoveAuxiliaryNode();
 
 			// set the root
 			model.setRoot(rootLayer);
-			break;
+		}
 		}
 	}
 
@@ -313,13 +306,11 @@ public class AlgebraViewD extends AlgebraTree
 			clearView();
 
 			switch (getTreeMode()) {
-			default:
-				// do nothing
-				break;
-			case DEPENDENCY:
-				model.insertNodeInto(auxiliaryNode, rootDependency,
-						rootDependency.getChildCount() - 1);
-				break;
+			default -> {
+			}
+			// do nothing
+			case DEPENDENCY -> model.insertNodeInto(auxiliaryNode, rootDependency,
+					rootDependency.getChildCount() - 1);
 			}
 
 			kernel.notifyAddAll(this);
@@ -349,19 +340,10 @@ public class AlgebraViewD extends AlgebraTree
 
 	public void setTreeMode(int mode) {
 		switch (mode) {
-		default:
-		case 0:
-			setTreeMode(SortMode.DEPENDENCY);
-			break;
-		case 1:
-			setTreeMode(SortMode.TYPE);
-			break;
-		case 2:
-			setTreeMode(SortMode.LAYER);
-			break;
-		case 3:
-			setTreeMode(SortMode.ORDER);
-			break;
+		case 0 -> setTreeMode(SortMode.DEPENDENCY);
+		case 1 -> setTreeMode(SortMode.TYPE);
+		case 2 -> setTreeMode(SortMode.LAYER);
+		case 3 -> setTreeMode(SortMode.ORDER);
 		}
 	}
 
@@ -477,22 +459,16 @@ public class AlgebraViewD extends AlgebraTree
 	protected void setTreeLabels() {
 		Localization loc = app.getLocalization();
 		switch (getTreeMode()) {
-		default:
-		case DEPENDENCY:
-
+		case DEPENDENCY -> {
 			indNode.setUserObject(loc.getMenu("FreeObjects"));
 			model.nodeChanged(indNode);
-
 			depNode.setUserObject(loc.getMenu("DependentObjects"));
 			model.nodeChanged(depNode);
-
 			auxiliaryNode.setUserObject(loc.getMenu("AuxiliaryObjects"));
 			model.nodeChanged(auxiliaryNode);
-			break;
-		case TYPE:
-			super.setTreeLabels();
-			break;
-		case LAYER:
+		}
+		case TYPE -> super.setTreeLabels();
+		case LAYER -> {
 			DefaultMutableTreeNode node;
 			for (Entry<Integer, DefaultMutableTreeNode> entry : layerNodesMap
 					.entrySet()) {
@@ -501,10 +477,8 @@ public class AlgebraViewD extends AlgebraTree
 				node.setUserObject(key);
 				model.nodeChanged(node);
 			}
-			break;
-		case ORDER:
-			model.nodeChanged(rootOrder);
-			break;
+		}
+		case ORDER -> model.nodeChanged(rootOrder);
 		}
 	}
 
@@ -631,21 +605,17 @@ public class AlgebraViewD extends AlgebraTree
 	@Override
 	protected void clearTree() {
 		switch (getTreeMode()) {
-		default:
-		case DEPENDENCY:
+		case DEPENDENCY -> {
 			indNode.removeAllChildren();
 			depNode.removeAllChildren();
 			auxiliaryNode.removeAllChildren();
-			break;
-		case TYPE:
-			super.clearTree();
-			break;
-		case LAYER:
+		}
+		case TYPE -> super.clearTree();
+		case LAYER -> {
 			rootLayer.removeAllChildren();
 			layerNodesMap.clear();
-			break;
-		case ORDER:
-			rootOrder.removeAllChildren();
+		}
+		case ORDER -> rootOrder.removeAllChildren();
 		}
 	}
 
@@ -719,15 +689,11 @@ public class AlgebraViewD extends AlgebraTree
 
 		// remove the type branch if there are no more children
 		switch (treeMode) {
-		default:
-			// do nothing
-			break;
-		case TYPE:
-			super.removeFromModelForMode(node, algebraModel);
-			break;
-		case LAYER:
-			removeFromLayer(((GeoElement) node.getUserObject()).getLayer());
-			break;
+		default -> {
+		}
+		// do nothing
+		case TYPE -> super.removeFromModelForMode(node, algebraModel);
+		case LAYER -> removeFromLayer(((GeoElement) node.getUserObject()).getLayer());
 		}
 	}
 
@@ -783,18 +749,14 @@ public class AlgebraViewD extends AlgebraTree
 			// allow shift-double-click on a PointonPath in Algebra View to
 			// change without redefine
 			boolean redefine = !selectedGeoElement.isPointOnPath();
-			AsyncOperation<GeoElementND> callback = new AsyncOperation<GeoElementND>() {
-
-				@Override
-				public void callback(GeoElementND geo) {
-					if (geo != null) {
-						selectedGeoElement = geo.toGeoElement();
-						selectedNode.setUserObject(selectedGeoElement);
-					}
-
-					((DefaultTreeModel) getModel()).nodeChanged(selectedNode);
-
+			AsyncOperation<GeoElementND> callback = geo -> {
+				if (geo != null) {
+					selectedGeoElement = geo.toGeoElement();
+					selectedNode.setUserObject(selectedGeoElement);
 				}
+
+				((DefaultTreeModel) getModel()).nodeChanged(selectedNode);
+
 			};
 			kernel.getAlgebraProcessor().changeGeoElement(selectedGeoElement,
 					newValue, redefine, true, app.getDefaultErrorHandler(),
@@ -1131,8 +1093,8 @@ public class AlgebraViewD extends AlgebraTree
 			this.collapsedNodes.clear();
 		}
 
-		for (int i = 0; i < collapsedNodes.length; i++) {
-			this.collapsedNodes.add(collapsedNodes[i]);
+		for (int collapsedNode : collapsedNodes) {
+			this.collapsedNodes.add(collapsedNode);
 		}
 	}
 

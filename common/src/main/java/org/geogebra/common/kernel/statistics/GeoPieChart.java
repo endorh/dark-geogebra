@@ -41,9 +41,8 @@ public class GeoPieChart extends GeoElement {
 
 	@Override
 	public void set(GeoElementND geo) {
-		if (geo instanceof GeoPieChart) {
+		if (geo instanceof GeoPieChart pieChart) {
 			data.clear();
-			GeoPieChart pieChart = (GeoPieChart) geo;
 			data.addAll(pieChart.data);
 			radius = pieChart.radius;
 			center = pieChart.center;

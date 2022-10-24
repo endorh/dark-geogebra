@@ -2,6 +2,7 @@ package edu.uci.ics.jung.algorithms.util;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * An simple minimal implementation of <code>Map.Entry</code>.
@@ -42,16 +43,15 @@ public class BasicMapEntry<K, V> implements Map.Entry<K, V> {
 
 	@Override
 	public boolean equals(Object o) {
-		if (!(o instanceof Map.Entry)) {
+		if (!(o instanceof Map.Entry e)) {
 			return false;
 		}
-		Map.Entry e = (Map.Entry) o;
 		Object k1 = getKey();
 		Object k2 = e.getKey();
-		if (k1 == k2 || (k1 != null && k1.equals(k2))) {
+		if (Objects.equals(k1, k2)) {
 			Object v1 = getValue();
 			Object v2 = e.getValue();
-			if (v1 == v2 || (v1 != null && v1.equals(v2))) {
+			if (Objects.equals(v1, v2)) {
 				return true;
 			}
 		}

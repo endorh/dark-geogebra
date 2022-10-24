@@ -156,9 +156,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	public PPolynomial add(final PPolynomial poly) {
 		TreeMap<PTerm, BigInteger> result = new TreeMap<>(terms);
 		TreeMap<PTerm, BigInteger> terms2 = poly.getTerms();
-		Iterator<Entry<PTerm, BigInteger>> it = terms2.entrySet().iterator();
-		while (it.hasNext()) {
-			Entry<PTerm, BigInteger> entry = it.next();
+		for (Entry<PTerm, BigInteger> entry : terms2.entrySet()) {
 			PTerm t = entry.getKey();
 			if (terms.containsKey(t)) {
 				BigInteger coefficient = terms.get(t).add(terms2.get(t));
@@ -181,9 +179,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	 */
 	public PPolynomial negate() {
 		TreeMap<PTerm, BigInteger> result = new TreeMap<>();
-		Iterator<Entry<PTerm, BigInteger>> it = terms.entrySet().iterator();
-		while (it.hasNext()) {
-			Entry<PTerm, BigInteger> entry = it.next();
+		for (Entry<PTerm, BigInteger> entry : terms.entrySet()) {
 			PTerm t = entry.getKey();
 			result.put(t, BigInteger.ZERO.subtract(entry.getValue()));
 		}
@@ -223,14 +219,9 @@ public class PPolynomial implements Comparable<PPolynomial> {
 		
 		TreeMap<PTerm, BigInteger> result = new TreeMap<>();
 		TreeMap<PTerm, BigInteger> terms2 = poly.getTerms();
-		Iterator<Entry<PTerm, BigInteger>> it1 = terms.entrySet().iterator();
-		while (it1.hasNext()) {
-			Entry<PTerm, BigInteger> entry1 = it1.next();
+		for (Entry<PTerm, BigInteger> entry1 : terms.entrySet()) {
 			PTerm t1 = entry1.getKey();
-			Iterator<Entry<PTerm, BigInteger>> it2 = terms2.entrySet()
-					.iterator();
-			while (it2.hasNext()) {
-				Entry<PTerm, BigInteger> entry2 = it2.next();
+			for (Entry<PTerm, BigInteger> entry2 : terms2.entrySet()) {
 				PTerm t2 = entry2.getKey();
 				PTerm product = t1.times(t2);
 				BigInteger productCoefficient = entry1.getValue()
@@ -318,7 +309,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 			BigInteger c = entry.getValue();
 			if (!t.getTerm().isEmpty()) {
 				if (c != BigInteger.ONE)
-					sb.append(c + "*");
+					sb.append(c).append("*");
 				sb.append(t);
 			}
 			else
@@ -380,9 +371,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	 */
 	public HashSet<PVariable> getVars() {
 		HashSet<PVariable> v = new HashSet<>();
-		Iterator<PTerm> it = terms.keySet().iterator();
-		while (it.hasNext()) {
-			PTerm t = it.next();
+		for (PTerm t : terms.keySet()) {
 			v.addAll(t.getVars());
 		}
 		return v;
@@ -444,12 +433,10 @@ public class PPolynomial implements Comparable<PPolynomial> {
 		HashSet<PVariable> vars = getVars(polys);
 		if (extraVars != null)
 			vars.addAll(extraVars);
-		Iterator<PVariable> it = vars.iterator();
-		while (it.hasNext()) {
-			PVariable fv = it.next();
+		for (PVariable fv : vars) {
 			if ((free == null) || (free && freeVariables.contains(fv))
 					|| (!free && !(freeVariables.contains(fv))))
-				sb.append("," + fv);
+				sb.append(",").append(fv);
 		}
 		if (sb.length()>0)
 			return sb.substring(1); // removing first "," character
@@ -463,9 +450,9 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	 */
 	public static String getPolysAsCommaSeparatedString(PPolynomial[] polys) {
 		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < polys.length; ++i) {
-			if (!polys[i].isZero()) { // avoid sending 0 to Giac's eliminate
-				sb.append("," + polys[i].toString());
+		for (PPolynomial poly : polys) {
+			if (!poly.isZero()) { // avoid sending 0 to Giac's eliminate
+				sb.append(",").append(poly.toString());
 			}
 		}
 		if (sb.length()>0)
@@ -699,17 +686,12 @@ public class PPolynomial implements Comparable<PPolynomial> {
 			
 		TreeMap<PTerm, BigInteger> result = new TreeMap<>();
 
-		Iterator<Entry<PTerm, BigInteger>> it = terms.entrySet().iterator();
-		while (it.hasNext()) {
-			Entry<PTerm, BigInteger> entry = it.next();
+		for (Entry<PTerm, BigInteger> entry : terms.entrySet()) {
 			PTerm t1 = entry.getKey();
 			TreeMap<PVariable, Integer> term = new TreeMap<>(t1.getTerm());
 			BigInteger product = BigInteger.ONE;
-			Iterator<Entry<PVariable, BigInteger>> itSubst = substitutions
-					.entrySet()
-					.iterator();
-			while (itSubst.hasNext()) {
-				Entry<PVariable, BigInteger> entrySubst = itSubst.next();
+			for (Entry<PVariable, BigInteger> entrySubst : substitutions
+					.entrySet()) {
 				PVariable variable = entrySubst.getKey();
 				Integer exponent = term.get(variable);
 				if (exponent != null) {
@@ -727,7 +709,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 				} else {
 					result.put(t, sum);
 				}
-			} else if (product.intValue() != 0){
+			} else if (product.intValue() != 0) {
 				result.put(t, product);
 			}
 		}
@@ -746,9 +728,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	public PPolynomial substitute(PVariable oldVar, PVariable newVar) {
 
 		TreeMap<PTerm, BigInteger> result = new TreeMap<>();
-		Iterator<Entry<PTerm, BigInteger>> it = terms.entrySet().iterator();
-		while (it.hasNext()) {
-			Entry<PTerm, BigInteger> entry = it.next();
+		for (Entry<PTerm, BigInteger> entry : terms.entrySet()) {
 			PTerm t1 = entry.getKey();
 			TreeMap<PVariable, Integer> term = new TreeMap<>(
 					t1.getTerm());
@@ -846,12 +826,9 @@ public class PPolynomial implements Comparable<PPolynomial> {
 	static String substitutionsString(
 			HashMap<PVariable, BigInteger> substitutions) {
 		StringBuilder ret = new StringBuilder();
-		Iterator<Entry<PVariable, BigInteger>> it = substitutions.entrySet()
-				.iterator();
-		while (it.hasNext()) {
-			Entry<PVariable, BigInteger> entry = it.next();
+		for (Entry<PVariable, BigInteger> entry : substitutions.entrySet()) {
 			PVariable v = entry.getKey();
-			ret.append("," + v.toString() + "," + entry.getValue());
+			ret.append(",").append(v.toString()).append(",").append(entry.getValue());
 		}
 		if (ret.length()>0)
 			return ret.substring(1);
@@ -972,7 +949,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 		ret.append("=0,(");
 		StringBuilder vars = new StringBuilder();
 		for (PVariable v : pVariables) {
-			vars.append(v + ",");
+			vars.append(v).append(",");
 		}
 		if (vars.length() > 0) {
 			ret.append(vars.substring(0, vars.length() - 1));
@@ -1015,11 +992,14 @@ public class PPolynomial implements Comparable<PPolynomial> {
 		ret.append(");");
 
 		// list o;int s=size(e);int j;for(j=1;j<=s;j=j+1){o[j]=factorize(e[j]);}o;
-		ret.append("list " + outputVariable + ";int " + sizeVariable + "=size(" + eliminationVariable + ");");
-		ret.append("int " + loopVariable + ";for(" + loopVariable + "=1;" + loopVariable + "<=" + sizeVariable
-				+ ";" + loopVariable + "=" + loopVariable + "+1)");
-		ret.append("{" + outputVariable + "[" + loopVariable + "]=factorize(" + eliminationVariable
-				+ "[" + loopVariable + "]);}o;");
+		ret.append("list ").append(outputVariable).append(";int ").append(sizeVariable)
+				.append("=size(").append(eliminationVariable).append(");");
+		ret.append("int ").append(loopVariable).append(";for(").append(loopVariable).append("=1;")
+				.append(loopVariable).append("<=").append(sizeVariable).append(";")
+				.append(loopVariable).append("=").append(loopVariable).append("+1)");
+		ret.append("{").append(outputVariable).append("[").append(loopVariable)
+				.append("]=factorize(").append(eliminationVariable).append("[").append(loopVariable)
+				.append("]);}o;");
 		
 		return ret.toString();
 	}
@@ -1171,9 +1151,7 @@ public class PPolynomial implements Comparable<PPolynomial> {
 		TreeSet<PVariable> dependentVariables = new TreeSet<>();
 		TreeSet<PVariable> freeVariables = new TreeSet<>();
 		TreeSet<PVariable> variables = new TreeSet<>(getVars(eqSystem));
-		Iterator<PVariable> variablesIterator = variables.iterator();
-		while (variablesIterator.hasNext()) {
-			PVariable variable = variablesIterator.next();
+		for (PVariable variable : variables) {
 			if (substitutions == null || !substitutions.containsKey(variable)) {
 				if (!freeVariablesInput.contains(variable)) {
 					dependentVariables.add(variable);

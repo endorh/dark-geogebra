@@ -116,8 +116,8 @@ public class MacroManager {
 	 * All macros are marked as unused
 	 */
 	public void setAllMacrosUnused() {
-		for (int i = 0; i < macroList.size(); i++) {
-			macroList.get(i).setUnused();
+		for (Macro macro : macroList) {
+			macro.setUnused();
 		}
 	}
 
@@ -147,8 +147,7 @@ public class MacroManager {
 	 */
 	public final void notifyEuclidianViewCE(EVProperty prop) {
 		// save selected macros
-		for (int i = 0; i < macroList.size(); i++) {
-			Macro macro = macroList.get(i);
+		for (Macro macro : macroList) {
 			macro.getMacroConstruction().notifyEuclidianViewCE(prop);
 		}
 	}
@@ -167,8 +166,8 @@ public class MacroManager {
 
 		StringBuilder sb = new StringBuilder();
 		// save selected macros
-		for (int i = 0; i < macros.size(); i++) {
-			macros.get(i).getXML(sb);
+		for (Macro macro : macros) {
+			macro.getXML(sb);
 		}
 		return sb.toString();
 	}

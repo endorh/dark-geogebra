@@ -95,24 +95,24 @@ public class CancelBox extends Box {
 		Line2D line = geom.createLine2D();
 
 		switch (ctype) {
-		case SLASH:
+		case SLASH -> {
 			line.setLine(x + th - a, y + depth - th + b, x + width - th + a,
 					y - height + th - b);
 			g2.draw(line);
-			break;
-		case BACKSLASH:
+		}
+		case BACKSLASH -> {
 			line.setLine(x + th - a, y - height + th - b, x + width - th + a,
 					y + depth - th + b);
 			g2.draw(line);
-			break;
-		case X:
+		}
+		case X -> {
 			line.setLine(x + th - a, y - height + th - b, x + width - th + a,
 					y + depth - th + b);
 			g2.draw(line);
 			line.setLine(x + th - a, y + depth - th + b, x + width - th + a,
 					y - height + th - b);
 			g2.draw(line);
-			break;
+		}
 		}
 		g2.setStroke(oldStroke);
 		if (color != null) {

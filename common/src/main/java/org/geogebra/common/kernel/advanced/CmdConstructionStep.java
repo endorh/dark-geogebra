@@ -31,21 +31,19 @@ public class CmdConstructionStep extends CommandProcessor {
 		arg = resArgs(c);
 
 		switch (n) {
-		case 0:
-
+		case 0 -> {
 			AlgoConstructionStep algo = new AlgoConstructionStep(cons,
 					c.getLabel());
-			GeoElement[] ret = { algo.getResult() };
+			GeoElement[] ret = {algo.getResult()};
 			return ret;
-
-		case 1:
+		}
+		case 1 -> {
 			AlgoStepObject algo2 = new AlgoStepObject(cons, c.getLabel(),
 					arg[0]);
-			GeoElement[] ret2 = { algo2.getResult() };
+			GeoElement[] ret2 = {algo2.getResult()};
 			return ret2;
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

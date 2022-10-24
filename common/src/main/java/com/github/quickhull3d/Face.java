@@ -73,8 +73,8 @@ class Face {
 	public static Face create(Vertex[] vtxArray, int[] indices) {
 		Face face = new Face();
 		HalfEdge hePrev = null;
-		for (int i = 0; i < indices.length; i++) {
-			HalfEdge he = new HalfEdge(vtxArray[indices[i]], face);
+		for (int index : indices) {
+			HalfEdge he = new HalfEdge(vtxArray[index], face);
 			if (hePrev != null) {
 				he.setPrev(hePrev);
 				hePrev.setNext(he);
@@ -286,17 +286,17 @@ class Face {
 	}
 
 	public String getVertexString() {
-		String s = null;
+		StringBuilder s = null;
 		HalfEdge he = he0;
 		do {
 			if (s == null) {
-				s = "" + he.head().index;
+				s = new StringBuilder("" + he.head().index);
 			} else {
-				s += " " + he.head().index;
+				s.append(" ").append(he.head().index);
 			}
 			he = he.next;
 		} while (he != he0);
-		return s;
+		return s.toString();
 	}
 
 	public int mergeAdjacentFace(HalfEdge hedgeAdj, Face[] discarded) {

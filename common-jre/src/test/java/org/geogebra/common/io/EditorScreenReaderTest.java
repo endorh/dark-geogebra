@@ -236,12 +236,12 @@ public class EditorScreenReaderTest {
 		CursorController.firstField(mfi.getEditorState());
 		mfi.update();
 		ExpressionReader er = ScreenReader.getExpressionReader(app);
-		for (int i = 0; i < output.length; i++) {
+		for (String s : output) {
 
 			String readerOutput = mfi.getEditorState().getDescription(er)
 					.replaceAll(" +", " ");
-			if (!readerOutput.matches(output[i])) {
-				Assert.assertEquals(output[i], readerOutput);
+			if (!readerOutput.matches(s)) {
+				Assert.assertEquals(s, readerOutput);
 			}
 			CursorController.nextCharacter(mfi.getEditorState());
 			mfi.update();

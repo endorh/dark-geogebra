@@ -30,8 +30,7 @@ public class CmdZMeanEstimate extends CommandProcessor {
 		arg = resArgs(c);
 
 		switch (n) {
-
-		case 3:
+		case 3 -> {
 			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoNumeric())
 					&& (ok[2] = arg[2].isGeoNumeric())) {
 
@@ -39,14 +38,13 @@ public class CmdZMeanEstimate extends CommandProcessor {
 						c.getLabel(), (GeoList) arg[0], (GeoNumeric) arg[1],
 						(GeoNumeric) arg[2]);
 
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 				return ret;
 
 			}
-
 			throw argErr(c, getBadArg(ok, arg));
-
-		case 4:
+		}
+		case 4 -> {
 			if ((ok[0] = arg[0].isGeoNumeric())
 					&& (ok[1] = arg[1].isGeoNumeric())
 					&& (ok[2] = arg[2].isGeoNumeric())
@@ -56,14 +54,12 @@ public class CmdZMeanEstimate extends CommandProcessor {
 						(GeoNumeric) arg[0], (GeoNumeric) arg[1],
 						(GeoNumeric) arg[2], (GeoNumeric) arg[3]);
 				algo.getResult().setLabel(c.getLabel());
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 				return ret;
 			}
-
 			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

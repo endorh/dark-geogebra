@@ -291,8 +291,7 @@ public class Term implements Comparable<Object> {
 			} else if (aval == 1.0d) {
 				return b;
 			} else {
-				if (b instanceof ExpressionNode) {
-					ExpressionNode ben = (ExpressionNode) b;
+				if (b instanceof ExpressionNode ben) {
 					if (ben.getLeft().isConstant()) {
 						switch (ben.getOperation()) {
 						// a * (b.left * b.right) = (a * b.left) * b.right
@@ -354,8 +353,7 @@ public class Term implements Comparable<Object> {
 			if (aval == 0.0d) {
 				return new MyDouble(kernel, 0.0d);
 			}
-			if (b instanceof ExpressionNode) {
-				ExpressionNode ben = (ExpressionNode) b;
+			if (b instanceof ExpressionNode ben) {
 				switch (ben.getOperation()) {
 				// a / (b.left / b.right) = (a / b.left) * b.right
 				case DIVIDE:
@@ -394,8 +392,7 @@ public class Term implements Comparable<Object> {
 
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof Term) {
-			Term t = (Term) o;
+		if (o instanceof Term t) {
 			return coefficient == t.coefficient
 					&& variables.toString().equals(t.variables.toString());
 		}
@@ -414,7 +411,7 @@ public class Term implements Comparable<Object> {
 	 * @return True if contins given variable
 	 */
 	boolean contains(String var) {
-		return variables.toString().indexOf(var) >= 0;
+		return variables.toString().contains(var);
 	}
 
 	@Override
@@ -471,8 +468,7 @@ public class Term implements Comparable<Object> {
 	private String coeffString(ExpressionValue ev, StringTemplate tpl) {
 		if (ev instanceof GeoElement) {
 			return ((GeoElement) ev).getLabel(tpl);
-		} else if (ev instanceof ExpressionNode) {
-			ExpressionNode n = (ExpressionNode) ev;
+		} else if (ev instanceof ExpressionNode n) {
 			if (n.isLeaf()
 					|| ExpressionNode.opID(n) >= Operation.MULTIPLY.ordinal()
 					|| variables.length() == 0) {

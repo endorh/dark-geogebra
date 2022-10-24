@@ -62,17 +62,17 @@ public class CommandRomNum extends Command {
 	@Override
 	public boolean init(TeXParser tp) {
 		int num = tp.getArgAsPositiveInteger();
-		String roman = "";
+		StringBuilder roman = new StringBuilder();
 		for (int i = 0; i < NUMBERS.length; i++) {
 			while (num >= NUMBERS[i]) {
-				roman += LETTERS[i];
+				roman.append(LETTERS[i]);
 				num -= NUMBERS[i];
 			}
 		}
 		if (u) {
-			roman = roman.toUpperCase();
+			roman = new StringBuilder(roman.toString().toUpperCase());
 		}
-		tp.addToConsumer(TeXParser.getAtomForLatinStr(roman, tp.isMathMode()));
+		tp.addToConsumer(TeXParser.getAtomForLatinStr(roman.toString(), tp.isMathMode()));
 
 		return false;
 	}

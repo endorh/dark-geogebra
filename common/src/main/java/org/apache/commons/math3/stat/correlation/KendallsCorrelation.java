@@ -163,15 +163,16 @@ public class KendallsCorrelation {
         @SuppressWarnings("unchecked")
         Pair<Double, Double>[] pairs = new Pair[n];
         for (int i = 0; i < n; i++) {
-            pairs[i] = new Pair<Double, Double>(xArray[i], yArray[i]);
+            pairs[i] = new Pair<>(xArray[i], yArray[i]);
         }
 
-        Arrays.sort(pairs, new Comparator<Pair<Double, Double>>() {
-            /** {@inheritDoc} */
-            public int compare(Pair<Double, Double> pair1, Pair<Double, Double> pair2) {
-                int compareFirst = pair1.getFirst().compareTo(pair2.getFirst());
-                return compareFirst != 0 ? compareFirst : pair1.getSecond().compareTo(pair2.getSecond());
-            }
+        Arrays.sort(pairs, new Comparator<>() {
+	        /** {@inheritDoc} */
+	        public int compare(Pair<Double, Double> pair1, Pair<Double, Double> pair2) {
+		        int compareFirst = pair1.getFirst().compareTo(pair2.getFirst());
+		        return compareFirst != 0 ? compareFirst :
+				        pair1.getSecond().compareTo(pair2.getSecond());
+	        }
         });
 
         long tiedXPairs = 0;
@@ -266,6 +267,6 @@ public class KendallsCorrelation {
      * @return the sum of the number from 1 to n
      */
     private static long sum(long n) {
-        return n * (n + 1) / 2l;
+        return n * (n + 1) / 2L;
     }
 }

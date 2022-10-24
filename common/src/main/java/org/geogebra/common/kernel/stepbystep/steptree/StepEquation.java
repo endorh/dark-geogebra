@@ -46,8 +46,7 @@ public class StepEquation extends StepSolvable {
 
 	@Override
 	public boolean equals(Object sn) {
-		if (sn instanceof StepEquation) {
-			StepEquation se = (StepEquation) sn;
+		if (sn instanceof StepEquation se) {
 			return swapped == se.swapped
 					&& isInequation == se.isInequation
 					&& LHS.equals(se.LHS)

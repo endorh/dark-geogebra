@@ -33,32 +33,28 @@ public class CmdLineBisector extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1: // segment
+		case 1 -> { // segment
 			arg = resArgs(c);
 			// line through point orthogonal to segment
 			if (arg[0].isGeoSegment()) {
 				GeoElement[] ret = {
-						lineBisector(c.getLabel(), (GeoSegmentND) arg[0]) };
+						lineBisector(c.getLabel(), (GeoSegmentND) arg[0])};
 				return ret;
 			}
 
 			// syntax error
 			throw argErr(c, arg[0]);
-
-		case 2: // two points
+		}
+		case 2 -> { // two points
 			arg = resArgs(c);
-
 			return process2(c, arg, ok);
-
-		case 3:
+		}
+		case 3 -> {
 			arg = resArgs(c);
-
 			GeoElement[] ret = process3(c, arg, ok);
-
 			return ret;
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

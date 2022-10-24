@@ -5,8 +5,6 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.FocusEvent;
@@ -217,13 +215,8 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 		btnTraceDialog.setVisible(false);
 		btnTraceDialog.setToolTipText(
 				app.getLocalization().getMenuTooltip("TraceToSpreadsheet"));
-		btnTraceDialog.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				showTraceDialog(null, table.selectedCellRanges.get(0));
-			}
-		});
+		btnTraceDialog.addActionListener(
+				e -> showTraceDialog(null, table.selectedCellRanges.get(0)));
 
 		upperLeftCorner.setLayout(new BorderLayout());
 		upperLeftCorner.add(btnTraceDialog, BorderLayout.WEST);
@@ -356,13 +349,10 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 		GPoint location = geo.getSpreadsheetCoords();
 
 		switch (geo.getGeoClassType()) {
-		default:
-			// do nothing
-			break;
-		case BOOLEAN:
-		case BUTTON:
-		case LIST:
-			table.oneClickEditMap.remove(location);
+		default -> {
+		}
+		// do nothing
+		case BOOLEAN, BUTTON, LIST -> table.oneClickEditMap.remove(location);
 		}
 	}
 

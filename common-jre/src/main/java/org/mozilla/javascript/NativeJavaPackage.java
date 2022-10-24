@@ -145,7 +145,7 @@ public class NativeJavaPackage extends ScriptableObject
             } else {
                 // add to negative cache
                 if (negativeCache == null)
-                    negativeCache = new HashSet<String>();
+                    negativeCache = new HashSet<>();
                 negativeCache.add(name);
             }
         }
@@ -174,8 +174,7 @@ public class NativeJavaPackage extends ScriptableObject
 
     @Override
     public boolean equals(Object obj) {
-        if(obj instanceof NativeJavaPackage) {
-            NativeJavaPackage njp = (NativeJavaPackage)obj;
+        if(obj instanceof NativeJavaPackage njp) {
             return packageName.equals(njp.packageName) &&
                    classLoader == njp.classLoader;
         }

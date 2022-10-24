@@ -40,6 +40,8 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import com.kitfox.svg.batik.MultipleGradientPaint;
+import com.kitfox.svg.batik.RadialGradientPaint;
 import com.kitfox.svg.xml.StyleAttribute;
 
 /**
@@ -95,17 +97,17 @@ public class RadialGradient extends Gradient {
 
 	@Override
 	public Paint getPaint(Rectangle2D bounds, AffineTransform xform) {
-		com.kitfox.svg.batik.MultipleGradientPaint.CycleMethodEnum method;
+		MultipleGradientPaint.CycleMethodEnum method;
 		switch (spreadMethod) {
 		default:
 		case SM_PAD:
-			method = com.kitfox.svg.batik.MultipleGradientPaint.NO_CYCLE;
+			method = MultipleGradientPaint.NO_CYCLE;
 			break;
 		case SM_REPEAT:
-			method = com.kitfox.svg.batik.MultipleGradientPaint.REPEAT;
+			method = MultipleGradientPaint.REPEAT;
 			break;
 		case SM_REFLECT:
-			method = com.kitfox.svg.batik.MultipleGradientPaint.REFLECT;
+			method = MultipleGradientPaint.REFLECT;
 			break;
 		}
 
@@ -113,9 +115,9 @@ public class RadialGradient extends Gradient {
 		Point2D.Float pt1 = new Point2D.Float(cx, cy);
 		Point2D.Float pt2 = new Point2D.Float(fx, fy);
 		if (gradientUnits == GU_USER_SPACE_ON_USE) {
-			paint = new com.kitfox.svg.batik.RadialGradientPaint(pt1, r, pt2,
+			paint = new RadialGradientPaint(pt1, r, pt2,
 					getStopFractions(), getStopColors(), method,
-					com.kitfox.svg.batik.MultipleGradientPaint.SRGB,
+					MultipleGradientPaint.SRGB,
 					gradientTransform);
 		} else {
 			AffineTransform viewXform = new AffineTransform();
@@ -124,9 +126,9 @@ public class RadialGradient extends Gradient {
 
 			viewXform.concatenate(gradientTransform);
 
-			paint = new com.kitfox.svg.batik.RadialGradientPaint(pt1, r, pt2,
+			paint = new RadialGradientPaint(pt1, r, pt2,
 					getStopFractions(), getStopColors(), method,
-					com.kitfox.svg.batik.MultipleGradientPaint.SRGB, viewXform);
+					MultipleGradientPaint.SRGB, viewXform);
 		}
 
 		return paint;

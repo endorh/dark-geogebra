@@ -144,7 +144,7 @@ public class MersenneTwister extends BitsStreamGenerator implements Serializable
         for (mti = 1; mti < N; ++mti) {
             // See Knuth TAOCP Vol2. 3rd Ed. P.106 for multiplier.
             // initializer from the 2002-01-09 C version by Makoto Matsumoto
-            longMT = (1812433253l * (longMT ^ (longMT >> 30)) + mti) & 0xffffffffL;
+            longMT = (1812433253L * (longMT ^ (longMT >> 30)) + mti) & 0xffffffffL;
             mt[mti]= (int) longMT;
         }
 
@@ -171,10 +171,10 @@ public class MersenneTwister extends BitsStreamGenerator implements Serializable
         int j = 0;
 
         for (int k = Math.max(N, seed.length); k != 0; k--) {
-            long l0 = (mt[i] & 0x7fffffffl)   | ((mt[i]   < 0) ? 0x80000000l : 0x0l);
-            long l1 = (mt[i-1] & 0x7fffffffl) | ((mt[i-1] < 0) ? 0x80000000l : 0x0l);
-            long l  = (l0 ^ ((l1 ^ (l1 >> 30)) * 1664525l)) + seed[j] + j; // non linear
-            mt[i]   = (int) (l & 0xffffffffl);
+            long l0 = (mt[i] & 0x7fffffffL)   | ((mt[i]   < 0) ? 0x80000000L : 0x0L);
+            long l1 = (mt[i-1] & 0x7fffffffL) | ((mt[i-1] < 0) ? 0x80000000L : 0x0L);
+            long l  = (l0 ^ ((l1 ^ (l1 >> 30)) * 1664525L)) + seed[j] + j; // non linear
+            mt[i]   = (int) (l & 0xffffffffL);
             i++; j++;
             if (i >= N) {
                 mt[0] = mt[N - 1];
@@ -186,9 +186,9 @@ public class MersenneTwister extends BitsStreamGenerator implements Serializable
         }
 
         for (int k = N - 1; k != 0; k--) {
-            long l0 = (mt[i] & 0x7fffffffl)   | ((mt[i]   < 0) ? 0x80000000l : 0x0l);
-            long l1 = (mt[i-1] & 0x7fffffffl) | ((mt[i-1] < 0) ? 0x80000000l : 0x0l);
-            long l  = (l0 ^ ((l1 ^ (l1 >> 30)) * 1566083941l)) - i; // non linear
+            long l0 = (mt[i] & 0x7fffffffL)   | ((mt[i]   < 0) ? 0x80000000L : 0x0L);
+            long l1 = (mt[i-1] & 0x7fffffffL) | ((mt[i-1] < 0) ? 0x80000000L : 0x0L);
+            long l  = (l0 ^ ((l1 ^ (l1 >> 30)) * 1566083941L)) - i; // non linear
             mt[i]   = (int) (l & 0xffffffffL);
             i++;
             if (i >= N) {
@@ -210,7 +210,7 @@ public class MersenneTwister extends BitsStreamGenerator implements Serializable
      */
     @Override
     public void setSeed(long seed) {
-        setSeed(new int[] { (int) (seed >>> 32), (int) (seed & 0xffffffffl) });
+        setSeed(new int[] { (int) (seed >>> 32), (int) (seed & 0xffffffffL) });
     }
 
     /** Generate next pseudorandom number.

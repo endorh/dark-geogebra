@@ -119,13 +119,9 @@ public abstract class MaterialsManager implements MaterialsManagerI {
 							newMat.setSyncStamp(newMat.getModified());
 							if (!MaterialsManager.this
 									.shouldKeep(mat.getId())) {
-								delete(mat, true, new Runnable() {
+								delete(mat, true, () -> {
+									// TODO Auto-generated method stub
 
-									@Override
-									public void run() {
-										// TODO Auto-generated method stub
-
-									}
 								});
 							} else {
 								// Meta may have changed (tube ID), sync

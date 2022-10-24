@@ -277,51 +277,42 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 	private final void createOutput() {
 
 		outputPolygons = new OutputHandler<>(
-				new ElementFactory<GeoPolygon>() {
-					@Override
-					public GeoPolygon newElement() {
-						GeoPolygon p = new GeoPolygon(cons, true);
-						p.setParentAlgorithm(AlgoPolygonOperation.this);
-						if (outputPolygons.size() > 0) {
-							p.setAllVisualProperties(
-									outputPolygons.getElement(0), false);
-						}
-						p.setViewFlags(inPoly0.getViewSet());
-						p.setNotFixedPointsLength(true);
-						return p;
+				() -> {
+					GeoPolygon p = new GeoPolygon(cons, true);
+					p.setParentAlgorithm(AlgoPolygonOperation.this);
+					if (outputPolygons.size() > 0) {
+						p.setAllVisualProperties(
+								outputPolygons.getElement(0), false);
 					}
+					p.setViewFlags(inPoly0.getViewSet());
+					p.setNotFixedPointsLength(true);
+					return p;
 				});
 
 		outputPolygons.adjustOutputSize(1, false);
 
 		outputPoints = new OutputHandler<>(
-				new ElementFactory<GeoPoint>() {
-					@Override
-					public GeoPoint newElement() {
-						GeoPoint newPoint = new GeoPoint(cons);
-						newPoint.setCoords(0, 0, 1);
-						newPoint.setParentAlgorithm(AlgoPolygonOperation.this);
-						newPoint.setAuxiliaryObject(true);
-						newPoint.setViewFlags(inPoly0.getViewSet());
+				() -> {
+					GeoPoint newPoint = new GeoPoint(cons);
+					newPoint.setCoords(0, 0, 1);
+					newPoint.setParentAlgorithm(AlgoPolygonOperation.this);
+					newPoint.setAuxiliaryObject(true);
+					newPoint.setViewFlags(inPoly0.getViewSet());
 
-						return newPoint;
-					}
+					return newPoint;
 				});
 
 		outputPoints.adjustOutputSize(1, false);
 
 		outputSegments = new OutputHandler<>(
-				new ElementFactory<GeoSegment>() {
-					@Override
-					public GeoSegment newElement() {
-						GeoSegment segment = (GeoSegment) outputPolygons
-								.getElement(0)
-								.createSegment(cons, outputPoints.getElement(0),
-										outputPoints.getElement(0), true);
-						segment.setAuxiliaryObject(true);
-						segment.setViewFlags(inPoly0.getViewSet());
-						return segment;
-					}
+				() -> {
+					GeoSegment segment = (GeoSegment) outputPolygons
+							.getElement(0)
+							.createSegment(cons, outputPoints.getElement(0),
+									outputPoints.getElement(0), true);
+					segment.setAuxiliaryObject(true);
+					segment.setViewFlags(inPoly0.getViewSet());
+					return segment;
 				});
 
 	}
@@ -334,8 +325,8 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 		input[1] = inPoly1;
 
 		// set dependencies
-		for (int i = 0; i < input.length; i++) {
-			input[i].addAlgorithm(this);
+		for (GeoElement geoElement : input) {
+			geoElement.addAlgorithm(this);
 		}
 		cons.addToAlgorithmList(this);
 
@@ -372,26 +363,16 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 		solution.clear();
 
 		// calculating output polygons
-		switch (operationType) {
-		default:
-		case INTERSECTION:
-			solutionValid = clipper.execute(ClipType.INTERSECTION, solution,
+		solutionValid = switch (operationType) {
+			case INTERSECTION -> clipper.execute(ClipType.INTERSECTION, solution,
 					PolyFillType.EVEN_ODD, PolyFillType.EVEN_ODD);
-			break;
-		case UNION:
-			solutionValid = clipper.execute(ClipType.UNION, solution,
+			case UNION -> clipper.execute(ClipType.UNION, solution,
 					PolyFillType.EVEN_ODD, PolyFillType.EVEN_ODD);
-			break;
-		case DIFFERENCE:
-			solutionValid = clipper.execute(ClipType.DIFFERENCE, solution,
+			case DIFFERENCE -> clipper.execute(ClipType.DIFFERENCE, solution,
 					PolyFillType.EVEN_ODD, PolyFillType.EVEN_ODD);
-			break;
-		case XOR:
-			solutionValid = clipper.execute(ClipType.XOR, solution,
+			case XOR -> clipper.execute(ClipType.XOR, solution,
 					PolyFillType.EVEN_ODD, PolyFillType.EVEN_ODD);
-			break;
-
-		}
+		};
 
 		// assign output calculated using clipper library to appropriately
 
@@ -413,9 +394,9 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 			// assigning coords to output points
 			pointCount = 0;
 			for (Path path : solution) {
-				for (int i = 0; i < path.size(); i++) {
+				for (DoublePoint doublePoint : path) {
 					GeoPoint point = outputPoints.getElement(pointCount);
-					DoublePoint calcPoint = path.get(i);
+					DoublePoint calcPoint = doublePoint;
 					point.setCoords(calcPoint.getX(), calcPoint.getY(), 1);
 					pointCount++;
 				}

@@ -35,7 +35,7 @@ import edu.uci.ics.jung.graph.Graph;
  */
 public class DefaultParallelEdgeIndexFunction<V, E>
 		implements EdgeIndexFunction<V, E> {
-	protected Map<Context<Graph<V, E>, E>, Integer> edge_index = new HashMap<Context<Graph<V, E>, E>, Integer>();
+	protected Map<Context<Graph<V, E>, E>, Integer> edge_index = new HashMap<>();
 
 	private DefaultParallelEdgeIndexFunction() {
 	}
@@ -49,7 +49,7 @@ public class DefaultParallelEdgeIndexFunction<V, E>
 	 *            the edge type
 	 */
 	public static <V, E> DefaultParallelEdgeIndexFunction<V, E> getInstance() {
-		return new DefaultParallelEdgeIndexFunction<V, E>();
+		return new DefaultParallelEdgeIndexFunction<>();
 	}
 
 	/**
@@ -73,11 +73,11 @@ public class DefaultParallelEdgeIndexFunction<V, E>
 				index = getIndex(graph, e, u, v);
 			}
 		}
-		return index.intValue();
+		return index;
 	}
 
 	protected int getIndex(Graph<V, E> graph, E e, V v, V u) {
-		Collection<E> commonEdgeSet = new HashSet<E>(graph.getIncidentEdges(u));
+		Collection<E> commonEdgeSet = new HashSet<>(graph.getIncidentEdges(u));
 		commonEdgeSet.retainAll(graph.getIncidentEdges(v));
 		for (Iterator<E> iterator = commonEdgeSet.iterator(); iterator
 				.hasNext();) {
@@ -108,7 +108,7 @@ public class DefaultParallelEdgeIndexFunction<V, E>
 	}
 
 	protected int getIndex(Graph<V, E> graph, E e, V v) {
-		Collection<E> commonEdgeSet = new HashSet<E>();
+		Collection<E> commonEdgeSet = new HashSet<>();
 		for (E another : graph.getIncidentEdges(v)) {
 			V u = graph.getOpposite(v, another);
 			if (u.equals(v)) {

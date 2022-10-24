@@ -17,6 +17,7 @@
 package org.apache.commons.math3.exception.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -38,13 +39,11 @@ public class ArgUtils {
      * {@code array}.
      */
     public static Object[] flatten(Object[] array) {
-        final List<Object> list = new ArrayList<Object>();
+        final List<Object> list = new ArrayList<>();
         if (array != null) {
             for (Object o : array) {
                 if (o instanceof Object[]) {
-                    for (Object oR : flatten((Object[]) o)) {
-                        list.add(oR);
-                    }
+	                list.addAll(Arrays.asList(flatten((Object[]) o)));
                 } else {
                     list.add(o);
                 }

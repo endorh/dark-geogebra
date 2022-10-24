@@ -82,10 +82,10 @@ public class App3DCompanionD extends App3DCompanion {
 		if (app.getGuiManager() != null) {
 			DockPanelD[] panels = ((LayoutD) app.getGuiManager().getLayout())
 					.getDockManager().getPanels();
-			for (int i = 0; i < panels.length; i++) {
-				if (panels[i] instanceof EuclidianDockPanelForPlaneD) {
+			for (DockPanelD dockPanelD : panels) {
+				if (dockPanelD instanceof EuclidianDockPanelForPlaneD) {
 					panelForPlaneList
-							.add((EuclidianDockPanelForPlaneD) panels[i]);
+							.add((EuclidianDockPanelForPlaneD) dockPanelD);
 				}
 			}
 		}
@@ -100,8 +100,7 @@ public class App3DCompanionD extends App3DCompanion {
 			GeoElement geo = app.getKernel()
 					.lookupLabel(((GeoElement) view.getCompanion().getPlane())
 							.getLabelSimple());
-			if (geo != null && (geo instanceof ViewCreator)) {
-				ViewCreator plane = (ViewCreator) geo;
+			if (geo != null && (geo instanceof ViewCreator plane)) {
 				view.getCompanion().setPlane(plane);
 				plane.setEuclidianViewForPlane(view.getCompanion());
 				view.getCompanion().updateForPlane();

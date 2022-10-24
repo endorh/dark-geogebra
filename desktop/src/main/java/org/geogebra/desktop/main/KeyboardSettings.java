@@ -150,9 +150,9 @@ public class KeyboardSettings extends AbstractSettings {
 		if (string == null) {
 			return;
 		}
-		for (int i = 0; i < supportedLocales.size(); i++) {
-			if (supportedLocales.get(i).toString().equals(string)) {
-				keyboardLocale = supportedLocales.get(i);
+		for (String supportedLocale : supportedLocales) {
+			if (supportedLocale.toString().equals(string)) {
+				keyboardLocale = supportedLocale;
 				settingChanged();
 				return;
 			}

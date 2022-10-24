@@ -124,9 +124,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 		this(vals.length);
 
-		for (int i = 0; i < vals.length; i++) {
-			val[i] = vals[i];
-		}
+		System.arraycopy(vals, 0, val, 0, vals.length);
 
 	}
 
@@ -235,9 +233,7 @@ public class Coords implements AnimatableValue<Coords> {
 	public void set(double[] vals0) {
 		// Application.debug("-------------val.length =
 		// "+val.length+"\n-------------vals0.length = "+vals0.length);
-		for (int i = 0; i < vals0.length; i++) {
-			val[i] = vals0[i];
-		}
+		System.arraycopy(vals0, 0, val, 0, vals0.length);
 
 		calcNorm = calcSqNorm = true;
 	}
@@ -267,9 +263,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 *            length first values only are updated
 	 */
 	public void setValues(Coords v, int length) {
-		for (int i = 0; i < length; i++) {
-			val[i] = v.val[i];
-		}
+		if (length >= 0) System.arraycopy(v.val, 0, val, 0, length);
 	}
 
 	/**
@@ -362,9 +356,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 * 
 	 */
 	public void copy(double[] ret) {
-		for (int i = 0; i < rows; i++) {
-			ret[i] = val[i];
-		}
+		if (rows >= 0) System.arraycopy(val, 0, ret, 0, rows);
 	}
 
 	/**
@@ -476,9 +468,7 @@ public class Coords implements AnimatableValue<Coords> {
 	public Coords copyVector() {
 
 		Coords result = new Coords(rows);
-		for (int i = 0; i < rows; i++) {
-			result.val[i] = val[i];
-		}
+		if (rows >= 0) System.arraycopy(val, 0, result.val, 0, rows);
 
 		return result;
 
@@ -501,9 +491,7 @@ public class Coords implements AnimatableValue<Coords> {
 		int r = end - start + 1;
 		Coords result = new Coords(r);
 
-		for (int i = 0; i < r; i++) {
-			result.val[i] = val[start + i - 1];
-		}
+		if (r >= 0) System.arraycopy(val, start + 0 - 1, result.val, 0, r);
 
 		return result;
 
@@ -523,9 +511,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 */
 	public Coords setSubVector(Coords v, int start, int end) {
 		int r = end - start + 1;
-		for (int i = 0; i < r; i++) {
-			val[i] = v.val[start + i - 1];
-		}
+		if (r >= 0) System.arraycopy(v.val, start + 0 - 1, val, 0, r);
 
 		return this;
 
@@ -571,12 +557,8 @@ public class Coords implements AnimatableValue<Coords> {
 	 */
 	public Coords setSubVector(Coords v, int row) {
 
-		for (int i = 0; i < row; i++) {
-			val[i] = v.val[i];
-		}
-		for (int i = row; i < rows; i++) {
-			val[i] = v.val[i + 1];
-		}
+		if (row >= 0) System.arraycopy(v.val, 0, val, 0, row);
+		if (rows - row >= 0) System.arraycopy(v.val, row + 1, val, row, rows - row);
 
 		return this;
 
@@ -834,8 +816,8 @@ public class Coords implements AnimatableValue<Coords> {
 	 */
 	public double calcSquareNorm() {
 		sqNorm = 0;
-		for (int i = 0; i < val.length; i++) {
-			sqNorm += val[i] * val[i];
+		for (double v : val) {
+			sqNorm += v * v;
 		}
 		return sqNorm;
 	}
@@ -2001,9 +1983,7 @@ public class Coords implements AnimatableValue<Coords> {
 	public Coords projectInfDim() {
 		int len = getLength();
 		Coords result = new Coords(len - 1);
-		for (int i = 0; i < len - 1; i++) {
-			result.val[i] = val[i];
-		}
+		if (len - 1 >= 0) System.arraycopy(val, 0, result.val, 0, len - 1);
 		result.val[len - 2] = val[len - 1];
 		return result;
 	}
@@ -2016,9 +1996,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 * @return this
 	 */
 	public Coords setProjectInfDim(Coords v) {
-		for (int i = 0; i < v.rows - 1; i++) {
-			val[i] = v.val[i];
-		}
+		if (v.rows - 1 >= 0) System.arraycopy(v.val, 0, val, 0, v.rows - 1);
 		val[rows - 2] = v.val[rows - 1];
 		return this;
 	}
@@ -2424,9 +2402,7 @@ public class Coords implements AnimatableValue<Coords> {
 
 		Coords result = new Coords(rows);
 
-		for (int i = 0; i < rows; i++) {
-			result.val[i] = val[i];
-		}
+		if (rows >= 0) System.arraycopy(val, 0, result.val, 0, rows);
 
 		return result;
 	}
@@ -2549,8 +2525,8 @@ public class Coords implements AnimatableValue<Coords> {
 		double f = 1.0 / v.length;
 		for (int i = 0; i < rows; i++) {
 			val[i] = 0;
-			for (int j = 0; j < v.length; j++) {
-				val[i] += v[j].val[i];
+			for (Coords coords : v) {
+				val[i] += coords.val[i];
 			}
 			val[i] *= f;
 		}
@@ -2601,23 +2577,22 @@ public class Coords implements AnimatableValue<Coords> {
 
 		int dim = v.rows - 1;
 		switch (dim) {
-		case 2:
+		case 2 -> {
 			setX(v.getX());
 			setY(v.getY());
 			setZ(v.getZ());
-			break;
-		case -1:
-		case 0:
+		}
+		case -1, 0 -> {
 			setX(0);
 			setY(0);
 			setZ(v.getX());
-			break;
-		case 1:
+		}
+		case 1 -> {
 			setX(v.getX());
 			setY(0);
 			setZ(v.getY());
-			break;
-		default:
+		}
+		default -> {
 			for (int i = 3; i <= dim; i++) {
 				if (Double.isNaN(v.get(i)) || !DoubleUtil.isZero(v.get(i))) {
 					setX(Double.NaN);
@@ -2630,6 +2605,7 @@ public class Coords implements AnimatableValue<Coords> {
 			setX(v.get(1));
 			setY(v.get(2));
 			setZ(v.get(dim + 1));
+		}
 		}
 
 		return this;
@@ -2777,9 +2753,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 *            ret
 	 */
 	public void get(double[] ret) {
-		for (int i = 0; i < ret.length; i++) {
-			ret[i] = val[i];
-		}
+		System.arraycopy(val, 0, ret, 0, ret.length);
 	}
 
 	/**

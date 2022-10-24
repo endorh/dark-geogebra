@@ -228,8 +228,8 @@ public class DrawInequality1Var extends SetDrawable {
 
 	@Override
 	public boolean hit(int x, int y, int hitThreshold) {
-		for (int i = 0; i < gp.length; i++) {
-			if (gp[i] != null && gp[i].contains(x, y)) {
+		for (GeneralPathClipped generalPathClipped : gp) {
+			if (generalPathClipped != null && generalPathClipped.contains(x, y)) {
 				return true;
 			}
 		}

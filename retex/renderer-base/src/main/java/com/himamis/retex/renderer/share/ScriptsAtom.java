@@ -172,8 +172,7 @@ public class ScriptsAtom extends Atom implements HasTrueBase {
 			double shiftUp;
 			double shiftDown;
 
-			if (trueBase instanceof CharAtom) {
-				final CharAtom ca = (CharAtom) trueBase;
+			if (trueBase instanceof final CharAtom ca) {
 				shiftUp = shiftDown = 0.;
 				CharFont cf = ca.getCharFont(tf);
 				if ((!ca.isMarkedAsTextSymbol() || !tf.hasSpace(cf.fontInfo))

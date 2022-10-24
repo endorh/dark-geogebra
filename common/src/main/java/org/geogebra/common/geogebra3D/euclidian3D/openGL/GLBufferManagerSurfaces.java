@@ -26,22 +26,16 @@ public class GLBufferManagerSurfaces extends GLBufferManager {
 
 	@Override
 	protected int calculateIndicesLength(int size, TypeElement type) {
-		switch (type) {
-		case FAN_DIRECT:
-		case FAN_INDIRECT:
-			return 3 * (size - 2);
-		case SURFACE:
-			return size;
-		case TRIANGLE_FAN:
-			return 3 * size;
-		case TRIANGLE_STRIP:
-			return 3 * size;
-		case TRIANGLES:
-			return 3 * size;
-		default:
-			// should not happen
-			return 0;
-		}
+		return switch (type) {
+			case FAN_DIRECT, FAN_INDIRECT -> 3 * (size - 2);
+			case SURFACE -> size;
+			case TRIANGLE_FAN -> 3 * size;
+			case TRIANGLE_STRIP -> 3 * size;
+			case TRIANGLES -> 3 * size;
+			default ->
+				// should not happen
+					0;
+		};
 	}
 
 	@Override

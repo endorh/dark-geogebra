@@ -301,7 +301,7 @@ public abstract class Localization {
 	private static String translationFixPronouncedPrevChars(String text,
 			int match, int length) {
 		int pos = match;
-		String rettext = "";
+		StringBuilder rettext = new StringBuilder();
 		int rettextlen = 0;
 		String thisChar;
 		String ignoredChars = "_{}";
@@ -309,12 +309,12 @@ public abstract class Localization {
 		while ((rettextlen < length) && (pos > 0)) {
 			thisChar = text.substring(pos - 1, pos);
 			if (!ignoredChars.contains(thisChar)) {
-				rettext = thisChar.toLowerCase() + rettext;
+				rettext.insert(0, thisChar.toLowerCase());
 				rettextlen++;
 			}
 			pos--;
 		}
-		return rettext;
+		return rettext.toString();
 	}
 
 	/**
@@ -784,16 +784,12 @@ public abstract class Localization {
 
 		int unitsDigit = n % 10;
 
-		switch (unitsDigit) {
-		case 1:
-			return n + "st";
-		case 2:
-			return n + "nd";
-		case 3:
-			return n + "rd";
-		default:
-			return n + "th";
-		}
+		return switch (unitsDigit) {
+			case 1 -> n + "st";
+			case 2 -> n + "nd";
+			case 3 -> n + "rd";
+			default -> n + "th";
+		};
 
 	}
 
@@ -862,17 +858,17 @@ public abstract class Localization {
 	 */
 	public String[] getRoundingMenu() {
 		List<String> list = new ArrayList<>();
-		for (int i = 0; i < decimalPlaces.length; i++) {
+		for (int decimalPlace : decimalPlaces) {
 			String key = "ADecimalPlaces";
 			// zero is singular in eg French
-			if (decimalPlaces[i] == 0 && !isZeroPlural(getLanguage())) {
+			if (decimalPlace == 0 && !isZeroPlural(getLanguage())) {
 				key = "ADecimalPlace";
 			}
-			list.add(getPlain(key, String.valueOf(decimalPlaces[i])));
+			list.add(getPlain(key, String.valueOf(decimalPlace)));
 		}
 		list.add(ROUNDING_MENU_SEPARATOR);
-		for (int i = 0; i < significantFigures.length; i++) {
-			list.add(getPlain("ASignificantFigures", String.valueOf(significantFigures[i])));
+		for (int significantFigure : significantFigures) {
+			list.add(getPlain("ASignificantFigures", String.valueOf(significantFigure)));
 		}
 
 		String[] array = new String[list.size()];
@@ -1181,22 +1177,23 @@ public abstract class Localization {
 
 		// change eg asin into sin^{-1}
 		if (changeInverse && key.startsWith("a")) {
-			if ("asin".equals(key)) {
+			switch (key) {
+			case "asin":
 				return getFunction("sin")
 						+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING;
-			} else if ("acos".equals(key)) {
+			case "acos":
 				return getFunction("cos")
 						+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING;
-			} else if ("atan".equals(key)) {
+			case "atan":
 				return getFunction("tan")
 						+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING;
-			} else if ("asinh".equals(key)) {
+			case "asinh":
 				return getFunction("sinh")
 						+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING;
-			} else if ("acosh".equals(key)) {
+			case "acosh":
 				return getFunction("cosh")
 						+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING;
-			} else if ("atanh".equals(key)) {
+			case "atanh":
 				return getFunction("tanh")
 						+ Unicode.SUPERSCRIPT_MINUS_ONE_STRING;
 			}
@@ -1371,22 +1368,13 @@ public abstract class Localization {
 	}
 
 	static private String getMainCommandName(Commands command) {
-		switch (command) {
-			case Binomial:
-			case nCr:
-				return Commands.nCr.name();
-			case SD:
-			case stdevp:
-				return Commands.SD.name();
-			case SampleSD:
-			case stdev:
-				return Commands.SampleSD.name();
-			case MAD:
-			case mad:
-				return Commands.MAD.name();
-			default:
-				return null;
-		}
+		return switch (command) {
+			case Binomial, nCr -> Commands.nCr.name();
+			case SD, stdevp -> Commands.SD.name();
+			case SampleSD, stdev -> Commands.SampleSD.name();
+			case MAD, mad -> Commands.MAD.name();
+			default -> null;
+		};
 	}
 
 	/**

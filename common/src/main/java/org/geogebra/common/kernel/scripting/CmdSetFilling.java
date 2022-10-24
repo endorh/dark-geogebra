@@ -27,7 +27,7 @@ public class CmdSetFilling extends CmdScripting {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
-		case 2:
+		case 2 -> {
 			GeoElement[] arg = resArgs(c);
 			if (arg[1].isNumberValue()) {
 
@@ -39,9 +39,8 @@ public class CmdSetFilling extends CmdScripting {
 				return arg;
 			}
 			throw argErr(c, arg[1]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

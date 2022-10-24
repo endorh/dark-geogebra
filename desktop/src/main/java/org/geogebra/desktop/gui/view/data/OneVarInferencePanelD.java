@@ -239,18 +239,17 @@ public class OneVarInferencePanelD extends JPanel
 				+ statDialog.format(model.getMe());
 
 		switch (model.selectedPlot) {
-		default:
-			// do nothing
-			break;
-		case StatisticsModel.INFER_ZTEST:
+		default -> {
+		}
+		// do nothing
+		case StatisticsModel.INFER_ZTEST -> {
 			model1.setValueAt(statDialog.format(model.getP()), 0, 0);
 			model1.setValueAt(statDialog.format(model.getTestStat()), 1, 0);
 			model1.setValueAt("", 2, 0);
 			model1.setValueAt(statDialog.format(model.getN()), 3, 0);
 			model1.setValueAt(statDialog.format(model.getMean()), 4, 0);
-			break;
-
-		case StatisticsModel.INFER_TTEST:
+		}
+		case StatisticsModel.INFER_TTEST -> {
 			model1.setValueAt(statDialog.format(model.getP()), 0, 0);
 			model1.setValueAt(statDialog.format(model.getTestStat()), 1, 0);
 			model1.setValueAt(statDialog.format(model.getDf()), 2, 0);
@@ -258,9 +257,8 @@ public class OneVarInferencePanelD extends JPanel
 			model1.setValueAt("", 4, 0);
 			model1.setValueAt(statDialog.format(model.getN()), 5, 0);
 			model1.setValueAt(statDialog.format(model.getMean()), 6, 0);
-			break;
-
-		case StatisticsModel.INFER_ZINT:
+		}
+		case StatisticsModel.INFER_ZINT -> {
 			model1.setValueAt(cInt, 0, 0);
 			model1.setValueAt(statDialog.format(model.getLower()), 1, 0);
 			model1.setValueAt(statDialog.format(model.getUpper()), 2, 0);
@@ -268,9 +266,8 @@ public class OneVarInferencePanelD extends JPanel
 			model1.setValueAt("", 4, 0);
 			model1.setValueAt(statDialog.format(model.getN()), 5, 0);
 			model1.setValueAt(statDialog.format(model.getMean()), 6, 0);
-			break;
-
-		case StatisticsModel.INFER_TINT:
+		}
+		case StatisticsModel.INFER_TINT -> {
 			model1.setValueAt(cInt, 0, 0);
 			model1.setValueAt(statDialog.format(model.getLower()), 1, 0);
 			model1.setValueAt(statDialog.format(model.getUpper()), 2, 0);
@@ -280,7 +277,7 @@ public class OneVarInferencePanelD extends JPanel
 			model1.setValueAt("", 6, 0);
 			model1.setValueAt(statDialog.format(model.getN()), 7, 0);
 			model1.setValueAt(statDialog.format(model.getMean()), 8, 0);
-			break;
+		}
 		}
 
 	}
@@ -458,8 +455,8 @@ public class OneVarInferencePanelD extends JPanel
 
 	private static JPanel flowPanel(Component... comp) {
 		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		for (int i = 0; i < comp.length; i++) {
-			p.add(comp[i]);
+		for (Component component : comp) {
+			p.add(component);
 		}
 		// p.setBackground(Color.white);
 		return p;
@@ -467,8 +464,8 @@ public class OneVarInferencePanelD extends JPanel
 
 	private static Box hBox(Component... comp) {
 		Box b = Box.createHorizontalBox();
-		for (int i = 0; i < comp.length; i++) {
-			b.add(comp[i]);
+		for (Component component : comp) {
+			b.add(component);
 		}
 		return b;
 	}

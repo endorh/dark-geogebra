@@ -33,7 +33,7 @@ public class CmdDifference extends CommandProcessor {
 		GeoElement[] arg = resArgs(c);
 
 		switch (argumentNo) {
-		case 2:
+		case 2 -> {
 			if ((ok[0] = arg[0] instanceof GeoPolygon)
 					&& (ok[1] = arg[1] instanceof GeoPolygon)) {
 				if (arg[0].isGeoElement3D() && arg[1].isGeoElement3D()) {
@@ -43,7 +43,8 @@ public class CmdDifference extends CommandProcessor {
 						(GeoPolygon) arg[1]);
 			}
 			throw argErr(c, getBadArg(ok, arg));
-		case 3:
+		}
+		case 3 -> {
 			if ((ok[0] = arg[0] instanceof GeoPolygon)
 					&& (ok[1] = arg[1] instanceof GeoPolygon)
 					&& (ok[2] = arg[2] instanceof GeoBoolean)) {
@@ -54,11 +55,9 @@ public class CmdDifference extends CommandProcessor {
 				return difference(c.getLabels(), (GeoPolygon) arg[0],
 						(GeoPolygon) arg[1], (GeoBoolean) arg[2]);
 			}
-
 			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 
 	}

@@ -244,22 +244,22 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 		MouseListener[] mouseListeners = getMouseListeners();
 		addMouseListener(ml);
-		for (int i = 0; i < mouseListeners.length; ++i) {
-			removeMouseListener(mouseListeners[i]);
-			addMouseListener(mouseListeners[i]);
+		for (MouseListener mouseListener : mouseListeners) {
+			removeMouseListener(mouseListener);
+			addMouseListener(mouseListener);
 		}
 
 		MouseMotionListener[] mouseMotionListeners = getMouseMotionListeners();
 		addMouseMotionListener(ml);
-		for (int i = 0; i < mouseMotionListeners.length; ++i) {
-			removeMouseMotionListener(mouseMotionListeners[i]);
-			addMouseMotionListener(mouseMotionListeners[i]);
+		for (MouseMotionListener mouseMotionListener : mouseMotionListeners) {
+			removeMouseMotionListener(mouseMotionListener);
+			addMouseMotionListener(mouseMotionListener);
 		}
 
 		// key listener
 		KeyListener[] defaultKeyListeners = getKeyListeners();
-		for (int i = 0; i < defaultKeyListeners.length; ++i) {
-			removeKeyListener(defaultKeyListeners[i]);
+		for (KeyListener defaultKeyListener : defaultKeyListeners) {
+			removeKeyListener(defaultKeyListener);
 		}
 		addKeyListener(new SpreadsheetKeyListenerD(app, this));
 
@@ -575,32 +575,22 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		} else {
 
 			switch (selectionType) {
-
-			default:
-			case MyTableInterface.CELL_SELECT:
-				newSelection.setCellRange(
-						getColumnModel().getSelectionModel()
-								.getAnchorSelectionIndex(),
-						getSelectionModel().getAnchorSelectionIndex(),
-						getColumnModel().getSelectionModel()
-								.getLeadSelectionIndex(),
-						getSelectionModel().getLeadSelectionIndex());
-				break;
-
-			case MyTableInterface.ROW_SELECT:
-				newSelection.setCellRange(-1,
-						getSelectionModel().getAnchorSelectionIndex(), -1,
-						getSelectionModel().getLeadSelectionIndex());
-				break;
-
-			case MyTableInterface.COLUMN_SELECT:
-				newSelection.setCellRange(
-						getColumnModel().getSelectionModel()
-								.getAnchorSelectionIndex(),
-						-1, getColumnModel().getSelectionModel()
-								.getLeadSelectionIndex(),
-						-1);
-				break;
+			case MyTableInterface.CELL_SELECT -> newSelection.setCellRange(
+					getColumnModel().getSelectionModel()
+							.getAnchorSelectionIndex(),
+					getSelectionModel().getAnchorSelectionIndex(),
+					getColumnModel().getSelectionModel()
+							.getLeadSelectionIndex(),
+					getSelectionModel().getLeadSelectionIndex());
+			case MyTableInterface.ROW_SELECT -> newSelection.setCellRange(-1,
+					getSelectionModel().getAnchorSelectionIndex(), -1,
+					getSelectionModel().getLeadSelectionIndex());
+			case MyTableInterface.COLUMN_SELECT -> newSelection.setCellRange(
+					getColumnModel().getSelectionModel()
+							.getAnchorSelectionIndex(),
+					-1, getColumnModel().getSelectionModel()
+							.getLeadSelectionIndex(),
+					-1);
 			}
 
 		}
@@ -680,8 +670,8 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 		// update the geo selection list
 		ArrayList<GeoElement> list = new ArrayList<>();
-		for (int i = 0; i < selectedCellRanges.size(); i++) {
-			list.addAll(0, (selectedCellRanges.get(i)).toGeoList());
+		for (CellRange selectedCellRange : selectedCellRanges) {
+			list.addAll(0, selectedCellRange.toGeoList());
 		}
 
 		// if the geo selection has changed, update selected geos
@@ -921,26 +911,21 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		}
 
 		switch (selType) {
-
-		default:
-		case MyTableInterface.CELL_SELECT:
+		case MyTableInterface.CELL_SELECT -> {
 			setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 			setColumnSelectionAllowed(true);
 			setRowSelectionAllowed(true);
-			break;
-
-		case MyTableInterface.ROW_SELECT:
+		}
+		case MyTableInterface.ROW_SELECT -> {
 			setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			setColumnSelectionAllowed(false);
 			setRowSelectionAllowed(true);
-			break;
-
-		case MyTableInterface.COLUMN_SELECT:
+		}
+		case MyTableInterface.COLUMN_SELECT -> {
 			setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 			setColumnSelectionAllowed(true);
 			setRowSelectionAllowed(false);
-			break;
-
+		}
 		}
 
 		this.selectionType = selType;
@@ -1344,8 +1329,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		editor.setEqualsRequired(
 				app.getSettings().getSpreadsheet().equalsRequired());
 
-		if (ob instanceof GeoElement) {
-			GeoElement geo = (GeoElement) ob;
+		if (ob instanceof GeoElement geo) {
 			if (geo.isGeoButton() || geo.isGeoImage()) {
 				ArrayList<GeoElement> sel = new ArrayList<>();
 				sel.add(geo);

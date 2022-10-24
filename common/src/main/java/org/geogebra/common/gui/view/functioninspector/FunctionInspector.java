@@ -252,13 +252,7 @@ public abstract class FunctionInspector
 
 	private void createGeoElementSelectionListener() {
 		if (sl == null) {
-			sl = new GeoElementSelectionListener() {
-				@Override
-				public void geoElementSelected(GeoElement geo,
-						boolean addToSelection) {
-					insertGeoElement(geo);
-				}
-			};
+			sl = (geo, addToSelection) -> insertGeoElement(geo);
 		}
 		app.getSelectionManager().addSelectionListener(sl);
 	}

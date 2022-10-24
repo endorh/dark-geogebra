@@ -34,11 +34,11 @@ public class CmdCircle extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2:
+		case 2 -> {
 			arg = resArgs(c);
 			return process2(c, arg, ok);
-
-		case 3:
+		}
+		case 3 -> {
 			// make sure "x=0" in eg Circle((0,0,0), 1, x=0) is always
 			// interpreted as a plane not a line (otherwise it depends on which
 			// view is active)
@@ -47,9 +47,8 @@ public class CmdCircle extends CommandProcessor {
 			}
 			arg = resArgs(c);
 			return process3(c, arg, ok);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

@@ -84,7 +84,7 @@ public class ASCII85OutputStream extends FilterOutputStream
 		}
 
 		// convert
-		long d = ((b[0] << 24) | (b[1] << 16) | (b[2] << 8) | b[3])
+		long d = (((long) b[0] << 24) | ((long) b[1] << 16) | ((long) b[2] << 8) | b[3])
 				& 0x00000000FFFFFFFFL;
 
 		c[0] = (int) (d / a85p4 + '!');

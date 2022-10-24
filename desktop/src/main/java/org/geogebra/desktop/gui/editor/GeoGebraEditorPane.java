@@ -290,9 +290,7 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 								this, panel, p.x + r.x,
 								p.y + r.y + 2 + r.height);
 						helpPopup.show();
-					} catch (BadLocationException ex) {
-						//
-					} catch (IllegalComponentStateException ex) {
+					} catch (BadLocationException | IllegalComponentStateException ex) {
 						//
 					}
 				}

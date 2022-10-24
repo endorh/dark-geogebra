@@ -28,13 +28,12 @@ public class CmdUpdateConstruction extends CmdScripting {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
-		case 0:
+		case 0 -> {
 			app.getKernel().updateConstruction(true);
 			app.setUnsaved();
-
 			return new GeoElement[0];
-
-		case 1:
+		}
+		case 1 -> {
 			GeoElement[] arg = resArgs(c);
 			if (arg[0] instanceof NumberValue) {
 				double val = arg[0].evaluateDouble();
@@ -44,11 +43,9 @@ public class CmdUpdateConstruction extends CmdScripting {
 					return arg;
 				}
 			}
-
 			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

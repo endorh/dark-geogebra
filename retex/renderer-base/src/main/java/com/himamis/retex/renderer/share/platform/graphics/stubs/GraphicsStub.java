@@ -20,11 +20,12 @@ public class GraphicsStub implements Graphics2DInterface {
 	private Stroke stroke;
 	private Color color;
 	private Font font;
-	private List<com.himamis.retex.renderer.share.platform.graphics.stubs.AffineTransform> transformList = new ArrayList<com.himamis.retex.renderer.share.platform.graphics.stubs.AffineTransform>();
+	private List<com.himamis.retex.renderer.share.platform.graphics.stubs.AffineTransform> transformList =
+			new ArrayList<>();
 	private com.himamis.retex.renderer.share.platform.graphics.stubs.AffineTransform currentTransform;
 
 	public GraphicsStub() {
-		transformList = new ArrayList<com.himamis.retex.renderer.share.platform.graphics.stubs.AffineTransform>();
+		transformList = new ArrayList<>();
 		reset();
 	}
 

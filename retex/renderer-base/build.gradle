@@ -14,8 +14,12 @@ publishing {
         }
     }
 }
-sourceCompatibility = 17
-targetCompatibility = 17
+
+tasks.withType(JavaCompile) {
+    sourceCompatibility = 17
+    targetCompatibility = 17
+    options.encoding = 'UTF-8'
+}
 
 dependencies {
     implementation 'com.google.j2objc:annotations:2.8'

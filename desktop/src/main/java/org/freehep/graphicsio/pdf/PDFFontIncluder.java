@@ -79,25 +79,25 @@ public class PDFFontIncluder extends FontIncluder {
 
 	public static boolean isStandardFont(Font font) {
 		String fontName = font.getName().toLowerCase();
-		return (fontName.indexOf("helvetica") >= 0)
-				|| (fontName.indexOf("times") >= 0)
-				|| (fontName.indexOf("courier") >= 0)
-				|| (fontName.indexOf("symbol") >= 0)
-				|| (fontName.indexOf("dingbats") >= 0);
+		return (fontName.contains("helvetica"))
+				|| (fontName.contains("times"))
+				|| (fontName.contains("courier"))
+				|| (fontName.contains("symbol"))
+				|| (fontName.contains("dingbats"));
 	}
 
 	/** Returns the index of the standard font according to STANDARD_FONT. */
 	private static int getFontBaseIndex(Font font) {
 		String fontName = font.getName().toLowerCase();
-		if (fontName.indexOf("helvetica") >= 0) {
+		if (fontName.contains("helvetica")) {
 			return HELVETICA;
-		} else if (fontName.indexOf("times") >= 0) {
+		} else if (fontName.contains("times")) {
 			return TIMES;
-		} else if (fontName.indexOf("courier") >= 0) {
+		} else if (fontName.contains("courier")) {
 			return COURIER;
-		} else if (fontName.indexOf("symbol") >= 0) {
+		} else if (fontName.contains("symbol")) {
 			return SYMBOL;
-		} else if (fontName.indexOf("dingbats") >= 0) {
+		} else if (fontName.contains("dingbats")) {
 			return DINGBATS;
 		} else {
 			// use HELVETICA as default

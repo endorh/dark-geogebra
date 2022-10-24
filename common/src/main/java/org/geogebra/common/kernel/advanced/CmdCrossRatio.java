@@ -30,7 +30,7 @@ public class CmdCrossRatio extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 4:
+		case 4 -> {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
@@ -41,14 +41,12 @@ public class CmdCrossRatio extends CommandProcessor {
 						(GeoPointND) arg[0], (GeoPointND) arg[1],
 						(GeoPointND) arg[2], (GeoPointND) arg[3]);
 
-				GeoElement[] ret = { cross.getResult() };
+				GeoElement[] ret = {cross.getResult()};
 				return ret;
 			}
-
 			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

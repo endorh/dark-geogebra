@@ -1286,9 +1286,8 @@ public class Rectangle extends Rectangle2D implements GRectangle
      */
     @Override
 	public boolean equals(Object obj) {
-        if (obj instanceof Rectangle) {
-            Rectangle r = (Rectangle)obj;
-            return ((x == r.x) &&
+        if (obj instanceof Rectangle r) {
+	        return ((x == r.x) &&
                     (y == r.y) &&
                     (width == r.width) &&
                     (height == r.height));

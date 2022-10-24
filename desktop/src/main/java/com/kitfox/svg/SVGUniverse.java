@@ -55,7 +55,6 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
@@ -64,7 +63,6 @@ import javax.imageio.ImageIO;
 
 import org.geogebra.common.jre.util.Base64;
 import org.geogebra.common.util.debug.Log;
-import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -138,8 +136,8 @@ public class SVGUniverse implements Serializable {
 	public void setCurTime(double curTime) {
 		double oldTime = this.curTime;
 		this.curTime = curTime;
-		changes.firePropertyChange("curTime", new Double(oldTime),
-				new Double(curTime));
+		changes.firePropertyChange("curTime", oldTime,
+				curTime);
 	}
 
 	/**
@@ -147,8 +145,8 @@ public class SVGUniverse implements Serializable {
 	 * documents in this universe.
 	 */
 	public void updateTime() throws SVGException {
-		for (Iterator it = loadedDocs.values().iterator(); it.hasNext();) {
-			SVGDiagram dia = (SVGDiagram) it.next();
+		for (Object o : loadedDocs.values()) {
+			SVGDiagram dia = (SVGDiagram) o;
 			dia.updateTime(curTime);
 		}
 	}
@@ -162,8 +160,8 @@ public class SVGUniverse implements Serializable {
 	}
 
 	public Font getDefaultFont() {
-		for (Iterator it = loadedFonts.values().iterator(); it.hasNext();) {
-			return (Font) it.next();
+		for (Object o : loadedFonts.values()) {
+			return (Font) o;
 		}
 		return null;
 	}
@@ -423,12 +421,9 @@ public class SVGUniverse implements Serializable {
 
 			InputStream is = docRoot.openStream();
 			return loadSVG(uri, new InputSource(createDocumentInputStream(is)));
-		} catch (URISyntaxException ex) {
+		} catch (URISyntaxException | IOException ex) {
 			Logger.getLogger(SVGConst.SVG_LOGGER).log(Level.WARNING,
 					"Could not parse", ex);
-		} catch (IOException e) {
-			Logger.getLogger(SVGConst.SVG_LOGGER).log(Level.WARNING,
-					"Could not parse", e);
 		}
 
 		return null;
@@ -555,14 +550,10 @@ public class SVGUniverse implements Serializable {
 		try {
 			// Parse the input
 			XMLReader reader = getXMLReaderCached();
-			reader.setEntityResolver(new EntityResolver() {
-				@Override
-				public InputSource resolveEntity(String publicId,
-						String systemId) {
-					// Ignore all DTDs
-					return new InputSource(
-							new ByteArrayInputStream(new byte[0]));
-				}
+			reader.setEntityResolver((publicId, systemId) -> {
+				// Ignore all DTDs
+				return new InputSource(
+						new ByteArrayInputStream(new byte[0]));
 			});
 			reader.setContentHandler(handler);
 			reader.parse(is);

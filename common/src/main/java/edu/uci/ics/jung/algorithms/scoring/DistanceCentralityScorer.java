@@ -100,7 +100,7 @@ public class DistanceCentralityScorer<V, E> implements VertexScorer<V, Double> {
 		this.averaging = averaging;
 		this.ignore_missing = ignore_missing;
 		this.ignore_self_distances = ignore_self_distances;
-		this.output = new HashMap<V, Double>();
+		this.output = new HashMap<>();
 	}
 
 	/**
@@ -142,7 +142,7 @@ public class DistanceCentralityScorer<V, E> implements VertexScorer<V, Double> {
 	public DistanceCentralityScorer(Hypergraph<V, E> graph,
 			Transformer<E, ? extends Number> edge_weights, boolean averaging,
 			boolean ignore_missing, boolean ignore_self_distances) {
-		this(graph, new DijkstraDistance<V, E>(graph, edge_weights), averaging,
+		this(graph, new DijkstraDistance<>(graph, edge_weights), averaging,
 				ignore_missing, ignore_self_distances);
 	}
 
@@ -161,7 +161,7 @@ public class DistanceCentralityScorer<V, E> implements VertexScorer<V, Double> {
 	 */
 	public DistanceCentralityScorer(Hypergraph<V, E> graph,
 			Transformer<E, ? extends Number> edge_weights, boolean averaging) {
-		this(graph, new DijkstraDistance<V, E>(graph, edge_weights), averaging,
+		this(graph, new DijkstraDistance<>(graph, edge_weights), averaging,
 				true, true);
 	}
 
@@ -183,7 +183,7 @@ public class DistanceCentralityScorer<V, E> implements VertexScorer<V, Double> {
 	 */
 	public DistanceCentralityScorer(Hypergraph<V, E> graph, boolean averaging,
 			boolean ignore_missing, boolean ignore_self_distances) {
-		this(graph, new UnweightedShortestPath<V, E>(graph), averaging,
+		this(graph, new UnweightedShortestPath<>(graph), averaging,
 				ignore_missing, ignore_self_distances);
 	}
 
@@ -197,7 +197,7 @@ public class DistanceCentralityScorer<V, E> implements VertexScorer<V, Double> {
 	 *            v-distances or the mean v-distance.
 	 */
 	public DistanceCentralityScorer(Hypergraph<V, E> graph, boolean averaging) {
-		this(graph, new UnweightedShortestPath<V, E>(graph), averaging, true,
+		this(graph, new UnweightedShortestPath<>(graph), averaging, true,
 				true);
 	}
 
@@ -215,7 +215,7 @@ public class DistanceCentralityScorer<V, E> implements VertexScorer<V, Double> {
 			return value;
 		}
 
-		Map<V, Number> v_distances = new HashMap<V, Number>(
+		Map<V, Number> v_distances = new HashMap<>(
 				distance.getDistanceMap(v));
 		if (ignore_self_distances) {
 			v_distances.remove(v);
@@ -232,7 +232,7 @@ public class DistanceCentralityScorer<V, E> implements VertexScorer<V, Double> {
 			}
 		}
 
-		Double sum = 0.0;
+		double sum = 0.0;
 		for (V w : graph.getVertices()) {
 			if (w.equals(v) && ignore_self_distances) {
 				continue;

@@ -335,9 +335,7 @@ public class FunctionNVar extends ValidExpression
 	public boolean initFunction(EvalInfo info) {
 
 		// replace function variables in tree
-		for (int i = 0; i < fVars.length; i++) {
-			FunctionVariable fVar = fVars[i];
-
+		for (FunctionVariable fVar : fVars) {
 			// look for Variable objects with name of function variable and
 			// replace them
 			// x, y got polynomials while parsing
@@ -972,15 +970,14 @@ public class FunctionNVar extends ValidExpression
 
 		// left tree
 		if (left == fVars[varNo]) {
-			if (right instanceof MyDouble && right.isConstant()) { // is there a
+			if (right instanceof MyDouble num && right.isConstant()) { // is there a
 																	// constant
 																	// number to
 																	// the
 																	// right?
-				MyDouble num = (MyDouble) right;
 				double temp;
 				switch (en.getOperation()) {
-				case PLUS:
+				case PLUS -> {
 					temp = num.getDouble() - vx;
 					if (DoubleUtil.isZero(temp)) {
 						expression = expression.replace(en, fVars[varNo])
@@ -992,8 +989,8 @@ public class FunctionNVar extends ValidExpression
 						num.set(temp);
 					}
 					return;
-
-				case MINUS:
+				}
+				case MINUS -> {
 					temp = num.getDouble() + vx;
 					if (DoubleUtil.isZero(temp)) {
 						expression = expression.replace(en, fVars[varNo])
@@ -1005,9 +1002,8 @@ public class FunctionNVar extends ValidExpression
 						num.set(temp);
 					}
 					return;
-
-				default:
-					en.setLeft(shiftXnode(vx, varNo));
+				}
+				default -> en.setLeft(shiftXnode(vx, varNo));
 				}
 			} else {
 				en.setLeft(shiftXnode(vx, varNo));
@@ -1062,11 +1058,10 @@ public class FunctionNVar extends ValidExpression
 		// left tree
 		if (left == fVars[varNo]) {
 			// is there a constant number to the right?
-			if (right instanceof MyDouble && right.isConstant()) {
-				MyDouble num = (MyDouble) right;
+			if (right instanceof MyDouble num && right.isConstant()) {
 				double temp;
 				switch (en.getOperation()) {
-				case MULTIPLY:
+				case MULTIPLY -> {
 					temp = num.getDouble() / vx;
 					if (DoubleUtil.isEqual(1, temp)) {
 						expression = expression.replace(en, fVars[varNo])
@@ -1075,8 +1070,8 @@ public class FunctionNVar extends ValidExpression
 						num.set(temp);
 					}
 					return;
-
-				case DIVIDE:
+				}
+				case DIVIDE -> {
 					temp = num.getDouble() * vx;
 					if (DoubleUtil.isEqual(1, temp)) {
 						expression = expression.replace(en, fVars[varNo])
@@ -1085,9 +1080,8 @@ public class FunctionNVar extends ValidExpression
 						num.set(temp);
 					}
 					return;
-
-				default:
-					en.setLeft(multXnode(vx, varNo));
+				}
+				default -> en.setLeft(multXnode(vx, varNo));
 				}
 			} else {
 				en.setLeft(multXnode(vx, varNo));
@@ -1099,11 +1093,10 @@ public class FunctionNVar extends ValidExpression
 		// right tree
 		if (right == fVars[varNo]) {
 			// is there a constant number to the left?
-			if (left instanceof MyDouble && left.isConstant()) {
-				MyDouble num = (MyDouble) left;
+			if (left instanceof MyDouble num && left.isConstant()) {
 				double temp;
 				switch (en.getOperation()) {
-				case MULTIPLY:
+				case MULTIPLY -> {
 					temp = num.getDouble() / vx;
 					if (DoubleUtil.isEqual(1, temp)) {
 						expression = expression.replace(en, fVars[varNo])
@@ -1112,9 +1105,8 @@ public class FunctionNVar extends ValidExpression
 						num.set(temp);
 					}
 					return;
-
-				default:
-					en.setRight(multXnode(vx, varNo));
+				}
+				default -> en.setRight(multXnode(vx, varNo));
 				}
 			} else {
 				en.setRight(multXnode(vx, varNo));

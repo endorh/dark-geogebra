@@ -242,8 +242,7 @@ public class PerspectiveDecoder {
 						panelPath.length() > 0 ? panelPath.substring(1) : "");
 				panelList.add(viewCodes.get(code));
 			}
-		} else if (expr instanceof ExpressionNode) {
-			ExpressionNode en = (ExpressionNode) expr;
+		} else if (expr instanceof ExpressionNode en) {
 			boolean horizontal = ((ExpressionNode) expr)
 					.getOperation() == Operation.MULTIPLY;
 
@@ -283,10 +282,9 @@ public class PerspectiveDecoder {
 				return 0.5;
 			}
 		}
-		if (!(expr instanceof ExpressionNode)) {
+		if (!(expr instanceof ExpressionNode en)) {
 			return 1;
 		}
-		ExpressionNode en = (ExpressionNode) expr;
 		if (en.getOperation() != Operation.NO_OPERATION
 				&& en.getRight() != null) {
 			return size(en.getLeft(), horizontal)

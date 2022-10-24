@@ -75,34 +75,25 @@ public interface AlgebraView extends Editing, SetLabels {
 		 * @return mode
 		 */
 		public static SortMode fromInt(int mode) {
-			switch (mode) {
-			case 0:
-				return SortMode.DEPENDENCY;
-			case 1:
-				return SortMode.TYPE;
-			case 2:
-				return SortMode.LAYER;
-			case 3:
-				return SortMode.ORDER;
-			}
-			return SortMode.TYPE;
+			return switch (mode) {
+				case 0 -> SortMode.DEPENDENCY;
+				case 1 -> SortMode.TYPE;
+				case 2 -> SortMode.LAYER;
+				case 3 -> SortMode.ORDER;
+				default -> SortMode.TYPE;
+			};
 		}
 
 		/**
 		 * @return XML value
 		 */
 		public int toInt() {
-			switch (this) {
-			case DEPENDENCY:
-				return 0;
-			case TYPE:
-				return 1;
-			case LAYER:
-				return 2;
-			case ORDER:
-				return 3;
-			}
-			return 1;
+			return switch (this) {
+				case DEPENDENCY -> 0;
+				case TYPE -> 1;
+				case LAYER -> 2;
+				case ORDER -> 3;
+			};
 		}
 
 	}

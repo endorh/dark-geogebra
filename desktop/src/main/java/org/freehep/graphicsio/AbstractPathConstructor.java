@@ -49,24 +49,17 @@ public abstract class AbstractPathConstructor implements PathConstructor {
 			int segType = path.currentSegment(coords);
 
 			switch (segType) {
-			case PathIterator.SEG_MOVETO:
+			case PathIterator.SEG_MOVETO -> {
 				out.move(coords[0], coords[1]);
 				pathStartX = coords[0];
 				pathStartY = coords[1];
-				break;
-			case PathIterator.SEG_LINETO:
-				out.line(coords[0], coords[1]);
-				break;
-			case PathIterator.SEG_QUADTO:
-				out.quad(coords[0], coords[1], coords[2], coords[3]);
-				break;
-			case PathIterator.SEG_CUBICTO:
-				out.cubic(coords[0], coords[1], coords[2], coords[3], coords[4],
-						coords[5]);
-				break;
-			case PathIterator.SEG_CLOSE:
-				out.closePath(pathStartX, pathStartY);
-				break;
+			}
+			case PathIterator.SEG_LINETO -> out.line(coords[0], coords[1]);
+			case PathIterator.SEG_QUADTO -> out.quad(coords[0], coords[1], coords[2], coords[3]);
+			case PathIterator.SEG_CUBICTO ->
+					out.cubic(coords[0], coords[1], coords[2], coords[3], coords[4],
+							coords[5]);
+			case PathIterator.SEG_CLOSE -> out.closePath(pathStartX, pathStartY);
 			}
 			// Move to the next segment.
 			path.next();

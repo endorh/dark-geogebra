@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
 Implementation of resizable array with focus on minimizing memory usage by storing few initial array elements in object fields. Can also be used as a stack.
@@ -73,26 +74,26 @@ public class ObjArray implements Serializable
 
     private Object getImpl(int index)
     {
-        switch (index) {
-            case 0: return f0;
-            case 1: return f1;
-            case 2: return f2;
-            case 3: return f3;
-            case 4: return f4;
-        }
-        return data[index - FIELDS_STORE_SIZE];
+        return switch (index) {
+            case 0 -> f0;
+            case 1 -> f1;
+            case 2 -> f2;
+            case 3 -> f3;
+            case 4 -> f4;
+            default -> data[index - FIELDS_STORE_SIZE];
+        };
     }
 
     private void setImpl(int index, Object value)
     {
-        switch (index) {
-            case 0: f0 = value; break;
-            case 1: f1 = value; break;
-            case 2: f2 = value; break;
-            case 3: f3 = value; break;
-            case 4: f4 = value; break;
-            default: data[index - FIELDS_STORE_SIZE] = value;
-        }
+	    switch (index) {
+	    case 0 -> f0 = value;
+	    case 1 -> f1 = value;
+	    case 2 -> f2 = value;
+	    case 3 -> f3 = value;
+	    case 4 -> f4 = value;
+	    default -> data[index - FIELDS_STORE_SIZE] = value;
+	    }
 
     }
 
@@ -101,7 +102,7 @@ public class ObjArray implements Serializable
         int N = size;
         for (int i = 0; i != N; ++i) {
             Object current = getImpl(i);
-            if (current == obj || (current != null && current.equals(obj))) {
+            if (Objects.equals(current, obj)) {
                 return i;
             }
         }
@@ -113,7 +114,7 @@ public class ObjArray implements Serializable
         for (int i = size; i != 0;) {
             --i;
             Object current = getImpl(i);
-            if (current == obj || (current != null && current.equals(obj))) {
+            if (Objects.equals(current, obj)) {
                 return i;
             }
         }
@@ -133,17 +134,33 @@ public class ObjArray implements Serializable
         int N = size;
         --N;
         Object top;
-        switch (N) {
-            case -1: throw onEmptyStackTopRead();
-            case 0: top = f0; f0 = null; break;
-            case 1: top = f1; f1 = null; break;
-            case 2: top = f2; f2 = null; break;
-            case 3: top = f3; f3 = null; break;
-            case 4: top = f4; f4 = null; break;
-            default:
-                top = data[N - FIELDS_STORE_SIZE];
-                data[N - FIELDS_STORE_SIZE] = null;
-        }
+	    switch (N) {
+	    case -1 -> throw onEmptyStackTopRead();
+	    case 0 -> {
+		    top = f0;
+		    f0 = null;
+	    }
+	    case 1 -> {
+		    top = f1;
+		    f1 = null;
+	    }
+	    case 2 -> {
+		    top = f2;
+		    f2 = null;
+	    }
+	    case 3 -> {
+		    top = f3;
+		    f3 = null;
+	    }
+	    case 4 -> {
+		    top = f4;
+		    f4 = null;
+	    }
+	    default -> {
+		    top = data[N - FIELDS_STORE_SIZE];
+		    data[N - FIELDS_STORE_SIZE] = null;
+	    }
+	    }
         size = N;
         return top;
     }
@@ -268,7 +285,7 @@ public class ObjArray implements Serializable
             case 4: array[offset + 3] = f3;
             case 3: array[offset + 2] = f2;
             case 2: array[offset + 1] = f1;
-            case 1: array[offset + 0] = f0;
+            case 1: array[offset] = f0;
             case 0: break;
         }
     }

@@ -152,13 +152,13 @@ public class NordsieckStepInterpolator extends AbstractStepInterpolator {
 
         final double[][] nData = nordsieck.getDataRef();
         double power = ratio;
-        for (int i = 0; i < nData.length; ++i) {
-            power *= ratio;
-            final double[] nDataI = nData[i];
-            for (int j = 0; j < nDataI.length; ++j) {
-                nDataI[j] *= power;
-            }
-        }
+	    for (double[] nDatum : nData) {
+		    power *= ratio;
+		    final double[] nDataI = nDatum;
+		    for (int j = 0; j < nDataI.length; ++j) {
+			    nDataI[j] *= power;
+		    }
+	    }
 
         scalingH = stepSize;
 

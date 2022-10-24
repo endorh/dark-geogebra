@@ -90,7 +90,7 @@ public abstract class PDFFontEmbedder extends FontEmbedder {
 	protected void writeWidths(double[] widths) throws IOException {
 		Object[] widthsObj = new Object[256];
 		for (int i = 0; i < widthsObj.length; i++) {
-			widthsObj[i] = new Double(widths[i]);
+			widthsObj[i] = widths[i];
 		}
 		pdf.object(reference + "Widths", widthsObj);
 	}
@@ -106,7 +106,7 @@ public abstract class PDFFontEmbedder extends FontEmbedder {
 		encoding.entry("Type", pdf.name("Encoding"));
 
 		Object[] differences = new Object[257];
-		differences[0] = Integer.valueOf(0);
+		differences[0] = 0;
 		for (int i = 0; i < 256; i++) {
 			String charName = charTable.toName(i);
 			differences[i + 1] = (charName != null) ? pdf.name(charName)

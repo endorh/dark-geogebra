@@ -11,7 +11,6 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.scientific.LabelController;
-import org.geogebra.common.util.AsyncOperation;
 
 public class ObjectNameModel extends OptionsModel {
 	private IObjectNameListener listener;
@@ -104,13 +103,9 @@ public class ObjectNameModel extends OptionsModel {
 
 		nameInputHandler.setGeoElement(currentGeo);
 		nameInputHandler.processInput(name, handler,
-				new AsyncOperation<Boolean>() {
+				obj -> {
+					// TODO Auto-generated method stub
 
-					@Override
-					public void callback(Boolean obj) {
-						// TODO Auto-generated method stub
-
-					}
 				});
 
 		// reset label if not successful
@@ -213,13 +208,9 @@ public class ObjectNameModel extends OptionsModel {
 			if (!strDefinition.equals(getDefText(geo))) {
 				defInputHandler.setGeoElement(geo);
 				defInputHandler.processInput(strDefinition, handler,
-						new AsyncOperation<Boolean>() {
+						obj -> {
+							// TODO Auto-generated method stub
 
-							@Override
-							public void callback(Boolean obj) {
-								// TODO Auto-generated method stub
-
-							}
 						});
 				defInputHandler.setGeoElement(currentGeo);
 			}

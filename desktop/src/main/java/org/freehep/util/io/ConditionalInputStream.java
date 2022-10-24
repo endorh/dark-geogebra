@@ -109,7 +109,7 @@ public class ConditionalInputStream extends InputStream {
 			} else {
 				// read keyword (ifdef, ifndef, else, endif
 				index = 0;
-				StringBuffer s = new StringBuffer();
+				StringBuilder s = new StringBuilder();
 				n = in.read();
 				while ((n >= 0) && !Character.isWhitespace((char) n)) {
 					s.append((char) n);
@@ -123,10 +123,11 @@ public class ConditionalInputStream extends InputStream {
 
 				// check on keyword
 				String keyword = s.toString();
-				if (keyword.equals("ifdef") || keyword.equals("ifndef")) {
+				switch (keyword) {
+				case "ifdef", "ifndef" -> {
 
 					// skip whitespace and read property
-					s = new StringBuffer();
+					s = new StringBuilder();
 					n = in.read();
 					while ((n >= 0) && Character.isWhitespace((char) n)) {
 						buffer[index] = n;
@@ -153,7 +154,8 @@ public class ConditionalInputStream extends InputStream {
 					}
 					nesting++;
 					replaceBufferWithWhitespace(index);
-				} else if (keyword.equals("else")) {
+				}
+				case "else" -> {
 					// FIXME one could have multiple elses without endifs...
 					// calculate inclusion based on ifdef nesting
 					if (nesting <= 0) {
@@ -163,7 +165,8 @@ public class ConditionalInputStream extends InputStream {
 					ok[nesting - 1] = (nesting > 1 ? ok[nesting - 2] : true)
 							&& !ok[nesting - 1];
 					replaceBufferWithWhitespace(index);
-				} else if (keyword.equals("endif")) {
+				}
+				case "endif" -> {
 					// calculate inclusion based on ifdef nesting
 					if (nesting <= 0) {
 						throw new RuntimeException(
@@ -171,9 +174,10 @@ public class ConditionalInputStream extends InputStream {
 					}
 					nesting--;
 					replaceBufferWithWhitespace(index);
-				} else {
+				}
+				default ->
 					// not an known @
-					b = '@';
+						b = '@';
 				}
 				len = index;
 				index = 0;

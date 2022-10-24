@@ -830,9 +830,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 			TreeNode group = rootSubCommands.getChildAt(i);
 			for (int j = 0; j < group.getChildCount(); j++) {
 
-				if (group.getChildAt(j) instanceof DefaultMutableTreeNode) {
-					DefaultMutableTreeNode cmdNode = (DefaultMutableTreeNode) group
-							.getChildAt(j);
+				if (group.getChildAt(j) instanceof DefaultMutableTreeNode cmdNode) {
 					Log.debug(cmdNode.getUserObject());
 					if (command.equals(cmdNode.getUserObject())) {
 						TreePath path = new TreePath(

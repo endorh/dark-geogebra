@@ -34,9 +34,8 @@ public class CmdApplyMatrix extends CommandProcessor {
 		GeoElement[] ret;
 
 		switch (n) {
-		case 2:
+		case 2 -> {
 			arg = resArgs(c);
-
 			if (arg[0].isGeoList()) {
 
 				if (arg[1].isMatrixTransformable() || arg[1].isGeoFunction()
@@ -48,9 +47,8 @@ public class CmdApplyMatrix extends CommandProcessor {
 				throw argErr(c, arg[1]);
 			}
 			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

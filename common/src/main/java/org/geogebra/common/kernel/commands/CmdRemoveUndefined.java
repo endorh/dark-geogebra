@@ -31,19 +31,18 @@ public class CmdRemoveUndefined extends CommandProcessor {
 		arg = resArgs(c);
 
 		switch (n) {
-		case 1:
-
+		case 1 -> {
 			if (arg[0].isGeoList()) {
 
 				AlgoRemoveUndefined algo = new AlgoRemoveUndefined(cons,
 						c.getLabel(), (GeoList) arg[0]);
 
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 				return ret;
 			}
 			throw argErr(c, arg[0]);
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

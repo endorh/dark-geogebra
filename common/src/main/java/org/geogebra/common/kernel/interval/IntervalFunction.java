@@ -172,10 +172,9 @@ import org.geogebra.common.util.debug.Log;
 	 * and supported by our interval arithmetic implementation.
 	 */
 	public static boolean isSupported(GeoElement geo) {
-		if (!(geo instanceof GeoFunction)) {
+		if (!(geo instanceof GeoFunction function)) {
 			return false;
 		}
-		GeoFunction function = (GeoFunction) geo;
 		boolean operationSupported = isOperationSupported(function);
 		boolean moreVariables = hasMoreVariables(function);
 		return operationSupported && !moreVariables;

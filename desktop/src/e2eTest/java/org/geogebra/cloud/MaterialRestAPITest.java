@@ -11,7 +11,6 @@ import java.util.Set;
 
 import org.geogebra.common.factories.UtilFactory;
 import org.geogebra.common.jre.util.Base64;
-import org.geogebra.common.move.events.BaseEvent;
 import org.geogebra.common.move.ggtapi.GroupIdentifier;
 import org.geogebra.common.move.ggtapi.events.LoginEvent;
 import org.geogebra.common.move.ggtapi.models.AuthenticationModel;
@@ -24,7 +23,6 @@ import org.geogebra.common.move.ggtapi.models.Material.MaterialType;
 import org.geogebra.common.move.ggtapi.models.MaterialRequest.Order;
 import org.geogebra.common.move.ggtapi.models.MaterialRestAPI;
 import org.geogebra.common.move.ggtapi.requests.MaterialCallbackI;
-import org.geogebra.common.move.views.EventRenderable;
 import org.geogebra.desktop.factories.UtilFactoryD;
 import org.geogebra.desktop.headless.AppDNoGui;
 import org.geogebra.desktop.main.LocalizationD;
@@ -58,13 +56,9 @@ public class MaterialRestAPITest {
 			LoginOperationD loginOp) {
 		MaterialRestAPI api = authAPI();
 		final TestAsyncOperation<Boolean> callback = new TestAsyncOperation<>();
-		loginOp.getView().add(new EventRenderable() {
-
-			@Override
-			public void renderEvent(BaseEvent event) {
-				if (event instanceof LoginEvent) {
-					callback.callback(true);
-				}
+		loginOp.getView().add(event -> {
+			if (event instanceof LoginEvent) {
+				callback.callback(true);
 			}
 		});
 		api.authorizeUser(usr, loginOp, true);
@@ -114,14 +108,14 @@ public class MaterialRestAPITest {
 		final MaterialRestAPI api = authAPI();
 		final String[] success = new String[1];
 		final TestAsyncOperation<List<GroupIdentifier>> groupCallback =
-				new TestAsyncOperation<List<GroupIdentifier>>() {
+				new TestAsyncOperation<>() {
 
-			@Override
-			public void callback(List<GroupIdentifier> obj) {
-				success[0] = obj == null ? "FAIL" : obj.size() + "";
+					@Override
+					public void callback(List<GroupIdentifier> obj) {
+						success[0] = obj == null ? "FAIL" : obj.size() + "";
 
-			}
-		};
+					}
+				};
 		doUpload(api, "Test material", new TestMaterialCallback() {
 			@Override
 			public boolean handleMaterial(Material mat) {
@@ -182,8 +176,8 @@ public class MaterialRestAPITest {
 			public void onLoaded(List<Material> result,
 					ArrayList<Chapter> meta) {
 				deleteCallback.setExpectedCount(result.size());
-				for (int i = 0; i < result.size(); i++) {
-					api.deleteMaterial(result.get(i), deleteCallback);
+				for (Material material : result) {
+					api.deleteMaterial(material, deleteCallback);
 				}
 			}
 

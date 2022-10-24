@@ -30,8 +30,7 @@ public class CmdZProportion2Estimate extends CommandProcessor {
 		arg = resArgs(c);
 
 		switch (n) {
-
-		case 5:
+		case 5 -> {
 			if ((ok[0] = arg[0].isGeoNumeric())
 					&& (ok[1] = arg[1].isGeoNumeric())
 					&& (ok[2] = arg[2].isGeoNumeric())
@@ -43,15 +42,13 @@ public class CmdZProportion2Estimate extends CommandProcessor {
 						(GeoNumeric) arg[1], (GeoNumeric) arg[2],
 						(GeoNumeric) arg[3], (GeoNumeric) arg[4]);
 				algo.getResult().setLabel(c.getLabel());
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 				return ret;
 
 			}
-
 			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

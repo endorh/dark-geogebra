@@ -44,11 +44,9 @@ public class CmdMirror extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2:
+		case 2 -> {
 			arg = resArgs(c);
-
 			GeoElement[] ret = process2(label, arg, ok);
-
 			if (ret != null) {
 				return ret;
 			}
@@ -59,9 +57,8 @@ public class CmdMirror extends CommandProcessor {
 				throw argErr(c, arg[0]);
 			}
 			throw argErr(c, arg[1]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

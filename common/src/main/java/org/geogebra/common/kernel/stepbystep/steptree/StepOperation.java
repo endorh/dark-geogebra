@@ -115,7 +115,7 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 
 	@Override
 	public Iterator<StepExpression> iterator() {
-		return new Iterator<StepExpression>() {
+		return new Iterator<>() {
 			private int it = 0;
 
 			@Override
@@ -192,8 +192,7 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof StepOperation) {
-			StepOperation so = (StepOperation) obj;
+		if (obj instanceof StepOperation so) {
 
 			return so.operation == operation && so.operands.length == operands.length
 					&& Arrays.equals(getSortedOperandList(), so.getSortedOperandList());
@@ -264,54 +263,51 @@ public class StepOperation extends StepExpression implements Iterable<StepExpres
 		}
 
 		switch (operation) {
-			case MINUS:
-				if (countNonConstOperation(Operation.PLUS, var) > 0) {
-					return -1;
-				}
-
-				return getOperand(0).degree(var);
-			case PLUS:
-				int max = 0;
-
-				for (StepExpression operand : this) {
-					int temp = operand.degree(var);
-					if (temp == -1) {
-						return -1;
-					} else if (temp > max) {
-						max = temp;
-					}
-				}
-
-				return max;
-			case POWER:
-				int temp = getOperand(0).degree(var);
-
-				if (temp != -1 && getOperand(1).isInteger()) {
-					return (int) (temp * getOperand(1).getValue());
-				}
-
+		case MINUS -> {
+			if (countNonConstOperation(Operation.PLUS, var) > 0) {
 				return -1;
-			case MULTIPLY:
-				if (countNonConstOperation(Operation.PLUS, var) > 0) {
+			}
+			return getOperand(0).degree(var);
+		}
+		case PLUS -> {
+			int max = 0;
+			for (StepExpression operand : this) {
+				int temp = operand.degree(var);
+				if (temp == -1) {
+					return -1;
+				} else if (temp > max) {
+					max = temp;
+				}
+			}
+			return max;
+		}
+		case POWER -> {
+			int temp = getOperand(0).degree(var);
+			if (temp != -1 && getOperand(1).isInteger()) {
+				return (int) (temp * getOperand(1).getValue());
+			}
+			return -1;
+		}
+		case MULTIPLY -> {
+			if (countNonConstOperation(Operation.PLUS, var) > 0) {
+				return -1;
+			}
+			int p = 0;
+			for (StepExpression operand : this) {
+				int tmp = operand.degree(var);
+				if (tmp == -1) {
 					return -1;
 				}
-
-				int p = 0;
-
-				for (StepExpression operand : this) {
-					int tmp = operand.degree(var);
-					if (tmp == -1) {
-						return -1;
-					}
-					p += tmp;
-				}
-
-				return p;
-			case DIVIDE:
-				if (!getOperand(1).isConstantIn(var)) {
-					return -1;
-				}
-				return getOperand(0).degree(var);
+				p += tmp;
+			}
+			return p;
+		}
+		case DIVIDE -> {
+			if (!getOperand(1).isConstantIn(var)) {
+				return -1;
+			}
+			return getOperand(0).degree(var);
+		}
 		}
 
 		return -1;

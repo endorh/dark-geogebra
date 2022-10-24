@@ -75,7 +75,7 @@ public abstract class NativeTypedArrayView<T>
     {
         Object[] ret = new Object[length];
         for (int i = 0; i < length; i++) {
-            ret[i] = Integer.valueOf(i);
+            ret[i] = i;
         }
         return ret;
     }
@@ -115,9 +115,8 @@ public abstract class NativeTypedArrayView<T>
             NativeArrayBuffer buffer = makeArrayBuffer(cx, scope, length * getBytesPerElement());
             return construct(buffer, 0, length);
 
-        } else if (args[0] instanceof NativeTypedArrayView) {
+        } else if (args[0] instanceof NativeTypedArrayView src) {
             // Copy elements from the old array and convert them into our own
-            NativeTypedArrayView src = (NativeTypedArrayView)args[0];
             NativeArrayBuffer na = makeArrayBuffer(cx, scope, src.length * getBytesPerElement());
             NativeTypedArrayView v = construct(na, 0, src.length);
 
@@ -126,9 +125,8 @@ public abstract class NativeTypedArrayView<T>
             }
             return v;
 
-        } else if (args[0] instanceof NativeArrayBuffer) {
+        } else if (args[0] instanceof NativeArrayBuffer na) {
             // Make a slice of an existing buffer, with shared storage
-            NativeArrayBuffer na = (NativeArrayBuffer)args[0];
             int byteOff = isArg(args, 1) ? ScriptRuntime.toInt32(args[1]) : 0;
 
             int byteLen;
@@ -291,11 +289,23 @@ public abstract class NativeTypedArrayView<T>
         String s;
         int arity;
         switch (id) {
-        case Id_constructor:        arity = 1; s = "constructor"; break;
-        case Id_get:                arity = 1; s = "get"; break;
-        case Id_set:                arity = 2; s = "set"; break;
-        case Id_subarray:           arity = 2; s = "subarray"; break;
-        default: throw new IllegalArgumentException(String.valueOf(id));
+        case Id_constructor -> {
+            arity = 1;
+            s = "constructor";
+        }
+        case Id_get -> {
+            arity = 1;
+            s = "get";
+        }
+        case Id_set -> {
+            arity = 2;
+            s = "set";
+        }
+        case Id_subarray -> {
+            arity = 2;
+            s = "subarray";
+        }
+        default -> throw new IllegalArgumentException(String.valueOf(id));
         }
         initPrototypeMethod(getClassName(), id, s, arity);
     }
@@ -354,24 +364,21 @@ public abstract class NativeTypedArrayView<T>
     @Override
     protected String getInstanceIdName(int id)
     {
-        switch (id) {
-        case Id_length: return "length";
-        case Id_BYTES_PER_ELEMENT: return "BYTES_PER_ELEMENT";
-        default: return super.getInstanceIdName(id);
-        }
+        return switch (id) {
+            case Id_length -> "length";
+            case Id_BYTES_PER_ELEMENT -> "BYTES_PER_ELEMENT";
+            default -> super.getInstanceIdName(id);
+        };
     }
 
     @Override
     protected Object getInstanceIdValue(int id)
     {
-        switch (id) {
-        case Id_length:
-            return ScriptRuntime.wrapInt(length);
-        case Id_BYTES_PER_ELEMENT:
-            return ScriptRuntime.wrapInt(getBytesPerElement());
-        default:
-            return super.getInstanceIdValue(id);
-        }
+        return switch (id) {
+            case Id_length -> ScriptRuntime.wrapInt(length);
+            case Id_BYTES_PER_ELEMENT -> ScriptRuntime.wrapInt(getBytesPerElement());
+            default -> super.getInstanceIdValue(id);
+        };
     }
 
 // #string_id_map#
@@ -540,13 +547,13 @@ public abstract class NativeTypedArrayView<T>
     @SuppressWarnings("unused")
     public Iterator<T> iterator()
     {
-        return new NativeTypedArrayIterator<T>(this, 0);
+        return new NativeTypedArrayIterator<>(this, 0);
     }
 
     @SuppressWarnings("unused")
     public ListIterator<T> listIterator()
     {
-        return new NativeTypedArrayIterator<T>(this, 0);
+        return new NativeTypedArrayIterator<>(this, 0);
     }
 
     @SuppressWarnings("unused")
@@ -555,7 +562,7 @@ public abstract class NativeTypedArrayView<T>
         if (checkIndex(start)) {
             throw new IndexOutOfBoundsException();
         }
-        return new NativeTypedArrayIterator<T>(this, start);
+        return new NativeTypedArrayIterator<>(this, start);
     }
 
     @SuppressWarnings("unused")

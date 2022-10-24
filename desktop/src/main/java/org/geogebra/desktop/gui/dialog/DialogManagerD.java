@@ -582,7 +582,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 
 				// fileName = getFileName(fileName);
 
-				if (fileName != null && fileName.indexOf(".") > -1) {
+				if (fileName != null && fileName.contains(".")) {
 					fileName = fileName.substring(0, fileName.lastIndexOf("."))
 							+ "."
 							+ ((MyFileFilter) getFileChooser().getFileFilter())

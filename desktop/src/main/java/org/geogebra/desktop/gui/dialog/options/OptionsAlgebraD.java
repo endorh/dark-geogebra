@@ -4,8 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Arrays;
 import java.util.List;
 
@@ -61,30 +59,11 @@ public class OptionsAlgebraD
 	}
 
 	private void addListeners() {
-		description.addActionListener(new ActionListener() {
+		description.addActionListener(e -> onDescriptionChange());
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				onDescriptionChange();
-			}
-		});
+		sortMode.addActionListener(e -> onSortChange());
 
-		sortMode.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				onSortChange();
-			}
-		});
-
-		auxiliary.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				onAuxChange();
-			}
-
-		});
+		auxiliary.addActionListener(e -> onAuxChange());
 
 	}
 
@@ -135,7 +114,7 @@ public class OptionsAlgebraD
 		panel.setLayout(new GridLayout(10, 1));
 		app.setComponentOrientation(panel);
 		this.auxiliary = new JCheckBox();
-		this.sortMode = new JComboBox<String>() {
+		this.sortMode = new JComboBox<>() {
 			@Override
 			public void setSelectedIndex(int i) {
 				super.setSelectedIndex(i);
@@ -194,8 +173,8 @@ public class OptionsAlgebraD
 				loc.getMenu("Description"), loc.getMenu("Definition") };
 		description.removeAllItems();
 
-		for (int i = 0; i < modes.length; i++) {
-			description.addItem(loc.getMenu(modes[i]));
+		for (String mode : modes) {
+			description.addItem(loc.getMenu(mode));
 		}
 
 		int descMode = app.getKernel().getAlgebraStyle();

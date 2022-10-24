@@ -16,11 +16,8 @@ public class KeyboardLayoutTest {
 		StringBuilder resources = new StringBuilder();
 		for (Row row : kb.getRows()) {
 			for (WeightedButton button : row.getButtons()) {
-				resources.append(
-						button.getResourceName()
-						+ ",");
-				actions.append(button.getPrimaryActionName()
-						+ ",");
+				resources.append(button.getResourceName()).append(",");
+				actions.append(button.getPrimaryActionName()).append(",");
 			}
 		}
 

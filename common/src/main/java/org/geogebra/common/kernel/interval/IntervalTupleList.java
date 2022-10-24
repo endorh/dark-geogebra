@@ -99,8 +99,7 @@ public class IntervalTupleList implements Iterable<IntervalTuple> {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof IntervalTupleList) {
-			IntervalTupleList other = (IntervalTupleList) obj;
+		if (obj instanceof IntervalTupleList other) {
 			return list.equals(other.list);
 		}
 		return super.equals(obj);

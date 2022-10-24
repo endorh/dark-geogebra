@@ -344,9 +344,8 @@ public class Complex implements FieldElement<Complex>, Serializable  {
         if (this == other) {
             return true;
         }
-        if (other instanceof Complex){
-            Complex c = (Complex) other;
-            if (c.notDefined) {
+        if (other instanceof Complex c){
+	        if (c.notDefined) {
                 return notDefined;
             } else {
                 return MathUtils.equals(real, c.real) &&
@@ -1202,7 +1201,7 @@ public class Complex implements FieldElement<Complex>, Serializable  {
                                            n);
         }
 
-        final List<Complex> result = new ArrayList<Complex>();
+        final List<Complex> result = new ArrayList<>();
 
         if (notDefined) {
             result.add(NaN);

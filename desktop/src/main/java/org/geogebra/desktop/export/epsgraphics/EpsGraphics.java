@@ -264,11 +264,11 @@ abstract public class EpsGraphics implements GGraphics2D {
 	 * Returns a hex string that always contains two characters.
 	 */
 	protected static String toHexString(int n) {
-		String result = Integer.toString(n, 16);
+		StringBuilder result = new StringBuilder(Integer.toString(n, 16));
 		while (result.length() < 2) {
-			result = "0" + result;
+			result.insert(0, "0");
 		}
-		return result;
+		return result.toString();
 	}
 
 	// ///////////// Graphics2D methods ///////////////////////
@@ -500,12 +500,12 @@ abstract public class EpsGraphics implements GGraphics2D {
 			append(miterLimit + " setmiterlimit");
 			append(_stroke.getLineJoin() + " setlinejoin");
 			append(_stroke.getEndCap() + " setlinecap");
-			StringBuffer dashes = new StringBuffer();
+			StringBuilder dashes = new StringBuilder();
 			dashes.append("[ ");
 			double[] dashArray = _stroke.getDashArray();
 			if (dashArray != null) {
-				for (int i = 0; i < dashArray.length; i++) {
-					dashes.append((dashArray[i]) + " ");
+				for (double v : dashArray) {
+					dashes.append(v).append(" ");
 				}
 			}
 			dashes.append("]");

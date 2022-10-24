@@ -695,10 +695,8 @@ public class MyList extends ValidExpression
 						&& getListElement(0).getListDepth() > 1)) {
 
 				toLaTeXString.append("\\left(\\begin{array}{");
-				for (int i = 0; i < matrixCols; i++) {
-					// nice alignment for eg {{-1,1},{1,-1}} in CAS
-					toLaTeXString.append("r");
-				}
+			// nice alignment for eg {{-1,1},{1,-1}} in CAS
+			toLaTeXString.append("r".repeat(Math.max(0, matrixCols)));
 				toLaTeXString.append("}");
 
 				for (int i = 0; i < size(); i++) {
@@ -817,9 +815,7 @@ public class MyList extends ValidExpression
 
 		sb.append("\\left(\\begin{array}{");
 		// eg rr
-		for (int i = 0; i < cols; i++) {
-			sb.append('r');
-		}
+		sb.append("r".repeat(Math.max(0, cols)));
 		sb.append("}");
 		for (int i = 0; i < size(); i++) {
 			// we can assume elements are ListValues because of isMatrix check
@@ -843,8 +839,7 @@ public class MyList extends ValidExpression
 
 	@Override
 	public void resolveVariables(EvalInfo info) {
-		for (int i = 0; i < listElements.size(); i++) {
-			ExpressionValue en = listElements.get(i);
+		for (ExpressionValue en : listElements) {
 			en.resolveVariables(info);
 		}
 	}
@@ -879,8 +874,8 @@ public class MyList extends ValidExpression
 	@Override
 	public boolean isConstant() {
 		int size = listElements.size();
-		for (int i = 0; i < size; i++) {
-			if (!listElements.get(i).isConstant()) {
+		for (ExpressionValue listElement : listElements) {
+			if (!listElement.isConstant()) {
 				return false;
 			}
 		}
@@ -903,8 +898,8 @@ public class MyList extends ValidExpression
 		int size = listElements.size();
 		MyList c = new MyList(kernel1, size());
 
-		for (int i = 0; i < size; i++) {
-			c.addListElement(listElements.get(i).deepCopy(kernel1));
+		for (ExpressionValue listElement : listElements) {
+			c.addListElement(listElement.deepCopy(kernel1));
 		}
 		return c;
 	}
@@ -921,8 +916,8 @@ public class MyList extends ValidExpression
 		int size = listElements.size();
 		MyList c = new MyList(kernel1, size());
 
-		for (int i = 0; i < size; i++) {
-			c.addListElement(ExpressionNode.copy(listElements.get(i), kernel1));
+		for (ExpressionValue listElement : listElements) {
+			c.addListElement(ExpressionNode.copy(listElement, kernel1));
 		}
 		return c;
 	}
@@ -931,8 +926,8 @@ public class MyList extends ValidExpression
 	public HashSet<GeoElement> getVariables(SymbolicMode mode) {
 		HashSet<GeoElement> varSet = new HashSet<>();
 		int size = listElements.size();
-		for (int i = 0; i < size; i++) {
-			HashSet<GeoElement> s = listElements.get(i).getVariables(mode);
+		for (ExpressionValue listElement : listElements) {
+			HashSet<GeoElement> s = listElement.getVariables(mode);
 			if (s != null) {
 				varSet.addAll(s);
 			}

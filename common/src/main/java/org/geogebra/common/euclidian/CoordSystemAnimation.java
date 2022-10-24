@@ -185,26 +185,26 @@ public abstract class CoordSystemAnimation {
 		} else {
 			coordSystemInfo.setInteractive(true);
 			switch (mode) {
-			case AXES_X:
+			case AXES_X -> {
 				factor = 1.0 + ((counter * add) / oldScale);
 				view.setCoordSystem(view.getXZero(), view.getYZero(),
 						oldScale * factor, view.getYscale());
 				coordSystemInfo.setXAxisZoom(true);
-				break;
-			case AXES_Y:
+			}
+			case AXES_Y -> {
 				factor = 1.0 + ((counter * add) / oldScale);
 				view.setCoordSystem(view.getXZero(), view.getYZero(),
 						view.getXscale(), oldScale * factor);
 				coordSystemInfo.setXAxisZoom(false);
-			break;
-			case ZOOM:
+			}
+			case ZOOM -> {
 				factor = 1.0 + ((counter * add) / oldScale);
 				view.setCoordSystem(px + (dx * factor), py + (dy * factor),
 						oldScale * factor,
 						oldScale * factor * view.getScaleRatio());
 				coordSystemInfo.setXAxisZoom(false);
-				break;
-			case ZOOM_RW:
+			}
+			case ZOOM_RW -> {
 				double i = counter;
 				double j = steps - counter;
 				view.setRealWorldCoordSystemVisible(((x0 * i) + (xminOld * j)) / steps,
@@ -212,12 +212,13 @@ public abstract class CoordSystemAnimation {
 						((y0 * i) + (yminOld * j)) / steps,
 						((y1 * i) + (ymaxOld * j)) / steps, true);
 				coordSystemInfo.setXAxisZoom(false);
-				break;
-			case MOVE:
+			}
+			case MOVE -> {
 				factor = 1.0 - (counter * add);
 				view.setCoordSystem(px + (dx * factor), py + (dy * factor),
 						view.getXscale(), view.getYscale());
 				coordSystemInfo.setXAxisZoom(false);
+			}
 			}
 		}
 	}
@@ -227,32 +228,32 @@ public abstract class CoordSystemAnimation {
 		// setDrawMode(DRAW_MODE_BACKGROUND_IMAGE);
 		EuclidianController controller = view.getEuclidianController();
 		switch (mode) {
-		case AXES_X:
+		case AXES_X -> {
 			view.setCoordSystem(view.getXZero(), view.getYZero(), newScale,
 					view.getYscale());
 			onAxisZoomEnd(controller);
-			break;
-		case AXES_Y:
+		}
+		case AXES_Y -> {
 			view.setCoordSystem(view.getXZero(), view.getYZero(),
 					view.getXscale(), newScale);
 			onAxisZoomEnd(controller);
-			break;
-		case ZOOM:
+		}
+		case ZOOM -> {
 			factor = newScale / oldScale;
 			view.setCoordSystem(px + (dx * factor), py + (dy * factor),
 					newScale, newScale * view.getScaleRatio());
 			controller.notifyZoomerStopped();
-			break;
-		case ZOOM_RW:
+		}
+		case ZOOM_RW -> {
 			view.setRealWorldCoordSystemVisible(x0, x1, y0, y1, true);
 			controller.notifyZoomerStopped();
-			break;
-		case MOVE:
+		}
+		case MOVE -> {
 			view.setCoordSystem(px, py, view.getXscale(), view.getYscale());
 			if (view.isStandardView()) {
 				controller.notifyZoomerStopped();
 			}
-			break;
+		}
 		}
 		if (setStandard) {
 			setStandard = false;

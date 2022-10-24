@@ -40,47 +40,47 @@ public abstract class MyTextField {
 			// check if we have a bracket next to the caret
 			// and set the search parameters if we do
 			switch (c) {
-			case '(':
+			case '(' -> {
 				searchDirection = +1;
 				searchEnd = text.length();
 				oppositeBracketToMatch = '(';
 				bracketToMatch = ')';
-				break;
-			case '{':
+			}
+			case '{' -> {
 				searchDirection = +1;
 				searchEnd = text.length();
 				oppositeBracketToMatch = '{';
 				bracketToMatch = '}';
-				break;
-			case '[':
+			}
+			case '[' -> {
 				searchDirection = +1;
 				searchEnd = text.length();
 				oppositeBracketToMatch = '[';
 				bracketToMatch = ']';
-				break;
-			case ')':
+			}
+			case ')' -> {
 				searchDirection = -1;
 				searchEnd = -1;
 				oppositeBracketToMatch = ')';
 				bracketToMatch = '(';
-				break;
-			case '}':
+			}
+			case '}' -> {
 				searchDirection = -1;
 				searchEnd = -1;
 				oppositeBracketToMatch = '}';
 				bracketToMatch = '{';
-				break;
-			case ']':
+			}
+			case ']' -> {
 				searchDirection = -1;
 				searchEnd = -1;
 				oppositeBracketToMatch = ']';
 				bracketToMatch = '[';
-				break;
-			default:
+			}
+			default -> {
 				searchDirection = 0;
 				bracketPos0 = -1;
 				bracketPos1 = -1;
-				break;
+			}
 			}
 
 		}

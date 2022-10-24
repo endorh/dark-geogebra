@@ -57,8 +57,7 @@ public class StepInequality extends StepSolvable {
 
 	@Override
 	public boolean equals(Object sn) {
-		if (sn instanceof StepInequality) {
-			StepInequality si = (StepInequality) sn;
+		if (sn instanceof StepInequality si) {
 			return swapped == si.swapped
 					&& lessThan == si.lessThan
 					&& strong == si.strong

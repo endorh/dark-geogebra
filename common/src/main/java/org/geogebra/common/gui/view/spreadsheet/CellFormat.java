@@ -164,8 +164,8 @@ public class CellFormat implements CellFormatInterface {
 	public void clearAll() {
 		highestIndexRow = 0;
 		highestIndexColumn = 0;
-		for (int i = 0; i < formatMapArray.length; i++) {
-			formatMapArray[i].clear();
+		for (MyHashMap myHashMap : formatMapArray) {
+			myHashMap.clear();
 		}
 	}
 
@@ -191,17 +191,17 @@ public class CellFormat implements CellFormatInterface {
 		}
 
 		// shift rows for each format type map
-		for (int i = 0; i < formatMapArray.length; i++) {
+		for (MyHashMap myHashMap : formatMapArray) {
 			if (direction == Direction.Up) {
-				shiftRowsUp(formatMapArray[i], startIndex, shiftAmount);
+				shiftRowsUp(myHashMap, startIndex, shiftAmount);
 			}
 			if (direction == Direction.Down) {
-				shiftRowsDown(formatMapArray[i], startIndex, shiftAmount);
+				shiftRowsDown(myHashMap, startIndex, shiftAmount);
 			}
 			if (direction == Direction.Left) {
-				shiftColumnsLeft(formatMapArray[i], startIndex, shiftAmount);
+				shiftColumnsLeft(myHashMap, startIndex, shiftAmount);
 			} else if (direction == Direction.Right) {
-				shiftColumnsRight(formatMapArray[i], startIndex, shiftAmount);
+				shiftColumnsRight(myHashMap, startIndex, shiftAmount);
 			}
 		}
 
@@ -477,8 +477,8 @@ public class CellFormat implements CellFormatInterface {
 		}
 
 		// Iterate through the range and test if they cells have the same format
-		for (int r = 0; r > cr.getMaxRow(); r++) {
-			for (int c = 0; c > cr.getMaxColumn(); c++) {
+		for (int r = 0; r < cr.getMaxRow(); r++) {
+			for (int c = 0; c < cr.getMaxColumn(); c++) {
 				if (!format.equals(getCellFormat(c, r, formatType))) {
 					format = null;
 					break;
@@ -989,8 +989,8 @@ public class CellFormat implements CellFormatInterface {
 
 		// create a set containing all cells with formats
 		HashSet<GPoint> masterKeySet = new HashSet<>();
-		for (int i = 0; i < formatMapArray.length; i++) {
-			masterKeySet.addAll(formatMapArray[i].keySet());
+		for (MyHashMap myHashMap : formatMapArray) {
+			masterKeySet.addAll(myHashMap.keySet());
 		}
 		if (masterKeySet.size() == 0) {
 			return null;
@@ -1064,9 +1064,9 @@ public class CellFormat implements CellFormatInterface {
 		String[] cellGroup = xml.split(cellDelimiter);
 		// System.out.println("cellGroup: " +
 		// java.util.Arrays.toString(cellGroup));
-		for (int i = 0; i < cellGroup.length; i++) {
+		for (String s : cellGroup) {
 			if (cellGroup.length > 0) {
-				processCellFormatString(cellGroup[i]);
+				processCellFormatString(s);
 			}
 		}
 		setCellFormatString();

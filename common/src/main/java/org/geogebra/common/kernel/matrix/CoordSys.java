@@ -427,14 +427,14 @@ public class CoordSys {
 	 */
 	public void completeCoordSys2D() {
 		switch (getMadeCoordSys()) {
-		default:
-			// do nothing
-			break;
-		case 0:
+		default -> {
+		}
+		// do nothing
+		case 0 -> {
 			addVectorWithoutCheckMadeCoordSys(Coords.VX);
 			addVectorWithoutCheckMadeCoordSys(Coords.VY);
-			break;
-		case 1:
+		}
+		case 1 -> {
 			Coords vx = getVx();
 			if (DoubleUtil.isZero(vx.getX())) {
 				addVectorWithoutCheckMadeCoordSys(
@@ -443,7 +443,7 @@ public class CoordSys {
 				addVectorWithoutCheckMadeCoordSys(
 						new Coords(-vx.getY(), vx.getX(), 0, 0));
 			}
-			break;
+		}
 		}
 	}
 

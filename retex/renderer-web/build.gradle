@@ -6,8 +6,11 @@ plugins {
 
 ext.gwtCompilerVersion = '2.9.0'
 
-sourceCompatibility = 17
-targetCompatibility = 17
+tasks.withType(JavaCompile) {
+	sourceCompatibility = 17
+	targetCompatibility = 17
+	options.encoding = 'UTF-8'
+}
 
 gwt {
 	maxHeapSize = '2000M'

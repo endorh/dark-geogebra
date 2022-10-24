@@ -38,22 +38,11 @@ public class AlgoCenterQuadric extends AlgoCenterQuadricND {
 	@Override
 	protected void setCoords() {
 		switch (c.type) {
-
-		case GeoQuadricNDConstants.QUADRIC_SINGLE_POINT:
-		case GeoQuadricNDConstants.QUADRIC_INTERSECTING_LINES:
-		case GeoQuadricNDConstants.QUADRIC_ELLIPSOID:
-		case GeoQuadricNDConstants.QUADRIC_SPHERE:
-		case GeoQuadricNDConstants.QUADRIC_HYPERBOLOID:
-		case GeoQuadricNDConstants.QUADRIC_CONE:
-		case GeoQuadricNDConstants.QUADRIC_HYPERBOLOID_ONE_SHEET:
-		case GeoQuadricNDConstants.QUADRIC_HYPERBOLOID_TWO_SHEETS:
-			((GeoPoint3D) midpoint).setCoords(c.getMidpoint3D());
-			break;
-
-		default:
+		case GeoQuadricNDConstants.QUADRIC_SINGLE_POINT, GeoQuadricNDConstants.QUADRIC_INTERSECTING_LINES, GeoQuadricNDConstants.QUADRIC_ELLIPSOID, GeoQuadricNDConstants.QUADRIC_SPHERE, GeoQuadricNDConstants.QUADRIC_HYPERBOLOID, GeoQuadricNDConstants.QUADRIC_CONE, GeoQuadricNDConstants.QUADRIC_HYPERBOLOID_ONE_SHEET, GeoQuadricNDConstants.QUADRIC_HYPERBOLOID_TWO_SHEETS ->
+				((GeoPoint3D) midpoint).setCoords(c.getMidpoint3D());
+		default ->
 			// midpoint undefined
-			midpoint.setUndefined();
-
+				midpoint.setUndefined();
 		}
 	}
 

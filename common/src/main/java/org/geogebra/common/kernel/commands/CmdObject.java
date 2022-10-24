@@ -29,19 +29,18 @@ public class CmdObject extends CommandProcessor {
 		arg = resArgs(c);
 
 		switch (n) {
-		case 1:
+		case 1 -> {
 			ok[0] = arg[0].isGeoText();
 			if (ok[0]) {
 				AlgoObject algo = new AlgoObject(cons, c.getLabel(),
 						(GeoText) arg[0]);
 
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 				return ret;
 			}
 			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

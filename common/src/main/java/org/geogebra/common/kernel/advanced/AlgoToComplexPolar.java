@@ -144,14 +144,11 @@ public class AlgoToComplexPolar extends AlgoElement {
 
 	@Override
 	public Commands getClassName() {
-		switch (coordStyle) {
-		case Kernel.COORD_COMPLEX:
-			return Commands.ToComplex;
-		case Kernel.COORD_POLAR:
-			return Commands.ToPolar;
-		default:
-			return Commands.ToPoint;
-		}
+		return switch (coordStyle) {
+			case Kernel.COORD_COMPLEX -> Commands.ToComplex;
+			case Kernel.COORD_POLAR -> Commands.ToPolar;
+			default -> Commands.ToPoint;
+		};
 	}
 
 	/**

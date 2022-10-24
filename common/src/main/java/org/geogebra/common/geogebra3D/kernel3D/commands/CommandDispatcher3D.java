@@ -42,225 +42,85 @@ public abstract class CommandDispatcher3D extends CommandDispatcher {
 				Log.info("The command is not allowed by the command filter");
 				return null;
 			}
-			switch (command) {
-
-			case Segment:
-				return new CmdSegment3D(kernel);
-			case Line:
-				return new CmdLine3D(kernel);
-			case Ray:
-				return new CmdRay3D(kernel);
-			case Polygon:
-				return new CmdPolygon3D(kernel);
-			case Area:
-				return new CmdArea3D(kernel);
-			case Polyline:
-			case PolyLine:
-				return new CmdPolyLine3D(kernel);
-			case Point:
-				return new CmdPoint3D(kernel);
-			case Midpoint:
-			case Center:
-				return new CmdMidpoint3D(kernel);
-
-			case Tangent:
-				return new CmdTangent3D(kernel);
-
-			case Polar:
-				return new CmdPolar3D(kernel);
-
-			case Diameter:
-			case ConjugateDiameter:
-				return new CmdDiameter3D(kernel);
-
-			case Circle:
-				return new CmdCircle3D(kernel);
-
-			case Ellipse:
-				return new CmdEllipseHyperbola3D(kernel,
+			return switch (command) {
+				case Segment -> new CmdSegment3D(kernel);
+				case Line -> new CmdLine3D(kernel);
+				case Ray -> new CmdRay3D(kernel);
+				case Polygon -> new CmdPolygon3D(kernel);
+				case Area -> new CmdArea3D(kernel);
+				case Polyline, PolyLine -> new CmdPolyLine3D(kernel);
+				case Point -> new CmdPoint3D(kernel);
+				case Midpoint, Center -> new CmdMidpoint3D(kernel);
+				case Tangent -> new CmdTangent3D(kernel);
+				case Polar -> new CmdPolar3D(kernel);
+				case Diameter, ConjugateDiameter -> new CmdDiameter3D(kernel);
+				case Circle -> new CmdCircle3D(kernel);
+				case Ellipse -> new CmdEllipseHyperbola3D(kernel,
 						GeoConicNDConstants.CONIC_ELLIPSE);
-			case Hyperbola:
-				return new CmdEllipseHyperbola3D(kernel,
+				case Hyperbola -> new CmdEllipseHyperbola3D(kernel,
 						GeoConicNDConstants.CONIC_HYPERBOLA);
-			case Conic:
-				return new CmdConic3D(kernel);
-
-			case CircumcircleSector:
-			case CircumcircularSector:
-				return new CmdCircumcircleSector3D(kernel);
-
-			case CircumcircleArc:
-			case CircumcircularArc:
-				return new CmdCircumcircleArc3D(kernel);
-
-			case Arc:
-				return new CmdArcSector3D(kernel,
+				case Conic -> new CmdConic3D(kernel);
+				case CircumcircleSector, CircumcircularSector ->
+						new CmdCircumcircleSector3D(kernel);
+				case CircumcircleArc, CircumcircularArc -> new CmdCircumcircleArc3D(kernel);
+				case Arc -> new CmdArcSector3D(kernel,
 						GeoConicNDConstants.CONIC_PART_ARC);
-			case Sector:
-				return new CmdArcSector3D(kernel,
+				case Sector -> new CmdArcSector3D(kernel,
 						GeoConicNDConstants.CONIC_PART_SECTOR);
-
-			case CircleArc:
-			case CircularArc:
-				return new CmdCircleArcSector3D(kernel,
+				case CircleArc, CircularArc -> new CmdCircleArcSector3D(kernel,
 						GeoConicNDConstants.CONIC_PART_ARC);
-
-			case CircleSector:
-			case CircularSector:
-				return new CmdCircleArcSector3D(kernel,
+				case CircleSector, CircularSector -> new CmdCircleArcSector3D(kernel,
 						GeoConicNDConstants.CONIC_PART_SECTOR);
+				case Semicircle -> new CmdSemicircle3D(kernel);
+				case Parabola -> new CmdParabola3D(kernel);
+				case Corner -> new CmdCorner3D(kernel);
+				case CornerThreeD -> new CmdVertexForce3D(kernel);
+				case Locus -> new CmdLocus3D(kernel);
+				case Vertex -> new CmdVertex3D(kernel);
+				case FirstAxis -> new CmdAxis3D(kernel, 0);
+				case SecondAxis -> new CmdAxis3D(kernel, 1);
+				case Focus -> new CmdFocus3D(kernel);
+				case PerpendicularLine, OrthogonalLine -> new CmdOrthogonalLine3D(kernel);
+				case LineBisector, PerpendicularBisector -> new CmdLineBisector3D(kernel);
+				case AngleBisector, AngularBisector -> new CmdAngularBisector3D(kernel);
+				case PerpendicularVector, OrthogonalVector -> new CmdOrthogonalVector3D(kernel);
+				case UnitPerpendicularVector, UnitOrthogonalVector ->
+						new CmdUnitOrthogonalVector3D(kernel);
+				case Direction -> new CmdUnitVector3D(kernel, false);
+				case UnitVector -> new CmdUnitVector3D(kernel, true);
+				case Curve, CurveCartesian -> new CmdCurveCartesian3D(kernel);
+				case PointIn -> new CmdPointIn3D(kernel);
+				case Distance -> new CmdDistance3D(kernel);
+				case ClosestPoint -> new CmdClosestPoint3D(kernel);
+				case ClosestPointRegion -> new CmdClosestPointRegion(kernel);
+				case Intersect -> new CmdIntersect3D(kernel); // deprecated
+				case IntersectPath, IntersectionPaths, IntersectRegion -> // deprecated
+						new CmdIntersectPath3D(kernel);
+				case IntersectCircle, IntersectConic -> new CmdIntersectConic(kernel);
+				case Angle -> new CmdAngle3D(kernel);
+				case InteriorAngles -> new CmdInteriorAngles3D(kernel);
+				case Translate -> new CmdTranslate3D(kernel);
+				case Rotate -> new CmdRotate3D(kernel);
+				case Reflect, Mirror -> new CmdMirror3D(kernel);
+				case Dilate -> new CmdDilate3D(kernel);
+				case Length -> new CmdLength3D(kernel);
+				case Volume -> new CmdVolume(kernel);
+				case Height -> new CmdHeight(kernel);
+				case Axes -> new CmdAxes3D(kernel);
 
-			case Semicircle:
-				return new CmdSemicircle3D(kernel);
+				// scripting : 3D
+				case SetViewDirection -> new CmdSetViewDirection(kernel);
+				case SetSpinSpeed -> new CmdSetSpinSpeed(kernel);
 
-			case Parabola:
-				return new CmdParabola3D(kernel);
+				// polygon operations
+				case Difference -> new CmdDifference3D(kernel);
+				case Union -> new CmdUnion3D(kernel);
 
-			case Corner:
-				return new CmdCorner3D(kernel);
-
-			case CornerThreeD:
-				return new CmdVertexForce3D(kernel);
-
-			case Locus:
-				return new CmdLocus3D(kernel);
-
-			case Vertex:
-				return new CmdVertex3D(kernel);
-			case FirstAxis:
-				return new CmdAxis3D(kernel, 0);
-			case SecondAxis:
-				return new CmdAxis3D(kernel, 1);
-			case Focus:
-				return new CmdFocus3D(kernel);
-
-			case PerpendicularLine:
-			case OrthogonalLine:
-				return new CmdOrthogonalLine3D(kernel);
-
-			case LineBisector:
-			case PerpendicularBisector:
-				return new CmdLineBisector3D(kernel);
-
-			case AngleBisector:
-			case AngularBisector:
-				return new CmdAngularBisector3D(kernel);
-
-			case PerpendicularVector:
-			case OrthogonalVector:
-				return new CmdOrthogonalVector3D(kernel);
-
-			case UnitPerpendicularVector:
-			case UnitOrthogonalVector:
-				return new CmdUnitOrthogonalVector3D(kernel);
-
-			case Direction:
-				return new CmdUnitVector3D(kernel, false);
-			case UnitVector:
-				return new CmdUnitVector3D(kernel, true);
-
-			case Curve:
-			case CurveCartesian:
-				return new CmdCurveCartesian3D(kernel);
-
-			case PointIn:
-				return new CmdPointIn3D(kernel);
-
-			case Distance:
-				return new CmdDistance3D(kernel);
-
-			case ClosestPoint:
-				return new CmdClosestPoint3D(kernel);
-
-			case ClosestPointRegion:
-				return new CmdClosestPointRegion(kernel);
-
-			case Intersect:
-				return new CmdIntersect3D(kernel);
-
-			case IntersectPath:
-			case IntersectionPaths: // deprecated
-			case IntersectRegion: // deprecated
-				return new CmdIntersectPath3D(kernel);
-
-			case IntersectCircle:
-			case IntersectConic:
-				return new CmdIntersectConic(kernel);
-
-			case Angle:
-				return new CmdAngle3D(kernel);
-
-			case InteriorAngles:
-				return new CmdInteriorAngles3D(kernel);
-
-			case Translate:
-				return new CmdTranslate3D(kernel);
-
-			case Rotate:
-				return new CmdRotate3D(kernel);
-			case Reflect:
-			case Mirror:
-				return new CmdMirror3D(kernel);
-
-			case Dilate:
-				return new CmdDilate3D(kernel);
-
-			case Length:
-				return new CmdLength3D(kernel);
-
-			case Volume:
-				return new CmdVolume(kernel);
-
-			case Height:
-				return new CmdHeight(kernel);
-
-			case Axes:
-				return new CmdAxes3D(kernel);
-
-			// scripting : 3D
-			case SetViewDirection:
-				return new CmdSetViewDirection(kernel);
-
-			case SetSpinSpeed:
-				return new CmdSetSpinSpeed(kernel);
-
-			// polygon operations
-			case Difference:
-				return new CmdDifference3D(kernel);
-
-			case Union:
-				return new CmdUnion3D(kernel);
-
-			// 3D commands dispatcher
-			case Plane:
-			case PerpendicularPlane:
-			case OrthogonalPlane:
-			case PlaneBisector:
-			case Prism:
-			case Pyramid:
-			case Tetrahedron:
-			case Cube:
-			case Octahedron:
-			case Dodecahedron:
-			case Icosahedron:
-			case Polyhedron:
-			case Net:
-			case Sphere:
-			case Cone:
-			case InfiniteCone:
-			case ConeInfinite:
-			case Cylinder:
-			case InfiniteCylinder:
-			case CylinderInfinite:
-			case Side:
-			case QuadricSide:
-			case Bottom:
-			case Top:
-			case Ends:
-				return get3DDispatcher().dispatch(command, kernel);
-			default:
-				return super.commandTableSwitch(c);
-			}
+				// 3D commands dispatcher
+				case Plane, PerpendicularPlane, OrthogonalPlane, PlaneBisector, Prism, Pyramid, Tetrahedron, Cube, Octahedron, Dodecahedron, Icosahedron, Polyhedron, Net, Sphere, Cone, InfiniteCone, ConeInfinite, Cylinder, InfiniteCylinder, CylinderInfinite, Side, QuadricSide, Bottom, Top, Ends ->
+						get3DDispatcher().dispatch(command, kernel);
+				default -> super.commandTableSwitch(c);
+			};
 		} catch (RuntimeException e) {
 			Log.debug("command not found / CAS command called: " + cmdName);
 		}

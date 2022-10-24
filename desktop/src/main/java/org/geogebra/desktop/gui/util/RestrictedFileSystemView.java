@@ -51,8 +51,8 @@ public class RestrictedFileSystemView extends FileSystemView {
 		}
 
 		File[] roots = getRoots();
-		for (int i = 0; i < roots.length; i++) {
-			if (roots[i].equals(f)) {
+		for (File root : roots) {
+			if (root.equals(f)) {
 				return true;
 			}
 		}
@@ -72,7 +72,7 @@ public class RestrictedFileSystemView extends FileSystemView {
 	 */
 	@Override
 	public Boolean isTraversable(File f) {
-		return Boolean.valueOf(f.isDirectory());
+		return f.isDirectory();
 	}
 
 	/**
@@ -313,7 +313,7 @@ public class RestrictedFileSystemView extends FileSystemView {
 	 */
 	@Override
 	public File[] getFiles(File dir, boolean useFileHiding) {
-		Vector<File> files = new Vector<File>();
+		Vector<File> files = new Vector<>();
 
 		// add all files in dir
 		File[] names;
@@ -331,7 +331,7 @@ public class RestrictedFileSystemView extends FileSystemView {
 			}
 		}
 
-		return files.toArray(new File[files.size()]);
+		return files.toArray(new File[0]);
 	}
 
 	/**
@@ -412,7 +412,7 @@ public class RestrictedFileSystemView extends FileSystemView {
 		int i = 2;
 		while (newFolder.exists() && (i < 100)) {
 			newFolder = createFileObject(containingDir, MessageFormat.format(
-					newFolderString, new Object[] { Integer.valueOf(i) }));
+					newFolderString, new Object[] {i}));
 			i++;
 		}
 

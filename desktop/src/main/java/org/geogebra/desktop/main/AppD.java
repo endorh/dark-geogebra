@@ -64,7 +64,6 @@ import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Locale;
@@ -677,38 +676,35 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 		if (args.containsArg("help")) {
 			// help message
-			System.out.println("Usage: java -jar geogebra.jar [OPTION] [FILE]\n"
-					+ "Start GeoGebra with the specified OPTIONs and open the given FILE.\n"
-					+ "  --help\t\tprint this message\n"
-					+ "  --v\t\tprint version\n"
-					+ "  --language=LANGUAGE_CODE"
-					// here "auto" is also accepted
-					+ "\t\tset language using locale strings, e.g. en, de, de_AT, ...\n"
-					+ "  --showAlgebraInput=BOOLEAN\tshow/hide algebra input field\n"
-					+ "  --showAlgebraInputTop=BOOLEAN\tshow algebra input at top/bottom\n"
-					+ "  --showAlgebraWindow=BOOLEAN\tshow/hide algebra window\n"
-					+ "  --showSpreadsheet=BOOLEAN\tshow/hide spreadsheet\n"
-					// here "disable" is also accepted
-					+ "  --showCAS=BOOLEAN\tshow/hide CAS window\n"
-					// here "disable" is also accepted
-					+ "  --show3D=BOOLEAN\tshow/hide 3D window\n"
-					+ "  --showSplash=BOOLEAN\tenable/disable the splash screen\n"
-					+ "  --enableUndo=BOOLEAN\tenable/disable Undo\n"
-					+ "  --fontSize=NUMBER\tset default font size\n"
-					+ "  --showAxes=BOOLEAN\tshow/hide coordinate axes\n"
-					+ "  --showGrid=BOOLEAN\tshow/hide grid\n"
-					+ "  --settingsFile=PATH|FILENAME\tload/save settings from/in a local file\n"
-					+ "  --resetSettings\treset current settings\n"
-					+ "  --regressionFile=FILENAME"
-							+ "\texport textual representations of dependent objects, then exit\n"
-					+ "  --versionCheckAllow=SETTING"
-							+ "\tallow version check (on/off or true/false for single launch)\n"
-					+ "  --logLevel=LEVEL\tset logging level "
-							+ "(EMERGENCY|ALERT|CRITICAL|ERROR|WARN|NOTICE|INFO|DEBUG|TRACE)\n"
-					+ "  --logFile=FILENAME\tset log file\n"
-					+ "  --silent\tCompletely mute logging\n"
-					+ "  --prover=OPTIONS\tSet options for the prover subsystem "
-							+ "(use --proverhelp for more information)\n"
+			// here "auto" is also accepted
+			// here "disable" is also accepted
+			// here "disable" is also accepted
+			System.out.println("""
+					Usage: java -jar geogebra.jar [OPTION] [FILE]
+					Start GeoGebra with the specified OPTIONs and open the given FILE.
+					  --help\t\tprint this message
+					  --v\t\tprint version
+					  --language=LANGUAGE_CODE\t\tset language using locale strings, e.g. en, de, de_AT, ...
+					  --showAlgebraInput=BOOLEAN\tshow/hide algebra input field
+					  --showAlgebraInputTop=BOOLEAN\tshow algebra input at top/bottom
+					  --showAlgebraWindow=BOOLEAN\tshow/hide algebra window
+					  --showSpreadsheet=BOOLEAN\tshow/hide spreadsheet
+					  --showCAS=BOOLEAN\tshow/hide CAS window
+					  --show3D=BOOLEAN\tshow/hide 3D window
+					  --showSplash=BOOLEAN\tenable/disable the splash screen
+					  --enableUndo=BOOLEAN\tenable/disable Undo
+					  --fontSize=NUMBER\tset default font size
+					  --showAxes=BOOLEAN\tshow/hide coordinate axes
+					  --showGrid=BOOLEAN\tshow/hide grid
+					  --settingsFile=PATH|FILENAME\tload/save settings from/in a local file
+					  --resetSettings\treset current settings
+					  --regressionFile=FILENAME\texport textual representations of dependent objects, then exit
+					  --versionCheckAllow=SETTING\tallow version check (on/off or true/false for single launch)
+					  --logLevel=LEVEL\tset logging level (EMERGENCY|ALERT|CRITICAL|ERROR|WARN|NOTICE|INFO|DEBUG|TRACE)
+					  --logFile=FILENAME\tset log file
+					  --silent\tCompletely mute logging
+					  --prover=OPTIONS\tSet options for the prover subsystem (use --proverhelp for more information)
+					"""
 			);
 
 			AppD.exit(0);
@@ -901,13 +897,13 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 				// Read File Line By Line
 				while ((strLine = br.readLine()) != null
-						&& (strLine.indexOf("JSONSTART") == -1)) {
+						&& (!strLine.contains("JSONSTART"))) {
 					// Print the content on the console
 					// System.out.println("IGNORE " + strLine);
 				}
 
 				while ((strLine = br.readLine()) != null
-						&& (strLine.indexOf("JSONEND") == -1)) {
+						&& (!strLine.contains("JSONEND"))) {
 					// Print the content on the console
 
 					strLine = strLine.trim();
@@ -954,15 +950,15 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 						String[] results = { result };
 
-						if (result.indexOf("|OR|") > -1) {
+						if (result.contains("|OR|")) {
 							results = result.split("\\|OR\\|");
 						}
 
 						boolean OK = false;
 
 						// check if one of the answers matches
-						for (int i = 0; i < results.length; i++) {
-							if (casResult.equals(results[i])) {
+						for (String s : results) {
+							if (casResult.equals(s)) {
 								OK = true;
 								break;
 							}
@@ -997,9 +993,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 				}
 
 				br.close();
-			} catch (RuntimeException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -1008,9 +1001,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			Log.error("CAS TESTS ENDED. Total tests run = " + count
 					+ ". Failed = " + errors.size());
 
-			Iterator<String> it = errors.iterator();
-			while (it.hasNext()) {
-				System.out.println(it.next());
+			for (String error : errors) {
+				System.out.println(error);
 			}
 
 			AppD.exit(0);
@@ -1136,7 +1128,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		String[] str = option.split(":", 2);
 		if ("enable".equalsIgnoreCase(str[0])) {
 			SingularWSSettings.setUseSingularWebService(
-					Boolean.valueOf(str[1]).booleanValue());
+					Boolean.valueOf(str[1]));
 			return;
 		}
 		if ("remoteURL".equalsIgnoreCase(str[0])) {
@@ -1203,15 +1195,15 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 		if (args.containsArg("prover")) {
 			String[] proverOptions = args.getStringValue("prover").split(",");
-			for (int i = 0; i < proverOptions.length; i++) {
-				setProverOption(proverOptions[i]);
+			for (String proverOption : proverOptions) {
+				setProverOption(proverOption);
 			}
 		}
 		if (args.containsArg("singularWS")) {
 			String[] singularWSOptions = args.getStringValue("singularWS")
 					.split(",");
-			for (int i = 0; i < singularWSOptions.length; i++) {
-				setSingularWSOption(singularWSOptions[i]);
+			for (String singularWSOption : singularWSOptions) {
+				setSingularWSOption(singularWSOption);
 			}
 		}
 	}
@@ -1397,14 +1389,8 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			final String key = "file0";
 
 			if (i > 0) { // load in new Window
-				SwingUtilities.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-
-						GeoGebraFrame.createNewWindow(args.getGlobalArguments()
-								.add(key, fileArgument));
-					}
-				});
+				SwingUtilities.invokeLater(() -> GeoGebraFrame.createNewWindow(args.getGlobalArguments()
+						.add(key, fileArgument)));
 			} else {
 
 				try {
@@ -1651,11 +1637,9 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	private static String fetchPage(URL url) throws IOException {
-		BufferedReader reader = null;
-		try {
-			reader = new BufferedReader(
-					new InputStreamReader(url.openStream(),
-							Charsets.getUtf8()));
+		try (BufferedReader reader = new BufferedReader(
+				new InputStreamReader(url.openStream(),
+						Charsets.getUtf8()))) {
 			StringBuilder page = new StringBuilder();
 			String line;
 			while (null != (line = reader.readLine())) {
@@ -1663,10 +1647,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 				// '\n', '\r' or "\r\n"
 			}
 			return page.toString();
-		} finally {
-			if (reader != null) {
-				reader.close();
-			}
 		}
 	}
 
@@ -2094,41 +2074,38 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		getSelectionManager().clearSelectedGeos(true, false);
 		updateSelection(false);
 
-		Thread runner = new Thread() {
-			@Override
-			public void run() {
-				setWaitCursor();
+		Thread runner = new Thread(() -> {
+			setWaitCursor();
 
-				simpleExportToClipboard(copyView);
+			simpleExportToClipboard(copyView);
 
-				/*
-				 * doesn't work in Win7, XP pasting into eg Paint pasting into
-				 * eg Office 2010 is OK
-				 * 
-				 * 
-				 * if (!WINDOWS_VISTA_OR_LATER) {
-				 * 
-				 * // use other method for WinXP or earlier //
-				 * GraphicExportDialog.exportPNG() doesn't work well on XP // eg
-				 * paste into Paint
-				 * 
-				 * simpleExportToClipboard(ev);
-				 * 
-				 * } else {
-				 * 
-				 * GraphicExportDialog export = new GraphicExportDialog(app);
-				 * export.setDPI("300");
-				 * 
-				 * if (!export.exportPNG(true, false)) { // if there's an error
-				 * (eg memory) just do a simple // export
-				 * simpleExportToClipboard(ev);
-				 * 
-				 * } }
-				 */
+			/*
+			 * doesn't work in Win7, XP pasting into eg Paint pasting into
+			 * eg Office 2010 is OK
+			 *
+			 *
+			 * if (!WINDOWS_VISTA_OR_LATER) {
+			 *
+			 * // use other method for WinXP or earlier //
+			 * GraphicExportDialog.exportPNG() doesn't work well on XP // eg
+			 * paste into Paint
+			 *
+			 * simpleExportToClipboard(ev);
+			 *
+			 * } else {
+			 *
+			 * GraphicExportDialog export = new GraphicExportDialog(app);
+			 * export.setDPI("300");
+			 *
+			 * if (!export.exportPNG(true, false)) { // if there's an error
+			 * (eg memory) just do a simple // export
+			 * simpleExportToClipboard(ev);
+			 *
+			 * } }
+			 */
 
-				setDefaultCursor();
-			}
-		};
+			setDefaultCursor();
+		});
 		runner.start();
 
 	}
@@ -3505,11 +3482,11 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			}
 
 			// remove "geogebra.jar" from end of codebase string
-			for (int i = 0; i < GEOGEBRA_JAR_ALT.length; ++i) {
-				if (path.endsWith(GEOGEBRA_JAR_ALT[i])) {
+			for (String s : GEOGEBRA_JAR_ALT) {
+				if (path.endsWith(s)) {
 					runningFromJar = true;
 					path = path.substring(0,
-							path.length() - GEOGEBRA_JAR_ALT[i].length());
+							path.length() - s.length());
 				}
 			}
 
@@ -3844,19 +3821,16 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 					// use SwingUtilities to make sure this gets executed in the
 					// correct
 					// (=GUI) thread.
-					SwingUtilities.invokeLater(new Runnable() {
-						@Override
-						public void run() {
-							// TODO investigate why this freezes Firefox
-							// sometimes
-							JOptionPane.showConfirmDialog(mainComp, msgDisplay,
-									GeoGebraConstants.APPLICATION_NAME + " - "
-											+ getLocalization()
-													.getError("Error"),
-									JOptionPane.DEFAULT_OPTION,
-									JOptionPane.WARNING_MESSAGE);
-							isErrorDialogShowing = false;
-						}
+					SwingUtilities.invokeLater(() -> {
+						// TODO investigate why this freezes Firefox
+						// sometimes
+						JOptionPane.showConfirmDialog(mainComp, msgDisplay,
+								GeoGebraConstants.APPLICATION_NAME + " - "
+										+ getLocalization()
+												.getError("Error"),
+								JOptionPane.DEFAULT_OPTION,
+								JOptionPane.WARNING_MESSAGE);
+						isErrorDialogShowing = false;
 					});
 
 				}
@@ -3920,16 +3894,11 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	public void showMessage(final String message) {
 		// use SwingUtilities to make sure this gets executed in the correct
 		// (=GUI) thread.
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				JOptionPane.showConfirmDialog(mainComp, message,
-						GeoGebraConstants.APPLICATION_NAME + " - "
-								+ getLocalization().getMenu("Info"),
-						JOptionPane.DEFAULT_OPTION,
-						JOptionPane.INFORMATION_MESSAGE);
-			}
-		});
+		SwingUtilities.invokeLater(() -> JOptionPane.showConfirmDialog(mainComp, message,
+				GeoGebraConstants.APPLICATION_NAME + " - "
+						+ getLocalization().getMenu("Info"),
+				JOptionPane.DEFAULT_OPTION,
+				JOptionPane.INFORMATION_MESSAGE));
 	}
 
 	// **************************************************************************
@@ -4409,12 +4378,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	@Override
 	public void runScripts(final GeoElement geo1, final String string) {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				geo1.runClickScripts(string);
-			}
-		});
+		SwingUtilities.invokeLater(() -> geo1.runClickScripts(string));
 	}
 
 	@Override
@@ -4462,8 +4426,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		c.setComponentOrientation(orientation);
 		// c.applyComponentOrientation(orientation);
 
-		if (c instanceof JMenu) {
-			JMenu menu = (JMenu) c;
+		if (c instanceof JMenu menu) {
 			int ncomponents = menu.getMenuComponentCount();
 			for (int i = 0; i < ncomponents; ++i) {
 				setComponentOrientation(menu.getMenuComponent(i));
@@ -4471,8 +4434,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		} else if (c instanceof JTextField) {
 			((JTextField) c).setHorizontalAlignment(
 					rtl ? SwingConstants.RIGHT : SwingConstants.LEFT);
-		} else if (c instanceof JComboBox) {
-			JComboBox cb = (JComboBox) c;
+		} else if (c instanceof JComboBox cb) {
 			ListCellRenderer renderer = cb.getRenderer();
 			if (!(renderer instanceof DashListRenderer
 					|| renderer instanceof DecorationListRenderer
@@ -4488,8 +4450,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 				((JLabel) renderer).setHorizontalAlignment(
 						rtl ? SwingConstants.RIGHT : SwingConstants.LEFT);
 			}
-		} else if (c instanceof Container) {
-			Container container = (Container) c;
+		} else if (c instanceof Container container) {
 			int ncomponents = container.getComponentCount();
 			for (int i = 0; i < ncomponents; ++i) {
 				setComponentOrientation(container.getComponent(i));
@@ -4713,20 +4674,17 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			if (!popupsDone) {
 				popupsDone = true;
 
-				EventQueue.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						boolean showDockPopup = true;
+				EventQueue.invokeLater(() -> {
+					boolean showDockPopup = true;
 
-						LoginOperationD signInOp = (LoginOperationD) getLoginOperation();
-						if (signInOp.isTubeAvailable()
-								&& !signInOp.isLoggedIn()) {
-							showDockPopup = showTubeLogin();
-						}
+					LoginOperationD signInOp = (LoginOperationD) getLoginOperation();
+					if (signInOp.isTubeAvailable()
+							&& !signInOp.isLoggedIn()) {
+						showDockPopup = showTubeLogin();
+					}
 
-						if (showDockPopup && isShowDockBar()) {
-							showPerspectivePopup();
-						}
+					if (showDockPopup && isShowDockBar()) {
+						showPerspectivePopup();
 					}
 				});
 			}
@@ -4837,12 +4795,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 		cancelPreview();
 
-		Runnable threadSafeCallback = new Runnable() {
-			@Override
-			public void run() {
-				SwingUtilities.invokeLater(scheduledPreview);
-			}
-		};
+		Runnable threadSafeCallback = () -> SwingUtilities.invokeLater(scheduledPreview);
 		handler = scheduler.schedule(threadSafeCallback,
 				SCHEDULE_PREVIEW_DELAY_IN_MILLISECONDS, TimeUnit.MILLISECONDS);
 	}
@@ -4874,25 +4827,20 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		ToolbarContainer.setShowHelp(showToolBarHelp);
 
 		switch (toolbarPosition) {
-		default:
-		case SwingConstants.NORTH:
-			northPanel.add(toolBarContainer, BorderLayout.NORTH);
-			break;
-		case SwingConstants.SOUTH:
-			southPanel.add(toolBarContainer, BorderLayout.NORTH);
-			break;
-		case SwingConstants.EAST:
+		case SwingConstants.NORTH -> northPanel.add(toolBarContainer, BorderLayout.NORTH);
+		case SwingConstants.SOUTH -> southPanel.add(toolBarContainer, BorderLayout.NORTH);
+		case SwingConstants.EAST -> {
 			eastPanel.add(toolBarContainer, loc.borderEast());
 			if (showToolBarHelp && helpPanel != null) {
 				northPanel.add(helpPanel, BorderLayout.NORTH);
 			}
-			break;
-		case SwingConstants.WEST:
+		}
+		case SwingConstants.WEST -> {
 			westPanel.add(toolBarContainer, loc.borderWest());
 			if (showToolBarHelp && helpPanel != null) {
 				northPanel.add(helpPanel, BorderLayout.NORTH);
 			}
-			break;
+		}
 		}
 
 		northPanel.revalidate();
@@ -5036,8 +4984,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			Log.debug("Export to " + fileName);
 			objBufferedWriter.write(content);
 			objBufferedWriter.close();
-		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

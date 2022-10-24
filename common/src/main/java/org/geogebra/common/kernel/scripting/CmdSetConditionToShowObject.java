@@ -29,7 +29,7 @@ public class CmdSetConditionToShowObject extends CmdScripting {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg2;
 		switch (n) {
-		case 2:
+		case 2 -> {
 			arg2 = resArgs(c);
 			if (arg2[1].isGeoBoolean()) {
 
@@ -46,9 +46,8 @@ public class CmdSetConditionToShowObject extends CmdScripting {
 				return new GeoElement[0];
 			}
 			throw argErr(c, arg2[1]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

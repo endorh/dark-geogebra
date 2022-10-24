@@ -153,14 +153,7 @@ public abstract class SecurityController
                                  final Callable callable, Scriptable scope,
                                  final Scriptable thisObj, final Object[] args)
     {
-        return execWithDomain(cx, scope, new Script()
-        {
-            public Object exec(Context cx, Scriptable scope)
-            {
-                return callable.call(cx, scope, thisObj, args);
-            }
-
-        }, securityDomain);
+        return execWithDomain(cx, scope, (cx1, scope1) -> callable.call(cx1, scope1, thisObj, args), securityDomain);
     }
 
     /**

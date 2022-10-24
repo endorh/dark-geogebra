@@ -27,15 +27,10 @@ final public class ColorMask {
 	 * @return true if this color mask turns on red channel
 	 */
 	static public boolean getRed(final int colorMask) {
-		switch (colorMask) {
-		case NONE:
-		case ALPHA:
-		case BLUE:
-		case BLUE_AND_GREEN:
-			return false;
-		default:
-			return true;
-		}
+		return switch (colorMask) {
+			case NONE, ALPHA, BLUE, BLUE_AND_GREEN -> false;
+			default -> true;
+		};
 	}
 
 	/**
@@ -45,15 +40,10 @@ final public class ColorMask {
 	 * @return true if this color mask turns on green channel
 	 */
 	static public boolean getGreen(final int colorMask) {
-		switch (colorMask) {
-		case NONE:
-		case ALPHA:
-		case RED:
-		case BLUE:
-			return false;
-		default:
-			return true;
-		}
+		return switch (colorMask) {
+			case NONE, ALPHA, RED, BLUE -> false;
+			default -> true;
+		};
 	}
 
 	/**
@@ -63,14 +53,10 @@ final public class ColorMask {
 	 * @return true if this color mask turns on blue channel
 	 */
 	static public boolean getBlue(final int colorMask) {
-		switch (colorMask) {
-		case NONE:
-		case ALPHA:
-		case RED:
-			return false;
-		default:
-			return true;
-		}
+		return switch (colorMask) {
+			case NONE, ALPHA, RED -> false;
+			default -> true;
+		};
 	}
 
 	/**

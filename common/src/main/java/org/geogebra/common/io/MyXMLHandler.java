@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.Objects;
 import java.util.TreeMap;
 
 import org.geogebra.common.GeoGebraConstants;
@@ -332,80 +333,31 @@ public class MyXMLHandler implements DocHandler {
 		}
 
 		switch (mode) {
-		case MODE_GEOGEBRA: // top level mode
-			startGeoGebraElement(eName, attrs);
-			break;
+		case MODE_GEOGEBRA -> // top level mode
+				startGeoGebraElement(eName, attrs);
+		case MODE_EUCLIDIAN_VIEW -> startEuclidianViewElement(eName, attrs);
+		case MODE_EUCLIDIAN_VIEW3D -> startEuclidianView3DElement(eName, attrs);
+		case MODE_SPREADSHEET_VIEW -> startSpreadsheetViewElement(eName, attrs);
+		case MODE_ALGEBRA_VIEW -> startAlgebraViewElement(eName, attrs);
 
-		case MODE_EUCLIDIAN_VIEW:
-			startEuclidianViewElement(eName, attrs);
-			break;
-
-		case MODE_EUCLIDIAN_VIEW3D:
-			startEuclidianView3DElement(eName, attrs);
-			break;
-
-		case MODE_SPREADSHEET_VIEW:
-			startSpreadsheetViewElement(eName, attrs);
-			break;
-
-		case MODE_ALGEBRA_VIEW:
-			startAlgebraViewElement(eName, attrs);
-			break;
 
 		// case MODE_CAS_VIEW:
 		// startCASViewElement(eName, attrs);
 		// break;
 
-		case MODE_PROBABILITY_CALCULATOR:
-			startProbabilityCalculatorElement(eName, attrs);
-			break;
-
-		case MODE_KERNEL:
-			startKernelElement(eName, attrs);
-			break;
-
-		case MODE_MACRO:
-			startMacroElement(eName, attrs);
-			break;
-
-		case MODE_DEFAULTS:
-			startDefault(eName, attrs);
-			break;
-
-		case MODE_CONSTRUCTION:
-			startConstructionElement(eName, attrs);
-			break;
-
-		case MODE_GUI:
-			startGuiElement(eName, attrs);
-			break;
-
-		case MODE_GUI_PERSPECTIVES:
-			startGuiPerspectivesElement(eName, attrs);
-			break;
-
-		case MODE_GUI_PERSPECTIVE:
-			startGuiPerspectiveElement(eName, attrs);
-			break;
-
-		case MODE_GUI_PERSPECTIVE_PANES:
-			startGuiPanesElement(eName, attrs);
-			break;
-
-		case MODE_GUI_PERSPECTIVE_VIEWS:
-			startGuiViewsElement(eName, attrs);
-			break;
-
-		case MODE_DATA_ANALYSIS:
-			startDataAnalysisElement(eName, attrs);
-			break;
-
-		case MODE_INVALID:
-			startTopLevel(eName, attrs);
-			break;
-
-		default:
-			Log.error("unknown mode: " + mode);
+		case MODE_PROBABILITY_CALCULATOR -> startProbabilityCalculatorElement(eName, attrs);
+		case MODE_KERNEL -> startKernelElement(eName, attrs);
+		case MODE_MACRO -> startMacroElement(eName, attrs);
+		case MODE_DEFAULTS -> startDefault(eName, attrs);
+		case MODE_CONSTRUCTION -> startConstructionElement(eName, attrs);
+		case MODE_GUI -> startGuiElement(eName, attrs);
+		case MODE_GUI_PERSPECTIVES -> startGuiPerspectivesElement(eName, attrs);
+		case MODE_GUI_PERSPECTIVE -> startGuiPerspectiveElement(eName, attrs);
+		case MODE_GUI_PERSPECTIVE_PANES -> startGuiPanesElement(eName, attrs);
+		case MODE_GUI_PERSPECTIVE_VIEWS -> startGuiViewsElement(eName, attrs);
+		case MODE_DATA_ANALYSIS -> startDataAnalysisElement(eName, attrs);
+		case MODE_INVALID -> startTopLevel(eName, attrs);
+		default -> Log.error("unknown mode: " + mode);
 		}
 	}
 
@@ -621,36 +573,26 @@ public class MyXMLHandler implements DocHandler {
 	private void startGeoGebraElement(String eName,
 			LinkedHashMap<String, String> attrs) {
 		switch (eName) {
-		case "euclidianView":
+		case "euclidianView" -> {
 			mode = MODE_EUCLIDIAN_VIEW;
 			resetEVsettingsNeeded = true;
-			break;
-		case "euclidianView3D":
+		}
+		case "euclidianView3D" -> {
 			mode = MODE_EUCLIDIAN_VIEW3D;
 			resetEVsettingsNeeded = true;
-			break;
-		case "algebraView":
-			mode = MODE_ALGEBRA_VIEW;
-			break;
-		case "kernel":
+		}
+		case "algebraView" -> mode = MODE_ALGEBRA_VIEW;
+		case "kernel" -> {
 			// default value
 			// (make sure old files work)
 			kernel.setUsePathAndRegionParameters(PathRegionHandling.ON);
 			mode = MODE_KERNEL;
-			break;
-		case "tableview":
-			setTableParameters(attrs);
-			break;
-		case "spreadsheetView":
-			mode = MODE_SPREADSHEET_VIEW;
-			break;
-		case "scripting":
-			startScriptingElement(attrs);
-			break;
-		case "probabilityCalculator":
-			mode = MODE_PROBABILITY_CALCULATOR;
-			break;
-		case "gui":
+		}
+		case "tableview" -> setTableParameters(attrs);
+		case "spreadsheetView" -> mode = MODE_SPREADSHEET_VIEW;
+		case "scripting" -> startScriptingElement(attrs);
+		case "probabilityCalculator" -> mode = MODE_PROBABILITY_CALCULATOR;
+		case "gui" -> {
 			mode = MODE_GUI;
 			hasGuiElement = true;
 			isPreferencesXML = false;
@@ -658,34 +600,28 @@ public class MyXMLHandler implements DocHandler {
 			// if (ggbFileFormat < 3.3) // safe to reset every time
 			tmp_perspective = new Perspective();
 			perspectiveElementFound = false;
-
-			break;
-		case "macro":
+		}
+		case "macro" -> {
 			mode = MODE_MACRO;
 			initMacro(attrs);
-			break;
-		case "construction":
+		}
+		case "construction" -> {
 			mode = MODE_CONSTRUCTION;
 			handleConstruction(attrs);
-			break;
-		case "casSession":
+		}
+		case "casSession" -> {
 			// old <casSession> is now <cascell> in <construction>
 			// not used anymore after 2011-08-16
 			mode = MODE_CONSTRUCTION;
 			constMode = MODE_CONST_CAS_CELL;
-			break;
-		case "keyboard":
-			handleKeyboard(attrs);
-			break;
-		case "controls":
-			handleControls(attrs);
-			break;
-		case "defaults":
+		}
+		case "keyboard" -> handleKeyboard(attrs);
+		case "controls" -> handleControls(attrs);
+		case "defaults" -> {
 			mode = MODE_DEFAULTS;
 			constMode = MODE_DEFAULTS;
-			break;
-		default:
-			Log.error("unknown tag in <geogebra>: " + eName);
+		}
+		default -> Log.error("unknown tag in <geogebra>: " + eName);
 		}
 	}
 
@@ -776,76 +712,37 @@ public class MyXMLHandler implements DocHandler {
 		boolean ok = true;
 
 		switch (eName) {
-		case "axesColor":
-			ok = handleAxesColor(evSet, attrs);
-			break;
-		case "axis":
-			ok = handleAxis(evSet, attrs);
-			break;
-		case "bgColor":
-			ok = handleBgColor(evSet, attrs);
-			break;
-		case "coordSystem":
-			ok = handleCoordSystem(evSet, attrs);
-			break;
-		case "evSettings":
-			ok = handleEvSettings(evSet, attrs);
-			break;
-		case "eraserSize":
-			ok = handleEraserSize(evSet, attrs);
-			break;
-		case "grid":
-			ok = handleGrid(evSet, attrs);
-			break;
-		case "gridColor":
-			ok = handleGridColor(evSet, attrs);
-			break;
-		case "highlighterSize":
-			ok = handleHighlighterSize(evSet, attrs);
-			break;
-		case "highlighterColor":
-			ok = handleHighlighterColor(evSet, attrs);
-			break;
-		case "lineStyle":
-			ok = handleLineStyle(evSet, attrs);
-			break;
-		case "labelStyle":
-			ok = handleLabelStyle(evSet, attrs);
-			break;
-		case "language":
-			ok = handleLanguage(app, attrs);
-			break;
-		case "penSize":
-			ok = handlePenSize(evSet, attrs);
-			break;
-		case "penColor":
-			ok = handlePenColor(evSet, attrs);
-			break;
-		case "rulerColor":
-			ok = handleRulerColor(evSet, attrs);
-			break;
-		case "rulerType":
-			ok = handleRulerType(evSet, attrs);
-			break;
-		case "size":
-			ok = handleEvSize(evSet, attrs);
-			break;
-		case "viewNumber":
+		case "axesColor" -> ok = handleAxesColor(evSet, attrs);
+		case "axis" -> ok = handleAxis(evSet, attrs);
+		case "bgColor" -> ok = handleBgColor(evSet, attrs);
+		case "coordSystem" -> ok = handleCoordSystem(evSet, attrs);
+		case "evSettings" -> ok = handleEvSettings(evSet, attrs);
+		case "eraserSize" -> ok = handleEraserSize(evSet, attrs);
+		case "grid" -> ok = handleGrid(evSet, attrs);
+		case "gridColor" -> ok = handleGridColor(evSet, attrs);
+		case "highlighterSize" -> ok = handleHighlighterSize(evSet, attrs);
+		case "highlighterColor" -> ok = handleHighlighterColor(evSet, attrs);
+		case "lineStyle" -> ok = handleLineStyle(evSet, attrs);
+		case "labelStyle" -> ok = handleLabelStyle(evSet, attrs);
+		case "language" -> ok = handleLanguage(app, attrs);
+		case "penSize" -> ok = handlePenSize(evSet, attrs);
+		case "penColor" -> ok = handlePenColor(evSet, attrs);
+		case "rulerColor" -> ok = handleRulerColor(evSet, attrs);
+		case "rulerType" -> ok = handleRulerType(evSet, attrs);
+		case "size" -> ok = handleEvSize(evSet, attrs);
+		case "viewNumber" ->
 			/*
 			 * moved earlier, must check first int number =
 			 * Integer.parseInt((String) attrs.get("viewNo"));
 			 * if(number==2){ viewNo=number; }
 			 */
-			ok = true;
-			break;
-		case "viewId":
+				ok = true;
+		case "viewId" ->
 			/*
 			 * moved earlier, must check first if for EuclidianViewForPlane
 			 */
-			ok = true;
-			break;
-		default:
-			Log.error("unknown tag in <euclidianView>: " + eName);
+				ok = true;
+		default -> Log.error("unknown tag in <euclidianView>: " + eName);
 		}
 
 		return ok;
@@ -891,29 +788,14 @@ public class MyXMLHandler implements DocHandler {
 		boolean ok = true;
 
 		switch (eName) {
-		case "layout":
-			ok = handleSpreadsheetLayout(attrs);
-			break;
-		case "prefCellSize":
-			ok = handleSpreadsheetCellSize(attrs);
-			break;
-		case "size":
-			ok = handleSpreadsheetSize(attrs);
-			break;
-		case "spreadsheetColumn":
-			ok = handleSpreadsheetColumn(attrs);
-			break;
-		case "spreadsheetRow":
-			ok = handleSpreadsheetRow(attrs);
-			break;
-		case "selection":
-			ok = handleSpreadsheetInitalSelection(attrs);
-			break;
-		case "spreadsheetCellFormat":
-			ok = handleSpreadsheetFormat(attrs);
-			break;
-		default:
-			Log.error("unknown tag in <spreadsheetView>: " + eName);
+		case "layout" -> ok = handleSpreadsheetLayout(attrs);
+		case "prefCellSize" -> ok = handleSpreadsheetCellSize(attrs);
+		case "size" -> ok = handleSpreadsheetSize(attrs);
+		case "spreadsheetColumn" -> ok = handleSpreadsheetColumn(attrs);
+		case "spreadsheetRow" -> ok = handleSpreadsheetRow(attrs);
+		case "selection" -> ok = handleSpreadsheetInitalSelection(attrs);
+		case "spreadsheetCellFormat" -> ok = handleSpreadsheetFormat(attrs);
+		default -> Log.error("unknown tag in <spreadsheetView>: " + eName);
 		}
 
 		if (!ok) {
@@ -927,20 +809,11 @@ public class MyXMLHandler implements DocHandler {
 	private void startProbabilityCalculatorElement(String eName,
 			LinkedHashMap<String, String> attrs) {
 		switch (eName) {
-		case "distribution":
-			handleProbabilityDistribution(attrs);
-			break;
-		case "interval":
-			handleProbabilityInterval(attrs);
-			break;
-		case "statisticsCollection":
-			handleStatisticsCollection(attrs);
-			break;
-		case "entry":
-			handleEntry(attrs);
-			break;
-		default:
-			Log.error("unknown tag in <probabilityCalculator>: " + eName);
+		case "distribution" -> handleProbabilityDistribution(attrs);
+		case "interval" -> handleProbabilityInterval(attrs);
+		case "statisticsCollection" -> handleStatisticsCollection(attrs);
+		case "entry" -> handleEntry(attrs);
+		default -> Log.error("unknown tag in <probabilityCalculator>: " + eName);
 		}
 	}
 
@@ -1058,17 +931,10 @@ public class MyXMLHandler implements DocHandler {
 		boolean ok = true;
 
 		switch (eName) {
-		case "auxiliary":
-			ok = handleAlgebraViewShowAuxiliaryObjects(attrs);
-			break;
-		case "collapsed":
-			ok = handleAlgebraViewCollapsedNodes(attrs);
-			break;
-		case "mode":
-			ok = handleAlgebraViewMode(attrs);
-			break;
-		default:
-			Log.error("unknown tag in <algebraView>: " + eName);
+		case "auxiliary" -> ok = handleAlgebraViewShowAuxiliaryObjects(attrs);
+		case "collapsed" -> ok = handleAlgebraViewCollapsedNodes(attrs);
+		case "mode" -> ok = handleAlgebraViewMode(attrs);
+		default -> Log.error("unknown tag in <algebraView>: " + eName);
 		}
 
 		if (!ok) {
@@ -1743,14 +1609,17 @@ public class MyXMLHandler implements DocHandler {
 			return false;
 		}
 
-		if (GeoGebraPreferencesXML.ANGLE_DEGREE_XML_NAME.equals(angleUnit)) {
+		switch (angleUnit) {
+		case GeoGebraPreferencesXML.ANGLE_DEGREE_XML_NAME:
 			kernel.setAngleUnit(Kernel.ANGLE_DEGREE);
-		} else if (GeoGebraPreferencesXML.ANGLE_RADIANT_XML_NAME.equals(angleUnit)) {
+			break;
+		case GeoGebraPreferencesXML.ANGLE_RADIANT_XML_NAME:
 			kernel.setAngleUnit(Kernel.ANGLE_RADIANT);
-		} else if (
-				GeoGebraPreferencesXML.ANGLE_DEGREES_MINUTES_SECONDS_XML_NAME.equals(angleUnit)) {
-                kernel.setAngleUnit(Kernel.ANGLE_DEGREES_MINUTES_SECONDS);
-		} else {
+			break;
+		case GeoGebraPreferencesXML.ANGLE_DEGREES_MINUTES_SECONDS_XML_NAME:
+			kernel.setAngleUnit(Kernel.ANGLE_DEGREES_MINUTES_SECONDS);
+			break;
+		default:
 			return false;
 		}
 		return true;
@@ -1884,57 +1753,26 @@ public class MyXMLHandler implements DocHandler {
 			LinkedHashMap<String, String> attrs) {
 		boolean ok = true;
 		switch (eName) {
-		case "consProtColumns":
-			ok = handleConsProtColumns(app, attrs);
-			break;
-		case "consProtocol":
-			ok = handleConsProtocol(attrs);
-			break;
-		case "consProtNavigationBar":
-			ok = handleConsProtNavigationBar(app, attrs);
-			break;
-		case "dataAnalysis":
-			ok = handleDataAnalysis(attrs);
-			break;
-		case "font":
-			ok = handleFont(app, attrs);
-			break;
-		case "graphicsSettings":
-			ok = true;
-			break;
-		case "menuFont":
-			ok = handleMenuFont(app, attrs);
-			break;
-		case "notesToolbarOpen":
-			ok = handleNotesToolbarOpen(app, attrs);
-			break;
-		case "labelingStyle":
-			ok = handleLabelingStyle(app, attrs);
-			break;
-		case "perspectives":
+		case "consProtColumns" -> ok = handleConsProtColumns(app, attrs);
+		case "consProtocol" -> ok = handleConsProtocol(attrs);
+		case "consProtNavigationBar" -> ok = handleConsProtNavigationBar(app, attrs);
+		case "dataAnalysis" -> ok = handleDataAnalysis(attrs);
+		case "font" -> ok = handleFont(app, attrs);
+		case "graphicsSettings" -> ok = true;
+		case "menuFont" -> ok = handleMenuFont(app, attrs);
+		case "notesToolbarOpen" -> ok = handleNotesToolbarOpen(app, attrs);
+		case "labelingStyle" -> ok = handleLabelingStyle(app, attrs);
+		case "perspectives" -> {
 			mode = MODE_GUI_PERSPECTIVES;
 			perspectiveElementFound = false;
-			break;
-		case "show":
-			ok = handleGuiShow(app, attrs);
-			break;
-		case "splitDivider":
-			ok = compLayout.handleSplitDivider(attrs);
-			break;
-		case "settings":
-			ok = handleGuiSettings(app, attrs);
-			break;
-		case "toolbar":
-			ok = handleToolbar(attrs);
-			break;
-		case "tooltipSettings":
-			ok = handleTooltipSettings(app, attrs);
-			break;
-		case "window":
-			ok = handleWindowSize(app, attrs);
-			break;
-		default:
-			Log.error("unknown tag in <gui>: " + eName);
+		}
+		case "show" -> ok = handleGuiShow(app, attrs);
+		case "splitDivider" -> ok = compLayout.handleSplitDivider(attrs);
+		case "settings" -> ok = handleGuiSettings(app, attrs);
+		case "toolbar" -> ok = handleToolbar(attrs);
+		case "tooltipSettings" -> ok = handleTooltipSettings(app, attrs);
+		case "window" -> ok = handleWindowSize(app, attrs);
+		default -> Log.error("unknown tag in <gui>: " + eName);
 		}
 
 		if (!ok) {
@@ -2176,7 +2014,7 @@ public class MyXMLHandler implements DocHandler {
 
 				// GeoGebra 4.2 (supports toolbar position and toggling help)
 				if (attrs.get("position") != null) {
-					Integer toolBarPosition = Integer
+					int toolBarPosition = Integer
 							.parseInt(attrs.get("position"));
 					tmp_perspective.setToolBarPosition(toolBarPosition);
 					tmp_perspective.setShowToolBarHelp(
@@ -2368,26 +2206,13 @@ public class MyXMLHandler implements DocHandler {
 		boolean ok = true;
 
 		switch (eName) {
-		case "dockBar":
-			ok = handleDockBar(attrs);
-			break;
-		case "input":
-			ok = handleAlgebraInput(attrs);
-			break;
-		case "panes":
-			mode = MODE_GUI_PERSPECTIVE_PANES;
-			break;
-		case "show":
-			ok = handleGuiShow(app, attrs);
-			break;
-		case "toolbar":
-			ok = handleToolbar(attrs);
-			break;
-		case "views":
-			mode = MODE_GUI_PERSPECTIVE_VIEWS;
-			break;
-		default:
-			Log.debug("unknown tag in <perspective>: " + eName);
+		case "dockBar" -> ok = handleDockBar(attrs);
+		case "input" -> ok = handleAlgebraInput(attrs);
+		case "panes" -> mode = MODE_GUI_PERSPECTIVE_PANES;
+		case "show" -> ok = handleGuiShow(app, attrs);
+		case "toolbar" -> ok = handleToolbar(attrs);
+		case "views" -> mode = MODE_GUI_PERSPECTIVE_VIEWS;
+		default -> Log.debug("unknown tag in <perspective>: " + eName);
 		}
 
 		if (!ok) {
@@ -3183,11 +3008,7 @@ public class MyXMLHandler implements DocHandler {
 			}
 
 			String evalCommandComment = attrs.get("evalCommand");
-			if (evalCommandComment != null) {
-				geoCasCell.setEvalCommand(evalCommandComment);
-			} else {
-				geoCasCell.setEvalCommand("");
-			}
+			geoCasCell.setEvalCommand(Objects.requireNonNullElse(evalCommandComment, ""));
 
 			String evalComment = attrs.get("evalComment");
 			if (evalComment != null) {
@@ -3355,10 +3176,7 @@ public class MyXMLHandler implements DocHandler {
 					en = parser.parseCmdExpression(arg);
 				}
 				cmd.addArgument(en);
-			} catch (Exception e) {
-				logError(e);
-				errors.add("unknown command input: " + arg);
-			} catch (Error e) {
+			} catch (Exception | Error e) {
 				logError(e);
 				errors.add("unknown command input: " + arg);
 			}
@@ -3401,9 +3219,7 @@ public class MyXMLHandler implements DocHandler {
 					new EvalInfo(true, casMap));
 
 			if (randomVal != null
-					&& cmdOutput[0].getParentAlgorithm() instanceof SetRandomValue) {
-				SetRandomValue randomizableAlgo =
-						(SetRandomValue) cmdOutput[0].getParentAlgorithm();
+					&& cmdOutput[0].getParentAlgorithm() instanceof SetRandomValue randomizableAlgo) {
 
 				GeoElementND randomResult = getAlgProcessor()
 						.evaluateToGeoElement(randomVal, false);
@@ -3469,9 +3285,7 @@ public class MyXMLHandler implements DocHandler {
 			cmd.setOutputSizes(sizes);
 
 			return true;
-		} catch (MyError e) {
-			errors.add("wrong command size for " + cmd);
-		} catch (RuntimeException e) {
+		} catch (MyError | RuntimeException e) {
 			errors.add("wrong command size for " + cmd);
 		}
 		return false;
@@ -3537,35 +3351,25 @@ public class MyXMLHandler implements DocHandler {
 			// attribute type
 			if (type != null) {
 				if (ve instanceof ExpressionNode) {
-					if ("point".equals(type)) {
-						((ExpressionNode) ve).setForcePoint();
-					} else if ("vector".equals(type)) {
-						((ExpressionNode) ve).setForceVector();
-						// we must check that we have Equation here as xAxis
-						// has also type "line" but is parsed as ExpressionNode
-					} else if ("inequality".equals(type)) {
-						((ExpressionNode) ve).setForceInequality();
-					} else if ("surfacecartesian".equals(type)) {
-						((ExpressionNode) ve).setForceSurfaceCartesian();
-					} else if ("list".equals(type)) {
-						((ExpressionNode) ve).setForceList();
+					switch (type) {
+					case "point" -> ((ExpressionNode) ve).setForcePoint();
+					case "vector" -> ((ExpressionNode) ve).setForceVector();
+
+					// we must check that we have Equation here as xAxis
+					// has also type "line" but is parsed as ExpressionNode
+					case "inequality" -> ((ExpressionNode) ve).setForceInequality();
+					case "surfacecartesian" -> ((ExpressionNode) ve).setForceSurfaceCartesian();
+					case "list" -> ((ExpressionNode) ve).setForceList();
 					}
 				} else if (ve instanceof Equation) {
-					if ("line".equals(type)) {
-						((Equation) ve).setForceLine();
-					} else if ("plane".equals(type)) {
-						((Equation) ve).setForcePlane();
-					} else if ("conic".equals(type)) {
-						((Equation) ve).setForceConic();
-					} else if ("quadric".equals(type)) {
-						((Equation) ve).setForceQuadric();
-					} else if ("implicitpoly".equals(type)
-							|| "implicitPoly".equals(type)) {
-						((Equation) ve).setForceImplicitPoly();
-					} else if ("implicitsurface".equals(type)) {
-						((Equation) ve).setForceSurface();
-					} else if ("function".equals(type)) {
-						((Equation) ve).setForceFunction();
+					switch (type) {
+					case "line" -> ((Equation) ve).setForceLine();
+					case "plane" -> ((Equation) ve).setForcePlane();
+					case "conic" -> ((Equation) ve).setForceConic();
+					case "quadric" -> ((Equation) ve).setForceQuadric();
+					case "implicitpoly", "implicitPoly" -> ((Equation) ve).setForceImplicitPoly();
+					case "implicitsurface" -> ((Equation) ve).setForceSurface();
+					case "function" -> ((Equation) ve).setForceFunction();
 					}
 				}
 			}

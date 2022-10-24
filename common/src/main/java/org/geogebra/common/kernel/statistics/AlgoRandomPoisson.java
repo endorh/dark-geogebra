@@ -126,7 +126,7 @@ public class AlgoRandomPoisson extends AlgoElement implements SetRandomValue {
 			return randomPoisson(mu);
 		}
 
-		double b = 0.931 + +2.53 * Math.sqrt(mu);
+		double b = 0.931 + 2.53 * Math.sqrt(mu);
 		double a1 = -0.059 + 0.02438 * b;
 		double v_r = 0.9277 - 3.6224 / (b - 2);
 

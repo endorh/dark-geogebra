@@ -495,33 +495,26 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 			return sbBuildValueString;
 		}
 		switch (getToStringMode()) {
-		case Kernel.COORD_POLAR:
+		case Kernel.COORD_POLAR -> {
 			sbBuildValueString.append("(");
 			sbBuildValueString.append(kernel.format(MyMath.length(x, y), tpl));
 			sbBuildValueString.append("; ");
 			sbBuildValueString
 					.append(kernel.formatAngle(Math.atan2(y, x), tpl, false));
 			sbBuildValueString.append(")");
-			break;
-
-		case Kernel.COORD_COMPLEX:
+		}
+		case Kernel.COORD_COMPLEX -> {
 			sbBuildValueString.append(kernel.format(x, tpl));
 			sbBuildValueString.append(" ");
 			kernel.formatSigned(y, sbBuildValueString, tpl);
 			sbBuildValueString.append(Unicode.IMAGINARY);
-			break;
-
-		case Kernel.COORD_CARTESIAN_3D:
-			GeoPoint.buildValueStringCoordCartesian3D(kernel, tpl, x, y, 0,
-					sbBuildValueString);
-			break;
-
-		case Kernel.COORD_SPHERICAL:
-			GeoPoint.buildValueStringCoordSpherical(kernel, tpl, x, y, 0,
-					sbBuildValueString);
-			break;
-
-		default: // CARTESIAN
+		}
+		case Kernel.COORD_CARTESIAN_3D ->
+				GeoPoint.buildValueStringCoordCartesian3D(kernel, tpl, x, y, 0,
+						sbBuildValueString);
+		case Kernel.COORD_SPHERICAL -> GeoPoint.buildValueStringCoordSpherical(kernel, tpl, x, y, 0,
+				sbBuildValueString);
+		default -> { // CARTESIAN
 			sbBuildValueString.append("(");
 			sbBuildValueString.append(kernel.format(x, tpl));
 			if (tpl.getCoordStyle(kernel.getCoordStyle()) == Kernel.COORD_STYLE_AUSTRIAN) {
@@ -531,7 +524,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 			}
 			sbBuildValueString.append(kernel.format(y, tpl));
 			sbBuildValueString.append(")");
-			break;
+		}
 		}
 		return sbBuildValueString;
 	}
@@ -577,24 +570,11 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 
 		// polar or cartesian coords
 		switch (getToStringMode()) {
-		case Kernel.COORD_POLAR:
-			xmlsb.append("\t<coordStyle style=\"polar\"/>\n");
-			break;
-
-		case Kernel.COORD_COMPLEX:
-			xmlsb.append("\t<coordStyle style=\"complex\"/>\n");
-			break;
-
-		case Kernel.COORD_CARTESIAN_3D:
-			xmlsb.append("\t<coordStyle style=\"cartesian3d\"/>\n");
-			break;
-
-		case Kernel.COORD_SPHERICAL:
-			xmlsb.append("\t<coordStyle style=\"spherical\"/>\n");
-			break;
-
-		default:
-			xmlsb.append("\t<coordStyle style=\"cartesian\"/>\n");
+		case Kernel.COORD_POLAR -> xmlsb.append("\t<coordStyle style=\"polar\"/>\n");
+		case Kernel.COORD_COMPLEX -> xmlsb.append("\t<coordStyle style=\"complex\"/>\n");
+		case Kernel.COORD_CARTESIAN_3D -> xmlsb.append("\t<coordStyle style=\"cartesian3d\"/>\n");
+		case Kernel.COORD_SPHERICAL -> xmlsb.append("\t<coordStyle style=\"spherical\"/>\n");
+		default -> xmlsb.append("\t<coordStyle style=\"cartesian\"/>\n");
 		}
 
 		// startPoint of vector
@@ -827,31 +807,25 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 			return sb.toString();
 		}
 		switch (toStringMode) {
-		case Kernel.COORD_POLAR:
+		case Kernel.COORD_POLAR -> {
 			sb.append("(");
 			sb.append(kernel.format(MyMath.length(x, y), tpl));
 			sb.append("; ");
 			sb.append(kernel.formatAngle(Math.atan2(y, x), tpl, false));
 			sb.append(")");
-			break;
-
-		case Kernel.COORD_COMPLEX:
+		}
+		case Kernel.COORD_COMPLEX -> {
 			sb.append(kernel.format(x, tpl));
 			sb.append(" ");
 			kernel.formatSigned(y, sb, tpl);
 			sb.append(Unicode.IMAGINARY);
-			break;
-
-		case Kernel.COORD_CARTESIAN_3D:
-			buildLatexValueStringCoordCartesian3D(kernel, tpl, x, y, 0, sb,
-					vector, symbolic);
-			break;
-
-		case Kernel.COORD_SPHERICAL:
-			GeoPoint.buildValueStringCoordSpherical(kernel, tpl, x, y, 0, sb);
-			break;
-
-		default: // CARTESIAN
+		}
+		case Kernel.COORD_CARTESIAN_3D ->
+				buildLatexValueStringCoordCartesian3D(kernel, tpl, x, y, 0, sb,
+						vector, symbolic);
+		case Kernel.COORD_SPHERICAL ->
+				GeoPoint.buildValueStringCoordSpherical(kernel, tpl, x, y, 0, sb);
+		default -> { // CARTESIAN
 
 			ExpressionNode definition = vector.getDefinition();
 			if (symbolic && definition != null) {
@@ -862,6 +836,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 			inputs[1] = kernel.format(y, tpl);
 			return buildTabular(inputs, sb);
 		}
+		}
 
 		return sb.toString();
 	}
@@ -870,8 +845,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 			StringTemplate tpl) {
 		ExpressionValue ev = definition.unwrap();
 		// need to do something different for (xx,yy) and a (1,2) + c
-		if (ev instanceof MyVecNDNode) {
-			MyVecNDNode vn = (MyVecNDNode) ev;
+		if (ev instanceof MyVecNDNode vn) {
 			String[] inputs = new String[vn.getDimension()];
 			inputs[0] = vn.getX().toString(tpl);
 			inputs[1] = vn.getY().toString(tpl);

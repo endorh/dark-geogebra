@@ -12,13 +12,11 @@ import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DropTarget;
 import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -28,7 +26,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Optional;
 import java.util.Set;
 import java.util.StringTokenizer;
@@ -48,7 +45,6 @@ import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.KeyStroke;
 import javax.swing.ListCellRenderer;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileFilter;
@@ -152,8 +148,6 @@ import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.desktop.util.UtilD;
 
 import com.himamis.retex.editor.share.util.Unicode;
-
-import edu.umd.cs.findbugs.annotations.Nullable;
 
 /**
  * Handles all geogebra.gui package related objects and methods for Application.
@@ -1221,7 +1215,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			GeoPoint loc1 = new GeoPoint(cons);
 			GeoPoint loc2 = new GeoPoint(cons);
 
-			for (int i = 0; i < fileName.length; i++) {
+			for (String s : fileName) {
 				// create corner points (bottom right/left)
 				loc1 = new GeoPoint(cons);
 				loc2 = new GeoPoint(cons);
@@ -1239,7 +1233,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				loc2.update();
 
 				geoImage = new GeoImage(getApp().getKernel().getConstruction());
-				geoImage.setImageFileName(fileName[i]);
+				geoImage.setImageFileName(s);
 				geoImage.setCorner(loc1, 0);
 				geoImage.setCorner(loc2, 1);
 				geoImage.setLabel(null);
@@ -1294,9 +1288,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			int numChars;
 			DataFlavor[] df = transfer.getTransferDataFlavors();
 			DataFlavor html = null;
-			for (int i = 0; i < df.length; i++) {
-				if (df[i].getMimeType().startsWith("text/html")) {
-					html = df[i];
+			for (DataFlavor dataFlavor : df) {
+				if (dataFlavor.getMimeType().startsWith("text/html")) {
+					html = dataFlavor;
 					break;
 				}
 
@@ -1317,8 +1311,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 			selection = new String(sbuf);
 			reader.close();
-		} catch (RuntimeException e) {
-			// e.printStackTrace();
 		} catch (Exception e) {
 			// e.printStackTrace();
 		}
@@ -1416,9 +1408,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 				List<File> list = (List<File>) transfer
 						.getTransferData(DataFlavor.javaFileListFlavor);
-				ListIterator<File> it = list.listIterator();
-				while (it.hasNext()) {
-					File f = it.next();
+				for (File f : list) {
 					fileName = f.getName();
 					MyImageD imgD = MyImageD.fromFile(f, fileName);
 					if (imgD != null) {
@@ -1466,20 +1456,16 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 			}
 
-		} catch (UnsupportedFlavorException ufe) {
-			getApp().setDefaultCursor();
-			ufe.printStackTrace();
-			return null;
-
 		} catch (IOException ioe) {
 			getApp().setDefaultCursor();
 			ioe.printStackTrace();
 			return null;
 
-		} catch (Exception e) {
+		} catch (Exception ufe) {
 			getApp().setDefaultCursor();
-			e.printStackTrace();
+			ufe.printStackTrace();
 			return null;
+
 		}
 
 		getApp().setDefaultCursor();
@@ -1533,16 +1519,11 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 						if (currentPath != null) {
 							fd.setDirectory(currentPath.toString());
 						}
-						fd.setFilenameFilter(new FilenameFilter() {
-							@Override
-							public boolean accept(File dir, String name) {
-								return (name.endsWith(".jpg")
-										|| name.endsWith(".jpeg")
-										|| name.endsWith(".png")
-										|| name.endsWith(".bmp")
-										|| name.endsWith(".gif"));
-							}
-						});
+						fd.setFilenameFilter((dir, name) -> (name.endsWith(".jpg")
+								|| name.endsWith(".jpeg")
+								|| name.endsWith(".png")
+								|| name.endsWith(".bmp")
+								|| name.endsWith(".gif")));
 						fd.setTitle(loc.getMenu("Load"));
 
 						fd.toFront();
@@ -1656,13 +1637,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				if (currentPath != null) {
 					fd.setDirectory(currentPath.toString());
 				}
-				fd.setFilenameFilter(new FilenameFilter() {
-					@Override
-					public boolean accept(File dir, String name) {
-						return (name.endsWith(".txt") || name.endsWith(".csv")
-								|| name.endsWith(".dat"));
-					}
-				});
+				fd.setFilenameFilter((dir, name) -> (name.endsWith(".txt") || name.endsWith(".csv")
+						|| name.endsWith(".dat")));
 
 				fd.setTitle(loc.getMenu("Load"));
 
@@ -1781,8 +1757,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		}
 		// use null component for iconified frame
 		Component comp = getApp().getMainComponent();
-		if (getApp().getFrame() instanceof GeoGebraFrame) {
-			GeoGebraFrame frame = (GeoGebraFrame) getApp().getFrame();
+		if (getApp().getFrame() instanceof GeoGebraFrame frame) {
 			comp = frame != null && !frame.isIconified() ? frame : null;
 		}
 
@@ -1804,16 +1779,11 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		 * JOptionPane.QUESTION_MESSAGE);
 		 */
 
-		switch (returnVal) {
-		case 0:
-			return save();
-
-		case 1:
-			return true;
-
-		default:
-			return false;
-		}
+		return switch (returnVal) {
+			case 0 -> save();
+			case 1 -> true;
+			default -> false;
+		};
 	}
 
 	@Override
@@ -2212,19 +2182,16 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				if (currentPath != null) {
 					fd.setDirectory(currentPath.toString());
 				}
-				fd.setFilenameFilter(new FilenameFilter() {
-					@Override
-					public boolean accept(File dir, String name) {
+				fd.setFilenameFilter((dir, name) -> {
 
-						FileExtensions ext = StringUtil.getFileExtension(name);
+					FileExtensions ext = StringUtil.getFileExtension(name);
 
-						return ext.equals(FileExtensions.GEOGEBRA)
-								|| ext.equals(FileExtensions.GEOGEBRA_TOOL)
-								|| ext.equals(FileExtensions.HTML)
-								|| ext.equals(FileExtensions.HTM)
-								|| ext.equals(FileExtensions.OFF);
+					return ext.equals(FileExtensions.GEOGEBRA)
+							|| ext.equals(FileExtensions.GEOGEBRA_TOOL)
+							|| ext.equals(FileExtensions.HTML)
+							|| ext.equals(FileExtensions.HTM)
+							|| ext.equals(FileExtensions.OFF);
 
-					}
 				});
 				fd.setTitle(loc.getMenu("Load"));
 
@@ -2312,9 +2279,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				getApp().setWaitCursor();
 				getApp().setMoveMode();
 
-				for (int i = 0; i < files.length; i++) {
+				for (File value : files) {
 
-					File file0 = files[i];
+					File file0 = value;
 
 					if (!file0.exists()) {
 						file0 = addExtension(file0, FileExtensions.GEOGEBRA);
@@ -2331,9 +2298,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				getApp().setWaitCursor();
 				getApp().setMoveMode();
 
-				for (int i = 0; i < files.length; i++) {
+				for (File value : files) {
 
-					File file0 = files[i];
+					File file0 = value;
 
 					if (!file0.exists()) {
 						file0 = addExtension(file0, FileExtensions.GEOGEBRA);
@@ -2349,9 +2316,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				getApp().setWaitCursor();
 				getApp().setMoveMode();
 
-				for (int i = 0; i < files.length; i++) {
+				for (File value : files) {
 
-					File file0 = files[i];
+					File file0 = value;
 
 					if (!file0.exists()) {
 						file0 = addExtension(file0, FileExtensions.OFF);
@@ -2381,8 +2348,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		if (files != null) {
 			File file;
 			int counter = 0;
-			for (int i = 0; i < files.length; i++) {
-				file = files[i];
+			for (File value : files) {
+				file = value;
 
 				if (!file.exists()) {
 					file = addExtension(file, extension);
@@ -2451,7 +2418,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 							} else {
 								// create new window for file
 								try {
-									String[] args = { file.getCanonicalPath() };
+									String[] args = {file.getCanonicalPath()};
 									GeoGebraFrame wnd = GeoGebraFrame
 											.createNewWindow(
 													new CommandLineArguments(
@@ -2803,11 +2770,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	@Override
 	public void updateFrameTitle() {
-		if (!(getApp().getFrame() instanceof GeoGebraFrame)) {
+		if (!(getApp().getFrame() instanceof GeoGebraFrame frame)) {
 			return;
 		}
-
-		GeoGebraFrame frame = (GeoGebraFrame) getApp().getFrame();
 
 		StringBuilder sb = new StringBuilder();
 		if (getApp().getCurrentFile() != null) {
@@ -2840,8 +2805,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			instsCopy[i] = insts.get(i);
 		}
 
-		for (int i = 0; i < instsCopy.length; i++) {
-			instsCopy[i].getApplication().exit();
+		for (GeoGebraFrame geoGebraFrame : instsCopy) {
+			geoGebraFrame.getApplication().exit();
 		}
 	}
 
@@ -3307,8 +3272,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	public boolean checkAutoCreateSliders(String s,
 			AsyncOperation<String[]> callback) {
 		Component comp = getApp().getMainComponent();
-		if (getApp().getFrame() instanceof GeoGebraFrame) {
-			GeoGebraFrame frame = (GeoGebraFrame) getApp().getFrame();
+		if (getApp().getFrame() instanceof GeoGebraFrame frame) {
 			comp = frame != null && !frame.isIconified() ? frame : null;
 		}
 

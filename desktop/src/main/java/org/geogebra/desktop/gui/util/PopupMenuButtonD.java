@@ -394,7 +394,7 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 		if (selectedIndex0 == null) {
 			selectedIndex = -1;
 		} else {
-			selectedIndex = selectedIndex0.intValue();
+			selectedIndex = selectedIndex0;
 		}
 
 		myTable.setSelectedIndex(selectedIndex);
@@ -450,26 +450,18 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 
 		// draw the icon for the current table selection
 		if (hasTable) {
-			switch (mode) {
-			case MODE_TEXT:
-				// Strings are converted to icons. We don't use setText so that
-				// the button size can be controlled
-				// regardless of the layout manager.
-				icon = GeoGebraIconD.createStringIcon(
-						(String) data[getSelectedIndex()], app.getPlainFont(),
-						false, false, true, iconSize,
-						ThemeD.color(ColorKeys.FOREGROUND), null);
-
-				break;
-
-			case MODE_ICON:
-			case MODE_LATEX:
-				icon = (ImageIcon) myTable.getSelectedValue();
-				break;
-
-			default:
-				icon = myTable.getDataIcon(data[getSelectedIndex()]);
-			}
+			icon = switch (mode) {
+				case MODE_TEXT ->
+					// Strings are converted to icons. We don't use setText so that
+					// the button size can be controlled
+					// regardless of the layout manager.
+						GeoGebraIconD.createStringIcon(
+								(String) data[getSelectedIndex()], app.getPlainFont(),
+								false, false, true, iconSize,
+								ThemeD.color(ColorKeys.FOREGROUND), null);
+				case MODE_ICON, MODE_LATEX -> (ImageIcon) myTable.getSelectedValue();
+				default -> myTable.getDataIcon(data[getSelectedIndex()]);
+			};
 		}
 		return icon;
 	}

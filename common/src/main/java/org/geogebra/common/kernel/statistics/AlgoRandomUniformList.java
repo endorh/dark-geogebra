@@ -119,8 +119,7 @@ public class AlgoRandomUniformList extends AlgoElement
 
 	@Override
 	public boolean setRandomValue(GeoElementND d) {
-		if (d instanceof ListValue) {
-			ListValue lv = (ListValue) d;
+		if (d instanceof ListValue lv) {
 			int size = Math.min(list.size(), lv.size());
 			for (int i = 0; i < size; i++) {
 				((GeoNumeric) list.get(i)).setValue(Math.max(a.getDouble(),

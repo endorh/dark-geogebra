@@ -147,8 +147,8 @@ public class AlgoPolyLine extends AlgoElement {
 			}
 		}
 		// set dependencies
-		for (int i = 0; i < input.length; i++) {
-			input[i].addAlgorithm(this);
+		for (GeoElement geoElement : input) {
+			geoElement.addAlgorithm(this);
 		}
 
 		// set output

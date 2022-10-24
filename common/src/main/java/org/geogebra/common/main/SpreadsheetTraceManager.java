@@ -310,9 +310,7 @@ public class SpreadsheetTraceManager {
 	 */
 	public ArrayList<GeoElement> getTraceGeoList() {
 		ArrayList<GeoElement> traceGeoList = new ArrayList<>();
-		for (GeoElement geo : traceGeoCollection.keySet()) {
-			traceGeoList.add(geo);
-		}
+		traceGeoList.addAll(traceGeoCollection.keySet());
 		return traceGeoList;
 	}
 
@@ -833,19 +831,18 @@ public class SpreadsheetTraceManager {
 
 		// trace
 		ArrayList<GeoNumeric> traceList = new ArrayList<>();
-		for (int i = 0; i < geos.length; i++) {
+		for (GeoElement geoElement : geos) {
 
-			if (geos[i] instanceof SpreadsheetTraceable) {
+			if (geoElement instanceof SpreadsheetTraceable traceGeo) {
 				// AbstractApplication.debug("SpreadsheetTraceable");
-				SpreadsheetTraceable traceGeo = (SpreadsheetTraceable) geos[i];
 
 				traceList.clear();
 				traceGeo.addToSpreadsheetTraceList(traceList);
 
-				for (int j = 0; j < traceList.size(); j++) {
+				for (GeoNumeric geoNumeric : traceList) {
 
 					setTraceCell(cons, column, row, traceArray.get(traceIndex),
-							traceList.get(j).isGeoAngle() ? GeoClass.ANGLE
+							geoNumeric.isGeoAngle() ? GeoClass.ANGLE
 									: GeoClass.NUMERIC);
 					++column;
 					++traceIndex;
@@ -853,7 +850,7 @@ public class SpreadsheetTraceManager {
 
 			} else {
 				Log.warn("not SpreadsheetTraceable "
-						+ geos[i].getGeoClassType());
+						+ geoElement.getGeoClassType());
 
 			}
 		}
@@ -906,21 +903,12 @@ public class SpreadsheetTraceManager {
 
 		if (isUpdateCell) {
 			switch (geoClassType) {
-			default:
-				// do nothing
-				break;
-			case NUMERIC:
-				((GeoNumeric) cell).setValue((Double) value);
-				break;
-
-			case ANGLE:
-				((GeoAngle) cell).setValue((Double) value);
-				break;
-
-			case TEXT:
-				((GeoText) cell).setTextString((String) value);
-				break;
-
+			default -> {
+			}
+			// do nothing
+			case NUMERIC -> ((GeoNumeric) cell).setValue((Double) value);
+			case ANGLE -> ((GeoAngle) cell).setValue((Double) value);
+			case TEXT -> ((GeoText) cell).setTextString((String) value);
 			}
 
 			cell.updateCascade();
@@ -935,23 +923,12 @@ public class SpreadsheetTraceManager {
 			String cellName = GeoElementSpreadsheet
 					.getSpreadsheetCellName(column, row);
 			switch (geoClassType) {
-
-			default:
-				// do nothing
-				break;
-			case NUMERIC:
-				cell = new GeoNumeric(cons, (Double) value);
-				break;
-
-			case ANGLE:
-				cell = new GeoAngle(cons, (Double) value);
-				break;
-
-			case TEXT:
-				cell = new GeoText(cons, (String) value);
-
-				break;
-
+			default -> {
+			}
+			// do nothing
+			case NUMERIC -> cell = new GeoNumeric(cons, (Double) value);
+			case ANGLE -> cell = new GeoAngle(cons, (Double) value);
+			case TEXT -> cell = new GeoText(cons, (String) value);
 			}
 			cell.setLabel(cellName);
 			cell.setEuclidianVisible(false);
@@ -1048,15 +1025,14 @@ public class SpreadsheetTraceManager {
 
 	protected boolean addElementTrace(GeoElement geo,
 			ArrayList<Double> currentTrace) {
-		if (geo instanceof SpreadsheetTraceable) {
-			SpreadsheetTraceable traceGeo = (SpreadsheetTraceable) geo;
+		if (geo instanceof SpreadsheetTraceable traceGeo) {
 
 			ArrayList<GeoNumeric> traceList = new ArrayList<>();
 
 			traceGeo.addToSpreadsheetTraceList(traceList);
 
-			for (int i = 0; i < traceList.size(); i++) {
-				currentTrace.add(traceList.get(i).getValue());
+			for (GeoNumeric geoNumeric : traceList) {
+				currentTrace.add(geoNumeric.getValue());
 			}
 
 		}
@@ -1076,14 +1052,14 @@ public class SpreadsheetTraceManager {
 		if (t.showLabel) {
 			row = t.traceRow1 + t.headerOffset - 1;
 			column = t.traceColumn1;
-			for (int i = 0; i < geos.length; i++) {
+			for (GeoElement geoElement : geos) {
 
-				if (geos[i] instanceof SpreadsheetTraceable) {
-					ArrayList<GeoText> strings = ((SpreadsheetTraceable) geos[i])
+				if (geoElement instanceof SpreadsheetTraceable) {
+					ArrayList<GeoText> strings = ((SpreadsheetTraceable) geoElement)
 							.getColumnHeadings();
 
-					for (int j = 0; j < strings.size(); j++) {
-						headerText = strings.get(j);
+					for (GeoText string : strings) {
+						headerText = string;
 						putCell(headerText, column, row);
 						column++;
 					}

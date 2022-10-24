@@ -31,28 +31,25 @@ public class CmdSurdText extends CommandProcessor implements UsesCAS {
 		arg = resArgs(c);
 
 		switch (n) {
-		case 1:
-
+		case 1 -> {
 			if (arg[0] instanceof GeoNumberValue) {
 
 				AlgoSurdText algo = new AlgoSurdText(cons, c.getLabel(),
 						(GeoNumberValue) arg[0], null);
 
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 				return ret;
 			} else if (arg[0].isGeoPoint()) {
 
 				AlgoSurdTextPoint algo = new AlgoSurdTextPoint(cons,
 						c.getLabel(), (GeoPointND) arg[0]);
 
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 				return ret;
 			}
-
 			throw argErr(c, arg[0]);
-
-		case 2:
-
+		}
+		case 2 -> {
 			boolean ok0;
 			if ((ok0 = arg[0] instanceof GeoNumberValue)
 					&& arg[1].isGeoList()) {
@@ -60,14 +57,12 @@ public class CmdSurdText extends CommandProcessor implements UsesCAS {
 				AlgoSurdText algo = new AlgoSurdText(cons, c.getLabel(),
 						(GeoNumberValue) arg[0], (GeoList) arg[1]);
 
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 				return ret;
 			}
-
 			throw argErr(c, arg[ok0 ? 0 : 1]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

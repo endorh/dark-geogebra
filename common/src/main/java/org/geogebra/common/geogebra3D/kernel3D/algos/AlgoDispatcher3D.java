@@ -211,8 +211,8 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 	@Override
 	final public GeoElement[] polygon(String[] labels, GeoPointND[] P) {
 
-		for (int i = 0; i < P.length; i++) {
-			if (P[i].isGeoElement3D()) {
+		for (GeoPointND geoPointND : P) {
+			if (geoPointND.isGeoElement3D()) {
 				return getManager3D().polygon3D(labels, P);
 			}
 		}

@@ -34,19 +34,19 @@ public class CmdStepGraph extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
+		case 1 -> {
 
 			// StepGraph[ <list of points> ]
 			arg = resArgs(c);
 			if (arg[0].isGeoList()) {
 				AlgoStepGraph algo = new AlgoStepGraph(cons, c.getLabel(),
 						(GeoList) arg[0]);
-				GeoElement[] ret = { algo.getSum() };
+				GeoElement[] ret = {algo.getSum()};
 				return ret;
 			}
 			throw argErr(c, getBadArg(ok, arg));
-
-		case 2:
+		}
+		case 2 -> {
 
 			// StepGraph[ <x List>, <y list> ]
 			arg = resArgs(c);
@@ -55,7 +55,7 @@ public class CmdStepGraph extends CommandProcessor {
 
 				AlgoStepGraph algo = new AlgoStepGraph(cons, c.getLabel(),
 						(GeoList) arg[0], (GeoList) arg[1]);
-				GeoElement[] ret = { algo.getSum() };
+				GeoElement[] ret = {algo.getSum()};
 				return ret;
 			}
 			// StepGraph[ <list of points>, <join> ]
@@ -64,13 +64,12 @@ public class CmdStepGraph extends CommandProcessor {
 
 				AlgoStepGraph algo = new AlgoStepGraph(cons, c.getLabel(),
 						(GeoList) arg[0], (GeoBoolean) arg[1]);
-				GeoElement[] ret = { algo.getSum() };
+				GeoElement[] ret = {algo.getSum()};
 				return ret;
 			}
-
 			throw argErr(c, getBadArg(ok, arg));
-
-		case 3:
+		}
+		case 3 -> {
 
 			// StepGraph[ <x List>, <y list>, <join> ]
 			arg = resArgs(c);
@@ -80,7 +79,7 @@ public class CmdStepGraph extends CommandProcessor {
 				AlgoStepGraph algo = new AlgoStepGraph(cons, c.getLabel(),
 						(GeoList) arg[0], (GeoList) arg[1],
 						(GeoBoolean) arg[2]);
-				GeoElement[] ret = { algo.getSum() };
+				GeoElement[] ret = {algo.getSum()};
 				return ret;
 
 				// StepGraph[ <list of points>, <join>, <point style> ]
@@ -90,12 +89,12 @@ public class CmdStepGraph extends CommandProcessor {
 				AlgoStepGraph algo = new AlgoStepGraph(cons, c.getLabel(),
 						(GeoList) arg[0], (GeoBoolean) arg[1],
 						(GeoNumeric) arg[2]);
-				GeoElement[] ret = { algo.getSum() };
+				GeoElement[] ret = {algo.getSum()};
 				return ret;
 			}
 			throw argErr(c, getBadArg(ok, arg));
-
-		case 4:
+		}
+		case 4 -> {
 
 			// StepGraph[ <x List>, <y list>, <join>, <point style> ]
 			arg = resArgs(c);
@@ -106,13 +105,12 @@ public class CmdStepGraph extends CommandProcessor {
 				AlgoStepGraph algo = new AlgoStepGraph(cons, c.getLabel(),
 						(GeoList) arg[0], (GeoList) arg[1], (GeoBoolean) arg[2],
 						(GeoNumeric) arg[3]);
-				GeoElement[] ret = { algo.getSum() };
+				GeoElement[] ret = {algo.getSum()};
 				return ret;
 			}
 			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

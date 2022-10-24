@@ -110,28 +110,15 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 
 		inferencePanel.removeAll();
 		switch (model.getSelectedMode()) {
-
-		case StatisticsModel.INFER_ZTEST:
-		case StatisticsModel.INFER_TTEST:
-		case StatisticsModel.INFER_ZINT:
-		case StatisticsModel.INFER_TINT:
-			inferencePanel.add(getOneVarInferencePanel(), BorderLayout.NORTH);
-			break;
-
-		case StatisticsModel.INFER_TTEST_2MEANS:
-		case StatisticsModel.INFER_TINT_2MEANS:
-			inferencePanel.add(getTwoVarInferencePanel(true),
-					BorderLayout.NORTH);
-			break;
-
-		case StatisticsModel.INFER_TTEST_PAIRED:
-		case StatisticsModel.INFER_TINT_PAIRED:
-			inferencePanel.add(getTwoVarInferencePanel(false),
-					BorderLayout.NORTH);
-			break;
-
-		case StatisticsModel.INFER_ANOVA:
-
+		case StatisticsModel.INFER_ZTEST, StatisticsModel.INFER_TTEST, StatisticsModel.INFER_ZINT, StatisticsModel.INFER_TINT ->
+				inferencePanel.add(getOneVarInferencePanel(), BorderLayout.NORTH);
+		case StatisticsModel.INFER_TTEST_2MEANS, StatisticsModel.INFER_TINT_2MEANS ->
+				inferencePanel.add(getTwoVarInferencePanel(true),
+						BorderLayout.NORTH);
+		case StatisticsModel.INFER_TTEST_PAIRED, StatisticsModel.INFER_TINT_PAIRED ->
+				inferencePanel.add(getTwoVarInferencePanel(false),
+						BorderLayout.NORTH);
+		case StatisticsModel.INFER_ANOVA -> {
 			GridBagConstraints tab = new GridBagConstraints();
 			tab.gridx = 0;
 			tab.gridy = GridBagConstraints.RELATIVE;
@@ -139,16 +126,12 @@ public class StatisticsPanel extends JPanel implements StatPanelInterface,
 			tab.insets = new Insets(4, 20, 0, 20);
 			tab.fill = GridBagConstraints.HORIZONTAL;
 			tab.anchor = GridBagConstraints.NORTHWEST;
-
 			JPanel p = new JPanel(new GridBagLayout());
 			p.add(getAnovaTable(), tab);
 			p.add(getMinMVStatPanel(), tab);
 			inferencePanel.add(p, BorderLayout.CENTER);
-
-			break;
-
-		default:
-			inferencePanel.add(statTable, BorderLayout.CENTER);
+		}
+		default -> inferencePanel.add(statTable, BorderLayout.CENTER);
 		}
 
 		revalidate();

@@ -350,11 +350,11 @@ public class EuclidianStyleBarD extends JToolBar
 		// note: this must always be done, even when activeGeoList is empty
 		// -----------------------------------------------------
 		tableText = EuclidianStyleBarStatic.updateTableText(activeGeoList, mode);
-		for (int i = 0; i < popupBtnList.length; i++) {
-			popupBtnList[i].update(activeGeoList);
+		for (PopupMenuButtonD popupMenuButtonD : popupBtnList) {
+			popupMenuButtonD.update(activeGeoList);
 		}
-		for (int i = 0; i < toggleBtnList.length; i++) {
-			toggleBtnList[i].update(activeGeoList);
+		for (MyToggleButtonD myToggleButtonD : toggleBtnList) {
+			myToggleButtonD.update(activeGeoList);
 		}
 
 	}
@@ -579,8 +579,8 @@ public class EuclidianStyleBarD extends JToolBar
 			public void update(List<GeoElement> geos) {
 				boolean geosOK = (geos.size() > 0);
 				int maxMinimumThickness = 0;
-				for (int i = 0; i < geos.size(); i++) {
-					GeoElement geo = ((GeoElement) geos.get(i))
+				for (GeoElement geoElement : geos) {
+					GeoElement geo = ((GeoElement) geoElement)
 							.getGeoElementForPropertiesDialog();
 					if (!geo.showLineProperties()) {
 						geosOK = false;
@@ -659,11 +659,11 @@ public class EuclidianStyleBarD extends JToolBar
 				GeoElement geo;
 				boolean geosOK = (geos.size() > 0);
 				// btnPointStyle.getMyTable().setVisible(true);
-				for (int i = 0; i < geos.size(); i++) {
-					geo = (GeoElement) geos.get(i);
+				for (GeoElement geoElement : geos) {
+					geo = (GeoElement) geoElement;
 					if (!(geo.getGeoElementForPropertiesDialog().isGeoPoint())
 							&& (!(geo.isGeoList() && ((GeoList) geo)
-									.showPointProperties()))) {
+							.showPointProperties()))) {
 						geosOK = false;
 						break;
 					}
@@ -947,8 +947,8 @@ public class EuclidianStyleBarD extends JToolBar
 				}
 				boolean geosOK = (geos.size() > 0
 						|| EuclidianView.isPenMode(mode));
-				for (int i = 0; i < geos.size(); i++) {
-					GeoElement geo = geos.get(i)
+				for (GeoElement geoElement : geos) {
+					GeoElement geo = geoElement
 							.getGeoElementForPropertiesDialog();
 					if (geo instanceof GeoImage || geo instanceof GeoText
 							|| geo instanceof GeoButton) {
@@ -968,11 +968,11 @@ public class EuclidianStyleBarD extends JToolBar
 					// value
 					double alpha = 1.0;
 					boolean hasFillable = false;
-					for (int i = 0; i < geos.size(); i++) {
-						if (geos.get(i).isFillable()) {
+					for (GeoElement geo : geos) {
+						if (geo.isFillable()) {
 							hasFillable = true;
 							// can be -1 for lists
-							alpha = geos.get(i).getAlphaValue();
+							alpha = geo.getAlphaValue();
 							break;
 						}
 					}
@@ -1022,8 +1022,8 @@ public class EuclidianStyleBarD extends JToolBar
 			public void update(List<GeoElement> geos) {
 
 				boolean geosOK = (geos.size() > 0);
-				for (int i = 0; i < geos.size(); i++) {
-					GeoElement geo = geos.get(i)
+				for (GeoElement geoElement : geos) {
+					GeoElement geo = geoElement
 							.getGeoElementForPropertiesDialog();
 					if (!(geo instanceof GeoText)
 							&& !(geo instanceof GeoButton)) {
@@ -1084,8 +1084,8 @@ public class EuclidianStyleBarD extends JToolBar
 
 	static boolean checkGeoText(List<GeoElement> geos) {
 		boolean geosOK = (geos.size() > 0);
-		for (int i = 0; i < geos.size(); i++) {
-			if (!(geos.get(i)
+		for (GeoElement geo : geos) {
+			if (!(geo
 					.getGeoElementForPropertiesDialog() instanceof TextProperties)) {
 				geosOK = false;
 				break;

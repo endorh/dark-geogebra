@@ -25,7 +25,7 @@ public class UnweightedShortestPath<V, E>
 	private Map<V, Map<V, Number>> mDistanceMap;
 	private Map<V, Map<V, E>> mIncomingEdgeMap;
 	private Hypergraph<V, E> mGraph;
-	private Map<V, Number> distances = new HashMap<V, Number>();
+	private Map<V, Number> distances = new HashMap<>();
 
 	/**
 	 * Constructs and initializes algorithm
@@ -34,8 +34,8 @@ public class UnweightedShortestPath<V, E>
 	 *            the graph
 	 */
 	public UnweightedShortestPath(Hypergraph<V, E> g) {
-		mDistanceMap = new HashMap<V, Map<V, Number>>();
-		mIncomingEdgeMap = new HashMap<V, Map<V, E>>();
+		mDistanceMap = new HashMap<>();
+		mIncomingEdgeMap = new HashMap<>();
 		mGraph = g;
 	}
 
@@ -83,11 +83,11 @@ public class UnweightedShortestPath<V, E>
 	 *            the source node
 	 */
 	private void computeShortestPathsFromSource(V source) {
-		BFSDistanceLabeler<V, E> labeler = new BFSDistanceLabeler<V, E>();
+		BFSDistanceLabeler<V, E> labeler = new BFSDistanceLabeler<>();
 		labeler.labelDistances(mGraph, source);
 		distances = labeler.getDistanceDecorator();
-		Map<V, Number> currentSourceSPMap = new HashMap<V, Number>();
-		Map<V, E> currentSourceEdgeMap = new HashMap<V, E>();
+		Map<V, Number> currentSourceSPMap = new HashMap<>();
+		Map<V, E> currentSourceEdgeMap = new HashMap<>();
 
 		for (V vertex : mGraph.getVertices()) {
 

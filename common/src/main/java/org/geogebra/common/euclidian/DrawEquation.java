@@ -1,7 +1,6 @@
 package org.geogebra.common.euclidian;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map.Entry;
 
 import org.geogebra.common.awt.GColor;
@@ -40,12 +39,8 @@ public abstract class DrawEquation implements DrawEquationI {
 		HashMap<String, GColor> ggbCols = GeoGebraColorConstants
 				.getGeoGebraColors();
 
-		Iterator<Entry<String, GColor>> it = ggbCols.entrySet().iterator();
-
 		// add commands eg \red{text}
-		while (it.hasNext()) {
-			Entry<String, GColor> colPair = it.next();
-
+		for (Entry<String, GColor> colPair : ggbCols.entrySet()) {
 			String colStr = colPair.getKey();
 
 			// can't have command eg \grey2
@@ -133,14 +128,7 @@ public abstract class DrawEquation implements DrawEquationI {
 			TeXIcon icon = createIcon(text, fgColor, font, style, maxWidth,
 					lineSpace, app);
 
-			HasForegroundColor fg = new HasForegroundColor() {
-
-				@Override
-				public Color getForegroundColor() {
-					return fgColor;
-				}
-
-			};
+			HasForegroundColor fg = () -> fgColor;
 
 			icon.paintIcon(fg, g2, x, y);
 

@@ -453,21 +453,21 @@ public class Value {
 		if (obj != null) {
 			return obj;
 		} else if (type == TYPE_INTEGER) {
-			return Integer.valueOf(intValue);
+			return intValue;
 		} else if (type == TYPE_SHORT) {
-			return Short.valueOf(shortValue);
+			return shortValue;
 		} else if (type == TYPE_LONG) {
-			return Long.valueOf(longValue);
+			return longValue;
 		} else if (type == TYPE_FLOAT) {
-			return Float.valueOf(floatValue);
+			return floatValue;
 		} else if (type == TYPE_DOUBLE) {
-			return Double.valueOf(doubleValue);
+			return doubleValue;
 		} else if (type == TYPE_BOOLEAN) {
-			return Boolean.valueOf(boolValue);
+			return boolValue;
 		} else if (type == TYPE_BYTE) {
-			return Byte.valueOf(byteValue);
+			return byteValue;
 		} else if (type == TYPE_CHAR) {
-			return Character.valueOf(charValue);
+			return charValue;
 		} else {
 			return null;
 		}

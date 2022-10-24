@@ -166,12 +166,7 @@ public class RelationNumerical {
 	 */
 	public static SortedSet<Report> sortAlphabetically(Set<Report> reports) {
 
-		Comparator<Report> myComparator = new Comparator<Report>() {
-			@Override
-			public int compare(Report r1, Report r2) {
-				return r1.stringResult.compareTo(r2.stringResult);
-			}
-		};
+		Comparator<Report> myComparator = Comparator.comparing(r -> r.stringResult);
 
 		TreeSet<Report> sortedReports = new TreeSet<>(myComparator);
 		sortedReports.addAll(reports);
@@ -368,7 +363,7 @@ public class RelationNumerical {
 	 * description of the relation between two lists a, b (equal, unequal)
 	 */
 	final private Set<Report> relation(GeoList a, GeoList b) {
-		Boolean bool = a.isEqual(b);
+		boolean bool = a.isEqual(b);
 		String str = equalityString(a.toGeoElement(), b.toGeoElement(), bool);
 		register(bool, null, str);
 		return reports;
@@ -378,7 +373,7 @@ public class RelationNumerical {
 	 * description of the relation between two numbers a, b (equal, unequal)
 	 */
 	final private Set<Report> relation(GeoNumberValue a, GeoNumberValue b) {
-		Boolean bool = DoubleUtil.isEqual(a.getDouble(), b.getDouble());
+		boolean bool = DoubleUtil.isEqual(a.getDouble(), b.getDouble());
 		String str = equalityString(a.toGeoElement(), b.toGeoElement(), bool);
 		register(bool, RelationCommand.AreEqual, str);
 		return reports;
@@ -389,7 +384,7 @@ public class RelationNumerical {
 	 * unequal)
 	 */
 	final private Set<Report> relation(GeoSegmentND a, GeoSegmentND b) {
-		Boolean bool;
+		boolean bool;
 		String str;
 		if (DoubleUtil.isEqual(a.evaluateDouble(), b.evaluateDouble())) {
 
@@ -457,7 +452,7 @@ public class RelationNumerical {
 	 * description of the relation between two points A, B (equal, unequal)
 	 */
 	final private Set<Report> relation(GeoPoint A, GeoPoint B) {
-		Boolean bool = A.isEqual(B);
+		boolean bool = A.isEqual(B);
 		String str = equalityString(A, B, bool);
 		register(bool, RelationCommand.AreEqual, str);
 		return reports;
@@ -512,7 +507,7 @@ public class RelationNumerical {
 	 */
 	final private Set<Report> relation(GeoVector a, GeoVector b) {
 		String str;
-		Boolean bool;
+		boolean bool;
 		if (a.isEqual(b)) {
 			str = equalityString(a, b, true);
 			bool = true;
@@ -529,7 +524,7 @@ public class RelationNumerical {
 	 * perimeter)
 	 */
 	final private Set<Report> relation(GeoPoint A, GeoPolygon p) {
-		Boolean bool = p.isOnPath(A, Kernel.STANDARD_PRECISION);
+		boolean bool = p.isOnPath(A, Kernel.STANDARD_PRECISION);
 		String str = incidencePerimeterString(A, p.toGeoElement(), bool);
 		register(bool, null, str);
 		// TODO: Symbolically we cannot decide this yet.
@@ -541,7 +536,7 @@ public class RelationNumerical {
 	 * incident)
 	 */
 	final private Set<Report> relation(GeoPoint A, Path path) {
-		Boolean bool = path.isOnPath(A, Kernel.STANDARD_PRECISION);
+		boolean bool = path.isOnPath(A, Kernel.STANDARD_PRECISION);
 		String str = incidenceString(A, path.toGeoElement(), bool);
 		register(bool, RelationCommand.IsOnPath, str);
 		return reports;
@@ -551,7 +546,7 @@ public class RelationNumerical {
 	 * description of the relation between polygons a and b
 	 */
 	final private Set<Report> relation(GeoPolygon a, GeoPolygon b) {
-		Boolean bool = a.hasSameArea(b);
+		boolean bool = a.hasSameArea(b);
 		String str = equalAreaString(a, b, bool, loc);
 		register(bool, RelationCommand.AreEqual, str);
 		return reports;
@@ -637,8 +632,8 @@ public class RelationNumerical {
 
 			// check for defined intersection points
 			boolean intersect = false;
-			for (int i = 0; i < points.length; i++) {
-				if (points[i].isDefined()) {
+			for (GeoPoint point : points) {
+				if (point.isDefined()) {
 					intersect = true;
 					break;
 				}
@@ -683,7 +678,7 @@ public class RelationNumerical {
 	 * or not intersecting)
 	 */
 	final private Set<Report> relation(GeoConicPart a, GeoConicPart b) {
-		Boolean bool = a.isEqual(b);
+		boolean bool = a.isEqual(b);
 		String str = equalityString(a, b, bool);
 		register(bool, null, str);
 		// TODO: No prover support for conic equality yet.
@@ -723,8 +718,8 @@ public class RelationNumerical {
 
 			// check for defined intersection points
 			boolean intersect = false;
-			for (int i = 0; i < points.length; i++) {
-				if (points[i].isDefined()) {
+			for (GeoPoint point : points) {
+				if (point.isDefined()) {
 					intersect = true;
 					break;
 				}
@@ -755,7 +750,7 @@ public class RelationNumerical {
 	 * description of the relation between functions
 	 */
 	final private Set<Report> relation(GeoFunction a, GeoFunction b) {
-		Boolean bool = a.isEqual(b);
+		boolean bool = a.isEqual(b);
 		String str = equalityString(a, b, bool); // This was equalityStringExact
 													// originally.
 		register(bool, null, str); // No symbolically supported.
@@ -1211,44 +1206,44 @@ public class RelationNumerical {
 	// types are defined in AlgoIntersectLineConic
 	final private String lineConicString(GeoLine a, GeoConic b, int type) {
 
-		switch (type) {
-		case AlgoIntersectLineConic.INTERSECTION_PRODUCING_LINE:
-			// strType = getPlain("producingLine");
-			return loc.getPlain("AisaDegenerateBranchOfB", a.getColoredLabel(),
-					b.getColoredLabel());
-		// break;
+		return switch (type) {
+			case AlgoIntersectLineConic.INTERSECTION_PRODUCING_LINE ->
+				// strType = getPlain("producingLine");
+					loc.getPlain("AisaDegenerateBranchOfB", a.getColoredLabel(),
+							b.getColoredLabel());
+			// break;
 
-		case AlgoIntersectLineConic.INTERSECTION_ASYMPTOTIC_LINE:
-			// strType = getPlain("asymptoticLine");
-			return loc.getPlain("AisAnAsymptoteToB", a.getColoredLabel(),
-					b.getColoredLabel());
-		// break;
+			case AlgoIntersectLineConic.INTERSECTION_ASYMPTOTIC_LINE ->
+				// strType = getPlain("asymptoticLine");
+					loc.getPlain("AisAnAsymptoteToB", a.getColoredLabel(),
+							b.getColoredLabel());
+			// break;
 
-		case AlgoIntersectLineConic.INTERSECTION_MEETING_LINE:
-			// strType = getPlain("meetingLine");
-			return loc.getPlain("AintersectsWithBOnce", a.getColoredLabel(),
-					b.getColoredLabel());
-		// break;
+			case AlgoIntersectLineConic.INTERSECTION_MEETING_LINE ->
+				// strType = getPlain("meetingLine");
+					loc.getPlain("AintersectsWithBOnce", a.getColoredLabel(),
+							b.getColoredLabel());
+			// break;
 
-		case AlgoIntersectLineConic.INTERSECTION_TANGENT_LINE:
-			// strType = getPlain("tangentLine");
-			return loc.getPlain("AisaTangentToB", a.getColoredLabel(),
-					b.getColoredLabel());
-		// break;
+			case AlgoIntersectLineConic.INTERSECTION_TANGENT_LINE ->
+				// strType = getPlain("tangentLine");
+					loc.getPlain("AisaTangentToB", a.getColoredLabel(),
+							b.getColoredLabel());
+			// break;
 
-		case AlgoIntersectLineConic.INTERSECTION_SECANT_LINE:
-			// strType = getPlain("secantLine");
-			return loc.getPlain("AintersectsWithBTwice", a.getColoredLabel(),
-					b.getColoredLabel());
-		// break;
+			case AlgoIntersectLineConic.INTERSECTION_SECANT_LINE ->
+				// strType = getPlain("secantLine");
+					loc.getPlain("AintersectsWithBTwice", a.getColoredLabel(),
+							b.getColoredLabel());
+			// break;
 
-		default:
-			// case AlgoIntersectLineConic.INTERSECTION_PASSING_LINE:
-			// strType = getPlain("passingLine");
-			return loc.getPlain("ADoesNotIntersectWithB", a.getColoredLabel(),
-					b.getColoredLabel());
-		// break;
-		}
+			default ->
+				// case AlgoIntersectLineConic.INTERSECTION_PASSING_LINE:
+				// strType = getPlain("passingLine");
+					loc.getPlain("ADoesNotIntersectWithB", a.getColoredLabel(),
+							b.getColoredLabel());
+			// break;
+		};
 	}
 
 }

@@ -448,8 +448,7 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 		Paint paint = getPaint();
 		if (paint instanceof Color) {
 			color = (Color) paint;
-		} else if (paint instanceof GradientPaint) {
-			GradientPaint gp = (GradientPaint) paint;
+		} else if (paint instanceof GradientPaint gp) {
 			color = PrintColor.mixColor(gp.getColor1(), gp.getColor2());
 		} else {
 			Color bkg = getBackground();
@@ -492,10 +491,10 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 			int handle = handleManager.getHandle();
 			os.writeTag(new ExtCreateFontIndirectW(handle, logFontW));
 
-			fontIndex = Integer.valueOf(handle);
+			fontIndex = handle;
 			fontTable.put(font, fontIndex);
 		}
-		os.writeTag(new SelectObject(fontIndex.intValue()));
+		os.writeTag(new SelectObject(fontIndex));
 
 		int[] widths = new int[string.length()];
 		for (int i = 0; i < widths.length; i++) {
@@ -733,27 +732,15 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 		int style = EMFConstants.PS_GEOMETRIC;
 
 		switch (stroke.getEndCap()) {
-		case BasicStroke.CAP_BUTT:
-			style |= EMFConstants.PS_ENDCAP_FLAT;
-			break;
-		case BasicStroke.CAP_ROUND:
-			style |= EMFConstants.PS_ENDCAP_ROUND;
-			break;
-		case BasicStroke.CAP_SQUARE:
-			style |= EMFConstants.PS_ENDCAP_SQUARE;
-			break;
+		case BasicStroke.CAP_BUTT -> style |= EMFConstants.PS_ENDCAP_FLAT;
+		case BasicStroke.CAP_ROUND -> style |= EMFConstants.PS_ENDCAP_ROUND;
+		case BasicStroke.CAP_SQUARE -> style |= EMFConstants.PS_ENDCAP_SQUARE;
 		}
 
 		switch (stroke.getLineJoin()) {
-		case BasicStroke.JOIN_MITER:
-			style |= EMFConstants.PS_JOIN_MITER;
-			break;
-		case BasicStroke.JOIN_ROUND:
-			style |= EMFConstants.PS_JOIN_ROUND;
-			break;
-		case BasicStroke.JOIN_BEVEL:
-			style |= EMFConstants.PS_JOIN_BEVEL;
-			break;
+		case BasicStroke.JOIN_MITER -> style |= EMFConstants.PS_JOIN_MITER;
+		case BasicStroke.JOIN_ROUND -> style |= EMFConstants.PS_JOIN_ROUND;
+		case BasicStroke.JOIN_BEVEL -> style |= EMFConstants.PS_JOIN_BEVEL;
 		}
 
 		// FIXME int conversion

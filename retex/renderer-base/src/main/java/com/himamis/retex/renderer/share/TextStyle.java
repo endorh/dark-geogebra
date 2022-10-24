@@ -81,7 +81,7 @@ public final class TextStyle {
 		add(OLDSTYLENUMS, CAPITALS, Configuration.getFonts().cmmi10, (char) 48);
 	}
 
-	private static Map<String, Integer> names = new HashMap<String, Integer>() {
+	private static Map<String, Integer> names = new HashMap<>() {
 		{
 			put("mathnormal", MATHNORMAL);
 			put("mathfrak", MATHFRAK);
@@ -116,7 +116,7 @@ public final class TextStyle {
 	public static int getStyle(final String style) {
 		final Integer i = names.get(style);
 		if (i != null) {
-			return i.intValue();
+			return i;
 		}
 		return MATHNORMAL;
 	}

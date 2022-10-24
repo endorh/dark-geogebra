@@ -149,7 +149,7 @@ public class ArrayAtom extends Atom {
 		final double[] colWidth = new double[col];
 		final double drt = env.getTeXFont()
 				.getDefaultRuleThickness(env.getStyle());
-		final List<MulticolumnAtom> listMulti = new ArrayList<MulticolumnAtom>();
+		final List<MulticolumnAtom> listMulti = new ArrayList<>();
 
 		final List<List<Atom>> separatorAtoms = options.getSeparators();
 		final List<Box> separatorBoxes = options.getSeparatorBoxes(env);
@@ -328,8 +328,7 @@ public class ArrayAtom extends Atom {
 	private static Box createSeparator(TeXEnvironment env, List<Atom> separators,
 			final double h, final double s) {
 		for (Atom atom : separators) {
-			if (atom instanceof VlineAtom) {
-				VlineAtom vline = (VlineAtom) atom;
+			if (atom instanceof VlineAtom vline) {
 				vline.setHeight(h);
 				vline.setShift(s);
 			}

@@ -32,7 +32,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.SpreadsheetTraceManager;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.CopyPaste;
 
 import com.google.j2objc.annotations.Weak;
@@ -92,8 +91,7 @@ public abstract class ContextMenuGeoElement {
 
 		for (int i = geos2.size() - 1; i >= 0; i--) {
 			GeoElement geo1 = geos2.get(i);
-			if (geo1 instanceof CoordStyle) {
-				CoordStyle point1 = (CoordStyle) geo1;
+			if (geo1 instanceof CoordStyle point1) {
 				point1.setMode(Kernel.COORD_CARTESIAN);
 				geo1.updateRepaint();
 			}
@@ -109,8 +107,7 @@ public abstract class ContextMenuGeoElement {
 
 		for (int i = geos2.size() - 1; i >= 0; i--) {
 			GeoElement geo1 = geos2.get(i);
-			if (geo1 instanceof CoordStyle) {
-				CoordStyle point1 = (CoordStyle) geo1;
+			if (geo1 instanceof CoordStyle point1) {
 				point1.setMode(Kernel.COORD_POLAR);
 				geo1.updateRepaint();
 			}
@@ -126,8 +123,7 @@ public abstract class ContextMenuGeoElement {
 
 		for (int i = geos2.size() - 1; i >= 0; i--) {
 			GeoElement geo1 = geos2.get(i);
-			if (geo1 instanceof CoordStyle) {
-				CoordStyle point1 = (CoordStyle) geo1;
+			if (geo1 instanceof CoordStyle point1) {
 				point1.setMode(Kernel.COORD_CARTESIAN_3D);
 				geo1.updateRepaint();
 			}
@@ -143,8 +139,7 @@ public abstract class ContextMenuGeoElement {
 
 		for (int i = geos2.size() - 1; i >= 0; i--) {
 			GeoElement geo1 = geos2.get(i);
-			if (geo1 instanceof CoordStyle) {
-				CoordStyle point1 = (CoordStyle) geo1;
+			if (geo1 instanceof CoordStyle point1) {
 				point1.setMode(Kernel.COORD_SPHERICAL);
 				geo1.updateRepaint();
 			}
@@ -160,8 +155,7 @@ public abstract class ContextMenuGeoElement {
 
 		for (int i = geos2.size() - 1; i >= 0; i--) {
 			GeoElement geo1 = geos2.get(i);
-			if (geo1 instanceof GeoLine && !(geo1 instanceof GeoSegment)) {
-				GeoLine line1 = (GeoLine) geo1;
+			if (geo1 instanceof GeoLine line1 && !(geo1 instanceof GeoSegment)) {
 				line1.setMode(GeoLine.EQUATION_IMPLICIT);
 				line1.updateRepaint();
 			}
@@ -177,8 +171,7 @@ public abstract class ContextMenuGeoElement {
 
 		for (int i = geos2.size() - 1; i >= 0; i--) {
 			GeoElement geo1 = geos2.get(i);
-			if (geo1 instanceof GeoLine && !(geo1 instanceof GeoSegment)) {
-				GeoLine line1 = (GeoLine) geo1;
+			if (geo1 instanceof GeoLine line1 && !(geo1 instanceof GeoSegment)) {
 				line1.setMode(GeoLine.EQUATION_EXPLICIT);
 				line1.updateRepaint();
 			}
@@ -194,8 +187,7 @@ public abstract class ContextMenuGeoElement {
 
 		for (int i = geos2.size() - 1; i >= 0; i--) {
 			GeoElement geo1 = geos2.get(i);
-			if (geo1 instanceof GeoLine && !(geo1 instanceof GeoSegment)) {
-				GeoLine line1 = (GeoLine) geo1;
+			if (geo1 instanceof GeoLine line1 && !(geo1 instanceof GeoSegment)) {
 				line1.setMode(GeoLine.EQUATION_GENERAL);
 				line1.updateRepaint();
 			}
@@ -211,8 +203,7 @@ public abstract class ContextMenuGeoElement {
 
 		for (int i = geos2.size() - 1; i >= 0; i--) {
 			GeoElement geo1 = geos2.get(i);
-			if (geo1 instanceof GeoLine && !(geo1 instanceof GeoSegment)) {
-				GeoLine line1 = (GeoLine) geo1;
+			if (geo1 instanceof GeoLine line1 && !(geo1 instanceof GeoSegment)) {
 				line1.setMode(GeoLine.PARAMETRIC);
 				line1.updateRepaint();
 			}
@@ -227,8 +218,7 @@ public abstract class ContextMenuGeoElement {
 		ArrayList<GeoElement> geos2 = checkOneGeo();
 		for (int i = geos2.size() - 1; i >= 0; i--) {
 			GeoElement geo1 = geos2.get(i);
-			if (geo1 instanceof EquationValue) {
-				EquationValue conic1 = (EquationValue) geo1;
+			if (geo1 instanceof EquationValue conic1) {
 				conic1.setToImplicit();
 				geo1.updateRepaint();
 			}
@@ -244,8 +234,7 @@ public abstract class ContextMenuGeoElement {
 
 		for (int i = geos2.size() - 1; i >= 0; i--) {
 			GeoElement geo1 = geos2.get(i);
-			if (geo1 instanceof GeoQuadricND) {
-				GeoQuadricND conic1 = (GeoQuadricND) geo1;
+			if (geo1 instanceof GeoQuadricND conic1) {
 				conic1.setToSpecific();
 				conic1.updateRepaint();
 			}
@@ -576,8 +565,7 @@ public abstract class ContextMenuGeoElement {
 
 		for (int i = geos2.size() - 1; i >= 0; i--) {
 			GeoElement geo1 = geos2.get(i);
-			if (geo1 instanceof AbsoluteScreenLocateable && !geo1.isGeoList()) {
-				AbsoluteScreenLocateable geoText = (AbsoluteScreenLocateable) geo1;
+			if (geo1 instanceof AbsoluteScreenLocateable geoText && !geo1.isGeoList()) {
 				boolean flag = !geoText.isAbsoluteScreenLocActive();
 				if (flag) {
 					// convert real world to screen coords
@@ -771,12 +759,7 @@ public abstract class ContextMenuGeoElement {
 	public void pasteCmd() {
 		final HasTextFormat controller = getSelectedTextController();
 		if (controller != null) {
-			app.getCopyPaste().paste(app, new AsyncOperation<String>() {
-				@Override
-				public void callback(String obj) {
-					controller.setSelectionText(obj);
-				}
-			});
+			app.getCopyPaste().paste(app, controller::setSelectionText);
 			return;
 		}
 		app.getCopyPaste().pasteFromXML(app);

@@ -106,10 +106,9 @@ public class Group extends ShapeElement {
 			}
 		}
 
-		for (Iterator it = children.iterator(); it.hasNext();) {
-			SVGElement ele = (SVGElement) it.next();
-			if (ele instanceof RenderableElement) {
-				RenderableElement rendEle = (RenderableElement) ele;
+		for (Object child : children) {
+			SVGElement ele = (SVGElement) child;
+			if (ele instanceof RenderableElement rendEle) {
 
 				rendEle.pick(xPoint, boundingBox, retVec);
 			}
@@ -124,10 +123,9 @@ public class Group extends ShapeElement {
 			ltw.concatenate(xform);
 		}
 
-		for (Iterator it = children.iterator(); it.hasNext();) {
-			SVGElement ele = (SVGElement) it.next();
-			if (ele instanceof RenderableElement) {
-				RenderableElement rendEle = (RenderableElement) ele;
+		for (Object child : children) {
+			SVGElement ele = (SVGElement) child;
+			if (ele instanceof RenderableElement rendEle) {
 
 				rendEle.pick(pickArea, ltw, boundingBox, retVec);
 			}
@@ -170,8 +168,7 @@ public class Group extends ShapeElement {
 		Shape clip = g.getClip();
 		while (it.hasNext()) {
 			SVGElement ele = (SVGElement) it.next();
-			if (ele instanceof RenderableElement) {
-				RenderableElement rendEle = (RenderableElement) ele;
+			if (ele instanceof RenderableElement rendEle) {
 
 				// if (shapeEle == null) continue;
 
@@ -204,11 +201,10 @@ public class Group extends ShapeElement {
 	public void calcShape() {
 		Area retShape = new Area();
 
-		for (Iterator it = children.iterator(); it.hasNext();) {
-			SVGElement ele = (SVGElement) it.next();
+		for (Object child : children) {
+			SVGElement ele = (SVGElement) child;
 
-			if (ele instanceof ShapeElement) {
-				ShapeElement shpEle = (ShapeElement) ele;
+			if (ele instanceof ShapeElement shpEle) {
 				Shape shape = shpEle.getShape();
 				if (shape != null) {
 					retShape.add(new Area(shape));
@@ -239,11 +235,10 @@ public class Group extends ShapeElement {
 		// Rectangle2D retRect = new Rectangle2D.Float();
 		Rectangle2D retRect = null;
 
-		for (Iterator it = children.iterator(); it.hasNext();) {
-			SVGElement ele = (SVGElement) it.next();
+		for (Object child : children) {
+			SVGElement ele = (SVGElement) child;
 
-			if (ele instanceof RenderableElement) {
-				RenderableElement rendEle = (RenderableElement) ele;
+			if (ele instanceof RenderableElement rendEle) {
 				Rectangle2D bounds = rendEle.getBoundingBox();
 				if (bounds != null && (bounds.getWidth() != 0
 						|| bounds.getHeight() != 0)) {
@@ -275,11 +270,10 @@ public class Group extends ShapeElement {
 	@Override
 	public boolean updateTime(double curTime) throws SVGException {
 		boolean changeState = super.updateTime(curTime);
-		Iterator it = children.iterator();
 
 		// Distribute message to all members of this group
-		while (it.hasNext()) {
-			SVGElement ele = (SVGElement) it.next();
+		for (Object child : children) {
+			SVGElement ele = (SVGElement) child;
 			boolean updateVal = ele.updateTime(curTime);
 
 			changeState = changeState || updateVal;

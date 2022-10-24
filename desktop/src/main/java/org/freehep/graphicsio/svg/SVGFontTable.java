@@ -9,7 +9,6 @@ import java.awt.font.TextLayout;
 import java.awt.geom.AffineTransform;
 import java.util.Enumeration;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 
@@ -31,15 +30,7 @@ public class SVGFontTable {
 	 * Stores fonts and a glyph-hashtable. The font key ist normalized using
 	 * {@link #untransform(java.awt.Font)}
 	 */
-	private Hashtable/* <Font, Hashtable<String, SVGGlyph> */ glyphs = new Hashtable/*
-																					 * <Font,
-																					 * Hashtable
-																					 * <
-																					 * String
-																					 * SVGGlyph
-																					 * >
-																					 * >
-																					 */();
+	private Hashtable<Font, Hashtable<String, SVGGlyph>> glyphs = new Hashtable<>();
 
 	/**
 	 * creates a glyph for the string character
@@ -50,10 +41,10 @@ public class SVGFontTable {
 	 */
 	private SVGGlyph addGlyph(int c, Font font) {
 		// is the font stored?
-		Hashtable/* <String, SVGGlyph> */ glyphs = getGlyphs(font);
+		Hashtable<String, SVGGlyph> glyphs = getGlyphs(font);
 
 		// does a glyph allready exist?
-		SVGGlyph result = (SVGGlyph) glyphs.get(String.valueOf(c));
+		SVGGlyph result = glyphs.get(String.valueOf(c));
 
 		// create a new one?
 		if (result == null) {
@@ -101,18 +92,12 @@ public class SVGFontTable {
 	 * @param font
 	 * @return glyph vectors for font
 	 */
-	private Hashtable/* <String SVGGlyph> */ getGlyphs(Font font) {
+	private Hashtable<String, SVGGlyph>  getGlyphs(Font font) {
 		// derive a default font for the font table
 		font = untransform(font);
 
-		Hashtable/* <String SVGGlyph> */ result = (Hashtable/*
-															 * <String SVGGlyph>
-															 */) glyphs
-				.get(font);
-		if (result == null) {
-			result = new Hashtable/* <String SVGGlyph> */();
-			glyphs.put(font, result);
-		}
+		Hashtable<String, SVGGlyph> result = glyphs.computeIfAbsent(
+				font, k -> new Hashtable<>());
 		return result;
 	}
 
@@ -130,14 +115,14 @@ public class SVGFontTable {
 	 */
 	@Override
 	public String toString() {
-		StringBuffer result = new StringBuffer();
+		StringBuilder result = new StringBuilder();
 
-		Enumeration/* <Font> */ fonts = this.glyphs.keys();
+		Enumeration<Font>  fonts = glyphs.keys();
 		while (fonts.hasMoreElements()) {
-			Font font = (Font) fonts.nextElement();
+			Font font = fonts.nextElement();
 
 			// replace font family for svg
-			Map /* <TextAttribute, ?> */ attributes = font.getAttributes();
+			Map<TextAttribute, ?>  attributes = font.getAttributes();
 
 			// Dialog -> Helvetica
 			normalize(attributes);
@@ -173,7 +158,7 @@ public class SVGFontTable {
 			// size
 			Float size = (Float) attributes.get(TextAttribute.SIZE);
 			result.append("font-size=\"");
-			result.append(SVGGraphics2D.fixedPrecision(size.floatValue()));
+			result.append(SVGGraphics2D.fixedPrecision(size));
 			result.append("\" ");
 
 			// number of coordinate units on the em square,
@@ -221,9 +206,8 @@ public class SVGFontTable {
 			result.append("/>\n");
 
 			// regular glyphs
-			Iterator glyphs = getGlyphs(font).values().iterator();
-			while (glyphs.hasNext()) {
-				result.append(glyphs.next().toString());
+			for (SVGGlyph svgGlyph : getGlyphs(font).values()) {
+				result.append(svgGlyph.toString());
 				result.append("\n");
 			}
 
@@ -236,7 +220,7 @@ public class SVGFontTable {
 
 	/**
 	 * creates a font based on the parameter. The size will be
-	 * {@link SVGGlyph.FONT_SIZE} and transformation will be removed. Example:
+	 * {@link SVGGlyph#FONT_SIZE} and transformation will be removed. Example:
 	 * <BR>
 	 * <code>java.awt.Font[family=SansSerif,name=SansSerif,style=plain,size=30]</code>
 	 * <BR>
@@ -252,10 +236,11 @@ public class SVGFontTable {
 	 */
 	private static Font untransform(Font font) {
 		// replace font family
-		Map /* <TextAttribute, ?> */ attributes = font.getAttributes();
+		Map<TextAttribute, Object>  attributes =
+				(Map<TextAttribute, Object>) font.getAttributes();
 
 		// set default font size
-		attributes.put(TextAttribute.SIZE, new Float(SVGGlyph.FONT_SIZE));
+		attributes.put(TextAttribute.SIZE, (float) SVGGlyph.FONT_SIZE);
 
 		// remove font transformation
 		attributes.remove(TextAttribute.TRANSFORM);
@@ -300,18 +285,19 @@ public class SVGFontTable {
 	 * @param attributes
 	 *            with font name to change
 	 */
-	public static void normalize(Map /* <TextAttribute, ?> */ attributes) {
+	public static void normalize(Map<TextAttribute, ?>  attributes) {
+		Map<TextAttribute, Object> attrib = (Map<TextAttribute, Object>) attributes;
 		// dialog.bold -> Dialog with TextAttribute.WEIGHT_BOLD
-		FontTable.normalize(attributes);
+		FontTable.normalize(attrib);
 
 		// get replaced font family name (Yes it's right, not the name!)
 		String family = replaceFonts.getProperty(
-				((String) attributes.get(TextAttribute.FAMILY)).toLowerCase());
+				((String) attrib.get(TextAttribute.FAMILY)).toLowerCase());
 		if (family == null) {
-			family = (String) attributes.get(TextAttribute.FAMILY);
+			family = (String) attrib.get(TextAttribute.FAMILY);
 		}
 
 		// replace the family (Yes it's right, not the name!) in the attributes
-		attributes.put(TextAttribute.FAMILY, family);
+		attrib.put(TextAttribute.FAMILY, family);
 	}
 }

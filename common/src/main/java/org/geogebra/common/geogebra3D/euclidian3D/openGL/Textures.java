@@ -183,20 +183,14 @@ public class Textures {
 	 * @return dash type (not hidden)
 	 */
 	final static public int getDashFromLineType(int lineType) {
-		switch (lineType) {
-		case EuclidianStyleConstants.LINE_TYPE_FULL:
-			return DASH_NONE;
-		case EuclidianStyleConstants.LINE_TYPE_DOTTED:
-			return DASH_DOTTED;
-		case EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT:
-			return DASH_SHORT;
-		case EuclidianStyleConstants.LINE_TYPE_DASHED_LONG:
-			return DASH_LONG;
-		case EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED:
-			return DASH_DOTTED_DASHED;
-		default:
-			return DASH_NONE;
-		}
+		return switch (lineType) {
+			case EuclidianStyleConstants.LINE_TYPE_FULL -> DASH_NONE;
+			case EuclidianStyleConstants.LINE_TYPE_DOTTED -> DASH_DOTTED;
+			case EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT -> DASH_SHORT;
+			case EuclidianStyleConstants.LINE_TYPE_DASHED_LONG -> DASH_LONG;
+			case EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED -> DASH_DOTTED_DASHED;
+			default -> DASH_NONE;
+		};
 	}
 
 	/**
@@ -216,20 +210,14 @@ public class Textures {
 	 * @return dash type hidden
 	 */
 	final static public int getDashFromLineTypeHidden(int lineType) {
-		switch (lineType) {
-		case EuclidianStyleConstants.LINE_TYPE_FULL:
-			return DASH_NONE_HIDDEN;
-		case EuclidianStyleConstants.LINE_TYPE_DOTTED:
-			return DASH_DOTTED_HIDDEN;
-		case EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT:
-			return DASH_SHORT_HIDDEN;
-		case EuclidianStyleConstants.LINE_TYPE_DASHED_LONG:
-			return DASH_LONG_HIDDEN;
-		case EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED:
-			return DASH_DOTTED_DASHED_HIDDEN;
-		default:
-			return DASH_NONE_HIDDEN;
-		}
+		return switch (lineType) {
+			case EuclidianStyleConstants.LINE_TYPE_FULL -> DASH_NONE_HIDDEN;
+			case EuclidianStyleConstants.LINE_TYPE_DOTTED -> DASH_DOTTED_HIDDEN;
+			case EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT -> DASH_SHORT_HIDDEN;
+			case EuclidianStyleConstants.LINE_TYPE_DASHED_LONG -> DASH_LONG_HIDDEN;
+			case EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED -> DASH_DOTTED_DASHED_HIDDEN;
+			default -> DASH_NONE_HIDDEN;
+		};
 	}
 
 	/**

@@ -319,8 +319,8 @@ public class ChiSquarePanelD extends ChiSquarePanel
 		 * hide all labels
 		 */
 		public void hideAllLabels() {
-			for (int i = 0; i < label.length; i++) {
-				label[i].setVisible(false);
+			for (JLabel jLabel : label) {
+				jLabel.setVisible(false);
 			}
 		}
 

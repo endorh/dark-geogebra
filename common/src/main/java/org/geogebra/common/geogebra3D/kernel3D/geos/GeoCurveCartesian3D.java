@@ -173,11 +173,9 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	@Override
 	public void set(GeoElementND geo) {
 
-		if (!(geo instanceof GeoCurveCartesianND)) {
+		if (!(geo instanceof GeoCurveCartesianND geoCurve)) {
 			return;
 		}
-
-		GeoCurveCartesianND geoCurve = (GeoCurveCartesianND) geo;
 
 		// fun = new Function[3];
 		for (int i = 0; i < 2; i++) {

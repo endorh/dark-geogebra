@@ -200,14 +200,14 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 
 		// set sizes
 		switch (levelOfDetail) {
-		case SPEED:
+		case SPEED -> {
 			maxSplit = MAX_SPLIT_SPEED;
 			maxSplitsInOneUpdate = MAX_SPLIT_IN_ONE_UPDATE_SPEED;
-			break;
-		case QUALITY:
+		}
+		case QUALITY -> {
 			maxSplit = MAX_SPLIT_QUALITY;
 			maxSplitsInOneUpdate = MAX_SPLIT_IN_ONE_UPDATE_QUALITY;
-			break;
+		}
 		}
 
 		maxDraw = maxSplit;
@@ -226,16 +226,16 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 
 		// set sizes
 		switch (levelOfDetail) {
-		case SPEED:
+		case SPEED -> {
 			maxRWDistanceNoAngleCheck = 1 * maxRWPixelDistance;
 			maxRWDistance = 5 * maxRWPixelDistance;
 			maxBend = getView3D().getMaxBendSpeedSurface();
-			break;
-		case QUALITY:
+		}
+		case QUALITY -> {
 			maxRWDistanceNoAngleCheck = 1 * maxRWPixelDistance;
 			maxRWDistance = 2 * maxRWPixelDistance;
 			maxBend = CurveSegmentPlotter.MAX_BEND;
-			break;
+		}
 		}
 
 	}
@@ -1146,8 +1146,8 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 		public void drawAsStillToSplit(PlotterSurface surface) {
 
 			// prevent keeping old element id
-			for (int i = 0; i < cornerToDrawStillToSplit.length; i++) {
-				cornerToDrawStillToSplit[i].id = -1;
+			for (Corner corner : cornerToDrawStillToSplit) {
+				corner.id = -1;
 			}
 
 			// create ring about corners

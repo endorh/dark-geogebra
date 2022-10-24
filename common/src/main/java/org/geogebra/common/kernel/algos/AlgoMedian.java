@@ -271,13 +271,13 @@ public class AlgoMedian extends AlgoElement {
 		}
 
 		// extract value and frequency arrays
-		Double[] v = tm.keySet().toArray(new Double[tm.size()]);
-		Integer[] f = tm.values().toArray(new Integer[tm.size()]);
+		Double[] v = tm.keySet().toArray(new Double[0]);
+		Integer[] f = tm.values().toArray(new Integer[0]);
 
 		// get data size n
 		int n = 0;
-		for (int i = 0; i < f.length; i++) {
-			n += f[i]; // add the frequency for this value
+		for (Integer integer : f) {
+			n += integer; // add the frequency for this value
 		}
 
 		// return the arrays in an Object array

@@ -22,7 +22,7 @@ public class GenericTagHandler extends TagHandler {
 	/**
 	 * TextAttribute for overline, not a standard
 	 */
-	final public static Integer UNDERLINE_OVERLINE = Integer.valueOf(128);
+	final public static Integer UNDERLINE_OVERLINE = 128;
 
 	/**
 	 * context to draw AttributedString
@@ -168,7 +168,7 @@ public class GenericTagHandler extends TagHandler {
 		// it the first openened, e.g. <b>text<b>text2</b> will draw
 		// text and text2 in bold weight
 		if (!tags.containsKey(tag)) {
-			tags.put(tag, Integer.valueOf(clearedText.length()));
+			tags.put(tag, clearedText.length());
 		}
 		return "";
 	}
@@ -191,7 +191,7 @@ public class GenericTagHandler extends TagHandler {
 		if (!tags.containsKey(tag)) {
 			return super.closeTag(tag);
 		}
-		begin = ((Integer) tags.get(tag)).intValue();
+		begin = (Integer) tags.get(tag);
 		tags.remove(tag);
 
 		// change attributes
@@ -230,7 +230,7 @@ public class GenericTagHandler extends TagHandler {
 			// FIXME: not quite clear why this is necessary
 			this.attributes.add(new AttributeEntry(begin, clearedText.length(),
 					TextAttribute.TRANSFORM, AffineTransform
-							.getTranslateInstance(0, superscriptCorrection)));
+					.getTranslateInstance(0, superscriptCorrection)));
 
 			this.attributes.add(new AttributeEntry(begin, clearedText.length(),
 					TextAttribute.SUPERSCRIPT,
@@ -241,7 +241,7 @@ public class GenericTagHandler extends TagHandler {
 			// FIXME: not quite clear why this is necessary
 			this.attributes.add(new AttributeEntry(begin, clearedText.length(),
 					TextAttribute.TRANSFORM, AffineTransform
-							.getTranslateInstance(0, -superscriptCorrection)));
+					.getTranslateInstance(0, -superscriptCorrection)));
 
 			this.attributes.add(new AttributeEntry(begin, clearedText.length(),
 					TextAttribute.SUPERSCRIPT, TextAttribute.SUPERSCRIPT_SUB));
@@ -276,7 +276,7 @@ public class GenericTagHandler extends TagHandler {
 	 * {@link GenericTagHandler#closeTag(String)} and apllied in
 	 * {@link GenericTagHandler#print(TagString, double, double, double)}
 	 */
-	private class AttributeEntry {
+	private static class AttributeEntry {
 
 		/**
 		 * start offset in text

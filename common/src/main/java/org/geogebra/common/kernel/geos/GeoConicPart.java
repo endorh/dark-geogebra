@@ -93,16 +93,11 @@ public class GeoConicPart extends GeoConic
 
 	@Override
 	public String getTypeString() {
-		switch (parameters.conicPartType) {
-		case CONIC_PART_ARC:
-			return "Arc";
-
-		case CONIC_PART_SECTOR:
-			return "Sector";
-
-		default:
-			return super.getTypeString();
-		}
+		return switch (parameters.conicPartType) {
+			case CONIC_PART_ARC -> "Arc";
+			case CONIC_PART_SECTOR -> "Sector";
+			default -> super.getTypeString();
+		};
 	}
 
 	@Override
@@ -613,9 +608,8 @@ public class GeoConicPart extends GeoConic
 		int conic_part_type = parameters.conicPartType;
 
 		// CREATE CONIC PART
-		if (algoParent instanceof AlgoConicPartCircle) {
+		if (algoParent instanceof AlgoConicPartCircle algo) {
 			// transform points
-			AlgoConicPartCircle algo = (AlgoConicPartCircle) algoParent;
 			GeoPointND[] points = { algo.getCenter(), algo.getStartPoint(),
 					algo.getEndPoint() };
 
@@ -658,8 +652,7 @@ public class GeoConicPart extends GeoConic
 			GeoElement[] geos = { res, (GeoElement) points[1],
 					(GeoElement) points[2], (GeoElement) points[0] };
 			return geos;
-		} else if (algoParent instanceof AlgoConicPartConicParameters) {
-			AlgoConicPartConicParameters algo = (AlgoConicPartConicParameters) algoParent;
+		} else if (algoParent instanceof AlgoConicPartConicParameters algo) {
 
 			GeoConicND transformedConic = t.getTransformedConic(algo.conic);
 			cons.removeFromConstructionList(
@@ -672,8 +665,7 @@ public class GeoConicPart extends GeoConic
 			ret.setVisualStyleForTransformations(this);
 			GeoElement[] geos = { ret };
 			return geos;
-		} else if (algoParent instanceof AlgoConicPartConicPoints) {
-			AlgoConicPartConicPoints algo = (AlgoConicPartConicPoints) algoParent;
+		} else if (algoParent instanceof AlgoConicPartConicPoints algo) {
 			GeoPointND[] points = { algo.getStartPoint(), algo.getEndPoint() };
 			points = t.transformPoints(points);
 			GeoConicND orgConic = algo.getConic();

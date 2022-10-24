@@ -45,10 +45,8 @@ public class ArgumentHelper {
 		if (currentOffset > 0) {
 			// if previous sequence argument are braces pass their content
 			if (currentField
-					.getArgument(currentOffset - 1) instanceof MathArray) {
+					.getArgument(currentOffset - 1) instanceof MathArray array) {
 
-				MathArray array = (MathArray) currentField
-						.getArgument(currentOffset - 1);
 				currentField.delArgument(currentOffset - 1);
 				currentOffset--;
 				if (field.size() == 0) {
@@ -67,10 +65,8 @@ public class ArgumentHelper {
 
 				// if previous sequence argument is, function pass it
 			} else if (currentField
-					.getArgument(currentOffset - 1) instanceof MathFunction) {
+					.getArgument(currentOffset - 1) instanceof MathFunction function) {
 
-				MathFunction function = (MathFunction) currentField
-						.getArgument(currentOffset - 1);
 				currentField.delArgument(currentOffset - 1);
 				currentOffset--;
 				field.addArgument(0, function);
@@ -93,10 +89,8 @@ public class ArgumentHelper {
 				.getArgument(container.getInsertIndex());
 
 		while (currentOffset > 0 && currentField
-				.getArgument(currentOffset - 1) instanceof MathCharacter) {
+				.getArgument(currentOffset - 1) instanceof MathCharacter character) {
 
-			MathCharacter character = (MathCharacter) currentField
-					.getArgument(currentOffset - 1);
 			if (character.isWordBreak()) {
 				break;
 			}
@@ -121,10 +115,8 @@ public class ArgumentHelper {
 		int offset = initialOffset;
 		MathSequence currentField = editorState.getCurrentField();
 		while (offset > 0 && currentField
-				.getArgument(offset - 1) instanceof MathCharacter) {
+				.getArgument(offset - 1) instanceof MathCharacter character) {
 
-			MathCharacter character = (MathCharacter) currentField
-					.getArgument(offset - 1);
 			if (character.isWordBreak()) {
 				break;
 			}

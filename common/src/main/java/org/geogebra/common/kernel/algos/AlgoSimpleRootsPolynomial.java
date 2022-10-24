@@ -45,15 +45,12 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 	public AlgoSimpleRootsPolynomial(Construction c) {
 		super(c);
 		eqnSolver = cons.getKernel().getEquationSolver();
-		points = new OutputHandler<>(new ElementFactory<GeoPoint>() {
-			@Override
-			public GeoPoint newElement() {
-				GeoPoint p = new GeoPoint(cons);
-				// p.setCoords(0, 0, 1);
-				p.setUndefined();
-				p.setParentAlgorithm(AlgoSimpleRootsPolynomial.this);
-				return p;
-			}
+		points = new OutputHandler<>(() -> {
+			GeoPoint p = new GeoPoint(cons);
+			// p.setCoords(0, 0, 1);
+			p.setUndefined();
+			p.setParentAlgorithm(AlgoSimpleRootsPolynomial.this);
+			return p;
 		});
 	}
 
@@ -66,9 +63,7 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 	public AlgoSimpleRootsPolynomial(Construction c, GeoElement... geos) {
 		this(c);
 		this.geos = new GeoElement[geos.length];
-		for (int i = 0; i < geos.length; i++) {
-			this.geos[i] = geos[i];
-		}
+		System.arraycopy(geos, 0, this.geos, 0, geos.length);
 		setInputOutput();
 	}
 
@@ -179,9 +174,9 @@ public abstract class AlgoSimpleRootsPolynomial extends AlgoIntersect {
 			len = getNrPoints(roots[i]);
 			for (int j = 0; j < len; j++) {
 				double[] pair = getXYPair(roots[i], j);
-				for (int k = 0; k < valPairs.size(); k++) {
+				for (double[] valPair : valPairs) {
 					if (distancePairSq(pair,
-							valPairs.get(k)) < Kernel.STANDARD_PRECISION) {
+							valPair) < Kernel.STANDARD_PRECISION) {
 						pair = null;
 						break;
 					}

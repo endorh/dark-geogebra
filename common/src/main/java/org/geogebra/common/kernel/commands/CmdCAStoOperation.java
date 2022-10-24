@@ -48,17 +48,14 @@ public class CmdCAStoOperation extends CommandProcessor {
 	public ExpressionNode simplify(Command c) {
 		EvalInfo info = new EvalInfo(false);
 		switch (op) {
-		case YCOORD:
-		case XCOORD:
+		case YCOORD, XCOORD -> {
 			if (c.getArgumentNumber() != 1) {
 				throw argNumErr(c);
 			}
 			c.getArgument(0).resolveVariables(info);
 			return new ExpressionNode(kernel, c.getArgument(0).unwrap(), op, null);
-
-		case MULTIPLY:
-		case VECTORPRODUCT:
-		case NPR:
+		}
+		case MULTIPLY, VECTORPRODUCT, NPR -> {
 			if (c.getArgumentNumber() != 2) {
 				throw argNumErr(c);
 			}
@@ -66,8 +63,8 @@ public class CmdCAStoOperation extends CommandProcessor {
 			c.getArgument(1).resolveVariables(info);
 			return new ExpressionNode(kernel, c.getArgument(0).unwrap(), op,
 					c.getArgument(1).unwrap());
-		default:
-			throw new Error("Unhandled operation " + op);
+		}
+		default -> throw new Error("Unhandled operation " + op);
 		}
 	}
 

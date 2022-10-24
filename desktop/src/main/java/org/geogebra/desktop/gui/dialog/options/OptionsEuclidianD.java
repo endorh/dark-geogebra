@@ -810,7 +810,7 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 		} else if (source == cbAxesStyle) {
 
 			model.applyAxesStyle(
-					((Integer) cbAxesStyle.getSelectedItem()).intValue()
+					(Integer) cbAxesStyle.getSelectedItem()
 							// make sure bold checkbox doesn't change
 							+ (cbBoldAxes.isSelected()
 									? EuclidianStyleConstants.AXES_BOLD : 0));
@@ -827,7 +827,7 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 
 		else if (source == cbGridStyle) {
 			model.applyGridStyle(
-					((Integer) cbGridStyle.getSelectedItem()).intValue());
+					(Integer) cbGridStyle.getSelectedItem());
 
 		} else if (source == cbGridManualTick) {
 			model.applyGridManualTick(cbGridManualTick.isSelected());
@@ -920,15 +920,9 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 	 */
 	public void setSelectedTab(Construction.Constants constant) {
 		switch (constant) {
-		case X_AXIS:
-			tabbedPane.setSelectedIndex(1);
-			break;
-		case Y_AXIS:
-			tabbedPane.setSelectedIndex(2);
-			break;
-		default:
-			tabbedPane.setSelectedIndex(0);
-			break;
+		case X_AXIS -> tabbedPane.setSelectedIndex(1);
+		case Y_AXIS -> tabbedPane.setSelectedIndex(2);
+		default -> tabbedPane.setSelectedIndex(0);
 		}
 	}
 

@@ -180,8 +180,8 @@ public class SymbolicParameters {
 	 */
 	public static BigInteger[] reduce(final BigInteger[] vect) {
 		BigInteger gcd = BigInteger.ZERO;
-		for (int i = 0; i < vect.length; i++) {
-			gcd = gcd.gcd(vect[i]);
+		for (BigInteger bigInteger : vect) {
+			gcd = gcd.gcd(bigInteger);
 		}
 		if (gcd.equals(BigInteger.ZERO)) {
 			gcd = BigInteger.ONE;

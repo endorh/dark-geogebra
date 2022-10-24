@@ -364,7 +364,7 @@ public abstract class QuadCurve2D implements Shape, GQuadCurve2D {
      */
     @Override
 	public void setCurve(double[] coords, int offset) {
-        setCurve(coords[offset + 0], coords[offset + 1],
+        setCurve(coords[offset], coords[offset + 1],
                  coords[offset + 2], coords[offset + 3],
                  coords[offset + 4], coords[offset + 5]);
     }
@@ -397,7 +397,7 @@ public abstract class QuadCurve2D implements Shape, GQuadCurve2D {
      * @since 1.2
      */
     public void setCurve(GPoint2D[] pts, int offset) {
-        setCurve(pts[offset + 0].getX(), pts[offset + 0].getY(),
+        setCurve(pts[offset].getX(), pts[offset].getY(),
                  pts[offset + 1].getX(), pts[offset + 1].getY(),
                  pts[offset + 2].getX(), pts[offset + 2].getY());
     }
@@ -470,7 +470,7 @@ public abstract class QuadCurve2D implements Shape, GQuadCurve2D {
      * @since 1.2
      */
     public static double getFlatnessSq(double coords[], int offset) {
-        return Line2D.ptSegDistSq(coords[offset + 0], coords[offset + 1],
+        return Line2D.ptSegDistSq(coords[offset], coords[offset + 1],
                                   coords[offset + 4], coords[offset + 5],
                                   coords[offset + 2], coords[offset + 3]);
     }
@@ -488,7 +488,7 @@ public abstract class QuadCurve2D implements Shape, GQuadCurve2D {
      * @since 1.2
      */
     public static double getFlatness(double coords[], int offset) {
-        return Line2D.ptSegDist(coords[offset + 0], coords[offset + 1],
+        return Line2D.ptSegDist(coords[offset], coords[offset + 1],
                                 coords[offset + 4], coords[offset + 5],
                                 coords[offset + 2], coords[offset + 3]);
     }
@@ -605,14 +605,14 @@ public abstract class QuadCurve2D implements Shape, GQuadCurve2D {
     public static void subdivide(double src[], int srcoff,
                                  double left[], int leftoff,
                                  double right[], int rightoff) {
-        double x1 = src[srcoff + 0];
+        double x1 = src[srcoff];
         double y1 = src[srcoff + 1];
         double ctrlx = src[srcoff + 2];
         double ctrly = src[srcoff + 3];
         double x2 = src[srcoff + 4];
         double y2 = src[srcoff + 5];
         if (left != null) {
-            left[leftoff + 0] = x1;
+            left[leftoff] = x1;
             left[leftoff + 1] = y1;
         }
         if (right != null) {
@@ -632,7 +632,7 @@ public abstract class QuadCurve2D implements Shape, GQuadCurve2D {
             left[leftoff + 5] = ctrly;
         }
         if (right != null) {
-            right[rightoff + 0] = ctrlx;
+            right[rightoff] = ctrlx;
             right[rightoff + 1] = ctrly;
             right[rightoff + 2] = x2;
             right[rightoff + 3] = y2;

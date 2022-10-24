@@ -85,8 +85,8 @@ public class EMFOutputStream extends TaggedOutputStream {
 
 	// DWORD []
 	public void writeDWORD(int[] w) throws IOException {
-		for (int i = 0; i < w.length; i++) {
-			writeDWORD(w[i]);
+		for (int j : w) {
+			writeDWORD(j);
 		}
 	}
 
@@ -249,7 +249,7 @@ public class EMFOutputStream extends TaggedOutputStream {
 	@Override
 	protected void writeTagHeader(TagHeader header) throws IOException {
 		EMFTagHeader tagHeader = (EMFTagHeader) header;
-		writeUnsignedInt(tagHeader.getTag() | (tagHeader.getFlags() << 16));
+		writeUnsignedInt(tagHeader.getTag() | ((long) tagHeader.getFlags() << 16));
 		writeUnsignedInt(tagHeader.getLength() + 8);
 	}
 

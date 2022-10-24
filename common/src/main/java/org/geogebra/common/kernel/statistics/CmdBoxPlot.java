@@ -32,7 +32,7 @@ public class CmdBoxPlot extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 3:
+		case 3 -> {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0] instanceof GeoNumberValue))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
@@ -42,12 +42,12 @@ public class CmdBoxPlot extends CommandProcessor {
 						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
 						(GeoList) arg[2], null);
 
-				GeoElement[] ret = { algo.getSum() };
+				GeoElement[] ret = {algo.getSum()};
 				return ret;
 			}
 			throw argErr(c, getBadArg(ok, arg));
-
-		case 4:
+		}
+		case 4 -> {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0] instanceof GeoNumberValue))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
@@ -58,13 +58,13 @@ public class CmdBoxPlot extends CommandProcessor {
 						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
 						(GeoList) arg[2], (GeoBoolean) arg[3]);
 
-				GeoElement[] ret = { algo.getSum() };
+				GeoElement[] ret = {algo.getSum()};
 				return ret;
 			}
 			throw argErr(c, getBadArg(ok, arg));
-
-		case 5: // BoxPlot[ <yOffset>, <yScale>, <List of Data>, <List of
-				// Frequencies>, <Boolean Outliers> ]
+		}
+		case 5 -> { // BoxPlot[ <yOffset>, <yScale>, <List of Data>, <List of
+			// Frequencies>, <Boolean Outliers> ]
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0] instanceof GeoNumberValue))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
@@ -77,12 +77,12 @@ public class CmdBoxPlot extends CommandProcessor {
 						(GeoList) arg[2], (GeoList) arg[3],
 						(GeoBoolean) arg[4]);
 
-				GeoElement[] ret = { algo.getSum() };
+				GeoElement[] ret = {algo.getSum()};
 				return ret;
 			}
 			throw argErr(c, getBadArg(ok, arg));
-
-		case 7:
+		}
+		case 7 -> {
 			arg = resArgs(c);
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
@@ -98,14 +98,13 @@ public class CmdBoxPlot extends CommandProcessor {
 						(GeoNumberValue) arg[4], (GeoNumberValue) arg[5],
 						(GeoNumberValue) arg[6]);
 
-				GeoElement[] ret = { algo.getSum() };
+				GeoElement[] ret = {algo.getSum()};
 				return ret;
 
 			}
 			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

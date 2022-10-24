@@ -67,25 +67,25 @@ public class GradientFill extends EMFTag implements EMFConstants {
 		emf.writeDWORD(vertices.length);
 		emf.writeDWORD(gradients.length);
 		emf.writeULONG(mode);
-		for (int i = 0; i < vertices.length; i++) {
-			vertices[i].write(emf);
+		for (TriVertex vertex : vertices) {
+			vertex.write(emf);
 		}
-		for (int i = 0; i < gradients.length; i++) {
-			gradients[i].write(emf);
+		for (Gradient gradient : gradients) {
+			gradient.write(emf);
 		}
 	}
 
 	@Override
 	public String toString() {
-		StringBuffer s = new StringBuffer();
-		s.append(super.toString() + "\n");
-		s.append("  bounds: " + bounds + "\n");
-		s.append("  mode: " + mode + "\n");
+		StringBuilder s = new StringBuilder();
+		s.append(super.toString()).append("\n");
+		s.append("  bounds: ").append(bounds).append("\n");
+		s.append("  mode: ").append(mode).append("\n");
 		for (int i = 0; i < vertices.length; i++) {
-			s.append("  vertex[" + i + "]: " + vertices[i] + "\n");
+			s.append("  vertex[").append(i).append("]: ").append(vertices[i]).append("\n");
 		}
 		for (int i = 0; i < gradients.length; i++) {
-			s.append("  gradient[" + i + "]: " + gradients[i] + "\n");
+			s.append("  gradient[").append(i).append("]: ").append(gradients[i]).append("\n");
 		}
 		return s.toString();
 	}

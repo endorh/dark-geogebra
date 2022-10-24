@@ -49,11 +49,23 @@ final class NativeBoolean extends IdScriptableObject
         String s;
         int arity;
         switch (id) {
-          case Id_constructor: arity=1; s="constructor"; break;
-          case Id_toString:    arity=0; s="toString";    break;
-          case Id_toSource:    arity=0; s="toSource";    break;
-          case Id_valueOf:     arity=0; s="valueOf";     break;
-          default: throw new IllegalArgumentException(String.valueOf(id));
+        case Id_constructor -> {
+            arity = 1;
+            s = "constructor";
+        }
+        case Id_toString -> {
+            arity = 0;
+            s = "toString";
+        }
+        case Id_toSource -> {
+            arity = 0;
+            s = "toSource";
+        }
+        case Id_valueOf -> {
+            arity = 0;
+            s = "valueOf";
+        }
+        default -> throw new IllegalArgumentException(String.valueOf(id));
         }
         initPrototypeMethod(BOOLEAN_TAG, id, s, arity);
     }

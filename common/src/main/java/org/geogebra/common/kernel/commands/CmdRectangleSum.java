@@ -30,7 +30,7 @@ public class CmdRectangleSum extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 5:
+		case 5 -> {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isRealValuedFunction()))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
@@ -43,13 +43,12 @@ public class CmdRectangleSum extends CommandProcessor {
 						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
 						(GeoNumberValue) arg[3], (GeoNumberValue) arg[4]);
 
-				GeoElement[] ret = { algo.getSum() };
+				GeoElement[] ret = {algo.getSum()};
 				return ret;
 			}
 			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

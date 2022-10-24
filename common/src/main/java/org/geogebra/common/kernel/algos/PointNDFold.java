@@ -32,19 +32,15 @@ public class PointNDFold implements FoldComputer {
 
 	private static GeoElement doGetTemplate(Construction cons,
 			GeoClass listElement) {
-		switch (listElement) {
-		case POINT:
-			return new GeoPoint(cons);
-		case POINT3D:
-			return (GeoElement) cons.getKernel().getGeoFactory().newPoint(3,
+		return switch (listElement) {
+			case POINT -> new GeoPoint(cons);
+			case POINT3D -> (GeoElement) cons.getKernel().getGeoFactory().newPoint(3,
 					cons);
-		case VECTOR:
-			return new GeoVector(cons);
-		case VECTOR3D:
-			return (GeoElement) cons.getKernel().getGeoFactory().newPoint(3,
+			case VECTOR -> new GeoVector(cons);
+			case VECTOR3D -> (GeoElement) cons.getKernel().getGeoFactory().newPoint(3,
 					cons);
-		}
-		return new GeoPoint(cons);
+			default -> new GeoPoint(cons);
+		};
 	}
 
 	@Override

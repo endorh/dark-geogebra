@@ -238,19 +238,11 @@ public class DrawConic extends SetDrawable implements Previewable {
 		Construction cons = view.getKernel().getConstruction();
 
 		switch (mode) {
-		default:
-		case EuclidianConstants.MODE_CIRCLE_TWO_POINTS:
-		case EuclidianConstants.MODE_CIRCLE_POINT_RADIUS:
-			neededPrevPoints = 1;
-			break;
-		case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
-		case EuclidianConstants.MODE_ELLIPSE_THREE_POINTS:
-		case EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS:
-			neededPrevPoints = 2;
-			break;
-		case EuclidianConstants.MODE_CONIC_FIVE_POINTS:
-			neededPrevPoints = 4;
-			break;
+		case EuclidianConstants.MODE_CIRCLE_TWO_POINTS, EuclidianConstants.MODE_CIRCLE_POINT_RADIUS ->
+				neededPrevPoints = 1;
+		case EuclidianConstants.MODE_CIRCLE_THREE_POINTS, EuclidianConstants.MODE_ELLIPSE_THREE_POINTS, EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS ->
+				neededPrevPoints = 2;
+		case EuclidianConstants.MODE_CONIC_FIVE_POINTS -> neededPrevPoints = 4;
 		}
 
 		previewTempPoints = new GeoPoint[neededPrevPoints + 1];
@@ -336,40 +328,18 @@ public class DrawConic extends SetDrawable implements Previewable {
 		type = conic.getType();
 
 		switch (type) {
-		default:
-		case GeoConicNDConstants.CONIC_EMPTY:
+		case GeoConicNDConstants.CONIC_EMPTY -> {
 			setShape(null);
 			fillShape = null;
-			break;
-		case GeoConicNDConstants.CONIC_SINGLE_POINT:
-			updateSinglePoint();
-			break;
-
-		case GeoConicNDConstants.CONIC_DOUBLE_LINE:
-			updateDoubleLine();
-			break;
-
-		case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
-		case GeoConicNDConstants.CONIC_PARALLEL_LINES:
-		case GeoConicNDConstants.CONIC_LINE:
-			updateLines();
-			break;
-
-		case GeoConicNDConstants.CONIC_CIRCLE:
-			updateCircle();
-			break;
-
-		case GeoConicNDConstants.CONIC_ELLIPSE:
-			updateEllipse();
-			break;
-
-		case GeoConicNDConstants.CONIC_HYPERBOLA:
-			updateHyperbola();
-			break;
-
-		case GeoConicNDConstants.CONIC_PARABOLA:
-			updateParabola();
-			break;
+		}
+		case GeoConicNDConstants.CONIC_SINGLE_POINT -> updateSinglePoint();
+		case GeoConicNDConstants.CONIC_DOUBLE_LINE -> updateDoubleLine();
+		case GeoConicNDConstants.CONIC_INTERSECTING_LINES, GeoConicNDConstants.CONIC_PARALLEL_LINES, GeoConicNDConstants.CONIC_LINE ->
+				updateLines();
+		case GeoConicNDConstants.CONIC_CIRCLE -> updateCircle();
+		case GeoConicNDConstants.CONIC_ELLIPSE -> updateEllipse();
+		case GeoConicNDConstants.CONIC_HYPERBOLA -> updateHyperbola();
+		case GeoConicNDConstants.CONIC_PARABOLA -> updateParabola();
 		}
 
 		if (!isVisible) {
@@ -379,18 +349,12 @@ public class DrawConic extends SetDrawable implements Previewable {
 		// shape on screen?
 		GRectangle viewRect = view.getFrame();
 		switch (type) {
-		default:
-			// do nothing
-			break;
-		case GeoConicNDConstants.CONIC_CIRCLE:
-		case GeoConicNDConstants.CONIC_ELLIPSE:
-		case GeoConicNDConstants.CONIC_PARABOLA:
-			isVisible = checkCircleEllipseParabolaOnScreen(viewRect);
-			break;
-
-		case GeoConicNDConstants.CONIC_HYPERBOLA:
-			isVisible = checkHyperbolaOnScreen(viewRect);
-			break;
+		default -> {
+		}
+		// do nothing
+		case GeoConicNDConstants.CONIC_CIRCLE, GeoConicNDConstants.CONIC_ELLIPSE, GeoConicNDConstants.CONIC_PARABOLA ->
+				isVisible = checkCircleEllipseParabolaOnScreen(viewRect);
+		case GeoConicNDConstants.CONIC_HYPERBOLA -> isVisible = checkHyperbolaOnScreen(viewRect);
 		}
 
 		if (!isVisible) {
@@ -783,115 +747,93 @@ public class DrawConic extends SetDrawable implements Previewable {
 
 	private void getArcFillerGP(GPoint2D sp, GPoint2D ep, int i) {
 		switch (i) { // case number
-		case 0: // left top
+		case 0 -> { // left top
 			gp.moveTo(0, 0);
 			gp.lineTo(sp.getX(), sp.getY());
 			gp.lineTo(ep.getX(), ep.getY());
-			break;
-
-		case 1: // left middle
+		}
+		case 1 -> { // left middle
 			gp.moveTo(0, view.getHeight());
 			gp.lineTo(sp.getX(), sp.getY());
 			gp.lineTo(ep.getX(), ep.getY());
 			gp.lineTo(0, 0);
-			break;
-
-		case 2: // left bottom
+		}
+		case 2 -> { // left bottom
 			gp.moveTo(0, view.getHeight());
 			gp.lineTo(sp.getX(), sp.getY());
 			gp.lineTo(ep.getX(), ep.getY());
-			break;
-
-		case 3: // middle bottom
+		}
+		case 3 -> { // middle bottom
 			gp.moveTo(view.getWidth(), view.getHeight());
 			gp.lineTo(sp.getX(), sp.getY());
 			gp.lineTo(ep.getX(), ep.getY());
 			gp.lineTo(0, view.getHeight());
-			break;
-
-		case 4: // right bottom
+		}
+		case 4 -> { // right bottom
 			gp.moveTo(view.getWidth(), view.getHeight());
 			gp.lineTo(sp.getX(), sp.getY());
 			gp.lineTo(ep.getX(), ep.getY());
-			break;
-
-		case 5: // right middle
+		}
+		case 5 -> { // right middle
 			gp.moveTo(view.getWidth(), 0);
 			gp.lineTo(sp.getX(), sp.getY());
 			gp.lineTo(ep.getX(), ep.getY());
 			gp.lineTo(view.getWidth(), view.getHeight());
-			break;
-
-		case 6: // right top
+		}
+		case 6 -> { // right top
 			gp.moveTo(view.getWidth(), 0);
 			gp.lineTo(sp.getX(), sp.getY());
 			gp.lineTo(ep.getX(), ep.getY());
-			break;
-
-		case 7: // top middle
+		}
+		case 7 -> { // top middle
 			gp.moveTo(0, 0);
 			gp.lineTo(sp.getX(), sp.getY());
 			gp.lineTo(ep.getX(), ep.getY());
 			gp.lineTo(view.getWidth(), 0);
-			break;
-
-		default:
-			gp = null;
+		}
+		default -> gp = null;
 		}
 	}
 
 	private void getInverseArcFillerGP(GPoint2D sp, GPoint2D ep, int i) {
 		switch (i) { // case number
-		case 0: // left top
+		case 0 -> { // left top
 			gp.moveTo(view.getWidth(), view.getHeight());
 			gp.lineTo(view.getWidth(), 0);
 			gp.lineTo(ep.getX(), ep.getY());
 			gp.lineTo(sp.getX(), sp.getY());
 			gp.lineTo(sp.getX(), view.getHeight());
-			break;
-
-		case 1: // left middle
-			getArcFillerGP(ep, sp, 5);
-			break;
-
-		case 2: // left bottom
+		}
+		case 1 -> // left middle
+				getArcFillerGP(ep, sp, 5);
+		case 2 -> { // left bottom
 			gp.moveTo(view.getWidth(), 0);
 			gp.lineTo(view.getWidth(), view.getHeight());
 			gp.lineTo(sp.getX(), sp.getY());
 			gp.lineTo(ep.getX(), ep.getY());
 			gp.lineTo(ep.getX(), 0);
-			break;
-
-		case 3: // middle bottom
-			this.getArcFillerGP(ep, sp, 7);
-			break;
-
-		case 4: // right bottom
+		}
+		case 3 -> // middle bottom
+				this.getArcFillerGP(ep, sp, 7);
+		case 4 -> { // right bottom
 			gp.moveTo(0, 0);
 			gp.lineTo(0, view.getHeight());
 			gp.lineTo(ep.getX(), ep.getY());
 			gp.lineTo(sp.getX(), sp.getY());
 			gp.lineTo(sp.getX(), 0);
-			break;
-
-		case 5: // right middle
-			getArcFillerGP(ep, sp, 1);
-			break;
-
-		case 6: // right top
+		}
+		case 5 -> // right middle
+				getArcFillerGP(ep, sp, 1);
+		case 6 -> { // right top
 			gp.moveTo(0, view.getHeight());
 			gp.lineTo(0, 0);
 			gp.lineTo(sp.getX(), sp.getY());
 			gp.lineTo(ep.getX(), ep.getY());
 			gp.lineTo(ep.getX(), view.getHeight());
-			break;
-
-		case 7: // top middle
-			this.getArcFillerGP(ep, sp, 3);
-			break;
-
-		default:
-			gp = null;
+		}
+		case 7 -> // top middle
+				this.getArcFillerGP(ep, sp, 3);
+		default -> gp = null;
 		}
 	}
 
@@ -1545,40 +1487,28 @@ public class DrawConic extends SetDrawable implements Previewable {
 	final public void drawTrace(GGraphics2D g2) {
 		g2.setColor(getObjectColor());
 		switch (type) {
-		default:
-			// do nothing
-			break;
-		case GeoConicNDConstants.CONIC_SINGLE_POINT:
-			drawPoint.drawTrace(g2);
-			break;
-
-		case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
-		case GeoConicNDConstants.CONIC_DOUBLE_LINE:
-		case GeoConicNDConstants.CONIC_PARALLEL_LINES:
+		default -> {
+		}
+		// do nothing
+		case GeoConicNDConstants.CONIC_SINGLE_POINT -> drawPoint.drawTrace(g2);
+		case GeoConicNDConstants.CONIC_INTERSECTING_LINES, GeoConicNDConstants.CONIC_DOUBLE_LINE, GeoConicNDConstants.CONIC_PARALLEL_LINES -> {
 			drawLines[0].drawTrace(g2);
 			drawLines[1].drawTrace(g2);
-			break;
-
-		case GeoConicNDConstants.CONIC_LINE:
-			drawLines[0].drawTrace(g2);
-			break;
-
-		case GeoConicNDConstants.CONIC_CIRCLE:
-		case GeoConicNDConstants.CONIC_ELLIPSE:
-		case GeoConicNDConstants.CONIC_PARABOLA:
+		}
+		case GeoConicNDConstants.CONIC_LINE -> drawLines[0].drawTrace(g2);
+		case GeoConicNDConstants.CONIC_CIRCLE, GeoConicNDConstants.CONIC_ELLIPSE, GeoConicNDConstants.CONIC_PARABOLA -> {
 			fillEllipseParabola(g2);
 			g2.setStroke(objStroke);
 			g2.setColor(getObjectColor());
 			g2.draw(fillShape);
-			break;
-
-		case GeoConicNDConstants.CONIC_HYPERBOLA:
+		}
+		case GeoConicNDConstants.CONIC_HYPERBOLA -> {
 			fillHyperbola(g2);
 			g2.setStroke(objStroke);
 			g2.setColor(getObjectColor());
 			g2.draw(hypLeft);
 			g2.draw(hypRight);
-			break;
+		}
 		}
 	}
 
@@ -1756,17 +1686,14 @@ public class DrawConic extends SetDrawable implements Previewable {
 
 	@Override
 	final public boolean isInside(GRectangle rect) {
-		switch (type) {
-		case GeoConicNDConstants.CONIC_SINGLE_POINT:
-			return drawPoint.isInside(rect);
+		return switch (type) {
+			case GeoConicNDConstants.CONIC_SINGLE_POINT -> drawPoint.isInside(rect);
+			case GeoConicNDConstants.CONIC_CIRCLE, GeoConicNDConstants.CONIC_ELLIPSE ->
+					rect != null && fillShape != null
+							&& rect.contains(fillShape.getBounds());
+			default -> false;
+		};
 
-		case GeoConicNDConstants.CONIC_CIRCLE:
-		case GeoConicNDConstants.CONIC_ELLIPSE:
-			return rect != null && fillShape != null
-					&& rect.contains(fillShape.getBounds());
-		}
-
-		return false;
 	}
 
 	@Override
@@ -1807,75 +1734,65 @@ public class DrawConic extends SetDrawable implements Previewable {
 		isPreview = true;
 
 		switch (previewMode) {
-		case EuclidianConstants.MODE_CIRCLE_TWO_POINTS:
+		case EuclidianConstants.MODE_CIRCLE_TWO_POINTS -> {
 			AlgoCircleTwoPoints algo = new AlgoCircleTwoPoints(cons,
 					previewTempPoints[0], previewTempPoints[1]);
 			cons.removeFromConstructionList(algo);
 			initConic(algo.getCircle());
-			break;
-
-		case EuclidianConstants.MODE_CIRCLE_POINT_RADIUS:
+		}
+		case EuclidianConstants.MODE_CIRCLE_POINT_RADIUS -> {
 			Coords p = view
 					.getCoordsForView(prevPoints.get(0).getInhomCoordsInD3());
 			previewTempPoints[0].setCoords(p.projectInfDim(), false);
-
 			GeoNumberValue distance = new GeoNumeric(cons,
 					previewTempPoints[1].distance(previewTempPoints[0]));
 			AlgoCirclePointRadius algoCircleRadius = new AlgoCirclePointRadius(
 					cons, previewTempPoints[0], distance);
 			cons.removeFromConstructionList(algoCircleRadius);
 			initConic(algoCircleRadius.getCircle());
-			break;
-
-		case EuclidianConstants.MODE_CONIC_FIVE_POINTS:
-			GeoPoint[] pts = { previewTempPoints[0], previewTempPoints[1],
+		}
+		case EuclidianConstants.MODE_CONIC_FIVE_POINTS -> {
+			GeoPoint[] pts = {previewTempPoints[0], previewTempPoints[1],
 					previewTempPoints[2], previewTempPoints[3],
-					previewTempPoints[4] };
+					previewTempPoints[4]};
 			AlgoConicFivePoints algo0 = new AlgoConicFivePoints(cons, pts);
 			cons.removeFromConstructionList(algo0);
 			initConic(algo0.getConic());
-			break;
-
-		case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
+		}
+		case EuclidianConstants.MODE_CIRCLE_THREE_POINTS -> {
 			AlgoCircleThreePoints algo2 = new AlgoCircleThreePoints(cons,
 					previewTempPoints[0], previewTempPoints[1],
 					previewTempPoints[2]);
 			cons.removeFromConstructionList(algo2);
 			initConic(algo2.getCircle());
-			break;
-
-		case EuclidianConstants.MODE_ELLIPSE_THREE_POINTS:
+		}
+		case EuclidianConstants.MODE_ELLIPSE_THREE_POINTS -> {
 			AlgoEllipseHyperbolaFociPoint algo3 = new AlgoEllipseHyperbolaFociPoint(
 					cons, previewTempPoints[0], previewTempPoints[1],
 					previewTempPoints[2], GeoConicNDConstants.CONIC_ELLIPSE);
 			cons.removeFromConstructionList(algo3);
 			initConic(algo3.getConic());
-			break;
-
-		case EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS:
+		}
+		case EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS -> {
 			AlgoEllipseHyperbolaFociPoint algo4 = new AlgoEllipseHyperbolaFociPoint(
 					cons, previewTempPoints[0], previewTempPoints[1],
 					previewTempPoints[2], GeoConicNDConstants.CONIC_HYPERBOLA);
 			cons.removeFromConstructionList(algo4);
 			initConic(algo4.getConic());
-			break;
-
-		case EuclidianConstants.MODE_COMPASSES:
+		}
+		case EuclidianConstants.MODE_COMPASSES -> {
 			AlgoCirclePointRadius algo5 = new AlgoCirclePointRadius(cons,
 					previewTempPoints[0], previewTempRadius);
 			cons.removeFromConstructionList(algo5);
 			initConic(algo5.getCircle());
-			break;
-
-		case EuclidianConstants.MODE_PARABOLA:
+		}
+		case EuclidianConstants.MODE_PARABOLA -> {
 			AlgoParabolaPointLine algo6 = new AlgoParabolaPointLine(cons,
 					previewTempPoints[0], previewTempLine);
 			cons.removeFromConstructionList(algo6);
 			initConic(algo6.getParabola());
-			break;
-
-		default:
-			Log.debug("unknown conic type");
+		}
+		default -> Log.debug("unknown conic type");
 		}
 		if (conic != null) {
 			conic.setLabelVisible(false);
@@ -1887,7 +1804,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 	final public void updatePreview() {
 
 		switch (previewMode) {
-		case EuclidianConstants.MODE_COMPASSES:
+		case EuclidianConstants.MODE_COMPASSES -> {
 			// compass: set radius of preview circle
 			// two points or one segment selected to define radius
 			isVisible = conic != null && (prevPoints.size() == 2
@@ -1906,20 +1823,17 @@ public class DrawConic extends SetDrawable implements Previewable {
 				}
 				previewTempRadius.updateCascade();
 			}
-			break;
-
-		case EuclidianConstants.MODE_PARABOLA:
-
+		}
+		case EuclidianConstants.MODE_PARABOLA -> {
 			isVisible = prevLines.size() == 1;
-
 			if (prevLines.size() > 0 && previewTempLine instanceof GeoLine) {
 				GeoLineND lND = prevLines.get(0);
 				Coords equation = lND
 						.getCartesianEquationVector(view.getMatrix());
 				if (equation != null) {
 					((GeoLine) previewTempLine).setCoords(equation.getX(),
-						equation.getY(),
-						equation.getZ());
+							equation.getY(),
+							equation.getZ());
 				}
 			}
 			if (prevPoints.size() > 0) {
@@ -1930,10 +1844,8 @@ public class DrawConic extends SetDrawable implements Previewable {
 
 				previewTempPoints[0].updateCascade();
 			}
-
-			break;
-
-		case EuclidianConstants.MODE_CIRCLE_POINT_RADIUS:
+		}
+		case EuclidianConstants.MODE_CIRCLE_POINT_RADIUS -> {
 			isVisible = conic != null && prevPoints.size() == neededPrevPoints;
 			if (isVisible) {
 				Coords p = view.getCoordsForView(
@@ -1949,9 +1861,8 @@ public class DrawConic extends SetDrawable implements Previewable {
 				initConic(algoCircleRadius.getCircle());
 				this.conic.updateCascade();
 			}
-			break;
-
-		default:
+		}
+		default -> {
 			// all other conic preview modes: use points to define preview conic
 			isVisible = conic != null && prevPoints.size() == neededPrevPoints;
 			if (isVisible) {
@@ -1962,6 +1873,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 				}
 				previewTempPoints[0].updateCascade();
 			}
+		}
 		}
 	}
 

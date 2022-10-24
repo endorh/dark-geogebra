@@ -32,8 +32,7 @@ public class LanguageRenderer extends DefaultListCellRenderer {
 		Component ret = super.getListCellRendererComponent(list, value, index,
 				isSelected, cellHasFocus);
 
-		if (value instanceof String) {
-			String language = (String) value;
+		if (value instanceof String language) {
 			ret.setFont(app.getFontCanDisplayAwt(language));
 		}
 		return ret;

@@ -151,7 +151,7 @@ class RoundRectIterator implements GPathIterator {
         double ctrls[] = ctrlpts[index];
         int nc = 0;
         for (int i = 0; i < ctrls.length; i += 4) {
-            coords[nc++] = (x + ctrls[i + 0] * w + ctrls[i + 1] * aw);
+            coords[nc++] = (x + ctrls[i] * w + ctrls[i + 1] * aw);
             coords[nc++] = (y + ctrls[i + 2] * h + ctrls[i + 3] * ah);
         }
         if (affine != null) {

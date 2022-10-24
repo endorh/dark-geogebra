@@ -3,7 +3,6 @@ package org.freehep.graphicsio.font.truetype;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -42,8 +41,8 @@ public abstract class TTFFont {
 
 	public void show() {
 		System.out.println("Tables:");
-		for (Iterator i = entry.values().iterator(); i.hasNext();) {
-			System.out.println(i.next());
+		for (Object o : entry.values()) {
+			System.out.println(o);
 		}
 	}
 
@@ -62,9 +61,8 @@ public abstract class TTFFont {
 	 * order to print out all available information.
 	 */
 	public void readAll() throws IOException {
-		Iterator i = entry.values().iterator();
-		while (i.hasNext()) {
-			TTFTable table = (TTFTable) i.next();
+		for (Object o : entry.values()) {
+			TTFTable table = (TTFTable) o;
 			if ((table != null) && (!table.isRead())) {
 				table.read();
 			}

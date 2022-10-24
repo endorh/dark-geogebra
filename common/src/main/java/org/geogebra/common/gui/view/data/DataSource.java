@@ -246,8 +246,7 @@ public class DataSource {
 			return null;
 		}
 
-		ArrayList<String[]> list = new ArrayList<>();
-		list.addAll(dataList.get(dataIndex).getStringData());
+		ArrayList<String[]> list = new ArrayList<>(dataList.get(dataIndex).getStringData());
 
 		// get maximum row count
 		int rowCount = 0;
@@ -284,10 +283,9 @@ public class DataSource {
 			return null;
 		}
 
-		ArrayList<String> list = new ArrayList<>();
-		list.addAll(dataList.get(dataIndex).getTitles(app));
+		ArrayList<String> list = new ArrayList<>(dataList.get(dataIndex).getTitles(app));
 
-		String[] s = list.toArray(new String[list.size()]);
+		String[] s = list.toArray(new String[0]);
 
 		return s;
 	}
@@ -298,7 +296,7 @@ public class DataSource {
 	 */
 	public String[] getDescriptions() {
 		ArrayList<String> list = getSelectedDataVariable().getColumnNames();
-		return list.toArray(new String[list.size()]);
+		return list.toArray(new String[0]);
 	}
 
 	/**
@@ -313,7 +311,7 @@ public class DataSource {
 		}
 
 		ArrayList<String> list = dataList.get(dataIndex).getColumnNames();
-		return list.toArray(new String[list.size()]);
+		return list.toArray(new String[0]);
 	}
 
 	// =========================================
@@ -436,9 +434,7 @@ public class DataSource {
 	public void setDataListFromSettings(ArrayList<String> items, int mode) {
 		dataList.clear();
 		ArrayList<CellRange> ranges = new ArrayList<>();
-		for (int i = 0; i < items.size(); i++) {
-			String range = items.get(i);
-
+		for (String range : items) {
 			GPoint start = GeoElementSpreadsheet.getSpreadsheetCoordsForLabel(
 					range.substring(0, range.indexOf(':')));
 
@@ -523,9 +519,7 @@ public class DataSource {
 		ArrayList<DataItem> itemList = new ArrayList<>();
 
 		switch (mode) {
-
-		default:
-		case DataAnalysisModel.MODE_ONEVAR:
+		case DataAnalysisModel.MODE_ONEVAR -> {
 			if (isFrequencyFromColumn()) {
 				CellRange cr = rangeList.get(0);
 				cr.debug();
@@ -543,14 +537,12 @@ public class DataSource {
 			}
 			itemList.add(new DataItem(rangeList));
 			var.setDataVariableAsRawData(GeoClass.NUMERIC, itemList);
-			break;
-
-		case DataAnalysisModel.MODE_REGRESSION:
+		}
+		case DataAnalysisModel.MODE_REGRESSION -> {
 
 			// test if there is at least one GeoPoint in the selection
 			boolean hasPoint = crProcessor().containsGeoClass(rangeList,
 					GeoClass.POINT);
-
 			if (hasPoint) {
 				// single list of points
 				itemList.add(new DataItem(rangeList));
@@ -564,9 +556,8 @@ public class DataSource {
 				}
 				var.setDataVariableAsRawData(GeoClass.NUMERIC, itemList);
 			}
-			break;
-
-		case DataAnalysisModel.MODE_MULTIVAR:
+		}
+		case DataAnalysisModel.MODE_MULTIVAR -> {
 			ArrayList<CellRange> r;
 			for (CellRange cr : rangeList) {
 				if (cr.isRow() || cr.isPartialRow()) {
@@ -582,8 +573,7 @@ public class DataSource {
 				}
 			}
 			var.setDataVariableAsRawData(GeoClass.NUMERIC, itemList);
-
-			break;
+		}
 		}
 
 		dataList.add(var);

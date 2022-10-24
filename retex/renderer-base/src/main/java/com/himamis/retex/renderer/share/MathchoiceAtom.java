@@ -62,22 +62,13 @@ public class MathchoiceAtom extends Atom {
 
 	public Atom chose(TeXEnvironment env) {
 		final int style = env.getStyle();
-		switch (style) {
-		case TeXConstants.STYLE_DISPLAY:
-		case TeXConstants.STYLE_DISPLAY + 1:
-			return d;
-		case TeXConstants.STYLE_TEXT:
-		case TeXConstants.STYLE_TEXT + 1:
-			return t;
-		case TeXConstants.STYLE_SCRIPT:
-		case TeXConstants.STYLE_SCRIPT + 1:
-			return s;
-		case TeXConstants.STYLE_SCRIPT_SCRIPT:
-		case TeXConstants.STYLE_SCRIPT_SCRIPT + 1:
-			return ss;
-		default:
-			return d;
-		}
+		return switch (style) {
+			case TeXConstants.STYLE_DISPLAY, TeXConstants.STYLE_DISPLAY + 1 -> d;
+			case TeXConstants.STYLE_TEXT, TeXConstants.STYLE_TEXT + 1 -> t;
+			case TeXConstants.STYLE_SCRIPT, TeXConstants.STYLE_SCRIPT + 1 -> s;
+			case TeXConstants.STYLE_SCRIPT_SCRIPT, TeXConstants.STYLE_SCRIPT_SCRIPT + 1 -> ss;
+			default -> d;
+		};
 	}
 
 	@Override

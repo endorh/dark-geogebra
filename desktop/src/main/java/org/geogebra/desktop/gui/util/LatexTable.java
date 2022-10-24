@@ -83,7 +83,7 @@ public class LatexTable extends SelectionTableD implements MenuElement {
 		if (arg0.getID() == MouseEvent.MOUSE_RELEASED) {
 
 			// get the selected string
-			StringBuffer sb = new StringBuffer(
+			StringBuilder sb = new StringBuilder(
 					latexArray[this.getSelectedIndex()]);
 			// if LaTeX string, adjust the string to include selected text
 			// within braces

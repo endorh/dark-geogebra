@@ -128,7 +128,7 @@ public abstract class AbstractWell extends BitsStreamGenerator implements Serial
      * @param seed the initial seed (64 bits integer)
      */
     protected AbstractWell(final int k, final int m1, final int m2, final int m3, final long seed) {
-        this(k, m1, m2, m3, new int[] { (int) (seed >>> 32), (int) (seed & 0xffffffffl) });
+        this(k, m1, m2, m3, new int[] { (int) (seed >>> 32), (int) (seed & 0xffffffffL) });
     }
 
     /** Reinitialize the generator as if just built with the given int seed.
@@ -160,7 +160,7 @@ public abstract class AbstractWell extends BitsStreamGenerator implements Serial
         if (seed.length < v.length) {
             for (int i = seed.length; i < v.length; ++i) {
                 final long l = v[i - seed.length];
-                v[i] = (int) ((1812433253l * (l ^ (l >> 30)) + i) & 0xffffffffL);
+                v[i] = (int) ((1812433253L * (l ^ (l >> 30)) + i) & 0xffffffffL);
             }
         }
 
@@ -175,7 +175,7 @@ public abstract class AbstractWell extends BitsStreamGenerator implements Serial
      */
     @Override
     public void setSeed(final long seed) {
-        setSeed(new int[] { (int) (seed >>> 32), (int) (seed & 0xffffffffl) });
+        setSeed(new int[] { (int) (seed >>> 32), (int) (seed & 0xffffffffL) });
     }
 
     /** {@inheritDoc} */

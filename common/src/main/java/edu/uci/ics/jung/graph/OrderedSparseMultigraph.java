@@ -40,21 +40,16 @@ public class OrderedSparseMultigraph<V, E> extends SparseMultigraph<V, E>
 	 *            the edge type for the graph factory
 	 */
 	public static <V, E> Factory<Graph<V, E>> getFactory() {
-		return new Factory<Graph<V, E>>() {
-			@Override
-			public Graph<V, E> create() {
-				return new OrderedSparseMultigraph<V, E>();
-			}
-		};
+		return OrderedSparseMultigraph::new;
 	}
 
 	/**
 	 * Creates a new instance.
 	 */
 	public OrderedSparseMultigraph() {
-		vertices = new LinkedHashMap<V, Pair<Set<E>>>();
-		edges = new LinkedHashMap<E, Pair<V>>();
-		directedEdges = new LinkedHashSet<E>();
+		vertices = new LinkedHashMap<>();
+		edges = new LinkedHashMap<>();
+		directedEdges = new LinkedHashSet<>();
 	}
 
 	@Override
@@ -63,8 +58,8 @@ public class OrderedSparseMultigraph<V, E> extends SparseMultigraph<V, E>
 			throw new IllegalArgumentException("vertex may not be null");
 		}
 		if (!containsVertex(vertex)) {
-			vertices.put(vertex, new Pair<Set<E>>(new LinkedHashSet<E>(),
-					new LinkedHashSet<E>()));
+			vertices.put(vertex, new Pair<>(new LinkedHashSet<>(),
+					new LinkedHashSet<>()));
 			return true;
 		}
 		return false;
@@ -76,7 +71,7 @@ public class OrderedSparseMultigraph<V, E> extends SparseMultigraph<V, E>
 			return null;
 		}
 
-		Set<V> preds = new LinkedHashSet<V>();
+		Set<V> preds = new LinkedHashSet<>();
 		for (E edge : getIncoming_internal(vertex)) {
 			if (getEdgeType(edge) == EdgeType.DIRECTED) {
 				preds.add(this.getSource(edge));
@@ -93,7 +88,7 @@ public class OrderedSparseMultigraph<V, E> extends SparseMultigraph<V, E>
 			return null;
 		}
 
-		Set<V> succs = new LinkedHashSet<V>();
+		Set<V> succs = new LinkedHashSet<>();
 		for (E edge : getOutgoing_internal(vertex)) {
 			if (getEdgeType(edge) == EdgeType.DIRECTED) {
 				succs.add(this.getDest(edge));
@@ -110,7 +105,7 @@ public class OrderedSparseMultigraph<V, E> extends SparseMultigraph<V, E>
 			return null;
 		}
 
-		Collection<V> out = new LinkedHashSet<V>();
+		Collection<V> out = new LinkedHashSet<>();
 		out.addAll(this.getPredecessors(vertex));
 		out.addAll(this.getSuccessors(vertex));
 		return out;
@@ -122,7 +117,7 @@ public class OrderedSparseMultigraph<V, E> extends SparseMultigraph<V, E>
 			return null;
 		}
 
-		Collection<E> out = new LinkedHashSet<E>();
+		Collection<E> out = new LinkedHashSet<>();
 		out.addAll(this.getInEdges(vertex));
 		out.addAll(this.getOutEdges(vertex));
 		return out;

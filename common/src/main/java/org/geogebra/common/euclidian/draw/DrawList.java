@@ -140,8 +140,8 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 		g2.setStroke(objStroke);
 		if (isVisible) {
 			int size = drawables.size();
-			for (int i = 0; i < size; i++) {
-				Drawable d = (Drawable) drawables.get(i);
+			for (org.geogebra.common.euclidian.DrawableND drawable : drawables) {
+				Drawable d = (Drawable) drawable;
 				// draw only those drawables that have been created by this
 				// list;
 				// if d belongs to another object, we don't want to mess
@@ -161,8 +161,8 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 			boolean doHighlight = isHighlighted();
 
 			int size = drawables.size();
-			for (int i = 0; i < size; i++) {
-				Drawable d = (Drawable) drawables.get(i);
+			for (org.geogebra.common.euclidian.DrawableND drawable : drawables) {
+				Drawable d = (Drawable) drawable;
 				// draw only those drawables that have been created by this
 				// list;
 				// if d belongs to another object, we don't want to mess
@@ -184,8 +184,8 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 	public boolean hit(int x, int y, int hitThreshold) {
 
 		int size = drawables.size();
-		for (int i = 0; i < size; i++) {
-			Drawable d = (Drawable) drawables.get(i);
+		for (org.geogebra.common.euclidian.DrawableND drawable : drawables) {
+			Drawable d = (Drawable) drawable;
 			if (d.hit(x, y, hitThreshold)) {
 				return true;
 			}
@@ -197,8 +197,8 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 	@Override
 	public boolean isInside(GRectangle rect) {
 		int size = drawables.size();
-		for (int i = 0; i < size; i++) {
-			Drawable d = (Drawable) drawables.get(i);
+		for (org.geogebra.common.euclidian.DrawableND drawable : drawables) {
+			Drawable d = (Drawable) drawable;
 			if (!d.isInside(rect)) {
 				return false;
 			}
@@ -210,8 +210,8 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
 		int size = drawables.size();
-		for (int i = 0; i < size; i++) {
-			Drawable d = (Drawable) drawables.get(i);
+		for (org.geogebra.common.euclidian.DrawableND drawable : drawables) {
+			Drawable d = (Drawable) drawable;
 			if (d.intersectsRectangle(rect)) {
 				return true;
 			}
@@ -231,8 +231,8 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 		GRectangle result = null;
 
 		int size = drawables.size();
-		for (int i = 0; i < size; i++) {
-			Drawable d = (Drawable) drawables.get(i);
+		for (org.geogebra.common.euclidian.DrawableND drawable : drawables) {
+			Drawable d = (Drawable) drawable;
 			GRectangle bb = d.getBounds();
 			if (bb != null) {
 				if (result == null) {

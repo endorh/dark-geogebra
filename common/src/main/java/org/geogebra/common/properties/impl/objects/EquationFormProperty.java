@@ -34,8 +34,7 @@ public class EquationFormProperty extends AbstractEnumerableProperty {
 	@Override
 	protected void setValueSafe(String value, int index) {
 		GeoElement element = delegate.getElement();
-		if (element instanceof GeoVec3D) {
-			GeoVec3D vec3d = (GeoVec3D) element;
+		if (element instanceof GeoVec3D vec3d) {
 			vec3d.setMode(index);
 			vec3d.updateRepaint();
 		}

@@ -2,6 +2,7 @@ package org.geogebra.common.util;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 
 import org.apache.commons.math3.exception.MathRuntimeException;
 import org.apache.commons.math3.linear.AnyMatrix;
@@ -41,7 +42,7 @@ public class MyMathExact {
 		public MyDecimal(int significance, double val) {
 			// super(val);
 			// super.setScale(significance, roundingMode);
-			impl = (new BigDecimal(val)).setScale(significance, roundingMode);
+			impl = (new BigDecimal(val)).setScale(significance, RoundingMode.HALF_EVEN);
 			fixedScale = significance;
 		}
 
@@ -84,7 +85,7 @@ public class MyMathExact {
 		 */
 		public MyDecimal(int significance, BigDecimal bd) {
 			impl = new BigDecimal(bd.unscaledValue(), bd.scale())
-					.setScale(significance, roundingMode);
+					.setScale(significance, RoundingMode.HALF_EVEN);
 			fixedScale = significance;
 		}
 
@@ -133,7 +134,7 @@ public class MyMathExact {
 		 */
 		public MyDecimal divide(MyDecimal md) {
 			return new MyDecimal(this.getScale(), impl.divide(md.getImpl(),
-					this.getScale(), BigDecimal.ROUND_HALF_EVEN));
+					this.getScale(), RoundingMode.HALF_EVEN));
 		}
 
 		/**

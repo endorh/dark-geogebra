@@ -34,11 +34,11 @@ public class SoftCachingModuleScriptProvider extends CachingModuleScriptProvider
     private static final long serialVersionUID = 1L;
 
     private transient ReferenceQueue<Script> scriptRefQueue =
-        new ReferenceQueue<Script>();
+            new ReferenceQueue<>();
 
     private transient ConcurrentMap<String, ScriptReference> scripts =
-        new ConcurrentHashMap<String, ScriptReference>(16, .75f,
-                getConcurrencyLevel());
+            new ConcurrentHashMap<>(16, .75f,
+                    getConcurrencyLevel());
 
     /**
      * Creates a new module provider with the specified module source provider.
@@ -114,8 +114,8 @@ public class SoftCachingModuleScriptProvider extends CachingModuleScriptProvider
     private void readObject(ObjectInputStream in) throws IOException,
     ClassNotFoundException
     {
-        scriptRefQueue = new ReferenceQueue<Script>();
-        scripts = new ConcurrentHashMap<String, ScriptReference>();
+        scriptRefQueue = new ReferenceQueue<>();
+        scripts = new ConcurrentHashMap<>();
         final Map<String, CachedModuleScript> serScripts = (Map)in.readObject();
         for(Map.Entry<String, CachedModuleScript> entry: serScripts.entrySet()) {
             final CachedModuleScript cachedModuleScript = entry.getValue();
@@ -126,7 +126,7 @@ public class SoftCachingModuleScriptProvider extends CachingModuleScriptProvider
 
     private void writeObject(ObjectOutputStream out) throws IOException {
         final Map<String, CachedModuleScript> serScripts =
-            new HashMap<String, CachedModuleScript>();
+                new HashMap<>();
         for(Map.Entry<String, ScriptReference> entry: scripts.entrySet()) {
             final CachedModuleScript cachedModuleScript =
                 entry.getValue().getCachedModuleScript();

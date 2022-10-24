@@ -28,20 +28,18 @@ public class CmdTextToUnicode extends CommandProcessor {
 		arg = resArgs(c);
 
 		switch (n) {
-		case 1:
-
+		case 1 -> {
 			if (arg[0].isGeoText()) {
 
 				AlgoTextToUnicode algo = new AlgoTextToUnicode(cons,
 						c.getLabel(), (GeoText) arg[0]);
 
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 				return ret;
 			}
 			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

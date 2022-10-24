@@ -38,8 +38,8 @@ public class LegendreRuleFactory extends BaseRuleFactory<Double> {
 
         if (numberOfPoints == 1) {
             // Break recursion.
-            return new Pair<Double[], Double[]>(new Double[] { 0d },
-                                                new Double[] { 2d });
+            return new Pair<>(new Double[]{0d},
+		            new Double[]{2d});
         }
 
         // Get previous rule.
@@ -55,9 +55,9 @@ public class LegendreRuleFactory extends BaseRuleFactory<Double> {
         final int iMax = numberOfPoints / 2;
         for (int i = 0; i < iMax; i++) {
             // Lower-bound of the interval.
-            double a = (i == 0) ? -1 : previousPoints[i - 1].doubleValue();
+            double a = (i == 0) ? -1 : previousPoints[i - 1];
             // Upper-bound of the interval.
-            double b = (iMax == 1) ? 1 : previousPoints[i].doubleValue();
+            double b = (iMax == 1) ? 1 : previousPoints[i];
             // P[j-1](a)
             double pma = 1;
             // P[j](a)
@@ -136,6 +136,6 @@ public class LegendreRuleFactory extends BaseRuleFactory<Double> {
             weights[iMax] = w;
         }
 
-        return new Pair<Double[], Double[]>(points, weights);
+        return new Pair<>(points, weights);
     }
 }

@@ -3,6 +3,7 @@ package org.geogebra.common.euclidian.draw;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -170,18 +171,13 @@ public class DrawMindMap extends DrawInlineText {
 	}
 
 	private NodeAlignment toAlignment(EuclidianBoundingBoxHandler addHandler) {
-		switch (addHandler) {
-		case ADD_TOP:
-			return NodeAlignment.TOP;
-		case ADD_RIGHT:
-			return NodeAlignment.RIGHT;
-		case ADD_BOTTOM:
-			return NodeAlignment.BOTTOM;
-		case ADD_LEFT:
-			return NodeAlignment.LEFT;
-		default:
-			return null;
-		}
+		return switch (addHandler) {
+			case ADD_TOP -> NodeAlignment.TOP;
+			case ADD_RIGHT -> NodeAlignment.RIGHT;
+			case ADD_BOTTOM -> NodeAlignment.BOTTOM;
+			case ADD_LEFT -> NodeAlignment.LEFT;
+			default -> null;
+		};
 	}
 
 	/**
@@ -242,22 +238,22 @@ public class DrawMindMap extends DrawInlineText {
 			DrawMindMap last = children.get(children.size() - 1);
 
 			switch (newAlignment) {
-			case BOTTOM:
+			case BOTTOM -> {
 				left = last.rectangle.getRight();
 				top = stream.mapToInt(mindMap -> mindMap.rectangle.getTop()).min().orElse(0);
-				break;
-			case LEFT:
+			}
+			case LEFT -> {
 				left = stream.mapToInt(mindMap -> mindMap.rectangle.getRight()).max().orElse(0);
 				top = last.rectangle.getBottom();
-				break;
-			case TOP:
+			}
+			case TOP -> {
 				left = last.rectangle.getRight();
 				top = stream.mapToInt(mindMap -> mindMap.rectangle.getBottom()).max().orElse(0);
-				break;
-			case RIGHT:
+			}
+			case RIGHT -> {
 				left = stream.mapToInt(mindMap -> mindMap.rectangle.getLeft()).min().orElse(0);
 				top = last.rectangle.getBottom();
-				break;
+			}
 			}
 
 			left += marginLeft(newAlignment, children.size());
@@ -278,14 +274,10 @@ public class DrawMindMap extends DrawInlineText {
 		}
 
 		switch (newAlignment) {
-		case TOP:
-			top -= GeoMindMapNode.CHILD_HEIGHT;
-			break;
-		case LEFT:
-			left -= GeoMindMapNode.MIN_WIDTH;
-			break;
-		default:
-			break;
+		case TOP -> top -= GeoMindMapNode.CHILD_HEIGHT;
+		case LEFT -> left -= GeoMindMapNode.MIN_WIDTH;
+		default -> {
+		}
 		}
 
 		if (newAlignment.isVertical()) {
@@ -308,7 +300,7 @@ public class DrawMindMap extends DrawInlineText {
 		List<DrawMindMap> intersectableChildren = node.getChildren().stream()
 				.filter(node -> node.getAlignment() != newAlignment)
 				.map(node -> (DrawMindMap) view.getDrawableFor(node))
-				.filter(e -> e != null)
+				.filter(Objects::nonNull)
 				.sorted(intersectionComparator)
 				.collect(Collectors.toList());
 

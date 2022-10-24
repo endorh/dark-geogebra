@@ -338,8 +338,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	@Override
 	public void set(GeoElementND geo, boolean macroFeedback) {
 		this.isDefined = geo.isDefined();
-		if (geo instanceof GeoPointND) {
-			GeoPointND p = (GeoPointND) geo;
+		if (geo instanceof GeoPointND p) {
 			if (p.getPathParameter() != null) {
 				pathParameter = getPathParameter();
 				pathParameter.set(p.getPathParameter());
@@ -360,9 +359,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			GeoNumeric v = (GeoNumeric) geo;
 			setCoords(v.getDouble(), 0, 1d);
 			setMode(Kernel.COORD_COMPLEX);
-		} else if (geo instanceof GeoList) {
+		} else if (geo instanceof GeoList list) {
 			// GGB-1981
-			GeoList list = (GeoList) geo;
 			double xList = list.size() > 0 ? list.get(0).evaluateDouble()
 					: Double.NaN;
 			double yList = list.size() > 1 ? list.get(1).evaluateDouble()
@@ -1494,18 +1492,15 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		if (toStringMode == Kernel.COORD_COMPLEX) {
 			return tpl.getEqualsWithSpace();
 		} else {
-			switch (coordStyle) {
-			case Kernel.COORD_STYLE_FRENCH:
-				// no equal sign
-				return ": ";
-
-			case Kernel.COORD_STYLE_AUSTRIAN:
-				// no equal sign
-				return "";
-
-			default:
-				return tpl.getEqualsWithSpace();
-			}
+			return switch (coordStyle) {
+				case Kernel.COORD_STYLE_FRENCH ->
+					// no equal sign
+						": ";
+				case Kernel.COORD_STYLE_AUSTRIAN ->
+					// no equal sign
+						"";
+				default -> tpl.getEqualsWithSpace();
+			};
 		}
 	}
 
@@ -1660,7 +1655,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			int toStringMode, double x, double y,
 			StringBuilder sbBuildValueString) {
 		switch (toStringMode) {
-		case Kernel.COORD_POLAR:
+		case Kernel.COORD_POLAR -> {
 			sbBuildValueString.append('(');
 			sbBuildValueString.append(kernel.format(MyMath.length(x, y), tpl));
 			sbBuildValueString.append(";");
@@ -1668,9 +1663,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 			sbBuildValueString
 					.append(kernel.formatAngle(Math.atan2(y, x), tpl, false));
 			sbBuildValueString.append(')');
-			break;
-
-		case Kernel.COORD_COMPLEX:
+		}
+		case Kernel.COORD_COMPLEX -> {
 			if (x != 0) {
 				sbBuildValueString.append(kernel.format(x, tpl));
 				tpl.appendOptionalSpace(sbBuildValueString);
@@ -1679,23 +1673,21 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 				sbBuildValueString.append(kernel.format(y, tpl));
 			}
 			sbBuildValueString.append(tpl.getImaginary());
-			break;
-
-		default: // CARTESIAN
+		}
+		default -> { // CARTESIAN
 			sbBuildValueString.append(tpl.leftBracket());
 			sbBuildValueString.append(kernel.format(x, tpl));
 			switch (tpl.getCoordStyle(kernel.getCoordStyle())) {
-			case Kernel.COORD_STYLE_AUSTRIAN:
+			case Kernel.COORD_STYLE_AUSTRIAN -> {
 				tpl.appendOptionalSpace(sbBuildValueString);
 				sbBuildValueString.append("|");
 				tpl.appendOptionalSpace(sbBuildValueString);
-				break;
-
-			default:
-				tpl.getCommaOptionalSpace(sbBuildValueString, kernel.getLocalization());
+			}
+			default -> tpl.getCommaOptionalSpace(sbBuildValueString, kernel.getLocalization());
 			}
 			sbBuildValueString.append(kernel.format(y, tpl));
 			sbBuildValueString.append(tpl.rightBracket());
+		}
 		}
 
 	}
@@ -1739,25 +1731,14 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		super.getStyleXML(sb);
 		// polar or cartesian coords
 		switch (getToStringMode()) {
-		case Kernel.COORD_POLAR:
-			sb.append("\t<coordStyle style=\"polar\"/>\n");
-			break;
-
-		case Kernel.COORD_COMPLEX:
-			sb.append("\t<coordStyle style=\"complex\"/>\n");
-			break;
-
-		case Kernel.COORD_CARTESIAN_3D:
-			sb.append("\t<coordStyle style=\"cartesian3d\"/>\n");
-			break;
-
-		case Kernel.COORD_SPHERICAL:
-			sb.append("\t<coordStyle style=\"spherical\"/>\n");
-			break;
-
-		default:
-			// don't save default
-			// sb.append("\t<coordStyle style=\"cartesian\"/>\n");
+		case Kernel.COORD_POLAR -> sb.append("\t<coordStyle style=\"polar\"/>\n");
+		case Kernel.COORD_COMPLEX -> sb.append("\t<coordStyle style=\"complex\"/>\n");
+		case Kernel.COORD_CARTESIAN_3D -> sb.append("\t<coordStyle style=\"cartesian3d\"/>\n");
+		case Kernel.COORD_SPHERICAL -> sb.append("\t<coordStyle style=\"spherical\"/>\n");
+		default -> {
+		}
+		// don't save default
+		// sb.append("\t<coordStyle style=\"cartesian\"/>\n");
 		}
 
 		XMLBuilder.appendPointProperties(sb, this);
@@ -1856,8 +1837,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 		// TODO: modify this using removeIncidence
 		if (incidenceList != null) {
 			incidenceList.remove(this);
-			for (int i = 0; i < incidenceList.size(); ++i) {
-				GeoElement geo = incidenceList.get(i);
+			for (GeoElement geo : incidenceList) {
 				if (geo.isGeoConic()) {
 					((GeoConicND) geo).removePointOnConic(this); // GeoConicND
 				} else if (geo.isGeoLine()) {
@@ -1899,27 +1879,24 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	 */
 	public static Comparator<GeoPoint> getComparatorX() {
 		if (comparatorX == null) {
-			comparatorX = new Comparator<GeoPoint>() {
-				@Override
-				public int compare(GeoPoint itemA, GeoPoint itemB) {
+			comparatorX = (itemA, itemB) -> {
 
-					double compX = itemA.inhomX - itemB.inhomX;
+				double compX = itemA.inhomX - itemB.inhomX;
 
-					if (DoubleUtil.isZero(compX)) {
-						double compY = itemA.inhomY - itemB.inhomY;
+				if (DoubleUtil.isZero(compX)) {
+					double compY = itemA.inhomY - itemB.inhomY;
 
-						// if x-coords equal, sort on y-coords
-						if (!DoubleUtil.isZero(compY)) {
-							return compY < 0 ? -1 : +1;
-						}
-
-						// don't return 0 for equal objects, otherwise the
-						// TreeSet deletes duplicates
-						return itemA.getConstructionIndex() > itemB
-								.getConstructionIndex() ? -1 : 1;
+					// if x-coords equal, sort on y-coords
+					if (!DoubleUtil.isZero(compY)) {
+						return compY < 0 ? -1 : +1;
 					}
-					return compX < 0 ? -1 : +1;
+
+					// don't return 0 for equal objects, otherwise the
+					// TreeSet deletes duplicates
+					return itemA.getConstructionIndex() > itemB
+							.getConstructionIndex() ? -1 : 1;
 				}
+				return compX < 0 ? -1 : +1;
 			};
 
 		}
@@ -1998,14 +1975,11 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 	@Override
 	public Coords getInhomCoordsInD(int dimension) {
-		switch (dimension) {
-		case 2:
-			return getInhomCoords();
-		case 3:
-			return getInhomCoordsInD3();
-		default:
-			return null;
-		}
+		return switch (dimension) {
+			case 2 -> getInhomCoords();
+			case 3 -> getInhomCoordsInD3();
+			default -> null;
+		};
 	}
 
 	@Override
@@ -2087,15 +2061,13 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 	@Override
 	public Coords getCoordsInD(int dimension) {
-		switch (dimension) {
-		case 2:
-			return getCoordsInD2();
-		case 3:
-			// Application.debug(getLabel()+": "+x+","+y+","+z);
-			return getCoordsInD3();
-		default:
-			return null;
-		}
+		return switch (dimension) {
+			case 2 -> getCoordsInD2();
+			case 3 ->
+				// Application.debug(getLabel()+": "+x+","+y+","+z);
+					getCoordsInD3();
+			default -> null;
+		};
 	}
 
 	@Override
@@ -2106,8 +2078,8 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	@Override
 	public void matrixTransform(double a, double b, double c, double d) {
 
-		Double x1 = a * x + b * y;
-		Double y1 = c * x + d * y;
+		double x1 = a * x + b * y;
+		double y1 = c * x + d * y;
 
 		setCoords(x1, y1, z);
 	}
@@ -2619,6 +2591,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 				for (GeoElement ge : fixedElements) {
 					if (ge.equals(this)) {
 						isContained = true;
+						break;
 					}
 				}
 				if (isContained) {

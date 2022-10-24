@@ -116,9 +116,7 @@ public class DependentNumberAdapter extends ProverAdapter {
 			allSegmentsFromExpression = new HashSet<>();
 			// remove variables as geoSegment names
 			if (adn.isRewriteFormula() && !segVarPairs.isEmpty()) {
-				Iterator<Entry<GeoElement, PVariable>> it = segVarPairs.iterator();
-				while (it.hasNext()) {
-					Entry<GeoElement, PVariable> curr = it.next();
+				for (Entry<GeoElement, PVariable> curr : segVarPairs) {
 					GeoSegment currGeoSeg = (GeoSegment) curr.getKey();
 					currGeoSeg.setLabelSet(false);
 				}
@@ -174,8 +172,7 @@ public class DependentNumberAdapter extends ProverAdapter {
 
 	private void processNode(ExpressionValue ev, Kernel kernel) {
 		GeoSegment s = null;
-		if (ev instanceof GeoDummyVariable) {
-			GeoDummyVariable v = (GeoDummyVariable) ev;
+		if (ev instanceof GeoDummyVariable v) {
 			GeoElement e = v.getElementWithSameName();
 			if (e instanceof GeoSegment) {
 				s = (GeoSegment) e;
@@ -252,29 +249,20 @@ public class DependentNumberAdapter extends ProverAdapter {
 		if (expNode.getLeft() instanceof MyDouble && expNode.getRight() instanceof MyDouble) {
 			double d1 = expNode.getLeft().evaluateDouble();
 			double d2 = expNode.getRight().evaluateDouble();
-			Double d;
+			double d;
 			switch (expNode.getOperation()) {
-			case PLUS:
-				d = d1 + d2;
-				break;
-			case MINUS:
-				d = d1 - d2;
-				break;
-			case MULTIPLY:
-				d = d1 * d2;
-				break;
-			case POWER:
-				d = Math.pow(d1, d2);
-				break;
-			case DIVIDE:
+			case PLUS -> d = d1 + d2;
+			case MINUS -> d = d1 - d2;
+			case MULTIPLY -> d = d1 * d2;
+			case POWER -> d = Math.pow(d1, d2);
+			case DIVIDE -> {
 				d = d1 / d2;
-				String[] splitter = d.toString().split("\\.");
+				String[] splitter = Double.toString(d).split("\\.");
 				if (nrOfMaxDecimals < splitter[1].length()) {
 					nrOfMaxDecimals = splitter[1].length();
 				}
-				break;
-			default:
-				throw new NoSymbolicParametersException();
+			}
+			default -> throw new NoSymbolicParametersException();
 			}
 			BigInteger i;
 			// if in the expression exists rational number with n decimals
@@ -304,7 +292,7 @@ public class DependentNumberAdapter extends ProverAdapter {
 											.toString(StringTemplate.defaultTemplate))));
 				}
 				if (expNode.getLeft() instanceof MySpecialDouble) {
-					Double d = expNode.getLeft().evaluateDouble();
+					double d = expNode.getLeft().evaluateDouble();
 					BigInteger i;
 					// if in the expression exists rational number with n
 					// decimals
@@ -346,17 +334,12 @@ public class DependentNumberAdapter extends ProverAdapter {
 					// numbers
 					if (polyNode.getLeft().getPoly() != null
 							&& polyNode.getLeft().getPoly().isConstant()) {
-						switch (polyNode.getOperation()) {
-						case MULTIPLY:
-							i = polyNode.getLeft().getPoly().getConstant()
+						i = switch (polyNode.getOperation()) {
+							case MULTIPLY -> polyNode.getLeft().getPoly().getConstant()
 									.multiply(new BigInteger(Long.toString((long) d)));
-							break;
-						case DIVIDE:
-							i = BigInteger.ONE;
-							break;
-						default:
-							throw new NoSymbolicParametersException();
-						}
+							case DIVIDE -> BigInteger.ONE;
+							default -> throw new NoSymbolicParametersException();
+						};
 						polyNode.setPoly(new PPolynomial(i));
 						return;
 					}
@@ -384,9 +367,7 @@ public class DependentNumberAdapter extends ProverAdapter {
 			}
 		}
 		// It's possible that the variable is in segVarPairs.
-		Iterator<Entry<GeoElement, PVariable>> it = segVarPairs.iterator();
-		while (it.hasNext()) {
-			Entry<GeoElement, PVariable> e = it.next();
+		for (Entry<GeoElement, PVariable> e : segVarPairs) {
 			GeoElement ge = e.getKey();
 			if (ge.getLabelSimple().equals(str)) {
 				return e.getValue();
@@ -435,16 +416,10 @@ public class DependentNumberAdapter extends ProverAdapter {
 			PPolynomial leftPoly = polyNode.getLeft().getPoly();
 			PPolynomial rightPoly = polyNode.getRight().getPoly();
 			switch (polyNode.getOperation()) {
-			case PLUS:
-				polyNode.setPoly(leftPoly.add(rightPoly));
-				break;
-			case MINUS:
-				polyNode.setPoly(leftPoly.subtract(rightPoly));
-				break;
-			case MULTIPLY:
-				polyNode.setPoly(leftPoly.multiply(rightPoly));
-				break;
-			case POWER:
+			case PLUS -> polyNode.setPoly(leftPoly.add(rightPoly));
+			case MINUS -> polyNode.setPoly(leftPoly.subtract(rightPoly));
+			case MULTIPLY -> polyNode.setPoly(leftPoly.multiply(rightPoly));
+			case POWER -> {
 				/* It must fit in Long. If not, it will take forever. */
 				Long pow = polyNode.getRight().evaluateLong();
 				if (pow != null) {
@@ -454,9 +429,8 @@ public class DependentNumberAdapter extends ProverAdapter {
 					}
 					polyNode.setPoly(poly);
 				}
-				break;
-			default:
-				throw new NoSymbolicParametersException();
+			}
+			default -> throw new NoSymbolicParametersException();
 			}
 		}
 		if (expNode.getLeft().isExpressionNode() && polyNode.getLeft().getPoly() == null) {
@@ -467,16 +441,16 @@ public class DependentNumberAdapter extends ProverAdapter {
 			expressionNodeToPolynomial((ExpressionNode) expNode.getRight(), polyNode.getRight());
 		}
 		if (expNode.getLeft() instanceof MyDouble && polyNode.getLeft().getPoly() == null) {
-			BigInteger coeff = new BigDecimal(expNode.getLeft().evaluateDouble()).toBigInteger();
+			BigInteger coeff = BigDecimal.valueOf(expNode.getLeft().evaluateDouble()).toBigInteger();
 			polyNode.getLeft().setPoly(new PPolynomial(coeff));
 		}
 		if (expNode.getRight() instanceof MyDouble && polyNode.getRight().getPoly() == null) {
-			BigInteger coeff = new BigDecimal(expNode.getRight().evaluateDouble()).toBigInteger();
+			BigInteger coeff = BigDecimal.valueOf(expNode.getRight().evaluateDouble()).toBigInteger();
 			polyNode.getRight().setPoly(new PPolynomial(coeff));
 		}
 		if (expNode.getLeft() instanceof MyDouble
 				&& expNode.getRight() instanceof GeoDummyVariable) {
-			BigInteger coeff = new BigDecimal(expNode.getLeft().evaluateDouble()).toBigInteger();
+			BigInteger coeff = BigDecimal.valueOf(expNode.getLeft().evaluateDouble()).toBigInteger();
 			PVariable v = getVarOfGeoDummy(
 					expNode.getRight().toString(StringTemplate.defaultTemplate));
 			if (v != null) {
@@ -501,9 +475,7 @@ public class DependentNumberAdapter extends ProverAdapter {
 		strForGiac.append(botanaVars[0].toString());
 		strForGiac.append("=");
 		strForGiac.append(botanaVars[0].toString());
-		Iterator<GeoSegment> it = allSegmentsFromExpression.iterator();
-		while (it.hasNext()) {
-			GeoSegment currSeg = it.next();
+		for (GeoSegment currSeg : allSegmentsFromExpression) {
 			labelsStr.append(",");
 			labelsStr.append(Kernel.TMP_VARIABLE_PREFIX);
 			labelsStr.append(currSeg.getLabelSimple());

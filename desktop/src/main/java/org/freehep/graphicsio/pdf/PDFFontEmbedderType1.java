@@ -106,7 +106,7 @@ public class PDFFontEmbedderType1 extends FontEmbedderType1 {
 		super.writeWidths(widths);
 		Object[] widthsObj = new Object[256];
 		for (int i = 0; i < widthsObj.length; i++) {
-			widthsObj[i] = Integer.valueOf((int) Math.round(widths[i]));
+			widthsObj[i] = (int) Math.round(widths[i]);
 		}
 		pdf.object(reference + "Widths", widthsObj);
 	}

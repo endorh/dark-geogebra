@@ -29,7 +29,7 @@ public class CmdInverseHyperGeometric extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 4:
+		case 4 -> {
 			arg = resArgs(c);
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
@@ -41,7 +41,7 @@ public class CmdInverseHyperGeometric extends CommandProcessor {
 						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
 						(GeoNumberValue) arg[3]);
 				algo.getResult().setLabel(c.getLabel());
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 				return ret;
 
 			} else if (!ok[0]) {
@@ -53,9 +53,8 @@ public class CmdInverseHyperGeometric extends CommandProcessor {
 			} else {
 				throw argErr(c, arg[3]);
 			}
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

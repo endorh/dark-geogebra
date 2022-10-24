@@ -157,7 +157,7 @@ public class FoldingTransformer<V, E> {
 					newGraph.addVertex(t);
 					Collection<V> v_coll = newGraph.findEdge(v, t);
 					if (v_coll == null) {
-						v_coll = new ArrayList<V>();
+						v_coll = new ArrayList<>();
 						newGraph.addEdge(v_coll, v, t);
 					}
 					v_coll.add(s);
@@ -206,7 +206,7 @@ public class FoldingTransformer<V, E> {
 		}
 
 		for (E e : h.getEdges()) {
-			ArrayList<V> incident = new ArrayList<V>(h.getIncidentVertices(e));
+			ArrayList<V> incident = new ArrayList<>(h.getIncidentVertices(e));
 			populateTarget(target, e, incident);
 		}
 		return target;
@@ -251,7 +251,7 @@ public class FoldingTransformer<V, E> {
 		}
 
 		for (E e : h.getEdges()) {
-			ArrayList<V> incident = new ArrayList<V>(h.getIncidentVertices(e));
+			ArrayList<V> incident = new ArrayList<>(h.getIncidentVertices(e));
 			for (int i = 0; i < incident.size(); i++) {
 				for (int j = i + 1; j < incident.size(); j++) {
 					target.addEdge(edge_factory.create(), incident.get(i),
@@ -305,7 +305,7 @@ public class FoldingTransformer<V, E> {
 		}
 
 		for (V v : h.getVertices()) {
-			ArrayList<E> incident = new ArrayList<E>(h.getIncidentEdges(v));
+			ArrayList<E> incident = new ArrayList<>(h.getIncidentEdges(v));
 			for (int i = 0; i < incident.size(); i++) {
 				for (int j = i + 1; j < incident.size(); j++) {
 					target.addEdge(edge_factory.create(), incident.get(i),
@@ -352,7 +352,7 @@ public class FoldingTransformer<V, E> {
 		}
 
 		for (V v : h.getVertices()) {
-			ArrayList<E> incident = new ArrayList<E>(h.getIncidentEdges(v));
+			ArrayList<E> incident = new ArrayList<>(h.getIncidentEdges(v));
 			populateTarget(target, v, incident);
 		}
 		return target;
@@ -371,7 +371,7 @@ public class FoldingTransformer<V, E> {
 				S v2 = incident.get(j);
 				Collection<T> e_coll = target.findEdge(v1, v2);
 				if (e_coll == null) {
-					e_coll = new ArrayList<T>();
+					e_coll = new ArrayList<>();
 					target.addEdge(e_coll, v1, v2);
 				}
 				e_coll.add(e);

@@ -329,7 +329,7 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 			return;
 		}
 
-		Double value = Double.parseDouble(source.getText().trim());
+		double value = Double.parseDouble(source.getText().trim());
 
 		if (source == fldConfLevel) {
 			model.setConfLevel(value);
@@ -362,8 +362,8 @@ public class TwoVarInferencePanel extends JPanel implements ActionListener,
 
 	private static JPanel flowPanel(Component... comp) {
 		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		for (int i = 0; i < comp.length; i++) {
-			p.add(comp[i]);
+		for (Component component : comp) {
+			p.add(component);
 		}
 		return p;
 	}

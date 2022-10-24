@@ -168,20 +168,20 @@ public class TTFGlyfTable extends TTFVersionTable {
 
 		@Override
 		public String toString() {
-			String str = super.toString() + ", " + numberOfContours
-					+ " contours, endPts={";
+			StringBuilder str = new StringBuilder(super.toString() + ", " + numberOfContours
+					+ " contours, endPts={");
 			for (int i = 0; i < numberOfContours; i++) {
-				str += (i == 0 ? "" : ",") + endPtsOfContours[i];
+				str.append(i == 0 ? "" : ",").append(endPtsOfContours[i]);
 			}
-			str += "}, " + instructions.length + " instructions";
-			return str;
+			str.append("}, ").append(instructions.length).append(" instructions");
+			return str.toString();
 		}
 
 		@Override
 		public String toDetailedString() {
-			String str = toString() + "\n  instructions = {";
-			for (int i = 0; i < instructions.length; i++) {
-				str += Integer.toHexString(instructions[i]) + " ";
+			StringBuilder str = new StringBuilder(toString() + "\n  instructions = {");
+			for (int instruction : instructions) {
+				str.append(Integer.toHexString(instruction)).append(" ");
 			}
 			return str + "}";
 		}
@@ -194,12 +194,12 @@ public class TTFGlyfTable extends TTFVersionTable {
 
 			shape = new GeneralPath(GeneralPath.WIND_NON_ZERO);
 			int p = 0;
-			for (int i = 0; i < endPtsOfContours.length; i++) {
+			for (int endPtsOfContour : endPtsOfContours) {
 				int startIndex = p++;
 				shape.moveTo(xCoordinates[startIndex],
 						yCoordinates[startIndex]);
 				boolean lastOnCurve = true;
-				while (p <= endPtsOfContours[i]) {
+				while (p <= endPtsOfContour) {
 
 					if (onCurve[p]) {
 						if (lastOnCurve) {
@@ -372,10 +372,10 @@ public class TTFGlyfTable extends TTFVersionTable {
 
 	@Override
 	public String toString() {
-		String str = super.toString();
+		StringBuilder str = new StringBuilder(super.toString());
 		for (int i = 0; i < glyphs.length; i++) {
-			str += "\n  #" + i + ": " + glyphs[i];
+			str.append("\n  #").append(i).append(": ").append(glyphs[i]);
 		}
-		return str;
+		return str.toString();
 	}
 }

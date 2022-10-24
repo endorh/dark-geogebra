@@ -91,10 +91,11 @@ public class RelationPaneD implements RelationPane, ActionListener {
 
 		final int rels = relations.length;
 
-		for (int i = 0; i < rels; ++i) {
-			if (relations[i].getCallback() != null) {
+		for (RelationRow relation : relations) {
+			if (relation.getCallback() != null) {
 				areCallbacks = true;
 				morewidth = MOREWIDTH;
+				break;
 			}
 		}
 		if (areCallbacks) {
@@ -352,12 +353,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 			pane = p;
 			button = new JButton();
 			button.setOpaque(true);
-			button.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					fireEditingStopped();
-				}
-			});
+			button.addActionListener(e -> fireEditingStopped());
 		}
 
 		@Override

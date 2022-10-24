@@ -20,7 +20,6 @@ package org.geogebra.common.kernel.geos;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -372,9 +371,8 @@ public class GeoNumeric extends GeoElement
 
 		numbers.addAll(angles);
 
-		Iterator<GeoElement> it = numbers.iterator();
-		while (it.hasNext()) {
-			GeoNumeric num = (GeoNumeric) it.next();
+		for (GeoElement number : numbers) {
+			GeoNumeric num = (GeoNumeric) number;
 			if (num.isSlider()) {
 				count++;
 			}
@@ -1304,8 +1302,7 @@ public class GeoNumeric extends GeoElement
 	public void update(boolean drag) {
 		super.update(drag);
 		if (minMaxListeners != null) {
-			for (int i = 0; i < minMaxListeners.size(); i++) {
-				GeoNumeric geo = minMaxListeners.get(i);
+			for (GeoNumeric geo : minMaxListeners) {
 				geo.resolveMinMax();
 			}
 		}
@@ -1495,19 +1492,16 @@ public class GeoNumeric extends GeoElement
 	 */
 	public static Comparator<GeoNumberValue> getComparator() {
 		if (comparator == null) {
-			comparator = new Comparator<GeoNumberValue>() {
-				@Override
-				public int compare(GeoNumberValue itemA, GeoNumberValue itemB) {
+			comparator = (itemA, itemB) -> {
 
-					double comp = itemA.getDouble() - itemB.getDouble();
-					if (DoubleUtil.isZero(comp)) {
-						// don't return 0 for equal objects, otherwise the
-						// TreeSet deletes duplicates
-						return itemA.getConstructionIndex() > itemB
-								.getConstructionIndex() ? -1 : 1;
-					}
-					return comp < 0 ? -1 : +1;
+				double comp = itemA.getDouble() - itemB.getDouble();
+				if (DoubleUtil.isZero(comp)) {
+					// don't return 0 for equal objects, otherwise the
+					// TreeSet deletes duplicates
+					return itemA.getConstructionIndex() > itemB
+							.getConstructionIndex() ? -1 : 1;
 				}
+				return comp < 0 ? -1 : +1;
 			};
 		}
 

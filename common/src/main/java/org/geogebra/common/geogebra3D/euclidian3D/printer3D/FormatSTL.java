@@ -151,22 +151,21 @@ public class FormatSTL extends Format {
 
 		// out normal
 		switch (normal) {
-		case ExportToPrinter3D.NORMAL_SAME_INDEX:
+		case ExportToPrinter3D.NORMAL_SAME_INDEX -> {
 			// use first normal
 			n.setX(normalsList.get(3 * v1));
 			n.setY(normalsList.get(3 * v1 + 1));
 			n.setZ(normalsList.get(3 * v1 + 2));
-			break;
-		case ExportToPrinter3D.NORMAL_NOT_SET:
+		}
+		case ExportToPrinter3D.NORMAL_NOT_SET ->
 			// use normals from vertices
-			n.set3(tmpCoords1);
-			break;
-		default:
+				n.set3(tmpCoords1);
+		default -> {
 			// use normal index
 			n.setX(normalsList.get(3 * normal));
 			n.setY(normalsList.get(3 * normal + 1));
 			n.setZ(normalsList.get(3 * normal + 2));
-			break;
+		}
 		}
 
 		boolean notReversed = normal == ExportToPrinter3D.NORMAL_NOT_SET

@@ -822,9 +822,8 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			int bound, int[][] B_mutable, double[] xB_mutable) {
 
 		double[] x = new double[n];
-		for (int i = 0; i < n; i++) { // need a copy of the input
-			x[i] = x_input[i];
-		}
+		// need a copy of the input
+		System.arraycopy(x_input, 0, x, 0, n);
 
 		// returning single solution
 		int[] coeffs = new int[n];
@@ -1096,9 +1095,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			}
 
 			for (int i = 0; i < n; i++) {
-				for (int j = 0; j < n - 1; j++) {
-					H[i][j] = newH[i][j];
-				}
+				System.arraycopy(newH[i], 0, H[i], 0, n - 1);
 			}
 
 			// 2. find j to maximize gamma^j |h_jj|
@@ -1162,9 +1159,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				}
 			}
 			for (int i = 0; i < n; i++) {
-				for (int j = 0; j < n - 1; j++) {
-					H[i][j] = newH[i][j];
-				}
+				System.arraycopy(newH[i], 0, H[i], 0, n - 1);
 			}
 
 			int[][] newAorB = new int[n][n];
@@ -1179,9 +1174,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				}
 			}
 			for (int i = 0; i < n; i++) {
-				for (int j = 0; j < n; j++) {
-					A[i][j] = newAorB[i][j];
-				}
+				System.arraycopy(newAorB[i], 0, A[i], 0, n);
 			}
 
 			for (int i = 0; i < n; i++) {
@@ -1195,9 +1188,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 				}
 			}
 			for (int i = 0; i < n; i++) {
-				for (int j = 0; j < n; j++) {
-					B[i][j] = newAorB[i][j];
-				}
+				System.arraycopy(newAorB[i], 0, B[i], 0, n);
 			}
 
 			itCount++;
@@ -1887,16 +1878,12 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			// this.constValues = constValues.clone(); //not available in GWT
 			if (constValues != null) {
 				this.constValues = new double[constValues.length];
-				for (int i = 0; i < constValues.length; i++) {
-					this.constValues[i] = constValues[i];
-				}
+				System.arraycopy(constValues, 0, this.constValues, 0, constValues.length);
 			}
 			// this.constStrings = constStrings.clone(); //not available in GWT
 			if (constStrings != null) {
 				this.constStrings = new String[constStrings.length];
-				for (int i = 0; i < constStrings.length; i++) {
-					this.constStrings[i] = constStrings[i];
-				}
+				System.arraycopy(constStrings, 0, this.constStrings, 0, constStrings.length);
 			}
 			this.aft = aft;
 			this.tpl = tpl;
@@ -2459,9 +2446,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 			numList = new double[numOfConsts + 2]; // {the constants} U {1} U
 													// {num}
 
-			for (int j = 0; j < numOfConsts; j++) {
-				numList[j] = constValues[j];
-			}
+			if (numOfConsts >= 0) System.arraycopy(constValues, 0, numList, 0, numOfConsts);
 			numList[numOfConsts] = 1.0;
 			numList[numOfConsts + 1] = number;
 

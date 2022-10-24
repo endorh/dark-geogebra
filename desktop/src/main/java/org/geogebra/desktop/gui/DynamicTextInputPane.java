@@ -4,8 +4,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
@@ -525,15 +523,11 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 			public void keyPressed(KeyEvent e) {
 				if ((e.isAltDown() || AppD.isAltDown(e))) {
 					switch (e.getKeyCode()) {
-					default:
-						// do nothing
-						break;
-					case KeyEvent.VK_LEFT:
-						id.exitTextField(tf, true);
-						break;
-					case KeyEvent.VK_RIGHT:
-						id.exitTextField(tf, false);
-						break;
+					default -> {
+					}
+					// do nothing
+					case KeyEvent.VK_LEFT -> id.exitTextField(tf, true);
+					case KeyEvent.VK_RIGHT -> id.exitTextField(tf, false);
 					}
 				}
 			}
@@ -545,26 +539,20 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 			JCheckBoxMenuItem item = new JCheckBoxMenuItem(
 					app.getLocalization().getMenu("Value"));
 			item.setSelected(mode == MODE_VALUE);
-			item.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					mode = MODE_VALUE;
-					id.handleDocumentEvent();
+			item.addActionListener(arg0 -> {
+				mode = MODE_VALUE;
+				id.handleDocumentEvent();
 
-				}
 			});
 			contextMenu.add(item);
 
 			item = new JCheckBoxMenuItem(
 					app.getLocalization().getMenu("Definition"));
 			item.setSelected(mode == MODE_DEFINITION);
-			item.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					mode = MODE_DEFINITION;
-					id.handleDocumentEvent();
+			item.addActionListener(arg0 -> {
+				mode = MODE_DEFINITION;
+				id.handleDocumentEvent();
 
-				}
 			});
 			contextMenu.add(item);
 			/*

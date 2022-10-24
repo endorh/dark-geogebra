@@ -887,345 +887,167 @@ public class Commands {
 	}
 
 	private static Command getOneWayCommandBlock1(String s) {
-		switch (s) {
-		case "ce":
-			return new CommandCE();
+		return switch (s) {
+			case "ce" -> new CommandCE();
+			case "bond" -> new CommandBond();
+			case "hbox" -> new CommandHBox();
+			case "cancel" -> new CommandCancel();
+			case "bcancel" -> new CommandBCancel();
+			case "xcancel" -> new CommandXCancel();
+			case "mathchoice" -> new CommandMathChoice();
+			case "pod" -> new CommandPod();
+			case "pmod" -> new CommandPMod();
+			case "mod" -> new CommandMod();
+			case "begingroup" -> new CommandBeginGroup();
+			case "endgroup" -> new CommandEndGroup();
+			case "DeclareMathOperator" -> new CommandDeclareMathOperator();
+			case "newcommand" -> new CommandNewCommand();
+			case "renewcommand" -> new CommandRenewCommand();
+			case "newenvironment" -> new CommandNewEnvironment();
+			case "renewenvironment" -> new CommandRenewEnvironment();
+			case "left" -> new CommandLMR.CommandLeft();
+			case "right" -> new CommandLMR.CommandRight();
+			case "middle" -> new CommandLMR.CommandMiddle();
+			// stretchy versions
+			case "Braket" -> new CommandBra(Symbols.LANGLE, Symbols.RANGLE);
+			case "Bra" -> new CommandBra(Symbols.LANGLE, Symbols.VERT);
+			case "Ket" -> new CommandBra(Symbols.VERT, Symbols.RANGLE);
+			case "Set" -> new CommandBra(Symbols.LBRACE, Symbols.RBRACE);
+			case "braket" -> new CommandBraKet();
 
-		case "bond":
-			return new CommandBond();
-
-		case "hbox":
-			return new CommandHBox();
-
-		case "cancel":
-			return new CommandCancel();
-
-		case "bcancel":
-			return new CommandBCancel();
-
-		case "xcancel":
-			return new CommandXCancel();
-
-		case "mathchoice":
-			return new CommandMathChoice();
-
-		case "pod":
-			return new CommandPod();
-		case "pmod":
-			return new CommandPMod();
-
-		case "mod":
-			return new CommandMod();
-
-		case "begingroup":
-			return new CommandBeginGroup();
-
-		case "endgroup":
-			return new CommandEndGroup();
-
-		case "DeclareMathOperator":
-			return new CommandDeclareMathOperator();
-
-		case "newcommand":
-			return new CommandNewCommand();
-
-		case "renewcommand":
-			return new CommandRenewCommand();
-
-		case "newenvironment":
-			return new CommandNewEnvironment();
-
-		case "renewenvironment":
-			return new CommandRenewEnvironment();
-
-		case "left":
-			return new CommandLMR.CommandLeft();
-		case "right":
-			return new CommandLMR.CommandRight();
-		case "middle":
-			return new CommandLMR.CommandMiddle();
-		// stretchy versions
-		case "Braket":
-			return new CommandBra(Symbols.LANGLE, Symbols.RANGLE);
-		case "Bra":
-			return new CommandBra(Symbols.LANGLE, Symbols.VERT);
-		case "Ket":
-			return new CommandBra(Symbols.VERT, Symbols.RANGLE);
-		case "Set":
-			return new CommandBra(Symbols.LBRACE, Symbols.RBRACE);
-		case "braket":
-			return new CommandBraKet();
-
-		// non-stretchy versions
-		case "bra":
-			return new CommandBra2();
-		case "ket":
-			return new CommandKet();
-		case "set":
-			return new CommandSet();
-		case "vcenter":
-			return new CommandVCenter();
-		case "frac":
-			return new CommandFrac();
-
-		case "genfrac":
-			return new CommandGenfrac();
-
-		case "dfrac":
-			return new CommandDFrac();
-
-		case "tfrac":
-			return new CommandTFrac();
-		case "dbinom":
-			return new CommandDBinom();
-
-		case "tbinom":
-			return new CommandTBinom();
-
-		case "binom":
-			return new CommandBinom();
-
-		case "over":
-			return new CommandOver();
-
-		case "buildrel":
-			return new CommandBuildRel();
-
-		case "choose":
-			return new CommandChoose(Symbols.LBRACK, Symbols.RBRACK);
-		case "brace":
-			return new CommandChoose(Symbols.LBRACE, Symbols.RBRACE);
-		case "bangle":
-			return new CommandChoose(Symbols.LANGLE, Symbols.RANGLE);
-		case "brack":
-			return new CommandChoose(Symbols.LSQBRACK, Symbols.RSQBRACK);
-
-		case "overwithdelims":
-			return new CommandOverwithdelims();
-		case "atopwithdelims":
-			return new CommandATopwithdelims();
-		case "abovewithdelims":
-			return new CommandAbovewithdelims();
-
-		case "above":
-			return new CommandAbove();
-		case "atop":
-			return new CommandATop();
-		case "sqrt":
-			return new CommandSqrt();
-		case "st":
-			return new CommandSt();
-		case "mathclap":
-		case "clap":
-			return new CommandClap();
-
-		case "mathrlap":
-		case "rlap":
-			return new CommandRLap();
-
-		case "mathllap":
-		case "llap":
-			return new CommandLLap();
-
-		case "begin":
-			return new CommandBE.Begin();
-		case "end":
-			return new CommandBE.End();
-		case "begin@array":
-			return new EnvArray.Begin(ArrayTypes.ARRAY);
-		case "end@array":
-			return new EnvArray.End(ArrayTypes.ARRAY);
-		case "begin@tabular":
-			return new EnvArray.Begin(ArrayTypes.TABULAR);
-		case "end@tabular":
-			return new EnvArray.End(ArrayTypes.TABULAR);
-		case "\\":
-			return new CommandCr("\\");
-		case "begin@eqnarray":
-			return new EnvArray.Begin(ArrayTypes.EQNARRAY,
+			// non-stretchy versions
+			case "bra" -> new CommandBra2();
+			case "ket" -> new CommandKet();
+			case "set" -> new CommandSet();
+			case "vcenter" -> new CommandVCenter();
+			case "frac" -> new CommandFrac();
+			case "genfrac" -> new CommandGenfrac();
+			case "dfrac" -> new CommandDFrac();
+			case "tfrac" -> new CommandTFrac();
+			case "dbinom" -> new CommandDBinom();
+			case "tbinom" -> new CommandTBinom();
+			case "binom" -> new CommandBinom();
+			case "over" -> new CommandOver();
+			case "buildrel" -> new CommandBuildRel();
+			case "choose" -> new CommandChoose(Symbols.LBRACK, Symbols.RBRACK);
+			case "brace" -> new CommandChoose(Symbols.LBRACE, Symbols.RBRACE);
+			case "bangle" -> new CommandChoose(Symbols.LANGLE, Symbols.RANGLE);
+			case "brack" -> new CommandChoose(Symbols.LSQBRACK, Symbols.RSQBRACK);
+			case "overwithdelims" -> new CommandOverwithdelims();
+			case "atopwithdelims" -> new CommandATopwithdelims();
+			case "abovewithdelims" -> new CommandAbovewithdelims();
+			case "above" -> new CommandAbove();
+			case "atop" -> new CommandATop();
+			case "sqrt" -> new CommandSqrt();
+			case "st" -> new CommandSt();
+			case "mathclap", "clap" -> new CommandClap();
+			case "mathrlap", "rlap" -> new CommandRLap();
+			case "mathllap", "llap" -> new CommandLLap();
+			case "begin" -> new CommandBE.Begin();
+			case "end" -> new CommandBE.End();
+			case "begin@array" -> new EnvArray.Begin(ArrayTypes.ARRAY);
+			case "end@array" -> new EnvArray.End(ArrayTypes.ARRAY);
+			case "begin@tabular" -> new EnvArray.Begin(ArrayTypes.TABULAR);
+			case "end@tabular" -> new EnvArray.End(ArrayTypes.TABULAR);
+			case "\\" -> new CommandCr("\\");
+			case "begin@eqnarray" -> new EnvArray.Begin(ArrayTypes.EQNARRAY,
 					new ArrayOptions(3).addAlignment(TeXConstants.Align.RIGHT)
 							.addAlignment(TeXConstants.Align.CENTER)
 							.addAlignment(TeXConstants.Align.LEFT).close());
-		case "end@eqnarray":
-			return new EnvArray.End(ArrayTypes.EQNARRAY);
-		case "begin@split":
-			return new EnvArray.Begin(ArrayTypes.SPLIT,
+			case "end@eqnarray" -> new EnvArray.End(ArrayTypes.EQNARRAY);
+			case "begin@split" -> new EnvArray.Begin(ArrayTypes.SPLIT,
 					new ArrayOptions(2).addAlignment(TeXConstants.Align.RIGHT)
 							.addAlignment(TeXConstants.Align.LEFT).close());
-		case "end@split":
-			return new EnvArray.End(ArrayTypes.SPLIT);
-		case "begin@cases":
-			return new EnvArray.Begin(ArrayTypes.CASES,
+			case "end@split" -> new EnvArray.End(ArrayTypes.SPLIT);
+			case "begin@cases" -> new EnvArray.Begin(ArrayTypes.CASES,
 					new ArrayOptions(3).addAlignment(TeXConstants.Align.LEFT)
 							.addSeparator(
 									new SpaceAtom(TeXConstants.Muskip.NEGTHIN))
 							.addAlignment(TeXConstants.Align.LEFT).close());
-		case "end@cases":
-			return new EnvArray.End(ArrayTypes.CASES);
-
-		case "matrix":
-		case "array":
-			return new CommandMatrix();
-
-		case "ooalign":
-			return new CommandOoalign();
-		case "pmatrix":
-			return new CommandPMatrix();
-
-		case "begin@matrix":
-			return new EnvArray.Begin(ArrayTypes.MATRIX,
+			case "end@cases" -> new EnvArray.End(ArrayTypes.CASES);
+			case "matrix", "array" -> new CommandMatrix();
+			case "ooalign" -> new CommandOoalign();
+			case "pmatrix" -> new CommandPMatrix();
+			case "begin@matrix" -> new EnvArray.Begin(ArrayTypes.MATRIX,
 					ArrayOptions.getEmpty());
-		case "end@matrix":
-			return new EnvArray.End(ArrayTypes.MATRIX);
-		case "begin@smallmatrix":
-			return new EnvArray.Begin(ArrayTypes.SMALLMATRIX,
+			case "end@matrix" -> new EnvArray.End(ArrayTypes.MATRIX);
+			case "begin@smallmatrix" -> new EnvArray.Begin(ArrayTypes.SMALLMATRIX,
 					ArrayOptions.getEmpty());
-		case "end@smallmatrix":
-			return new EnvArray.End(ArrayTypes.SMALLMATRIX);
-		case "begin@align":
-			return new EnvArray.Begin(ArrayTypes.ALIGN,
+			case "end@smallmatrix" -> new EnvArray.End(ArrayTypes.SMALLMATRIX);
+			case "begin@align" -> new EnvArray.Begin(ArrayTypes.ALIGN,
 					ArrayOptions.getEmpty());
-		case "end@align":
-			return new EnvArray.End(ArrayTypes.ALIGN);
-		case "begin@aligned":
-			return new EnvArray.Begin(ArrayTypes.ALIGNED,
+			case "end@align" -> new EnvArray.End(ArrayTypes.ALIGN);
+			case "begin@aligned" -> new EnvArray.Begin(ArrayTypes.ALIGNED,
 					ArrayOptions.getEmpty());
-		case "end@aligned":
-			return new EnvArray.End(ArrayTypes.ALIGNED);
-		case "begin@flalign":
-			return new EnvArray.Begin(ArrayTypes.FLALIGN,
+			case "end@aligned" -> new EnvArray.End(ArrayTypes.ALIGNED);
+			case "begin@flalign" -> new EnvArray.Begin(ArrayTypes.FLALIGN,
 					ArrayOptions.getEmpty());
-		case "end@flalign":
-			return new EnvArray.End(ArrayTypes.FLALIGN);
-		case "begin@alignat":
-			return new EnvArray.Begin(ArrayTypes.ALIGNAT,
+			case "end@flalign" -> new EnvArray.End(ArrayTypes.FLALIGN);
+			case "begin@alignat" -> new EnvArray.Begin(ArrayTypes.ALIGNAT,
 					ArrayOptions.getEmpty());
-		case "end@alignat":
-			return new EnvArray.End(ArrayTypes.ALIGNAT);
-		case "begin@alignedat":
-			return new EnvArray.Begin(ArrayTypes.ALIGNEDAT,
+			case "end@alignat" -> new EnvArray.End(ArrayTypes.ALIGNAT);
+			case "begin@alignedat" -> new EnvArray.Begin(ArrayTypes.ALIGNEDAT,
 					ArrayOptions.getEmpty());
-		case "end@alignedat":
-			return new EnvArray.End(ArrayTypes.ALIGNEDAT);
-		case "begin@multline":
-			return new EnvArray.Begin(ArrayTypes.MULTILINE, ArrayOptions.getEmpty());
-		case "end@multline":
-			return new EnvArray.End(ArrayTypes.MULTILINE);
-		case "begin@subarray":
-			return new EnvArray.Begin(ArrayTypes.SUBARRAY);
-		case "end@subarray":
-			return new EnvArray.End(ArrayTypes.SUBARRAY);
-		case "substack":
-			return new CommandSubstack();
-		case "displaylines":
-			return new CommandDisplaylines();
-		case "begin@gather":
-			return new EnvArray.Begin(ArrayTypes.GATHER, ArrayOptions.getEmpty());
-		case "end@gather":
-			return new EnvArray.End(ArrayTypes.GATHER);
-		case "begin@gathered":
-			return new EnvArray.Begin(ArrayTypes.GATHERED, ArrayOptions.getEmpty());
-		case "end@gathered":
-			return new EnvArray.End(ArrayTypes.GATHERED);
-		case "begin@pmatrix":
-			return new EnvArray.Begin(ArrayTypes.PMATRIX,
+			case "end@alignedat" -> new EnvArray.End(ArrayTypes.ALIGNEDAT);
+			case "begin@multline" ->
+					new EnvArray.Begin(ArrayTypes.MULTILINE, ArrayOptions.getEmpty());
+			case "end@multline" -> new EnvArray.End(ArrayTypes.MULTILINE);
+			case "begin@subarray" -> new EnvArray.Begin(ArrayTypes.SUBARRAY);
+			case "end@subarray" -> new EnvArray.End(ArrayTypes.SUBARRAY);
+			case "substack" -> new CommandSubstack();
+			case "displaylines" -> new CommandDisplaylines();
+			case "begin@gather" -> new EnvArray.Begin(ArrayTypes.GATHER, ArrayOptions.getEmpty());
+			case "end@gather" -> new EnvArray.End(ArrayTypes.GATHER);
+			case "begin@gathered" ->
+					new EnvArray.Begin(ArrayTypes.GATHERED, ArrayOptions.getEmpty());
+			case "end@gathered" -> new EnvArray.End(ArrayTypes.GATHERED);
+			case "begin@pmatrix" -> new EnvArray.Begin(ArrayTypes.PMATRIX,
 					ArrayOptions.getEmpty());
-		case "end@pmatrix":
-			return new EnvArray.End(ArrayTypes.PMATRIX, "lbrack", "rbrack");
-		case "begin@bmatrix":
-			return new EnvArray.Begin(ArrayTypes.BMATRIX,
+			case "end@pmatrix" -> new EnvArray.End(ArrayTypes.PMATRIX, "lbrack", "rbrack");
+			case "begin@bmatrix" -> new EnvArray.Begin(ArrayTypes.BMATRIX,
 					ArrayOptions.getEmpty());
-		case "end@bmatrix":
-			return new EnvArray.End(ArrayTypes.BMATRIX, "lsqbrack", "rsqbrack");
-		case "begin@vmatrix":
-			return new EnvArray.Begin(ArrayTypes.BMATRIX,
+			case "end@bmatrix" -> new EnvArray.End(ArrayTypes.BMATRIX, "lsqbrack", "rsqbrack");
+			case "begin@vmatrix" -> new EnvArray.Begin(ArrayTypes.BMATRIX,
 					ArrayOptions.getEmpty());
-		case "end@vmatrix":
-			return new EnvArray.End(ArrayTypes.BMATRIX, "vert");
-		case "begin@Vmatrix":
-			return new EnvArray.Begin(ArrayTypes.VMATRIX,
+			case "end@vmatrix" -> new EnvArray.End(ArrayTypes.BMATRIX, "vert");
+			case "begin@Vmatrix" -> new EnvArray.Begin(ArrayTypes.VMATRIX,
 					ArrayOptions.getEmpty());
-		case "end@Vmatrix":
-			return new EnvArray.End(ArrayTypes.VMATRIX, "Vert");
-		case "textcircled":
-			return new CommandTextCircled();
-
-		case "romannumeral":
-			return new CommandRomNum(false);
-		case "Romannumeral":
-			return new CommandRomNum(true);
-		case "T":
-			return new CommandT();
-		case "unicode":
-			return new CommandUnicode();
-		case "coloncolonapprox":
-			return new CommandColonFoo.ColonColonFoo("approx");
-		case "colonapprox":
-			return new CommandColonFoo.ColonFoo("approx");
-		case "coloncolonsim":
-			return new CommandColonFoo.ColonColonFoo("sim");
-		case "colonsim":
-			return new CommandColonFoo.ColonFoo("sim");
-		case "coloncolon":
-			return new CommandColonFoo.ColonColonFoo();
-		case "coloncolonequals":
-			return new CommandColonFoo.ColonColonFoo("equals");
-		case "colonequals":
-			return new CommandColonFoo.ColonFoo("equals");
-		case "coloncolonminus":
-			return new CommandColonFoo.ColonColonFoo("minus");
-		case "colonminus":
-			return new CommandColonFoo.ColonFoo("minus");
-		case "equalscoloncolon":
-			return new CommandColonFoo.FooColonColon("equals");
-		case "equalscolon":
-			return new CommandColonFoo.FooColon("equals");
-		case "minuscoloncolon":
-			return new CommandColonFoo.FooColonColon("minus");
-		case "minuscolon":
-			return new CommandColonFoo.FooColon("minus");
-		case "simcoloncolon":
-			return new CommandColonFoo.FooColonColon("sim");
-		case "simcolon":
-			return new CommandColonFoo.FooColon("sim");
-		case "approxcoloncolon":
-			return new CommandColonFoo.FooColonColon("approx");
-		case "approxcolon":
-			return new CommandColonFoo.FooColon("approx");
-		case "tiny":
-			return new CommandTiny1();
-
-		case "Tiny":
-			return new CommandTiny2();
-
-		case "scriptsize":
-			return new CommandScriptSize();
-
-		case "footnotesize":
-			return new CommandFootnoteSize();
-
-		case "small":
-			return new CommandSmall();
-
-		case "normalsize":
-			return new CommandNormalSize();
-
-		case "large":
-			return new CommandLarge();
-
-		case "Large":
-			return new CommandLarge2();
-
-		case "LARGE":
-			return new CommandLarge3();
-
-		case "huge":
-			return new CommandHuge1();
-
-		case "Huge":
-			return new CommandHuge2();
-		}
-		return null;
+			case "end@Vmatrix" -> new EnvArray.End(ArrayTypes.VMATRIX, "Vert");
+			case "textcircled" -> new CommandTextCircled();
+			case "romannumeral" -> new CommandRomNum(false);
+			case "Romannumeral" -> new CommandRomNum(true);
+			case "T" -> new CommandT();
+			case "unicode" -> new CommandUnicode();
+			case "coloncolonapprox" -> new CommandColonFoo.ColonColonFoo("approx");
+			case "colonapprox" -> new CommandColonFoo.ColonFoo("approx");
+			case "coloncolonsim" -> new CommandColonFoo.ColonColonFoo("sim");
+			case "colonsim" -> new CommandColonFoo.ColonFoo("sim");
+			case "coloncolon" -> new CommandColonFoo.ColonColonFoo();
+			case "coloncolonequals" -> new CommandColonFoo.ColonColonFoo("equals");
+			case "colonequals" -> new CommandColonFoo.ColonFoo("equals");
+			case "coloncolonminus" -> new CommandColonFoo.ColonColonFoo("minus");
+			case "colonminus" -> new CommandColonFoo.ColonFoo("minus");
+			case "equalscoloncolon" -> new CommandColonFoo.FooColonColon("equals");
+			case "equalscolon" -> new CommandColonFoo.FooColon("equals");
+			case "minuscoloncolon" -> new CommandColonFoo.FooColonColon("minus");
+			case "minuscolon" -> new CommandColonFoo.FooColon("minus");
+			case "simcoloncolon" -> new CommandColonFoo.FooColonColon("sim");
+			case "simcolon" -> new CommandColonFoo.FooColon("sim");
+			case "approxcoloncolon" -> new CommandColonFoo.FooColonColon("approx");
+			case "approxcolon" -> new CommandColonFoo.FooColon("approx");
+			case "tiny" -> new CommandTiny1();
+			case "Tiny" -> new CommandTiny2();
+			case "scriptsize" -> new CommandScriptSize();
+			case "footnotesize" -> new CommandFootnoteSize();
+			case "small" -> new CommandSmall();
+			case "normalsize" -> new CommandNormalSize();
+			case "large" -> new CommandLarge();
+			case "Large" -> new CommandLarge2();
+			case "LARGE" -> new CommandLarge3();
+			case "huge" -> new CommandHuge1();
+			case "Huge" -> new CommandHuge2();
+			default -> null;
+		};
 	}
 
 	private static String getReplacement(String s) {
@@ -1417,13 +1239,12 @@ public class Commands {
 
 	private static Command0A getReusableCommand(String s) {
 
-		switch (s) {
+		return switch (s) {
 
-		// XXX
-		// case "usepackage": return new CommandUsePackage();
+			// XXX
+			// case "usepackage": return new CommandUsePackage();
 
-		case "bmod":
-			return new Command0A() {
+			case "bmod" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final Atom sp = new SpaceAtom(Unit.MU, 5.);
@@ -1435,8 +1256,7 @@ public class Commands {
 					return ra;
 				}
 			};
-		case "hookrightarrow":
-			return new Command0A() {
+			case "hookrightarrow" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final RowAtom ra = new RowAtom(3);
@@ -1448,8 +1268,7 @@ public class Commands {
 					return new TypedAtom(TeXConstants.TYPE_RELATION, ra);
 				}
 			};
-		case "hookleftarrow":
-			return new Command0A() {
+			case "hookleftarrow" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final RowAtom ra = new RowAtom(3);
@@ -1461,8 +1280,7 @@ public class Commands {
 					return new TypedAtom(TeXConstants.TYPE_RELATION, ra);
 				}
 			};
-		case "Longrightarrow":
-			return new Command0A() {
+			case "Longrightarrow" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final RowAtom ra = new RowAtom(3);
@@ -1473,8 +1291,7 @@ public class Commands {
 					return new TypedAtom(TeXConstants.TYPE_RELATION, ra);
 				}
 			};
-		case "Longleftarrow":
-			return new Command0A() {
+			case "Longleftarrow" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final RowAtom ra = new RowAtom(3);
@@ -1485,8 +1302,7 @@ public class Commands {
 					return new TypedAtom(TeXConstants.TYPE_RELATION, ra);
 				}
 			};
-		case "longleftarrow":
-			return new Command0A() {
+			case "longleftarrow" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final RowAtom ra = new RowAtom(3);
@@ -1498,8 +1314,7 @@ public class Commands {
 					return new TypedAtom(TeXConstants.TYPE_RELATION, ra);
 				}
 			};
-		case "longrightarrow":
-			return new Command0A() {
+			case "longrightarrow" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final RowAtom ra = new RowAtom(3);
@@ -1510,8 +1325,7 @@ public class Commands {
 					return new TypedAtom(TeXConstants.TYPE_RELATION, ra);
 				}
 			};
-		case "longleftrightarrow":
-			return new Command0A() {
+			case "longleftrightarrow" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final RowAtom ra = new RowAtom(3);
@@ -1522,8 +1336,7 @@ public class Commands {
 					return new TypedAtom(TeXConstants.TYPE_RELATION, ra);
 				}
 			};
-		case "Longleftrightarrow":
-			return new Command0A() {
+			case "Longleftrightarrow" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final RowAtom ra = new RowAtom(3);
@@ -1534,34 +1347,25 @@ public class Commands {
 					return new TypedAtom(TeXConstants.TYPE_RELATION, ra);
 				}
 			};
-
-		case "nbsp":
-		case "nobreaskspace":
-		case "space":
-		case " ":
-			return new Command0A() {
+			case "nbsp", "nobreaskspace", "space", " " -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return new SpaceAtom();
 				}
 			};
-
-		case "{":
-			return new Command0A() {
+			case "{" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return Symbols.LBRACE;
 				}
 			};
-		case "}":
-			return new Command0A() {
+			case "}" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return Symbols.RBRACE;
 				}
 			};
-		case "nolimits":
-			return new Command0AImpl() {
+			case "nolimits" -> new Command0AImpl() {
 				@Override
 				public boolean init(TeXParser tp) {
 					final Atom a = tp.getLastAtom();
@@ -1572,8 +1376,7 @@ public class Commands {
 					return false;
 				}
 			};
-		case "limits":
-			return new Command0AImpl() {
+			case "limits" -> new Command0AImpl() {
 				@Override
 				public boolean init(TeXParser tp) {
 					final Atom a = tp.getLastAtom();
@@ -1584,8 +1387,7 @@ public class Commands {
 					return false;
 				}
 			};
-		case "normal":
-			return new Command0AImpl() {
+			case "normal" -> new Command0AImpl() {
 				@Override
 				public boolean init(TeXParser tp) {
 					final Atom a = tp.getLastAtom();
@@ -1596,37 +1398,31 @@ public class Commands {
 					return false;
 				}
 			};
-		case "surd":
-			return new Command0A() {
+			case "surd" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return new VCenteredAtom(SymbolAtom.get("surdsign"));
 				}
 			};
-
-		case "int":
-			return new Command0A() {
+			case "int" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return Symbols.INT;
 				}
 			};
-		case "intop":
-			return new Command0A() {
+			case "intop" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return Symbols.INTOP;
 				}
 			};
-		case "oint":
-			return new Command0A() {
+			case "oint" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return Symbols.OINT;
 				}
 			};
-		case "iint":
-			return new Command0A() {
+			case "iint" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final Atom integral = Symbols.INT;
@@ -1640,8 +1436,7 @@ public class Commands {
 					return ra.changeType(TeXConstants.TYPE_BIG_OPERATOR);
 				}
 			};
-		case "iiint":
-			return new Command0A() {
+			case "iiint" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final Atom integral = Symbols.INT;
@@ -1656,8 +1451,7 @@ public class Commands {
 					return ra.changeType(TeXConstants.TYPE_BIG_OPERATOR);
 				}
 			};
-		case "iiiint":
-			return new Command0A() {
+			case "iiiint" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final Atom integral = Symbols.INT;
@@ -1672,8 +1466,7 @@ public class Commands {
 					return ra.changeType(TeXConstants.TYPE_BIG_OPERATOR);
 				}
 			};
-		case "idotsint":
-			return new Command0A() {
+			case "idotsint" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final Atom integral = Symbols.INT;
@@ -1688,8 +1481,7 @@ public class Commands {
 					return ra.changeType(TeXConstants.TYPE_BIG_OPERATOR);
 				}
 			};
-		case "lmoustache":
-			return new Command0A() {
+			case "lmoustache" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final Atom at = new BigDelimiterAtom(
@@ -1698,8 +1490,7 @@ public class Commands {
 					return at;
 				}
 			};
-		case "rmoustache":
-			return new Command0A() {
+			case "rmoustache" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final Atom at = new BigDelimiterAtom(
@@ -1708,25 +1499,20 @@ public class Commands {
 					return at;
 				}
 			};
-		case "-":
-			return new Command0A() {
+			case "-" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return BreakMarkAtom.get();
 				}
 			};
-
-
-		case "fcscore":
-			return new Command0AImpl() {
+			case "fcscore" -> new Command0AImpl() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final int arg = tp.getArgAsPositiveInteger();
 					return FcscoreAtom.get(arg);
 				}
 			};
-		case "longdiv":
-			return new Command0AImpl() {
+			case "longdiv" -> new Command0AImpl() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final long dividend = tp.getArgAsPositiveInteger();
@@ -1734,10 +1520,7 @@ public class Commands {
 					return new LongdivAtom(divisor, dividend, tp);
 				}
 			};
-
-
-		case "includegraphics":
-			return new Command0AImpl() {
+			case "includegraphics" -> new Command0AImpl() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final Map<String, String> arg1 = tp.getOptionAsMap();
@@ -1745,99 +1528,73 @@ public class Commands {
 					return new GraphicsAtom(arg2, arg1);
 				}
 			};
-
-
-
-		case "thinspace":
-		case ",":
-			return new Command0A() {
+			case "thinspace", "," -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return new SpaceAtom(TeXConstants.Muskip.THIN);
 				}
 			};
-
-		case "medspace":
-		case ">":
-		case ":":
-			return new Command0A() {
+			case "medspace", ">", ":" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return new SpaceAtom(TeXConstants.Muskip.MED);
 				}
 			};
-
-		case "thickspace":
-		case ";":
-			return new Command0A() {
+			case "thickspace", ";" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return new SpaceAtom(TeXConstants.Muskip.THICK);
 				}
 			};
-
-		case "negthinspace":
-		case "!":
-			return new Command0A() {
+			case "negthinspace", "!" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return new SpaceAtom(TeXConstants.Muskip.NEGTHIN);
 				}
 			};
-
-		case "negmedspace":
-			return new Command0A() {
+			case "negmedspace" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return new SpaceAtom(TeXConstants.Muskip.NEGMED);
 				}
 			};
-		case "negthickspace":
-			return new Command0A() {
+			case "negthickspace" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return new SpaceAtom(TeXConstants.Muskip.NEGTHICK);
 				}
 			};
-		case "enspace":
-			return new Command0A() {
+			case "enspace" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return new SpaceAtom(Unit.EM, 0.5, 0., 0.);
 				}
 			};
-		case "enskip":
-			return new Command0A() {
+			case "enskip" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return new SpaceAtom(Unit.EM, 0.5, 0., 0.);
 				}
 			};
-		case "quad":
-			return new Command0A() {
+			case "quad" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return new SpaceAtom(Unit.EM, 1., 0., 0.);
 				}
 			};
-		case "qquad":
-			return new Command0A() {
+			case "qquad" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return new SpaceAtom(Unit.EM, 2., 0., 0.);
 				}
 			};
-		case "Space":
-			return new Command0A() {
+			case "Space" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return new SpaceAtom(Unit.EM, 3., 0., 0.);
 				}
 			};
-
-
-		case "char":
-			return new Command0AImpl() {
+			case "char" -> new Command0AImpl() {
 				@Override
 				public boolean init(TeXParser tp) {
 					final int c = tp.getArgAsCharFromCode();
@@ -1859,16 +1616,13 @@ public class Commands {
 					return false;
 				}
 			};
-
-		case "kern":
-			return new Command0AImpl() {
+			case "kern" -> new Command0AImpl() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return new SpaceAtom(tp.getArgAsLength());
 				}
 			};
-		case "Dstrok":
-			return new Command0A() {
+			case "Dstrok" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final RowAtom ra = new RowAtom(
@@ -1880,8 +1634,7 @@ public class Commands {
 							new CharAtom('D', TextStyle.MATHNORMAL)));
 				}
 			};
-		case "dstrok":
-			return new Command0A() {
+			case "dstrok" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final RowAtom ra = new RowAtom(
@@ -1893,8 +1646,7 @@ public class Commands {
 							new CharAtom('d', TextStyle.MATHNORMAL)));
 				}
 			};
-		case "Hstrok":
-			return new Command0A() {
+			case "Hstrok" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final RowAtom ra = new RowAtom(
@@ -1906,8 +1658,7 @@ public class Commands {
 							new CharAtom('H', TextStyle.MATHNORMAL)));
 				}
 			};
-		case "hstrok":
-			return new Command0A() {
+			case "hstrok" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final RowAtom ra = new RowAtom(
@@ -1919,8 +1670,7 @@ public class Commands {
 							new CharAtom('h', TextStyle.MATHNORMAL)));
 				}
 			};
-		case "smallfrowneq":
-			return new Command0A() {
+			case "smallfrowneq" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final Atom at = new UnderOverAtom(Symbols.EQUALS,
@@ -1929,8 +1679,7 @@ public class Commands {
 					return at.changeType(TeXConstants.TYPE_RELATION);
 				}
 			};
-		case "frowneq":
-			return new Command0A() {
+			case "frowneq" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final Atom at = new UnderOverAtom(Symbols.EQUALS,
@@ -1938,9 +1687,7 @@ public class Commands {
 					return at.changeType(TeXConstants.TYPE_RELATION);
 				}
 			};
-
-		case "geoprop":
-			return new Command0A() {
+			case "geoprop" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final SymbolAtom nd = Symbols.NORMALDOT;
@@ -1952,8 +1699,7 @@ public class Commands {
 					return at.changeType(TeXConstants.TYPE_RELATION);
 				}
 			};
-		case "ratio":
-			return new Command0A() {
+			case "ratio" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final Atom a = new VCenteredAtom(Symbols.COLON
@@ -1961,8 +1707,7 @@ public class Commands {
 					return a.changeType(TeXConstants.TYPE_RELATION);
 				}
 			};
-		case "dotminus":
-			return new Command0A() {
+			case "dotminus" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					Atom at = new UnderOverAtom(Symbols.MINUS,
@@ -1972,10 +1717,7 @@ public class Commands {
 					return at.changeType(TeXConstants.TYPE_BINARY_OPERATOR);
 				}
 			};
-
-
-		case "hline":
-			return new Command0A() {
+			case "hline" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					if (!tp.isArrayMode()) {
@@ -1985,8 +1727,7 @@ public class Commands {
 					return new HlineAtom();
 				}
 			};
-		case "cellcolor":
-			return new Command0AImpl() {
+			case "cellcolor" -> new Command0AImpl() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					if (!tp.isArrayMode()) {
@@ -1997,8 +1738,7 @@ public class Commands {
 					return new EnvArray.CellColor(c);
 				}
 			};
-		case "rowcolor":
-			return new Command0AImpl() {
+			case "rowcolor" -> new Command0AImpl() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					if (!tp.isArrayMode()) {
@@ -2009,32 +1749,28 @@ public class Commands {
 					return new EnvArray.RowColor(c);
 				}
 			};
-		case "jlmText":
-			return new Command0AImpl() {
+			case "jlmText" -> new Command0AImpl() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final String arg = tp.getGroupAsArgument();
 					return new JavaFontRenderingAtom(arg, Font.PLAIN);
 				}
 			};
-		case "jlmTextit":
-			return new Command0AImpl() {
+			case "jlmTextit" -> new Command0AImpl() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final String arg = tp.getGroupAsArgument();
 					return new JavaFontRenderingAtom(arg, Font.ITALIC);
 				}
 			};
-		case "jlmTextbf":
-			return new Command0AImpl() {
+			case "jlmTextbf" -> new Command0AImpl() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final String arg = tp.getGroupAsArgument();
 					return new JavaFontRenderingAtom(arg, Font.BOLD);
 				}
 			};
-		case "jlmTextitbf":
-			return new Command0AImpl() {
+			case "jlmTextitbf" -> new Command0AImpl() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final String arg = tp.getGroupAsArgument();
@@ -2042,8 +1778,7 @@ public class Commands {
 							Font.BOLD | Font.ITALIC);
 				}
 			};
-		case "doteq":
-			return new Command0A() {
+			case "doteq" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final Atom at = new UnderOverAtom(Symbols.EQUALS,
@@ -2052,8 +1787,7 @@ public class Commands {
 					return at.changeType(TeXConstants.TYPE_RELATION);
 				}
 			};
-		case "cong":
-			return new Command0A() {
+			case "cong" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final VRowAtom vra = new VRowAtom(Symbols.SIM,
@@ -2063,20 +1797,14 @@ public class Commands {
 					return vra.changeType(TeXConstants.TYPE_RELATION);
 				}
 			};
-
-
-		case "cornersize":
-			return new Command0AImpl() {
+			case "cornersize" -> new Command0AImpl() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final double cs = tp.getArgAsDecimal();
 					return new SetLengthAtom("cornersize", cs);
 				}
 			};
-
-
-		case "mathstrut":
-			return new Command0A() {
+			case "mathstrut" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return new PhantomAtom(
@@ -2085,19 +1813,13 @@ public class Commands {
 							false, true, true);
 				}
 			};
-
-
-		case "LaTeX":
-			return new Command0A() {
+			case "LaTeX" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return new LaTeXAtom();
 				}
 			};
-
-
-		case "questeq":
-			return new Command0A() {
+			case "questeq" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final Atom at = new UnderOverAtom(Symbols.EQUALS,
@@ -2106,18 +1828,14 @@ public class Commands {
 					return at.changeType(TeXConstants.TYPE_RELATION);
 				}
 			};
-		case "eqdef":
-			return new Command0A() {
+			case "eqdef" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return new BuildrelAtom(Symbols.EQUALS, new RomanAtom(
 							TeXParser.getAtomForLatinStr("def", true)));
 				}
 			};
-
-
-		case "hdotsfor":
-			return new Command0AImpl() {
+			case "hdotsfor" -> new Command0AImpl() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					if (!tp.isArrayMode()) {
@@ -2133,9 +1851,7 @@ public class Commands {
 					return new HdotsforAtom(n, x);
 				}
 			};
-
-		case "newline":
-			return new Command0AImpl() {
+			case "newline" -> new Command0AImpl() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					tp.close();
@@ -2146,114 +1862,87 @@ public class Commands {
 							"The macro \\newline must be used in an array");
 				}
 			};
-
-
-		case "iddots":
-			return new Command0A() {
+			case "iddots" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return new IddotsAtom();
 				}
 			};
-		case "ddots":
-			return new Command0A() {
+			case "ddots" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return new DdotsAtom();
 				}
 			};
-		case "vdots":
-			return new Command0A() {
+			case "vdots" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return new VdotsAtom();
 				}
 			};
-
-
-		case "joinrel":
-			return new Command0A() {
+			case "joinrel" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return new SpaceAtom(Unit.MU, -3, 0, 0)
 							.changeType(TeXConstants.TYPE_RELATION);
 				}
 			};
-
-
-		case "tcaron":
-			return new Command0A() {
+			case "tcaron" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return new tcaronAtom();
 				}
 			};
-		case "Lcaron":
-			return new Command0A() {
+			case "Lcaron" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return new LCaronAtom(true);
 				}
 			};
-		case "lcaron":
-			return new Command0A() {
+			case "lcaron" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return new LCaronAtom(false);
 				}
 			};
-		case "Tstroke":
-			return new Command0A() {
+			case "Tstroke" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return new TStrokeAtom(true);
 				}
 			};
-		case "tstroke":
-			return new Command0A() {
+			case "tstroke" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return new TStrokeAtom(false);
 				}
 			};
-		case "IJ":
-			return new Command0A() {
+			case "IJ" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return new IJAtom(true);
 				}
 			};
-		case "ij":
-			return new Command0A() {
+			case "ij" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return new IJAtom(false);
 				}
 			};
-
-
-		case "_":
-		case "underscore":
-			return new Command0A() {
+			case "_", "underscore" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return new UnderscoreAtom();
 				}
 			};
-
-
-
-		case "the":
-			return new Command0AImpl() {
+			case "the" -> new Command0AImpl() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final String name = tp.getArgAsCommand(true);
 					return new TheAtom(name);
 				}
 			};
-
-		case "setlength":
-			return new Command0AImpl() {
+			case "setlength" -> new Command0AImpl() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final String name = tp.getArgAsCommand(true);
@@ -2265,8 +1954,7 @@ public class Commands {
 					return new SetLengthAtom(name, newLength);
 				}
 			};
-		case "rule":
-			return new Command0AImpl() {
+			case "rule" -> new Command0AImpl() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					TeXLength r = tp.getOptionAsLength(TeXLength.getZero());
@@ -2286,8 +1974,7 @@ public class Commands {
 					return new RuleAtom(w, h, r);
 				}
 			};
-		case "vrule":
-			return new Command0AImpl() {
+			case "vrule" -> new Command0AImpl() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final TeXLength[] lengths = tp.getDimensions();
@@ -2295,8 +1982,7 @@ public class Commands {
 							false);
 				}
 			};
-		case "hrule":
-			return new Command0AImpl() {
+			case "hrule" -> new Command0AImpl() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final TeXLength[] lengths = tp.getDimensions();
@@ -2304,8 +1990,7 @@ public class Commands {
 							true);
 				}
 			};
-		case "textvisiblespace":
-			return new Command0A() {
+			case "textvisiblespace" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					tp.skipPureWhites();
@@ -2319,8 +2004,7 @@ public class Commands {
 							a);
 				}
 			};
-		case "hspace":
-			return new Command0AImpl() {
+			case "hspace" -> new Command0AImpl() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final TeXLength w = tp.getArgAsLength();
@@ -2331,8 +2015,7 @@ public class Commands {
 					return new SpaceAtom(w.getUnit(), w.getL(), 0., 0.);
 				}
 			};
-		case "vspace":
-			return new Command0AImpl() {
+			case "vspace" -> new Command0AImpl() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final TeXLength h = tp.getArgAsLength();
@@ -2343,16 +2026,14 @@ public class Commands {
 					return new SpaceAtom(h.getUnit(), 0., h.getL(), 0.);
 				}
 			};
-		case "degree":
-			return new Command0AImpl() {
+			case "degree" -> new Command0AImpl() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return SubSupCom.get(SubSupCom.getBase(tp), null,
 							Symbols.CIRC);
 				}
 			};
-		case "sphat":
-			return new Command0AImpl() {
+			case "sphat" -> new Command0AImpl() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					Atom a;
@@ -2371,8 +2052,7 @@ public class Commands {
 					return SubSupCom.get(SubSupCom.getBase(tp), null, a);
 				}
 			};
-		case "spbreve":
-			return new Command0AImpl() {
+			case "spbreve" -> new Command0AImpl() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final Atom ex = new SpaceAtom(TeXConstants.Muskip.NEGTHIN);
@@ -2383,27 +2063,24 @@ public class Commands {
 					a = new SmashedAtom(vra);
 					final RowAtom ra = new RowAtom(ex, a);
 					return
-					SubSupCom.get(SubSupCom.getBase(tp), null, ra);
+							SubSupCom.get(SubSupCom.getBase(tp), null, ra);
 				}
 			};
-		case "spcheck":
-			return new Command0AImpl() {
+			case "spcheck" -> new Command0AImpl() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final Atom a = Symbols.VEE;
 					return SubSupCom.get(SubSupCom.getBase(tp), null, a);
 				}
 			};
-		case "sptilde":
-			return new Command0AImpl() {
+			case "sptilde" -> new Command0AImpl() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final Atom a = Symbols.SIM;
 					return SubSupCom.get(SubSupCom.getBase(tp), null, a);
 				}
 			};
-		case "spdot":
-			return new Command0AImpl() {
+			case "spdot" -> new Command0AImpl() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					Atom a = Symbols.NORMALDOT;
@@ -2414,8 +2091,7 @@ public class Commands {
 					return SubSupCom.get(SubSupCom.getBase(tp), null, a);
 				}
 			};
-		case "spddot":
-			return new Command0AImpl() {
+			case "spddot" -> new Command0AImpl() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					Atom a = Symbols.NORMALDOT;
@@ -2427,8 +2103,7 @@ public class Commands {
 					return SubSupCom.get(SubSupCom.getBase(tp), null, a);
 				}
 			};
-		case "spdddot":
-			return new Command0AImpl() {
+			case "spdddot" -> new Command0AImpl() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					Atom a = Symbols.NORMALDOT;
@@ -2440,9 +2115,7 @@ public class Commands {
 					return SubSupCom.get(SubSupCom.getBase(tp), null, a);
 				}
 			};
-
-		case "varinjlim":
-			return new Command0AImpl() {
+			case "varinjlim" -> new Command0AImpl() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					Atom a = new RomanAtom(
@@ -2453,8 +2126,7 @@ public class Commands {
 					return a;
 				}
 			};
-		case "varprojlim":
-			return new Command0AImpl() {
+			case "varprojlim" -> new Command0AImpl() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					Atom a = new RomanAtom(
@@ -2465,8 +2137,7 @@ public class Commands {
 					return a;
 				}
 			};
-		case "varliminf":
-			return new Command0AImpl() {
+			case "varliminf" -> new Command0AImpl() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					Atom a = new RomanAtom(
@@ -2477,8 +2148,7 @@ public class Commands {
 					return a;
 				}
 			};
-		case "varlimsup":
-			return new Command0AImpl() {
+			case "varlimsup" -> new Command0AImpl() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					Atom a = new RomanAtom(
@@ -2489,20 +2159,18 @@ public class Commands {
 					return a;
 				}
 			};
-		case "with":
-			return new Command0A() {
+			case "with" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return Symbols.WITH
 							.changeType(TeXConstants.TYPE_BINARY_OPERATOR);
 				}
 			};
-		case "parr":
-			return new Command0A() {
+			case "parr" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					Atom a = new RotateAtom(Symbols.WITH, 180.,
-							new HashMap<String, String>() {
+							new HashMap<>() {
 								{
 									put("origin", "c");
 								}
@@ -2510,8 +2178,7 @@ public class Commands {
 					return a.changeType(TeXConstants.TYPE_BINARY_OPERATOR);
 				}
 			};
-		case "copyright":
-			return new Command0A() {
+			case "copyright" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					Atom a = new RomanAtom(new CharAtom('c', false));
@@ -2520,8 +2187,7 @@ public class Commands {
 					return new TextCircledAtom(a);
 				}
 			};
-		case "L":
-			return new Command0A() {
+			case "L" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final Atom a = new RowAtom(SymbolAtom.get("polishlcross"),
@@ -2529,8 +2195,7 @@ public class Commands {
 					return new RomanAtom(a);
 				}
 			};
-		case "l":
-			return new Command0A() {
+			case "l" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final Atom a = new RowAtom(SymbolAtom.get("polishlcross"),
@@ -2538,8 +2203,7 @@ public class Commands {
 					return new RomanAtom(a);
 				}
 			};
-		case "Join":
-			return new Command0A() {
+			case "Join" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					Atom a = new LapedAtom(SymbolAtom.get("ltimes"), 'r');
@@ -2549,25 +2213,19 @@ public class Commands {
 					return a;
 				}
 			};
-		case "notin":
-			return new Command0A() {
+			case "notin" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return new RowAtom(Symbols.NOT, Symbols.IN);
 				}
 			};
-
-		case "neq":
-		case "ne":
-			return new Command0A() {
+			case "neq", "ne" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return new RowAtom(Symbols.NOT, Symbols.EQUALS);
 				}
 			};
-
-		case "JLaTeXMath":
-			return new Command0A() {
+			case "JLaTeXMath" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return new RowAtom(
@@ -2579,12 +2237,7 @@ public class Commands {
 							new CharAtom('h', TextStyle.MATHNORMAL, true));
 				}
 			};
-
-		case "dotsc":
-		case "dots":
-		case "dotso":
-		case "ldots":
-			return new Command0A() {
+			case "dotsc", "dots", "dotso", "ldots" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final Atom ldotp = Symbols.LDOTP;
@@ -2592,11 +2245,7 @@ public class Commands {
 							.changeType(TeXConstants.TYPE_INNER);
 				}
 			};
-
-		case "dotsb":
-		case "dotsm":
-		case "cdots":
-			return new Command0A() {
+			case "dotsb", "dotsm", "cdots" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final Atom cdotp = Symbols.CDOTP;
@@ -2604,9 +2253,7 @@ public class Commands {
 							.changeType(TeXConstants.TYPE_INNER);
 				}
 			};
-
-		case "dotsi":
-			return new Command0A() {
+			case "dotsi" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final Atom cdotp = Symbols.CDOTP;
@@ -2616,8 +2263,7 @@ public class Commands {
 							ra.changeType(TeXConstants.TYPE_INNER));
 				}
 			};
-		case "relbar":
-			return new Command0A() {
+			case "relbar" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return new SmashedAtom(Symbols.MINUS)
@@ -2625,30 +2271,22 @@ public class Commands {
 				}
 			};
 
-		// case "kern": XXX
-		case "mspace":
-		case "hskip":
-		case "mskip":
-		case "mkern":
-			return new Command0AImpl() {
+			// case "kern": XXX
+			case "mspace", "hskip", "mskip", "mkern" -> new Command0AImpl() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					final TeXLength len = tp.getArgAsLength();
 					return new SpaceAtom(len);
 				}
 			};
-
-		case "strut":
-			return new Command0A() {
+			case "strut" -> new Command0A() {
 				@Override
 				public Atom newI(TeXParser tp) {
 					return new SpaceAtom(Unit.PT, 0., 8.6, 3.);
 				}
 			};
-
-		}
-
-		return null;
+			default -> null;
+		};
 
 	}
 

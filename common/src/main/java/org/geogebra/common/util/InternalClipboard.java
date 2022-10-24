@@ -103,8 +103,7 @@ public class InternalClipboard {
 					ce.getXML(false, copiedXml);
 				}
 
-				if (ce instanceof GeoImage) {
-					GeoImage image = (GeoImage) ce;
+				if (ce instanceof GeoImage image) {
 					String name = image.getImageFileName();
 					ImageManager imageManager = (ImageManager) app.getImageManager();
 					copiedImages.put(name, imageManager.getExternalImageSrc(name));
@@ -157,8 +156,7 @@ public class InternalClipboard {
 				if (ale instanceof AlgoTableToChart) {
 					continue;
 				}
-				ArrayList<ConstructionElement> ac = new ArrayList<>();
-				ac.addAll(Arrays.asList(ale.getInput()));
+				ArrayList<ConstructionElement> ac = new ArrayList<>(Arrays.asList(ale.getInput()));
 
 				if (conels.containsAll(ac) && !conels.contains(ale)) {
 					conels.add(ale);

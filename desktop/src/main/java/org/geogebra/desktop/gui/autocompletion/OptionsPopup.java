@@ -204,29 +204,25 @@ public class OptionsPopup<T> {
 		}
 
 		switch (keyEvent.getKeyCode()) {
-		default:
-			// do nothing
-			break;
-		case VK_ESCAPE: // [ESC]
+		default -> {
+		}
+		// do nothing
+		case VK_ESCAPE -> { // [ESC]
 			hideOptionsPopup();
 			keyEvent.consume();
-			break;
-		case VK_ENTER: // [ENTER]
+		}
+		case VK_ENTER -> { // [ENTER]
 			hideOptionsPopup();
 			textField.selectAll();
-			break;
-		case VK_DOWN: // [DOWN]
-			navigateRelative(+1);
-			break;
-		case VK_UP: // [UP]
-			navigateRelative(-1);
-			break;
-		case VK_PAGE_DOWN: // [PAGE_DOWN]
-			navigateRelative(+maxPopupRowCount - 1);
-			break;
-		case VK_PAGE_UP: // [PAGE_UP]
-			navigateRelative(-maxPopupRowCount + 1);
-			break;
+		}
+		case VK_DOWN -> // [DOWN]
+				navigateRelative(+1);
+		case VK_UP -> // [UP]
+				navigateRelative(-1);
+		case VK_PAGE_DOWN -> // [PAGE_DOWN]
+				navigateRelative(+maxPopupRowCount - 1);
+		case VK_PAGE_UP -> // [PAGE_UP]
+				navigateRelative(-maxPopupRowCount + 1);
 		}
 	}
 

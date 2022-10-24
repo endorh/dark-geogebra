@@ -10,35 +10,39 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.TexturesShaders;
  */
 public class FragmentShader {
 
-	final private static String fragmentHeaderDesktop = 
-			"#if __VERSION__ >= 130\n"
-			+ "  #define varying in\n"
-			+ "  out vec4 mgl_FragColor;\n" 
-			+ "  #define texture2D texture\n"
-			+ "  #define gl_FragColor mgl_FragColor\n"
-			+ "#endif\n"
-			+ "#ifdef GL_ES\n"
-			+ "  precision mediump float;\n"
-			+ "  precision mediump int;\n"
-			+ "#endif\n";
+	final private static String fragmentHeaderDesktop =
+			"""
+					#if __VERSION__ >= 130
+					  #define varying in
+					  out vec4 mgl_FragColor;
+					  #define texture2D texture
+					  #define gl_FragColor mgl_FragColor
+					#endif
+					#ifdef GL_ES
+					  precision mediump float;
+					  precision mediump int;
+					#endif
+					""";
 
 	final private static String fragmentHeaderHTML5 = "precision mediump float;\n";
 
 	final private static String light =
-			  "if (enableShine == 1){\n"
-			+ "  float specular = dot(lightReflect, viewDirection);\n"
-			+ "  if (specular > 0.0){\n"
-			+ "    float specular2  = specular  * specular;\n"
-			+ "    float specular4  = specular2 * specular2;\n"
-			+ "    float specular16  = specular4 * specular4;\n"
-			+ "    color.rgb = varying_Color.rgb + 0.2 * specular16 * vec3(1.0, 1.0, 1.0);\n"
-			+ "    color.a = varying_Color.a;\n"
-			+ "  }else{\n"
-			+ "    color = varying_Color;\n"
-			+ "  }\n"
-			+ "}else{\n"
-			+ "  color = varying_Color;\n"
-			+ "}\n";
+			"""
+					if (enableShine == 1){
+					  float specular = dot(lightReflect, viewDirection);
+					  if (specular > 0.0){
+					    float specular2  = specular  * specular;
+					    float specular4  = specular2 * specular2;
+					    float specular16  = specular4 * specular4;
+					    color.rgb = varying_Color.rgb + 0.2 * specular16 * vec3(1.0, 1.0, 1.0);
+					    color.a = varying_Color.a;
+					  }else{
+					    color = varying_Color;
+					  }
+					}else{
+					  color = varying_Color;
+					}
+					""";
 
 	/**
 	 * @param isHTML5

@@ -66,8 +66,7 @@ public class EuclidianController3DCompanion
 	public void movePoint(boolean repaint, AbstractEvent event) {
 
 		// Application.debug("movePointMode="+movePointMode);
-		if (ec.movedGeoPoint instanceof GeoPoint3D) {
-			GeoPoint3D movedGeoPoint3D = (GeoPoint3D) ec.movedGeoPoint;
+		if (ec.movedGeoPoint instanceof GeoPoint3D movedGeoPoint3D) {
 
 			if (movedGeoPoint3D.isPointOnPath()) {
 

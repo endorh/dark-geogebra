@@ -30,7 +30,7 @@ public class CmdLowerSum extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 4:
+		case 4 -> {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isRealValuedFunction() && !arg[0].isGeoSegment()))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
@@ -42,13 +42,12 @@ public class CmdLowerSum extends CommandProcessor {
 						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
 						(GeoNumberValue) arg[3]);
 
-				GeoElement[] ret = { algo.getSum() };
+				GeoElement[] ret = {algo.getSum()};
 				return ret;
 			}
 			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

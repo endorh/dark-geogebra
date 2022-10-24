@@ -39,8 +39,8 @@ public final class IsEqualStringIgnoreWhitespaces extends TypeSafeMatcher<String
 
 		String[] trimmedValid = trimAll(valid);
 
-		for (int i = 0; i < trimmedValid.length; i++) {
-			if (trimmedValid[i].equals(trimmedString)) {
+		for (String s : trimmedValid) {
+			if (s.equals(trimmedString)) {
 				logger.addLog(input, string, expected);
 				return true;
 			}

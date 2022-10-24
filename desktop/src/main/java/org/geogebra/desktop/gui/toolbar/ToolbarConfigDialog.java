@@ -133,18 +133,15 @@ public class ToolbarConfigDialog extends JDialog implements ActionListener {
 		btPanel.add(btCancel);
 		btCancel.setText(loc.getMenu("Close"));
 
-		ActionListener ac = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Object src = e.getSource();
-				if (src == btApply) {
-					apply();
-				} else if (src == btCancel) {
-					setVisible(false);
-					dispose();
-				} else if (src == btDefaultToolbar) {
-					confPanel.resetDefaultToolbar();
-				}
+		ActionListener ac = e -> {
+			Object src = e.getSource();
+			if (src == btApply) {
+				apply();
+			} else if (src == btCancel) {
+				setVisible(false);
+				dispose();
+			} else if (src == btDefaultToolbar) {
+				confPanel.resetDefaultToolbar();
 			}
 		};
 		btCancel.addActionListener(ac);
@@ -177,8 +174,7 @@ public class ToolbarConfigDialog extends JDialog implements ActionListener {
 
 		@Override
 		public boolean equals(Object obj) {
-			if (obj instanceof KeyValue) {
-				KeyValue kv = (KeyValue) obj;
+			if (obj instanceof KeyValue kv) {
 				return (kv.value.equals(this.value)) && (kv.key == this.key);
 			}
 			return false;

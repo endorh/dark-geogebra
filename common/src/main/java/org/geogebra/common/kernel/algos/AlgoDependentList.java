@@ -121,9 +121,9 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 		super.remove();
 
 		// removing unlabeled input
-		for (int i = 0; i < input.length; i++) {
-			if (!input[i].isLabelSet()) {
-				input[i].remove();
+		for (GeoElement geoElement : input) {
+			if (!geoElement.isLabelSet()) {
+				geoElement.remove();
 			}
 		}
 
@@ -146,17 +146,17 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 	@Override
 	public final void compute() {
 		geoList.clear();
-		for (int i = 0; i < input.length; i++) {
+		for (GeoElement geoElement : input) {
 			// add input and its siblings to the list
 			// if the siblings are of the same type
 
-			AlgoElement algo = input[i].getParentAlgorithm();
+			AlgoElement algo = geoElement.getParentAlgorithm();
 			if (algo != null && algo.getOutputLength() > 1
 					&& algo.hasSingleOutputType()) {
 				// all siblings have same type: add them all
 				for (int k = 0; k < algo.getOutputLength(); k++) {
 					GeoElement geo = algo.getOutput(k);
-					if ((geo == input[i] || geo.isDefined())
+					if ((geo == geoElement || geo.isDefined())
 							&& !geoList.listContains(geo)) {
 						geoList.add(geo);
 					}
@@ -164,7 +164,7 @@ public class AlgoDependentList extends AlgoElement implements DependentAlgo {
 			} else {
 				// independent or mixed sibling types:
 				// add only this element
-				geoList.add(input[i]);
+				geoList.add(geoElement);
 			}
 		}
 	}

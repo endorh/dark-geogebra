@@ -82,25 +82,14 @@ public class CreateObjectModel {
 	 * @return title
 	 */
 	public String getTitle() {
-		switch (getObjectType()) {
-		default:
-			return null;
-
-		case TYPE_LIST:
-			return loc.getMenu("CreateList");
-
-		case TYPE_LISTOFPOINTS:
-			return loc.getMenu("CreateListOfPoints");
-
-		case TYPE_TABLETEXT:
-			return loc.getMenu("CreateTable");
-
-		case TYPE_POLYLINE:
-			return loc.getMenu("CreatePolyLine");
-
-		case TYPE_MATRIX:
-			return loc.getMenu("CreateMatrix");
-		}
+		return switch (getObjectType()) {
+			default -> null;
+			case TYPE_LIST -> loc.getMenu("CreateList");
+			case TYPE_LISTOFPOINTS -> loc.getMenu("CreateListOfPoints");
+			case TYPE_TABLETEXT -> loc.getMenu("CreateTable");
+			case TYPE_POLYLINE -> loc.getMenu("CreatePolyLine");
+			case TYPE_MATRIX -> loc.getMenu("CreateMatrix");
+		};
 	}
 
 	/**
@@ -177,10 +166,10 @@ public class CreateObjectModel {
 		if (getObjectType() == TYPE_POLYLINE) {
 			GeoPointND[] pts = ((AlgoPolyLine) newGeo.getParentAlgorithm())
 					.getPoints();
-			for (int i = 0; i < pts.length; i++) {
-				pts[i].setEuclidianVisible(true);
-				pts[i].setAuxiliaryObject(false);
-				pts[i].updateRepaint();
+			for (GeoPointND pt : pts) {
+				pt.setEuclidianVisible(true);
+				pt.setAuxiliaryObject(false);
+				pt.updateRepaint();
 			}
 		}
 
@@ -206,8 +195,8 @@ public class CreateObjectModel {
 			if (getObjectType() == TYPE_POLYLINE) {
 				GeoPointND[] pts = ((AlgoPolyLine) newGeo.getParentAlgorithm())
 						.getPoints();
-				for (int i = 0; i < pts.length; i++) {
-					pts[i].remove();
+				for (GeoPointND pt : pts) {
+					pt.remove();
 				}
 			}
 			newGeo.remove();
@@ -227,16 +216,12 @@ public class CreateObjectModel {
 
 		try {
 			switch (getObjectType()) {
-
-			default:
-				// do nothing
-				break;
-			case TYPE_LIST:
-				newGeo = cp.createList(getSelectedCellRanges(), scanByColumn,
-						copyByValue);
-				break;
-
-			case TYPE_LISTOFPOINTS:
+			default -> {
+			}
+			// do nothing
+			case TYPE_LIST -> newGeo = cp.createList(getSelectedCellRanges(), scanByColumn,
+					copyByValue);
+			case TYPE_LISTOFPOINTS -> {
 				newGeo = cp.createPointGeoList(getSelectedCellRanges(),
 						copyByValue, leftToRight, doStoreUndo,
 						doCreateFreePoints);
@@ -246,34 +231,28 @@ public class CreateObjectModel {
 					((GeoList) newGeo).get(i).setEuclidianVisible(false);
 				}
 				newGeo.updateRepaint();
-				break;
-
-			case TYPE_MATRIX:
-				newGeo = cp.createMatrix(column1, column2, row1, row2,
-						copyByValue, transpose);
-				break;
-
-			case TYPE_TABLETEXT:
+			}
+			case TYPE_MATRIX -> newGeo = cp.createMatrix(column1, column2, row1, row2,
+					copyByValue, transpose);
+			case TYPE_TABLETEXT -> {
 				newGeo = cp.createTableText(column1, column2, row1, row2,
 						copyByValue, transpose);
 				newGeo.setEuclidianVisible(false);
 				newGeo.updateRepaint();
-				break;
-
-			case TYPE_POLYLINE:
+			}
+			case TYPE_POLYLINE -> {
 				newGeo = cp.createPolyLine(getSelectedCellRanges(), copyByValue,
 						leftToRight);
 				newGeo.setLabel(null);
 				GeoPointND[] pts = ((AlgoPolyLine) newGeo.getParentAlgorithm())
 						.getPoints();
-				for (int i = 0; i < pts.length; i++) {
-					pts[i].setAuxiliaryObject(true);
-					pts[i].setEuclidianVisible(false);
-					pts[i].updateRepaint();
+				for (GeoPointND pt : pts) {
+					pt.setAuxiliaryObject(true);
+					pt.setEuclidianVisible(false);
+					pt.updateRepaint();
 				}
 				newGeo.updateRepaint();
-				break;
-
+			}
 			}
 
 			// String latexStr = newGeo.getLaTeXAlgebraDescription(true);

@@ -43,12 +43,11 @@ public class CmdSetDecoration extends CmdScripting {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
-		case 2:
+		case 2 -> {
 			GeoElement[] arg = resArgs(c);
 			if (!arg[1].isNumberValue()) {
 				throw argErr(c, arg[1]);
 			}
-
 			int style = (int) arg[1].evaluateDouble();
 
 			// For invalid number we assume it's 0
@@ -75,11 +74,10 @@ public class CmdSetDecoration extends CmdScripting {
 				}
 				arg[0].setFillType(types[style]);
 			}
-
 			arg[0].updateVisualStyleRepaint(GProperty.DECORATION);
-
 			return arg;
-		case 3:
+		}
+		case 3 -> {
 			GeoElement[] args = resArgs(c);
 			if (!args[1].isNumberValue()) {
 				throw argErr(c, args[1]);
@@ -87,20 +85,16 @@ public class CmdSetDecoration extends CmdScripting {
 			if (!args[2].isNumberValue()) {
 				throw argErr(c, args[2]);
 			}
-
 			int startStyle = getValidStyle(args[1]);
 			int endStyle = getValidStyle(args[2]);
-
 			if (args[0] instanceof GeoSegment) {
 				((GeoSegment) args[0]).setStartStyle(SegmentStyle.values()[startStyle]);
 				((GeoSegment) args[0]).setEndStyle(SegmentStyle.values()[endStyle]);
 			}
-
 			args[0].updateVisualStyleRepaint(GProperty.COMBINED);
 			return args;
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

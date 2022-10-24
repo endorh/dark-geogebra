@@ -5,13 +5,8 @@
 package org.mozilla.javascript;
 
 import java.lang.ref.SoftReference;
-import java.lang.reflect.UndeclaredThrowableException;
-import java.security.AccessController;
+import java.lang.reflect.InvocationTargetException;
 import java.security.CodeSource;
-import java.security.Policy;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
 import java.security.SecureClassLoader;
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -20,7 +15,7 @@ import org.mozilla.classfile.ByteCode;
 import org.mozilla.classfile.ClassFileWriter;
 
 /**
- * A security controller relying on Java {@link Policy} in effect. When you use
+ * A security controller relying on Java Policy in effect. When you use
  * this security controller, your securityDomain objects must be instances of
  * {@link CodeSource} representing the location from where you load your
  * scripts. Any Java policy "grant" statements matching the URL and certificate
@@ -40,7 +35,7 @@ public class PolicySecurityController extends SecurityController
     // cleanup of either CodeSource or ClassLoader objects.
     private static final Map<CodeSource,Map<ClassLoader,SoftReference<SecureCaller>>>
         callers =
-            new WeakHashMap<CodeSource,Map<ClassLoader,SoftReference<SecureCaller>>>();
+            new WeakHashMap<>();
 
     @Override
     public Class<?> getStaticSecurityDomainClassInternal() {
@@ -73,14 +68,7 @@ public class PolicySecurityController extends SecurityController
     public GeneratedClassLoader createClassLoader(final ClassLoader parent,
             final Object securityDomain)
     {
-        return (Loader)AccessController.doPrivileged(
-            new PrivilegedAction<Object>()
-            {
-                public Object run()
-                {
-                    return new Loader(parent, (CodeSource)securityDomain);
-                }
-            });
+        return new Loader(parent, (CodeSource)securityDomain);
     }
 
     @Override
@@ -98,20 +86,12 @@ public class PolicySecurityController extends SecurityController
     {
         // Run in doPrivileged as we might be checked for "getClassLoader"
         // runtime permission
-        final ClassLoader classLoader = (ClassLoader)AccessController.doPrivileged(
-            new PrivilegedAction<Object>() {
-                public Object run() {
-                    return cx.getApplicationClassLoader();
-                }
-            });
+        final ClassLoader classLoader = cx.getApplicationClassLoader();
         final CodeSource codeSource = (CodeSource)securityDomain;
         Map<ClassLoader,SoftReference<SecureCaller>> classLoaderMap;
         synchronized (callers) {
-            classLoaderMap = callers.get(codeSource);
-            if(classLoaderMap == null) {
-                classLoaderMap = new WeakHashMap<ClassLoader,SoftReference<SecureCaller>>();
-                callers.put(codeSource, classLoaderMap);
-            }
+            classLoaderMap = callers.computeIfAbsent(codeSource,
+                    k -> new WeakHashMap<>());
         }
         SecureCaller caller;
         synchronized (classLoaderMap) {
@@ -125,26 +105,18 @@ public class PolicySecurityController extends SecurityController
             {
                 try
                 {
-                    // Run in doPrivileged as we'll be checked for
-                    // "createClassLoader" runtime permission
-                    caller = (SecureCaller)AccessController.doPrivileged(
-                            new PrivilegedExceptionAction<Object>()
-                    {
-                        public Object run() throws Exception
-                        {
-                            Loader loader = new Loader(classLoader,
-                                    codeSource);
-                            Class<?> c = loader.defineClass(
-                                    SecureCaller.class.getName() + "Impl",
-                                    secureCallerImplBytecode);
-                            return c.newInstance();
-                        }
-                    });
-                    classLoaderMap.put(classLoader, new SoftReference<SecureCaller>(caller));
-                }
-                catch(PrivilegedActionException ex)
-                {
-                    throw new UndeclaredThrowableException(ex.getCause());
+                    Loader loader = new Loader(classLoader,
+                            codeSource);
+                    Class<?> c = loader.defineClass(
+                            SecureCaller.class.getName() + "Impl",
+                            secureCallerImplBytecode);
+                    caller = (SecureCaller) c.getConstructor().newInstance();
+                    classLoaderMap.put(classLoader, new SoftReference<>(caller));
+                } catch (InstantiationException
+                         | IllegalAccessException
+                         | NoSuchMethodException
+                         | InvocationTargetException e) {
+                    throw new RuntimeException(e);
                 }
             }
         }

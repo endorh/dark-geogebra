@@ -74,7 +74,7 @@ class SimplexTableau implements Serializable {
     private final boolean restrictToNonNegative;
 
     /** The variables each column represents */
-    private final List<String> columnLabels = new ArrayList<String>();
+    private final List<String> columnLabels = new ArrayList<>();
 
     /** Simple tableau. */
     private transient Array2DRowRealMatrix tableau;
@@ -246,7 +246,7 @@ class SimplexTableau implements Serializable {
      * @return new versions of the constraints
      */
     public List<LinearConstraint> normalizeConstraints(Collection<LinearConstraint> originalConstraints) {
-        List<LinearConstraint> normalized = new ArrayList<LinearConstraint>(originalConstraints.size());
+        List<LinearConstraint> normalized = new ArrayList<>(originalConstraints.size());
         for (LinearConstraint constraint : originalConstraints) {
             normalized.add(normalize(constraint));
         }
@@ -369,7 +369,7 @@ class SimplexTableau implements Serializable {
             return;
         }
 
-        final Set<Integer> columnsToDrop = new TreeSet<Integer>();
+        final Set<Integer> columnsToDrop = new TreeSet<>();
         columnsToDrop.add(0);
 
         // positive cost non-artificial variables
@@ -399,7 +399,7 @@ class SimplexTableau implements Serializable {
         }
 
         // remove the columns in reverse order so the indices are correct
-        Integer[] drop = columnsToDrop.toArray(new Integer[columnsToDrop.size()]);
+        Integer[] drop = columnsToDrop.toArray(new Integer[0]);
         for (int i = drop.length - 1; i >= 0; i--) {
             columnLabels.remove((int) drop[i]);
         }
@@ -443,7 +443,7 @@ class SimplexTableau implements Serializable {
         Integer negativeVarBasicRow = negativeVarColumn > 0 ? getBasicRow(negativeVarColumn) : null;
         double mostNegative = negativeVarBasicRow == null ? 0 : getEntry(negativeVarBasicRow, getRhsOffset());
 
-        final Set<Integer> usedBasicRows = new HashSet<Integer>();
+        final Set<Integer> usedBasicRows = new HashSet<>();
         final double[] coefficients = new double[getOriginalNumDecisionVariables()];
         for (int i = 0; i < coefficients.length; i++) {
             int colIndex = columnLabels.indexOf("x" + i);
@@ -656,9 +656,8 @@ class SimplexTableau implements Serializable {
         return true;
       }
 
-      if (other instanceof SimplexTableau) {
-          SimplexTableau rhs = (SimplexTableau) other;
-          return (restrictToNonNegative  == rhs.restrictToNonNegative) &&
+      if (other instanceof SimplexTableau rhs) {
+	      return (restrictToNonNegative  == rhs.restrictToNonNegative) &&
                  (numDecisionVariables   == rhs.numDecisionVariables) &&
                  (numSlackVariables      == rhs.numSlackVariables) &&
                  (numArtificialVariables == rhs.numArtificialVariables) &&

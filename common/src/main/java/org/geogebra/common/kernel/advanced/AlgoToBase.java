@@ -87,9 +87,7 @@ public class AlgoToBase extends AlgoElement {
 			StringBuilder sb = new StringBuilder(digits);
 			sb.append(intPart);
 			sb.append('.');
-			for (int i = 0; i < digits - decimalPart.length(); i++) {
-				sb.append('0');
-			}
+			sb.append("0".repeat(Math.max(0, digits - decimalPart.length())));
 			sb.append(decimalPart);
 			result.setTextString(sb.toString());
 		}

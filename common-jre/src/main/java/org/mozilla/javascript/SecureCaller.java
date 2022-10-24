@@ -8,13 +8,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.SoftReference;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.UndeclaredThrowableException;
 import java.net.URL;
-import java.security.AccessController;
 import java.security.CodeSource;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
 import java.security.SecureClassLoader;
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -32,7 +29,7 @@ public abstract class SecureCaller
     // cleanup of either CodeSource or ClassLoader objects.
     private static final Map<CodeSource,Map<ClassLoader,SoftReference<SecureCaller>>>
     callers =
-        new WeakHashMap<CodeSource,Map<ClassLoader,SoftReference<SecureCaller>>>();
+            new WeakHashMap<>();
 
     public abstract Object call(Callable callable, Context cx,
             Scriptable scope, Scriptable thisObj, Object[] args);
@@ -47,21 +44,12 @@ public abstract class SecureCaller
         final Thread thread = Thread.currentThread();
         // Run in doPrivileged as we might be checked for "getClassLoader"
         // runtime permission
-        final ClassLoader classLoader = (ClassLoader)AccessController.doPrivileged(
-            new PrivilegedAction<Object>() {
-                public Object run() {
-                    return thread.getContextClassLoader();
-                }
-            });
+        final ClassLoader classLoader = thread.getContextClassLoader();
         Map<ClassLoader,SoftReference<SecureCaller>> classLoaderMap;
         synchronized(callers)
         {
-            classLoaderMap = callers.get(codeSource);
-            if(classLoaderMap == null)
-            {
-                classLoaderMap = new WeakHashMap<ClassLoader,SoftReference<SecureCaller>>();
-                callers.put(codeSource, classLoaderMap);
-            }
+            classLoaderMap = callers.computeIfAbsent(codeSource,
+                    k -> new WeakHashMap<>());
         }
         SecureCaller caller;
         synchronized(classLoaderMap)
@@ -75,33 +63,26 @@ public abstract class SecureCaller
             if (caller == null) {
                 try
                 {
-                    // Run in doPrivileged as we'll be checked for
-                    // "createClassLoader" runtime permission
-                    caller = (SecureCaller)AccessController.doPrivileged(
-                            new PrivilegedExceptionAction<Object>()
-                    {
-                        public Object run() throws Exception
-                        {
-                            ClassLoader effectiveClassLoader;
-                            Class<?> thisClass = getClass();
-                            if(classLoader.loadClass(thisClass.getName()) != thisClass) {
-                                effectiveClassLoader = thisClass.getClassLoader();
-                            } else {
-                                effectiveClassLoader = classLoader;
-                            }
-                            SecureClassLoaderImpl secCl =
-                                new SecureClassLoaderImpl(effectiveClassLoader);
-                            Class<?> c = secCl.defineAndLinkClass(
-                                    SecureCaller.class.getName() + "Impl",
-                                    secureCallerImplBytecode, codeSource);
-                            return c.newInstance();
-                        }
-                    });
-                    classLoaderMap.put(classLoader, new SoftReference<SecureCaller>(caller));
-                }
-                catch(PrivilegedActionException ex)
-                {
-                    throw new UndeclaredThrowableException(ex.getCause());
+                    ClassLoader effectiveClassLoader;
+                    Class<?> thisClass = SecureCaller.class;
+                    if (classLoader.loadClass(thisClass.getName()) != thisClass) {
+                        effectiveClassLoader = thisClass.getClassLoader();
+                    } else {
+                        effectiveClassLoader = classLoader;
+                    }
+                    SecureClassLoaderImpl secCl =
+                            new SecureClassLoaderImpl(effectiveClassLoader);
+                    Class<?> c = secCl.defineAndLinkClass(
+                            SecureCaller.class.getName() + "Impl",
+                            secureCallerImplBytecode, codeSource);
+                    caller = (SecureCaller) c.getConstructor().newInstance();
+                    classLoaderMap.put(classLoader, new SoftReference<>(caller));
+                } catch (ClassNotFoundException
+                         | InstantiationException
+                         | IllegalAccessException
+                         | NoSuchMethodException
+                         | InvocationTargetException e) {
+                    throw new RuntimeException(e);
                 }
             }
         }
@@ -125,13 +106,7 @@ public abstract class SecureCaller
 
     private static byte[] loadBytecode()
     {
-        return (byte[])AccessController.doPrivileged(new PrivilegedAction<Object>()
-        {
-            public Object run()
-            {
-                return loadBytecodePrivileged();
-            }
-        });
+        return loadBytecodePrivileged();
     }
 
     private static byte[] loadBytecodePrivileged()
@@ -139,23 +114,15 @@ public abstract class SecureCaller
         URL url = SecureCaller.class.getResource("SecureCallerImpl.clazz");
         try
         {
-            InputStream in = url.openStream();
-            try
-            {
+            try (InputStream in = url.openStream()) {
                 ByteArrayOutputStream bout = new ByteArrayOutputStream();
-                for(;;)
-                {
+                for (; ; ) {
                     int r = in.read();
-                    if(r == -1)
-                    {
+                    if (r == -1) {
                         return bout.toByteArray();
                     }
                     bout.write(r);
                 }
-            }
-            finally
-            {
-                in.close();
             }
         }
         catch(IOException e)

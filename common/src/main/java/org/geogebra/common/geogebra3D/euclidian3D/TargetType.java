@@ -199,37 +199,11 @@ public enum TargetType {
 	 * @return true if this mode can create a point
 	 */
 	static public boolean isModeForCreatingPoint(int mode) {
-		switch (mode) {
-		case EuclidianConstants.MODE_POINT:
-		case EuclidianConstants.MODE_POINT_ON_OBJECT:
-		case EuclidianConstants.MODE_SEGMENT:
-		case EuclidianConstants.MODE_SEGMENT_FIXED:
-		case EuclidianConstants.MODE_JOIN:
-		case EuclidianConstants.MODE_RAY:
-		case EuclidianConstants.MODE_VECTOR:
-		case EuclidianConstants.MODE_POLYGON:
-		case EuclidianConstants.MODE_PYRAMID:
-		case EuclidianConstants.MODE_PRISM:
-		case EuclidianConstants.MODE_TETRAHEDRON:
-		case EuclidianConstants.MODE_CUBE:
-		case EuclidianConstants.MODE_SPHERE_TWO_POINTS:
-		case EuclidianConstants.MODE_SPHERE_POINT_RADIUS:
-		case EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS:
-		case EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS:
-		case EuclidianConstants.MODE_PLANE_THREE_POINTS:
-		case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
-		case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
-		case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS:
-		case EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS:
-		case EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS:
-		case EuclidianConstants.MODE_ELLIPSE_THREE_POINTS:
-		case EuclidianConstants.MODE_CONIC_FIVE_POINTS:
-		case EuclidianConstants.MODE_POLYLINE:
-		case EuclidianConstants.MODE_REGULAR_POLYGON:
-			return true;
-		default:
-			return false;
-		}
+		return switch (mode) {
+			case EuclidianConstants.MODE_POINT, EuclidianConstants.MODE_POINT_ON_OBJECT, EuclidianConstants.MODE_SEGMENT, EuclidianConstants.MODE_SEGMENT_FIXED, EuclidianConstants.MODE_JOIN, EuclidianConstants.MODE_RAY, EuclidianConstants.MODE_VECTOR, EuclidianConstants.MODE_POLYGON, EuclidianConstants.MODE_PYRAMID, EuclidianConstants.MODE_PRISM, EuclidianConstants.MODE_TETRAHEDRON, EuclidianConstants.MODE_CUBE, EuclidianConstants.MODE_SPHERE_TWO_POINTS, EuclidianConstants.MODE_SPHERE_POINT_RADIUS, EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS, EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS, EuclidianConstants.MODE_PLANE_THREE_POINTS, EuclidianConstants.MODE_CIRCLE_THREE_POINTS, EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS, EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS, EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS, EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS, EuclidianConstants.MODE_ELLIPSE_THREE_POINTS, EuclidianConstants.MODE_CONIC_FIVE_POINTS, EuclidianConstants.MODE_POLYLINE, EuclidianConstants.MODE_REGULAR_POLYGON ->
+					true;
+			default -> false;
+		};
 	}
 
 	static private TargetType getCurrentTargetTypeForPathOrRegion(

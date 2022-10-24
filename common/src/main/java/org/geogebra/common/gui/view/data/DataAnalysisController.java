@@ -169,10 +169,10 @@ public abstract class DataAnalysisController {
 		}
 
 		// check for empty lists
-		for (int i = 0; i < list.size(); i++) {
+		for (GeoList geoList : list) {
 			// System.out.println("data list " + i + " size: "
 			// + list.get(i).size());
-			if (list.get(i).size() < 1) {
+			if (geoList.size() < 1) {
 				// System.out.println("invalid data list");
 				return false;
 			}

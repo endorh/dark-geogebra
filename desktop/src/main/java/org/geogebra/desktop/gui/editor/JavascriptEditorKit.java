@@ -226,13 +226,13 @@ public class JavascriptEditorKit extends DefaultEditorKit {
 			if (ec != null) {
 				Element[] added = ec.getChildrenAdded();
 				boolean comment = isCommented(ec.getIndex() - 1);
-				for (int i = 0; i < added.length; i++) {
-					comment = handleElement(added[i], comment);
+				for (Element value : added) {
+					comment = handleElement(value, comment);
 				}
 				Element[] removed = ec.getChildrenRemoved();
 				comment = isCommented(ec.getIndex() - 1);
-				for (int i = 0; i < removed.length; i++) {
-					comment = handleElement(removed[i], comment);
+				for (Element element : removed) {
+					comment = handleElement(element, comment);
 				}
 			} else {// the event occured in one line
 				int index = root.getElementIndex(ev.getOffset());

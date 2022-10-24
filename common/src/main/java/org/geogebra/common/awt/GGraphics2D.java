@@ -122,7 +122,6 @@ public interface GGraphics2D {
 	 *             operation.
 	 * @see #getComposite
 	 * @see GAlphaComposite
-	 * @see SecurityManager#checkPermission
 	 */
 	void setComposite(GComposite comp);
 

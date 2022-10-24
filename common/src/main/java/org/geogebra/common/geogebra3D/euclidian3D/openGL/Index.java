@@ -84,21 +84,14 @@ class Index implements Comparable<Index> {
 		if (v2 > o.v2) {
 			return 1;
 		}
-		if (v1 < o.v1) {
-			return -1;
-		}
-		if (v1 > o.v1) {
-			return 1;
-		}
-		return 0;
+		return Integer.compare(v1, o.v1);
 	}
 
 	@Override
 	public boolean equals(Object o) {
-		if (!(o instanceof Index)) {
+		if (!(o instanceof Index index)) {
 			return false;
 		}
-		Index index = (Index) o;
 		return v1 == index.v1 && v2 == index.v2;
 	}
 

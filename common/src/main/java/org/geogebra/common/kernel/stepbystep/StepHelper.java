@@ -49,73 +49,50 @@ public class StepHelper {
 		boolean isTrueFor(StepTransformable sn);
 	}
 
-	public static final BooleanCondition squareRoot = new BooleanCondition() {
-		@Override
-		public boolean isTrueFor(StepTransformable sn) {
-			if (sn instanceof StepExpression) {
-				return ((StepExpression) sn).containsSquareRoot();
-			}
-
-			return false;
+	public static final BooleanCondition squareRoot = sn -> {
+		if (sn instanceof StepExpression) {
+			return ((StepExpression) sn).containsSquareRoot();
 		}
+
+		return false;
 	};
 
-	public static final BooleanCondition abs = new BooleanCondition() {
-		@Override
-		public boolean isTrueFor(StepTransformable sn) {
-			return sn.isOperation(Operation.ABS);
+	public static final BooleanCondition abs = sn -> sn.isOperation(Operation.ABS);
+
+	private static final Condition underAbs = sn -> {
+		if (sn.isOperation(Operation.ABS)) {
+			return ((StepOperation) sn).getOperand(0);
 		}
+		return null;
 	};
 
-	private static final Condition underAbs = new Condition() {
-		@Override
-		public StepTransformable isTrueFor(StepTransformable sn) {
-			if (sn.isOperation(Operation.ABS)) {
-				return ((StepOperation) sn).getOperand(0);
-			}
-			return null;
+	private static final Condition underEvenRoot = sn -> {
+		if (sn.isOperation(Operation.NROOT) && ((StepOperation) sn).getOperand(1)
+				.isEven()) {
+			return ((StepOperation) sn).getOperand(0);
 		}
+		return null;
 	};
 
-	private static final Condition underEvenRoot = new Condition() {
-		@Override
-		public StepTransformable isTrueFor(StepTransformable sn) {
-			if (sn.isOperation(Operation.NROOT) && ((StepOperation) sn).getOperand(1)
-					.isEven()) {
-				return ((StepOperation) sn).getOperand(0);
-			}
-			return null;
+	private static final Condition plusminusToPlus = sn -> {
+		if (sn.isOperation(Operation.PLUSMINUS)) {
+			return ((StepOperation) sn).getOperand(0);
 		}
+		return null;
 	};
 
-	private static final Condition plusminusToPlus = new Condition() {
-		@Override
-		public StepTransformable isTrueFor(StepTransformable sn) {
-			if (sn.isOperation(Operation.PLUSMINUS)) {
-				return ((StepOperation) sn).getOperand(0);
-			}
-			return null;
+	private static final Condition plusminusToMinus = sn -> {
+		if (sn.isOperation(Operation.PLUSMINUS)) {
+			return minus(((StepOperation) sn).getOperand(0));
 		}
+		return null;
 	};
 
-	private static final Condition plusminusToMinus = new Condition() {
-		@Override
-		public StepTransformable isTrueFor(StepTransformable sn) {
-			if (sn.isOperation(Operation.PLUSMINUS)) {
-				return minus(((StepOperation) sn).getOperand(0));
-			}
-			return null;
+	private static final Condition isDenominator = sn -> {
+		if (sn.isOperation(Operation.DIVIDE)) {
+			return ((StepOperation) sn).getOperand(1);
 		}
-	};
-
-	private static final Condition isDenominator = new Condition() {
-		@Override
-		public StepTransformable isTrueFor(StepTransformable sn) {
-			if (sn.isOperation(Operation.DIVIDE)) {
-				return ((StepOperation) sn).getOperand(1);
-			}
-			return null;
-		}
+		return null;
 	};
 
 	/**
@@ -167,8 +144,7 @@ public class StepHelper {
 			return value;
 		}
 
-		if (sn instanceof StepOperation) {
-			StepOperation so = (StepOperation) sn;
+		if (sn instanceof StepOperation so) {
 			StepExpression[] result = new StepExpression[so.noOfOperands()];
 
 			boolean found = false;
@@ -187,8 +163,7 @@ public class StepHelper {
 			return found ? StepOperation.create(so.getOperation(), result) : null;
 		}
 
-		if (sn instanceof StepSolvable) {
-			StepSolvable ss = (StepSolvable) sn;
+		if (sn instanceof StepSolvable ss) {
 
 			StepExpression lhs = (StepExpression) replaceFirst(ss.LHS, c);
 			if (lhs != null) {
@@ -218,17 +193,13 @@ public class StepHelper {
 
 	public static StepOperation findTrigonometricExpression(StepExpression se,
 			final StepVariable sv) {
-		return (StepOperation) findExpression(se, new Condition() {
-			@Override
-			public StepTransformable isTrueFor(StepTransformable sn) {
-				if (sn instanceof StepOperation) {
-					StepOperation so = (StepOperation) sn;
-					if (so.isTrigonometric() && !so.isConstantIn(sv)) {
-						return so;
-					}
+		return (StepOperation) findExpression(se, sn -> {
+			if (sn instanceof StepOperation so) {
+				if (so.isTrigonometric() && !so.isConstantIn(sv)) {
+					return so;
 				}
-				return null;
 			}
+			return null;
 		});
 	}
 
@@ -236,22 +207,18 @@ public class StepHelper {
 			int n) {
 		StepExpression diff = StepNode.subtract(ss.LHS, ss.RHS).regroup();
 
-		StepExpression expr = findExpression(diff, new Condition() {
-			@Override
-			public StepTransformable isTrueFor(StepTransformable sn) {
-				if (sn instanceof StepOperation) {
-					StepOperation so = (StepOperation) sn;
+		StepExpression expr = findExpression(diff, sn -> {
+			if (sn instanceof StepOperation so) {
 
-					if (so.isOperation(Operation.ABS) || so.isOperation(Operation.NROOT)
-							|| so.isOperation(Operation.DIVIDE)
-									&& so.getOperand(0).isConstantIn(var)
-							|| (so.isTrigonometric() || so.isInverseTrigonometric())
-									&& !so.isConstantIn(var)) {
-						return so;
-					}
+				if (so.isOperation(Operation.ABS) || so.isOperation(Operation.NROOT)
+						|| so.isOperation(Operation.DIVIDE)
+								&& so.getOperand(0).isConstantIn(var)
+						|| (so.isTrigonometric() || so.isInverseTrigonometric())
+								&& !so.isConstantIn(var)) {
+					return so;
 				}
-				return null;
 			}
+			return null;
 		});
 
 		if (expr == null) {
@@ -324,8 +291,7 @@ public class StepHelper {
 	 * @return first subexpression containing square roots
 	 */
 	public static StepExpression getOne(StepExpression sn, Operation op) {
-		if (sn instanceof StepOperation) {
-			StepOperation so = (StepOperation) sn;
+		if (sn instanceof StepOperation so) {
 
 			if (so.isOperation(op)) {
 				return so;
@@ -360,9 +326,7 @@ public class StepHelper {
 
 	public static StepExpression swapAbsInTree(StepExpression se, StepLogical sl,
 			StepVariable variable, SolutionBuilder steps, int[] colorTracker) {
-		if (se instanceof StepOperation && sl instanceof StepInterval) {
-			StepOperation so = (StepOperation) se;
-			StepInterval si = (StepInterval) sl;
+		if (se instanceof StepOperation so && sl instanceof StepInterval si) {
 
 			if (so.isOperation(Operation.ABS)) {
 				StepExpression underAbs = so.getOperand(0);

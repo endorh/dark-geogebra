@@ -29,6 +29,7 @@ package com.github.quickhull3d;
  * #L%
  */
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -308,8 +309,8 @@ public class QuickHull3D {
 
 	private HalfEdge findHalfEdge(Vertex tail, Vertex head) {
 		// brute force ... OK, since setHull is not used much
-		for (Iterator<Face> it = faces.iterator(); it.hasNext();) {
-			HalfEdge he = it.next().findEdge(tail, head);
+		for (Face face : faces) {
+			HalfEdge he = face.findEdge(tail, head);
 			if (he != null) {
 				return he;
 			}
@@ -516,8 +517,7 @@ public class QuickHull3D {
 	public void triangulate() {
 		double minArea = 1000 * charLength * DOUBLE_PREC;
 		newFaces.clear();
-		for (Iterator<Face> it = faces.iterator(); it.hasNext();) {
-			Face face = it.next();
+		for (Face face : faces) {
 			if (face.mark == Face.VISIBLE) {
 				face.triangulate(newFaces, minArea);
 				// splitFace (face);
@@ -542,9 +542,7 @@ public class QuickHull3D {
 		if (pointBuffer.length < nump) {
 			Vertex[] newBuffer = new Vertex[nump];
 			vertexPointIndices = new int[nump];
-			for (int i = 0; i < pointBuffer.length; i++) {
-				newBuffer[i] = pointBuffer[i];
-			}
+			System.arraycopy(pointBuffer, 0, newBuffer, 0, pointBuffer.length);
 			for (int i = pointBuffer.length; i < nump; i++) {
 				newBuffer[i] = new Vertex();
 			}
@@ -559,7 +557,7 @@ public class QuickHull3D {
 	protected void setPoints(double[] coords, int nump) {
 		for (int i = 0; i < nump; i++) {
 			Vertex vtx = pointBuffer[i];
-			vtx.pnt.set(coords[i * 3 + 0], coords[i * 3 + 1],
+			vtx.pnt.set(coords[i * 3], coords[i * 3 + 1],
 					coords[i * 3 + 2]);
 			vtx.index = i;
 		}
@@ -724,9 +722,7 @@ public class QuickHull3D {
 			}
 		}
 
-		for (int i = 0; i < 4; i++) {
-			faces.add(tris[i]);
-		}
+		faces.addAll(Arrays.asList(tris).subList(0, 4));
 
 		for (int i = 0; i < numPoints; i++) {
 			Vertex v = pointBuffer[i];
@@ -788,7 +784,7 @@ public class QuickHull3D {
 	public int getVertices(double[] coords) {
 		for (int i = 0; i < numVertices; i++) {
 			Point3d pnt = pointBuffer[vertexPointIndices[i]].pnt;
-			coords[i * 3 + 0] = pnt.x;
+			coords[i * 3] = pnt.x;
 			coords[i * 3 + 1] = pnt.y;
 			coords[i * 3 + 2] = pnt.z;
 		}
@@ -803,9 +799,7 @@ public class QuickHull3D {
 	 */
 	public int[] getVertexPointIndices() {
 		int[] indices = new int[numVertices];
-		for (int i = 0; i < numVertices; i++) {
-			indices[i] = vertexPointIndices[i];
-		}
+		System.arraycopy(vertexPointIndices, 0, indices, 0, numVertices);
 		return indices;
 	}
 
@@ -854,8 +848,7 @@ public class QuickHull3D {
 	public int[][] getFaces(int indexFlags) {
 		int[][] allFaces = new int[faces.size()][];
 		int k = 0;
-		for (Iterator<Face> it = faces.iterator(); it.hasNext();) {
-			Face face = it.next();
+		for (Face face : faces) {
 			allFaces[k] = new int[face.numVertices()];
 			getFaceIndices(allFaces[k], face, indexFlags);
 			k++;
@@ -1115,8 +1108,7 @@ public class QuickHull3D {
 		HalfEdge hedgeSidePrev = null;
 		HalfEdge hedgeSideBegin = null;
 
-		for (Iterator<HalfEdge> it = horizon.iterator(); it.hasNext();) {
-			HalfEdge horizonHe = it.next();
+		for (HalfEdge horizonHe : horizon) {
 			HalfEdge hedgeSide = addAdjoiningFace(eyeVtx, horizonHe);
 			// if (LOG.isDebugEnabled()) {
 			// LOG.debug("new face: " + hedgeSide.face.getVertexString());

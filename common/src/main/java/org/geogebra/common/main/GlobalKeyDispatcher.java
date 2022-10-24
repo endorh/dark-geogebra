@@ -78,22 +78,17 @@ public abstract class GlobalKeyDispatcher {
 		}
 
 		switch (fkey) {
-		default:
-			// do nothing
-			break;
-		case 3: // F3 key: copy definition to input field
-			app.getGuiManager().setInputText(geo.getDefinitionForInputBar());
-			break;
-
-		case 4: // F4 key: copy value to input field
-			app.getGuiManager().replaceInputSelection(
-					" " + geo.getValueForInputBar() + " ");
-			break;
-
-		case 5: // F5 key: copy name to input field
-			app.getGuiManager().replaceInputSelection(
-					" " + geo.getLabel(StringTemplate.defaultTemplate) + " ");
-			break;
+		default -> {
+		}
+		// do nothing
+		case 3 -> // F3 key: copy definition to input field
+				app.getGuiManager().setInputText(geo.getDefinitionForInputBar());
+		case 4 -> // F4 key: copy value to input field
+				app.getGuiManager().replaceInputSelection(
+						" " + geo.getValueForInputBar() + " ");
+		case 5 -> // F5 key: copy name to input field
+				app.getGuiManager().replaceInputSelection(
+						" " + geo.getLabel(StringTemplate.defaultTemplate) + " ");
 		}
 	}
 
@@ -276,36 +271,28 @@ public abstract class GlobalKeyDispatcher {
 			double yGrid = app.getActiveEuclidianView().getGridDistances(1);
 
 			switch (app.getActiveEuclidianView().getGridType()) {
-			case EuclidianView.GRID_CARTESIAN:
-			case EuclidianView.GRID_CARTESIAN_WITH_SUBGRID:
+			case EuclidianView.GRID_CARTESIAN, EuclidianView.GRID_CARTESIAN_WITH_SUBGRID -> {
 				diff[0] = MyMath.signedNextMultiple(diff[0], xGrid);
 				diff[1] = MyMath.signedNextMultiple(diff[1], yGrid);
-				break;
-
-			case EuclidianView.GRID_ISOMETRIC:
+			}
+			case EuclidianView.GRID_ISOMETRIC -> {
 				double sin60 = Math.sqrt(3) / 2;
 				double cos60 = 0.5;
-
 				if (DoubleUtil.isZero(diff[0])) {
 					diff[1] = MyMath.signedNextMultiple(diff[1], yGrid);
 				} else {
 					diff[0] = MyMath.signedNextMultiple(diff[0], xGrid * sin60);
 					diff[1] = MyMath.signedNextMultiple(diff[1], yGrid * cos60);
 				}
-
-				break;
-
-			case EuclidianView.GRID_POLAR:
+			}
+			case EuclidianView.GRID_POLAR -> {
 				if (geos.size() != 1) {
 					diff[0] = diff[1] = 0;
 				}
-
 				double posX = geo.getLabelPosition().getX();
 				double posY = geo.getLabelPosition().getY();
-
 				double angle = Math.atan2(posY, posX);
 				double radius = Math.hypot(posX, posY);
-
 				if (DoubleUtil.isZero(diff[0])) {
 					diff[0] = MyMath.signedNextMultiple(diff[1], xGrid * Math.cos(angle));
 					diff[1] = MyMath.signedNextMultiple(diff[1], yGrid * Math.sin(angle));
@@ -316,10 +303,10 @@ public abstract class GlobalKeyDispatcher {
 					diff[0] = radius * Math.cos(angle - angleIncrement) - posX;
 					diff[1] = radius * Math.sin(angle - angleIncrement) - posY;
 				}
-				break;
-
-			default:
-				// do nothing
+			}
+			default -> {
+			}
+			// do nothing
 			}
 		}
 		tempVec.set(diff);
@@ -1133,8 +1120,8 @@ public abstract class GlobalKeyDispatcher {
 		int right = Math.max(oldFontSize, newFontSize);
 		int[] borders = { 16, 22, 28 };
 		int incr = 0;
-		for (int i = 0; i < borders.length; i++) {
-			if (left < borders[i] && borders[i] <= right) {
+		for (int border : borders) {
+			if (left < border && border <= right) {
 				incr = incr + step;
 			}
 		}
@@ -1156,8 +1143,7 @@ public abstract class GlobalKeyDispatcher {
 			}
 		}
 
-		if (geo instanceof PointProperties) {
-			PointProperties p = (PointProperties) geo;
+		if (geo instanceof PointProperties p) {
 			int pointSize = Math.max(2, p.getPointSize() + pointSizeIncr);
 			p.setPointSize(pointSize);
 		}
@@ -1624,8 +1610,7 @@ public abstract class GlobalKeyDispatcher {
 					}
 
 					// update point on path
-					else if (geo instanceof GeoPointND) {
-						GeoPointND p = (GeoPointND) geo;
+					else if (geo instanceof GeoPointND p) {
 						if (p.isPointOnPath()) {
 							p.addToPathParameter(
 									changeVal * p.getAnimationStep());

@@ -52,12 +52,12 @@ public class BorderButtonD extends AbstractBorder
 
 		// register our mouseListener, making sure it is the first one added
 		MouseListener[] ml = borderOwner.getMouseListeners();
-		for (int i = 0; i < ml.length; i++) {
-			borderOwner.removeMouseListener(ml[i]);
+		for (MouseListener listener : ml) {
+			borderOwner.removeMouseListener(listener);
 		}
 		borderOwner.addMouseListener(this);
-		for (int i = 0; i < ml.length; i++) {
-			borderOwner.addMouseListener(ml[i]);
+		for (MouseListener mouseListener : ml) {
+			borderOwner.addMouseListener(mouseListener);
 		}
 
 		// register mouseMotionListener

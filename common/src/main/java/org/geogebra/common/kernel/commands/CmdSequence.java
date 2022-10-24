@@ -48,7 +48,7 @@ public class CmdSequence extends CommandProcessor {
 			arg = resArgs(c);
 		}
 		switch (n) {
-		case 1:
+		case 1 -> {
 			if (arg[0] instanceof GeoNumberValue) {
 
 				AlgoSequenceRange algo = new AlgoSequenceRange(cons,
@@ -57,7 +57,8 @@ public class CmdSequence extends CommandProcessor {
 				return algo.getOutput();
 			}
 			throw argErr(c, arg[0]);
-		case 2:
+		}
+		case 2 -> {
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 
@@ -67,7 +68,8 @@ public class CmdSequence extends CommandProcessor {
 				return algo.getOutput();
 			}
 			throw argErr(c, getBadArg(ok, arg));
-		case 3:
+		}
+		case 3 -> {
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
@@ -78,7 +80,8 @@ public class CmdSequence extends CommandProcessor {
 				return algo.getOutput();
 			}
 			throw argErr(c, getBadArg(ok, arg));
-		case 4:
+		}
+		case 4 -> {
 			if ((ok[0] = arg[0].isGeoElement())
 					&& (ok[1] = arg[1].isGeoNumeric())
 					&& (ok[2] = arg[2] instanceof GeoNumberValue)
@@ -91,8 +94,8 @@ public class CmdSequence extends CommandProcessor {
 				return algo.getOutput();
 			}
 			throw argErr(c, getBadArg(ok, arg));
-
-		case 5:
+		}
+		case 5 -> {
 			if ((ok[0] = arg[0].isGeoElement())
 					&& (ok[1] = arg[1].isGeoNumeric())
 					&& (ok[2] = arg[2] instanceof GeoNumberValue)
@@ -106,9 +109,8 @@ public class CmdSequence extends CommandProcessor {
 
 			}
 			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

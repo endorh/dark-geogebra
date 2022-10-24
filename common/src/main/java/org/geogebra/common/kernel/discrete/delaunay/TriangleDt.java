@@ -472,15 +472,12 @@ public class TriangleDt {
 	 * @return triangle vertex
 	 */
 	public PointDt getCorner(int index) {
-		switch (index) {
-		case 0:
-			return p1();
-		case 1:
-			return p2();
-		case 2:
-			return p3();
-		}
+		return switch (index) {
+			case 0 -> p1();
+			case 1 -> p2();
+			case 2 -> p3();
+			default -> null;
+		};
 
-		return null;
 	}
 }

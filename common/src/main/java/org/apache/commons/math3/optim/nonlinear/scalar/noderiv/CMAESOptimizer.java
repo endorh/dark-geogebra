@@ -199,13 +199,13 @@ public class CMAESOptimizer
     private final RandomGenerator random;
 
     /** History of sigma values. */
-    private final List<Double> statisticsSigmaHistory = new ArrayList<Double>();
+    private final List<Double> statisticsSigmaHistory = new ArrayList<>();
     /** History of mean matrix. */
-    private final List<RealMatrix> statisticsMeanHistory = new ArrayList<RealMatrix>();
+    private final List<RealMatrix> statisticsMeanHistory = new ArrayList<>();
     /** History of fitness values. */
-    private final List<Double> statisticsFitnessHistory = new ArrayList<Double>();
+    private final List<Double> statisticsFitnessHistory = new ArrayList<>();
     /** History of D matrix. */
-    private final List<RealMatrix> statisticsDHistory = new ArrayList<RealMatrix>();
+    private final List<RealMatrix> statisticsDHistory = new ArrayList<>();
 
     /**
      * @param maxIterations Maximal number of iterations.
@@ -290,11 +290,11 @@ public class CMAESOptimizer
          */
         public Sigma(double[] s)
             throws NotPositiveException {
-            for (int i = 0; i < s.length; i++) {
-                if (s[i] < 0) {
-                    throw new NotPositiveException(s[i]);
-                }
-            }
+	        for (double v : s) {
+		        if (v < 0) {
+			        throw new NotPositiveException(v);
+		        }
+	        }
 
 			sigma = Cloner.clone(s);
         }
@@ -1279,11 +1279,11 @@ public class CMAESOptimizer
      */
     private static double max(final double[] m) {
         double max = -Double.MAX_VALUE;
-        for (int r = 0; r < m.length; r++) {
-            if (max < m[r]) {
-                max = m[r];
-            }
-        }
+	    for (double v : m) {
+		    if (max < v) {
+			    max = v;
+		    }
+	    }
         return max;
     }
 
@@ -1293,11 +1293,11 @@ public class CMAESOptimizer
      */
     private static double min(final double[] m) {
         double min = Double.MAX_VALUE;
-        for (int r = 0; r < m.length; r++) {
-            if (min > m[r]) {
-                min = m[r];
-            }
-        }
+	    for (double v : m) {
+		    if (min > v) {
+			    min = v;
+		    }
+	    }
         return min;
     }
 

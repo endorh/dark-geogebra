@@ -388,7 +388,7 @@ public abstract class Line2D implements Shape, GLine2D {
                 }
             }
         }
-        return (ccw < 0.0) ? -1 : ((ccw > 0.0) ? 1 : 0);
+        return java.lang.Double.compare(ccw, 0.0);
     }
 
     /**

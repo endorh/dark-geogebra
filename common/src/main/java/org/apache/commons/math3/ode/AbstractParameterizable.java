@@ -17,6 +17,7 @@
 package org.apache.commons.math3.ode;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 
 /** This abstract class provides boilerplate parameters list.
@@ -33,17 +34,15 @@ public abstract class AbstractParameterizable implements Parameterizable {
      * @param names names of the supported parameters
      */
     protected AbstractParameterizable(final String ... names) {
-        parametersNames = new ArrayList<String>();
-        for (final String name : names) {
-            parametersNames.add(name);
-        }
+        parametersNames = new ArrayList<>();
+        parametersNames.addAll(Arrays.asList(names));
     }
 
     /** Simple constructor.
      * @param names names of the supported parameters
      */
     protected AbstractParameterizable(final Collection<String> names) {
-        parametersNames = new ArrayList<String>();
+        parametersNames = new ArrayList<>();
         parametersNames.addAll(names);
     }
 

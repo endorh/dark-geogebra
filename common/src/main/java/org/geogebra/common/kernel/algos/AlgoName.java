@@ -101,8 +101,7 @@ public class AlgoName extends AlgoElement {
 	public final void compute() {
 
 		String returnLabel;
-		if (geo.getParentAlgorithm() instanceof AlgoListElement) {
-			AlgoListElement algo = (AlgoListElement) geo.getParentAlgorithm();
+		if (geo.getParentAlgorithm() instanceof AlgoListElement algo) {
 
 			returnLabel = algo.getLabel();
 

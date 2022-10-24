@@ -213,8 +213,8 @@ public class ColorChooserButton extends JButton {
 
 				// color buttons
 				SwatchButton sb;
-				for (int i = 0; i < colors.length; ++i) {
-					sb = new SwatchButton(colors[i]);
+				for (Color color : colors) {
+					sb = new SwatchButton(color);
 					sb.addActionListener(this);
 					add(sb);
 				}

@@ -338,15 +338,10 @@ public class SelectionTableD extends JTable {
 		}
 
 		switch (mode) {
-
-		default:
-			// do nothing
-			break;
-		case MODE_ICON:
-		case MODE_LATEX:
-			icon = (ImageIcon) value;
-			break;
-
+		default -> {
+		}
+		// do nothing
+		case MODE_ICON, MODE_LATEX -> icon = (ImageIcon) value;
 		}
 
 		return icon;

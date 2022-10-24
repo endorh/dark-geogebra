@@ -360,14 +360,14 @@ public class DSCompiler {
 
         for (int i = 0; i < dSize; ++i) {
             final int[][] dRow = derivativeCompiler.multIndirection[i];
-            List<int[]> row = new ArrayList<int[]>(dRow.length * 2);
-            for (int j = 0; j < dRow.length; ++j) {
-                row.add(new int[] { dRow[j][0], lowerIndirection[dRow[j][1]], vSize + dRow[j][2] });
-                row.add(new int[] { dRow[j][0], vSize + dRow[j][1], lowerIndirection[dRow[j][2]] });
-            }
+            List<int[]> row = new ArrayList<>(dRow.length * 2);
+	        for (int[] ints : dRow) {
+		        row.add(new int[]{ints[0], lowerIndirection[ints[1]], vSize + ints[2]});
+		        row.add(new int[]{ints[0], vSize + ints[1], lowerIndirection[ints[2]]});
+	        }
 
             // combine terms with similar derivation orders
-            final List<int[]> combined = new ArrayList<int[]>(row.size());
+            final List<int[]> combined = new ArrayList<>(row.size());
             for (int j = 0; j < row.size(); ++j) {
                 final int[] termJ = row.get(j);
                 if (termJ[0] > 0) {
@@ -430,7 +430,7 @@ public class DSCompiler {
         // with respect to the parameter this compiler handles and the
         // underlying one did not handle
         for (int i = 0; i < dSize; ++i) {
-            List<int[]> row = new ArrayList<int[]>();
+            List<int[]> row = new ArrayList<>();
             for (int[] term : derivativeCompiler.compIndirection[i]) {
 
                 // handle term p * f_k(g(x)) * g_l1(x) * g_l2(x) * ... * g_lp(x)
@@ -477,7 +477,7 @@ public class DSCompiler {
             }
 
             // combine terms with similar derivation orders
-            final List<int[]> combined = new ArrayList<int[]>(row.size());
+            final List<int[]> combined = new ArrayList<>(row.size());
             for (int j = 0; j < row.size(); ++j) {
                 final int[] termJ = row.get(j);
                 if (termJ[0] > 0) {
@@ -780,11 +780,11 @@ public class DSCompiler {
         for (int i = 0; i < multIndirection.length; ++i) {
             final int[][] mappingI = multIndirection[i];
             double r = 0;
-            for (int j = 0; j < mappingI.length; ++j) {
-                r += mappingI[j][0] *
-                     lhs[lhsOffset + mappingI[j][1]] *
-                     rhs[rhsOffset + mappingI[j][2]];
-            }
+	        for (int[] ints : mappingI) {
+		        r += ints[0] *
+				        lhs[lhsOffset + ints[1]] *
+				        rhs[rhsOffset + ints[2]];
+	        }
             result[resultOffset + i] = r;
         }
     }
@@ -1765,14 +1765,13 @@ public class DSCompiler {
         for (int i = 0; i < compIndirection.length; ++i) {
             final int[][] mappingI = compIndirection[i];
             double r = 0;
-            for (int j = 0; j < mappingI.length; ++j) {
-                final int[] mappingIJ = mappingI[j];
-                double product = mappingIJ[0] * f[mappingIJ[1]];
-                for (int k = 2; k < mappingIJ.length; ++k) {
-                    product *= operand[operandOffset + mappingIJ[k]];
-                }
-                r += product;
-            }
+	        for (final int[] mappingIJ : mappingI) {
+		        double product = mappingIJ[0] * f[mappingIJ[1]];
+		        for (int k = 2; k < mappingIJ.length; ++k) {
+			        product *= operand[operandOffset + mappingIJ[k]];
+		        }
+		        r += product;
+	        }
             result[resultOffset + i] = r;
         }
     }

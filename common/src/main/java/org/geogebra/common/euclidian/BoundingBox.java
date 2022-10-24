@@ -215,28 +215,18 @@ public abstract class BoundingBox<T extends GShape> {
 			int hitThreshold) {
 		int hit = hitHandlers(x, y, hitThreshold);
 
-		switch (hit) {
-		case 0:
-			return EuclidianBoundingBoxHandler.TOP_LEFT;
-		case 1:
-			return EuclidianBoundingBoxHandler.BOTTOM_LEFT;
-		case 2:
-			return EuclidianBoundingBoxHandler.BOTTOM_RIGHT;
-		case 3:
-			return EuclidianBoundingBoxHandler.TOP_RIGHT;
-		case 4:
-			return EuclidianBoundingBoxHandler.TOP;
-		case 5:
-			return EuclidianBoundingBoxHandler.LEFT;
-		case 6:
-			return EuclidianBoundingBoxHandler.BOTTOM;
-		case 7:
-			return EuclidianBoundingBoxHandler.RIGHT;
-		case 8:
-			return EuclidianBoundingBoxHandler.ROTATION;
-		default:
-			return EuclidianBoundingBoxHandler.UNDEFINED;
-		}
+		return switch (hit) {
+			case 0 -> EuclidianBoundingBoxHandler.TOP_LEFT;
+			case 1 -> EuclidianBoundingBoxHandler.BOTTOM_LEFT;
+			case 2 -> EuclidianBoundingBoxHandler.BOTTOM_RIGHT;
+			case 3 -> EuclidianBoundingBoxHandler.TOP_RIGHT;
+			case 4 -> EuclidianBoundingBoxHandler.TOP;
+			case 5 -> EuclidianBoundingBoxHandler.LEFT;
+			case 6 -> EuclidianBoundingBoxHandler.BOTTOM;
+			case 7 -> EuclidianBoundingBoxHandler.RIGHT;
+			case 8 -> EuclidianBoundingBoxHandler.ROTATION;
+			default -> EuclidianBoundingBoxHandler.UNDEFINED;
+		};
 	}
 
 	/**
@@ -272,24 +262,14 @@ public abstract class BoundingBox<T extends GShape> {
 	 * @return resizing cursor or null
 	 */
 	public EuclidianCursor getCursor(EuclidianBoundingBoxHandler handler) {
-		switch (handler) {
-		case TOP_LEFT:
-		case BOTTOM_RIGHT:
-			return EuclidianCursor.RESIZE_NWSE;
-		case BOTTOM_LEFT:
-		case TOP_RIGHT:
-			return EuclidianCursor.RESIZE_NESW;
-		case TOP:
-		case BOTTOM:
-			return EuclidianCursor.RESIZE_NS;
-		case LEFT:
-		case RIGHT:
-			return EuclidianCursor.RESIZE_EW;
-		case ROTATION:
-			return EuclidianCursor.ROTATION;
-		default:
-			return null;
-		}
+		return switch (handler) {
+			case TOP_LEFT, BOTTOM_RIGHT -> EuclidianCursor.RESIZE_NWSE;
+			case BOTTOM_LEFT, TOP_RIGHT -> EuclidianCursor.RESIZE_NESW;
+			case TOP, BOTTOM -> EuclidianCursor.RESIZE_NS;
+			case LEFT, RIGHT -> EuclidianCursor.RESIZE_EW;
+			case ROTATION -> EuclidianCursor.ROTATION;
+			default -> null;
+		};
 	}
 
 	/**

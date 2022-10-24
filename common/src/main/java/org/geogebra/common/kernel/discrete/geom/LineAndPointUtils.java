@@ -87,10 +87,10 @@ public class LineAndPointUtils {
 		Double x0 = p.getX();
 		Double y0 = p.getY();
 
-		Double x1 = segmentPoint1.getX();
-		Double y1 = segmentPoint1.getY();
-		Double x2 = segmentPoint2.getX();
-		Double y2 = segmentPoint2.getY();
+		double x1 = segmentPoint1.getX();
+		double y1 = segmentPoint1.getY();
+		double x2 = segmentPoint2.getX();
+		double y2 = segmentPoint2.getY();
 
 		Double maxX = Math.max(x1, x2);
 		Double maxY = Math.max(y1, y2);
@@ -121,12 +121,12 @@ public class LineAndPointUtils {
 			Point2D line1Point2, Point2D line2Point1, Point2D line2Point2) {
 
 		Double line1X1 = line1Point1.getX();
-		Double line1Y1 = line1Point1.getY();
+		double line1Y1 = line1Point1.getY();
 		Double line1X2 = line1Point2.getX();
 		Double line1Y2 = line1Point2.getY();
 
 		Double line2X1 = line2Point1.getX();
-		Double line2Y1 = line2Point1.getY();
+		double line2Y1 = line2Point1.getY();
 		Double line2X2 = line2Point2.getX();
 		Double line2Y2 = line2Point2.getY();
 
@@ -160,7 +160,7 @@ public class LineAndPointUtils {
 		}
 
 		Double x0;
-		Double y0;
+		double y0;
 
 		if (line1Lambda == null) { // Line 1 is vertical
 

@@ -33,7 +33,7 @@ import org.mozilla.javascript.Token;
 public class ArrayLiteral extends AstNode implements DestructuringForm {
 
     private static final List<AstNode> NO_ELEMS =
-        Collections.unmodifiableList(new ArrayList<AstNode>());
+        Collections.unmodifiableList(new ArrayList<>());
 
     private List<AstNode> elements;
     private int destructuringLength;
@@ -89,7 +89,7 @@ public class ArrayLiteral extends AstNode implements DestructuringForm {
     public void addElement(AstNode element) {
         assertNotNull(element);
         if (elements == null)
-            elements = new ArrayList<AstNode>();
+            elements = new ArrayList<>();
         elements.add(element);
         element.setParent(this);
     }

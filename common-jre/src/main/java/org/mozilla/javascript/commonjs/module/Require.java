@@ -53,12 +53,12 @@ public class Require extends BaseFunction
 
     // Modules that completed loading; visible to all threads
     private final Map<String, Scriptable> exportedModuleInterfaces =
-        new ConcurrentHashMap<String, Scriptable>();
+            new ConcurrentHashMap<>();
     private final Object loadLock = new Object();
     // Modules currently being loaded on the thread. Used to resolve circular
     // dependencies while loading.
     private static final ThreadLocal<Map<String, Scriptable>>
-        loadingModuleInterfaces = new ThreadLocal<Map<String,Scriptable>>();
+        loadingModuleInterfaces = new ThreadLocal<>();
 
     /**
      * Creates a new instance of the require() function. Upon constructing it,
@@ -186,13 +186,12 @@ public class Require extends BaseFunction
         URI uri = null;
         URI base = null;
         if (id.startsWith("./") || id.startsWith("../")) {
-            if (!(thisObj instanceof ModuleScope)) {
+            if (!(thisObj instanceof ModuleScope moduleScope)) {
                 throw ScriptRuntime.throwError(cx, scope,
                         "Can't resolve relative module ID \"" + id +
                                 "\" when require() is used outside of a module");
             }
 
-            ModuleScope moduleScope = (ModuleScope) thisObj;
             base = moduleScope.getBase();
             URI current = moduleScope.getUri();
             uri = current.resolve(id);
@@ -272,7 +271,7 @@ public class Require extends BaseFunction
             // Are we the outermost locked invocation on this thread?
             final boolean outermostLocked = threadLoadingModules == null;
             if(outermostLocked) {
-                threadLoadingModules = new HashMap<String, Scriptable>();
+                threadLoadingModules = new HashMap<>();
                 loadingModuleInterfaces.set(threadLoadingModules);
             }
             // Must make the module exports available immediately on the

@@ -192,24 +192,13 @@ public class SliderMover extends PathMoverGeneric {
 	 *            point to store result
 	 */
 	protected void calcPoint(GeoNumeric p) {
-		double param;
-		switch (mode) {
-		case BOUNDS_FIXED:
-			param = curr_param;
-			break;
-
-		case BOUNDS_INFINITE:
-			param = PathNormalizer.infFunction(curr_param);
-			break;
-
-		case BOUNDS_FIXED_INFINITE:
-		case BOUNDS_INFINITE_FIXED:
-			param = offset + PathNormalizer.infFunction(curr_param);
-			break;
-
-		default:
-			param = Double.NaN;
-		}
+		double param = switch (mode) {
+			case BOUNDS_FIXED -> curr_param;
+			case BOUNDS_INFINITE -> PathNormalizer.infFunction(curr_param);
+			case BOUNDS_FIXED_INFINITE, BOUNDS_INFINITE_FIXED ->
+					offset + PathNormalizer.infFunction(curr_param);
+			default -> Double.NaN;
+		};
 
 		// PathParameter pp = p.getPathParameter();
 		// pp.t = param;

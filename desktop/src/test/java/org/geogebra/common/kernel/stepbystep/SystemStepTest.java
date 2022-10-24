@@ -124,23 +124,15 @@ public class SystemStepTest {
         }
 
         try {
-            List<StepSolution> solutions = null;
+            List<StepSolution> solutions = switch (method) {
+	            case 0 -> SystemSteps.solveBySubstitution(ses, variables, steps);
+	            case 1 -> SystemSteps.solveByElimination(ses, variables, steps);
+	            case 2 -> SystemSteps.cramersRule(ses, variables, steps);
+	            case 3 -> SystemSteps.gaussJordanElimination(ses, variables, steps);
+	            default -> null;
+            };
 
-            switch (method) {
-                case 0:
-                    solutions = SystemSteps.solveBySubstitution(ses, variables, steps);
-                    break;
-                case 1:
-                    solutions = SystemSteps.solveByElimination(ses, variables, steps);
-                    break;
-                case 2:
-                    solutions = SystemSteps.cramersRule(ses, variables, steps);
-                    break;
-                case 3:
-                    solutions = SystemSteps.gaussJordanElimination(ses, variables, steps);
-            }
-
-            htmlBuilder.buildStepGui(steps.getSteps());
+	        htmlBuilder.buildStepGui(steps.getSteps());
 
             String[] actualSolutions = new String[solutions.size()];
             for (int i = 0; i < solutions.size(); i++) {

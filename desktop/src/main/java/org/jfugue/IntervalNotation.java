@@ -61,22 +61,22 @@ public class IntervalNotation {
 
 		// Go through the Pattern, and replace intervals specified within < and
 		// > with the root note plus the interval value, minus 1
-		for (int i = 0; i < tokens.length; i++) {
+		for (String token : tokens) {
 			int lastAngleBracketPosition = -1;
-			boolean leftAngleBracketExists = (tokens[i].indexOf('<') != -1);
+			boolean leftAngleBracketExists = (token.indexOf('<') != -1);
 
 			if (leftAngleBracketExists) {
 				while (leftAngleBracketExists) {
-					int start = tokens[i].indexOf('<',
+					int start = token.indexOf('<',
 							lastAngleBracketPosition);
-					int end = tokens[i].indexOf('>', start);
-					String intervalString = tokens[i].substring(start + 1, end);
+					int end = token.indexOf('>', start);
+					String intervalString = token.substring(start + 1, end);
 					byte intervalValue = 0;
 					try {
-						intervalValue = Byte.valueOf(intervalString);
+						intervalValue = Byte.parseByte(intervalString);
 					} catch (NumberFormatException e) {
 						throw new JFugueException(JFugueException.EXPECTED_BYTE,
-								intervalString, tokens[i]);
+								intervalString, token);
 					}
 
 					buddy.append("[");
@@ -84,24 +84,24 @@ public class IntervalNotation {
 					buddy.append("]");
 
 					lastAngleBracketPosition = end;
-					int nextLeftAngleBracketPosition = tokens[i].indexOf('<',
+					int nextLeftAngleBracketPosition = token.indexOf('<',
 							lastAngleBracketPosition - 1);
 					if (nextLeftAngleBracketPosition == -1) {
-						buddy.append(tokens[i].substring(end + 1,
-								tokens[i].length())); // Add the rest of the
-														// token
+						buddy.append(token.substring(end + 1,
+								token.length())); // Add the rest of the
+						// token
 						leftAngleBracketExists = false;
 					} else {
-						buddy.append(tokens[i].substring(end + 1,
+						buddy.append(token.substring(end + 1,
 								nextLeftAngleBracketPosition)); // Add the rest
-																// of the token
-																// up to the
-																// next angle
+						// of the token
+						// up to the
+						// next angle
 						leftAngleBracketExists = true;
 					}
 				}
 			} else {
-				buddy.append(tokens[i]);
+				buddy.append(token);
 			}
 			buddy.append(" ");
 		}

@@ -175,41 +175,29 @@ public abstract class PropertiesView implements View {
 	 * @return tab name
 	 */
 	public String getTypeString(OptionType type) {
-		switch (type) {
-		case DEFAULTS:
-			return app.isUnbundledOrWhiteboard()
+		return switch (type) {
+			case DEFAULTS -> app.isUnbundledOrWhiteboard()
 					? loc.getMenu("Defaults")
 					: loc.getPlain("PreferencesOfA", loc.getMenu("Defaults"));
-		case SPREADSHEET:
-			return loc.getPlain("PreferencesOfA", loc.getMenu("Spreadsheet"));
-		case EUCLIDIAN:
-			return app.isUnbundledOrWhiteboard()
+			case SPREADSHEET -> loc.getPlain("PreferencesOfA", loc.getMenu("Spreadsheet"));
+			case EUCLIDIAN -> app.isUnbundledOrWhiteboard()
 					? loc.getMenu("DrawingPad")
 					: loc.getPlain("PreferencesOfA", loc.getMenu("DrawingPad"));
-		case EUCLIDIAN2:
-			return loc.getPlain("PreferencesOfA", loc.getMenu("DrawingPad2"));
-		case EUCLIDIAN_FOR_PLANE:
-			return loc.getPlain("PreferencesOfA", loc.getMenu("ExtraViews"));
-		case EUCLIDIAN3D:
-			return loc.getPlain("PreferencesOfA",
+			case EUCLIDIAN2 -> loc.getPlain("PreferencesOfA", loc.getMenu("DrawingPad2"));
+			case EUCLIDIAN_FOR_PLANE -> loc.getPlain("PreferencesOfA", loc.getMenu("ExtraViews"));
+			case EUCLIDIAN3D -> loc.getPlain("PreferencesOfA",
 					loc.getMenu("GraphicsView3D"));
-		case CAS:
-			return loc.getPlain("PreferencesOfA", loc.getMenu("CAS"));
-		case GLOBAL:
-			return app.isUnbundledOrWhiteboard()
+			case CAS -> loc.getPlain("PreferencesOfA", loc.getMenu("CAS"));
+			case GLOBAL -> app.isUnbundledOrWhiteboard()
 					? loc.getMenu("Advanced")
 					: loc.getPlain("PreferencesOfA", loc.getMenu("Advanced"));
-		case ALGEBRA:
-			return app.isUnbundledOrWhiteboard()
+			case ALGEBRA -> app.isUnbundledOrWhiteboard()
 					? loc.getMenu("Algebra")
 					: loc.getPlain("PreferencesOfA", loc.getMenu("Algebra"));
-		case OBJECTS:
-			return objectPanel == null ? loc.getMenu("Objects") : objectPanel
+			case OBJECTS -> objectPanel == null ? loc.getMenu("Objects") : objectPanel
 					.getSelectionDescription(loc);
-		case LAYOUT:
-			return loc.getPlain("PreferencesOfA", loc.getMenu("Layout"));
-		}
-		return null;
+			case LAYOUT -> loc.getPlain("PreferencesOfA", loc.getMenu("Layout"));
+		};
 	}
 
 	/**
@@ -428,15 +416,9 @@ public abstract class PropertiesView implements View {
 
 	protected void updateSelectedTab(Construction.Constants constant) {
 		switch (constant) {
-		case X_AXIS:
-			selectedTab = 1;
-			break;
-		case Y_AXIS:
-			selectedTab = 2;
-			break;
-		default:
-			selectedTab = 0;
-			break;
+		case X_AXIS -> selectedTab = 1;
+		case Y_AXIS -> selectedTab = 2;
+		default -> selectedTab = 0;
 		}
 	}
 

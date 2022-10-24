@@ -155,8 +155,8 @@ public class LabelManager {
 
 		switch (visible) {
 		case 0: // no visible geos: they all get the labelPrefix as suggestion
-			for (int i = 0; i < geos.length; i++) {
-				geos[i].setLabel(labelPrefix);
+			for (GeoElementND geoElementND : geos) {
+				geoElementND.setLabel(labelPrefix);
 			}
 			break;
 
@@ -179,8 +179,8 @@ public class LabelManager {
 				}
 			} else { // more than one visible geo: use indices if we got a
 						// prefix
-				for (int i = 0; i < geos.length; i++) {
-					geos[i].setLabel(geos[i].getIndexLabel(labelPrefix));
+				for (GeoElementND geo : geos) {
+					geo.setLabel(geo.getIndexLabel(labelPrefix));
 				}
 			}
 		}

@@ -23,7 +23,6 @@ import org.geogebra.common.main.settings.CASSettings;
 import org.geogebra.common.main.settings.Settings;
 import org.geogebra.common.util.CopyPaste;
 import org.geogebra.common.util.GTimer;
-import org.geogebra.common.util.GTimerListener;
 import org.geogebra.common.util.TimeFormatAdapter;
 import org.geogebra.common.util.debug.Log;
 
@@ -178,33 +177,20 @@ public class ExamEnvironment {
 	 * @return The translation identified by the Translation parameter.
 	 */
 	public String getTranslatedString(Translation translation) {
-		switch (translation) {
-		case EXAM_MODE:
-			return localization.getMenu("exam_menu_entry");
-		case OK:
-			return localization.getMenu("OK");
-		case ALERT:
-			return localization.getMenu("exam_alert");
-		case SHOW_TO_TEACHER:
-			return localization.getMenu("exam_log_show_screen_to_teacher");
-		case DATE:
-			return localization.getMenu("exam_start_date");
-		case START_TIME:
-			return localization.getMenu("exam_start_time");
-		case END_TIME:
-			return localization.getMenu("exam_end_time");
-		case ACTIVITY:
-			return localization.getMenu("exam_activity");
-		case EXAM_STARTED:
-			return localization.getMenu("exam_started");
-		case EXAM_ENDED:
-			return localization.getMenu("exam_ended");
-		case EXIT:
-			return localization.getMenu("Exit");
-		case DURATION:
-			return localization.getMenu("Duration");
-		}
-		return null;
+		return switch (translation) {
+			case EXAM_MODE -> localization.getMenu("exam_menu_entry");
+			case OK -> localization.getMenu("OK");
+			case ALERT -> localization.getMenu("exam_alert");
+			case SHOW_TO_TEACHER -> localization.getMenu("exam_log_show_screen_to_teacher");
+			case DATE -> localization.getMenu("exam_start_date");
+			case START_TIME -> localization.getMenu("exam_start_time");
+			case END_TIME -> localization.getMenu("exam_end_time");
+			case ACTIVITY -> localization.getMenu("exam_activity");
+			case EXAM_STARTED -> localization.getMenu("exam_started");
+			case EXAM_ENDED -> localization.getMenu("exam_ended");
+			case EXIT -> localization.getMenu("Exit");
+			case DURATION -> localization.getMenu("Duration");
+		};
 	}
 
 	/**
@@ -645,13 +631,7 @@ public class ExamEnvironment {
 	public void setIgnoreBlurInterval(int ignoreBlurFor) {
 		this.ignoreBlurUntil = System.currentTimeMillis() + ignoreBlurFor;
 		GTimer timer = UtilFactory.getPrototype()
-				.newTimer(new GTimerListener() {
-
-					@Override
-					public void onRun() {
-						onBlurTimer();
-					}
-				}, ignoreBlurFor);
+				.newTimer(this::onBlurTimer, ignoreBlurFor);
 		timer.start();
 	}
 

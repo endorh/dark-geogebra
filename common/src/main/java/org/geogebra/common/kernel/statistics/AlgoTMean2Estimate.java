@@ -284,8 +284,8 @@ public class AlgoTMean2Estimate extends AlgoElement {
 				}
 
 				stats = new SummaryStatistics();
-				for (int i = 0; i < val1.length; i++) {
-					stats.addValue(val1[i]);
+				for (double value : val1) {
+					stats.addValue(value);
 				}
 
 				n1 = stats.getN();
@@ -293,8 +293,8 @@ public class AlgoTMean2Estimate extends AlgoElement {
 				mean1 = stats.getMean();
 
 				stats.clear();
-				for (int i = 0; i < val2.length; i++) {
-					stats.addValue(val2[i]);
+				for (double v : val2) {
+					stats.addValue(v);
 				}
 
 				n2 = stats.getN();

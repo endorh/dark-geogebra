@@ -231,22 +231,13 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 			return "Polygon";
 		}
 
-		switch (getPointsLength()) {
-		case 3:
-			return "Triangle";
-
-		case 4:
-			return "Quadrilateral";
-
-		case 5:
-			return "Pentagon";
-
-		case 6:
-			return "Hexagon";
-
-		default:
-			return "Polygon";
-		}
+		return switch (getPointsLength()) {
+			case 3 -> "Triangle";
+			case 4 -> "Quadrilateral";
+			case 5 -> "Pentagon";
+			case 6 -> "Hexagon";
+			default -> "Polygon";
+		};
 	}
 
 	@Override
@@ -941,10 +932,10 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	public void setLineOpacity(int lineOpacity, boolean updateSegments) {
 		super.setLineOpacity(lineOpacity);
 		if (updateSegments && segments != null) {
-			for (int i = 0; i < segments.length; i++) {
-				if (segments[i] != null) {
-					segments[i].setLineOpacity(lineOpacity);
-					segments[i].updateVisualStyle(GProperty.LINE_STYLE);
+			for (GeoSegmentND segment : segments) {
+				if (segment != null) {
+					segment.setLineOpacity(lineOpacity);
+					segment.updateVisualStyle(GProperty.LINE_STYLE);
 				}
 			}
 		}
@@ -1051,8 +1042,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 */
 	@Override
 	public ExtendedBoolean isCongruent(GeoElement geo) {
-		if (geo instanceof GeoPolygon) {
-			GeoPolygon polygon = (GeoPolygon) geo;
+		if (geo instanceof GeoPolygon polygon) {
 			// Polygons:
 			// two polygon are congruent if the corresponding sides has same
 			// length
@@ -1386,9 +1376,9 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	public void setEuclidianVisible(boolean visible, boolean updateSegments) {
 		super.setEuclidianVisible(visible);
 		if (updateSegments && segments != null) {
-			for (int i = 0; i < segments.length; i++) {
-				segments[i].setEuclidianVisible(visible);
-				segments[i].updateVisualStyle(GProperty.VISIBLE);
+			for (GeoSegmentND segment : segments) {
+				segment.setEuclidianVisible(visible);
+				segment.updateVisualStyle(GProperty.VISIBLE);
 			}
 		}
 	}
@@ -1397,9 +1387,9 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	public void setObjColor(GColor color) {
 		super.setObjColor(color);
 		if (segments != null && createSegments) {
-			for (int i = 0; i < segments.length; i++) {
-				segments[i].setObjColor(color);
-				segments[i].updateVisualStyle(GProperty.COLOR);
+			for (GeoSegmentND segment : segments) {
+				segment.setObjColor(color);
+				segment.updateVisualStyle(GProperty.COLOR);
 			}
 		}
 	}
@@ -1421,9 +1411,9 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		super.setLineType(type);
 		if (updateSegments) {
 			if (segments != null) {
-				for (int i = 0; i < segments.length; i++) {
-					segments[i].setLineType(type);
-					segments[i].updateVisualStyle(GProperty.LINE_STYLE);
+				for (GeoSegmentND segment : segments) {
+					segment.setLineType(type);
+					segment.updateVisualStyle(GProperty.LINE_STYLE);
 				}
 			}
 		}
@@ -1446,9 +1436,9 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		super.setLineTypeHidden(type);
 		if (updateSegments) {
 			if (segments != null) {
-				for (int i = 0; i < segments.length; i++) {
-					segments[i].setLineTypeHidden(type);
-					segments[i].updateVisualStyle(GProperty.LINE_STYLE);
+				for (GeoSegmentND segment : segments) {
+					segment.setLineTypeHidden(type);
+					segment.updateVisualStyle(GProperty.LINE_STYLE);
 				}
 			}
 		}
@@ -1472,9 +1462,9 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 		if (updateSegments) {
 			if (segments != null) {
-				for (int i = 0; i < segments.length; i++) {
-					segments[i].setLineThickness(th);
-					segments[i].updateVisualStyle(GProperty.LINE_STYLE);
+				for (GeoSegmentND segment : segments) {
+					segment.setLineThickness(th);
+					segment.updateVisualStyle(GProperty.LINE_STYLE);
 				}
 			}
 		}
@@ -1485,9 +1475,9 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		super.setLineThickness(th);
 
 		if (segments != null) {
-			for (int i = 0; i < segments.length; i++) {
-				((GeoElement) segments[i]).setLineThicknessOrVisibility(th);
-				segments[i].updateVisualStyle(GProperty.COMBINED);
+			for (GeoSegmentND segment : segments) {
+				((GeoElement) segment).setLineThicknessOrVisibility(th);
+				segment.updateVisualStyle(GProperty.COMBINED);
 			}
 		}
 	}
@@ -1568,8 +1558,8 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		}
 
 		// check if P is on one of the segments
-		for (int i = 0; i < segments.length; i++) {
-			if (segments[i].isOnPath(P, eps)) {
+		for (GeoSegmentND segment : segments) {
+			if (segment.isOnPath(P, eps)) {
 				return true;
 			}
 		}
@@ -1586,8 +1576,8 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 */
 	public boolean isOnPath(Coords coords, double eps) {
 		// check if P is on one of the segments
-		for (int i = 0; i < segments.length; i++) {
-			if (segments[i].isOnPath(coords, eps)) {
+		for (GeoSegmentND segment : segments) {
+			if (segment.isOnPath(coords, eps)) {
 				return true;
 			}
 		}
@@ -1681,9 +1671,9 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		y1 = pts[numPoints - 1].getInhomY() - y0;
 
 		boolean ret = false;
-		for (int i = 0; i < numPoints; i++) {
-			x2 = pts[i].getInhomX() - x0;
-			y2 = pts[i].getInhomY() - y0;
+		for (GeoPointND geoPointND : pts) {
+			x2 = geoPointND.getInhomX() - x0;
+			y2 = geoPointND.getInhomY() - y0;
 			int inter = intersectOx(x1, y1, x2, y2);
 			if (inter == 2) {
 				return true; // point on an edge
@@ -2310,8 +2300,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 	 */
 	public void calcArea() {
 		// eg Dilate[Polygon[(0,0),(1,1),(1,0)],4]
-		if (algoParent instanceof AlgoTransformation) {
-			AlgoTransformation algo = (AlgoTransformation) algoParent;
+		if (algoParent instanceof AlgoTransformation algo) {
 
 			double sf = algo.getAreaScaleFactor();
 

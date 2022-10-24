@@ -65,8 +65,7 @@ public class InputHelper {
 			return;
 		}
 		for (GeoElementND geo : geos) {
-			if (geo instanceof GeoText) {
-				GeoText text = (GeoText) geo;
+			if (geo instanceof GeoText text) {
 				centerText(text, ev);
 			}
 		}
@@ -145,6 +144,7 @@ public class InputHelper {
 				}
 				if (isCloseBracket(c, onlySquareBrackets)) {
 					insideBrackets = true;
+					break;
 				}
 				curWordStart++;
 			}

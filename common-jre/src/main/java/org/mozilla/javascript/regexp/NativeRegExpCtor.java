@@ -157,26 +157,15 @@ class NativeRegExpCtor extends BaseFunction
 
         if (id == 0) return super.findInstanceIdInfo(s);
 
-        int attr;
-        switch (id) {
-          case Id_multiline:
-            attr = multilineAttr;
-            break;
-          case Id_STAR:
-            attr = starAttr;
-            break;
-          case Id_input:
-            attr = inputAttr;
-            break;
-          case Id_UNDERSCORE:
-            attr = underscoreAttr;
-            break;
-          default:
-            attr = PERMANENT | READONLY;
-            break;
-        }
+        int attr = switch (id) {
+	        case Id_multiline -> multilineAttr;
+	        case Id_STAR -> starAttr;
+	        case Id_input -> inputAttr;
+	        case Id_UNDERSCORE -> underscoreAttr;
+	        default -> PERMANENT | READONLY;
+        };
 
-        return instanceIdInfo(attr, super.getMaxInstanceId() + id);
+	    return instanceIdInfo(attr, super.getMaxInstanceId() + id);
     }
 
 // #/string_id_map#

@@ -56,9 +56,9 @@ public class EdmondsKarpMaxFlow<V, E> extends IterativeProcess {
 	private Set<V> mSinkPartitionNodes;
 	private Set<E> mMinCutEdges;
 
-	private Map<E, Number> residualCapacityMap = new HashMap<E, Number>();
-	private Map<V, V> parentMap = new HashMap<V, V>();
-	private Map<V, Number> parentCapacityMap = new HashMap<V, Number>();
+	private Map<E, Number> residualCapacityMap = new HashMap<>();
+	private Map<V, V> parentMap = new HashMap<>();
+	private Map<V, Number> parentCapacityMap = new HashMap<>();
 	private Transformer<E, Number> edgeCapacityTransformer;
 	private Map<E, Number> edgeFlowMap;
 	private Factory<E> edgeFactory;
@@ -116,9 +116,9 @@ public class EdmondsKarpMaxFlow<V, E> extends IterativeProcess {
 			e.printStackTrace();
 		}
 		mMaxFlow = 0;
-		mSinkPartitionNodes = new HashSet<V>();
-		mSourcePartitionNodes = new HashSet<V>();
-		mMinCutEdges = new HashSet<E>();
+		mSinkPartitionNodes = new HashSet<>();
+		mSourcePartitionNodes = new HashSet<>();
+		mMinCutEdges = new HashSet<>();
 	}
 
 	private void clearParentValues() {
@@ -134,8 +134,8 @@ public class EdmondsKarpMaxFlow<V, E> extends IterativeProcess {
 		mSourcePartitionNodes.clear();
 		mSinkPartitionNodes.addAll(mFlowGraph.getVertices());
 
-		Set<E> visitedEdgesMap = new HashSet<E>();
-		Buffer<V> queue = new UnboundedFifoBuffer<V>();
+		Set<E> visitedEdgesMap = new HashSet<>();
+		Buffer<V> queue = new UnboundedFifoBuffer<>();
 		queue.add(source);
 
 		while (!queue.isEmpty()) {
@@ -168,7 +168,7 @@ public class EdmondsKarpMaxFlow<V, E> extends IterativeProcess {
 						|| newCapacity > neighborCapacity.intValue()) {
 					parentMap.put(neighboringVertex, currentVertex);
 					parentCapacityMap.put(neighboringVertex,
-							Integer.valueOf(newCapacity));
+							newCapacity);
 					visitedEdgesMap.add(neighboringEdge);
 					if (neighboringVertex != target) {
 						queue.add(neighboringVertex);
@@ -260,10 +260,9 @@ public class EdmondsKarpMaxFlow<V, E> extends IterativeProcess {
 		parentCapacityMap.put(source, Integer.MAX_VALUE);
 		parentMap.put(source, source);
 
-		List<E> edgeList = new ArrayList<E>(mFlowGraph.getEdges());
+		List<E> edgeList = new ArrayList<>(mFlowGraph.getEdges());
 
-		for (int eIdx = 0; eIdx < edgeList.size(); eIdx++) {
-			E edge = edgeList.get(eIdx);
+		for (E edge : edgeList) {
 			Number capacity = edgeCapacityTransformer.transform(edge);
 
 			if (capacity == null) {
@@ -292,13 +291,12 @@ public class EdmondsKarpMaxFlow<V, E> extends IterativeProcess {
 
 			Number residualCapacity = residualCapacityMap.get(currentEdge);
 			if (capacity != null) {
-				Integer flowValue = Integer.valueOf(
-						capacity.intValue() - residualCapacity.intValue());
+				Integer flowValue = capacity.intValue() - residualCapacity.intValue();
 				this.edgeFlowMap.put(currentEdge, flowValue);
 			}
 		}
 
-		Set<E> backEdges = new HashSet<E>();
+		Set<E> backEdges = new HashSet<>();
 		for (E currentEdge : mFlowGraph.getEdges()) {
 
 			if (edgeCapacityTransformer.transform(currentEdge) == null) {

@@ -231,8 +231,7 @@ public class Equation extends ValidExpression implements EquationValue {
 			boolean switchOrder) {
 		ExpressionValue left, right;
 
-		if (ev instanceof Equation) {
-			Equation equ = (Equation) ev;
+		if (ev instanceof Equation equ) {
 			left = equ.lhs;
 			right = equ.rhs;
 		} else {
@@ -636,8 +635,7 @@ public class Equation extends ValidExpression implements EquationValue {
 			return false;
 		}
 
-		if (v instanceof ExpressionNode) {
-			ExpressionNode node = (ExpressionNode) v;
+		if (v instanceof ExpressionNode node) {
 			if (containsVar(node.getLeft(), var)) {
 				return true;
 			}
@@ -650,17 +648,14 @@ public class Equation extends ValidExpression implements EquationValue {
 			return vVar.length() == 1 && vVar.charAt(0) == var;
 		}
 
-		if (v instanceof MyVecNode) {
-			MyVecNode vec = (MyVecNode) v;
+		if (v instanceof MyVecNode vec) {
 			return containsVar(vec.getX(), var) || containsVar(vec.getY(), var);
 		}
-		if (v instanceof MyVec3DNode) {
-			MyVec3DNode vec = (MyVec3DNode) v;
+		if (v instanceof MyVec3DNode vec) {
 			return containsVar(vec.getX(), var) || containsVar(vec.getY(), var)
 					|| containsVar(vec.getZ(), var);
 		}
-		if (v instanceof MyList) {
-			MyList list = (MyList) v;
+		if (v instanceof MyList list) {
 			for (int i = 0; i < list.size(); i++) {
 				if (containsVar(list.getListElement(i), var)) {
 					return true;
@@ -851,8 +846,7 @@ public class Equation extends ValidExpression implements EquationValue {
 	 * @return whether expression is an equation in the form y=f(x) or z=f(x,y)
 	 */
 	public static boolean isFunctionEquation(ValidExpression ve) {
-		if (ve != null && ve.unwrap() instanceof Equation) {
-			Equation eq = (Equation) ve.unwrap();
+		if (ve != null && ve.unwrap() instanceof Equation eq) {
 			return ("y".equals(eq.lhs.toString(StringTemplate.defaultTemplate))
 					&& !eq.rhs.containsFreeFunctionVariable("y"))
 					|| ("z".equals(

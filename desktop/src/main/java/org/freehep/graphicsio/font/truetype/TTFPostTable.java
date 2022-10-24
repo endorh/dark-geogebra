@@ -53,19 +53,20 @@ public class TTFPostTable extends TTFTable {
 
 	@Override
 	public String toString() {
-		String str = super.toString() + " format: " + format + "\n  italic:"
-				+ italicAngle + " ulPos:" + underlinePosition + " ulThick:"
-				+ underlineThickness + " isFixed:" + isFixedPitch;
+		StringBuilder str =
+				new StringBuilder(super.toString() + " format: " + format + "\n  italic:"
+						+ italicAngle + " ulPos:" + underlinePosition + " ulThick:"
+						+ underlineThickness + " isFixed:" + isFixedPitch);
 		if (glyphNameIndex != null) {
-			str += "\n  glyphNamesIndex[" + glyphNameIndex.length + "] = {";
+			str.append("\n  glyphNamesIndex[").append(glyphNameIndex.length).append("] = {");
 			for (int i = 0; i < glyphNameIndex.length; i++) {
 				if (i % 16 == 0) {
-					str += "\n    ";
+					str.append("\n    ");
 				}
-				str += glyphNameIndex[i] + " ";
+				str.append(glyphNameIndex[i]).append(" ");
 			}
-			str += "\n  }";
+			str.append("\n  }");
 		}
-		return str;
+		return str.toString();
 	}
 }

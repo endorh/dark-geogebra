@@ -1933,7 +1933,7 @@ public class AffineTransform implements Transform {
 	 */
 	public void setToQuadrantRotation(int numquadrants) {
 		switch (numquadrants & 3) {
-		case 0:
+		case 0 -> {
 			m00 = 1.0;
 			m10 = 0.0;
 			m01 = 0.0;
@@ -1942,8 +1942,8 @@ public class AffineTransform implements Transform {
 			m12 = 0.0;
 			state = APPLY_IDENTITY;
 			type = TYPE_IDENTITY;
-			break;
-		case 1:
+		}
+		case 1 -> {
 			m00 = 0.0;
 			m10 = 1.0;
 			m01 = -1.0;
@@ -1952,8 +1952,8 @@ public class AffineTransform implements Transform {
 			m12 = 0.0;
 			state = APPLY_SHEAR;
 			type = TYPE_QUADRANT_ROTATION;
-			break;
-		case 2:
+		}
+		case 2 -> {
 			m00 = -1.0;
 			m10 = 0.0;
 			m01 = 0.0;
@@ -1962,8 +1962,8 @@ public class AffineTransform implements Transform {
 			m12 = 0.0;
 			state = APPLY_SCALE;
 			type = TYPE_QUADRANT_ROTATION;
-			break;
-		case 3:
+		}
+		case 3 -> {
 			m00 = 0.0;
 			m10 = -1.0;
 			m01 = 1.0;
@@ -1972,7 +1972,7 @@ public class AffineTransform implements Transform {
 			m12 = 0.0;
 			state = APPLY_SHEAR;
 			type = TYPE_QUADRANT_ROTATION;
-			break;
+		}
 		}
 	}
 
@@ -1999,7 +1999,7 @@ public class AffineTransform implements Transform {
 	public void setToQuadrantRotation(int numquadrants, double anchorx,
 			double anchory) {
 		switch (numquadrants & 3) {
-		case 0:
+		case 0 -> {
 			m00 = 1.0;
 			m10 = 0.0;
 			m01 = 0.0;
@@ -2008,8 +2008,8 @@ public class AffineTransform implements Transform {
 			m12 = 0.0;
 			state = APPLY_IDENTITY;
 			type = TYPE_IDENTITY;
-			break;
-		case 1:
+		}
+		case 1 -> {
 			m00 = 0.0;
 			m10 = 1.0;
 			m01 = -1.0;
@@ -2023,8 +2023,8 @@ public class AffineTransform implements Transform {
 				state = APPLY_SHEAR | APPLY_TRANSLATE;
 				type = TYPE_QUADRANT_ROTATION | TYPE_TRANSLATION;
 			}
-			break;
-		case 2:
+		}
+		case 2 -> {
 			m00 = -1.0;
 			m10 = 0.0;
 			m01 = 0.0;
@@ -2038,8 +2038,8 @@ public class AffineTransform implements Transform {
 				state = APPLY_SCALE | APPLY_TRANSLATE;
 				type = TYPE_QUADRANT_ROTATION | TYPE_TRANSLATION;
 			}
-			break;
-		case 3:
+		}
+		case 3 -> {
 			m00 = 0.0;
 			m10 = -1.0;
 			m01 = 1.0;
@@ -2053,7 +2053,7 @@ public class AffineTransform implements Transform {
 				state = APPLY_SHEAR | APPLY_TRANSLATE;
 				type = TYPE_QUADRANT_ROTATION | TYPE_TRANSLATION;
 			}
-			break;
+		}
 		}
 	}
 

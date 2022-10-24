@@ -42,7 +42,7 @@ public class CmdSumSquaredErrors extends CommandProcessor {
 		GeoElement[] arg = resArgs(c);
 		boolean[] ok = new boolean[2];
 		switch (n) {
-		case 2:
+		case 2 -> {
 			if ((ok[0] = arg[0].isGeoList())
 					&& (ok[1] = arg[1].isRealValuedFunction())) {
 
@@ -50,13 +50,12 @@ public class CmdSumSquaredErrors extends CommandProcessor {
 						c.getLabel(), (GeoList) arg[0],
 						(GeoFunctionable) arg[1]);
 
-				GeoElement[] ret = { algo.getsse() };
+				GeoElement[] ret = {algo.getsse()};
 				return ret;
 			}
 			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

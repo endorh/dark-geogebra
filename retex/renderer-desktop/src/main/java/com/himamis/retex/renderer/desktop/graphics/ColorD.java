@@ -68,8 +68,7 @@ public class ColorD extends Color
 
 	@Override
 	public boolean equals(Object other) {
-		if (other instanceof ColorD) {
-			ColorD c = (ColorD) other;
+		if (other instanceof ColorD c) {
 			return c.getRGB() == getRGB() && c.getAlpha() == getAlpha();
 		}
 		return false;

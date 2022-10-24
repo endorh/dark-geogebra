@@ -42,7 +42,6 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -213,26 +212,15 @@ public class Text extends ShapeElement {
 	}
 
 	protected void buildFont() throws SVGException {
-		int style;
-		switch (fontStyle) {
-		case TXST_ITALIC:
-			style = java.awt.Font.ITALIC;
-			break;
-		default:
-			style = java.awt.Font.PLAIN;
-			break;
-		}
+		int style = switch (fontStyle) {
+			case TXST_ITALIC -> java.awt.Font.ITALIC;
+			default -> java.awt.Font.PLAIN;
+		};
 
-		int weight;
-		switch (fontWeight) {
-		case TXWE_BOLD:
-		case TXWE_BOLDER:
-			weight = java.awt.Font.BOLD;
-			break;
-		default:
-			weight = java.awt.Font.PLAIN;
-			break;
-		}
+		int weight = switch (fontWeight) {
+			case TXWE_BOLD, TXWE_BOLDER -> java.awt.Font.BOLD;
+			default -> java.awt.Font.PLAIN;
+		};
 
 		// Get font
 		Font font = diagram.getUniverse().getFont(fontFamily);
@@ -262,11 +250,8 @@ public class Text extends ShapeElement {
 		// AffineTransform oldXform = g.getTransform();
 		AffineTransform xform = new AffineTransform();
 
-		for (Iterator it = content.iterator(); it.hasNext();) {
-			Object obj = it.next();
-
-			if (obj instanceof String) {
-				String text = (String) obj;
+		for (Object obj : content) {
+			if (obj instanceof String text) {
 				if (text != null) {
 					text = text.trim();
 				}
@@ -295,8 +280,7 @@ public class Text extends ShapeElement {
 				}
 
 				strokeWidthScalar = 1f;
-			} else if (obj instanceof Tspan) {
-				Tspan tspan = (Tspan) obj;
+			} else if (obj instanceof Tspan tspan) {
 
 				xform.setToIdentity();
 				xform.setToTranslation(cursorX, cursorY);
@@ -315,13 +299,13 @@ public class Text extends ShapeElement {
 		}
 
 		switch (textAnchor) {
-		case TXAN_MIDDLE: {
+		case TXAN_MIDDLE -> {
 			AffineTransform at = new AffineTransform();
 			at.translate(-textPath.getBounds().getWidth() / 2, 0);
 			textPath.transform(at);
 			break;
 		}
-		case TXAN_END: {
+		case TXAN_END -> {
 			AffineTransform at = new AffineTransform();
 			at.translate(-textPath.getBounds().getWidth(), 0);
 			textPath.transform(at);
@@ -347,11 +331,8 @@ public class Text extends ShapeElement {
 		// AffineTransform oldXform = g.getTransform();
 		// AffineTransform xform = new AffineTransform();
 
-		for (Iterator it = content.iterator(); it.hasNext();) {
-			Object obj = it.next();
-
-			if (obj instanceof String) {
-				String text = (String) obj;
+		for (Object obj : content) {
+			if (obj instanceof String text) {
 				text = text.trim();
 
 				Shape textShape = font.createGlyphVector(frc, text)
@@ -362,21 +343,20 @@ public class Text extends ShapeElement {
 
 				Rectangle2D rect = font.getStringBounds(text, frc);
 				cursorX += (float) rect.getWidth();
-			} else if (obj instanceof Tspan) {
+			} else if (obj instanceof Tspan tspan) {
 				/*
 				 * Tspan tspan = (Tspan)obj;
-				 * 
+				 *
 				 * xform.setToIdentity(); xform.setToTranslation(cursorX,
 				 * cursorY);
-				 * 
+				 *
 				 * Shape tspanShape = tspan.getShape(); tspanShape =
 				 * xform.createTransformedShape(tspanShape); textArea.add(new
 				 * Area(tspanShape));
-				 * 
+				 *
 				 * cursorX += tspanShape.getBounds2D().getWidth();
 				 */
 
-				Tspan tspan = (Tspan) obj;
 				Point2D cursor = new Point2D.Float(cursorX, cursorY);
 				// tspan.setCursorX(cursorX);
 				// tspan.setCursorY(cursorY);
@@ -390,13 +370,13 @@ public class Text extends ShapeElement {
 		}
 
 		switch (textAnchor) {
-		case TXAN_MIDDLE: {
+		case TXAN_MIDDLE -> {
 			AffineTransform at = new AffineTransform();
 			at.translate(-textPath.getBounds().getWidth() / 2, 0);
 			textPath.transform(at);
 			break;
 		}
-		case TXAN_END: {
+		case TXAN_END -> {
 			AffineTransform at = new AffineTransform();
 			at.translate(-Math.ceil(textPath.getBounds().getWidth()), 0);
 			textPath.transform(at);

@@ -215,9 +215,8 @@ public abstract class Path2D implements Shape {
          * @since 1.6
          */
         public Double(GShape s, GAffineTransform at) {
-            if (s instanceof Path2D) {
-                Path2D p2d = (Path2D) s;
-                setWindingRule(p2d.windingRule);
+            if (s instanceof Path2D p2d) {
+	            setWindingRule(p2d.windingRule);
                 this.numTypes = p2d.numTypes;
                 this.pointTypes = Arrays.copyOf(p2d.pointTypes,
                                                 p2d.pointTypes.length);
@@ -359,63 +358,63 @@ public abstract class Path2D implements Shape {
             int crossings = 0;
             int ci = 2;
             for (int i = 1; i < numTypes; i++) {
-                switch (pointTypes[i]) {
-				case GPathIterator.SEG_MOVETO:
-                    if (cury != movy) {
-                        crossings +=
-                            Curve.pointCrossingsForLine(px, py,
-                                                        curx, cury,
-                                                        movx, movy);
-                    }
-                    movx = curx = coords[ci++];
-                    movy = cury = coords[ci++];
-                    break;
-				case GPathIterator.SEG_LINETO:
-                    crossings +=
-                        Curve.pointCrossingsForLine(px, py,
-                                                    curx, cury,
-                                                    endx = coords[ci++],
-                                                    endy = coords[ci++]);
-                    curx = endx;
-                    cury = endy;
-                    break;
-				case GPathIterator.SEG_QUADTO:
-                    crossings +=
-                        Curve.pointCrossingsForQuad(px, py,
-                                                    curx, cury,
-                                                    coords[ci++],
-                                                    coords[ci++],
-                                                    endx = coords[ci++],
-                                                    endy = coords[ci++],
-                                                    0);
-                    curx = endx;
-                    cury = endy;
-                    break;
-				case GPathIterator.SEG_CUBICTO:
-                    crossings +=
-                        Curve.pointCrossingsForCubic(px, py,
-                                                     curx, cury,
-                                                     coords[ci++],
-                                                     coords[ci++],
-                                                     coords[ci++],
-                                                     coords[ci++],
-                                                     endx = coords[ci++],
-                                                     endy = coords[ci++],
-                                                     0);
-                    curx = endx;
-                    cury = endy;
-                    break;
-				case GPathIterator.SEG_CLOSE:
-                    if (cury != movy) {
-                        crossings +=
-                            Curve.pointCrossingsForLine(px, py,
-                                                        curx, cury,
-                                                        movx, movy);
-                    }
-                    curx = movx;
-                    cury = movy;
-                    break;
-                }
+	            switch (pointTypes[i]) {
+	            case GPathIterator.SEG_MOVETO -> {
+		            if (cury != movy) {
+			            crossings +=
+					            Curve.pointCrossingsForLine(px, py,
+							            curx, cury,
+							            movx, movy);
+		            }
+		            movx = curx = coords[ci++];
+		            movy = cury = coords[ci++];
+	            }
+	            case GPathIterator.SEG_LINETO -> {
+		            crossings +=
+				            Curve.pointCrossingsForLine(px, py,
+						            curx, cury,
+						            endx = coords[ci++],
+						            endy = coords[ci++]);
+		            curx = endx;
+		            cury = endy;
+	            }
+	            case GPathIterator.SEG_QUADTO -> {
+		            crossings +=
+				            Curve.pointCrossingsForQuad(px, py,
+						            curx, cury,
+						            coords[ci++],
+						            coords[ci++],
+						            endx = coords[ci++],
+						            endy = coords[ci++],
+						            0);
+		            curx = endx;
+		            cury = endy;
+	            }
+	            case GPathIterator.SEG_CUBICTO -> {
+		            crossings +=
+				            Curve.pointCrossingsForCubic(px, py,
+						            curx, cury,
+						            coords[ci++],
+						            coords[ci++],
+						            coords[ci++],
+						            coords[ci++],
+						            endx = coords[ci++],
+						            endy = coords[ci++],
+						            0);
+		            curx = endx;
+		            cury = endy;
+	            }
+	            case GPathIterator.SEG_CLOSE -> {
+		            if (cury != movy) {
+			            crossings +=
+					            Curve.pointCrossingsForLine(px, py,
+							            curx, cury,
+							            movx, movy);
+		            }
+		            curx = movx;
+		            cury = movy;
+	            }
+	            }
             }
             if (cury != movy) {
                 crossings +=
@@ -440,78 +439,78 @@ public abstract class Path2D implements Shape {
                  crossings != Curve.RECT_INTERSECTS && i < numTypes;
                  i++)
             {
-                switch (pointTypes[i]) {
-				case GPathIterator.SEG_MOVETO:
-                    if (curx != movx || cury != movy) {
-                        crossings =
-                            Curve.rectCrossingsForLine(crossings,
-                                                       rxmin, rymin,
-                                                       rxmax, rymax,
-                                                       curx, cury,
-                                                       movx, movy);
-                    }
-                    // Count should always be a multiple of 2 here.
-                    // assert((crossings & 1) != 0);
-                    movx = curx = coords[ci++];
-                    movy = cury = coords[ci++];
-                    break;
-				case GPathIterator.SEG_LINETO:
-                    endx = coords[ci++];
-                    endy = coords[ci++];
-                    crossings =
-                        Curve.rectCrossingsForLine(crossings,
-                                                   rxmin, rymin,
-                                                   rxmax, rymax,
-                                                   curx, cury,
-                                                   endx, endy);
-                    curx = endx;
-                    cury = endy;
-                    break;
-				case GPathIterator.SEG_QUADTO:
-                    crossings =
-                        Curve.rectCrossingsForQuad(crossings,
-                                                   rxmin, rymin,
-                                                   rxmax, rymax,
-                                                   curx, cury,
-                                                   coords[ci++],
-                                                   coords[ci++],
-                                                   endx = coords[ci++],
-                                                   endy = coords[ci++],
-                                                   0);
-                    curx = endx;
-                    cury = endy;
-                    break;
-				case GPathIterator.SEG_CUBICTO:
-                    crossings =
-                        Curve.rectCrossingsForCubic(crossings,
-                                                    rxmin, rymin,
-                                                    rxmax, rymax,
-                                                    curx, cury,
-                                                    coords[ci++],
-                                                    coords[ci++],
-                                                    coords[ci++],
-                                                    coords[ci++],
-                                                    endx = coords[ci++],
-                                                    endy = coords[ci++],
-                                                    0);
-                    curx = endx;
-                    cury = endy;
-                    break;
-				case GPathIterator.SEG_CLOSE:
-                    if (curx != movx || cury != movy) {
-                        crossings =
-                            Curve.rectCrossingsForLine(crossings,
-                                                       rxmin, rymin,
-                                                       rxmax, rymax,
-                                                       curx, cury,
-                                                       movx, movy);
-                    }
-                    curx = movx;
-                    cury = movy;
-                    // Count should always be a multiple of 2 here.
-                    // assert((crossings & 1) != 0);
-                    break;
-                }
+	            switch (pointTypes[i]) {
+	            case GPathIterator.SEG_MOVETO -> {
+		            if (curx != movx || cury != movy) {
+			            crossings =
+					            Curve.rectCrossingsForLine(crossings,
+							            rxmin, rymin,
+							            rxmax, rymax,
+							            curx, cury,
+							            movx, movy);
+		            }
+		            // Count should always be a multiple of 2 here.
+		            // assert((crossings & 1) != 0);
+		            movx = curx = coords[ci++];
+		            movy = cury = coords[ci++];
+	            }
+	            case GPathIterator.SEG_LINETO -> {
+		            endx = coords[ci++];
+		            endy = coords[ci++];
+		            crossings =
+				            Curve.rectCrossingsForLine(crossings,
+						            rxmin, rymin,
+						            rxmax, rymax,
+						            curx, cury,
+						            endx, endy);
+		            curx = endx;
+		            cury = endy;
+	            }
+	            case GPathIterator.SEG_QUADTO -> {
+		            crossings =
+				            Curve.rectCrossingsForQuad(crossings,
+						            rxmin, rymin,
+						            rxmax, rymax,
+						            curx, cury,
+						            coords[ci++],
+						            coords[ci++],
+						            endx = coords[ci++],
+						            endy = coords[ci++],
+						            0);
+		            curx = endx;
+		            cury = endy;
+	            }
+	            case GPathIterator.SEG_CUBICTO -> {
+		            crossings =
+				            Curve.rectCrossingsForCubic(crossings,
+						            rxmin, rymin,
+						            rxmax, rymax,
+						            curx, cury,
+						            coords[ci++],
+						            coords[ci++],
+						            coords[ci++],
+						            coords[ci++],
+						            endx = coords[ci++],
+						            endy = coords[ci++],
+						            0);
+		            curx = endx;
+		            cury = endy;
+	            }
+	            case GPathIterator.SEG_CLOSE -> {
+		            if (curx != movx || cury != movy) {
+			            crossings =
+					            Curve.rectCrossingsForLine(crossings,
+							            rxmin, rymin,
+							            rxmax, rymax,
+							            curx, cury,
+							            movx, movy);
+		            }
+		            curx = movx;
+		            cury = movy;
+	            }
+	            // Count should always be a multiple of 2 here.
+	            // assert((crossings & 1) != 0);
+	            }
             }
             if (crossings != Curve.RECT_INTERSECTS &&
                 (curx != movx || cury != movy))
@@ -536,37 +535,28 @@ public abstract class Path2D implements Shape {
 		public final void append(GPathIterator pi, boolean connect) {
             double coords[] = new double[6];
             while (!pi.isDone()) {
-                switch (pi.currentSegment(coords)) {
-                case SEG_MOVETO:
-                    if (!connect || numTypes < 1 || numCoords < 1) {
-                        moveTo(coords[0], coords[1]);
-                        break;
-                    }
-                    if (pointTypes[numTypes - 1] != SEG_CLOSE &&
-                        doubleCoords[numCoords-2] == coords[0] &&
-                        doubleCoords[numCoords-1] == coords[1])
-                    {
-                        // Collapse out initial moveto/lineto
-                        break;
-                    }
-                    lineTo(coords[0], coords[1]);
-                    break;
-                case SEG_LINETO:
-                    lineTo(coords[0], coords[1]);
-                    break;
-                case SEG_QUADTO:
-                    quadTo(coords[0], coords[1],
-                           coords[2], coords[3]);
-                    break;
-                case SEG_CUBICTO:
-                    curveTo(coords[0], coords[1],
-                            coords[2], coords[3],
-                            coords[4], coords[5]);
-                    break;
-                case SEG_CLOSE:
-                    closePath();
-                    break;
-                }
+	            switch (pi.currentSegment(coords)) {
+	            case SEG_MOVETO -> {
+		            if (!connect || numTypes < 1 || numCoords < 1) {
+			            moveTo(coords[0], coords[1]);
+			            break;
+		            }
+		            if (pointTypes[numTypes - 1] != SEG_CLOSE &&
+				            doubleCoords[numCoords - 2] == coords[0] &&
+				            doubleCoords[numCoords - 1] == coords[1]) {
+			            // Collapse out initial moveto/lineto
+			            break;
+		            }
+		            lineTo(coords[0], coords[1]);
+	            }
+	            case SEG_LINETO -> lineTo(coords[0], coords[1]);
+	            case SEG_QUADTO -> quadTo(coords[0], coords[1],
+			            coords[2], coords[3]);
+	            case SEG_CUBICTO -> curveTo(coords[0], coords[1],
+			            coords[2], coords[3],
+			            coords[4], coords[5]);
+	            case SEG_CLOSE -> closePath();
+	            }
                 pi.next();
                 connect = false;
             }

@@ -85,9 +85,7 @@ public class Hits extends ArrayList<GeoElement> {
 	public Hits cloneHits() {
 		Hits ret = createNewHits();
 		if (this.size() > 0) {
-			for (int i = 0; i < this.size(); i++) {
-				ret.add(this.get(i));
-			}
+			ret.addAll(this);
 		}
 		ret.listCount = this.listCount;
 		ret.polyCount = this.polyCount;
@@ -133,16 +131,9 @@ public class Hits extends ArrayList<GeoElement> {
 
 		} else if (geo instanceof GeoAxisND) {
 			switch (((GeoAxisND) geo).getType()) {
-				default:
-				case GeoAxisND.X_AXIS:
-					hasXAxis = true;
-					break;
-				case GeoAxisND.Y_AXIS:
-					hasYAxis = true;
-					break;
-				case GeoAxisND.Z_AXIS:
-					hasZAxis = true;
-					break;
+			case GeoAxisND.X_AXIS -> hasXAxis = true;
+			case GeoAxisND.Y_AXIS -> hasYAxis = true;
+			case GeoAxisND.Z_AXIS -> hasZAxis = true;
 			}
 		}
 		return true;
@@ -212,11 +203,11 @@ public class Hits extends ArrayList<GeoElement> {
 	 */
 	public Hits absorb(ArrayList<GeoElement> hits2) {
 		Hits ret = new Hits();
-		for (int i = 0; i < hits2.size(); i++) {
-			if (!contains(hits2.get(i))) {
-				add(hits2.get(i));
+		for (GeoElement geoElement : hits2) {
+			if (!contains(geoElement)) {
+				add(geoElement);
 			} else {
-				ret.add(hits2.get(i));
+				ret.add(geoElement);
 			}
 		}
 		return ret;
@@ -319,8 +310,7 @@ public class Hits extends ArrayList<GeoElement> {
 		Iterator<GeoElement> it = this.iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
-			if (geo instanceof HasFaces) {
-				HasFaces hasFaces = (HasFaces) geo;
+			if (geo instanceof HasFaces hasFaces) {
 				for (int k = 0; k < hasFaces.getFacesSize(); k++) {
 					if (this.contains(hasFaces.getFace(k))) {
 						it.remove();
@@ -336,13 +326,7 @@ public class Hits extends ArrayList<GeoElement> {
 	 */
 	final void removeSliders() {
 
-		Iterator<GeoElement> it = this.iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
-			if (geo.isGeoNumeric() && ((GeoNumeric) geo).isSlider()) {
-				it.remove();
-			}
-		}
+		this.removeIf(geo -> geo.isGeoNumeric() && ((GeoNumeric) geo).isSlider());
 	}
 
 	/**
@@ -710,8 +694,8 @@ public class Hits extends ArrayList<GeoElement> {
 	final public Hits getHits(TestGeo[] geoclasses, boolean other, Hits result) {
 		result.clear();
 		for (int i = 0; i < size(); ++i) {
-			for (int j = 0; j < geoclasses.length; ++j) {
-				boolean success = geoclasses[j].check(get(i));
+			for (TestGeo geoclass : geoclasses) {
+				boolean success = geoclass.check(get(i));
 				if (other) {
 					success = !success;
 				}
@@ -732,9 +716,9 @@ public class Hits extends ArrayList<GeoElement> {
 	 * @return first hit of given class
 	 */
 	final public GeoElement getFirstHit(TestGeo geoclass) {
-		for (int i = 0; i < size(); ++i) {
-			if (geoclass.check(get(i))) {
-				return get(i);
+		for (GeoElement geoElement : this) {
+			if (geoclass.check(geoElement)) {
+				return geoElement;
 			}
 		}
 
@@ -869,8 +853,8 @@ public class Hits extends ArrayList<GeoElement> {
 	 * @return true if contains GeoPointND
 	 */
 	final public boolean containsGeoPoint() {
-		for (int i = 0; i < size(); i++) {
-			if (get(i).isGeoPoint()) {
+		for (GeoElement geoElement : this) {
+			if (geoElement.isGeoPoint()) {
 				return true;
 			}
 		}
@@ -878,8 +862,8 @@ public class Hits extends ArrayList<GeoElement> {
 	}
 
 	final private boolean containsGeoNumeric() {
-		for (int i = 0; i < size(); i++) {
-			if (get(i).isGeoNumeric()) {
+		for (GeoElement geoElement : this) {
+			if (geoElement.isGeoNumeric()) {
 				return true;
 			}
 		}
@@ -1009,12 +993,8 @@ public class Hits extends ArrayList<GeoElement> {
 	 * @return hits that has finite volume
 	 */
 	public Hits getFiniteVolumeIncludingMetaHits() {
-		return getWithMetaHits(new GPredicate<GeoElement>() {
-			@Override
-			public boolean test(GeoElement geo) {
-				return geo instanceof HasVolume && ((HasVolume) geo).hasFiniteVolume();
-			}
-		});
+		return getWithMetaHits(
+				geo -> geo instanceof HasVolume && ((HasVolume) geo).hasFiniteVolume());
 	}
 
 	/**
@@ -1022,12 +1002,7 @@ public class Hits extends ArrayList<GeoElement> {
 	 * @return hits that has finite volume
 	 */
 	public Hits getPolyhedronsIncludingMetaHits() {
-		return getWithMetaHits(new GPredicate<GeoElement>() {
-			@Override
-			public boolean test(GeoElement geo) {
-				return geo.isGeoPolyhedron();
-			}
-		});
+		return getWithMetaHits(GeoElement::isGeoPolyhedron);
 	}
 
 	/**

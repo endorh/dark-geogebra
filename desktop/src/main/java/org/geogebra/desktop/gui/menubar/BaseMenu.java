@@ -5,7 +5,6 @@ import java.awt.Toolkit;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.swing.Action;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;

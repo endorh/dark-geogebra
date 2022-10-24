@@ -69,8 +69,8 @@ public class AlgoPolygonRegular3D extends AlgoPolygonRegularND {
 		input[2] = num.toGeoElement();
 		input[3] = (GeoElement) direction;
 		// set dependencies
-		for (int i = 0; i < input.length; i++) {
-			input[i].addAlgorithm(this);
+		for (GeoElement geoElement : input) {
+			geoElement.addAlgorithm(this);
 		}
 		cons.addToAlgorithmList(this);
 

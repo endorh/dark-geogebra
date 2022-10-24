@@ -76,39 +76,36 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 	private void initMenu() {
 		Localization loc = table.getApplication().getLocalization();
 		switch (clickedPanel) {
-		case OUTPUT:
+		case OUTPUT -> {
 			JMenuItem copyItem = new JMenuItem(
 					loc.getMenu("Copy"));
 			copyItem.setActionCommand("copy");
 			copyItem.addActionListener(this);
 			add(copyItem);
 			addSeparator();
-
 			JMenuItem copyToLatexItem = new JMenuItem(
 					loc.getMenu("CopyAsLaTeX"));
 			copyToLatexItem.setActionCommand("copyAsLatex");
 			copyToLatexItem.addActionListener(this);
 			add(copyToLatexItem);
-
 			JMenuItem copyToLibreOfficeItem = new JMenuItem(
 					loc.getMenu("CopyAsLibreOfficeFormula"));
 			copyToLibreOfficeItem.setActionCommand("copyAsLibreOfficeMath");
 			copyToLibreOfficeItem.addActionListener(this);
 			add(copyToLibreOfficeItem);
-
 			JMenuItem copyToImageItem = new JMenuItem(
 					loc.getMenu("CopyAsImage"));
 			copyToImageItem.setActionCommand("copyAsImage");
 			copyToImageItem.addActionListener(this);
 			add(copyToImageItem);
-			break;
-		case INPUT:
+		}
+		case INPUT -> {
 			JMenuItem pasteItem = new JMenuItem(
 					loc.getMenu("Paste"));
 			pasteItem.setActionCommand("paste");
 			pasteItem.addActionListener(this);
 			add(pasteItem);
-			break;
+		}
 		}
 	}
 

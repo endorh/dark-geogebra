@@ -37,16 +37,15 @@ public class PropertiesView3DD extends PropertiesViewD {
 	public OptionPanelD getOptionPanel(OptionType type) {
 
 		switch (type) {
-		case EUCLIDIAN3D:
+		case EUCLIDIAN3D -> {
 			if (euclidianPanel3D == null) {
 				euclidianPanel3D = new OptionsEuclidian3DD((AppD) app,
 						((App3D) app).getEuclidianView3D());
 				euclidianPanel3D.setLabels();
 			}
-
 			return euclidianPanel3D;
-
-		case EUCLIDIAN_FOR_PLANE:
+		}
+		case EUCLIDIAN_FOR_PLANE -> {
 			EuclidianView view = app.getActiveEuclidianView();
 			if (!view.isViewForPlane()) {
 				view = app.getViewForPlaneVisible();
@@ -59,8 +58,8 @@ public class PropertiesView3DD extends PropertiesViewD {
 				euclidianForPlanePanel.updateView(view);
 				euclidianForPlanePanel.setLabels();
 			}
-
 			return euclidianForPlanePanel;
+		}
 		}
 
 		return super.getOptionPanel(type);

@@ -57,37 +57,37 @@ public class CmdLength extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
+		case 1 -> {
 			arg = resArgs(c);
 			if (arg[0].isGeoVector()) {
 				GeoElement[] ret = {
-						length(c.getLabel(), (GeoVectorND) arg[0]) };
+						length(c.getLabel(), (GeoVectorND) arg[0])};
 				return ret;
 			} else if (arg[0].isGeoPoint()) {
 				GeoElement[] ret = {
-						length(c.getLabel(), (GeoPointND) arg[0]) };
+						length(c.getLabel(), (GeoPointND) arg[0])};
 				return ret;
 			} else if (arg[0].isGeoList()) {
-				GeoElement[] ret = { getAlgoDispatcher().length(c.getLabel(),
-						(GeoList) arg[0]) };
+				GeoElement[] ret = {getAlgoDispatcher().length(c.getLabel(),
+						(GeoList) arg[0])};
 				return ret;
 			} else if (arg[0].isGeoText()) {
 
 				AlgoTextLength algo = new AlgoTextLength(cons, c.getLabel(),
 						(GeoText) arg[0]);
 
-				GeoElement[] ret = { algo.getLength() };
+				GeoElement[] ret = {algo.getLength()};
 				return ret;
 			} else if (arg[0].isGeoLocusable()) {
-				GeoElement[] ret = { getAlgoDispatcher().length(c.getLabel(),
-						(GeoLocusable) arg[0]) };
+				GeoElement[] ret = {getAlgoDispatcher().length(c.getLabel(),
+						(GeoLocusable) arg[0])};
 				return ret;
 			} else if (arg[0].isGeoSegment()) {
 
 				AlgoLengthSegment algo = new AlgoLengthSegment(cons,
 						c.getLabel(), (GeoSegmentND) arg[0]);
 
-				GeoElement[] ret = { algo.getLength() };
+				GeoElement[] ret = {algo.getLength()};
 				return ret;
 
 			} else if (arg[0].isGeoConicPart()) {
@@ -96,15 +96,16 @@ public class CmdLength extends CommandProcessor {
 				AlgoArcLength algo = new AlgoArcLength(cons, c.getLabel(),
 						(GeoConicPartND) arg[0]);
 
-				GeoElement[] ret = { algo.getArcLength() };
+				GeoElement[] ret = {algo.getArcLength()};
 				return ret;
 
 			} else {
 				throw argErr(c, arg[0]);
 			}
+		}
 
-			// Victor Franco 18-04-2007
-		case 3:
+		// Victor Franco 18-04-2007
+		case 3 -> {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isRealValuedFunction()))
 					&& (ok[1] = (arg[1].isGeoNumeric()))
@@ -114,11 +115,9 @@ public class CmdLength extends CommandProcessor {
 						c.getLabel(), (GeoFunction) arg[0], (GeoNumeric) arg[1],
 						(GeoNumeric) arg[2]);
 
-				GeoElement[] ret = { algo.getLength() };
+				GeoElement[] ret = {algo.getLength()};
 				return ret;
-			}
-
-			else if ((ok[0] = (arg[0].isRealValuedFunction()))
+			} else if ((ok[0] = (arg[0].isRealValuedFunction()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
 
@@ -126,11 +125,9 @@ public class CmdLength extends CommandProcessor {
 						cons, c.getLabel(), (GeoFunction) arg[0],
 						(GeoPointND) arg[1], (GeoPointND) arg[2]);
 
-				GeoElement[] ret = { algo.getLength() };
+				GeoElement[] ret = {algo.getLength()};
 				return ret;
-			}
-
-			else if ((ok[0] = (arg[0].isGeoCurveCartesian()))
+			} else if ((ok[0] = (arg[0].isGeoCurveCartesian()))
 					&& (ok[1] = (arg[1].isGeoNumeric()))
 					&& (ok[2] = (arg[2].isGeoNumeric()))) {
 
@@ -138,12 +135,10 @@ public class CmdLength extends CommandProcessor {
 						(GeoCurveCartesianND) arg[0], (GeoNumeric) arg[1],
 						(GeoNumeric) arg[2]);
 
-				GeoElement[] ret = { algo.getLength() };
+				GeoElement[] ret = {algo.getLength()};
 				return ret;
 
-			}
-
-			else if ((ok[0] = (arg[0].isGeoCurveCartesian()))
+			} else if ((ok[0] = (arg[0].isGeoCurveCartesian()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
 
@@ -151,18 +146,16 @@ public class CmdLength extends CommandProcessor {
 						c.getLabel(), (GeoCurveCartesianND) arg[0],
 						(GeoPointND) arg[1], (GeoPointND) arg[2]);
 
-				GeoElement[] ret = { algo.getLength() };
+				GeoElement[] ret = {algo.getLength()};
 				return ret;
-			}
-
-			else {
+			} else {
 
 				throw argErr(c, getBadArg(ok, arg));
 			}
+		}
 
-			// Victor Franco 18-04-2007 (end)
-		default:
-			throw argNumErr(c);
+		// Victor Franco 18-04-2007 (end)
+		default -> throw argNumErr(c);
 		}
 	}
 

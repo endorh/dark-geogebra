@@ -17,6 +17,7 @@
 package org.apache.commons.collections15;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -51,7 +52,7 @@ public class CollectionUtils {
 	/**
 	 * Constant to avoid repeated object creation
 	 */
-	private static Integer INTEGER_ONE = Integer.valueOf(1);
+	private static Integer INTEGER_ONE = 1;
 
 	/**
 	 * An empty unmodifiable collection. The JDK provides empty Set and List
@@ -85,14 +86,12 @@ public class CollectionUtils {
 	 */
 	public static <E> Collection<E> union(final Collection<? extends E> a,
 			final Collection<? extends E> b) {
-		ArrayList<E> list = new ArrayList<E>();
+		ArrayList<E> list = new ArrayList<>();
 		Map mapa = getCardinalityMap(a);
 		Map mapb = getCardinalityMap(b);
-		Set<E> elts = new HashSet<E>(a);
+		Set<E> elts = new HashSet<>(a);
 		elts.addAll(b);
-		Iterator<E> it = elts.iterator();
-		while (it.hasNext()) {
-			E obj = it.next();
+		for (E obj : elts) {
 			for (int i = 0, m = Math.max(getFreq(obj, mapa),
 					getFreq(obj, mapb)); i < m; i++) {
 				list.add(obj);
@@ -119,14 +118,12 @@ public class CollectionUtils {
 	 */
 	public static <E> Collection<E> intersection(
 			final Collection<? extends E> a, final Collection<? extends E> b) {
-		ArrayList<E> list = new ArrayList<E>();
+		ArrayList<E> list = new ArrayList<>();
 		Map mapa = getCardinalityMap(a);
 		Map mapb = getCardinalityMap(b);
-		Set<E> elts = new HashSet<E>(a);
+		Set<E> elts = new HashSet<>(a);
 		elts.addAll(b);
-		Iterator<E> it = elts.iterator();
-		while (it.hasNext()) {
-			E obj = it.next();
+		for (E obj : elts) {
 			for (int i = 0, m = Math.min(getFreq(obj, mapa),
 					getFreq(obj, mapb)); i < m; i++) {
 				list.add(obj);
@@ -158,18 +155,16 @@ public class CollectionUtils {
 	 */
 	public static <E> Collection<E> disjunction(final Collection<E> a,
 			final Collection<E> b) {
-		ArrayList<E> list = new ArrayList<E>();
+		ArrayList<E> list = new ArrayList<>();
 		Map mapa = getCardinalityMap(a);
 		Map mapb = getCardinalityMap(b);
-		Set<E> elts = new HashSet<E>(a);
+		Set<E> elts = new HashSet<>(a);
 		elts.addAll(b);
-		Iterator<E> it = elts.iterator();
-		while (it.hasNext()) {
-			E obj = it.next();
+		for (E obj : elts) {
 			for (int i = 0, m = ((Math.max(getFreq(obj, mapa),
 					getFreq(obj, mapb)))
 					- (Math.min(getFreq(obj, mapa),
-							getFreq(obj, mapb)))); i < m; i++) {
+					getFreq(obj, mapb)))); i < m; i++) {
 				list.add(obj);
 			}
 		}
@@ -191,7 +186,7 @@ public class CollectionUtils {
 	 */
 	public static <E> Collection<E> subtract(final Collection<? extends E> a,
 			final Iterable<? extends E> b) {
-		ArrayList<E> list = new ArrayList<E>(a);
+		ArrayList<E> list = new ArrayList<>(a);
 		for (E e : b) {
 			list.remove(e);
 		}
@@ -217,14 +212,14 @@ public class CollectionUtils {
 	public static <E> boolean containsAny(final Collection<? extends E> coll1,
 			final Collection<? extends E> coll2) {
 		if (coll1.size() < coll2.size()) {
-			for (Iterator it = coll1.iterator(); it.hasNext();) {
-				if (coll2.contains(it.next())) {
+			for (E e : coll1) {
+				if (coll2.contains(e)) {
 					return true;
 				}
 			}
 		} else {
-			for (Iterator it = coll2.iterator(); it.hasNext();) {
-				if (coll1.contains(it.next())) {
+			for (E e : coll2) {
+				if (coll1.contains(e)) {
 					return true;
 				}
 			}
@@ -255,14 +250,13 @@ public class CollectionUtils {
 	 */
 	public static <E> Map<E, java.lang.Integer> getCardinalityMap(
 			final Iterable<E> iterable) {
-		Map<E, Integer> count = new HashMap<E, Integer>();
-		for (Iterator<E> it = iterable.iterator(); it.hasNext();) {
-			E obj = it.next();
+		Map<E, Integer> count = new HashMap<>();
+		for (E obj : iterable) {
 			Integer c = count.get(obj);
 			if (c == null) {
 				count.put(obj, INTEGER_ONE);
 			} else {
-				count.put(obj, Integer.valueOf(c.intValue() + 1));
+				count.put(obj, c.intValue() + 1);
 			}
 		}
 		return count;
@@ -348,9 +342,7 @@ public class CollectionUtils {
 		if (mapa.size() != mapb.size()) {
 			return false;
 		}
-		Iterator it = mapa.keySet().iterator();
-		while (it.hasNext()) {
-			Object obj = it.next();
+		for (Object obj : mapa.keySet()) {
 			if (getFreq(obj, mapa) != getFreq(obj, mapb)) {
 				return false;
 			}
@@ -407,8 +399,7 @@ public class CollectionUtils {
 	public static <E> E find(Iterable<E> iterable,
 			Predicate<? super E> predicate) {
 		if (iterable != null && predicate != null) {
-			for (Iterator<E> iter = iterable.iterator(); iter.hasNext();) {
-				E item = iter.next();
+			for (E item : iterable) {
 				if (predicate.evaluate(item)) {
 					return item;
 				}
@@ -430,8 +421,8 @@ public class CollectionUtils {
 	public static <E> void forAllDo(Iterable<E> iterable,
 			Closure<? super E> closure) {
 		if (iterable != null && closure != null) {
-			for (Iterator<E> it = iterable.iterator(); it.hasNext();) {
-				closure.execute(it.next());
+			for (E e : iterable) {
+				closure.execute(e);
 			}
 		}
 	}
@@ -479,8 +470,7 @@ public class CollectionUtils {
 	public static <E> void transform(Collection<E> collection,
 			Transformer<? super E, ? extends E> transformer) {
 		if (collection != null && transformer != null) {
-			if (collection instanceof List) {
-				List<E> list = (List<E>) collection;
+			if (collection instanceof List<E> list) {
 				for (ListIterator<E> it = list.listIterator(); it.hasNext();) {
 					it.set(transformer.transform(it.next()));
 				}
@@ -509,8 +499,8 @@ public class CollectionUtils {
 			Predicate<? super E> predicate) {
 		int count = 0;
 		if (inputIterable != null && predicate != null) {
-			for (Iterator<E> it = inputIterable.iterator(); it.hasNext();) {
-				if (predicate.evaluate(it.next())) {
+			for (E e : inputIterable) {
+				if (predicate.evaluate(e)) {
 					count++;
 				}
 			}
@@ -534,8 +524,8 @@ public class CollectionUtils {
 	public static <E> boolean exists(Iterable<E> iterable,
 			Predicate<? super E> predicate) {
 		if (iterable != null && predicate != null) {
-			for (Iterator<E> it = iterable.iterator(); it.hasNext();) {
-				if (predicate.evaluate(it.next())) {
+			for (E e : iterable) {
+				if (predicate.evaluate(e)) {
 					return true;
 				}
 			}
@@ -560,7 +550,7 @@ public class CollectionUtils {
 	public static <E> Collection<E> select(Collection<E> inputCollection,
 			Predicate<? super E> predicate) {
 		return select(inputCollection, predicate,
-				new ArrayList<E>(inputCollection.size()));
+				new ArrayList<>(inputCollection.size()));
 	}
 
 	/**
@@ -581,9 +571,7 @@ public class CollectionUtils {
 			Iterable<E> inputCollection, Predicate<? super E> predicate,
 			C outputCollection) {
 		if (inputCollection != null && predicate != null) {
-			for (Iterator<E> iter = inputCollection.iterator(); iter
-					.hasNext();) {
-				E item = iter.next();
+			for (E item : inputCollection) {
 				if (predicate.evaluate(item)) {
 					outputCollection.add(item);
 				}
@@ -608,7 +596,7 @@ public class CollectionUtils {
 	 */
 	public static <E> Collection<E> selectRejected(
 			Collection<E> inputCollection, Predicate<? super E> predicate) {
-		ArrayList<E> answer = new ArrayList<E>(inputCollection.size());
+		ArrayList<E> answer = new ArrayList<>(inputCollection.size());
 		selectRejected(inputCollection, predicate, answer);
 		return answer;
 	}
@@ -631,8 +619,7 @@ public class CollectionUtils {
 			Predicate<? super E> predicate,
 			Collection<? super E> outputCollection) {
 		if (inputIterable != null && predicate != null) {
-			for (Iterator<E> iter = inputIterable.iterator(); iter.hasNext();) {
-				E item = iter.next();
+			for (E item : inputIterable) {
 				if (predicate.evaluate(item) == false) {
 					outputCollection.add(item);
 				}
@@ -656,7 +643,7 @@ public class CollectionUtils {
 	 */
 	public static <I, O> Collection<O> collect(Collection<I> inputCollection,
 			Transformer<? super I, ? extends O> transformer) {
-		ArrayList<O> answer = new ArrayList<O>(inputCollection.size());
+		ArrayList<O> answer = new ArrayList<>(inputCollection.size());
 		collect(inputCollection, transformer, answer);
 		return answer;
 	}
@@ -676,7 +663,7 @@ public class CollectionUtils {
 	 */
 	public static <I, O> Collection<O> collect(Iterator<I> inputIterator,
 			Transformer<? super I, ? extends O> transformer) {
-		ArrayList<O> answer = new ArrayList<O>();
+		ArrayList<O> answer = new ArrayList<>();
 		collect(inputIterator, transformer, answer);
 		return answer;
 	}
@@ -792,11 +779,10 @@ public class CollectionUtils {
 	 * @throws NullPointerException
 	 *             if the collection or array is null
 	 */
+	@SafeVarargs
 	public static <E, T extends E> void addAll(Collection<E> collection,
 			T... elements) {
-		for (int i = 0, size = elements.length; i < size; i++) {
-			collection.add(elements[i]);
-		}
+		collection.addAll(Arrays.asList(elements));
 	}
 
 	/**
@@ -860,28 +846,25 @@ public class CollectionUtils {
 	 */
 	
 	public static Object index(Object obj, Object index) {
-		if (obj instanceof Map) {
-			Map map = (Map) obj;
+		if (obj instanceof Map map) {
 			if (map.containsKey(index)) {
 				return map.get(index);
 			}
 		}
 		int idx = -1;
 		if (index instanceof Integer) {
-			idx = ((Integer) index).intValue();
+			idx = (Integer) index;
 		}
 		if (idx < 0) {
 			return obj;
-		} else if (obj instanceof Map) {
-			Map map = (Map) obj;
+		} else if (obj instanceof Map map) {
 			Iterator iterator = map.keySet().iterator();
 			return index(iterator, idx);
 		} else if (obj instanceof List) {
 			return ((List) obj).get(idx);
 		} else if (obj instanceof Object[]) {
 			return ((Object[]) obj)[idx];
-		} else if (obj instanceof Enumeration) {
-			Enumeration it = (Enumeration) obj;
+		} else if (obj instanceof Enumeration it) {
 			while (it.hasMoreElements()) {
 				idx--;
 				if (idx == -1) {
@@ -1034,7 +1017,7 @@ public class CollectionUtils {
 	private static final int getFreq(final Object obj, final Map freqMap) {
 		Integer count = (Integer) freqMap.get(obj);
 		if (count != null) {
-			return count.intValue();
+			return count;
 		}
 		return 0;
 	}

@@ -259,7 +259,7 @@ public class NativeJavaMethod extends BaseFunction
                     }
                 }
             } else {
-                overloadCache = new CopyOnWriteArrayList<ResolvedOverload>();
+                overloadCache = new CopyOnWriteArrayList<>();
             }
             int index = findFunction(cx, methods, args);
             // As a sanity measure, don't let the lookup cache grow longer
@@ -596,10 +596,9 @@ class ResolvedOverload {
 
     @Override
     public boolean equals(Object other) {
-        if (!(other instanceof ResolvedOverload)) {
+        if (!(other instanceof ResolvedOverload ovl)) {
             return false;
         }
-        ResolvedOverload ovl = (ResolvedOverload) other;
         return Arrays.equals(types, ovl.types) && index == ovl.index;
     }
 

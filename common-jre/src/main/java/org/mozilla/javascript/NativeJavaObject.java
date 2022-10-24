@@ -184,15 +184,14 @@ public class NativeJavaObject implements Scriptable, Wrapper, Serializable
                 throw Context.reportRuntimeError0("msg.default.value");
             }
             Object converterObject = get(converterName, this);
-            if (converterObject instanceof Function) {
-                Function f = (Function)converterObject;
+            if (converterObject instanceof Function f) {
                 value = f.call(Context.getContext(), f.getParentScope(),
                                this, ScriptRuntime.emptyArgs);
             } else {
                 if (hint == ScriptRuntime.NumberClass
                     && javaObject instanceof Boolean)
                 {
-                    boolean b = ((Boolean)javaObject).booleanValue();
+                    boolean b = (Boolean) javaObject;
                     value = ScriptRuntime.wrapNumber(b ? 1.0 : 0.0);
                 } else {
                     value = javaObject.toString();
@@ -540,7 +539,7 @@ public class NativeJavaObject implements Scriptable, Wrapper, Serializable
                 // Placed here because it applies *only* to JS strings,
                 // not other JS objects converted to strings
                 if (((CharSequence)value).length() == 1) {
-                    return Character.valueOf(((CharSequence)value).charAt(0));
+                    return ((CharSequence) value).charAt(0);
                 }
                 else {
                     return coerceToNumber(type, value);
@@ -619,10 +618,9 @@ public class NativeJavaObject implements Scriptable, Wrapper, Serializable
                 // XXX: This will replace NaN by 0
                 return new Date((long)time);
             }
-            else if (type.isArray() && value instanceof NativeArray) {
+            else if (type.isArray() && value instanceof NativeArray array) {
                 // Make a new java array, and coerce the JS array components
                 // to the target (component) type.
-                NativeArray array = (NativeArray) value;
                 long length = array.getLength();
                 Class<?> arrayType = type.getComponentType();
                 Object Result = Array.newInstance(arrayType, (int)length);
@@ -686,18 +684,16 @@ public class NativeJavaObject implements Scriptable, Wrapper, Serializable
             if (valueClass == ScriptRuntime.CharacterClass) {
                 return value;
             }
-            return Character.valueOf((char)toInteger(value,
-                                                 ScriptRuntime.CharacterClass,
-                                                 Character.MIN_VALUE,
-                                                 Character.MAX_VALUE));
+            return (char) toInteger(value,
+                    ScriptRuntime.CharacterClass,
+                    Character.MIN_VALUE,
+                    Character.MAX_VALUE);
         }
 
         // Double, Float
         if (type == ScriptRuntime.ObjectClass ||
             type == ScriptRuntime.DoubleClass || type == Double.TYPE) {
-            return valueClass == ScriptRuntime.DoubleClass
-                ? value
-                : new Double(toDouble(value));
+            return valueClass == ScriptRuntime.DoubleClass? value : toDouble(value);
         }
 
         if (type == ScriptRuntime.FloatClass || type == Float.TYPE) {
@@ -708,20 +704,18 @@ public class NativeJavaObject implements Scriptable, Wrapper, Serializable
                 double number = toDouble(value);
                 if (Double.isInfinite(number) || Double.isNaN(number)
                     || number == 0.0) {
-                    return new Float((float)number);
+                    return (float) number;
                 }
                 else {
                     double absNumber = Math.abs(number);
                     if (absNumber < Float.MIN_VALUE) {
-                        return new Float((number > 0.0) ? +0.0 : -0.0);
-                    }
-                    else if (absNumber > Float.MAX_VALUE) {
-                        return new Float((number > 0.0) ?
-                                         Float.POSITIVE_INFINITY :
-                                         Float.NEGATIVE_INFINITY);
-                    }
-                    else {
-                        return new Float((float)number);
+                        return number > 0.0 ? +0.0 : -0.0;
+                    } else if (absNumber > Float.MAX_VALUE) {
+                        return number > 0.0
+                                ? Float.POSITIVE_INFINITY
+                                : Float.NEGATIVE_INFINITY;
+                    } else {
+                        return (float)number;
                     }
                 }
             }
@@ -733,10 +727,10 @@ public class NativeJavaObject implements Scriptable, Wrapper, Serializable
                 return value;
             }
             else {
-                return Integer.valueOf((int)toInteger(value,
-                                                  ScriptRuntime.IntegerClass,
-                                                  Integer.MIN_VALUE,
-                                                  Integer.MAX_VALUE));
+                return (int) toInteger(value,
+                        ScriptRuntime.IntegerClass,
+                        Integer.MIN_VALUE,
+                        Integer.MAX_VALUE);
             }
         }
 
@@ -753,10 +747,10 @@ public class NativeJavaObject implements Scriptable, Wrapper, Serializable
                  */
                 final double max = Double.longBitsToDouble(0x43dfffffffffffffL);
                 final double min = Double.longBitsToDouble(0xc3e0000000000000L);
-                return Long.valueOf(toInteger(value,
-                                          ScriptRuntime.LongClass,
-                                          min,
-                                          max));
+                return toInteger(value,
+                        ScriptRuntime.LongClass,
+                        min,
+                        max);
             }
         }
 
@@ -765,10 +759,10 @@ public class NativeJavaObject implements Scriptable, Wrapper, Serializable
                 return value;
             }
             else {
-                return Short.valueOf((short)toInteger(value,
-                                                  ScriptRuntime.ShortClass,
-                                                  Short.MIN_VALUE,
-                                                  Short.MAX_VALUE));
+                return (short) toInteger(value,
+                        ScriptRuntime.ShortClass,
+                        Short.MIN_VALUE,
+                        Short.MAX_VALUE);
             }
         }
 
@@ -777,14 +771,14 @@ public class NativeJavaObject implements Scriptable, Wrapper, Serializable
                 return value;
             }
             else {
-                return Byte.valueOf((byte)toInteger(value,
-                                                ScriptRuntime.ByteClass,
-                                                Byte.MIN_VALUE,
-                                                Byte.MAX_VALUE));
+                return (byte) toInteger(value,
+                        ScriptRuntime.ByteClass,
+                        Byte.MIN_VALUE,
+                        Byte.MAX_VALUE);
             }
         }
 
-        return new Double(toDouble(value));
+        return toDouble(value);
     }
 
 
@@ -809,12 +803,9 @@ public class NativeJavaObject implements Scriptable, Wrapper, Serializable
             Method meth;
             try {
                 meth = value.getClass().getMethod("doubleValue",
-                		                          (Class [])null);
+                		                          (Class<?> [])null);
             }
-            catch (NoSuchMethodException e) {
-                meth = null;
-            }
-            catch (SecurityException e) {
+            catch (NoSuchMethodException | SecurityException e) {
                 meth = null;
             }
             if (meth != null) {
@@ -822,11 +813,7 @@ public class NativeJavaObject implements Scriptable, Wrapper, Serializable
                     return ((Number)meth.invoke(value,
                     		                    (Object [])null)).doubleValue();
                 }
-                catch (IllegalAccessException e) {
-                    // XXX: ignore, or error message?
-                    reportConversionError(value, Double.TYPE);
-                }
-                catch (InvocationTargetException e) {
+                catch (IllegalAccessException | InvocationTargetException e) {
                     // XXX: ignore, or error message?
                     reportConversionError(value, Double.TYPE);
                 }
@@ -890,7 +877,7 @@ public class NativeJavaObject implements Scriptable, Wrapper, Serializable
         }
 
         if (staticType != null) {
-            out.writeObject(staticType.getClass().getName());
+            out.writeObject(staticType.getName());
         } else {
             out.writeObject(null);
         }

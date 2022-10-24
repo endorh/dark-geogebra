@@ -1,6 +1,7 @@
 package org.geogebra.common.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -84,10 +85,8 @@ class StatementFeatures {
 			HashMap<GeoElement, Integer> gSet = new HashMap<>();
 			GeoCollector gc = GeoCollector.getCollector(gSet);
 			root.traverse(gc);
-			Iterator<Entry<GeoElement, Integer>> it = gSet.entrySet().iterator();
 
-			while (it.hasNext()) {
-				Entry<GeoElement, Integer> entry = it.next();
+			for (Entry<GeoElement, Integer> entry : gSet.entrySet()) {
 				GeoElement dependency = entry.getKey();
 				parentsComplexity += computeNodeComplexity(dependency)
 						* entry.getValue();
@@ -179,10 +178,7 @@ class StatementFeatures {
 		 * 7 ;A)+(1/7)*log(1/7;A))
 		 */
 		entropy = 0;
-		Iterator<Entry<Object, Integer>> it2 = frequencies.entrySet()
-				.iterator();
-		while (it2.hasNext()) {
-			Entry<Object, Integer> entry = it2.next();
+		for (Entry<Object, Integer> entry : frequencies.entrySet()) {
 			Object node = entry.getKey();
 			int freq = entry.getValue();
 			if (freq < minimum) {
@@ -305,6 +301,7 @@ class StatementFeatures {
 							.getInput()) {
 						if (father.equals(geo)) {
 							directChild = true;
+							break;
 						}
 					}
 					if (directChild && !child.equals(statement)) {
@@ -346,9 +343,7 @@ class StatementFeatures {
 					edges += inputs.length;
 				}
 				in = inputs.length;
-				for (GeoElement ref : inputs) {
-					objs.add(ref);
-				}
+				objs.addAll(Arrays.asList(inputs));
 			} else {
 				free++;
 			}

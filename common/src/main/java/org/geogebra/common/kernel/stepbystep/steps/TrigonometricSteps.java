@@ -35,21 +35,21 @@ public enum TrigonometricSteps implements SimplificationStepGenerator {
 
 				if (argument.isNegative()) {
 					switch (so.getOperation()) {
-					case SIN:
+					case SIN -> {
 						result = sin(argument.negate()).negate();
 						sb.add(SolutionStepType.TRIGO_ODD_SIN, tracker.getColorTracker());
-						break;
-					case COS:
+					}
+					case COS -> {
 						result = cos(argument.negate());
 						sb.add(SolutionStepType.TRIGO_EVEN_COS, tracker.getColorTracker());
-						break;
-					case TAN:
+					}
+					case TAN -> {
 						result = tan(argument.negate()).negate();
 						sb.add(SolutionStepType.TRIGO_ODD_TAN, tracker.getColorTracker());
-						break;
-					default:
-						// not trigonometric: contradicts check above
-						break;
+					}
+					default -> {
+					}
+					// not trigonometric: contradicts check above
 					}
 				}
 

@@ -1,7 +1,6 @@
 package org.geogebra.desktop.gui.view.spreadsheet;
 
 import java.awt.Component;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.AbstractCellEditor;
@@ -24,18 +23,8 @@ public class MyCellEditorButton extends AbstractCellEditor
 	// Font fontPoint = app.getPlainFont().deriveFont(Font.PLAIN, fontSize);
 
 	public MyCellEditorButton() {
-		ActionListener actionListener = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent actionEvent) {
-				SwingUtilities.invokeLater(new Runnable() {
-					@Override
-					public void run() {
-						editGeo.runClickScripts(null);
-					}
-				});
-
-			}
-		};
+		ActionListener actionListener =
+				actionEvent -> SwingUtilities.invokeLater(() -> editGeo.runClickScripts(null));
 		delegate.addActionListener(actionListener);
 	}
 

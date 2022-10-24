@@ -796,26 +796,20 @@ public class DelaunayTriangulation {
 		}
 
 		switch (p.pointLineTest(firstP, lastP)) {
-		default:
-			// do nothing
-			break;
-		case PointDt.LEFT:
+		default -> {
+		}
+		// do nothing
+		case PointDt.LEFT -> {
 			startTriangle = extendOutside(firstT.abnext, p);
 			allCollinear = false;
-			break;
-		case PointDt.RIGHT:
+		}
+		case PointDt.RIGHT -> {
 			startTriangle = extendOutside(firstT, p);
 			allCollinear = false;
-			break;
-		case PointDt.ONSEGMENT:
-			insertCollinear(p, PointDt.ONSEGMENT);
-			break;
-		case PointDt.INFRONTOFA:
-			insertCollinear(p, PointDt.INFRONTOFA);
-			break;
-		case PointDt.BEHINDB:
-			insertCollinear(p, PointDt.BEHINDB);
-			break;
+		}
+		case PointDt.ONSEGMENT -> insertCollinear(p, PointDt.ONSEGMENT);
+		case PointDt.INFRONTOFA -> insertCollinear(p, PointDt.INFRONTOFA);
+		case PointDt.BEHINDB -> insertCollinear(p, PointDt.BEHINDB);
 		}
 		return null;
 	}
@@ -824,10 +818,10 @@ public class DelaunayTriangulation {
 		TriangleDt t, tp, u;
 
 		switch (res) {
-		default:
-			// do nothing
-			break;
-		case PointDt.INFRONTOFA:
+		default -> {
+		}
+		// do nothing
+		case PointDt.INFRONTOFA -> {
 			t = new TriangleDt(firstP, p);
 			tp = new TriangleDt(p, firstP);
 			t.abnext = tp;
@@ -840,8 +834,8 @@ public class DelaunayTriangulation {
 			firstT.abnext.canext = tp;
 			firstT = t;
 			firstP = p;
-			break;
-		case PointDt.BEHINDB:
+		}
+		case PointDt.BEHINDB -> {
 			t = new TriangleDt(p, lastP);
 			tp = new TriangleDt(lastP, p);
 			t.abnext = tp;
@@ -854,8 +848,8 @@ public class DelaunayTriangulation {
 			lastT.abnext.bcnext = tp;
 			lastT = t;
 			lastP = p;
-			break;
-		case PointDt.ONSEGMENT:
+		}
+		case PointDt.ONSEGMENT -> {
 			u = firstT;
 			while (p.isGreater(u.a)) {
 				u = u.canext;
@@ -877,7 +871,7 @@ public class DelaunayTriangulation {
 			if (firstT == u) {
 				firstT = t;
 			}
-			break;
+		}
 		}
 	}
 

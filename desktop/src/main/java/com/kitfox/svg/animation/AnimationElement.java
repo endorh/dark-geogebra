@@ -79,16 +79,12 @@ public abstract class AnimationElement extends SVGElement {
 	}
 
 	public static String animationElementToString(int attrValue) {
-		switch (attrValue) {
-		case AT_CSS:
-			return "CSS";
-		case AT_XML:
-			return "XML";
-		case AT_AUTO:
-			return "AUTO";
-		default:
-			throw new RuntimeException("Unknown element type");
-		}
+		return switch (attrValue) {
+			case AT_CSS -> "CSS";
+			case AT_XML -> "XML";
+			case AT_AUTO -> "AUTO";
+			default -> throw new RuntimeException("Unknown element type");
+		};
 	}
 
 }

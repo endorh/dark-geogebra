@@ -25,7 +25,6 @@ import org.geogebra.common.kernel.arithmetic.FunctionNVar;
 import org.geogebra.common.kernel.arithmetic.FunctionVarCollector;
 import org.geogebra.common.kernel.arithmetic.FunctionVariable;
 import org.geogebra.common.kernel.arithmetic.Functional;
-import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyList;
@@ -121,8 +120,7 @@ public class GeoSymbolic extends GeoElement
 	public void set(GeoElementND geo) {
 		reuseDefinition(geo);
 		fVars.clear();
-		if (geo instanceof GeoSymbolic) {
-			GeoSymbolic symbolic = (GeoSymbolic) geo;
+		if (geo instanceof GeoSymbolic symbolic) {
 			fVars.addAll(symbolic.fVars);
 			value = symbolic.getValue();
 			casOutputString = symbolic.casOutputString;
@@ -203,8 +201,7 @@ public class GeoSymbolic extends GeoElement
 	private ExpressionValue fixMatrixInput(ExpressionValue casInputArg) {
 		// neglect dummy variable lhs if rhs is matrix
 		ExpressionValue ret = casInputArg;
-		if (((ExpressionNode) casInputArg).getLeft() instanceof Equation) {
-			Equation eq = (Equation) ((ExpressionNode) casInputArg).getLeft();
+		if (((ExpressionNode) casInputArg).getLeft() instanceof Equation eq) {
 			boolean lIsDummy = eq.getLHS().getLeft() instanceof GeoDummyVariable;
 			boolean rIsMatrix = eq.getRHS().getLeft() instanceof MyList
 					&& ((MyList) (eq.getRHS().getLeft())).isMatrix();
@@ -289,12 +286,8 @@ public class GeoSymbolic extends GeoElement
 	}
 
 	private boolean argumentsDefined(Command casInput) {
-		boolean argsDefined = casInput.inspect(new Inspecting() {
-			@Override
-			public boolean check(ExpressionValue v) {
-				return !v.toValueString(StringTemplate.defaultTemplate).contains("?");
-			}
-		});
+		boolean argsDefined = casInput.inspect(
+				v -> !v.toValueString(StringTemplate.defaultTemplate).contains("?"));
 		return argsDefined;
 	}
 
@@ -613,15 +606,12 @@ public class GeoSymbolic extends GeoElement
 		return new Traversing() {
 			@Override
 			public ExpressionValue process(ExpressionValue ev) {
-				if (ev instanceof GeoSymbolic) {
-					GeoSymbolic symbolic = (GeoSymbolic) ev;
+				if (ev instanceof GeoSymbolic symbolic) {
 					ExpressionValue value = symbolic.getValue().deepCopy(kernel);
 					return value.traverse(this);
-				} else if (ev instanceof GeoDummyVariable) {
-					GeoDummyVariable variable = (GeoDummyVariable) ev;
+				} else if (ev instanceof GeoDummyVariable variable) {
 					return new Variable(variable.getKernel(), variable.getVarName());
-				} else if (ev instanceof Command) {
-					Command command = (Command) ev;
+				} else if (ev instanceof Command command) {
 					command = checkIntegralCommand(command);
 					return command;
 				}

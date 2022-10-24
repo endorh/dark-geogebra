@@ -28,19 +28,17 @@ public class CmdColumnName extends CommandProcessor {
 		arg = resArgs(c);
 
 		switch (n) {
-		case 1:
-
+		case 1 -> {
 			if (GeoElementSpreadsheet.hasSpreadsheetLabel(arg[0])) {
 				AlgoColumnName algo = new AlgoColumnName(cons, c.getLabel(),
 						arg[0]);
-				GeoElement[] ret = { algo.getGeoText() };
+				GeoElement[] ret = {algo.getGeoText()};
 
 				return ret;
 			}
 			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

@@ -144,56 +144,56 @@ public abstract class Curve {
         double endx, endy;
         int crossings = 0;
         while (!pi.isDone()) {
-            switch (pi.currentSegment(coords)) {
-            case GPathIterator.SEG_MOVETO:
-                if (cury != movy) {
-                    crossings += pointCrossingsForLine(px, py,
-                                                       curx, cury,
-                                                       movx, movy);
-                }
-                movx = curx = coords[0];
-                movy = cury = coords[1];
-                break;
-            case GPathIterator.SEG_LINETO:
-                endx = coords[0];
-                endy = coords[1];
-                crossings += pointCrossingsForLine(px, py,
-                                                   curx, cury,
-                                                   endx, endy);
-                curx = endx;
-                cury = endy;
-                break;
-            case GPathIterator.SEG_QUADTO:
-                endx = coords[2];
-                endy = coords[3];
-                crossings += pointCrossingsForQuad(px, py,
-                                                   curx, cury,
-                                                   coords[0], coords[1],
-                                                   endx, endy, 0);
-                curx = endx;
-                cury = endy;
-                break;
-            case GPathIterator.SEG_CUBICTO:
-                endx = coords[4];
-                endy = coords[5];
-                crossings += pointCrossingsForCubic(px, py,
-                                                    curx, cury,
-                                                    coords[0], coords[1],
-                                                    coords[2], coords[3],
-                                                    endx, endy, 0);
-                curx = endx;
-                cury = endy;
-                break;
-            case GPathIterator.SEG_CLOSE:
-                if (cury != movy) {
-                    crossings += pointCrossingsForLine(px, py,
-                                                       curx, cury,
-                                                       movx, movy);
-                }
-                curx = movx;
-                cury = movy;
-                break;
-            }
+	        switch (pi.currentSegment(coords)) {
+	        case GPathIterator.SEG_MOVETO -> {
+		        if (cury != movy) {
+			        crossings += pointCrossingsForLine(px, py,
+					        curx, cury,
+					        movx, movy);
+		        }
+		        movx = curx = coords[0];
+		        movy = cury = coords[1];
+	        }
+	        case GPathIterator.SEG_LINETO -> {
+		        endx = coords[0];
+		        endy = coords[1];
+		        crossings += pointCrossingsForLine(px, py,
+				        curx, cury,
+				        endx, endy);
+		        curx = endx;
+		        cury = endy;
+	        }
+	        case GPathIterator.SEG_QUADTO -> {
+		        endx = coords[2];
+		        endy = coords[3];
+		        crossings += pointCrossingsForQuad(px, py,
+				        curx, cury,
+				        coords[0], coords[1],
+				        endx, endy, 0);
+		        curx = endx;
+		        cury = endy;
+	        }
+	        case GPathIterator.SEG_CUBICTO -> {
+		        endx = coords[4];
+		        endy = coords[5];
+		        crossings += pointCrossingsForCubic(px, py,
+				        curx, cury,
+				        coords[0], coords[1],
+				        coords[2], coords[3],
+				        endx, endy, 0);
+		        curx = endx;
+		        cury = endy;
+	        }
+	        case GPathIterator.SEG_CLOSE -> {
+		        if (cury != movy) {
+			        crossings += pointCrossingsForLine(px, py,
+					        curx, cury,
+					        movx, movy);
+		        }
+		        curx = movx;
+		        cury = movy;
+	        }
+	        }
             pi.next();
         }
         if (cury != movy) {
@@ -433,70 +433,70 @@ public abstract class Curve {
         cury = movy = coords[1];
         int crossings = 0;
         while (crossings != RECT_INTERSECTS && !pi.isDone()) {
-            switch (pi.currentSegment(coords)) {
-            case GPathIterator.SEG_MOVETO:
-                if (curx != movx || cury != movy) {
-                    crossings = rectCrossingsForLine(crossings,
-                                                     rxmin, rymin,
-                                                     rxmax, rymax,
-                                                     curx, cury,
-                                                     movx, movy);
-                }
-                // Count should always be a multiple of 2 here.
-                // assert((crossings & 1) != 0);
-                movx = curx = coords[0];
-                movy = cury = coords[1];
-                break;
-            case GPathIterator.SEG_LINETO:
-                endx = coords[0];
-                endy = coords[1];
-                crossings = rectCrossingsForLine(crossings,
-                                                 rxmin, rymin,
-                                                 rxmax, rymax,
-                                                 curx, cury,
-                                                 endx, endy);
-                curx = endx;
-                cury = endy;
-                break;
-            case GPathIterator.SEG_QUADTO:
-                endx = coords[2];
-                endy = coords[3];
-                crossings = rectCrossingsForQuad(crossings,
-                                                 rxmin, rymin,
-                                                 rxmax, rymax,
-                                                 curx, cury,
-                                                 coords[0], coords[1],
-                                                 endx, endy, 0);
-                curx = endx;
-                cury = endy;
-                break;
-            case GPathIterator.SEG_CUBICTO:
-                endx = coords[4];
-                endy = coords[5];
-                crossings = rectCrossingsForCubic(crossings,
-                                                  rxmin, rymin,
-                                                  rxmax, rymax,
-                                                  curx, cury,
-                                                  coords[0], coords[1],
-                                                  coords[2], coords[3],
-                                                  endx, endy, 0);
-                curx = endx;
-                cury = endy;
-                break;
-			case GPathIterator.SEG_CLOSE:
-                if (curx != movx || cury != movy) {
-                    crossings = rectCrossingsForLine(crossings,
-                                                     rxmin, rymin,
-                                                     rxmax, rymax,
-                                                     curx, cury,
-                                                     movx, movy);
-                }
-                curx = movx;
-                cury = movy;
-                // Count should always be a multiple of 2 here.
-                // assert((crossings & 1) != 0);
-                break;
-            }
+	        switch (pi.currentSegment(coords)) {
+	        case GPathIterator.SEG_MOVETO -> {
+		        if (curx != movx || cury != movy) {
+			        crossings = rectCrossingsForLine(crossings,
+					        rxmin, rymin,
+					        rxmax, rymax,
+					        curx, cury,
+					        movx, movy);
+		        }
+		        // Count should always be a multiple of 2 here.
+		        // assert((crossings & 1) != 0);
+		        movx = curx = coords[0];
+		        movy = cury = coords[1];
+	        }
+	        case GPathIterator.SEG_LINETO -> {
+		        endx = coords[0];
+		        endy = coords[1];
+		        crossings = rectCrossingsForLine(crossings,
+				        rxmin, rymin,
+				        rxmax, rymax,
+				        curx, cury,
+				        endx, endy);
+		        curx = endx;
+		        cury = endy;
+	        }
+	        case GPathIterator.SEG_QUADTO -> {
+		        endx = coords[2];
+		        endy = coords[3];
+		        crossings = rectCrossingsForQuad(crossings,
+				        rxmin, rymin,
+				        rxmax, rymax,
+				        curx, cury,
+				        coords[0], coords[1],
+				        endx, endy, 0);
+		        curx = endx;
+		        cury = endy;
+	        }
+	        case GPathIterator.SEG_CUBICTO -> {
+		        endx = coords[4];
+		        endy = coords[5];
+		        crossings = rectCrossingsForCubic(crossings,
+				        rxmin, rymin,
+				        rxmax, rymax,
+				        curx, cury,
+				        coords[0], coords[1],
+				        coords[2], coords[3],
+				        endx, endy, 0);
+		        curx = endx;
+		        cury = endy;
+	        }
+	        case GPathIterator.SEG_CLOSE -> {
+		        if (curx != movx || cury != movy) {
+			        crossings = rectCrossingsForLine(crossings,
+					        rxmin, rymin,
+					        rxmax, rymax,
+					        curx, cury,
+					        movx, movy);
+		        }
+		        curx = movx;
+		        cury = movy;
+	        }
+	        // Count should always be a multiple of 2 here.
+	        // assert((crossings & 1) != 0);
+	        }
             pi.next();
         }
         if (crossings != RECT_INTERSECTS && (curx != movx || cury != movy)) {
@@ -814,13 +814,7 @@ public abstract class Curve {
     }
 
     public static int orderof(double x1, double x2) {
-        if (x1 < x2) {
-            return -1;
-        }
-        if (x1 > x2) {
-            return 1;
-        }
-        return 0;
+	    return Double.compare(x1, x2);
     }
 
 

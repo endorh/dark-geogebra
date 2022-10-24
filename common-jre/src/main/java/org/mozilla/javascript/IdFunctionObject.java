@@ -8,6 +8,8 @@
 
 package org.mozilla.javascript;
 
+import java.util.Objects;
+
 public class IdFunctionObject extends BaseFunction
 {
 
@@ -52,7 +54,7 @@ public class IdFunctionObject extends BaseFunction
 
     public final boolean hasTag(Object tag)
     {
-        return tag == null ? this.tag == null : tag.equals(this.tag);
+        return Objects.equals(tag, this.tag);
     }
 
     public Object getTag() {
@@ -125,9 +127,8 @@ public class IdFunctionObject extends BaseFunction
             sb.append("() { ");
         }
         sb.append("[native code for ");
-        if (idcall instanceof Scriptable) {
-            Scriptable sobj = (Scriptable)idcall;
-            sb.append(sobj.getClassName());
+        if (idcall instanceof Scriptable sobj) {
+	        sb.append(sobj.getClassName());
             sb.append('.');
         }
         sb.append(getFunctionName());

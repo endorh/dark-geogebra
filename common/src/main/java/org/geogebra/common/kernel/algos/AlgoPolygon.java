@@ -229,8 +229,8 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 	 *            new input points
 	 */
 	public void modifyInputPoints(GeoPointND[] newPoints) {
-		for (int i = 0; i < input.length; i++) {
-			input[i].removeAlgorithm(this);
+		for (GeoElement geoElement : input) {
+			geoElement.removeAlgorithm(this);
 		}
 
 		points = newPoints;
@@ -253,9 +253,7 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 			input = efficientInput;
 		} else {
 			input = new GeoElement[efficientInput.length + 1];
-			for (int i = 0; i < efficientInput.length; i++) {
-				input[i] = efficientInput[i];
-			}
+			System.arraycopy(efficientInput, 0, input, 0, efficientInput.length);
 			input[efficientInput.length] = polyhedron;
 		}
 

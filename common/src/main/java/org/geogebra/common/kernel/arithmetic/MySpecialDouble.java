@@ -163,7 +163,7 @@ public class MySpecialDouble extends MyDouble {
 		StringType printForm = tpl.getStringType();
 		char ch;
 		switch (printForm) {
-		case SCREEN_READER:
+		case SCREEN_READER -> {
 			ch = strToString.charAt(0);
 			switch (ch) {
 			case Unicode.pi:
@@ -176,8 +176,8 @@ public class MySpecialDouble extends MyDouble {
 				}
 				return tpl.getEulerNumber();
 			}
-			break;
-		case GIAC:
+		}
+		case GIAC -> {
 			ch = strToString.charAt(0);
 			switch (ch) {
 			case Unicode.pi:
@@ -190,9 +190,8 @@ public class MySpecialDouble extends MyDouble {
 				}
 				return "e";
 			}
-			break;
-
-		case LATEX:
+		}
+		case LATEX -> {
 			ch = strToString.charAt(0);
 			switch (ch) {
 			case Unicode.pi:
@@ -207,9 +206,9 @@ public class MySpecialDouble extends MyDouble {
 				return "\\textit{e}";
 			// return Unicode.EULER_STRING;
 			}
-			break;
-		default:
-			break;
+		}
+		default -> {
+		}
 		}
 
 		return strToString;

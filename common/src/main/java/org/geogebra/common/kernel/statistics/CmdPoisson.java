@@ -31,19 +31,18 @@ public class CmdPoisson extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-
-		case 1:
+		case 1 -> {
 			arg = resArgs(c);
 			if (arg[0] instanceof GeoNumberValue) {
 				AlgoPoissonBarChart algo = new AlgoPoissonBarChart(cons,
 						c.getLabel(), (GeoNumberValue) arg[0]);
 
-				GeoElement[] ret = { algo.getSum() };
+				GeoElement[] ret = {algo.getSum()};
 				return ret;
 			}
 			throw argErr(c, arg[0]);
-
-		case 2:
+		}
+		case 2 -> {
 			arg = resArgs(c);
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1].isGeoBoolean())) {
@@ -52,7 +51,7 @@ public class CmdPoisson extends CommandProcessor {
 						c.getLabel(), (GeoNumberValue) arg[0],
 						(GeoBoolean) arg[1]);
 
-				GeoElement[] ret = { algo.getSum() };
+				GeoElement[] ret = {algo.getSum()};
 				return ret;
 
 			} else if ((ok[0] = arg[0] instanceof GeoNumberValue)
@@ -61,15 +60,15 @@ public class CmdPoisson extends CommandProcessor {
 						c.getLabel(), (GeoNumberValue) arg[0],
 						(GeoList) arg[1]);
 
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 				return ret;
 			} else if (!ok[0]) {
 				throw argErr(c, arg[0]);
 			} else {
 				throw argErr(c, arg[1]);
 			}
-
-		case 3:
+		}
+		case 3 -> {
 			arg = resArgs(c);
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
@@ -79,7 +78,7 @@ public class CmdPoisson extends CommandProcessor {
 						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
 						(GeoBoolean) arg[2]);
 
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 				return ret;
 
 			} else if (!ok[0]) {
@@ -89,9 +88,8 @@ public class CmdPoisson extends CommandProcessor {
 			} else {
 				throw argErr(c, arg[2]);
 			}
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

@@ -168,37 +168,18 @@ public class SpreadsheetContextMenuD extends SpreadsheetContextMenu<JMenu> {
 		ImageResourceD iconString = null;
 
 		switch (MenuCommand.valueOf(cmdString)) {
-		default:
-			// do nothing
-			break;
-		case Copy:
-			iconString = GuiResourcesD.MENU_EDIT_COPY;
-			break;
-		case Cut:
-			iconString = GuiResourcesD.MENU_EDIT_CUT;
-			break;
-		case Paste:
-			iconString = GuiResourcesD.MENU_EDIT_PASTE;
-			break;
-		case Delete:
-		case DeleteObjects:
-			iconString = GuiResourcesD.DELETE_SMALL;
-			break;
-		case ShowObject:
-			iconString = GuiResourcesD.MODE_SHOWHIDEOBJECT_GIF;
-			break;
-		case ShowLabel:
-			iconString = GuiResourcesD.MODE_SHOWHIDELABEL;
-			break;
-		case RecordToSpreadsheet:
-			iconString = GuiResourcesD.SPREADSHEETTRACE;
-			break;
-		case Properties:
-			iconString = GuiResourcesD.VIEW_PROPERTIES_16;
-			break;
-		case SpreadsheetOptions:
-			iconString = GuiResourcesD.VIEW_PROPERTIES_16;
-			break;
+		default -> {
+		}
+		// do nothing
+		case Copy -> iconString = GuiResourcesD.MENU_EDIT_COPY;
+		case Cut -> iconString = GuiResourcesD.MENU_EDIT_CUT;
+		case Paste -> iconString = GuiResourcesD.MENU_EDIT_PASTE;
+		case Delete, DeleteObjects -> iconString = GuiResourcesD.DELETE_SMALL;
+		case ShowObject -> iconString = GuiResourcesD.MODE_SHOWHIDEOBJECT_GIF;
+		case ShowLabel -> iconString = GuiResourcesD.MODE_SHOWHIDELABEL;
+		case RecordToSpreadsheet -> iconString = GuiResourcesD.SPREADSHEETTRACE;
+		case Properties -> iconString = GuiResourcesD.VIEW_PROPERTIES_16;
+		case SpreadsheetOptions -> iconString = GuiResourcesD.VIEW_PROPERTIES_16;
 		}
 
 		// convert string to icon

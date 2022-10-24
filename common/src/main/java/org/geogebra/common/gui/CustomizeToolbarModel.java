@@ -26,21 +26,18 @@ public class CustomizeToolbarModel {
 		} catch (Exception e) {
 			return new Vector<>();
 		}
-		for (int i = 0; i < defTools.size(); i++) {
-			ToolbarItem element = defTools.get(i);
-
+		for (ToolbarItem element : defTools) {
 			if (element.getMenu() != null) {
 				Vector<Integer> menu = element.getMenu();
-				for (int j = 0; j < menu.size(); j++) {
-					Integer modeInt = menu.get(j);
-					int mode = modeInt.intValue();
+				for (Integer modeInt : menu) {
+					int mode = modeInt;
 					if (mode != -1) {
 						vector.add(modeInt);
 					}
 				}
 			} else {
 				Integer modeInt = element.getMode();
-				int mode = modeInt.intValue();
+				int mode = modeInt;
 				if (mode != -1) {
 					vector.add(modeInt);
 				}

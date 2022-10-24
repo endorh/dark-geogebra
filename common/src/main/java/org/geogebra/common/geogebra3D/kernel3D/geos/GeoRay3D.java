@@ -139,9 +139,8 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 				? getParentAlgorithm() : null;
 
 		// CREATE RAY
-		if (algoParent1 instanceof AlgoJoinPoints3D && t.isAffine()) {
+		if (algoParent1 instanceof AlgoJoinPoints3D algo && t.isAffine()) {
 			// transform points
-			AlgoJoinPoints3D algo = (AlgoJoinPoints3D) algoParent1;
 			GeoPointND[] points = { algo.getP(), algo.getQ() };
 			points = t.transformPoints(points);
 			// if(t.isAffine()){

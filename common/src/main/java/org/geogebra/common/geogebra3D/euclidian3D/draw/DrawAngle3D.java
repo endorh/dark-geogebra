@@ -194,8 +194,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 
 			if (show90degrees) {
 				switch (getView3D().getRightAngleStyle()) {
-				default:
-				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE:
+				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE -> {
 					startBrush(brush);
 					size *= 0.7071067811865;
 					offset = 0;
@@ -213,15 +212,14 @@ public class DrawAngle3D extends Drawable3DCurves {
 							tmpCoords.setMul(v2, size)), tmpCoords2);
 					brush.segment(center, tmpCoords);
 					setGeometryIndex(brush.end());
-					break;
-
-				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT:
+				}
+				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT -> {
 					// create point template if needed
 					float pointSize = getGeoElement().getLineThickness()
-                            * PlotterBrush.LINE3D_THICKNESS;
-                    renderer.getGeometryManager()
-                            .createPointTemplateIfNeeded((int) pointSize);
-                    // create angle outline + dot
+							* PlotterBrush.LINE3D_THICKNESS;
+					renderer.getGeometryManager()
+							.createPointTemplateIfNeeded((int) pointSize);
+					// create angle outline + dot
 					startBrush(brush);
 					// arc
 					brush.setAffineTexture(0f, 0f);
@@ -237,11 +235,9 @@ public class DrawAngle3D extends Drawable3DCurves {
 					tmpCoords.set3(labelCenter);
 					renderer.getGeometryManager().drawPoint(this, pointSize,
 							tmpCoords);
-
 					setGeometryIndex(brush.end());
-					break;
-
-				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_L:
+				}
+				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_L -> {
 					startBrush(brush);
 					size *= 0.7071067811865;
 					offset = size * 0.4;
@@ -258,7 +254,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 					brush.segment(tmpCoords2, tmpCoords.setAdd(tmpCoords2,
 							tmpCoords.setMul(v2, size)));
 					setGeometryIndex(brush.end());
-					break;
+				}
 				}
 			} else {
 				startBrush(brush);
@@ -279,21 +275,18 @@ public class DrawAngle3D extends Drawable3DCurves {
 			setPackSurface();
 			if (show90degrees) {
 				switch (getView3D().getRightAngleStyle()) {
-				default:
-				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE:
+				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE -> {
 					surface.start(getReusableSurfaceIndex());
 					surface.parallelogram(this, center, v1, v2, size, size);
 					setSurfaceIndex(surface.end());
-					break;
-				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT:
+				}
+				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT -> {
 					surface.start(getReusableSurfaceIndex());
 					surface.ellipsePart(this, center, v1, v2, size, size, 0,
 							angleValue);
 					setSurfaceIndex(surface.end());
-					break;
-				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_L:
-					setSurfaceIndex(-1);
-					break;
+				}
+				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_L -> setSurfaceIndex(-1);
 				}
 			} else {
 				surface.start(getReusableSurfaceIndex());
@@ -450,8 +443,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 
 		if (show90degrees) {
 			switch (getView3D().getRightAngleStyle()) {
-			case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE:
-			case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_L:
+			case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE, EuclidianStyleConstants.RIGHT_ANGLE_STYLE_L -> {
 				if (x < offset || x > size + offset || y < offset
 						|| y > size + offset) {
 					return false;
@@ -460,6 +452,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 				setZPick(z, z, hitting.discardPositiveHits(), -z);
 				setPickingType(PickingType.POINT_OR_CURVE);
 				return true;
+			}
 			}
 		}
 

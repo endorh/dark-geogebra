@@ -71,19 +71,14 @@ public class AutoCompletion {
 			return;
 		}
 
-		CompletionProvider<File> fileChooserCompletionProvider = new CompletionProvider<File>() {
+		CompletionProvider<File> fileChooserCompletionProvider = new CompletionProvider<>() {
 			@Override
 			public List<File> getCompletionOptions(String prefix) {
 				// Create adapter: javax.swing.filechooser.FileFilter -->
 				// java.io.FileFilter
 				final javax.swing.filechooser.FileFilter fileChooserFileFilter = fileChooser
 						.getFileFilter();
-				FileFilter fileFilter = new FileFilter() {
-					@Override
-					public boolean accept(File pathname) {
-						return fileChooserFileFilter.accept(pathname);
-					}
-				};
+				FileFilter fileFilter = fileChooserFileFilter::accept;
 				// All visible items in the file chooser are possible options
 				File[] options = fileChooser.getCurrentDirectory()
 						.listFiles(fileFilter);
@@ -92,7 +87,7 @@ public class AutoCompletion {
 				if (options == null) {
 					return null;
 				}
-				CompletionProvider<File> completionProvider = new SortedArrayCompletionProvider<File>(
+				CompletionProvider<File> completionProvider = new SortedArrayCompletionProvider<>(
 						options, caseInsensitiveCompletion) {
 					@Override
 					public String toString(File option) {
@@ -169,7 +164,7 @@ public class AutoCompletion {
 		System.arraycopy(completionOptions, 0, optionsCopy, 0,
 				completionOptions.length);
 		// Wrap array in provider and install
-		CompletionProvider<String> arrayProvider = new SortedArrayCompletionProvider<String>(
+		CompletionProvider<String> arrayProvider = new SortedArrayCompletionProvider<>(
 				optionsCopy, caseInsensitiveCompletion) {
 			@Override
 			public String toString(String option) {

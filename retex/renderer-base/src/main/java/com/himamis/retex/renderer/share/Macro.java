@@ -74,7 +74,7 @@ public class Macro {
 		for (String arg : args) {
 			len += arg.length();
 		}
-		final StringBuffer buf = new StringBuffer(len);
+		final StringBuilder buf = new StringBuilder(len);
 		final int s = posArgs.size();
 		for (int i = 0; i < s; ++i) {
 			buf.append(chunks.get(i));
@@ -89,8 +89,8 @@ public class Macro {
 		final int len = code.length();
 		int pos = 0;
 		int fpos = 0;
-		chunks = new ArrayList<String>();
-		posArgs = new ArrayList<Integer>();
+		chunks = new ArrayList<>();
+		posArgs = new ArrayList<>();
 		while (pos < len) {
 			char c = code.charAt(pos);
 			if (c == '#') {

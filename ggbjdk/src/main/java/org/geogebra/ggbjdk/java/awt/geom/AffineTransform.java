@@ -1208,82 +1208,91 @@ public class AffineTransform implements GAffineTransform {
      */
     @Override
 	public void translate(double tx, double ty) {
-        switch (state) {
-        default:
-            stateError();
-            /* NOTREACHED */
-            return;
-        case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
-            m02 = tx * m00 + ty * m01 + m02;
-            m12 = tx * m10 + ty * m11 + m12;
-            if (m02 == 0.0 && m12 == 0.0) {
-                state = APPLY_SHEAR | APPLY_SCALE;
-                if (type != TYPE_UNKNOWN) {
-                    type -= TYPE_TRANSLATION;
-                }
-            }
-            return;
-        case (APPLY_SHEAR | APPLY_SCALE):
-            m02 = tx * m00 + ty * m01;
-            m12 = tx * m10 + ty * m11;
-            if (m02 != 0.0 || m12 != 0.0) {
-                state = APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE;
-                type |= TYPE_TRANSLATION;
-            }
-            return;
-        case (APPLY_SHEAR | APPLY_TRANSLATE):
-            m02 = ty * m01 + m02;
-            m12 = tx * m10 + m12;
-            if (m02 == 0.0 && m12 == 0.0) {
-                state = APPLY_SHEAR;
-                if (type != TYPE_UNKNOWN) {
-                    type -= TYPE_TRANSLATION;
-                }
-            }
-            return;
-        case (APPLY_SHEAR):
-            m02 = ty * m01;
-            m12 = tx * m10;
-            if (m02 != 0.0 || m12 != 0.0) {
-                state = APPLY_SHEAR | APPLY_TRANSLATE;
-                type |= TYPE_TRANSLATION;
-            }
-            return;
-        case (APPLY_SCALE | APPLY_TRANSLATE):
-            m02 = tx * m00 + m02;
-            m12 = ty * m11 + m12;
-            if (m02 == 0.0 && m12 == 0.0) {
-                state = APPLY_SCALE;
-                if (type != TYPE_UNKNOWN) {
-                    type -= TYPE_TRANSLATION;
-                }
-            }
-            return;
-        case (APPLY_SCALE):
-            m02 = tx * m00;
-            m12 = ty * m11;
-            if (m02 != 0.0 || m12 != 0.0) {
-                state = APPLY_SCALE | APPLY_TRANSLATE;
-                type |= TYPE_TRANSLATION;
-            }
-            return;
-        case (APPLY_TRANSLATE):
-            m02 = tx + m02;
-            m12 = ty + m12;
-            if (m02 == 0.0 && m12 == 0.0) {
-                state = APPLY_IDENTITY;
-                type = TYPE_IDENTITY;
-            }
-            return;
-        case (APPLY_IDENTITY):
-            m02 = tx;
-            m12 = ty;
-            if (tx != 0.0 || ty != 0.0) {
-                state = APPLY_TRANSLATE;
-                type = TYPE_TRANSLATION;
-            }
-            return;
-        }
+	    switch (state) {
+	    default -> {
+		    stateError();
+		    /* NOTREACHED */
+		    return;
+	    }
+	    case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE) -> {
+		    m02 = tx * m00 + ty * m01 + m02;
+		    m12 = tx * m10 + ty * m11 + m12;
+		    if (m02 == 0.0 && m12 == 0.0) {
+			    state = APPLY_SHEAR | APPLY_SCALE;
+			    if (type != TYPE_UNKNOWN) {
+				    type -= TYPE_TRANSLATION;
+			    }
+		    }
+		    return;
+	    }
+	    case (APPLY_SHEAR | APPLY_SCALE) -> {
+		    m02 = tx * m00 + ty * m01;
+		    m12 = tx * m10 + ty * m11;
+		    if (m02 != 0.0 || m12 != 0.0) {
+			    state = APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE;
+			    type |= TYPE_TRANSLATION;
+		    }
+		    return;
+	    }
+	    case (APPLY_SHEAR | APPLY_TRANSLATE) -> {
+		    m02 = ty * m01 + m02;
+		    m12 = tx * m10 + m12;
+		    if (m02 == 0.0 && m12 == 0.0) {
+			    state = APPLY_SHEAR;
+			    if (type != TYPE_UNKNOWN) {
+				    type -= TYPE_TRANSLATION;
+			    }
+		    }
+		    return;
+	    }
+	    case (APPLY_SHEAR) -> {
+		    m02 = ty * m01;
+		    m12 = tx * m10;
+		    if (m02 != 0.0 || m12 != 0.0) {
+			    state = APPLY_SHEAR | APPLY_TRANSLATE;
+			    type |= TYPE_TRANSLATION;
+		    }
+		    return;
+	    }
+	    case (APPLY_SCALE | APPLY_TRANSLATE) -> {
+		    m02 = tx * m00 + m02;
+		    m12 = ty * m11 + m12;
+		    if (m02 == 0.0 && m12 == 0.0) {
+			    state = APPLY_SCALE;
+			    if (type != TYPE_UNKNOWN) {
+				    type -= TYPE_TRANSLATION;
+			    }
+		    }
+		    return;
+	    }
+	    case (APPLY_SCALE) -> {
+		    m02 = tx * m00;
+		    m12 = ty * m11;
+		    if (m02 != 0.0 || m12 != 0.0) {
+			    state = APPLY_SCALE | APPLY_TRANSLATE;
+			    type |= TYPE_TRANSLATION;
+		    }
+		    return;
+	    }
+	    case (APPLY_TRANSLATE) -> {
+		    m02 = tx + m02;
+		    m12 = ty + m12;
+		    if (m02 == 0.0 && m12 == 0.0) {
+			    state = APPLY_IDENTITY;
+			    type = TYPE_IDENTITY;
+		    }
+		    return;
+	    }
+	    case (APPLY_IDENTITY) -> {
+		    m02 = tx;
+		    m12 = ty;
+		    if (tx != 0.0 || ty != 0.0) {
+			    state = APPLY_TRANSLATE;
+			    type = TYPE_TRANSLATION;
+		    }
+		    return;
+	    }
+	    }
     }
 
     // Utility methods to optimize rotate methods.
@@ -1667,53 +1676,53 @@ public class AffineTransform implements GAffineTransform {
      */
     public void shear(double shx, double shy) {
         int state = this.state;
-        switch (state) {
-        default:
-            stateError();
-            /* NOTREACHED */
-            return;
-        case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
-        case (APPLY_SHEAR | APPLY_SCALE):
-            double M0, M1;
-            M0 = m00;
-            M1 = m01;
-            m00 = M0 + M1 * shy;
-            m01 = M0 * shx + M1;
-
-            M0 = m10;
-            M1 = m11;
-            m10 = M0 + M1 * shy;
-            m11 = M0 * shx + M1;
-            updateState();
-            return;
-        case (APPLY_SHEAR | APPLY_TRANSLATE):
-        case (APPLY_SHEAR):
-            m00 = m01 * shy;
-            m11 = m10 * shx;
-            if (m00 != 0.0 || m11 != 0.0) {
-                this.state = state | APPLY_SCALE;
-            }
-            this.type = TYPE_UNKNOWN;
-            return;
-        case (APPLY_SCALE | APPLY_TRANSLATE):
-        case (APPLY_SCALE):
-            m01 = m00 * shx;
-            m10 = m11 * shy;
-            if (m01 != 0.0 || m10 != 0.0) {
-                this.state = state | APPLY_SHEAR;
-            }
-            this.type = TYPE_UNKNOWN;
-            return;
-        case (APPLY_TRANSLATE):
-        case (APPLY_IDENTITY):
-            m01 = shx;
-            m10 = shy;
-            if (m01 != 0.0 || m10 != 0.0) {
-                this.state = state | APPLY_SCALE | APPLY_SHEAR;
-                this.type = TYPE_UNKNOWN;
-            }
-            return;
-        }
+	    switch (state) {
+	    default -> {
+		    stateError();
+		    /* NOTREACHED */
+		    return;
+	    }
+	    case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE), (APPLY_SHEAR | APPLY_SCALE) -> {
+		    double M0, M1;
+		    M0 = m00;
+		    M1 = m01;
+		    m00 = M0 + M1 * shy;
+		    m01 = M0 * shx + M1;
+		    M0 = m10;
+		    M1 = m11;
+		    m10 = M0 + M1 * shy;
+		    m11 = M0 * shx + M1;
+		    updateState();
+		    return;
+	    }
+	    case (APPLY_SHEAR | APPLY_TRANSLATE), (APPLY_SHEAR) -> {
+		    m00 = m01 * shy;
+		    m11 = m10 * shx;
+		    if (m00 != 0.0 || m11 != 0.0) {
+			    this.state = state | APPLY_SCALE;
+		    }
+		    this.type = TYPE_UNKNOWN;
+		    return;
+	    }
+	    case (APPLY_SCALE | APPLY_TRANSLATE), (APPLY_SCALE) -> {
+		    m01 = m00 * shx;
+		    m10 = m11 * shy;
+		    if (m01 != 0.0 || m10 != 0.0) {
+			    this.state = state | APPLY_SHEAR;
+		    }
+		    this.type = TYPE_UNKNOWN;
+		    return;
+	    }
+	    case (APPLY_TRANSLATE), (APPLY_IDENTITY) -> {
+		    m01 = shx;
+		    m10 = shy;
+		    if (m01 != 0.0 || m10 != 0.0) {
+			    this.state = state | APPLY_SCALE | APPLY_SHEAR;
+			    this.type = TYPE_UNKNOWN;
+		    }
+		    return;
+	    }
+	    }
     }
 
     /**
@@ -1949,48 +1958,48 @@ public class AffineTransform implements GAffineTransform {
      * @since 1.6
      */
     public void setToQuadrantRotation(int numquadrants) {
-        switch (numquadrants & 3) {
-        case 0:
-            m00 =  1.0;
-            m10 =  0.0;
-            m01 =  0.0;
-            m11 =  1.0;
-            m02 =  0.0;
-            m12 =  0.0;
-            state = APPLY_IDENTITY;
-            type = TYPE_IDENTITY;
-            break;
-        case 1:
-            m00 =  0.0;
-            m10 =  1.0;
-            m01 = -1.0;
-            m11 =  0.0;
-            m02 =  0.0;
-            m12 =  0.0;
-            state = APPLY_SHEAR;
-            type = TYPE_QUADRANT_ROTATION;
-            break;
-        case 2:
-            m00 = -1.0;
-            m10 =  0.0;
-            m01 =  0.0;
-            m11 = -1.0;
-            m02 =  0.0;
-            m12 =  0.0;
-            state = APPLY_SCALE;
-            type = TYPE_QUADRANT_ROTATION;
-            break;
-        case 3:
-            m00 =  0.0;
-            m10 = -1.0;
-            m01 =  1.0;
-            m11 =  0.0;
-            m02 =  0.0;
-            m12 =  0.0;
-            state = APPLY_SHEAR;
-            type = TYPE_QUADRANT_ROTATION;
-            break;
-        }
+	    switch (numquadrants & 3) {
+	    case 0 -> {
+		    m00 = 1.0;
+		    m10 = 0.0;
+		    m01 = 0.0;
+		    m11 = 1.0;
+		    m02 = 0.0;
+		    m12 = 0.0;
+		    state = APPLY_IDENTITY;
+		    type = TYPE_IDENTITY;
+	    }
+	    case 1 -> {
+		    m00 = 0.0;
+		    m10 = 1.0;
+		    m01 = -1.0;
+		    m11 = 0.0;
+		    m02 = 0.0;
+		    m12 = 0.0;
+		    state = APPLY_SHEAR;
+		    type = TYPE_QUADRANT_ROTATION;
+	    }
+	    case 2 -> {
+		    m00 = -1.0;
+		    m10 = 0.0;
+		    m01 = 0.0;
+		    m11 = -1.0;
+		    m02 = 0.0;
+		    m12 = 0.0;
+		    state = APPLY_SCALE;
+		    type = TYPE_QUADRANT_ROTATION;
+	    }
+	    case 3 -> {
+		    m00 = 0.0;
+		    m10 = -1.0;
+		    m01 = 1.0;
+		    m11 = 0.0;
+		    m02 = 0.0;
+		    m12 = 0.0;
+		    state = APPLY_SHEAR;
+		    type = TYPE_QUADRANT_ROTATION;
+	    }
+	    }
     }
 
     /**
@@ -2012,63 +2021,63 @@ public class AffineTransform implements GAffineTransform {
     public void setToQuadrantRotation(int numquadrants,
                                       double anchorx, double anchory)
     {
-        switch (numquadrants & 3) {
-        case 0:
-            m00 =  1.0;
-            m10 =  0.0;
-            m01 =  0.0;
-            m11 =  1.0;
-            m02 =  0.0;
-            m12 =  0.0;
-            state = APPLY_IDENTITY;
-            type = TYPE_IDENTITY;
-            break;
-        case 1:
-            m00 =  0.0;
-            m10 =  1.0;
-            m01 = -1.0;
-            m11 =  0.0;
-            m02 =  anchorx + anchory;
-            m12 =  anchory - anchorx;
-            if (m02 == 0.0 && m12 == 0.0) {
-                state = APPLY_SHEAR;
-                type = TYPE_QUADRANT_ROTATION;
-            } else {
-                state = APPLY_SHEAR | APPLY_TRANSLATE;
-                type = TYPE_QUADRANT_ROTATION | TYPE_TRANSLATION;
-            }
-            break;
-        case 2:
-            m00 = -1.0;
-            m10 =  0.0;
-            m01 =  0.0;
-            m11 = -1.0;
-            m02 =  anchorx + anchorx;
-            m12 =  anchory + anchory;
-            if (m02 == 0.0 && m12 == 0.0) {
-                state = APPLY_SCALE;
-                type = TYPE_QUADRANT_ROTATION;
-            } else {
-                state = APPLY_SCALE | APPLY_TRANSLATE;
-                type = TYPE_QUADRANT_ROTATION | TYPE_TRANSLATION;
-            }
-            break;
-        case 3:
-            m00 =  0.0;
-            m10 = -1.0;
-            m01 =  1.0;
-            m11 =  0.0;
-            m02 =  anchorx - anchory;
-            m12 =  anchory + anchorx;
-            if (m02 == 0.0 && m12 == 0.0) {
-                state = APPLY_SHEAR;
-                type = TYPE_QUADRANT_ROTATION;
-            } else {
-                state = APPLY_SHEAR | APPLY_TRANSLATE;
-                type = TYPE_QUADRANT_ROTATION | TYPE_TRANSLATION;
-            }
-            break;
-        }
+	    switch (numquadrants & 3) {
+	    case 0 -> {
+		    m00 = 1.0;
+		    m10 = 0.0;
+		    m01 = 0.0;
+		    m11 = 1.0;
+		    m02 = 0.0;
+		    m12 = 0.0;
+		    state = APPLY_IDENTITY;
+		    type = TYPE_IDENTITY;
+	    }
+	    case 1 -> {
+		    m00 = 0.0;
+		    m10 = 1.0;
+		    m01 = -1.0;
+		    m11 = 0.0;
+		    m02 = anchorx + anchory;
+		    m12 = anchory - anchorx;
+		    if (m02 == 0.0 && m12 == 0.0) {
+			    state = APPLY_SHEAR;
+			    type = TYPE_QUADRANT_ROTATION;
+		    } else {
+			    state = APPLY_SHEAR | APPLY_TRANSLATE;
+			    type = TYPE_QUADRANT_ROTATION | TYPE_TRANSLATION;
+		    }
+	    }
+	    case 2 -> {
+		    m00 = -1.0;
+		    m10 = 0.0;
+		    m01 = 0.0;
+		    m11 = -1.0;
+		    m02 = anchorx + anchorx;
+		    m12 = anchory + anchory;
+		    if (m02 == 0.0 && m12 == 0.0) {
+			    state = APPLY_SCALE;
+			    type = TYPE_QUADRANT_ROTATION;
+		    } else {
+			    state = APPLY_SCALE | APPLY_TRANSLATE;
+			    type = TYPE_QUADRANT_ROTATION | TYPE_TRANSLATION;
+		    }
+	    }
+	    case 3 -> {
+		    m00 = 0.0;
+		    m10 = -1.0;
+		    m01 = 1.0;
+		    m11 = 0.0;
+		    m02 = anchorx - anchory;
+		    m12 = anchory + anchorx;
+		    if (m02 == 0.0 && m12 == 0.0) {
+			    state = APPLY_SHEAR;
+			    type = TYPE_QUADRANT_ROTATION;
+		    } else {
+			    state = APPLY_SHEAR | APPLY_TRANSLATE;
+			    type = TYPE_QUADRANT_ROTATION | TYPE_TRANSLATION;
+		    }
+	    }
+	    }
     }
 
     /**
@@ -2863,37 +2872,46 @@ public class AffineTransform implements GAffineTransform {
         // Copy source coords into local variables in case src == dst
         double x = ptSrc.getX();
         double y = ptSrc.getY();
-        switch (state) {
-        default:
-            stateError();
-            /* NOTREACHED */
-            return null;
-        case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
-            ptDst.setLocation(x * m00 + y * m01 + m02,
-                              x * m10 + y * m11 + m12);
-            return ptDst;
-        case (APPLY_SHEAR | APPLY_SCALE):
-            ptDst.setLocation(x * m00 + y * m01, x * m10 + y * m11);
-            return ptDst;
-        case (APPLY_SHEAR | APPLY_TRANSLATE):
-            ptDst.setLocation(y * m01 + m02, x * m10 + m12);
-            return ptDst;
-        case (APPLY_SHEAR):
-            ptDst.setLocation(y * m01, x * m10);
-            return ptDst;
-        case (APPLY_SCALE | APPLY_TRANSLATE):
-            ptDst.setLocation(x * m00 + m02, y * m11 + m12);
-            return ptDst;
-        case (APPLY_SCALE):
-            ptDst.setLocation(x * m00, y * m11);
-            return ptDst;
-        case (APPLY_TRANSLATE):
-            ptDst.setLocation(x + m02, y + m12);
-            return ptDst;
-        case (APPLY_IDENTITY):
-            ptDst.setLocation(x, y);
-            return ptDst;
-        }
+	    switch (state) {
+	    default -> {
+		    stateError();
+		    /* NOTREACHED */
+		    return null;
+	    }
+	    case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE) -> {
+		    ptDst.setLocation(x * m00 + y * m01 + m02,
+				    x * m10 + y * m11 + m12);
+		    return ptDst;
+	    }
+	    case (APPLY_SHEAR | APPLY_SCALE) -> {
+		    ptDst.setLocation(x * m00 + y * m01, x * m10 + y * m11);
+		    return ptDst;
+	    }
+	    case (APPLY_SHEAR | APPLY_TRANSLATE) -> {
+		    ptDst.setLocation(y * m01 + m02, x * m10 + m12);
+		    return ptDst;
+	    }
+	    case (APPLY_SHEAR) -> {
+		    ptDst.setLocation(y * m01, x * m10);
+		    return ptDst;
+	    }
+	    case (APPLY_SCALE | APPLY_TRANSLATE) -> {
+		    ptDst.setLocation(x * m00 + m02, y * m11 + m12);
+		    return ptDst;
+	    }
+	    case (APPLY_SCALE) -> {
+		    ptDst.setLocation(x * m00, y * m11);
+		    return ptDst;
+	    }
+	    case (APPLY_TRANSLATE) -> {
+		    ptDst.setLocation(x + m02, y + m12);
+		    return ptDst;
+	    }
+	    case (APPLY_IDENTITY) -> {
+		    ptDst.setLocation(x, y);
+		    return ptDst;
+	    }
+	    }
 
         /* NOTREACHED */
     }
@@ -2943,37 +2961,24 @@ public class AffineTransform implements GAffineTransform {
                 dst = new GPoint2D();
                 ptDst[dstOff - 1] = dst;
             }
-            switch (state) {
-            default:
-                stateError();
-                /* NOTREACHED */
-                return;
-            case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
-                dst.setLocation(x * m00 + y * m01 + m02,
-                                x * m10 + y * m11 + m12);
-                break;
-            case (APPLY_SHEAR | APPLY_SCALE):
-                dst.setLocation(x * m00 + y * m01, x * m10 + y * m11);
-                break;
-            case (APPLY_SHEAR | APPLY_TRANSLATE):
-                dst.setLocation(y * m01 + m02, x * m10 + m12);
-                break;
-            case (APPLY_SHEAR):
-                dst.setLocation(y * m01, x * m10);
-                break;
-            case (APPLY_SCALE | APPLY_TRANSLATE):
-                dst.setLocation(x * m00 + m02, y * m11 + m12);
-                break;
-            case (APPLY_SCALE):
-                dst.setLocation(x * m00, y * m11);
-                break;
-            case (APPLY_TRANSLATE):
-                dst.setLocation(x + m02, y + m12);
-                break;
-            case (APPLY_IDENTITY):
-                dst.setLocation(x, y);
-                break;
-            }
+	        switch (state) {
+	        default -> {
+		        stateError();
+		        /* NOTREACHED */
+		        return;
+	        }
+	        case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE) ->
+			        dst.setLocation(x * m00 + y * m01 + m02,
+					        x * m10 + y * m11 + m12);
+	        case (APPLY_SHEAR | APPLY_SCALE) ->
+			        dst.setLocation(x * m00 + y * m01, x * m10 + y * m11);
+	        case (APPLY_SHEAR | APPLY_TRANSLATE) -> dst.setLocation(y * m01 + m02, x * m10 + m12);
+	        case (APPLY_SHEAR) -> dst.setLocation(y * m01, x * m10);
+	        case (APPLY_SCALE | APPLY_TRANSLATE) -> dst.setLocation(x * m00 + m02, y * m11 + m12);
+	        case (APPLY_SCALE) -> dst.setLocation(x * m00, y * m11);
+	        case (APPLY_TRANSLATE) -> dst.setLocation(x + m02, y + m12);
+	        case (APPLY_IDENTITY) -> dst.setLocation(x, y);
+	        }
         }
 
         /* NOTREACHED */
@@ -3020,77 +3025,99 @@ public class AffineTransform implements GAffineTransform {
             // srcPts = dstPts;         // They are known to be equal.
             srcOff = dstOff;
         }
-        switch (state) {
-        default:
-            stateError();
-            /* NOTREACHED */
-            return;
-        case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
-            M00 = m00; M01 = m01; M02 = m02;
-            M10 = m10; M11 = m11; M12 = m12;
-            while (--numPts >= 0) {
-                double x = srcPts[srcOff++];
-                double y = srcPts[srcOff++];
-                dstPts[dstOff++] = M00 * x + M01 * y + M02;
-                dstPts[dstOff++] = M10 * x + M11 * y + M12;
-            }
-            return;
-        case (APPLY_SHEAR | APPLY_SCALE):
-            M00 = m00; M01 = m01;
-            M10 = m10; M11 = m11;
-            while (--numPts >= 0) {
-                double x = srcPts[srcOff++];
-                double y = srcPts[srcOff++];
-                dstPts[dstOff++] = M00 * x + M01 * y;
-                dstPts[dstOff++] = M10 * x + M11 * y;
-            }
-            return;
-        case (APPLY_SHEAR | APPLY_TRANSLATE):
-            M01 = m01; M02 = m02;
-            M10 = m10; M12 = m12;
-            while (--numPts >= 0) {
-                double x = srcPts[srcOff++];
-                dstPts[dstOff++] = M01 * srcPts[srcOff++] + M02;
-                dstPts[dstOff++] = M10 * x + M12;
-            }
-            return;
-        case (APPLY_SHEAR):
-            M01 = m01; M10 = m10;
-            while (--numPts >= 0) {
-                double x = srcPts[srcOff++];
-                dstPts[dstOff++] = M01 * srcPts[srcOff++];
-                dstPts[dstOff++] = M10 * x;
-            }
-            return;
-        case (APPLY_SCALE | APPLY_TRANSLATE):
-            M00 = m00; M02 = m02;
-            M11 = m11; M12 = m12;
-            while (--numPts >= 0) {
-                dstPts[dstOff++] = M00 * srcPts[srcOff++] + M02;
-                dstPts[dstOff++] = M11 * srcPts[srcOff++] + M12;
-            }
-            return;
-        case (APPLY_SCALE):
-            M00 = m00; M11 = m11;
-            while (--numPts >= 0) {
-                dstPts[dstOff++] = M00 * srcPts[srcOff++];
-                dstPts[dstOff++] = M11 * srcPts[srcOff++];
-            }
-            return;
-        case (APPLY_TRANSLATE):
-            M02 = m02; M12 = m12;
-            while (--numPts >= 0) {
-                dstPts[dstOff++] = srcPts[srcOff++] + M02;
-                dstPts[dstOff++] = srcPts[srcOff++] + M12;
-            }
-            return;
-        case (APPLY_IDENTITY):
-            if (srcPts != dstPts || srcOff != dstOff) {
-                System.arraycopy(srcPts, srcOff, dstPts, dstOff,
-                                 numPts * 2);
-            }
-            return;
-        }
+	    switch (state) {
+	    default -> {
+		    stateError();
+		    /* NOTREACHED */
+		    return;
+	    }
+	    case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE) -> {
+		    M00 = m00;
+		    M01 = m01;
+		    M02 = m02;
+		    M10 = m10;
+		    M11 = m11;
+		    M12 = m12;
+		    while (--numPts >= 0) {
+			    double x = srcPts[srcOff++];
+			    double y = srcPts[srcOff++];
+			    dstPts[dstOff++] = M00 * x + M01 * y + M02;
+			    dstPts[dstOff++] = M10 * x + M11 * y + M12;
+		    }
+		    return;
+	    }
+	    case (APPLY_SHEAR | APPLY_SCALE) -> {
+		    M00 = m00;
+		    M01 = m01;
+		    M10 = m10;
+		    M11 = m11;
+		    while (--numPts >= 0) {
+			    double x = srcPts[srcOff++];
+			    double y = srcPts[srcOff++];
+			    dstPts[dstOff++] = M00 * x + M01 * y;
+			    dstPts[dstOff++] = M10 * x + M11 * y;
+		    }
+		    return;
+	    }
+	    case (APPLY_SHEAR | APPLY_TRANSLATE) -> {
+		    M01 = m01;
+		    M02 = m02;
+		    M10 = m10;
+		    M12 = m12;
+		    while (--numPts >= 0) {
+			    double x = srcPts[srcOff++];
+			    dstPts[dstOff++] = M01 * srcPts[srcOff++] + M02;
+			    dstPts[dstOff++] = M10 * x + M12;
+		    }
+		    return;
+	    }
+	    case (APPLY_SHEAR) -> {
+		    M01 = m01;
+		    M10 = m10;
+		    while (--numPts >= 0) {
+			    double x = srcPts[srcOff++];
+			    dstPts[dstOff++] = M01 * srcPts[srcOff++];
+			    dstPts[dstOff++] = M10 * x;
+		    }
+		    return;
+	    }
+	    case (APPLY_SCALE | APPLY_TRANSLATE) -> {
+		    M00 = m00;
+		    M02 = m02;
+		    M11 = m11;
+		    M12 = m12;
+		    while (--numPts >= 0) {
+			    dstPts[dstOff++] = M00 * srcPts[srcOff++] + M02;
+			    dstPts[dstOff++] = M11 * srcPts[srcOff++] + M12;
+		    }
+		    return;
+	    }
+	    case (APPLY_SCALE) -> {
+		    M00 = m00;
+		    M11 = m11;
+		    while (--numPts >= 0) {
+			    dstPts[dstOff++] = M00 * srcPts[srcOff++];
+			    dstPts[dstOff++] = M11 * srcPts[srcOff++];
+		    }
+		    return;
+	    }
+	    case (APPLY_TRANSLATE) -> {
+		    M02 = m02;
+		    M12 = m12;
+		    while (--numPts >= 0) {
+			    dstPts[dstOff++] = srcPts[srcOff++] + M02;
+			    dstPts[dstOff++] = srcPts[srcOff++] + M12;
+		    }
+		    return;
+	    }
+	    case (APPLY_IDENTITY) -> {
+		    if (srcPts != dstPts || srcOff != dstOff) {
+			    System.arraycopy(srcPts, srcOff, dstPts, dstOff,
+					    numPts * 2);
+		    }
+		    return;
+	    }
+	    }
 
         /* NOTREACHED */
     }
@@ -3218,99 +3245,121 @@ public class AffineTransform implements GAffineTransform {
             // srcPts = dstPts;         // They are known to be equal.
             srcOff = dstOff;
         }
-        switch (state) {
-        default:
-            stateError();
-            /* NOTREACHED */
-            return;
-        case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
-            M00 = m00; M01 = m01; M02 = m02;
-            M10 = m10; M11 = m11; M12 = m12;
-            det = M00 * M11 - M01 * M10;
-            if (Math.abs(det) <= Double.MIN_VALUE) {
-                throw new NoninvertibleTransformException("Determinant is "+
-                                                          det);
-            }
-            while (--numPts >= 0) {
-                double x = srcPts[srcOff++] - M02;
-                double y = srcPts[srcOff++] - M12;
-                dstPts[dstOff++] = (x * M11 - y * M01) / det;
-                dstPts[dstOff++] = (y * M00 - x * M10) / det;
-            }
-            return;
-        case (APPLY_SHEAR | APPLY_SCALE):
-            M00 = m00; M01 = m01;
-            M10 = m10; M11 = m11;
-            det = M00 * M11 - M01 * M10;
-            if (Math.abs(det) <= Double.MIN_VALUE) {
-                throw new NoninvertibleTransformException("Determinant is "+
-                                                          det);
-            }
-            while (--numPts >= 0) {
-                double x = srcPts[srcOff++];
-                double y = srcPts[srcOff++];
-                dstPts[dstOff++] = (x * M11 - y * M01) / det;
-                dstPts[dstOff++] = (y * M00 - x * M10) / det;
-            }
-            return;
-        case (APPLY_SHEAR | APPLY_TRANSLATE):
-            M01 = m01; M02 = m02;
-            M10 = m10; M12 = m12;
-            if (M01 == 0.0 || M10 == 0.0) {
-                throw new NoninvertibleTransformException("Determinant is 0");
-            }
-            while (--numPts >= 0) {
-                double x = srcPts[srcOff++] - M02;
-                dstPts[dstOff++] = (srcPts[srcOff++] - M12) / M10;
-                dstPts[dstOff++] = x / M01;
-            }
-            return;
-        case (APPLY_SHEAR):
-            M01 = m01; M10 = m10;
-            if (M01 == 0.0 || M10 == 0.0) {
-                throw new NoninvertibleTransformException("Determinant is 0");
-            }
-            while (--numPts >= 0) {
-                double x = srcPts[srcOff++];
-                dstPts[dstOff++] = srcPts[srcOff++] / M10;
-                dstPts[dstOff++] = x / M01;
-            }
-            return;
-        case (APPLY_SCALE | APPLY_TRANSLATE):
-            M00 = m00; M02 = m02;
-            M11 = m11; M12 = m12;
-            if (M00 == 0.0 || M11 == 0.0) {
-                throw new NoninvertibleTransformException("Determinant is 0");
-            }
-            while (--numPts >= 0) {
-                dstPts[dstOff++] = (srcPts[srcOff++] - M02) / M00;
-                dstPts[dstOff++] = (srcPts[srcOff++] - M12) / M11;
-            }
-            return;
-        case (APPLY_SCALE):
-            M00 = m00; M11 = m11;
-            if (M00 == 0.0 || M11 == 0.0) {
-                throw new NoninvertibleTransformException("Determinant is 0");
-            }
-            while (--numPts >= 0) {
-                dstPts[dstOff++] = srcPts[srcOff++] / M00;
-                dstPts[dstOff++] = srcPts[srcOff++] / M11;
-            }
-            return;
-        case (APPLY_TRANSLATE):
-            M02 = m02; M12 = m12;
-            while (--numPts >= 0) {
-                dstPts[dstOff++] = srcPts[srcOff++] - M02;
-                dstPts[dstOff++] = srcPts[srcOff++] - M12;
-            }
-            return;
-        case (APPLY_IDENTITY):
-            if (srcPts != dstPts || srcOff != dstOff) {
-                System.arraycopy(srcPts, srcOff, dstPts, dstOff,
-                                 numPts * 2);
-            }
-            return;
-        }
+	    switch (state) {
+	    default -> {
+		    stateError();
+		    /* NOTREACHED */
+		    return;
+	    }
+	    case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE) -> {
+		    M00 = m00;
+		    M01 = m01;
+		    M02 = m02;
+		    M10 = m10;
+		    M11 = m11;
+		    M12 = m12;
+		    det = M00 * M11 - M01 * M10;
+		    if (Math.abs(det) <= Double.MIN_VALUE) {
+			    throw new NoninvertibleTransformException("Determinant is " +
+					    det);
+		    }
+		    while (--numPts >= 0) {
+			    double x = srcPts[srcOff++] - M02;
+			    double y = srcPts[srcOff++] - M12;
+			    dstPts[dstOff++] = (x * M11 - y * M01) / det;
+			    dstPts[dstOff++] = (y * M00 - x * M10) / det;
+		    }
+		    return;
+	    }
+	    case (APPLY_SHEAR | APPLY_SCALE) -> {
+		    M00 = m00;
+		    M01 = m01;
+		    M10 = m10;
+		    M11 = m11;
+		    det = M00 * M11 - M01 * M10;
+		    if (Math.abs(det) <= Double.MIN_VALUE) {
+			    throw new NoninvertibleTransformException("Determinant is " +
+					    det);
+		    }
+		    while (--numPts >= 0) {
+			    double x = srcPts[srcOff++];
+			    double y = srcPts[srcOff++];
+			    dstPts[dstOff++] = (x * M11 - y * M01) / det;
+			    dstPts[dstOff++] = (y * M00 - x * M10) / det;
+		    }
+		    return;
+	    }
+	    case (APPLY_SHEAR | APPLY_TRANSLATE) -> {
+		    M01 = m01;
+		    M02 = m02;
+		    M10 = m10;
+		    M12 = m12;
+		    if (M01 == 0.0 || M10 == 0.0) {
+			    throw new NoninvertibleTransformException("Determinant is 0");
+		    }
+		    while (--numPts >= 0) {
+			    double x = srcPts[srcOff++] - M02;
+			    dstPts[dstOff++] = (srcPts[srcOff++] - M12) / M10;
+			    dstPts[dstOff++] = x / M01;
+		    }
+		    return;
+	    }
+	    case (APPLY_SHEAR) -> {
+		    M01 = m01;
+		    M10 = m10;
+		    if (M01 == 0.0 || M10 == 0.0) {
+			    throw new NoninvertibleTransformException("Determinant is 0");
+		    }
+		    while (--numPts >= 0) {
+			    double x = srcPts[srcOff++];
+			    dstPts[dstOff++] = srcPts[srcOff++] / M10;
+			    dstPts[dstOff++] = x / M01;
+		    }
+		    return;
+	    }
+	    case (APPLY_SCALE | APPLY_TRANSLATE) -> {
+		    M00 = m00;
+		    M02 = m02;
+		    M11 = m11;
+		    M12 = m12;
+		    if (M00 == 0.0 || M11 == 0.0) {
+			    throw new NoninvertibleTransformException("Determinant is 0");
+		    }
+		    while (--numPts >= 0) {
+			    dstPts[dstOff++] = (srcPts[srcOff++] - M02) / M00;
+			    dstPts[dstOff++] = (srcPts[srcOff++] - M12) / M11;
+		    }
+		    return;
+	    }
+	    case (APPLY_SCALE) -> {
+		    M00 = m00;
+		    M11 = m11;
+		    if (M00 == 0.0 || M11 == 0.0) {
+			    throw new NoninvertibleTransformException("Determinant is 0");
+		    }
+		    while (--numPts >= 0) {
+			    dstPts[dstOff++] = srcPts[srcOff++] / M00;
+			    dstPts[dstOff++] = srcPts[srcOff++] / M11;
+		    }
+		    return;
+	    }
+	    case (APPLY_TRANSLATE) -> {
+		    M02 = m02;
+		    M12 = m12;
+		    while (--numPts >= 0) {
+			    dstPts[dstOff++] = srcPts[srcOff++] - M02;
+			    dstPts[dstOff++] = srcPts[srcOff++] - M12;
+		    }
+		    return;
+	    }
+	    case (APPLY_IDENTITY) -> {
+		    if (srcPts != dstPts || srcOff != dstOff) {
+			    System.arraycopy(srcPts, srcOff, dstPts, dstOff,
+					    numPts * 2);
+		    }
+		    return;
+	    }
+	    }
 
         /* NOTREACHED */
     }
@@ -3347,28 +3396,29 @@ public class AffineTransform implements GAffineTransform {
         // Copy source coords into local variables in case src == dst
         double x = ptSrc.getX();
         double y = ptSrc.getY();
-        switch (state) {
-        default:
-            stateError();
-            /* NOTREACHED */
-            return null;
-        case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
-        case (APPLY_SHEAR | APPLY_SCALE):
-            ptDst.setLocation(x * m00 + y * m01, x * m10 + y * m11);
-            return ptDst;
-        case (APPLY_SHEAR | APPLY_TRANSLATE):
-        case (APPLY_SHEAR):
-            ptDst.setLocation(y * m01, x * m10);
-            return ptDst;
-        case (APPLY_SCALE | APPLY_TRANSLATE):
-        case (APPLY_SCALE):
-            ptDst.setLocation(x * m00, y * m11);
-            return ptDst;
-        case (APPLY_TRANSLATE):
-        case (APPLY_IDENTITY):
-            ptDst.setLocation(x, y);
-            return ptDst;
-        }
+	    switch (state) {
+	    default -> {
+		    stateError();
+		    /* NOTREACHED */
+		    return null;
+	    }
+	    case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE), (APPLY_SHEAR | APPLY_SCALE) -> {
+		    ptDst.setLocation(x * m00 + y * m01, x * m10 + y * m11);
+		    return ptDst;
+	    }
+	    case (APPLY_SHEAR | APPLY_TRANSLATE), (APPLY_SHEAR) -> {
+		    ptDst.setLocation(y * m01, x * m10);
+		    return ptDst;
+	    }
+	    case (APPLY_SCALE | APPLY_TRANSLATE), (APPLY_SCALE) -> {
+		    ptDst.setLocation(x * m00, y * m11);
+		    return ptDst;
+	    }
+	    case (APPLY_TRANSLATE), (APPLY_IDENTITY) -> {
+		    ptDst.setLocation(x, y);
+		    return ptDst;
+	    }
+	    }
 
         /* NOTREACHED */
     }
@@ -3423,47 +3473,52 @@ public class AffineTransform implements GAffineTransform {
             // srcPts = dstPts;         // They are known to be equal.
             srcOff = dstOff;
         }
-        switch (state) {
-        default:
-            stateError();
-            /* NOTREACHED */
-            return;
-        case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
-        case (APPLY_SHEAR | APPLY_SCALE):
-            M00 = m00; M01 = m01;
-            M10 = m10; M11 = m11;
-            while (--numPts >= 0) {
-                double x = srcPts[srcOff++];
-                double y = srcPts[srcOff++];
-                dstPts[dstOff++] = x * M00 + y * M01;
-                dstPts[dstOff++] = x * M10 + y * M11;
-            }
-            return;
-        case (APPLY_SHEAR | APPLY_TRANSLATE):
-        case (APPLY_SHEAR):
-            M01 = m01; M10 = m10;
-            while (--numPts >= 0) {
-                double x = srcPts[srcOff++];
-                dstPts[dstOff++] = srcPts[srcOff++] * M01;
-                dstPts[dstOff++] = x * M10;
-            }
-            return;
-        case (APPLY_SCALE | APPLY_TRANSLATE):
-        case (APPLY_SCALE):
-            M00 = m00; M11 = m11;
-            while (--numPts >= 0) {
-                dstPts[dstOff++] = srcPts[srcOff++] * M00;
-                dstPts[dstOff++] = srcPts[srcOff++] * M11;
-            }
-            return;
-        case (APPLY_TRANSLATE):
-        case (APPLY_IDENTITY):
-            if (srcPts != dstPts || srcOff != dstOff) {
-                System.arraycopy(srcPts, srcOff, dstPts, dstOff,
-                                 numPts * 2);
-            }
-            return;
-        }
+	    switch (state) {
+	    default -> {
+		    stateError();
+		    /* NOTREACHED */
+		    return;
+	    }
+	    case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE), (APPLY_SHEAR | APPLY_SCALE) -> {
+		    M00 = m00;
+		    M01 = m01;
+		    M10 = m10;
+		    M11 = m11;
+		    while (--numPts >= 0) {
+			    double x = srcPts[srcOff++];
+			    double y = srcPts[srcOff++];
+			    dstPts[dstOff++] = x * M00 + y * M01;
+			    dstPts[dstOff++] = x * M10 + y * M11;
+		    }
+		    return;
+	    }
+	    case (APPLY_SHEAR | APPLY_TRANSLATE), (APPLY_SHEAR) -> {
+		    M01 = m01;
+		    M10 = m10;
+		    while (--numPts >= 0) {
+			    double x = srcPts[srcOff++];
+			    dstPts[dstOff++] = srcPts[srcOff++] * M01;
+			    dstPts[dstOff++] = x * M10;
+		    }
+		    return;
+	    }
+	    case (APPLY_SCALE | APPLY_TRANSLATE), (APPLY_SCALE) -> {
+		    M00 = m00;
+		    M11 = m11;
+		    while (--numPts >= 0) {
+			    dstPts[dstOff++] = srcPts[srcOff++] * M00;
+			    dstPts[dstOff++] = srcPts[srcOff++] * M11;
+		    }
+		    return;
+	    }
+	    case (APPLY_TRANSLATE), (APPLY_IDENTITY) -> {
+		    if (srcPts != dstPts || srcOff != dstOff) {
+			    System.arraycopy(srcPts, srcOff, dstPts, dstOff,
+					    numPts * 2);
+		    }
+		    return;
+	    }
+	    }
 
         /* NOTREACHED */
     }
@@ -3560,13 +3615,11 @@ public class AffineTransform implements GAffineTransform {
      */
     @Override
 	public boolean equals(Object obj) {
-        if (!(obj instanceof AffineTransform)) {
+        if (!(obj instanceof AffineTransform a)) {
             return false;
         }
 
-        AffineTransform a = (AffineTransform)obj;
-
-        return ((m00 == a.m00) && (m01 == a.m01) && (m02 == a.m02) &&
+	    return ((m00 == a.m00) && (m01 == a.m01) && (m02 == a.m02) &&
                 (m10 == a.m10) && (m11 == a.m11) && (m12 == a.m12));
     }
 

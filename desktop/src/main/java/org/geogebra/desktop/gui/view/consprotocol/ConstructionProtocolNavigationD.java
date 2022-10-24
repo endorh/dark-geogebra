@@ -23,7 +23,6 @@ import java.util.Locale;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -32,8 +31,6 @@ import javax.swing.JSpinner.NumberEditor;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.Timer;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
@@ -134,9 +131,9 @@ public class ConstructionProtocolNavigationD
 		playDelay = delay;
 
 		try {
-			spDelay.setValue(Double.valueOf(playDelay));
+			spDelay.setValue(playDelay);
 		} catch (Exception e) {
-			spDelay.setValue(Integer.valueOf((int) Math.round(playDelay)));
+			spDelay.setValue((int) Math.round(playDelay));
 
 		}
 	}
@@ -177,15 +174,12 @@ public class ConstructionProtocolNavigationD
 		btPlay.setIcon(ImageManagerD.createIcon(appD.getPlayImage()));
 		btPlay.addActionListener(this);
 
-		spDelay.addChangeListener(new ChangeListener() {
-			@Override
-			public void stateChanged(ChangeEvent e) {
-				try {
-					playDelay = Double
-							.parseDouble(spDelay.getValue().toString());
-				} catch (Exception ex) {
-					playDelay = 2;
-				}
+		spDelay.addChangeListener(e -> {
+			try {
+				playDelay = Double
+						.parseDouble(spDelay.getValue().toString());
+			} catch (Exception ex) {
+				playDelay = 2;
 			}
 		});
 
@@ -196,21 +190,18 @@ public class ConstructionProtocolNavigationD
 		btOpenWindow = new JButton();
 		btOpenWindow.setIcon(appD
 				.getScaledIcon(GuiResourcesD.MENU_VIEW_CONSTRUCTION_PROTOCOL));
-		btOpenWindow.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// app.getGuiManager().showConstructionProtocol();
-				if (!appD.getGuiManager()
-						.showView(App.VIEW_CONSTRUCTION_PROTOCOL)) {
-					appD.getGuiManager().setShowView(true,
-							App.VIEW_CONSTRUCTION_PROTOCOL);
-				}
-
-				// Checkbox of Construction protocol view will be checked in
-				// view menu
-				((GeoGebraMenuBar) appD.getGuiManager().getMenuBar())
-						.updateCPView(true);
+		btOpenWindow.addActionListener(e -> {
+			// app.getGuiManager().showConstructionProtocol();
+			if (!appD.getGuiManager()
+					.showView(App.VIEW_CONSTRUCTION_PROTOCOL)) {
+				appD.getGuiManager().setShowView(true,
+						App.VIEW_CONSTRUCTION_PROTOCOL);
 			}
+
+			// Checkbox of Construction protocol view will be checked in
+			// view menu
+			((GeoGebraMenuBar) appD.getGuiManager().getMenuBar())
+					.updateCPView(true);
 		});
 		btOpenWindow.setVisible(isConsProtButtonVisible());
 
@@ -300,8 +291,8 @@ public class ConstructionProtocolNavigationD
 	 */
 	void setComponentsEnabled(boolean flag) {
 		Component comps[] = implPanel.getComponents();
-		for (int i = 0; i < comps.length; i++) {
-			comps[i].setEnabled(flag);
+		for (Component comp : comps) {
+			comp.setEnabled(flag);
 		}
 		btPlay.setEnabled(true);
 		lbSteps.setEnabled(true);

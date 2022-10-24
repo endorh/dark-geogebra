@@ -208,8 +208,8 @@ public class RegressionPanelD extends JPanel
 		cbRegression.removeActionListener(al);
 		cbRegression.removeAllItems();
 
-		for (int i = 0; i < regressionLabels.length; i++) {
-			cbRegression.addItem(regressionLabels[i]);
+		for (String regressionLabel : regressionLabels) {
+			cbRegression.addItem(regressionLabel);
 		}
 
 		cbRegression.setSelectedIndex(j);
@@ -340,8 +340,6 @@ public class RegressionPanelD extends JPanel
 
 				fldOutputY.setText(statDialog.format(output));
 
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

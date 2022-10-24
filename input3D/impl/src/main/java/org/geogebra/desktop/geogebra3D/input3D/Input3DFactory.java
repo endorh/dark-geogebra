@@ -49,18 +49,20 @@ public class Input3DFactory {
 		}
 
 		switch (type.charAt(0)) {
-		case 'r':
+		case 'r' -> {
 			if (type.equals(Input3DConstants.PREFS_REALSENSE)) {
 				// check for realsense
 				return new InputIntelRealsense3D(app);
 			}
 			return null;
-		case 'z':
+		}
+		case 'z' -> {
 			if (type.equals(Input3DConstants.PREFS_ZSPACE)) {
 				// check for zSpace
 				return new InputZSpace3D();
 			}
 			return null;
+		}
 		}
 
 		return null;

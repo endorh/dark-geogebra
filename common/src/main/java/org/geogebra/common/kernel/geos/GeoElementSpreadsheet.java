@@ -45,12 +45,12 @@ public class GeoElementSpreadsheet {
 	 */
 	public static String getSpreadsheetColumnName(int column) {
 		int i = column + 1;
-		String col = "";
+		StringBuilder col = new StringBuilder();
 		while (i > 0) {
-			col = (char) ('A' + (i - 1) % 26) + col;
+			col.insert(0, (char) ('A' + (i - 1) % 26));
 			i = (i - 1) / 26;
 		}
-		return col;
+		return col.toString();
 	}
 
 	/**

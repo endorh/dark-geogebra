@@ -1,7 +1,6 @@
 package org.geogebra.common.gui.view.table.column;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 
 import org.geogebra.common.gui.view.table.TableValuesCell;
@@ -156,9 +155,9 @@ abstract public class AbstractTableValuesColumn implements TableValuesColumn {
 	@Override
 	public void notifyRowsAdded(TableValuesModel model, int firstRow, int lastRow) {
 		if (lastRow > doubleValues.size()) {
-			Collection nullValues = Collections.nCopies(lastRow - doubleValues.size() + 1, null);
-			doubleValues.addAll(nullValues);
-			cells.addAll(nullValues);
+			int size = lastRow - doubleValues.size() + 1;
+			doubleValues.addAll(Collections.nCopies(size, null));
+			cells.addAll(Collections.nCopies(size, null));
 		} else {
 			doubleValues.add(lastRow, null);
 			cells.add(lastRow, null);

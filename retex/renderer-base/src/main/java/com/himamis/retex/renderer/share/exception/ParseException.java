@@ -109,15 +109,9 @@ public class ParseException extends JMathTeXException {
 			pre = "";
 			if (col < 4 /* arrow.length */) {
 				switch (col) {
-				case 1:
-					arrow = "^";
-					break;
-				case 2:
-					arrow = "~^";
-					break;
-				case 3:
-					arrow = "~~^";
-					break;
+				case 1 -> arrow = "^";
+				case 2 -> arrow = "~^";
+				case 3 -> arrow = "~~^";
 				}
 			}
 		} else {

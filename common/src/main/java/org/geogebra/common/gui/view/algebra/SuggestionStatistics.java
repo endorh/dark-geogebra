@@ -118,8 +118,7 @@ public class SuggestionStatistics extends Suggestion {
 		GeoElementND statGeoElement = geoElement instanceof GeoSymbolic
 				? ((GeoSymbolic) geoElement).getTwinGeo() : geoElement;
 
-		if (statGeoElement instanceof GeoList && ((GeoList) statGeoElement).size() > 0) {
-			GeoList geoList = (GeoList) statGeoElement;
+		if (statGeoElement instanceof GeoList geoList && ((GeoList) statGeoElement).size() > 0) {
 			return geoList.elements().allMatch(GeoElement::isGeoNumeric);
 		}
 		return false;

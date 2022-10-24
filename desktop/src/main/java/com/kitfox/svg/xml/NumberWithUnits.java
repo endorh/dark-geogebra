@@ -85,67 +85,57 @@ public class NumberWithUnits implements Serializable {
 		this.value = XMLParseUtil.findFloat(value);
 		unitType = UT_UNITLESS;
 
-		if (value.indexOf("px") != -1) {
+		if (value.contains("px")) {
 			unitType = UT_PX;
 			return;
 		}
-		if (value.indexOf("cm") != -1) {
+		if (value.contains("cm")) {
 			unitType = UT_CM;
 			return;
 		}
-		if (value.indexOf("mm") != -1) {
+		if (value.contains("mm")) {
 			unitType = UT_MM;
 			return;
 		}
-		if (value.indexOf("in") != -1) {
+		if (value.contains("in")) {
 			unitType = UT_IN;
 			return;
 		}
-		if (value.indexOf("em") != -1) {
+		if (value.contains("em")) {
 			unitType = UT_EM;
 			return;
 		}
-		if (value.indexOf("ex") != -1) {
+		if (value.contains("ex")) {
 			unitType = UT_EX;
 			return;
 		}
-		if (value.indexOf("pt") != -1) {
+		if (value.contains("pt")) {
 			unitType = UT_PT;
 			return;
 		}
-		if (value.indexOf("pc") != -1) {
+		if (value.contains("pc")) {
 			unitType = UT_PC;
 			return;
 		}
-		if (value.indexOf("%") != -1) {
+		if (value.contains("%")) {
 			unitType = UT_PERCENT;
 			return;
 		}
 	}
 
 	public static String unitsAsString(int unitIdx) {
-		switch (unitIdx) {
-		default:
-			return "";
-		case UT_PX:
-			return "px";
-		case UT_CM:
-			return "cm";
-		case UT_MM:
-			return "mm";
-		case UT_IN:
-			return "in";
-		case UT_EM:
-			return "em";
-		case UT_EX:
-			return "ex";
-		case UT_PT:
-			return "pt";
-		case UT_PC:
-			return "pc";
-		case UT_PERCENT:
-			return "%";
-		}
+		return switch (unitIdx) {
+			default -> "";
+			case UT_PX -> "px";
+			case UT_CM -> "cm";
+			case UT_MM -> "mm";
+			case UT_IN -> "in";
+			case UT_EM -> "em";
+			case UT_EX -> "ex";
+			case UT_PT -> "pt";
+			case UT_PC -> "pc";
+			case UT_PERCENT -> "%";
+		};
 	}
 
 	@Override

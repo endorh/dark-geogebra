@@ -43,15 +43,11 @@ public class AlgoDependentImplicitSurface extends AlgoElement3D {
 
 		switch (equ.preferredDegree()) {
 		// linear equation -> LINE
-		case 1:
-			geoElem = new GeoPlane3D(c);
-			break;
+		case 1 -> geoElem = new GeoPlane3D(c);
+
 		// quadratic equation -> CONIC
-		case 2:
-			geoElem = new GeoQuadric3D(c);
-			break;
-		default:
-			geoElem = new GeoImplicitSurface(c);
+		case 2 -> geoElem = new GeoQuadric3D(c);
+		default -> geoElem = new GeoImplicitSurface(c);
 		}
 
 		geoElem.setDefinition(equ.wrap());

@@ -290,9 +290,9 @@ public class OFFHandler {
 	private static String[] nonempty(String[] parseLine) {
 		String[] nonempty = new String[parseLine.length];
 		int j = 0;
-		for (int i = 0; i < parseLine.length; i++) {
-			if (parseLine[i].trim().length() > 0) {
-				nonempty[j++] = parseLine[i].trim();
+		for (String s : parseLine) {
+			if (s.trim().length() > 0) {
+				nonempty[j++] = s.trim();
 			}
 		}
 		return nonempty;

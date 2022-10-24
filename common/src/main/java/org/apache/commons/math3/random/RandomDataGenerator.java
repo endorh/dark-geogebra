@@ -171,22 +171,22 @@ public class RandomDataGenerator implements RandomData, Serializable {
         ran.nextBytes(randomBytes);
 
         // Convert each byte to 2 hex digits
-        for (int i = 0; i < randomBytes.length; i++) {
-            Integer c = Integer.valueOf(randomBytes[i]);
+	    for (byte randomByte : randomBytes) {
+		    Integer c = (int) randomByte;
 
-            /*
-             * Add 128 to byte value to make interval 0-255 before doing hex
-             * conversion. This guarantees <= 2 hex digits from toHexString()
-             * toHexString would otherwise add 2^32 to negative arguments.
-             */
-            String hex = Integer.toHexString(c.intValue() + 128);
+		    /*
+		     * Add 128 to byte value to make interval 0-255 before doing hex
+		     * conversion. This guarantees <= 2 hex digits from toHexString()
+		     * toHexString would otherwise add 2^32 to negative arguments.
+		     */
+		    String hex = Integer.toHexString(c + 128);
 
-            // Make sure we add 2 hex digits for each byte
-            if (hex.length() == 1) {
-                hex = "0" + hex;
-            }
-            outBuffer.append(hex);
-        }
+		    // Make sure we add 2 hex digits for each byte
+		    if (hex.length() == 1) {
+			    hex = "0" + hex;
+		    }
+		    outBuffer.append(hex);
+	    }
         return outBuffer.toString().substring(0, len);
     }
 

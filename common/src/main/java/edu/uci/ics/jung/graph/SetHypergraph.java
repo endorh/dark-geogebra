@@ -45,12 +45,7 @@ public class SetHypergraph<V, H>
 	 * @return a <code>Factory</code> which creates instances of this class
 	 */
 	public static <V, H> Factory<Hypergraph<V, H>> getFactory() {
-		return new Factory<Hypergraph<V, H>>() {
-			@Override
-			public Hypergraph<V, H> create() {
-				return new SetHypergraph<V, H>();
-			}
-		};
+		return SetHypergraph::new;
 	}
 
 	/**
@@ -58,8 +53,8 @@ public class SetHypergraph<V, H>
 	 * structures.
 	 */
 	public SetHypergraph() {
-		vertices = new HashMap<V, Set<H>>();
-		edges = new HashMap<H, Set<V>>();
+		vertices = new HashMap<>();
+		edges = new HashMap<>();
 	}
 
 	/**
@@ -87,7 +82,7 @@ public class SetHypergraph<V, H>
 					"cannot add an edge with a null endpoint");
 		}
 
-		Set<V> new_endpoints = new HashSet<V>(to_attach);
+		Set<V> new_endpoints = new HashSet<>(to_attach);
 		if (edges.containsKey(hyperedge)) {
 			Collection<V> attached = edges.get(hyperedge);
 			if (!attached.equals(new_endpoints)) {
@@ -168,7 +163,7 @@ public class SetHypergraph<V, H>
 			return null;
 		}
 
-		Set<V> neighbors = new HashSet<V>();
+		Set<V> neighbors = new HashSet<>();
 		for (H hyperedge : vertices.get(vertex)) {
 			neighbors.addAll(edges.get(hyperedge));
 		}
@@ -205,7 +200,7 @@ public class SetHypergraph<V, H>
 			return null;
 		}
 
-		Collection<H> edges1 = new ArrayList<H>();
+		Collection<H> edges1 = new ArrayList<>();
 		for (H h : getIncidentEdges(v1)) {
 			if (isIncident(v2, h)) {
 				edges1.add(h);
@@ -222,7 +217,7 @@ public class SetHypergraph<V, H>
 		if (containsVertex(vertex)) {
 			return false;
 		}
-		vertices.put(vertex, new HashSet<H>());
+		vertices.put(vertex, new HashSet<>());
 		return true;
 	}
 
@@ -366,6 +361,6 @@ public class SetHypergraph<V, H>
 
 	@Override
 	public SetHypergraph<V, H> newInstance() {
-		return new SetHypergraph<V, H>();
+		return new SetHypergraph<>();
 	}
 }

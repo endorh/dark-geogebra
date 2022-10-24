@@ -99,8 +99,8 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
                NotFiniteNumberException, NotANumberException {
         super(rng);
 
-        innerDistribution = new EnumeratedDistribution<Double>(
-                rng, createDistribution(singletons, probabilities));
+        innerDistribution = new EnumeratedDistribution<>(
+		        rng, createDistribution(singletons, probabilities));
     }
 
     /**
@@ -113,7 +113,7 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
      */
     public EnumeratedRealDistribution(final RandomGenerator rng, final double[] data) {
         super(rng);
-        final Map<Double, Integer> dataMap = new HashMap<Double, Integer>();
+        final Map<Double, Integer> dataMap = new HashMap<>();
         for (double value : data) {
             Integer count = dataMap.get(value);
             if (count == null) {
@@ -128,10 +128,11 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
         int index = 0;
         for (Entry<Double, Integer> entry : dataMap.entrySet()) {
             values[index] = entry.getKey();
-            probabilities[index] = entry.getValue().intValue() / denom;
+            probabilities[index] = entry.getValue() / denom;
             index++;
         }
-        innerDistribution = new EnumeratedDistribution<Double>(rng, createDistribution(values, probabilities));
+        innerDistribution =
+		        new EnumeratedDistribution<>(rng, createDistribution(values, probabilities));
     }
 
     /**
@@ -157,10 +158,10 @@ public class EnumeratedRealDistribution extends AbstractRealDistribution {
             throw new DimensionMismatchException(probabilities.length, singletons.length);
         }
 
-        final List<Pair<Double, Double>> samples = new ArrayList<Pair<Double, Double>>(singletons.length);
+        final List<Pair<Double, Double>> samples = new ArrayList<>(singletons.length);
 
         for (int i = 0; i < singletons.length; i++) {
-            samples.add(new Pair<Double, Double>(singletons[i], probabilities[i]));
+            samples.add(new Pair<>(singletons[i], probabilities[i]));
         }
         return samples;
 

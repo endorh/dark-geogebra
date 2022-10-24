@@ -53,10 +53,19 @@ public final class NativeJSON extends IdScriptableObject
             String name;
             int arity;
             switch (id) {
-              case Id_toSource:  arity = 0; name = "toSource";  break;
-              case Id_parse:     arity = 2; name = "parse";     break;
-              case Id_stringify: arity = 3; name = "stringify"; break;
-              default: throw new IllegalStateException(String.valueOf(id));
+            case Id_toSource -> {
+                arity = 0;
+                name = "toSource";
+            }
+            case Id_parse -> {
+                arity = 2;
+                name = "parse";
+            }
+            case Id_stringify -> {
+                arity = 3;
+                name = "stringify";
+            }
+            default -> throw new IllegalStateException(String.valueOf(id));
             }
             initPrototypeMethod(JSON_TAG, id, name, arity);
         } else {
@@ -132,8 +141,7 @@ public final class NativeJSON extends IdScriptableObject
             property = holder.get( ((String) name), holder);
         }
 
-        if (property instanceof Scriptable) {
-            Scriptable val = ((Scriptable) property);
+        if (property instanceof Scriptable val) {
             if (val instanceof NativeArray) {
                 long len = ((NativeArray) val).getLength();
                 for (long i = 0; i < len; i++) {
@@ -199,7 +207,7 @@ public final class NativeJSON extends IdScriptableObject
             this.space = space;
         }
 
-        Stack<Scriptable> stack = new Stack<Scriptable>();
+        Stack<Scriptable> stack = new Stack<>();
         String indent;
         String gap;
         Callable replacer;
@@ -221,10 +229,9 @@ public final class NativeJSON extends IdScriptableObject
 
         if (replacer instanceof Callable) {
           replacerFunction = (Callable) replacer;
-        } else if (replacer instanceof NativeArray) {
-          propertyList = new LinkedList<Object>();
-          NativeArray replacerArray = (NativeArray) replacer;
-          for (int i : replacerArray.getIndexIds()) {
+        } else if (replacer instanceof NativeArray replacerArray) {
+          propertyList = new LinkedList<>();
+            for (int i : replacerArray.getIndexIds()) {
             Object v = replacerArray.get(i, replacerArray);
             if (v instanceof String || v instanceof Number) {
               propertyList.add(v);
@@ -355,7 +362,7 @@ public final class NativeJSON extends IdScriptableObject
             k = value.getIds();
         }
 
-        List<Object> partial = new LinkedList<Object>();
+        List<Object> partial = new LinkedList<>();
 
         for (Object p : k) {
             Object strP = str(p, value, state);
@@ -397,7 +404,7 @@ public final class NativeJSON extends IdScriptableObject
 
         String stepback = state.indent;
         state.indent = state.indent + state.gap;
-        List<Object> partial = new LinkedList<Object>();
+        List<Object> partial = new LinkedList<>();
 
         long len = value.getLength();
         for (long index = 0; index < len; index++) {
@@ -485,10 +492,20 @@ public final class NativeJSON extends IdScriptableObject
         int id;
 // #generated# Last update: 2009-05-25 16:01:00 EDT
         {   id = 0; String X = null;
-            L: switch (s.length()) {
-            case 5: X="parse";id=Id_parse; break L;
-            case 8: X="toSource";id=Id_toSource; break L;
-            case 9: X="stringify";id=Id_stringify; break L;
+            L:
+            switch (s.length()) {
+            case 5 -> {
+                X = "parse";
+                id = Id_parse;
+            }
+            case 8 -> {
+                X = "toSource";
+                id = Id_toSource;
+            }
+            case 9 -> {
+                X = "stringify";
+                id = Id_stringify;
+            }
             }
             if (X!=null && X!=s && !X.equals(s)) id = 0;
         }

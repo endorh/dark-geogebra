@@ -3,7 +3,6 @@ package org.geogebra.desktop.gui.menubar;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Iterator;
 import java.util.TreeSet;
 
 import javax.swing.AbstractAction;
@@ -245,12 +244,9 @@ public class OptionsMenuD extends BaseMenu
 				// set sliders to new styling
 				TreeSet<GeoElement> geos = app.getKernel().getConstruction()
 						.getGeoSetConstructionOrder();
-				Iterator<GeoElement> it = geos.iterator();
-				while (it.hasNext()) {
-					GeoElement geo = it.next();
-					if (geo instanceof GeoNumeric
+				for (GeoElement geo : geos) {
+					if (geo instanceof GeoNumeric slider
 							&& ((GeoNumeric) geo).isSlider()) {
-						GeoNumeric slider = (GeoNumeric) geo;
 						slider.setAlphaValue(
 								ConstructionDefaults.DEFAULT_NUMBER_ALPHA);
 						slider.setLineThickness(

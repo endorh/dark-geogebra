@@ -35,8 +35,8 @@ public class LayoutUtil {
 				new FlowLayout(FlowLayout.LEFT, defaultHgap, defaultVgap));
 
 		if (!app.getLocalization().isRightToLeftReadingOrder()) {
-			for (int i = 0; i < comps.length; i++) {
-				p.add(comps[i]);
+			for (Component comp : comps) {
+				p.add(comp);
 			}
 		} else {
 			for (int i = comps.length - 1; i >= 0; i--) {

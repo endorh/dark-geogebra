@@ -77,14 +77,11 @@ public class AlgoIntersectPolygons3D extends AlgoElement3D {
 	 */
 	protected OutputHandler<GeoElement> createOutputPoints() {
 
-		return new OutputHandler<>(new ElementFactory<GeoElement>() {
-			@Override
-			public GeoPoint3D newElement() {
-				GeoPoint3D p = new GeoPoint3D(cons);
-				p.setCoords(0, 0, 0, 1);
-				p.setParentAlgorithm(AlgoIntersectPolygons3D.this);
-				return p;
-			}
+		return new OutputHandler<>(() -> {
+			GeoPoint3D p = new GeoPoint3D(cons);
+			p.setCoords(0, 0, 0, 1);
+			p.setParentAlgorithm(AlgoIntersectPolygons3D.this);
+			return p;
 		});
 	}
 
@@ -117,16 +114,16 @@ public class AlgoIntersectPolygons3D extends AlgoElement3D {
 		Coords o1, d1, o2, d2;
 		Coords[] project;
 
-		for (int i = 0; i < segA.length; i++) {
+		for (GeoSegmentND segmentND : segA) {
 
-			o1 = segA[i].getPointInD(3, 0).getInhomCoordsInSameDimension();
-			d1 = segA[i].getPointInD(3, 1).getInhomCoordsInSameDimension()
+			o1 = segmentND.getPointInD(3, 0).getInhomCoordsInSameDimension();
+			d1 = segmentND.getPointInD(3, 1).getInhomCoordsInSameDimension()
 					.sub(o1);
 
-			for (int k = 0; k < segB.length; k++) {
+			for (GeoSegmentND geoSegmentND : segB) {
 
-				o2 = segB[k].getPointInD(3, 0).getInhomCoordsInSameDimension();
-				d2 = segB[k].getPointInD(3, 1).getInhomCoordsInSameDimension()
+				o2 = geoSegmentND.getPointInD(3, 0).getInhomCoordsInSameDimension();
+				d2 = geoSegmentND.getPointInD(3, 1).getInhomCoordsInSameDimension()
 						.sub(o2);
 
 				project = CoordMatrixUtil.nearestPointsFromTwoLines(o1, d1, o2,
@@ -134,18 +131,18 @@ public class AlgoIntersectPolygons3D extends AlgoElement3D {
 
 				if (project != null && !Double.isNaN(project[2].get(1))
 						&& project[0].equalsForKernel(project[1],
-								Kernel.STANDARD_PRECISION)) {
+						Kernel.STANDARD_PRECISION)) {
 					double t1 = project[2].get(1); // parameter on line 1
 					double t2 = project[2].get(2); // parameter on line 2
 
-					if (t1 > segA[i].getMinParameter()
+					if (t1 > segmentND.getMinParameter()
 							- Kernel.STANDARD_PRECISION
-							&& t1 < segA[i].getMaxParameter()
-									+ Kernel.STANDARD_PRECISION
-							&& t2 > segB[k].getMinParameter()
-									- Kernel.STANDARD_PRECISION
-							&& t2 < segB[k].getMaxParameter()
-									+ Kernel.STANDARD_PRECISION) {
+							&& t1 < segmentND.getMaxParameter()
+							+ Kernel.STANDARD_PRECISION
+							&& t2 > geoSegmentND.getMinParameter()
+							- Kernel.STANDARD_PRECISION
+							&& t2 < geoSegmentND.getMaxParameter()
+							+ Kernel.STANDARD_PRECISION) {
 						intersectingCoords.add(new Coords(project[0]));
 					}
 				}

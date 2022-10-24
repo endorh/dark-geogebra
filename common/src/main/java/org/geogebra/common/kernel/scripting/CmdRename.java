@@ -31,7 +31,7 @@ public class CmdRename extends CmdScripting {
 		int n = c.getArgumentNumber();
 		EvalInfo argInfo = new EvalInfo(false);
 		switch (n) {
-		case 2:
+		case 2 -> {
 			// adapted from resArgs()
 			boolean oldMacroMode = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
@@ -41,7 +41,6 @@ public class CmdRename extends CmdScripting {
 			// resolve first argument
 			args[0].resolveVariables(argInfo);
 			arg[0] = resArg(args[0], argInfo)[0];
-
 			try {
 				// resolve second argument
 				args[1].resolveVariables(argInfo);
@@ -57,7 +56,6 @@ public class CmdRename extends CmdScripting {
 				arg[1] = new GeoText(cons, val);
 			}
 			cons.setSuppressLabelCreation(oldMacroMode);
-
 			if (arg[1].isGeoText()) {
 
 				GeoElement geo = arg[0];
@@ -77,9 +75,8 @@ public class CmdRename extends CmdScripting {
 				throw argErr(c, arg[1]);
 			}
 			throw argErr(c, arg[1]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

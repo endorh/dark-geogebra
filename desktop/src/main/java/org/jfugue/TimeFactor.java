@@ -131,7 +131,7 @@ public final class TimeFactor {
 			MidiMessageRecipient recipient) {
 		double timeFactor = 1.0;
 
-		Map<Long, List<MidiEvent>> timeMap = new HashMap<Long, List<MidiEvent>>();
+		Map<Long, List<MidiEvent>> timeMap = new HashMap<>();
 		long longestTime = TimeEventManager.sortSequenceByTimestamp(sequence,
 				timeMap);
 

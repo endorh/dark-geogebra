@@ -104,8 +104,8 @@ public class SpreadsheetTableModelSimple extends SpreadsheetTableModel {
 		if (rowNum == rowCount) {
 			return;
 		} else if (rowNum > rowCount) {
-			for (int i = rowNum * colNum - 1; i >= rowCount * colNum; i--) {
-				defaultTableModel.remove(i);
+			if (rowNum * colNum > rowCount * colNum) {
+				defaultTableModel.subList(rowCount * colNum, rowNum * colNum).clear();
 			}
 		} else {
 			defaultTableModel.ensureCapacity(rowCount * colNum);

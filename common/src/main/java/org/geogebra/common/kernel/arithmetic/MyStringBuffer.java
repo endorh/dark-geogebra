@@ -115,7 +115,7 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 
 	@Override
 	final public String toOutputValueString(StringTemplate tpl) {
-		StringBuffer sb2 = new StringBuffer(sb.length() + 2);
+		StringBuilder sb2 = new StringBuilder(sb.length() + 2);
 
 		sb2.append('"');
 		sb2.append(sb);

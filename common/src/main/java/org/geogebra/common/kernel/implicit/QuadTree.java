@@ -379,9 +379,8 @@ abstract class QuadTree {
 				}
 				this.pts = pl.pts;
 			} else {
-				ListIterator<MyPoint> itr = pl.pts.listIterator();
-				while (itr.hasNext()) {
-					this.pts.addLast(itr.next());
+				for (MyPoint pt : pl.pts) {
+					this.pts.addLast(pt);
 				}
 			}
 		}

@@ -42,21 +42,18 @@ public class CmdToolImage extends CmdScripting {
 		final GeoPoint corner2 = checkarg(arg, c, 2);
 
 		switch (n) {
-
-		case 2:
-		case 3:
-			// FALL THROUGH
-		case 1:
+		// FALL THROUGH
+		case 2, 3, 1 -> {
 			if (arg[0].isGeoNumeric()) {
 
 				int mode = (int) ((GeoNumeric) arg[0]).getDouble();
 
 				if (mode == -1) {
-					int[] str = { 71, 101, 111, 71, 101, 98, 114, 97 };
+					int[] str = {71, 101, 111, 71, 101, 98, 114, 97};
 					StringBuilder sb = new StringBuilder(str.length + 2);
 					sb.append("\"");
-					for (int i = 0 ; i < str.length ; i++) {
-						sb.append((char) str[i]);
+					for (int j : str) {
+						sb.append((char) j);
 					}
 
 					sb.append(" ");
@@ -80,27 +77,23 @@ public class CmdToolImage extends CmdScripting {
 				// TODO Fix me
 				final Construction cons1 = app.getKernel().getConstruction();
 				final GeoImage geoImage = new GeoImage(cons1);
-				AsyncOperation<String> callback = new AsyncOperation<String>() {
+				AsyncOperation<String> callback = fileName -> {
+					geoImage.setImageFileName(fileName);
+					geoImage.setTooltipMode(GeoElementND.TOOLTIP_OFF);
 
-					@Override
-					public void callback(String fileName) {
-						geoImage.setImageFileName(fileName);
-						geoImage.setTooltipMode(GeoElementND.TOOLTIP_OFF);
+					try {
+						geoImage.setStartPoint(corner == null
+								? new GeoPoint(cons1, 0, 0, 1) : corner);
 
-						try {
-							geoImage.setStartPoint(corner == null
-									? new GeoPoint(cons1, 0, 0, 1) : corner);
-
-							if (corner2 != null) {
-								geoImage.setCorner(corner2, 1);
-							}
-
-						} catch (CircularDefinitionException e) {
-							Log.debug(e);
+						if (corner2 != null) {
+							geoImage.setCorner(corner2, 1);
 						}
-						geoImage.setLabel(c.getLabel());
 
+					} catch (CircularDefinitionException e) {
+						Log.debug(e);
 					}
+					geoImage.setLabel(c.getLabel());
+
 				};
 				if (app.getGuiManager() != null) {
 					app.getGuiManager().getToolImageURL(mode,
@@ -112,9 +105,8 @@ public class CmdToolImage extends CmdScripting {
 				return new GeoElement[0];
 			}
 			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

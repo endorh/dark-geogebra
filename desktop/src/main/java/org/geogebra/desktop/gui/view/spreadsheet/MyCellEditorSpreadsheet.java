@@ -383,10 +383,10 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 			int keyCode = e.getKeyCode();
 			// Application.debug(e+"");
 			switch (keyCode) {
-			default:
-				// do nothing
-				break;
-			case KeyEvent.VK_UP:
+			default -> {
+			}
+			// do nothing
+			case KeyEvent.VK_UP -> {
 				if (isFormulaBarListener) {
 					return;
 				}
@@ -396,9 +396,8 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 				editing = false;
 				e.consume();
 				tabReturnCol = -1;
-				break;
-
-			case KeyEvent.VK_TAB:
+			}
+			case KeyEvent.VK_TAB -> {
 				if (isFormulaBarListener) {
 					return;
 				}
@@ -411,10 +410,8 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 				}
 				stopCellEditing(e.isShiftDown() ? -1 : 1, 0);
 				editing = false;
-
-				break;
-
-			case KeyEvent.VK_ENTER:
+			}
+			case KeyEvent.VK_ENTER -> {
 				// if incomplete command entered, want to move the cursor to
 				// between []
 				int bracketsIndex = text.indexOf("[]");
@@ -443,11 +440,9 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 					textField.setCaretPosition(bracketsIndex + 1);
 					e.consume();
 				}
-
 				tabReturnCol = -1;
-				break;
-
-			case KeyEvent.VK_DOWN:
+			}
+			case KeyEvent.VK_DOWN -> {
 				if (isFormulaBarListener) {
 					e.consume();
 					return;
@@ -456,9 +451,8 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 				stopCellEditing(0, 1);
 				editing = false;
 				tabReturnCol = -1;
-				break;
-
-			case KeyEvent.VK_LEFT:
+			}
+			case KeyEvent.VK_LEFT -> {
 				if (isFormulaBarListener) {
 					return;
 				}
@@ -470,9 +464,8 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 				}
 				editing = false;
 				tabReturnCol = -1;
-				break;
-
-			case KeyEvent.VK_RIGHT:
+			}
+			case KeyEvent.VK_RIGHT -> {
 				if (isFormulaBarListener) {
 					return;
 				}
@@ -482,24 +475,18 @@ public class MyCellEditorSpreadsheet extends DefaultCellEditor
 					stopCellEditing(1, 0);
 					editing = false;
 				}
-
 				editing = false;
 				tabReturnCol = -1;
-				break;
-
-			case KeyEvent.VK_PAGE_DOWN:
-			case KeyEvent.VK_PAGE_UP:
+			}
+			case KeyEvent.VK_PAGE_DOWN, KeyEvent.VK_PAGE_UP -> {
 				e.consume();
 				tabReturnCol = -1;
-				break;
+			}
 
 			// An F1 keypress causes the focus to be lost, so we
 			// need to set 'editing' to false to prevent the focusLost()
 			// method from calling stopCellEditing()
-			case KeyEvent.VK_F1:
-				editing = false;
-				break;
-
+			case KeyEvent.VK_F1 -> editing = false;
 			}
 
 		}

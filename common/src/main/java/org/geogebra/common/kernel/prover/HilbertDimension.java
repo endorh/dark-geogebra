@@ -40,7 +40,7 @@ public class HilbertDimension {
 	private static boolean eliminationIsZero(Set<PPolynomial> polys,
 			Set<PVariable> vars, HashMap<PVariable, BigInteger> substitutions) {
 		Set<Set<PPolynomial>> eliminationIdeal = PPolynomial.eliminate(
-				polys.toArray(new PPolynomial[polys.size()]), substitutions,
+				polys.toArray(new PPolynomial[0]), substitutions,
 				kernel, 0,
 				true, false, vars);
 		Iterator<Set<PPolynomial>> ndgSet;
@@ -200,8 +200,7 @@ public class HilbertDimension {
 		for (PVariable var : substitutions.keySet()) {
 			allVars.remove(var);
 		}
-		HashSet<PVariable> dependentVars = new HashSet<>();
-		dependentVars.addAll(allVars);
+		HashSet<PVariable> dependentVars = new HashSet<>(allVars);
 		dependentVars.removeAll(as.getFreeVariables());
 		dependentVars.removeAll(substitutions.keySet());
 		StringBuilder depVars = new StringBuilder();
@@ -211,8 +210,7 @@ public class HilbertDimension {
 			}
 			depVars.append(var);
 		}
-		HashSet<PVariable> freeVariables = new HashSet<>();
-		freeVariables.addAll(as.getFreeVariables());
+		HashSet<PVariable> freeVariables = new HashSet<>(as.getFreeVariables());
 		freeVariables.removeAll(substitutions.keySet());
 		StringBuilder freeVars = new StringBuilder();
 		for (PVariable var : freeVariables) {

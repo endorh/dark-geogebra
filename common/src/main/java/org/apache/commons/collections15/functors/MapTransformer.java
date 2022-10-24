@@ -55,7 +55,7 @@ public final class MapTransformer<I, O>
 		if (map == null) {
 			return ConstantTransformer.NULL_INSTANCE;
 		}
-		return new MapTransformer<I, O>(map);
+		return new MapTransformer<>(map);
 	}
 
 	/**

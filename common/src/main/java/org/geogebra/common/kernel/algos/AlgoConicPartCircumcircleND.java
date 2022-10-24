@@ -115,22 +115,19 @@ public abstract class AlgoConicPartCircumcircleND extends AlgoConicPart {
 
 	@Override
 	public Commands getClassName() {
-		switch (type) {
-		case GeoConicNDConstants.CONIC_PART_ARC:
-			return Commands.CircumcircleArc;
-		default:
-			return Commands.CircumcircleSector;
-		}
+		return switch (type) {
+			case GeoConicNDConstants.CONIC_PART_ARC -> Commands.CircumcircleArc;
+			default -> Commands.CircumcircleSector;
+		};
 	}
 
 	@Override
 	public int getRelatedModeID() {
-		switch (type) {
-		case GeoConicNDConstants.CONIC_PART_ARC:
-			return EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS;
-		default:
-			return EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS;
-		}
+		return switch (type) {
+			case GeoConicNDConstants.CONIC_PART_ARC ->
+					EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS;
+			default -> EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS;
+		};
 	}
 
 	// for AlgoElement
@@ -156,23 +153,15 @@ public abstract class AlgoConicPartCircumcircleND extends AlgoConicPart {
 
 		conicPart.set(conic);
 		switch (conicPart.getType()) {
-		case GeoConicNDConstants.CONIC_PARALLEL_LINES:
-			computeDegenerate();
-			break;
-
-		case GeoConicNDConstants.CONIC_CIRCLE:
-			computeCircle();
-			break;
-
-		case GeoConicNDConstants.CONIC_SINGLE_POINT:
-			computeSinglePoint();
-			break;
-
-		default:
+		case GeoConicNDConstants.CONIC_PARALLEL_LINES -> computeDegenerate();
+		case GeoConicNDConstants.CONIC_CIRCLE -> computeCircle();
+		case GeoConicNDConstants.CONIC_SINGLE_POINT -> computeSinglePoint();
+		default -> {
 			// this should not happen
 			Log.debug("AlgoCirclePartPoints: unexpected conic type: "
 					+ conicPart.getType());
 			conicPart.setUndefined();
+		}
 		}
 	}
 

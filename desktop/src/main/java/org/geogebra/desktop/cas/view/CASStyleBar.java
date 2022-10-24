@@ -180,16 +180,16 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 	 */
 	public void updateStyleBar() {
 
-		for (int i = 0; i < popupBtnList.length; i++) {
+		for (PopupMenuButtonD popupMenuButtonD : popupBtnList) {
 			try {
-				popupBtnList[i].update(selectedRows);
+				popupMenuButtonD.update(selectedRows);
 			} catch (Exception e) {
 				// TODO: find problem
 			}
 		}
-		for (int i = 0; i < toggleBtnList.length; i++) {
+		for (MyToggleButtonD myToggleButtonD : toggleBtnList) {
 			try {
-				toggleBtnList[i].update(selectedRows);
+				myToggleButtonD.update(selectedRows);
 			} catch (Exception e) {
 				e.printStackTrace();
 				// TODO: find problem
@@ -200,8 +200,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 	private void applyTextColor(ArrayList<GeoElement> geos) {
 
 		Color color = ThemeD.awtColor(btnTextColor.getSelectedColor());
-		for (int i = 0; i < geos.size(); i++) {
-			GeoElement geo = geos.get(i);
+		for (GeoElement geo : geos) {
 			if (geo instanceof GeoCasCell) {
 				((GeoCasCell) geo).setFontColor(GColorD.newColor(color));
 				geo.updateRepaint();
@@ -212,8 +211,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 
 	private void applyUseAsText(ArrayList<GeoElement> geos) {
 		// btnUseAsText
-		for (int i = 0; i < geos.size(); i++) {
-			GeoElement geo = geos.get(i);
+		for (GeoElement geo : geos) {
 			if (geo instanceof GeoCasCell) {
 				((GeoCasCell) geo).setUseAsText(btnUseAsText.isSelected());
 				geo.updateRepaint();
@@ -231,8 +229,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 		if (btnItalic.isSelected()) {
 			fontStyle += 2;
 		}
-		for (int i = 0; i < geos.size(); i++) {
-			GeoElement geo = geos.get(i);
+		for (GeoElement geo : geos) {
 			Log.debug(((GeoCasCell) geo).getGeoText());
 			if (geo instanceof GeoCasCell && ((GeoCasCell) geo).getGeoText()
 					.getFontStyle() != fontStyle) {
@@ -255,8 +252,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 																		// .. ,
 																		// 4
 
-		for (int i = 0; i < geos.size(); i++) {
-			GeoElement geo = geos.get(i);
+		for (GeoElement geo : geos) {
 			if (geo instanceof GeoCasCell && ((GeoCasCell) geo).getGeoText()
 					.getFontSizeMultiplier() != fontSize) {
 				((GeoCasCell) geo).setFontSizeMultiplier(fontSize);
@@ -322,11 +318,11 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 	 */
 	private static boolean checkGeoText(List<GeoElement> geos) {
 		boolean geosOK = (geos.size() > 0);
-		for (int i = 0; i < geos.size(); i++) {
-			if (!(geos.get(i) instanceof GeoCasCell)) {
+		for (GeoElement geo : geos) {
+			if (!(geo instanceof GeoCasCell)) {
 				geosOK = false;
 				break;
-			} else if (!((GeoCasCell) geos.get(i)).isUseAsText()) {
+			} else if (!((GeoCasCell) geo).isUseAsText()) {
 				geosOK = false;
 				break;
 			}

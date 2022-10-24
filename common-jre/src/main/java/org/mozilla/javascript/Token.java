@@ -428,41 +428,41 @@ public class Token
      * @return the corresponding name string
      */
     public static String keywordToName(int token) {
-        switch (token) {
-            case Token.BREAK:      return "break";
-            case Token.CASE:       return "case";
-            case Token.CONTINUE:   return "continue";
-            case Token.DEFAULT:    return "default";
-            case Token.DELPROP:    return "delete";
-            case Token.DO:         return "do";
-            case Token.ELSE:       return "else";
-            case Token.FALSE:      return "false";
-            case Token.FOR:        return "for";
-            case Token.FUNCTION:   return "function";
-            case Token.IF:         return "if";
-            case Token.IN:         return "in";
-            case Token.LET:        return "let";
-            case Token.NEW:        return "new";
-            case Token.NULL:       return "null";
-            case Token.RETURN:     return "return";
-            case Token.SWITCH:     return "switch";
-            case Token.THIS:       return "this";
-            case Token.TRUE:       return "true";
-            case Token.TYPEOF:     return "typeof";
-            case Token.VAR:        return "var";
-            case Token.VOID:       return "void";
-            case Token.WHILE:      return "while";
-            case Token.WITH:       return "with";
-            case Token.YIELD:      return "yield";
-            case Token.CATCH:      return "catch";
-            case Token.CONST:      return "const";
-            case Token.DEBUGGER:   return "debugger";
-            case Token.FINALLY:    return "finally";
-            case Token.INSTANCEOF: return "instanceof";
-            case Token.THROW:      return "throw";
-            case Token.TRY:        return "try";
-            default:               return null;
-        }
+	    return switch (token) {
+		    case Token.BREAK -> "break";
+		    case Token.CASE -> "case";
+		    case Token.CONTINUE -> "continue";
+		    case Token.DEFAULT -> "default";
+		    case Token.DELPROP -> "delete";
+		    case Token.DO -> "do";
+		    case Token.ELSE -> "else";
+		    case Token.FALSE -> "false";
+		    case Token.FOR -> "for";
+		    case Token.FUNCTION -> "function";
+		    case Token.IF -> "if";
+		    case Token.IN -> "in";
+		    case Token.LET -> "let";
+		    case Token.NEW -> "new";
+		    case Token.NULL -> "null";
+		    case Token.RETURN -> "return";
+		    case Token.SWITCH -> "switch";
+		    case Token.THIS -> "this";
+		    case Token.TRUE -> "true";
+		    case Token.TYPEOF -> "typeof";
+		    case Token.VAR -> "var";
+		    case Token.VOID -> "void";
+		    case Token.WHILE -> "while";
+		    case Token.WITH -> "with";
+		    case Token.YIELD -> "yield";
+		    case Token.CATCH -> "catch";
+		    case Token.CONST -> "const";
+		    case Token.DEBUGGER -> "debugger";
+		    case Token.FINALLY -> "finally";
+		    case Token.INSTANCEOF -> "instanceof";
+		    case Token.THROW -> "throw";
+		    case Token.TRY -> "try";
+		    default -> null;
+	    };
     }
 
     /**

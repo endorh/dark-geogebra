@@ -28,7 +28,7 @@ public class MinimumSpanningForest2<V, E> {
 
 	protected Graph<V, E> graph;
 	protected Forest<V, E> forest;
-	protected Transformer<E, Double> weights = (Transformer<E, Double>) new ConstantTransformer<Double>(
+	protected Transformer<E, Double> weights = (Transformer<E, Double>) new ConstantTransformer<>(
 			1.0);
 
 	/**
@@ -78,13 +78,13 @@ public class MinimumSpanningForest2<V, E> {
 			this.weights = weights;
 		}
 
-		WeakComponentClusterer<V, E> wcc = new WeakComponentClusterer<V, E>();
+		WeakComponentClusterer<V, E> wcc = new WeakComponentClusterer<>();
 		Set<Set<V>> component_vertices = wcc.transform(graph);
 		Collection<Graph<V, E>> components = FilterUtils
 				.createAllInducedSubgraphs(component_vertices, graph);
 
 		for (Graph<V, E> component : components) {
-			PrimMinimumSpanningTree<V, E> mst = new PrimMinimumSpanningTree<V, E>(
+			PrimMinimumSpanningTree<V, E> mst = new PrimMinimumSpanningTree<>(
 					treeFactory, this.weights);
 			Graph<V, E> subTree = mst.transform(component);
 			if (subTree instanceof Tree) {

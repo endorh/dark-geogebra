@@ -35,7 +35,7 @@ public class CmdFillRow extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2:
+		case 2 -> {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoNumeric()))
 					&& (ok[1] = (arg[1].isGeoList()))) {
@@ -48,7 +48,7 @@ public class CmdFillRow extends CommandProcessor {
 
 				GeoList list = (GeoList) arg[1];
 
-				GeoElement[] ret = { list };
+				GeoElement[] ret = {list};
 
 				if (list.size() == 0) {
 					return ret;
@@ -76,9 +76,8 @@ public class CmdFillRow extends CommandProcessor {
 			} else {
 				throw argErr(c, arg[1]);
 			}
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

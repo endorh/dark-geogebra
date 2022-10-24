@@ -374,8 +374,7 @@ public abstract class AbstractVectorGraphics extends VectorGraphics {
 	@Override
 	public void setLineWidth(double width) {
 		Stroke stroke = getStroke();
-		if (stroke instanceof BasicStroke) {
-			BasicStroke cs = (BasicStroke) stroke;
+		if (stroke instanceof BasicStroke cs) {
 			if (cs.getLineWidth() != width) {
 				stroke = new BasicStroke((float) width, cs.getEndCap(),
 						cs.getLineJoin(), cs.getMiterLimit(), cs.getDashArray(),

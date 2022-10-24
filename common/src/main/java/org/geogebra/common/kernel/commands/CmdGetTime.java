@@ -39,25 +39,20 @@ public class CmdGetTime extends CommandProcessor {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
-		case 0:
+		case 0 -> {
 			GeoText monthStr1 = new GeoText(cons);
 			GeoText dayStr1 = new GeoText(cons);
 			Date cal = new Date();
 			GeoNumeric mins1 = new GeoNumeric(cons, cal.getMinutes());
 			int d = cal.getDay() + 1;
-
 			int m = cal.getMonth() + 1;
-
 			GeoNumeric secs1 = new GeoNumeric(cons, cal.getSeconds());
 			GeoNumeric hours1 = new GeoNumeric(cons, cal.getHours());
 			GeoNumeric ms1 = new GeoNumeric(cons, cal.getTime() % 1000);
-
 			monthStr1.setTextString(loc.getMenu("Month." + m));
-
 			dayStr1.setTextString(loc.getMenu("Day." + d));
 			GeoList list = new GeoList(cons);
 			list.setLabel(c.getLabel());
-
 			list.add(ms1);
 			list.add(secs1);
 			list.add(mins1);
@@ -69,21 +64,18 @@ public class CmdGetTime extends CommandProcessor {
 			list.add(dayStr1);
 			list.add(new GeoNumeric(cons, d));
 			list.update();
-
-			GeoElement[] ret = { list };
+			GeoElement[] ret = {list};
 			return ret;
-
-		case 1:
-
+		}
+		case 1 -> {
 			String date = buildLocalizedDate(c.getArgument(0).toValueString(
 					StringTemplate.defaultTemplate), new Date(), loc);
-
 			GeoText retText = new GeoText(cons, date);
 			retText.setLabel(c.getLabel());
-			GeoElement[] ret1 = { retText };
+			GeoElement[] ret1 = {retText};
 			return ret1;
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

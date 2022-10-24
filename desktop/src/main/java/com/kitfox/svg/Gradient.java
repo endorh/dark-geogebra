@@ -39,7 +39,6 @@ import java.awt.Color;
 import java.awt.geom.AffineTransform;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -161,8 +160,8 @@ abstract public class Gradient extends FillElement {
 
 		stopFractions = new float[stops.size()];
 		int idx = 0;
-		for (Iterator it = stops.iterator(); it.hasNext();) {
-			Stop stop = (Stop) it.next();
+		for (Object o : stops) {
+			Stop stop = (Stop) o;
 			float val = stop.offset;
 			if (idx != 0 && val < stopFractions[idx - 1]) {
 				val = stopFractions[idx - 1];
@@ -186,8 +185,8 @@ abstract public class Gradient extends FillElement {
 
 		stopColors = new Color[stops.size()];
 		int idx = 0;
-		for (Iterator it = stops.iterator(); it.hasNext();) {
-			Stop stop = (Stop) it.next();
+		for (Object o : stops) {
+			Stop stop = (Stop) o;
 			int stopColorVal = stop.color.getRGB();
 			Color stopColor = new Color((stopColorVal >> 16) & 0xff,
 					(stopColorVal >> 8) & 0xff, stopColorVal & 0xff,
@@ -297,8 +296,8 @@ abstract public class Gradient extends FillElement {
 		}
 
 		// Check stops, if any
-		for (Iterator it = stops.iterator(); it.hasNext();) {
-			Stop stop = (Stop) it.next();
+		for (Object o : stops) {
+			Stop stop = (Stop) o;
 			if (stop.updateTime(curTime)) {
 				stateChange = true;
 				stopFractions = null;

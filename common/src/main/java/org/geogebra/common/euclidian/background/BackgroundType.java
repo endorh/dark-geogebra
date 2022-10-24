@@ -1,7 +1,5 @@
 package org.geogebra.common.euclidian.background;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -51,19 +49,11 @@ public enum BackgroundType {
 	 * Ordered list of ruling options used for the settings
 	 */
 	final public static List<BackgroundType> rulingOptions =
-			Collections.unmodifiableList(Arrays.asList(
-					BackgroundType.NONE,
-					BackgroundType.RULER,
-					BackgroundType.SQUARE_SMALL,
-					BackgroundType.SQUARE_BIG,
-					BackgroundType.ELEMENTARY12,
-					BackgroundType.ELEMENTARY12_COLORED,
-					BackgroundType.ELEMENTARY12_HOUSE,
-					BackgroundType.ELEMENTARY34,
-					BackgroundType.MUSIC,
-					BackgroundType.ISOMETRIC,
-					BackgroundType.POLAR
-			));
+			List.of(BackgroundType.NONE, BackgroundType.RULER, BackgroundType.SQUARE_SMALL,
+					BackgroundType.SQUARE_BIG, BackgroundType.ELEMENTARY12,
+					BackgroundType.ELEMENTARY12_COLORED, BackgroundType.ELEMENTARY12_HOUSE,
+					BackgroundType.ELEMENTARY34, BackgroundType.MUSIC, BackgroundType.ISOMETRIC,
+					BackgroundType.POLAR);
 
 	private int value;
 

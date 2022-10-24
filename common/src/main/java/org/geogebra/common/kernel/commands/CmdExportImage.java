@@ -185,16 +185,9 @@ public class CmdExportImage extends CmdScripting {
 
 		// see CmdSetActiveView
 		switch (view) {
-		default:
-		case 1:
-			app.setActiveView(App.VIEW_EUCLIDIAN);
-			break;
-		case 2:
-			app.setActiveView(App.VIEW_EUCLIDIAN2);
-			break;
-		case -1:
-			app.setActiveView(App.VIEW_EUCLIDIAN3D);
-			break;
+		case 1 -> app.setActiveView(App.VIEW_EUCLIDIAN);
+		case 2 -> app.setActiveView(App.VIEW_EUCLIDIAN2);
+		case -1 -> app.setActiveView(App.VIEW_EUCLIDIAN3D);
 		}
 
 		EuclidianView ev = app.getActiveEuclidianView();

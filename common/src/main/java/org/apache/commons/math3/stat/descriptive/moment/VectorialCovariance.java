@@ -135,11 +135,10 @@ public class VectorialCovariance implements Serializable {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof VectorialCovariance)) {
+        if (!(obj instanceof VectorialCovariance other)) {
             return false;
         }
-        VectorialCovariance other = (VectorialCovariance) obj;
-        if (isBiasCorrected != other.isBiasCorrected) {
+	    if (isBiasCorrected != other.isBiasCorrected) {
             return false;
         }
         if (n != other.n) {

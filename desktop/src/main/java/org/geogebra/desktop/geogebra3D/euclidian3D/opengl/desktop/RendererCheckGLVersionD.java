@@ -25,7 +25,6 @@ import org.geogebra.desktop.gui.util.ImageSelection;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.FrameCollector;
 
-import com.formdev.flatlaf.util.HiDPIUtils;
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2ES1;
 import com.jogamp.opengl.GLAutoDrawable;

@@ -21,12 +21,10 @@ import com.zspace.ZSVector3;
 
 public class ZSpaceGeoGebra {
 
-	public class ZSMatrix4Ggb extends ZSMatrix4 {
+	public static class ZSMatrix4Ggb extends ZSMatrix4 {
 
 		public void set(float[] values) {
-			for (int i = 0; i < 16; i++) {
-				f[i] = values[i];
-			}
+			System.arraycopy(values, 0, f, 0, 16);
 		}
 
 		public float getM(int i, int j) {
@@ -230,7 +228,7 @@ public class ZSpaceGeoGebra {
 
 	}
 
-	private class ZJEventListenerPressButtons extends ZCEventListener {
+	private static class ZJEventListenerPressButtons extends ZCEventListener {
 
 		protected ZSpaceGeoGebra zsggb;
 
@@ -247,7 +245,7 @@ public class ZSpaceGeoGebra {
 
 	}
 
-	private class ZJEventListenerReleaseButtons extends ZCEventListener {
+	private static class ZJEventListenerReleaseButtons extends ZCEventListener {
 
 		protected ZSpaceGeoGebra zsggb;
 

@@ -197,13 +197,12 @@ public class CopyPasteD extends CopyPaste {
 
 			geoal = geo.getAlgorithmList();
 
-			for (int j = 0; j < geoal.size(); j++) {
-				ale = geoal.get(j);
+			for (AlgoElement algoElement : geoal) {
+				ale = algoElement;
 
 				if (!(ale instanceof AlgoMacro) || putdown || copymacro) {
 
-					ac = new ArrayList<>();
-					ac.addAll(Arrays.asList(ale.getInput()));
+					ac = new ArrayList<>(Arrays.asList(ale.getInput()));
 					if (conels.containsAll(ac) && !conels.contains(ale)) {
 
 						if ((ale instanceof AlgoMacro) && copymacro) {
@@ -213,10 +212,10 @@ public class CopyPasteD extends CopyPaste {
 						conels.add(ale);
 						geos = ale.getOutput();
 						if (geos != null) {
-							for (int k = 0; k < geos.length; k++) {
-								if (!ret.contains(geos[k])
-										&& !conels.contains(geos[k])) {
-									ret.add(geos[k]);
+							for (GeoElement geoElement : geos) {
+								if (!ret.contains(geoElement)
+										&& !conels.contains(geoElement)) {
+									ret.add(geoElement);
 								}
 							}
 						}
@@ -241,8 +240,7 @@ public class CopyPasteD extends CopyPaste {
 			List<ConstructionElement> conels,
 			List<GeoElement> selected) {
 
-		ArrayList<ConstructionElement> ret = new ArrayList<>();
-		ret.addAll(conels);
+		ArrayList<ConstructionElement> ret = new ArrayList<>(conels);
 		GeoElement geo;
 		for (int i = ret.size() - 1; i >= 0; i--) {
 			if (ret.get(i).isGeoElement()) {
@@ -279,8 +277,8 @@ public class CopyPasteD extends CopyPaste {
 
 		ConstructionElement geo;
 		String label;
-		for (int i = 0; i < conels.size(); i++) {
-			geo = conels.get(i);
+		for (ConstructionElement conel : conels) {
+			geo = conel;
 			if (geo.isGeoElement()) {
 				label = ((GeoElement) geo).getLabelSimple();
 				if (label != null) {
@@ -333,8 +331,8 @@ public class CopyPasteD extends CopyPaste {
 
 		ConstructionElement geo;
 		String label;
-		for (int i = 0; i < conels.size(); i++) {
-			geo = conels.get(i);
+		for (ConstructionElement conel : conels) {
+			geo = conel;
 			if (geo.isGeoElement()) {
 				label = ((GeoElement) geo).getLabelSimple();
 				if (label != null && label.startsWith(labelPrefix)) {
@@ -392,8 +390,7 @@ public class CopyPasteD extends CopyPaste {
 		copiedMacros = new HashSet<>();
 
 		// create geoslocal and geostohide
-		ArrayList<ConstructionElement> geoslocal = new ArrayList<>();
-		geoslocal.addAll(geos);
+		ArrayList<ConstructionElement> geoslocal = new ArrayList<>(geos);
 
 		if (!putdown) {
 			removeFixedSliders(geoslocal);

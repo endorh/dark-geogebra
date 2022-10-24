@@ -119,7 +119,7 @@ public final class KeySignature implements JFugueElement {
 	 */
 	@Override
 	public String getVerifyString() {
-		StringBuffer buffy = new StringBuffer();
+		StringBuilder buffy = new StringBuilder();
 		buffy.append("KeySig: keySig=");
 		buffy.append(getKeySig());
 		buffy.append(", scale=");

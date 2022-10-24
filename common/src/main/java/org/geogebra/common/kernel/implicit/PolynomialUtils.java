@@ -46,9 +46,7 @@ public class PolynomialUtils {
 		double[] cq;
 		double[] cpclone;
 		cpclone = new double[cp.length];
-		for (int i = 0; i < cp.length; i++) {
-			cpclone[i] = cp[i];
-		}
+		System.arraycopy(cp, 0, cpclone, 0, cp.length);
 		int degD = cd.length - 1;
 		while (degD >= 0 && DoubleUtil.isZero(cd[degD])) {
 			degD--;

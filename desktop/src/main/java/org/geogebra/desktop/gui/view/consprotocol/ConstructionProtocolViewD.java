@@ -368,13 +368,10 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			public void actionPerformed(ActionEvent e) {
 				app.setWaitCursor();
 
-				Thread runner = new Thread() {
-					@Override
-					public void run() {
-						JDialog d = new ConstructionProtocolExportDialogD(view);
-						d.setVisible(true);
-					}
-				};
+				Thread runner = new Thread(() -> {
+					JDialog d = new ConstructionProtocolExportDialogD(view);
+					d.setVisible(true);
+				});
 				runner.start();
 
 				app.setDefaultCursor();
@@ -404,10 +401,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 									/* interactive */true /* , */
 							/* service *//* null */);
 							// service must be omitted for Java version 1.5.0
-						} catch (HeadlessException ex) {
-							// TODO Auto-generated catch block
-							ex.printStackTrace();
-						} catch (PrinterException ex) {
+						} catch (HeadlessException | PrinterException ex) {
 							// TODO Auto-generated catch block
 							ex.printStackTrace();
 						}
@@ -446,41 +440,33 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			// SPECIAL KEYS
 			int keyCode = event.getKeyCode();
 			switch (keyCode) {
-			default:
-				// do nothing
-				break;
-			case KeyEvent.VK_DELETE:
+			default -> {
+			}
+			// do nothing
+			case KeyEvent.VK_DELETE -> {
 				ConstructionElement ce = kernel
 						.getConstructionElement(kernel.getConstructionStep());
 				if (ce != null) {
 					ce.remove();
 					app.storeUndoInfo();
 				}
-				break;
-
-			case KeyEvent.VK_UP:
-			case KeyEvent.VK_RIGHT:
+			}
+			case KeyEvent.VK_UP, KeyEvent.VK_RIGHT -> {
 				previousStep();
 				scrollToConstructionStep();
-				break;
-
-			case KeyEvent.VK_DOWN:
-			case KeyEvent.VK_LEFT:
+			}
+			case KeyEvent.VK_DOWN, KeyEvent.VK_LEFT -> {
 				nextStep();
 				scrollToConstructionStep();
-				break;
-
-			case KeyEvent.VK_HOME:
-			case KeyEvent.VK_PAGE_UP:
+			}
+			case KeyEvent.VK_HOME, KeyEvent.VK_PAGE_UP -> {
 				setConstructionStep(-1);
 				scrollToConstructionStep();
-				break;
-
-			case KeyEvent.VK_END:
-			case KeyEvent.VK_PAGE_DOWN:
+			}
+			case KeyEvent.VK_END, KeyEvent.VK_PAGE_DOWN -> {
 				setConstructionStep(kernel.getLastConstructionStep());
 				scrollToConstructionStep();
-				break;
+			}
 			}
 		}
 	}
@@ -506,7 +492,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 				if (AppD.isRightClick(e)) {
 					GeoElement geo = ((ConstructionTableDataD) data)
 							.getGeoElement(row);
-					ArrayList<GeoElement> temp = new ArrayList<GeoElement>();
+					ArrayList<GeoElement> temp = new ArrayList<>();
 					temp.add(geo);
 					((GuiManagerD) app.getGuiManager()).showPopupMenu(temp,
 							table, mouseCoords);
@@ -804,7 +790,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			comp.setFont(table1.getFont());
 
 			if (isBoolean) {
-				cbTemp.setSelected(((Boolean) value).booleanValue());
+				cbTemp.setSelected((Boolean) value);
 				cbTemp.setEnabled(true);
 				return cbTemp;
 			}
@@ -906,9 +892,9 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			// reorder rows in this view
 			ConstructionElement ce = kernel.getConstructionElement(toIndex);
 			GeoElementND[] geos = ce.getGeoElements();
-			for (int i = 0; i < geos.length; ++i) {
-				remove(geos[i].toGeoElement());
-				add(geos[i].toGeoElement());
+			for (GeoElementND geo : geos) {
+				remove(geo.toGeoElement());
+				add(geo.toGeoElement());
 			}
 			return changed;
 		}
@@ -953,7 +939,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			case 5:
 				return rowList.get(nRow).getAlgebra();
 			case 7:
-				return Boolean.valueOf(rowList.get(nRow).getCPVisible());
+				return rowList.get(nRow).getCPVisible();
 			case 6:
 				return rowList.get(nRow).getCaption();
 			}

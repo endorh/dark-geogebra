@@ -35,7 +35,6 @@ import org.geogebra.common.kernel.arithmetic.ArithmeticFactory;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import org.geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
-import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.MyDoubleDegreesMinutesSeconds;
@@ -617,17 +616,13 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 		final double eps = precision;
 
-		Comparator<Double> ret = new Comparator<Double>() {
-
-			@Override
-			public int compare(Double d1, Double d2) {
-				if (Math.abs(d1 - d2) < eps) {
-					return 0;
-				} else if (d1 < d2) {
-					return -1;
-				} else {
-					return 1;
-				}
+		Comparator<Double> ret = (d1, d2) -> {
+			if (Math.abs(d1 - d2) < eps) {
+				return 0;
+			} else if (d1 < d2) {
+				return -1;
+			} else {
+				return 1;
 			}
 		};
 
@@ -692,11 +687,10 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	public boolean handleCoords(GeoElement geo,
 			LinkedHashMap<String, String> attrs) {
 
-		if (!(geo instanceof GeoVec3D)) {
+		if (!(geo instanceof GeoVec3D v)) {
 			Log.debug("wrong element type for <coords>: " + geo.getClass());
 			return false;
 		}
-		GeoVec3D v = (GeoVec3D) geo;
 
 		try {
 			double x = StringUtil.parseDouble(attrs.get("x"));
@@ -1211,34 +1205,34 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		sbFormat.setLength(0);
 		if (DoubleUtil.isEqual(a, aint, AXES_PRECISION)) {
 			switch (aint) {
-			case 0:
+			case 0 -> {
 				formatterMap.put(x, "0");
 				return "0";
-
-			case 1: // pi/2
+			}
+			case 1 -> { // pi/2
 				sbFormat.append(tpl.getPi());
 				sbFormat.append("/2");
 				formatterMap.put(x, sbFormat.toString());
 				return sbFormat.toString();
-
-			case -1: // -pi/2
+			}
+			case -1 -> { // -pi/2
 				sbFormat.append('-');
 				sbFormat.append(tpl.getPi());
 				sbFormat.append("/2");
 				formatterMap.put(x, sbFormat.toString());
 				return sbFormat.toString();
-
-			case 2: // 2pi/2 = pi
+			}
+			case 2 -> { // 2pi/2 = pi
 				formatterMap.put(x, tpl.getPi());
 				return tpl.getPi();
-
-			case -2: // -2pi/2 = -pi
+			}
+			case -2 -> { // -2pi/2 = -pi
 				sbFormat.append('-');
 				sbFormat.append(tpl.getPi());
 				formatterMap.put(x, sbFormat.toString());
 				return sbFormat.toString();
-
-			default:
+			}
+			default -> {
 				// even
 				long half = aint / 2;
 				if (aint == (2 * half)) {
@@ -1261,6 +1255,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 				sbFormat.append("/2");
 				formatterMap.put(x, sbFormat.toString());
 				return sbFormat.toString();
+			}
 			}
 		}
 		// STANDARD CASE
@@ -1534,9 +1529,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *            output array
 	 */
 	final static void copy(double[] a, double[] b) {
-		for (int i = 0; i < a.length; i++) {
-			b[i] = a[i];
-		}
+		System.arraycopy(a, 0, b, 0, a.length);
 	}
 
 	/**
@@ -1589,8 +1582,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 */
 	final public static double gcd(double[] numbers) {
 		long gcd = (long) numbers[0];
-		for (int i = 0; i < numbers.length; i++) {
-			gcd = gcd((long) numbers[i], gcd);
+		for (double number : numbers) {
+			gcd = gcd((long) number, gcd);
 		}
 		return Math.abs(gcd);
 	}
@@ -1712,8 +1705,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		if (cancelDown) {
 			// check if integers and divide through gcd
 			boolean allIntegers = true;
-			for (int i = 0; i < numbers.length; i++) {
-				allIntegers = allIntegers && DoubleUtil.isInteger(numbers[i]);
+			for (double number : numbers) {
+				allIntegers = allIntegers && DoubleUtil.isInteger(number);
 			}
 			if (allIntegers) {
 				// divide by greates common divisor
@@ -1936,10 +1929,10 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		p4 = -c / a;
 		k = b * b / (4 * a * c) - d / c;
 
-		sbBuildConicformEquation.append(formatCoeff(p4, tpl) + "(" + var2 + " "
-				+ sign(-k) + " " + format(Math.abs(k), tpl) + ") = " + "("
-				+ var1 + " " + sign(-h) + " " + format(Math.abs(h), tpl) + ")"
-				+ tpl.squared());
+		sbBuildConicformEquation.append(formatCoeff(p4, tpl)).append("(").append(var2).append(" ")
+				.append(sign(-k)).append(" ").append(format(Math.abs(k), tpl)).append(") = ")
+				.append("(").append(var1).append(" ").append(sign(-h)).append(" ")
+				.append(format(Math.abs(h), tpl)).append(")").append(tpl.squared());
 		return sbBuildConicformEquation;
 	}
 
@@ -2055,14 +2048,12 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			return "-";
 		}
 		String numberStr = format(x, tpl);
-		switch (tpl.getStringType()) {
-		case GIAC:
-			return numberStr + "*";
-
-		default:
-			// standard case
-			return numberStr;
-		}
+		return switch (tpl.getStringType()) {
+			case GIAC -> numberStr + "*";
+			default ->
+				// standard case
+					numberStr;
+		};
 	}
 
 	/**
@@ -2102,8 +2093,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 				String absStr = format(abs, tpl);
 				if (!"0".equals(absStr)) {
-					sbBuildExplicitLineEquation
-							.append(sign + " " + absStr);
+					sbBuildExplicitLineEquation.append(sign).append(" ").append(absStr);
 				}
 			}
 
@@ -2126,8 +2116,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		if (!explicit) {
 			sbBuildExplicitLineEquation.append(' ');
 			if (useSignificantFigures) {
-				sbBuildExplicitLineEquation
-						.append("+ " + format(0.0, tpl) + vars[0]);
+				sbBuildExplicitLineEquation.append("+ ").append(format(0.0, tpl)).append(vars[0]);
 			}
 			d = numbers[2] / q;
 			dabs = Math.abs(d);
@@ -2225,8 +2214,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		double phi = alpha;
 		sbFormatAngle.setLength(0);
 		switch (tpl.getStringType()) {
-
-		default:
+		default -> {
 			// STRING_TYPE_GEOGEBRA_XML
 			// STRING_TYPE_GEOGEBRA
 
@@ -2234,7 +2222,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 				sbFormatAngle.append("?");
 				return sbFormatAngle;
 			}
-
 			if (forceDegrees || degreesMode()) {
 				boolean isMinusOnRight = getLocalization().isMinusOnRight(tpl);
 				if (isMinusOnRight) {
@@ -2272,7 +2259,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 				return sbFormatAngle;
 			}
-
 			if (getAngleUnit() == Kernel.ANGLE_DEGREES_MINUTES_SECONDS) {
 				if (valueDegreesMinutesSeconds == null) {
 					valueDegreesMinutesSeconds = new MyDoubleDegreesMinutesSeconds.Value();
@@ -2285,7 +2271,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 			// RADIANS
 			sbFormatAngle.append(format(phi, tpl));
-
 			switch (tpl.getStringType()) {
 
 			default:
@@ -2301,8 +2286,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 				// do nothing
 				break;
 			}
-
 			return sbFormatAngle;
+		}
 		}
 	}
 
@@ -3358,8 +3343,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			return viewBounds;
 		}
 		// we can't use foreach here because of GWT
-		for (int i = 0; i < viewSet.size(); i++) {
-			addViews(viewSet.get(i), viewBounds);
+		for (Integer integer : viewSet) {
+			addViews(integer, viewBounds);
 		}
 
 		// if (viewBounds[0]==Double.POSITIVE_INFINITY){
@@ -3373,9 +3358,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	private void addViews(Integer id, double[] viewBounds) {
 		View view = getApplication().getView(id);
-		if ((view != null) && (view instanceof EuclidianViewInterfaceSlim)) {
+		if ((view != null) && (view instanceof EuclidianViewInterfaceSlim ev)) {
 
-			EuclidianViewInterfaceSlim ev = (EuclidianViewInterfaceSlim) view;
 			viewBounds[0] = Math.min(viewBounds[0], ev.getXmin());
 			viewBounds[1] = Math.max(viewBounds[1], ev.getXmax());
 			viewBounds[2] = Math.min(viewBounds[2], ev.getYmin());
@@ -4599,22 +4583,16 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 */
 	public ExpressionNode convertNumberValueToExpressionNode(GeoElement geo) {
 		AlgoElement algo = geo.getParentAlgorithm();
-		Traversing ifReplacer = new Traversing() {
-
-			@Override
-			public ExpressionValue process(ExpressionValue ev) {
-				if (ev instanceof GeoElement) {
-					return Kernel.this
-							.convertNumberValueToExpressionNode((GeoElement) ev)
-							.unwrap();
-				}
-				return ev;
+		Traversing ifReplacer = ev -> {
+			if (ev instanceof GeoElement) {
+				return Kernel.this
+						.convertNumberValueToExpressionNode((GeoElement) ev)
+						.unwrap();
 			}
-
+			return ev;
 		};
 		if (!geo.isLabelSet() && algo != null
-				&& algo instanceof DependentAlgo) {
-			DependentAlgo algoDep = (DependentAlgo) algo;
+				&& algo instanceof DependentAlgo algoDep) {
 
 			if (algoDep.getExpression() != null) {
 
@@ -4769,7 +4747,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			}
 		}
 		cons.setUpdateConstructionRunning(true);
-		GeoElement.updateCascade(geosToUpdate, new TreeSet<AlgoElement>(), true);
+		GeoElement.updateCascade(geosToUpdate, new TreeSet<>(), true);
 		cons.setUpdateConstructionRunning(false);
 	}
 

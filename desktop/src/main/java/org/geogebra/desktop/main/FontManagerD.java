@@ -4,7 +4,6 @@ import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Locale;
 
@@ -289,10 +288,8 @@ public class FontManagerD extends FontManager {
 
 		// try given fonts
 		if (tryFontNames != null) {
-			final Iterator<String> it = tryFontNames.iterator();
-			while (it.hasNext()) {
+			for (String fontName : tryFontNames) {
 				// create font for name
-				final String fontName = it.next();
 				final GFont font = getFont(fontName, Font.PLAIN, 12);
 
 				// check if creating font worked
@@ -402,7 +399,7 @@ public class FontManagerD extends FontManager {
 		UIManager.put("Table.font", plain);
 		UIManager.put("TableHeader.font", plain);
 		UIManager.put("Tree.font", plain);
-		UIManager.put("Tree.rowHeight", Integer.valueOf(plain.getSize() + 5));
+		UIManager.put("Tree.rowHeight", plain.getSize() + 5);
 		UIManager.put("List.font", plain);
 		UIManager.put("TextField.font", plain);
 		UIManager.put("PasswordField.font", plain);

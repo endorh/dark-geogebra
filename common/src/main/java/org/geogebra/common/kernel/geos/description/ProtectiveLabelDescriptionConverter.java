@@ -33,18 +33,11 @@ public class ProtectiveLabelDescriptionConverter implements ToStringConverter<Ge
 	}
 
 	private String convertProtective(GeoElement element) {
-		String caption;
-		switch (element.getLabelMode()) {
-			case LABEL_NAME:
-			case LABEL_CAPTION:
-				caption = element.getLabel(element.getLabelStringTemplate());
-				break;
-			case LABEL_VALUE:
-				caption = element.getDefinition(element.getLabelStringTemplate());
-				break;
-			default:
-				caption = element.getNameAndDefinition(StringTemplate.editTemplate);
-		}
+		String caption = switch (element.getLabelMode()) {
+			case LABEL_NAME, LABEL_CAPTION -> element.getLabel(element.getLabelStringTemplate());
+			case LABEL_VALUE -> element.getDefinition(element.getLabelStringTemplate());
+			default -> element.getNameAndDefinition(StringTemplate.editTemplate);
+		};
 		return caption.startsWith(LabelManager.HIDDEN_PREFIX) ? "" : caption;
 	}
 }

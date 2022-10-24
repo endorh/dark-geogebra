@@ -31,9 +31,7 @@ public class LocalizationD extends LocalizationCommon {
 
 			Language[] languages = Language.values();
 
-			for (int i = 0; i < languages.length; i++) {
-				Language language = languages[i];
-
+			for (Language language : languages) {
 				if (language.fullyTranslated || prerelease) {
 					if (language.locale.length() == 2) {
 						// eg "en"

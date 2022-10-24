@@ -69,9 +69,9 @@ public class AlgoSplit extends AlgoElement {
 
 		for (String inputElem : inputs) {
 			String[] splitResult = inputElem.split(splitStr);
-			for (int j = 0; j < splitResult.length; j++) {
-				if (splitResult[j] != null && !splitResult[j].isEmpty()) {
-					results.add(splitResult[j]);
+			for (String s : splitResult) {
+				if (s != null && !s.isEmpty()) {
+					results.add(s);
 				}
 			}
 		}

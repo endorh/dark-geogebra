@@ -32,7 +32,7 @@ public class CmdFrequencyPolygon extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2:
+		case 2 -> {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoList()))
 					&& (ok[1] = (arg[1].isGeoList()))) {
@@ -46,14 +46,14 @@ public class CmdFrequencyPolygon extends CommandProcessor {
 			} else {
 				throw argErr(c, arg[1]);
 			}
-
-		case 3:
+		}
+		case 3 -> {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoList())) && (ok[1] = (arg[1].isGeoList()))
 					&& (ok[2] = (arg[2].isGeoBoolean()))) {
 				GeoElement[] ret = {
 						frequencyPolygon(c.getLabel(), (GeoList) arg[0],
-								(GeoList) arg[1], (GeoBoolean) arg[2], null) };
+								(GeoList) arg[1], (GeoBoolean) arg[2], null)};
 				return ret;
 			} else if (!ok[0]) {
 				throw argErr(c, arg[0]);
@@ -62,19 +62,17 @@ public class CmdFrequencyPolygon extends CommandProcessor {
 			} else {
 				throw argErr(c, arg[2]);
 			}
-
-		case 4:
+		}
+		case 4 -> {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoList())) && (ok[1] = (arg[1].isGeoList()))
 					&& (ok[2] = (arg[2].isGeoBoolean()))
 					&& (ok[3] = (arg[3].isGeoNumeric()))) {
-				GeoElement[] ret = { frequencyPolygon(c.getLabel(),
+				GeoElement[] ret = {frequencyPolygon(c.getLabel(),
 						(GeoList) arg[0], (GeoList) arg[1], (GeoBoolean) arg[2],
-						(GeoNumeric) arg[3]) };
+						(GeoNumeric) arg[3])};
 				return ret;
-			}
-
-			else if ((ok[0] = (arg[0].isGeoBoolean()))
+			} else if ((ok[0] = (arg[0].isGeoBoolean()))
 					&& (ok[1] = (arg[1].isGeoList()))
 					&& (ok[2] = (arg[2].isGeoList()))
 					&& (ok[3] = (arg[3].isGeoBoolean()))) {
@@ -84,9 +82,7 @@ public class CmdFrequencyPolygon extends CommandProcessor {
 						(GeoList) arg[2], null, (GeoBoolean) arg[3], null);
 
 				return output(algo, c);
-			}
-
-			else if (!ok[0]) {
+			} else if (!ok[0]) {
 				throw argErr(c, arg[0]);
 			} else if (!ok[1]) {
 				throw argErr(c, arg[1]);
@@ -95,8 +91,8 @@ public class CmdFrequencyPolygon extends CommandProcessor {
 			} else {
 				throw argErr(c, arg[3]);
 			}
-
-		case 5:
+		}
+		case 5 -> {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoBoolean()))
 					&& (ok[1] = (arg[1].isGeoList()))
@@ -110,9 +106,7 @@ public class CmdFrequencyPolygon extends CommandProcessor {
 						(GeoNumeric) arg[4]);
 
 				return output(algo, c);
-			}
-
-			else if ((ok[0] = (arg[0].isGeoBoolean()))
+			} else if ((ok[0] = (arg[0].isGeoBoolean()))
 					&& (ok[1] = (arg[1].isGeoList()))
 					&& (ok[2] = (arg[2].isGeoList()))
 					&& (ok[3] = (arg[3].isGeoList()))
@@ -135,9 +129,8 @@ public class CmdFrequencyPolygon extends CommandProcessor {
 			} else {
 				throw argErr(c, arg[4]);
 			}
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 
 	}

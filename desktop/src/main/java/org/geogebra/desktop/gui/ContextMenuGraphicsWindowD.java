@@ -231,13 +231,10 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 	private void addZoomItems(JMenu menu) {
 		int perc;
 
-		ActionListener al = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					zoom(Double.parseDouble(e.getActionCommand()));
-				} catch (Exception ex) {
-				}
+		ActionListener al = e -> {
+			try {
+				zoom(Double.parseDouble(e.getActionCommand()));
+			} catch (Exception ex) {
 			}
 		};
 
@@ -266,13 +263,10 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 	}
 
 	private void addAxesRatioItems(JMenu menu) {
-		ActionListener al = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try {
-					zoomYaxis(Double.parseDouble(e.getActionCommand()));
-				} catch (Exception ex) {
-				}
+		ActionListener al = e -> {
+			try {
+				zoomYaxis(Double.parseDouble(e.getActionCommand()));
+			} catch (Exception ex) {
 			}
 		};
 
@@ -285,11 +279,11 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 		// ImageIcon icon;
 		boolean separatorAdded = false;
 		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < axesRatios.length; i++) {
+		for (double axesRatio : axesRatios) {
 			// build text like "1 : 2"
 			sb.setLength(0);
-			if (axesRatios[i] > 1.0) {
-				sb.append((int) axesRatios[i]);
+			if (axesRatio > 1.0) {
+				sb.append((int) axesRatio);
 				sb.append(" : 1");
 				if (!separatorAdded) {
 					menu.addSeparator();
@@ -297,16 +291,16 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 				}
 
 			} else { // factor
-				if (axesRatios[i] == 1) {
+				if (axesRatio == 1) {
 					menu.addSeparator();
 				}
 				sb.append("1 : ");
-				sb.append((int) (1.0 / axesRatios[i]));
+				sb.append((int) (1.0 / axesRatio));
 			}
 
 			mi = new JCheckBoxMenuItem(sb.toString());
-			mi.setSelected(DoubleUtil.isEqual(axesRatios[i], scaleRatio));
-			mi.setActionCommand("" + axesRatios[i]);
+			mi.setSelected(DoubleUtil.isEqual(axesRatio, scaleRatio));
+			mi.setActionCommand("" + axesRatio);
 			mi.addActionListener(al);
 			mi.setBackground(wrappedPopup.getBackground());
 			menu.add(mi);

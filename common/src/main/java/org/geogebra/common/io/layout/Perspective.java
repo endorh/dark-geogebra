@@ -428,9 +428,9 @@ public class Perspective {
 
 	private void getPanesXML(StringBuilder sb) {
 		sb.append("\t<panes>\n");
-		for (int i = 0; i < splitPaneData.length; ++i) {
+		for (DockSplitPaneData splitPaneDatum : splitPaneData) {
 			sb.append("\t\t");
-			sb.append(splitPaneData[i].getXml());
+			sb.append(splitPaneDatum.getXml());
 			sb.append("\n");
 		}
 		sb.append("\t</panes>\n");

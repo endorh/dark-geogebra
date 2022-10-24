@@ -34,10 +34,8 @@ public class CmdElement extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 0:
-		case 1:
-			throw argNumErr(c);
-		case 2:
+		case 0, 1 -> throw argNumErr(c);
+		case 2 -> {
 			arg = resArgs(c);
 			// list
 			if ((ok[0] = arg[0].isGeoList() || arg[0] instanceof GeoList)
@@ -46,7 +44,7 @@ public class CmdElement extends CommandProcessor {
 				AlgoListElement algo = new AlgoListElement(cons,
 						(GeoList) arg[0], (GeoNumberValue) arg[1]);
 				algo.getElement().setLabel(c.getLabel());
-				GeoElement[] ret = { algo.getElement() };
+				GeoElement[] ret = {algo.getElement()};
 				return ret;
 			}
 			if ((ok[0] = arg[0].isGeoText())
@@ -55,12 +53,12 @@ public class CmdElement extends CommandProcessor {
 				AlgoTextElement algo = new AlgoTextElement(cons, c.getLabel(),
 						(GeoText) arg[0], (GeoNumberValue) arg[1]);
 
-				GeoElement[] ret = { algo.getText() };
+				GeoElement[] ret = {algo.getText()};
 				return ret;
 			}
 			throw argErr(c, getBadArg(ok, arg));
-
-		default:
+		}
+		default -> {
 			arg = resArgs(c);
 			// list
 			GeoNumberValue[] nvs = new GeoNumberValue[n - 1];
@@ -74,12 +72,12 @@ public class CmdElement extends CommandProcessor {
 					throw argErr(c, arg[i]);
 				}
 			}
-
 			AlgoListElement algo = new AlgoListElement(cons,
 					(GeoList) arg[0], nvs);
 			algo.getElement().setLabel(c.getLabel());
-			GeoElement[] ret = { algo.getElement() };
+			GeoElement[] ret = {algo.getElement()};
 			return ret;
+		}
 		}
 
 	}

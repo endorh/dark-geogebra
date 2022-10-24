@@ -73,12 +73,10 @@ public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements
 
 	@Override
 	public int getRelatedModeID() {
-		switch (super.getType()) {
-		case AlgoSphereNDPointRadius.TYPE_RADIUS:
-			return EuclidianConstants.MODE_CIRCLE_POINT_RADIUS;
-		default:
-			return EuclidianConstants.MODE_COMPASSES;
-		}
+		return switch (super.getType()) {
+			case AlgoSphereNDPointRadius.TYPE_RADIUS -> EuclidianConstants.MODE_CIRCLE_POINT_RADIUS;
+			default -> EuclidianConstants.MODE_COMPASSES;
+		};
 	}
 
 	/**
@@ -112,13 +110,12 @@ public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements
 		GeoPoint P = (GeoPoint) this.getInput(0);
 
 		/* SPECIAL CASE 1: radius is a segment */
-		if (this.getInput(1) instanceof GeoSegment) {
+		if (this.getInput(1) instanceof GeoSegment s) {
 			/*
 			 * Here we do the full work for this segment. It would be nicer to
 			 * put this code into GeoSegment but we need to use the square of
 			 * the length of the segment in this special case.
 			 */
-			GeoSegment s = (GeoSegment) this.getInput(1);
 			if (botanaVars == null) {
 				PVariable[] centerBotanaVars = P.getBotanaVars(P);
 				botanaVars = new PVariable[4];

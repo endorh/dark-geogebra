@@ -78,27 +78,23 @@ public abstract class NativeArrayBufferView
     @Override
     protected String getInstanceIdName(int id)
     {
-        switch (id) {
-        case Id_buffer: return "buffer";
-        case Id_byteOffset: return "byteOffset";
-        case Id_byteLength: return "byteLength";
-        default: return super.getInstanceIdName(id);
-        }
+	    return switch (id) {
+		    case Id_buffer -> "buffer";
+		    case Id_byteOffset -> "byteOffset";
+		    case Id_byteLength -> "byteLength";
+		    default -> super.getInstanceIdName(id);
+	    };
     }
 
     @Override
     protected Object getInstanceIdValue(int id)
     {
-        switch (id) {
-        case Id_buffer:
-            return arrayBuffer;
-        case Id_byteOffset:
-            return ScriptRuntime.wrapInt(offset);
-        case Id_byteLength:
-            return ScriptRuntime.wrapInt(byteLength);
-        default:
-            return super.getInstanceIdValue(id);
-        }
+	    return switch (id) {
+		    case Id_buffer -> arrayBuffer;
+		    case Id_byteOffset -> ScriptRuntime.wrapInt(offset);
+		    case Id_byteLength -> ScriptRuntime.wrapInt(byteLength);
+		    default -> super.getInstanceIdValue(id);
+	    };
     }
 
 // #string_id_map#

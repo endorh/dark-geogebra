@@ -81,8 +81,8 @@ public final class MidiParser extends Parser {
 		// Compute the size of this adventure for the ParserProgressListener
 		long totalCount = 0;
 		long counter = 0;
-		for (byte i = 0; i < tracks.length; i++) {
-			totalCount += tracks[i].size();
+		for (Track track : tracks) {
+			totalCount += track.size();
 		}
 
 		// And now to parse the MIDI!

@@ -71,20 +71,12 @@ public class GlobalKeyDispatcherD extends GlobalKeyDispatcher
 
 		boolean consumed = false;
 		switch (event.getID()) {
-		default:
-			// do nothing
-			break;
-		case KeyEvent.KEY_PRESSED:
-			consumed = handleKeyPressed(event);
-			break;
-
-		case KeyEvent.KEY_TYPED:
-			consumed = handleKeyTyped(event);
-			break;
-
-		case KeyEvent.KEY_RELEASED:
-			newWindowAllowed = true;
-			break;
+		default -> {
+		}
+		// do nothing
+		case KeyEvent.KEY_PRESSED -> consumed = handleKeyPressed(event);
+		case KeyEvent.KEY_TYPED -> consumed = handleKeyTyped(event);
+		case KeyEvent.KEY_RELEASED -> newWindowAllowed = true;
 		}
 
 		if (consumed) {

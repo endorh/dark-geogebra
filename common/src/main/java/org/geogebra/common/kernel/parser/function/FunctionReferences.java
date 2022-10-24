@@ -24,7 +24,7 @@ class FunctionReferences {
 
 	private void initFunctionMap() {
 		for (int i = 0; i <= MAX_ARGS; i++) {
-			functionMap.add(new HashMap<String, Operation>());
+			functionMap.add(new HashMap<>());
 		}
 	}
 

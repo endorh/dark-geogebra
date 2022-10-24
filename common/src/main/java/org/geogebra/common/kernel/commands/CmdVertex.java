@@ -44,7 +44,7 @@ public class CmdVertex extends CommandProcessor {
 
 		switch (n) {
 		// Vertex[ <GeoConic> ]
-		case 1:
+		case 1 -> {
 			arg = resArgs(c);
 			if (arg[0].isGeoConic()) {
 
@@ -70,14 +70,15 @@ public class CmdVertex extends CommandProcessor {
 			} else if (arg[0] instanceof GeoNumberValue) {
 				GeoElement[] ret = {
 						(GeoElement) cornerOfDrawingPad(c.getLabel(),
-								(GeoNumberValue) arg[0], null) };
+								(GeoNumberValue) arg[0], null)};
 				return ret;
 			} else {
 				throw argErr(c, arg[0]);
 			}
+		}
 
-			// Corner[ <Image>, <number> ]
-		case 2:
+		// Corner[ <Image>, <number> ]
+		case 2 -> {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0] instanceof GeoPoly))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
@@ -86,7 +87,7 @@ public class CmdVertex extends CommandProcessor {
 						c.getLabel(), (GeoPoly) arg[0],
 						(GeoNumberValue) arg[1]);
 
-				GeoElement[] ret = { (GeoElement) algo.getOneVertex() };
+				GeoElement[] ret = {(GeoElement) algo.getOneVertex()};
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoImage()))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
@@ -94,7 +95,7 @@ public class CmdVertex extends CommandProcessor {
 				AlgoImageCorner algo = new AlgoImageCorner(cons, c.getLabel(),
 						(GeoImage) arg[0], (GeoNumberValue) arg[1]);
 
-				GeoElement[] ret = { algo.getCorner() };
+				GeoElement[] ret = {algo.getCorner()};
 				return ret;
 			}
 			// Corner[ <Text>, <number> ]
@@ -104,7 +105,7 @@ public class CmdVertex extends CommandProcessor {
 				AlgoTextCorner algo = new AlgoTextCorner(cons, c.getLabel(),
 						(TextProperties) arg[0], (GeoNumberValue) arg[1]);
 
-				GeoElement[] ret = { algo.getCorner() };
+				GeoElement[] ret = {algo.getCorner()};
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoSegment()))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
@@ -121,7 +122,7 @@ public class CmdVertex extends CommandProcessor {
 							c.getLabel(), (GeoSegmentND) arg[0],
 							(GeoNumberValue) arg[1]);
 
-					GeoElement[] ret = { (GeoElement) algo.getPoint() };
+					GeoElement[] ret = {(GeoElement) algo.getPoint()};
 					return ret;
 				}
 
@@ -131,15 +132,14 @@ public class CmdVertex extends CommandProcessor {
 				GeoElement[] ret = {
 						(GeoElement) cornerOfDrawingPad(c.getLabel(),
 								(GeoNumberValue) arg[1],
-								(GeoNumberValue) arg[0]) };
+								(GeoNumberValue) arg[0])};
 				return ret;
 
 			} else {
 				throw argErr(c, getBadArg(ok, arg));
 			}
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

@@ -88,11 +88,11 @@ public class AlgebraViewTransferHandler extends TransferHandler
 
 	@Override
 	public boolean isDataFlavorSupported(DataFlavor flavor) {
-		for (int i = 0; i < supportedFlavors.length; i++) {
+		for (DataFlavor supportedFlavor : supportedFlavors) {
 			// System.out.println(flavor.getMimeType());
 			// System.out.println(supportedFlavors[i].getMimeType());
 			// System.out.println("------------");
-			if (supportedFlavors[i].equals(flavor)) {
+			if (supportedFlavor.equals(flavor)) {
 				return true;
 			}
 		}

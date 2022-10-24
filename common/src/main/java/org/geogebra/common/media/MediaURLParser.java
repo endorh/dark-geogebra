@@ -62,7 +62,7 @@ public class MediaURLParser {
 
 		if (url.contains(YOUTUBE)) {
 			if (url.contains(ID_PARAM_1) || url.contains(ID_PARAM_2)) {
-				startIdx = url.indexOf(ID_PARAM_1) != -1 ? url.indexOf(ID_PARAM_1)
+				startIdx = url.contains(ID_PARAM_1) ? url.indexOf(ID_PARAM_1)
 						: url.indexOf(ID_PARAM_2);
 				subString = url.substring(startIdx + ID_PARAM_1.length());
 			} else if (url.contains(EMBED)) {
@@ -75,9 +75,9 @@ public class MediaURLParser {
 		}
 
 		if (subString != null) {
-			int endIdx = subString.indexOf("?") != -1 ? subString.indexOf("?")
-					: (subString.indexOf("&") != -1 ? subString.indexOf("&")
-							: (subString.indexOf("\"") != -1 ? subString.indexOf("\"") : -1));
+			int endIdx = subString.contains("?") ? subString.indexOf("?")
+					: (subString.contains("&") ? subString.indexOf("&")
+							: (subString.contains("\"") ? subString.indexOf("\"") : -1));
 			if (endIdx != -1) {
 				id = subString.substring(0, endIdx);
 			} else {

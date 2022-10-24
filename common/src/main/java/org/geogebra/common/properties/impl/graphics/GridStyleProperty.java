@@ -42,18 +42,13 @@ public class GridStyleProperty extends AbstractEnumerableProperty
 
 	@Override
 	public int getIndex() {
-		switch (euclidianSettings.getGridType()) {
-		case EuclidianView.GRID_CARTESIAN:
-			return 0;
-		case EuclidianView.GRID_CARTESIAN_WITH_SUBGRID:
-			return 1;
-		case EuclidianView.GRID_POLAR:
-			return 2;
-		case EuclidianView.GRID_ISOMETRIC:
-			return 3;
-		default:
-			return -1;
-		}
+		return switch (euclidianSettings.getGridType()) {
+			case EuclidianView.GRID_CARTESIAN -> 0;
+			case EuclidianView.GRID_CARTESIAN_WITH_SUBGRID -> 1;
+			case EuclidianView.GRID_POLAR -> 2;
+			case EuclidianView.GRID_ISOMETRIC -> 3;
+			default -> -1;
+		};
 	}
 
 	@Override

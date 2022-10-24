@@ -221,15 +221,13 @@ public class Marker extends Group {
 			for (PathIterator it = shape.getPathIterator(null); !it.isDone(); it
 					.next()) {
 				switch (it.currentSegment(coords)) {
-				case PathIterator.SEG_MOVETO:
+				case PathIterator.SEG_MOVETO -> {
 					px = coords[0];
 					py = coords[1];
 					started = false;
-					break;
-				case PathIterator.SEG_CLOSE:
-					started = false;
-					break;
-				case PathIterator.SEG_LINETO: {
+				}
+				case PathIterator.SEG_CLOSE -> started = false;
+				case PathIterator.SEG_LINETO -> {
 					double x = coords[0];
 					double y = coords[1];
 					markerIn(px, py, x - px, y - py);
@@ -238,7 +236,7 @@ public class Marker extends Group {
 					py = y;
 					break;
 				}
-				case PathIterator.SEG_QUADTO: {
+				case PathIterator.SEG_QUADTO -> {
 					double k0x = coords[0];
 					double k0y = coords[1];
 					double x = coords[2];
@@ -264,7 +262,7 @@ public class Marker extends Group {
 					py = y;
 					break;
 				}
-				case PathIterator.SEG_CUBICTO: {
+				case PathIterator.SEG_CUBICTO -> {
 					double k0x = coords[0];
 					double k0y = coords[1];
 					double k1x = coords[2];

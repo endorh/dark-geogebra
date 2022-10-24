@@ -409,9 +409,7 @@ public class ClipShape {
 			if (k < 0) {
 				return 0;
 			}
-			for (int i = 0; i < k; i++) {
-				dest[offset + i] = t2[i];
-			}
+			System.arraycopy(t2, 0, dest, offset + 0, k);
 			return k;
 		}
 	}

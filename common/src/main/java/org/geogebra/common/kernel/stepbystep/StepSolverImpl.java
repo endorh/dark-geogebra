@@ -27,23 +27,13 @@ public class StepSolverImpl implements StepSolver {
 			variable = expression.getListOfVariables().get(0);
 		}
 		switch (type) {
-		case "simplify":
-			expression.regroup(sb);
-			break;
-		case "expand":
-			expression.expand(sb);
-			break;
-		case "factor":
-			expression.factor(sb);
-			break;
-		case "solve":
-			expression.toSolvable().solve(variable, sb);
-			break;
-		case "derivative":
-			StepNode.differentiate((StepExpression) expression, variable).differentiate(sb);
-			break;
-		default:
-			throw new IllegalArgumentException("Unexpected step type " + type);
+		case "simplify" -> expression.regroup(sb);
+		case "expand" -> expression.expand(sb);
+		case "factor" -> expression.factor(sb);
+		case "solve" -> expression.toSolvable().solve(variable, sb);
+		case "derivative" ->
+				StepNode.differentiate((StepExpression) expression, variable).differentiate(sb);
+		default -> throw new IllegalArgumentException("Unexpected step type " + type);
 		}
 		SolutionStep steps = sb.getSteps();
 		StepGuiBuilderJson builder = new StepGuiBuilderJson(parser.getKernel().getLocalization());

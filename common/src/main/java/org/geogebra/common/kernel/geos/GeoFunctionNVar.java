@@ -562,10 +562,8 @@ public class GeoFunctionNVar extends GeoElement
 
 		ExpressionValue[][] coeffs = equalityChecker.getNormalForm().getCoeff();
 
-		for (int i = 0; i < coeffs.length; i++) {
-			for (int j = 0; j < coeffs[i].length; j++) {
-				ExpressionValue coeff = coeffs[i][j];
-
+		for (ExpressionValue[] expressionValues : coeffs) {
+			for (ExpressionValue coeff : expressionValues) {
 				// null -> no term
 				if (coeff != null) {
 

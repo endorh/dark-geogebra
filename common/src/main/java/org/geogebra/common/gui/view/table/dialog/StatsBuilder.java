@@ -56,7 +56,7 @@ public class StatsBuilder {
 		addStats(stats, ONE_VAR_STATS, varName, lists[0]);
 		addStats(stats, ONE_VAR_STATS, varName2, lists[1]);
 		addStats(stats, TWO_VAR_STATS, varName + varName2, lists);
-		addStats(stats, Arrays.asList(Stat.LENGTH), varName, lists[0]);
+		addStats(stats, List.of(Stat.LENGTH), varName, lists[0]);
 		addStats(stats, MIN_MAX, varName, lists[0]);
 		addStats(stats, MIN_MAX, varName2, lists[1]);
 		return stats;

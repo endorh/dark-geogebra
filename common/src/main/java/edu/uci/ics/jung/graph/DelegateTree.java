@@ -35,13 +35,8 @@ public class DelegateTree<V, E> extends GraphDecorator<V, E>
 	 *            the edge type for the graph factory
 	 */
 	public static final <V, E> Factory<Tree<V, E>> getFactory() {
-		return new Factory<Tree<V, E>>() {
-			@Override
-			public Tree<V, E> create() {
-				return new DelegateTree<V, E>(
-						new DirectedSparseMultigraph<V, E>());
-			}
-		};
+		return () -> new DelegateTree<>(
+				new DirectedSparseMultigraph<>());
 	}
 
 	protected V root;
@@ -62,7 +57,7 @@ public class DelegateTree<V, E> extends GraphDecorator<V, E>
 	 */
 	public DelegateTree(Factory<DirectedGraph<V, E>> graphFactory) {
 		super(graphFactory.create());
-		this.vertex_depths = new HashMap<V, Integer>();
+		this.vertex_depths = new HashMap<>();
 	}
 
 	/**
@@ -74,7 +69,7 @@ public class DelegateTree<V, E> extends GraphDecorator<V, E>
 		super(graph);
 		// if(graph.getVertexCount() != 0) throw new IllegalArgumentException(
 		// "Passed DirectedGraph must be empty");
-		this.vertex_depths = new HashMap<V, Integer>();
+		this.vertex_depths = new HashMap<>();
 	}
 
 	/**
@@ -271,7 +266,7 @@ public class DelegateTree<V, E> extends GraphDecorator<V, E>
 		if (!delegate.containsVertex(vertex)) {
 			return null;
 		}
-		List<V> vertex_to_root = new ArrayList<V>();
+		List<V> vertex_to_root = new ArrayList<>();
 		vertex_to_root.add(vertex);
 		V parent = getParent(vertex);
 		while (parent != null) {
@@ -279,7 +274,7 @@ public class DelegateTree<V, E> extends GraphDecorator<V, E>
 			parent = getParent(parent);
 		}
 		// reverse list so that it goes from root to child
-		List<V> root_to_vertex = new ArrayList<V>(vertex_to_root.size());
+		List<V> root_to_vertex = new ArrayList<>(vertex_to_root.size());
 		for (int i = vertex_to_root.size() - 1; i >= 0; i--) {
 			root_to_vertex.add(vertex_to_root.get(i));
 		}
@@ -397,7 +392,7 @@ public class DelegateTree<V, E> extends GraphDecorator<V, E>
 		if (vertices instanceof Pair) {
 			pair = (Pair<V>) vertices;
 		} else {
-			pair = new Pair<V>(vertices);
+			pair = new Pair<>(vertices);
 		}
 		return addEdge(edge, pair.getFirst(), pair.getSecond());
 	}

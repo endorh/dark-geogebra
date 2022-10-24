@@ -40,7 +40,6 @@ import java.awt.Shape;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.awt.geom.Rectangle2D;
-import java.util.Iterator;
 
 import com.kitfox.svg.pathcmd.BuildHistory;
 import com.kitfox.svg.pathcmd.PathCommand;
@@ -110,8 +109,7 @@ public class MissingGlyph extends ShapeElement {
 
 			BuildHistory hist = new BuildHistory();
 
-			for (int i = 0; i < commands.length; i++) {
-				PathCommand cmd = commands[i];
+			for (PathCommand cmd : commands) {
 				cmd.appendPath(buildPath, hist);
 			}
 
@@ -151,9 +149,8 @@ public class MissingGlyph extends ShapeElement {
 			renderShape(g, path);
 		}
 
-		Iterator it = children.iterator();
-		while (it.hasNext()) {
-			SVGElement ele = (SVGElement) it.next();
+		for (Object child : children) {
+			SVGElement ele = (SVGElement) child;
 			if (ele instanceof RenderableElement) {
 				((RenderableElement) ele).render(g);
 			}

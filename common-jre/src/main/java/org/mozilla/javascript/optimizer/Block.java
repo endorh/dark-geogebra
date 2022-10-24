@@ -85,9 +85,9 @@ class Block
         typeFlow(fn, statementNodes, theBlocks, varTypes);
 
         if (DEBUG) {
-            for (int i = 0; i < theBlocks.length; i++) {
-                System.out.println("For block " + theBlocks[i].itsBlockID);
-                theBlocks[i].printLiveOnEntrySet(fn);
+            for (Block theBlock : theBlocks) {
+                System.out.println("For block " + theBlock.itsBlockID);
+                theBlock.printLiveOnEntrySet(fn);
             }
             System.out.println("Variable Table, size = " + varCount);
             for (int i = 0; i != varCount; i++) {
@@ -106,41 +106,35 @@ class Block
     private static Block[] buildBlocks(Node[] statementNodes)
     {
         // a mapping from each target node to the block it begins
-        Map<Node,FatBlock> theTargetBlocks = new HashMap<Node,FatBlock>();
+        Map<Node,FatBlock> theTargetBlocks = new HashMap<>();
         ObjArray theBlocks = new ObjArray();
 
         // there's a block that starts at index 0
         int beginNodeIndex = 0;
 
         for (int i = 0; i < statementNodes.length; i++) {
-            switch (statementNodes[i].getType()) {
-                case Token.TARGET :
-                {
-                    if (i != beginNodeIndex) {
-                        FatBlock fb = newFatBlock(beginNodeIndex, i - 1);
-                        if (statementNodes[beginNodeIndex].getType() == Token.TARGET) {
-                            theTargetBlocks.put(statementNodes[beginNodeIndex], fb);
-                        }
-                        theBlocks.add(fb);
-                        // start the next block at this node
-                        beginNodeIndex = i;
-                    }
-                }
-                break;
-                case Token.IFNE :
-                case Token.IFEQ :
-                case Token.GOTO :
-                {
-                    FatBlock fb = newFatBlock(beginNodeIndex, i);
-                    if (statementNodes[beginNodeIndex].getType() == Token.TARGET) {
-                        theTargetBlocks.put(statementNodes[beginNodeIndex], fb);
-                    }
-                    theBlocks.add(fb);
-                    // start the next block at the next node
-                    beginNodeIndex = i + 1;
-                }
-                break;
-            }
+	        switch (statementNodes[i].getType()) {
+	        case Token.TARGET -> {
+		        if (i != beginNodeIndex) {
+			        FatBlock fb = newFatBlock(beginNodeIndex, i - 1);
+			        if (statementNodes[beginNodeIndex].getType() == Token.TARGET) {
+				        theTargetBlocks.put(statementNodes[beginNodeIndex], fb);
+			        }
+			        theBlocks.add(fb);
+			        // start the next block at this node
+			        beginNodeIndex = i;
+		        }
+	        }
+	        case Token.IFNE, Token.IFEQ, Token.GOTO -> {
+		        FatBlock fb = newFatBlock(beginNodeIndex, i);
+		        if (statementNodes[beginNodeIndex].getType() == Token.TARGET) {
+			        theTargetBlocks.put(statementNodes[beginNodeIndex], fb);
+		        }
+		        theBlocks.add(fb);
+		        // start the next block at the next node
+		        beginNodeIndex = i + 1;
+	        }
+	        }
         }
 
         if (beginNodeIndex != statementNodes.length) {
@@ -206,8 +200,7 @@ class Block
         PrintWriter pw = new PrintWriter(sw);
 
         pw.println(blockList.length + " Blocks");
-        for (int i = 0; i < blockList.length; i++) {
-            Block b = blockList[i];
+        for (Block b : blockList) {
             pw.println("#" + b.itsBlockID);
             pw.println("from " + b.itsStartNodeIndex
                     + " "
@@ -245,8 +238,8 @@ class Block
     that are def'd by each function, and those that are used before being def'd
     (hence liveOnEntry)
 */
-        for (int i = 0; i < theBlocks.length; i++) {
-            theBlocks[i].initLiveOnEntrySets(fn, statementNodes);
+        for (Block theBlock : theBlocks) {
+            theBlock.initLiveOnEntrySets(fn, statementNodes);
         }
 /*
     this visits every block starting at the last, re-adding the predecessors of
@@ -265,8 +258,8 @@ class Block
                 if (theBlocks[vIndex].doReachedUseDataFlow()) {
                     Block pred[] = theBlocks[vIndex].itsPredecessors;
                     if (pred != null) {
-                        for (int i = 0; i < pred.length; i++) {
-                            int index = pred[i].itsBlockID;
+                        for (Block block : pred) {
+                            int index = block.itsBlockID;
                             visit[index] = true;
                             needRescan |= (index > vIndex);
                         }
@@ -309,8 +302,8 @@ class Block
                 {
                     Block succ[] = theBlocks[vIndex].itsSuccessors;
                     if (succ != null) {
-                        for (int i = 0; i < succ.length; i++) {
-                            int index = succ[i].itsBlockID;
+                        for (Block block : succ) {
+                            int index = block.itsBlockID;
                             visit[index] = true;
                             needRescan |= (index < vIndex);
                         }
@@ -356,54 +349,44 @@ class Block
     */
     private void lookForVariableAccess(OptFunctionNode fn, Node n)
     {
-        switch (n.getType()) {
-            case Token.TYPEOFNAME:
-            {
-                // TYPEOFNAME may be used with undefined names, which is why
-                // this is handled separately from GETVAR above.
-                int varIndex = fn.fnode.getIndexForNameNode(n);
-                if (varIndex > -1 && !itsNotDefSet.get(varIndex))
-                    itsUseBeforeDefSet.set(varIndex);
-            }
-            break;
-            case Token.DEC :
-            case Token.INC :
-            {
-                Node child = n.getFirstChild();
-                if (child.getType() == Token.GETVAR) {
-                    int varIndex = fn.getVarIndex(child);
-                    if (!itsNotDefSet.get(varIndex))
-                        itsUseBeforeDefSet.set(varIndex);
-                    itsNotDefSet.set(varIndex);
-                } else {
-                    lookForVariableAccess(fn, child);
-                }
-            }
-            break;
-            case Token.SETVAR :
-            case Token.SETCONSTVAR :
-            {
-                Node lhs = n.getFirstChild();
-                Node rhs = lhs.getNext();
-                lookForVariableAccess(fn, rhs);
-                itsNotDefSet.set(fn.getVarIndex(n));
-            }
-            break;
-            case Token.GETVAR :
-            {
-                int varIndex = fn.getVarIndex(n);
-                if (!itsNotDefSet.get(varIndex))
-                    itsUseBeforeDefSet.set(varIndex);
-            }
-            break;
-            default :
-                Node child = n.getFirstChild();
-                while (child != null) {
-                    lookForVariableAccess(fn, child);
-                    child = child.getNext();
-                }
-                break;
-        }
+	    switch (n.getType()) {
+	    case Token.TYPEOFNAME -> {
+		    // TYPEOFNAME may be used with undefined names, which is why
+		    // this is handled separately from GETVAR above.
+		    int varIndex = fn.fnode.getIndexForNameNode(n);
+		    if (varIndex > -1 && !itsNotDefSet.get(varIndex))
+			    itsUseBeforeDefSet.set(varIndex);
+	    }
+	    case Token.DEC, Token.INC -> {
+		    Node child = n.getFirstChild();
+		    if (child.getType() == Token.GETVAR) {
+			    int varIndex = fn.getVarIndex(child);
+			    if (!itsNotDefSet.get(varIndex))
+				    itsUseBeforeDefSet.set(varIndex);
+			    itsNotDefSet.set(varIndex);
+		    } else {
+			    lookForVariableAccess(fn, child);
+		    }
+	    }
+	    case Token.SETVAR, Token.SETCONSTVAR -> {
+		    Node lhs = n.getFirstChild();
+		    Node rhs = lhs.getNext();
+		    lookForVariableAccess(fn, rhs);
+		    itsNotDefSet.set(fn.getVarIndex(n));
+	    }
+	    case Token.GETVAR -> {
+		    int varIndex = fn.getVarIndex(n);
+		    if (!itsNotDefSet.get(varIndex))
+			    itsUseBeforeDefSet.set(varIndex);
+	    }
+	    default -> {
+		    Node child = n.getFirstChild();
+		    while (child != null) {
+			    lookForVariableAccess(fn, child);
+			    child = child.getNext();
+		    }
+	    }
+	    }
     }
 
     /*
@@ -435,8 +418,8 @@ class Block
     {
         itsLiveOnExitSet.clear();
         if (itsSuccessors != null) {
-            for (int i = 0; i < itsSuccessors.length; i++) {
-                itsLiveOnExitSet.or(itsSuccessors[i].itsLiveOnEntrySet);
+            for (Block itsSuccessor : itsSuccessors) {
+                itsLiveOnExitSet.or(itsSuccessor.itsLiveOnEntrySet);
             }
         }
         return updateEntrySet(itsLiveOnEntrySet, itsLiveOnExitSet,

@@ -304,163 +304,61 @@ public class Korean {
 	 * @return hangul character
 	 */
 	public static char convertFromCompatibilityJamo(char ch, boolean lead) {
-		switch (ch) {
-		case '\u3131':
-			return lead ? '\u1100' : '\u11a8';
+		return switch (ch) {
+			case '\u3131' -> lead ? '\u1100' : '\u11a8';
+			case '\u3132' -> lead ? '\u1101' : '\u11a9';
+			case '\u3133' -> '\u11aa';
+			case '\u3134' -> lead ? '\u1102' : '\u11ab';
+			case '\u3135' -> '\u11ac';
+			case '\u3136' -> '\u11ad';
+			case '\u3137' -> lead ? '\u1103' : '\u11ae';
+			case '\u3138' -> '\u1104';
+			case '\u3139' -> lead ? '\u1105' : '\u11af';
+			case '\u313a' -> '\u11b0';
+			case '\u313b' -> '\u11b1';
+			case '\u313c' -> '\u11b2';
+			case '\u313d' -> '\u11b3';
+			case '\u313e' -> '\u11b4';
+			case '\u313f' -> '\u11b5';
+			case '\u3140' -> '\u11b6';
+			case '\u3141' -> lead ? '\u1106' : '\u11b7';
+			case '\u3142' -> lead ? '\u1107' : '\u11b8';
+			case '\u3143' -> '\u1108';
+			case '\u3144' -> lead ? '\u1121' : '\u11b9';
+			case '\u3145' -> lead ? '\u1109' : '\u11ba';
+			case '\u3146' -> lead ? '\u110a' : '\u11bb';
+			case '\u3147' -> lead ? '\u110b' : '\u11bc';
+			case '\u3148' -> lead ? '\u110c' : '\u11bd';
+			case '\u3149' -> '\u110d';
+			case '\u314a' -> lead ? '\u110e' : '\u11be';
+			case '\u314b' -> lead ? '\u110f' : '\u11bf';
+			case '\u314c' -> lead ? '\u1110' : '\u11c0';
+			case '\u314d' -> lead ? '\u1111' : '\u11c1';
+			case '\u314e' -> lead ? '\u1112' : '\u11c2';
+			case '\u314f' -> '\u1161';
+			case '\u3150' -> '\u1162';
+			case '\u3151' -> '\u1163';
+			case '\u3152' -> '\u1164';
+			case '\u3153' -> '\u1165';
+			case '\u3154' -> '\u1166';
+			case '\u3155' -> '\u1167';
+			case '\u3156' -> '\u1168';
+			case '\u3157' -> '\u1169';
+			case '\u3158' -> '\u116a';
+			case '\u3159' -> '\u116b';
+			case '\u315a' -> '\u116c';
+			case '\u315b' -> '\u116d';
+			case '\u315c' -> '\u116e';
+			case '\u315d' -> '\u116f';
+			case '\u315e' -> '\u1170';
+			case '\u315f' -> '\u1171';
+			case '\u3160' -> '\u1172';
+			case '\u3161' -> '\u1173';
+			case '\u3162' -> '\u1174';
+			case '\u3163' -> '\u1175';
+			default -> ch;
+		};
 
-		case '\u3132':
-			return lead ? '\u1101' : '\u11a9';
-
-		case '\u3133':
-			return '\u11aa';
-
-		case '\u3134':
-			return lead ? '\u1102' : '\u11ab';
-
-		case '\u3135':
-			return '\u11ac';
-
-		case '\u3136':
-			return '\u11ad';
-
-		case '\u3137':
-			return lead ? '\u1103' : '\u11ae';
-
-		case '\u3138':
-			return '\u1104';
-
-		case '\u3139':
-			return lead ? '\u1105' : '\u11af';
-
-		case '\u313a':
-			return '\u11b0';
-
-		case '\u313b':
-			return '\u11b1';
-
-		case '\u313c':
-			return '\u11b2';
-
-		case '\u313d':
-			return '\u11b3';
-
-		case '\u313e':
-			return '\u11b4';
-
-		case '\u313f':
-			return '\u11b5';
-
-		case '\u3140':
-			return '\u11b6';
-
-		case '\u3141':
-			return lead ? '\u1106' : '\u11b7';
-
-		case '\u3142':
-			return lead ? '\u1107' : '\u11b8';
-
-		case '\u3143':
-			return '\u1108';
-
-		case '\u3144':
-			return lead ? '\u1121' : '\u11b9';
-
-		case '\u3145':
-			return lead ? '\u1109' : '\u11ba';
-
-		case '\u3146':
-			return lead ? '\u110a' : '\u11bb';
-
-		case '\u3147':
-			return lead ? '\u110b' : '\u11bc';
-
-		case '\u3148':
-			return lead ? '\u110c' : '\u11bd';
-
-		case '\u3149':
-			return '\u110d';
-
-		case '\u314a':
-			return lead ? '\u110e' : '\u11be';
-
-		case '\u314b':
-			return lead ? '\u110f' : '\u11bf';
-
-		case '\u314c':
-			return lead ? '\u1110' : '\u11c0';
-
-		case '\u314d':
-			return lead ? '\u1111' : '\u11c1';
-
-		case '\u314e':
-			return lead ? '\u1112' : '\u11c2';
-
-		case '\u314f':
-			return '\u1161';
-
-		case '\u3150':
-			return '\u1162';
-
-		case '\u3151':
-			return '\u1163';
-
-		case '\u3152':
-			return '\u1164';
-
-		case '\u3153':
-			return '\u1165';
-
-		case '\u3154':
-			return '\u1166';
-
-		case '\u3155':
-			return '\u1167';
-
-		case '\u3156':
-			return '\u1168';
-
-		case '\u3157':
-			return '\u1169';
-
-		case '\u3158':
-			return '\u116a';
-
-		case '\u3159':
-			return '\u116b';
-
-		case '\u315a':
-			return '\u116c';
-
-		case '\u315b':
-			return '\u116d';
-
-		case '\u315c':
-			return '\u116e';
-
-		case '\u315d':
-			return '\u116f';
-
-		case '\u315e':
-			return '\u1170';
-
-		case '\u315f':
-			return '\u1171';
-
-		case '\u3160':
-			return '\u1172';
-
-		case '\u3161':
-			return '\u1173';
-
-		case '\u3162':
-			return '\u1174';
-
-		case '\u3163':
-			return '\u1175';
-
-		}
-
-		return ch;
 	}
 
 	/**
@@ -471,180 +369,61 @@ public class Korean {
 	 * @return compatibility jamo
 	 */
 	public static char convertToCompatibilityJamo(char ch) {
-		switch (ch) {
-		case '\u1100':
-		case '\u11a8':
-			return '\u3131';
+		return switch (ch) {
+			case '\u1100', '\u11a8' -> '\u3131';
+			case '\u1101', '\u11a9' -> '\u3132';
+			case '\u11aa' -> '\u3133';
+			case '\u1102', '\u11ab' -> '\u3134';
+			case '\u11ac' -> '\u3135';
+			case '\u11ad' -> '\u3136';
+			case '\u1103', '\u11ae' -> '\u3137';
+			case '\u1104' -> '\u3138';
+			case '\u1105', '\u11af' -> '\u3139';
+			case '\u11b0' -> '\u313a';
+			case '\u11b1' -> '\u313b';
+			case '\u11b2' -> '\u313c';
+			case '\u11b3' -> '\u313d';
+			case '\u11b4' -> '\u313e';
+			case '\u11b5' -> '\u313f';
+			case '\u11b6' -> '\u3140';
+			case '\u1106', '\u11b7' -> '\u3141';
+			case '\u1107', '\u11b8' -> '\u3142';
+			case '\u1108' -> '\u3143';
+			case '\u1121', '\u11b9' -> '\u3144';
+			case '\u1109', '\u11ba' -> '\u3145';
+			case '\u110a', '\u11bb' -> '\u3146';
+			case '\u110b', '\u11bc' -> '\u3147';
+			case '\u110c', '\u11bd' -> '\u3148';
+			case '\u110d' -> '\u3149';
+			case '\u110e', '\u11be' -> '\u314a';
+			case '\u110f', '\u11bf' -> '\u314b';
+			case '\u1110', '\u11c0' -> '\u314c';
+			case '\u1111', '\u11c1' -> '\u314d';
+			case '\u1112', '\u11c2' -> '\u314e';
+			case '\u1161' -> '\u314f';
+			case '\u1162' -> '\u3150';
+			case '\u1163' -> '\u3151';
+			case '\u1164' -> '\u3152';
+			case '\u1165' -> '\u3153';
+			case '\u1166' -> '\u3154';
+			case '\u1167' -> '\u3155';
+			case '\u1168' -> '\u3156';
+			case '\u1169' -> '\u3157';
+			case '\u116a' -> '\u3158';
+			case '\u116b' -> '\u3159';
+			case '\u116c' -> '\u315a';
+			case '\u116d' -> '\u315b';
+			case '\u116e' -> '\u315c';
+			case '\u116f' -> '\u315d';
+			case '\u1170' -> '\u315e';
+			case '\u1171' -> '\u315f';
+			case '\u1172' -> '\u3160';
+			case '\u1173' -> '\u3161';
+			case '\u1174' -> '\u3162';
+			case '\u1175' -> '\u3163';
+			default -> ch;
+		};
 
-		case '\u1101':
-		case '\u11a9':
-			return '\u3132';
-
-		case '\u11aa':
-			return '\u3133';
-
-		case '\u1102':
-		case '\u11ab':
-			return '\u3134';
-
-		case '\u11ac':
-			return '\u3135';
-
-		case '\u11ad':
-			return '\u3136';
-
-		case '\u1103':
-		case '\u11ae':
-			return '\u3137';
-
-		case '\u1104':
-			return '\u3138';
-
-		case '\u1105':
-		case '\u11af':
-			return '\u3139';
-
-		case '\u11b0':
-			return '\u313a';
-
-		case '\u11b1':
-			return '\u313b';
-
-		case '\u11b2':
-			return '\u313c';
-
-		case '\u11b3':
-			return '\u313d';
-
-		case '\u11b4':
-			return '\u313e';
-
-		case '\u11b5':
-			return '\u313f';
-
-		case '\u11b6':
-			return '\u3140';
-
-		case '\u1106':
-		case '\u11b7':
-			return '\u3141';
-
-		case '\u1107':
-		case '\u11b8':
-			return '\u3142';
-
-		case '\u1108':
-			return '\u3143';
-
-		case '\u1121':
-		case '\u11b9':
-			return '\u3144';
-
-		case '\u1109':
-		case '\u11ba':
-			return '\u3145';
-
-		case '\u110a':
-		case '\u11bb':
-			return '\u3146';
-
-		case '\u110b':
-		case '\u11bc':
-			return '\u3147';
-
-		case '\u110c':
-		case '\u11bd':
-			return '\u3148';
-
-		case '\u110d':
-			return '\u3149';
-
-		case '\u110e':
-		case '\u11be':
-			return '\u314a';
-
-		case '\u110f':
-		case '\u11bf':
-			return '\u314b';
-
-		case '\u1110':
-		case '\u11c0':
-			return '\u314c';
-
-		case '\u1111':
-		case '\u11c1':
-			return '\u314d';
-
-		case '\u1112':
-		case '\u11c2':
-			return '\u314e';
-
-		case '\u1161':
-			return '\u314f';
-
-		case '\u1162':
-			return '\u3150';
-
-		case '\u1163':
-			return '\u3151';
-
-		case '\u1164':
-			return '\u3152';
-
-		case '\u1165':
-			return '\u3153';
-
-		case '\u1166':
-			return '\u3154';
-
-		case '\u1167':
-			return '\u3155';
-
-		case '\u1168':
-			return '\u3156';
-
-		case '\u1169':
-			return '\u3157';
-
-		case '\u116a':
-			return '\u3158';
-
-		case '\u116b':
-			return '\u3159';
-
-		case '\u116c':
-			return '\u315a';
-
-		case '\u116d':
-			return '\u315b';
-
-		case '\u116e':
-			return '\u315c';
-
-		case '\u116f':
-			return '\u315d';
-
-		case '\u1170':
-			return '\u315e';
-
-		case '\u1171':
-			return '\u315f';
-
-		case '\u1172':
-			return '\u3160';
-
-		case '\u1173':
-			return '\u3161';
-
-		case '\u1174':
-			return '\u3162';
-
-		case '\u1175':
-			return '\u3163';
-
-		}
-
-		return ch;
 	}
 
 	/**
@@ -655,98 +434,35 @@ public class Korean {
 	 * @return last compatibility JAMO character
 	 */
 	public static char unmergeDoubleCharacterForEditor(char ch) {
-		switch (ch) {
-		// vowels
-		case '\u116a':
-		case '\u1161':
-			return '\u314f';
+		return switch (ch) {
+			// vowels
+			case '\u116a', '\u1161' -> '\u314f';
+			case '\u1162' -> '\u3150';
+			case '\u1163' -> '\u3151';
+			case '\u116b', '\u1164' -> '\u3152';
+			case '\u116f', '\u1165' -> '\u3153';
+			case '\u1170', '\u1166' -> '\u3154';
+			case '\u1167' -> '\u3155';
+			case '\u1168' -> '\u3156';
+			case '\u1169' -> '\u3157';
+			case '\u116d' -> '\u315b';
+			case '\u116e' -> '\u315c';
+			case '\u1172' -> '\u3160';
+			case '\u1173' -> '\u3161';
+			case '\u116c', '\u1171', '\u1174' -> '\u3163';
 
-		case '\u1162':
-			return '\u3150';
+			// consonants
+			case '\u3133', '\u11aa', '\u313d', '\u11b3', '\u3144', '\u1121', '\u11b9' -> '\u3145';
+			case '\u3135', '\u11ac' -> '\u3148';
+			case '\u3136', '\u11ad', '\u3140', '\u11b6' -> '\u314e';
+			case '\u313a', '\u11b0' -> '\u3131';
+			case '\u313b', '\u11b1' -> '\u3141';
+			case '\u313c', '\u11b2' -> '\u3142';
+			case '\u313e', '\u11b4' -> '\u314c';
+			case '\u313f', '\u11b5' -> '\u314d';
+			default -> convertToCompatibilityJamo(ch);
+		};
 
-		case '\u1163':
-			return '\u3151';
-
-		case '\u116b':
-		case '\u1164':
-			return '\u3152';
-
-		case '\u116f':
-		case '\u1165':
-			return '\u3153';
-
-		case '\u1170':
-		case '\u1166':
-			return '\u3154';
-
-		case '\u1167':
-			return '\u3155';
-
-		case '\u1168':
-			return '\u3156';
-
-		case '\u1169':
-			return '\u3157';
-
-		case '\u116d':
-			return '\u315b';
-
-		case '\u116e':
-			return '\u315c';
-
-		case '\u1172':
-			return '\u3160';
-
-		case '\u1173':
-			return '\u3161';
-
-		case '\u116c':
-		case '\u1171':
-		case '\u1174':
-			return '\u3163';
-
-		// consonants
-		case '\u3133':
-		case '\u11aa':
-		case '\u313d':
-		case '\u11b3':
-		case '\u3144':
-		case '\u1121':
-		case '\u11b9':
-			return '\u3145';
-
-		case '\u3135':
-		case '\u11ac':
-			return '\u3148';
-
-		case '\u3136':
-		case '\u11ad':
-		case '\u3140':
-		case '\u11b6':
-			return '\u314e';
-
-		case '\u313a':
-		case '\u11b0':
-			return '\u3131';
-
-		case '\u313b':
-		case '\u11b1':
-			return '\u3141';
-
-		case '\u313c':
-		case '\u11b2':
-			return '\u3142';
-
-		case '\u313e':
-		case '\u11b4':
-			return '\u314c';
-
-		case '\u313f':
-		case '\u11b5':
-			return '\u314d';
-		}
-
-		return convertToCompatibilityJamo(ch);
 	}
 
 	/*
@@ -769,75 +485,27 @@ public class Korean {
 
 	private static String unmergeDoubleCharacterToLeadTail(char c) {
 
-		switch (c) {
+		return switch (c) {
+			case '\u3149', '\u110d' -> "\u11bd\u110c";
+			case '\u3143', '\u1108' -> "\u11b8\u1107";
+			case '\u3132', '\u1101', '\u11a9' -> "\u11a8\u1100";
+			case '\u3133', '\u11aa' -> "\u11a8\u1109";
+			case '\u3135', '\u11ac' -> "\u11ab\u110c";
+			case '\u3136', '\u11ad' -> "\u11ab\u1112";
+			case '\u313a', '\u11b0' -> "\u11af\u1100";
+			case '\u313b', '\u11b1' -> "\u11af\u1106";
+			case '\u313c', '\u11b2' -> "\u11af\u1107";
+			case '\u313d', '\u11b3' -> "\u11af\u1109";
+			case '\u313e', '\u11b4' -> "\u11af\u1110";
+			case '\u313f', '\u11b5' -> "\u11af\u1111";
+			case '\u3140', '\u11b6' -> "\u11af\u1112";
+			case '\u3144', '\u1121', '\u11b9' -> "\u11b8\u1109";
+			case '\u110A', '\u11BB', '\u3145' ->
+				// tail + lead
+					"\u11ba\u1109";
+			default -> c + "";
+		};
 
-		case '\u3149':
-		case '\u110d':
-			return "\u11bd\u110c";
-
-		case '\u3143':
-		case '\u1108':
-			return "\u11b8\u1107";
-
-		case '\u3132':
-		case '\u1101':
-		case '\u11a9':
-			return "\u11a8\u1100";
-
-		case '\u3133':
-		case '\u11aa':
-			return "\u11a8\u1109";
-
-		case '\u3135':
-		case '\u11ac':
-			return "\u11ab\u110c";
-
-		case '\u3136':
-		case '\u11ad':
-			return "\u11ab\u1112";
-
-		case '\u313a':
-		case '\u11b0':
-			return "\u11af\u1100";
-
-		case '\u313b':
-		case '\u11b1':
-			return "\u11af\u1106";
-
-		case '\u313c':
-		case '\u11b2':
-			return "\u11af\u1107";
-
-		case '\u313d':
-		case '\u11b3':
-			return "\u11af\u1109";
-
-		case '\u313e':
-		case '\u11b4':
-			return "\u11af\u1110";
-
-		case '\u313f':
-		case '\u11b5':
-			return "\u11af\u1111";
-
-		case '\u3140':
-		case '\u11b6':
-			return "\u11af\u1112";
-
-		case '\u3144':
-		case '\u1121':
-		case '\u11b9':
-			return "\u11b8\u1109";
-
-		case '\u110A':
-		case '\u11BB':
-		case '\u3145':
-			// tail + lead
-			return "\u11ba\u1109";
-
-		}
-
-		return c + "";
 	}
 
 	/*
@@ -867,69 +535,50 @@ public class Korean {
 			case '\u11ab':
 			case '\u1102':
 				switch (str.charAt(i + 1)) {
-				case '\u110c':
-				case '\u11bd':
+				case '\u110c', '\u11bd' -> {
 					sb.append('\u11ac');
 					i++;
-					break;
-				case '\u1112':
-				case '\u11c2':
+				}
+				case '\u1112', '\u11c2' -> {
 					sb.append('\u11ad');
 					i++;
-					break;
-				default:
-					sb.append(c);
-
+				}
+				default -> sb.append(c);
 				}
 				break;
 
 			case '\u1105':
 			case '\u11af':
 				switch (str.charAt(i + 1)) {
-				case '\u3131':
-				case '\u1100':
-				case '\u11a8':
+				case '\u3131', '\u1100', '\u11a8' -> {
 					sb.append('\u11b0');
 					i++;
-					break;
-				case '\u3141':
-				case '\u1106':
-				case '\u11b7':
+				}
+				case '\u3141', '\u1106', '\u11b7' -> {
 					sb.append('\u11b1');
 					i++;
-					break;
-				case '\u3142':
-				case '\u11b8':
-				case '\u1107':
+				}
+				case '\u3142', '\u11b8', '\u1107' -> {
 					sb.append('\u11b2');
 					i++;
-					break;
-				case '\u3145':
-				case '\u1109':
-				case '\u11ba':
+				}
+				case '\u3145', '\u1109', '\u11ba' -> {
 					sb.append('\u11b3');
 					i++;
-					break;
-				case '\u314c':
-				case '\u1110':
-				case '\u11c0':
+				}
+				case '\u314c', '\u1110', '\u11c0' -> {
 					sb.append('\u11b4');
 					i++;
-					break;
-				case '\u314d':
-				case '\u1111':
-				case '\u11c1':
+				}
+				case '\u314d', '\u1111', '\u11c1' -> {
 					sb.append('\u11b5');
 					i++;
-					break;
-				case '\u314e':
-				case '\u1112':
-				case '\u11c2':
+				}
+				case '\u314e', '\u1112', '\u11c2' -> {
 					sb.append('\u11b6');
 					i++;
-					break;
-				default:
-					sb.append(c);
+				}
+				default -> sb.append(c);
 				}
 				break;
 			case '\u1169':

@@ -64,9 +64,7 @@ public class AlgebraTestHelper {
 			List<Integer> signature, App app) {
 		for (int args : signature) {
 			StringBuilder withArgs = new StringBuilder(cmdName).append("(");
-			for (int i = 0; i < args - 1; i++) {
-				withArgs.append("space,");
-			}
+			withArgs.append("space,".repeat(Math.max(0, args - 1)));
 			withArgs.append("space)");
 			if (args > 0 && !"Delete".equals(cmdName)
 					&& !"ConstructionStep".equals(cmdName)

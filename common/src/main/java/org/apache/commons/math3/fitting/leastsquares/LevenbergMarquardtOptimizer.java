@@ -346,9 +346,7 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
 
             //residuals already have weights applied
             double[] weightedResidual = currentResiduals;
-            for (int i = 0; i < nR; i++) {
-                qtf[i] = weightedResidual[i];
-            }
+	        System.arraycopy(weightedResidual, 0, qtf, 0, nR);
 
             // compute Qt.res
             qTy(qtf, internalData);
@@ -950,10 +948,10 @@ public class LevenbergMarquardtOptimizer implements LeastSquaresOptimizer {
         for (int k = 0; k < nC; ++k) {
             permutation[k] = k;
             double norm2 = 0;
-            for (int i = 0; i < nR; ++i) {
-                double akk = weightedJacobian[i][k];
-                norm2 += akk * akk;
-            }
+	        for (double[] doubles : weightedJacobian) {
+		        double akk = doubles[k];
+		        norm2 += akk * akk;
+	        }
             jacNorm[k] = Math.sqrt(norm2);
         }
 

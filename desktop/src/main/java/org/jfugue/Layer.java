@@ -73,7 +73,7 @@ public final class Layer implements JFugueElement {
 	 */
 	@Override
 	public String getMusicString() {
-		StringBuffer buffy = new StringBuffer();
+		StringBuilder buffy = new StringBuilder();
 		buffy.append("L");
 		buffy.append(getLayer());
 		return buffy.toString();
@@ -86,7 +86,7 @@ public final class Layer implements JFugueElement {
 	 */
 	@Override
 	public String getVerifyString() {
-		StringBuffer buffy = new StringBuffer();
+		StringBuilder buffy = new StringBuilder();
 		buffy.append("Layer: layer=");
 		buffy.append(getLayer());
 		return buffy.toString();

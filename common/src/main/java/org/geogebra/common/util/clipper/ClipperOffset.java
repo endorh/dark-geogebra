@@ -523,7 +523,7 @@ public class ClipperOffset {
 					new DoublePoint((sjx + njx * delta), (sjy + njy * delta)));
 		} else {
 			switch (jointype) {
-			case MITER: {
+			case MITER -> {
 				final double r = 1 + njx * nkx + njy * nky;
 				if (r >= miterLim) {
 					doMiter(j, k, r);
@@ -532,12 +532,8 @@ public class ClipperOffset {
 				}
 				break;
 			}
-			case SQUARE:
-				doSquare(j, k);
-				break;
-			case ROUND:
-				doRound(j, k);
-				break;
+			case SQUARE -> doSquare(j, k);
+			case ROUND -> doRound(j, k);
 			}
 		}
 		kV[0] = j;

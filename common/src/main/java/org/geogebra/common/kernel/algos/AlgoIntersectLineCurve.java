@@ -92,14 +92,11 @@ public class AlgoIntersectLineCurve extends AlgoIntersectCoordSysCurve {
 	 * @return handler for output points
 	 */
 	protected OutputHandler<GeoElement> createOutputPoints() {
-		return new OutputHandler<>(new ElementFactory<GeoElement>() {
-			@Override
-			public GeoPoint newElement() {
-				GeoPoint p = new GeoPoint(cons);
-				p.setCoords(0, 0, 1);
-				p.setParentAlgorithm(AlgoIntersectLineCurve.this);
-				return p;
-			}
+		return new OutputHandler<>(() -> {
+			GeoPoint p = new GeoPoint(cons);
+			p.setCoords(0, 0, 1);
+			p.setParentAlgorithm(AlgoIntersectLineCurve.this);
+			return p;
 		});
 	}
 

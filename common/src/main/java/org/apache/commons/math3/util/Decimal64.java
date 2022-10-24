@@ -243,9 +243,8 @@ public class Decimal64 extends Number
     /** {@inheritDoc} */
     @Override
     public boolean equals(final Object obj) {
-        if (obj instanceof Decimal64) {
-            final Decimal64 that = (Decimal64) obj;
-            return Double.doubleToLongBits(this.value) == Double
+        if (obj instanceof final Decimal64 that) {
+	        return Double.doubleToLongBits(this.value) == Double
                     .doubleToLongBits(that.value);
         }
         return false;

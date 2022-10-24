@@ -141,8 +141,7 @@ public interface Traversing {
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
-			if (ev instanceof Command) {
-				Command c = (Command) ev;
+			if (ev instanceof Command c) {
 				String cmdName = kernel.getApplication()
 						.getReverseCommand(c.getName());
 				if (CommandProcessor.isCmdName(cmdName)
@@ -193,8 +192,7 @@ public interface Traversing {
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
-			if (ev instanceof ExpressionNode) {
-				ExpressionNode en = (ExpressionNode) ev;
+			if (ev instanceof ExpressionNode en) {
 
 				Operation op = en.getOperation();
 				if (op.hasDegreeInput()) {
@@ -250,9 +248,7 @@ public interface Traversing {
 					.equalsIgnoreCase(((GeoElement) ev).getLabelSimple())) {
 				return function;
 			}
-			if (ev instanceof Command && fn.equals(((Command) ev).getName())) {
-
-				Command c = (Command) ev;
+			if (ev instanceof Command c && fn.equals(((Command) ev).getName())) {
 
 				MyList argList = new MyList(c.getKernel());
 				for (int i = 0; i < c.getArgumentNumber(); i++) {
@@ -293,17 +289,14 @@ public interface Traversing {
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
-			if (ev instanceof Command) {
-				Command command = (Command) ev;
+			if (ev instanceof Command command) {
 				if (command.getName().equals("ggbvect")) {
 					ExpressionNode en = command.getArgument(0);
 					ExpressionValue unwrapped = en.unwrap();
-					if (unwrapped instanceof MyVecNode) {
-						MyVecNode vecNode = (MyVecNode) unwrapped;
+					if (unwrapped instanceof MyVecNode vecNode) {
 						vecNode.setupCASVector();
 						return vecNode;
-					} else if (unwrapped instanceof MyVec3DNode) {
-						MyVec3DNode vec3DNode = (MyVec3DNode) unwrapped;
+					} else if (unwrapped instanceof MyVec3DNode vec3DNode) {
 						vec3DNode.setupCASVector();
 						return vec3DNode;
 					}
@@ -653,8 +646,7 @@ public interface Traversing {
 
 			// check variables to avoid problem with updating twice
 			// eg If[0 < A1 < 5, 0, 100] going to If[0 < A3 < 5, 0, 100]
-			if (ev instanceof Variable && !variables.contains(ev)) {
-				Variable v = (Variable) ev;
+			if (ev instanceof Variable v && !variables.contains(ev)) {
 
 				String name = v.getName(StringTemplate.defaultTemplate);
 
@@ -677,9 +669,7 @@ public interface Traversing {
 					variables.add(v);
 
 				}
-			} else if (ev instanceof GeoElement) {
-
-				GeoElement geo = (GeoElement) ev;
+			} else if (ev instanceof GeoElement geo) {
 
 				String name = geo.getLabelSimple();
 
@@ -740,8 +730,7 @@ public interface Traversing {
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
 
-			if (ev instanceof Variable) {
-				Variable v = (Variable) ev;
+			if (ev instanceof Variable v) {
 				replaceVar(v, GeoClass.NUMERIC);
 			}
 			else if (ev instanceof Command) {
@@ -805,8 +794,8 @@ public interface Traversing {
 			if (except == null) {
 				return false;
 			}
-			for (int i = 0; i < except.length; i++) {
-				if (except[i].equals(name)) {
+			for (String s : except) {
+				if (s.equals(name)) {
 					return true;
 				}
 			}
@@ -847,8 +836,7 @@ public interface Traversing {
 		@Override
 		public boolean check(ExpressionValue ev) {
 
-			if (ev instanceof Variable) {
-				Variable variable = (Variable) ev;
+			if (ev instanceof Variable variable) {
 				String variableName = variable.getName(StringTemplate.defaultTemplate);
 				if (variable.getKernel().getApplication().getParserFunctions()
 						.isReserved(variableName)) {
@@ -878,9 +866,8 @@ public interface Traversing {
 				if (expressionFromVariableName.isExpressionNode()) {
 					expressionFromVariableName.inspect(this);
 				}
-			} else if (ev instanceof Command) { // Iteration[a+1, a, {1},4]
+			} else if (ev instanceof Command com) { // Iteration[a+1, a, {1},4]
 
-				Command com = (Command) ev;
 				if ("Sequence".equals(com.getName())
 						|| "KeepIf".equals(com.getName())
 						|| "CountIf".equals(com.getName())) {
@@ -1165,8 +1152,7 @@ public interface Traversing {
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
-			if (ev instanceof ExpressionNode) {
-				ExpressionNode en = (ExpressionNode) ev;
+			if (ev instanceof ExpressionNode en) {
 				if (en.getRight() instanceof GeoDummyVariable) {
 					add((GeoDummyVariable) en.getRight());
 				}
@@ -1217,8 +1203,7 @@ public interface Traversing {
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
-			if (ev instanceof ExpressionNode) {
-				ExpressionNode en = (ExpressionNode) ev;
+			if (ev instanceof ExpressionNode en) {
 				if (isVariable(en.getRight())) {
 					add(en.getRight());
 				}
@@ -1269,8 +1254,7 @@ public interface Traversing {
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
-			if (ev instanceof ExpressionNode) {
-				ExpressionNode en = (ExpressionNode) ev;
+			if (ev instanceof ExpressionNode en) {
 				if (en.getRight() instanceof GeoNumeric) {
 					add(en.getRight());
 				}
@@ -1315,11 +1299,9 @@ public interface Traversing {
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
-			if (ev instanceof ExpressionNode) {
-				ExpressionNode en = (ExpressionNode) ev;
+			if (ev instanceof ExpressionNode en) {
 				if (en.getOperation() == Operation.POWER
-						&& en.getLeft() instanceof Command) {
-					Command c = (Command) en.getLeft();
+						&& en.getLeft() instanceof Command c) {
 					if (commands.contains(c.getName())) {
 						return new GeoDummyVariable(
 								c.getKernel().getConstruction(), c.getName())
@@ -1330,8 +1312,7 @@ public interface Traversing {
 					}
 				}
 				if (en.getOperation() == Operation.FACTORIAL
-						&& en.getLeft() instanceof Command) {
-					Command c = (Command) en.getLeft();
+						&& en.getLeft() instanceof Command c) {
 					if (commands.contains(c.getName())) {
 						return new GeoDummyVariable(
 								c.getKernel().getConstruction(), c.getName())
@@ -1341,8 +1322,7 @@ public interface Traversing {
 					}
 				}
 				if (en.getOperation() == Operation.SQRT_SHORT
-						&& en.getLeft() instanceof Command) {
-					Command c = (Command) en.getLeft();
+						&& en.getLeft() instanceof Command c) {
 					if (commands.contains(c.getName())) {
 						return new GeoDummyVariable(
 								c.getKernel().getConstruction(), c.getName())
@@ -1351,8 +1331,7 @@ public interface Traversing {
 					}
 				}
 			}
-			if (ev instanceof Command) {
-				Command c = (Command) ev;
+			if (ev instanceof Command c) {
 				if (commands.contains(c.getName())
 						&& c.getArgumentNumber() == 1) {
 					return new GeoDummyVariable(c.getKernel().getConstruction(),
@@ -1386,12 +1365,9 @@ public interface Traversing {
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
-			if (ev instanceof Equation) {
-				Equation eq = (Equation) ev;
+			if (ev instanceof Equation eq) {
 				if (eq.getLHS() != null
-						&& eq.getLHS().getLeft() instanceof GeoDummyVariable) {
-					GeoDummyVariable gdv = (GeoDummyVariable) eq.getLHS()
-							.getLeft();
+						&& eq.getLHS().getLeft() instanceof GeoDummyVariable gdv) {
 					if (gdv.toString(StringTemplate.defaultTemplate)
 							.equals("y")) {
 						return eq.getRHS().unwrap();
@@ -1419,10 +1395,9 @@ public interface Traversing {
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
-			if (ev instanceof Command) {
-				Command ec = (Command) ev;
-				for (int i = 0; i < commands.length; i++) {
-					if (ec.getName().equals(commands[i])) {
+			if (ev instanceof Command ec) {
+				for (String command : commands) {
+					if (ec.getName().equals(command)) {
 						return ec.getArgument(0).unwrap();
 					}
 				}
@@ -1457,8 +1432,7 @@ public interface Traversing {
 
 		@Override
 		public ExpressionValue process(ExpressionValue ev) {
-			if (ev instanceof Command) {
-				Command ec = (Command) ev;
+			if (ev instanceof Command ec) {
 				if ("x".equals(ec.getName())) {
 					return new ExpressionNode(ec.getKernel(), ec.getArgument(0),
 							Operation.XCOORD, null);
@@ -1486,9 +1460,8 @@ public interface Traversing {
 
         @Override
         public ExpressionValue process(ExpressionValue ev) {
-            if (ev instanceof MyList) {
-                MyList list = (MyList) ev;
-                if (isVector(list)) {
+            if (ev instanceof MyList list) {
+	            if (isVector(list)) {
                     if (list.getMatrixRows() == 2) {
                         return new MyVecNode(kernel,
                                 getElement(list, 0),

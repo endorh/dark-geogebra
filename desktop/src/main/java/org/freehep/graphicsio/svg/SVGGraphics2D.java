@@ -782,7 +782,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 			size = font.getSize2D();
 		}
 
-		result.put("font-size", fixedPrecision(size.floatValue()));
+		result.put("font-size", fixedPrecision(size));
 
 		return result;
 	}
@@ -867,26 +867,17 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 		Properties result = new Properties();
 
 		// only BasisStrokes are written
-		if (!(s instanceof BasicStroke)) {
+		if (!(s instanceof BasicStroke stroke)) {
 			return result;
 		}
-
-		BasicStroke stroke = (BasicStroke) s;
 
 		// append linecap
 		if (all || (stroke.getEndCap() != defaultStroke.getEndCap())) {
 			// append cap
 			switch (stroke.getEndCap()) {
-			default:
-			case BasicStroke.CAP_BUTT:
-				result.put("stroke-linecap", "butt");
-				break;
-			case BasicStroke.CAP_ROUND:
-				result.put("stroke-linecap", "round");
-				break;
-			case BasicStroke.CAP_SQUARE:
-				result.put("stroke-linecap", "square");
-				break;
+			case BasicStroke.CAP_BUTT -> result.put("stroke-linecap", "butt");
+			case BasicStroke.CAP_ROUND -> result.put("stroke-linecap", "round");
+			case BasicStroke.CAP_SQUARE -> result.put("stroke-linecap", "square");
 			}
 		}
 
@@ -895,7 +886,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 				defaultStroke.getDashArray())) {
 			if ((stroke.getDashArray() != null)
 					&& (stroke.getDashArray().length > 0)) {
-				StringBuffer array = new StringBuffer();
+				StringBuilder array = new StringBuilder();
 				for (int i = 0; i < stroke.getDashArray().length; i++) {
 					if (i > 0) {
 						array.append(",");
@@ -924,16 +915,9 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 		// append join
 		if (all || (stroke.getLineJoin() != defaultStroke.getLineJoin())) {
 			switch (stroke.getLineJoin()) {
-			default:
-			case BasicStroke.JOIN_MITER:
-				result.put("stroke-linejoin", "miter");
-				break;
-			case BasicStroke.JOIN_ROUND:
-				result.put("stroke-linejoin", "round");
-				break;
-			case BasicStroke.JOIN_BEVEL:
-				result.put("stroke-linejoin", "bevel");
-				break;
+			case BasicStroke.JOIN_MITER -> result.put("stroke-linejoin", "miter");
+			case BasicStroke.JOIN_ROUND -> result.put("stroke-linejoin", "round");
+			case BasicStroke.JOIN_BEVEL -> result.put("stroke-linejoin", "bevel");
 			}
 		}
 
@@ -1102,7 +1086,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 	 *            SVG-Tag
 	 */
 	private static String getTransformedString(AffineTransform t, String s) {
-		StringBuffer result = new StringBuffer();
+		StringBuilder result = new StringBuilder();
 
 		if ((t != null) && !t.isIdentity()) {
 			result.append("<g transform=\"matrix(");
@@ -1136,7 +1120,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 	 *            SVG-Tag
 	 */
 	private String getClippedString(String s) {
-		StringBuffer result = new StringBuffer();
+		StringBuilder result = new StringBuilder();
 
 		// clipping
 		if (isProperty(CLIP) && (getClip() != null)) {
@@ -1223,7 +1207,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 	}
 
 	protected static String getPathContent(PathIterator path) {
-		StringBuffer result = new StringBuffer();
+		StringBuilder result = new StringBuilder();
 
 		double[] coords = new double[6];
 		result.append("d=\"");
@@ -1231,19 +1215,19 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 			int segType = path.currentSegment(coords);
 
 			switch (segType) {
-			case PathIterator.SEG_MOVETO:
+			case PathIterator.SEG_MOVETO -> {
 				result.append("M ");
 				result.append(fixedPrecision(coords[0]));
 				result.append(" ");
 				result.append(fixedPrecision(coords[1]));
-				break;
-			case PathIterator.SEG_LINETO:
+			}
+			case PathIterator.SEG_LINETO -> {
 				result.append("L ");
 				result.append(fixedPrecision(coords[0]));
 				result.append(" ");
 				result.append(fixedPrecision(coords[1]));
-				break;
-			case PathIterator.SEG_CUBICTO:
+			}
+			case PathIterator.SEG_CUBICTO -> {
 				result.append("C ");
 				result.append(fixedPrecision(coords[0]));
 				result.append(" ");
@@ -1256,8 +1240,8 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 				result.append(fixedPrecision(coords[4]));
 				result.append(" ");
 				result.append(fixedPrecision(coords[5]));
-				break;
-			case PathIterator.SEG_QUADTO:
+			}
+			case PathIterator.SEG_QUADTO -> {
 				result.append("Q ");
 				result.append(fixedPrecision(coords[0]));
 				result.append(" ");
@@ -1266,10 +1250,8 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 				result.append(fixedPrecision(coords[2]));
 				result.append(" ");
 				result.append(fixedPrecision(coords[3]));
-				break;
-			case PathIterator.SEG_CLOSE:
-				result.append("z");
-				break;
+			}
+			case PathIterator.SEG_CLOSE -> result.append("z");
 			}
 
 			// Move to the next segment.
@@ -1286,7 +1268,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 	}
 
 	protected String getPath(PathIterator path) {
-		StringBuffer result = new StringBuffer();
+		StringBuilder result = new StringBuilder();
 
 		result.append("<path ");
 		result.append(getPathContent(path));
@@ -1309,7 +1291,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 			return "";
 		}
 
-		StringBuffer result = new StringBuffer();
+		StringBuilder result = new StringBuilder();
 
 		// embed everything in a "style" attribute
 		if (isProperty(STYLABLE)) {

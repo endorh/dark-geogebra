@@ -30,9 +30,8 @@ public class CmdSetPointSize extends CmdScripting {
 	protected final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		switch (n) {
-		case 2:
+		case 2 -> {
 			GeoElement[] arg = resArgs(c);
-
 			boolean ok = false;
 			if (arg[1].isNumberValue()) {
 				ok = true;
@@ -52,8 +51,7 @@ public class CmdSetPointSize extends CmdScripting {
 					return arg;
 				}
 
-				if (arg[0] instanceof GeoPolyhedronInterface) {
-					GeoPolyhedronInterface poly = (GeoPolyhedronInterface) arg[0];
+				if (arg[0] instanceof GeoPolyhedronInterface poly) {
 					poly.setPointSizeOrVisibility((int) size);
 					return arg;
 				}
@@ -71,15 +69,12 @@ public class CmdSetPointSize extends CmdScripting {
 					return arg;
 				}
 			}
-
 			if (!ok) {
 				throw argErr(c, arg[1]);
 			}
-
 			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

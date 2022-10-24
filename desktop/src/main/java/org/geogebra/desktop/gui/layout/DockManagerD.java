@@ -147,28 +147,28 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 			}
 			TreeSet<Integer> updated = new TreeSet<>();
 			// copy dock panel info settings
-			for (int i = 0; i < dpData.length; ++i) {
-				DockPanelD panel = getPanel(dpData[i]);
-				updated.add(dpData[i].getViewId());
+			for (DockPanelData dpDatum : dpData) {
+				DockPanelD panel = getPanel(dpDatum);
+				updated.add(dpDatum.getViewId());
 				if (panel == null) {
 					Log.error("Adding null panel");
 					// TODO insert error panel
 				} else {
-					panel.setToolbarString(dpData[i].getToolbarString());
+					panel.setToolbarString(dpDatum.getToolbarString());
 					panel.setFrameBounds(GRectangleD
-							.getAWTRectangle(dpData[i].getFrameBounds()));
-					panel.setEmbeddedDef(dpData[i].getEmbeddedDef());
-					panel.setEmbeddedSize(dpData[i].getEmbeddedSize());
-					panel.setShowStyleBar(dpData[i].showStyleBar());
-					panel.setOpenInFrame(dpData[i].isOpenInFrame());
+							.getAWTRectangle(dpDatum.getFrameBounds()));
+					panel.setEmbeddedDef(dpDatum.getEmbeddedDef());
+					panel.setEmbeddedSize(dpDatum.getEmbeddedSize());
+					panel.setShowStyleBar(dpDatum.showStyleBar());
+					panel.setOpenInFrame(dpDatum.isOpenInFrame());
 
 					// detach views which were visible, but are not in the new
 					// perspective
-					if (panel.isVisible() && !dpData[i].isVisible()) {
+					if (panel.isVisible() && !dpDatum.isVisible()) {
 						app.getGuiManager().detachView(panel.getViewId());
 					}
 
-					panel.setVisible(dpData[i].isVisible());
+					panel.setVisible(dpDatum.isVisible());
 				}
 			}
 			for (DockPanelD dockPanel : dockPanels) {
@@ -221,11 +221,11 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 			}
 
 			// now insert the dock panels
-			for (int i = 0; i < dpData.length; ++i) {
-				DockPanelD panel = getPanel(dpData[i].getViewId());
+			for (DockPanelData dpDatum : dpData) {
+				DockPanelD panel = getPanel(dpDatum.getViewId());
 
 				// skip panels which will not be drawn in the main window
-				if (!dpData[i].isVisible()
+				if (!dpDatum.isVisible()
 						// eg run "no 3D" with 3D View open in saved settings
 						|| panel == null) {
 					continue;
@@ -235,19 +235,19 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 				// ignored)
 				app.getGuiManager().attachView(panel.getViewId());
 
-				if (dpData[i].isOpenInFrame()) {
+				if (dpDatum.isOpenInFrame()) {
 					show(panel);
 					continue;
 				}
 
 				DockSplitPane currentParent = rootPane;
-				String[] directions = dpData[i].getEmbeddedDef().split(",");
+				String[] directions = dpDatum.getEmbeddedDef().split(",");
 
 				/*
 				 * Get the parent split pane of this dock panel and ignore the
 				 * last direction as its reserved for the position of the dock
 				 * panel itself.
-				 * 
+				 *
 				 * In contrast to the algorithm used in the show() method we'll
 				 * not take care of invalid positions as the data should not be
 				 * corrupted.
@@ -278,7 +278,7 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 				if (panel.hasToolbar()) {
 					ToolbarContainer mainContainer = getToolbarPanel();
 					mainContainer.addToolbar(
-							getPanel(dpData[i].getViewId()).getToolbar());
+							getPanel(dpDatum.getViewId()).getToolbar());
 				}
 			}
 
@@ -1216,7 +1216,7 @@ public class DockManagerD extends DockManager implements AWTEventListener {
 
 		// we create our own iterator which iterates through our list in
 		// reversed order
-		return new Iterator<DockPanelD>() {
+		return new Iterator<>() {
 			@Override
 			public void remove() {
 				original.remove();

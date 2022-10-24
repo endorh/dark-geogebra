@@ -126,8 +126,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 
 		// if g is defined as a tangent of c, we dont't need
 		// to compute anything
-		if (g.getParentAlgorithm() instanceof TangentAlgo) {
-			TangentAlgo algo = (TangentAlgo) g.getParentAlgorithm();
+		if (g.getParentAlgorithm() instanceof TangentAlgo algo) {
 			tangentPoint = algo.getTangentPoint(c, g);
 			isDefinedAsTangent = (tangentPoint != null)
 					|| (g.getParentAlgorithm().getInput().length == 2
@@ -149,9 +148,9 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 	 *         for special cases of e.g. AlgoIntersectLineConic
 	 */
 	private void addIncidence() {
-		for (int i = 0; i < P.length; ++i) {
-			P[i].addIncidence(g, false);
-			P[i].addIncidence(c, false);
+		for (GeoPoint geoPoint : P) {
+			geoPoint.addIncidence(g, false);
+			geoPoint.addIncidence(c, false);
 		}
 	}
 
@@ -328,10 +327,9 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 		ArrayList<GeoPointND> pointsOnConic = c.getPointsOnConic();
 		if (pointsOnConic != null) {
 			// get a point from pointsOnConic to see if it is on g.
-			for (int i = 0; i < pointsOnConic.size(); ++i) {
-				GeoPointND p = pointsOnConic.get(i);
+			for (GeoPointND p : pointsOnConic) {
 				if (p.isLabelSet()) { // an existing intersection should be a
-										// labeled one
+					// labeled one
 					if (p.getIncidenceList() != null
 							&& p.getIncidenceList().contains(g)) {
 
@@ -343,12 +341,12 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 						existingIntersection = p;
 						break;
 					} /*
-						 * else if (!(p.getNonIncidenceList() != null && p //no
-						 * probabilistic checking anymore. See #1044
-						 * .getNonIncidenceList().contains(g)) &&
-						 * p.addIncidenceWithProbabilisticChecking(g) ) {
-						 * existingIntersection = p; break; }
-						 */
+					 * else if (!(p.getNonIncidenceList() != null && p //no
+					 * probabilistic checking anymore. See #1044
+					 * .getNonIncidenceList().contains(g)) &&
+					 * p.addIncidenceWithProbabilisticChecking(g) ) {
+					 * existingIntersection = p; break; }
+					 */
 				}
 			}
 		}
@@ -367,9 +365,9 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 
 			if (pointsOnLine != null) {
 				// get a point from pointsOnLine to see if it is on c.
-				for (int i = 0; i < pointsOnLine.size(); ++i) {
-					if (handleSpecialCasePoint(pointsOnLine.get(i))) {
-						existingIntersection = pointsOnLine.get(i);
+				for (GeoPoint geoPoint : pointsOnLine) {
+					if (handleSpecialCasePoint(geoPoint)) {
+						existingIntersection = geoPoint;
 						break;
 					}
 				}
@@ -477,9 +475,9 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 
 		if (isLimitedPathSituation) {
 			// make sure the points are on a limited path
-			for (int i = 0; i < P.length; i++) {
-				if (!pointLiesOnBothPaths(P[i])) {
-					P[i].setUndefined();
+			for (GeoPoint geoPoint : P) {
+				if (!pointLiesOnBothPaths(geoPoint)) {
+					geoPoint.setUndefined();
 				}
 			}
 		}
@@ -528,10 +526,10 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 		if (firstIntersection) {
 			// init points in order P[0], P[1]
 			int count = 0;
-			for (int i = 0; i < Q.length; i++) {
+			for (GeoPoint geoPoint : Q) {
 				// make sure interesection points lie on limited paths
-				if (Q[i].isDefined() && pointLiesOnBothPaths(Q[i])) {
-					P[count].setCoords(Q[i]);
+				if (geoPoint.isDefined() && pointLiesOnBothPaths(geoPoint)) {
+					P[count].setCoords(geoPoint);
 					D[count].setCoords(P[count]);
 
 					count++;
@@ -789,10 +787,10 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 	final static private boolean testPoints(GeoLine g, GeoConic c, GeoPoint[] P,
 			double eps) {
 		boolean foundPoint = false;
-		for (int i = 0; i < P.length; i++) {
-			if (P[i].isDefined()) {
-				if (!(c.isOnFullConic(P[i], eps) && g.isOnFullLine(P[i], eps))) {
-					P[i].setUndefined();
+		for (GeoPoint geoPoint : P) {
+			if (geoPoint.isDefined()) {
+				if (!(c.isOnFullConic(geoPoint, eps) && g.isOnFullLine(geoPoint, eps))) {
+					geoPoint.setUndefined();
 				} else {
 					foundPoint = true;
 				}

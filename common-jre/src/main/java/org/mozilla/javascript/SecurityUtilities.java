@@ -6,8 +6,6 @@
 
 package org.mozilla.javascript;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.security.ProtectionDomain;
 
 /**
@@ -20,51 +18,30 @@ public class SecurityUtilities
      * the property is used from within Rhino code and is not passed out of it.
      * @param name the name of the system property
      * @return the value of the system property
+     * @deprecated Java's Security Manager has been deprecated for removal
      */
-    public static String getSystemProperty(final String name)
-    {
-        return AccessController.doPrivileged(
-            new PrivilegedAction<String>()
-            {
-                public String run()
-                {
-                    return System.getProperty(name);
-                }
-            });
+    @Deprecated
+    public static String getSystemProperty(final String name) {
+        return System.getProperty(name);
     }
 
-    public static ProtectionDomain getProtectionDomain(final Class<?> clazz)
-    {
-        return AccessController.doPrivileged(
-                new PrivilegedAction<ProtectionDomain>()
-                {
-                    public ProtectionDomain run()
-                    {
-                        return clazz.getProtectionDomain();
-                    }
-                });
+    /**
+     * @deprecated Java's Security Manager has been deprecated for removal
+     */
+    @Deprecated
+    public static ProtectionDomain getProtectionDomain(final Class<?> clazz) {
+        return clazz.getProtectionDomain();
     }
 
     /**
      * Look up the top-most element in the current stack representing a
-     * script and return its protection domain. This relies on the system-wide
-     * SecurityManager being an instance of {@link RhinoSecurityManager},
-     * otherwise it returns <code>null</code>.
+     * script and return its protection domain.
      * @return The protection of the top-most script in the current stack, or null
+     * @deprecated Java's Security Manager has been deprecated for removal
      */
+    @Deprecated
     public static ProtectionDomain getScriptProtectionDomain() {
-        final SecurityManager securityManager = System.getSecurityManager();
-        if (securityManager instanceof RhinoSecurityManager) {
-            return AccessController.doPrivileged(
-                new PrivilegedAction<ProtectionDomain>() {
-                    public ProtectionDomain run() {
-                        Class<?> c = ((RhinoSecurityManager) securityManager)
-                                    .getCurrentScriptClass();
-                        return c == null ? null : c.getProtectionDomain();
-                    }
-                }
-            );
-        }
+        // TODO: Adapt to the removal of SecurityManager
         return null;
     }
 }

@@ -18,8 +18,11 @@ evaluationDependsOn(':editor-web')
 evaluationDependsOn(':web:dev')
 evaluationDependsOn(':keyboard-web')
 
-sourceCompatibility = 17
-targetCompatibility = 17
+tasks.withType(JavaCompile) {
+    sourceCompatibility = 17
+    targetCompatibility = 17
+    options.encoding = 'UTF-8'
+}
 
 sourceSets {
     nonfree

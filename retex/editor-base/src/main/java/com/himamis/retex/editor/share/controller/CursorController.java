@@ -268,8 +268,7 @@ public class CursorController {
 			}
 		}
 		if (component instanceof MathSequence) {
-			if (component.getParent() instanceof MathFunction) {
-				MathFunction function = (MathFunction) component.getParent();
+			if (component.getParent() instanceof MathFunction function) {
 				int upIndex = function.getUpIndex(component.getParentIndex());
 				if (upIndex >= 0) {
 					editorState.setCurrentField(function.getArgument(upIndex));
@@ -297,8 +296,7 @@ public class CursorController {
 			}
 		}
 		if (component instanceof MathSequence) {
-			if (component.getParent() instanceof MathFunction) {
-				MathFunction function = (MathFunction) component.getParent();
+			if (component.getParent() instanceof MathFunction function) {
 				int downIndex = function
 						.getDownIndex(component.getParentIndex());
 				if (downIndex >= 0) {
@@ -322,8 +320,7 @@ public class CursorController {
 
 	private static boolean checkMoveArray(MathComponent component,
 			EditorState editorState, int rowChange) {
-		if (component.getParent() instanceof MathArray) {
-			MathArray function = (MathArray) component.getParent();
+		if (component.getParent() instanceof MathArray function) {
 
 			if (function.rows() > 1) {
 				int downIndex = component.getParentIndex()

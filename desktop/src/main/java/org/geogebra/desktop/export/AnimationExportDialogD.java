@@ -5,11 +5,8 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.Iterator;
 import java.util.TreeSet;
 
 import javax.swing.BorderFactory;
@@ -113,9 +110,7 @@ public class AnimationExportDialogD extends Dialog {
 
 		// lists for combo boxes to select input and output objects
 		// fill combobox models
-		Iterator<GeoElement> it = sortedSet.iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
+		for (GeoElement geo : sortedSet) {
 			if (geo.isGeoNumeric() && ((GeoNumeric) geo).isIntervalMinActive()
 					&& ((GeoNumeric) geo).isIntervalMaxActive()) {
 				comboModel.addElement(geo);
@@ -150,12 +145,7 @@ public class AnimationExportDialogD extends Dialog {
 		panel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
 
 		exportButton = new JButton(loc.getMenu("Export"));
-		exportButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				export();
-			}
-		});
+		exportButton.addActionListener(e -> export());
 
 		// disable controls if there are no sliders
 		if (comboModel.getSize() == 0) {
@@ -167,12 +157,7 @@ public class AnimationExportDialogD extends Dialog {
 		}
 
 		cancelButton = new JButton(loc.getMenu("Cancel"));
-		cancelButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
-			}
-		});
+		cancelButton.addActionListener(e -> setVisible(false));
 		this.progressBar = new JProgressBar();
 		contentPane.add(progressBar, gbc(3));
 		panel.add(exportButton);
@@ -313,7 +298,7 @@ public class AnimationExportDialogD extends Dialog {
 		int n;
 
 		switch (type) {
-		case GeoElement.ANIMATION_DECREASING:
+		case GeoElement.ANIMATION_DECREASING -> {
 			step = -num.getAnimationStep();
 			n = (int) ((max - min) / -step);
 			if (DoubleUtil.isZero(((max - min) / -step) - n)) {
@@ -323,8 +308,8 @@ public class AnimationExportDialogD extends Dialog {
 				n = 1;
 			}
 			val = max;
-			break;
-		case GeoElement.ANIMATION_OSCILLATING:
+		}
+		case GeoElement.ANIMATION_OSCILLATING -> {
 			step = num.getAnimationStep();
 			n = (int) ((max - min) / step) * 2;
 			if (DoubleUtil.isZero(((max - min) / step * 2) - n)) {
@@ -334,9 +319,9 @@ public class AnimationExportDialogD extends Dialog {
 				n = 1;
 			}
 			val = min;
-			break;
-		default: // GeoElement.ANIMATION_INCREASING:
-					// GeoElement.ANIMATION_INCREASING_ONCE:
+		}
+		default -> { // GeoElement.ANIMATION_INCREASING:
+			// GeoElement.ANIMATION_INCREASING_ONCE:
 			step = num.getAnimationStep();
 			n = (int) ((max - min) / step);
 			if (DoubleUtil.isZero(((max - min) / step) - n)) {
@@ -346,6 +331,7 @@ public class AnimationExportDialogD extends Dialog {
 				n = 1;
 			}
 			val = min;
+		}
 		}
 
 		final AnimatedGifEncoder gifEncoder = new AnimatedGifEncoder();

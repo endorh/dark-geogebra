@@ -10,20 +10,14 @@ import org.geogebra.common.util.StringUtil;
 public class SolutionUtils {
 
 	public static String getColorHex(int color) {
-		switch (color % 5) {
-			case 1:
-				return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_RED);
-			case 2:
-				return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_BLUE);
-			case 3:
-				return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_GREEN);
-			case 4:
-				return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_PURPLE);
-			case 0:
-				return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_ORANGE);
-			default:
-				return "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_BLACK);
-		}
+		return switch (color % 5) {
+			case 1 -> "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_RED);
+			case 2 -> "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_BLUE);
+			case 3 -> "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_GREEN);
+			case 4 -> "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_PURPLE);
+			case 0 -> "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_ORANGE);
+			default -> "#" + StringUtil.toHexString(GeoGebraColorConstants.GEOGEBRA_OBJECT_BLACK);
+		};
 	}
 
 	static List<TextElement> getDefaultText(SolutionStepType sst, Localization loc,
@@ -80,17 +74,13 @@ public class SolutionUtils {
 	}
 
 	private static String replaceSpecial(SolutionStepType sst, String translated, int n) {
-		switch (sst) {
-		case LIST:
-		case SOLUTIONS:
-			return translated.replace("%0", getList(0, n));
-		case FACTOR_GCD:
-			return translated.replace("%2", "%" + (n - 1))
+		return switch (sst) {
+			case LIST, SOLUTIONS -> translated.replace("%0", getList(0, n));
+			case FACTOR_GCD -> translated.replace("%2", "%" + (n - 1))
 					.replace("%1", "%" + (n - 2))
 					.replace("%0", getList(0, n - 2));
-		default:
-			return translated;
-		}
+			default -> translated;
+		};
 	}
 
 	private static String getList(int from, int to) {

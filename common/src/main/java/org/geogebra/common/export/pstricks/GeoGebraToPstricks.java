@@ -112,11 +112,11 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		codeBeginPic = new StringBuilder();
 		customColor = new HashMap<>();
 		if (format == GeoGebraToPstricks.FORMAT_BEAMER) {
-			codePreamble.append(
-					"\\documentclass[" + frame.getFontSize() + "pt]{beamer}\n");
+			codePreamble.append("\\documentclass[").append(frame.getFontSize())
+					.append("pt]{beamer}\n");
 		} else {
-			codePreamble.append("\\documentclass[" + frame.getFontSize()
-					+ "pt]{article}\n");
+			codePreamble.append("\\documentclass[").append(frame.getFontSize())
+					.append("pt]{article}\n");
 		}
 		codePreamble.append("\\usepackage{pstricks-add}\n\\pagestyle{empty}\n");
 		codeBeginDoc.append("\\begin{document}\n");
@@ -534,8 +534,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		double[] firstVec = new double[2];
 		double[] m = new double[2];
 		// angle defines with three points
-		if (algo instanceof AlgoAnglePoints) {
-			AlgoAnglePoints pa = (AlgoAnglePoints) algo;
+		if (algo instanceof AlgoAnglePoints pa) {
 			vertex = pa.getB();
 			point = pa.getA();
 			vertex.getInhomCoords(m);
@@ -545,8 +544,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			firstVec[1] = coords.getY() - m[1];
 		}
 		// angle between two vectors
-		else if (algo instanceof AlgoAngleVectors) {
-			AlgoAngleVectors va = (AlgoAngleVectors) algo;
+		else if (algo instanceof AlgoAngleVectors va) {
 			v = va.getv();
 			// vertex
 			vertex = v.getStartPoint();
@@ -558,15 +556,13 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			v.getInhomCoords(firstVec);
 		}
 		// angle between two lines
-		else if (algo instanceof AlgoAngleLines) {
-			AlgoAngleLines la = (AlgoAngleLines) algo;
+		else if (algo instanceof AlgoAngleLines la) {
 			vertex = tempPoint;
 			la.updateDrawInfo(m, firstVec, null);
 
 		}
 		// angle of a single vector or a single point
-		else if (algo instanceof AlgoAngleVector) {
-			AlgoAngleVector va = (AlgoAngleVector) algo;
+		else if (algo instanceof AlgoAngleVector va) {
 			GeoVec3D vec = va.getVec3D();
 			if (vec instanceof GeoVector) {
 				v = (GeoVector) vec;
@@ -887,8 +883,8 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		codeFilledObject.append("\\pspolygon");
 		codeFilledObject.append(lineOptionCode(geo, true));
 		GeoPointND[] points = geo.getPoints();
-		for (int i = 0; i < points.length; i++) {
-			Coords coords = points[i].getCoordsInD2();
+		for (GeoPointND point : points) {
+			Coords coords = point.getCoordsInD2();
 			double x = coords.getX(), y = coords.getY(), z = coords.getZ();
 			x = x / z;
 			y = y / z;
@@ -1306,15 +1302,14 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		double r2 = geo.getHalfAxes()[1];
 
 		switch (geo.getType()) {
-		default:
-			// do nothing
-			break;
+		default -> {
+		}
+		// do nothing
 		// if conic is a circle
-		case GeoConicNDConstants.CONIC_CIRCLE:
-			drawCircle(geo);
-			break;
+		case GeoConicNDConstants.CONIC_CIRCLE -> drawCircle(geo);
+
 		// if conic is an ellipse
-		case GeoConicNDConstants.CONIC_ELLIPSE:
+		case GeoConicNDConstants.CONIC_ELLIPSE -> {
 			// command:
 			// \rput{angle}(x_center,y_center){\psellipse(0,0)(20.81,-10.81)}
 			startBeamer(code);
@@ -1332,10 +1327,10 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			code.append(format(r2));
 			code.append(")}\n");
 			endBeamer(code);
-			break;
+		}
 
 		// if conic is a parabola
-		case GeoConicNDConstants.CONIC_PARABOLA:
+		case GeoConicNDConstants.CONIC_PARABOLA -> {
 			// command:
 			// \rput{angle_rotation}(x_origin,y_origin){\pstplot{xmin}{xmax}{x^2/2/p}}
 
@@ -1376,8 +1371,8 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			code.append(format(p));
 			code.append("}}\n");
 			endBeamer(code);
-			break;
-		case GeoConicNDConstants.CONIC_HYPERBOLA:
+		}
+		case GeoConicNDConstants.CONIC_HYPERBOLA -> {
 			// command:
 			// \rput{angle_rotation}(x_origin,y_origin){\parametric{-1}{1}
 			// {a(1+t^2)/(1-t^2)|2bt/(1-t^2)}
@@ -1396,7 +1391,6 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			code.append(format(r2));
 			code.append("*2*t/(1-t^2)");
 			code.append("}}\n");
-
 			code.append("\\rput{");
 			code.append(format(angle));
 			code.append("}(");
@@ -1412,7 +1406,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			code.append("*(-2)*t/(1-t^2)");
 			code.append("}}\n");
 			endBeamer(code);
-			break;
+		}
 		}
 	}
 
@@ -1727,7 +1721,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 						true) + "$";
 			}
 
-			if (name.indexOf(Unicode.DEGREE_STRING) != -1) {
+			if (name.contains(Unicode.DEGREE_STRING)) {
 				name = name.replaceAll(Unicode.DEGREE_STRING,
 						"\\\\textrm{\\\\degre}");
 				if (codePreamble.indexOf("\\degre") == -1) {
@@ -1863,8 +1857,8 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 				& EuclidianStyleConstants.AXES_BOLD) == EuclidianStyleConstants.AXES_BOLD) {
 			styleAx = "linewidth=1.4pt,";
 		}
-		codeBeginPic.append(
-				"\\psaxes[" + styleAx + "labelFontSize=\\scriptstyle,xAxis=");
+		codeBeginPic.append("\\psaxes[").append(styleAx)
+				.append("labelFontSize=\\scriptstyle,xAxis=");
 		codeBeginPic.append(xAxis);
 		codeBeginPic.append(",yAxis=");
 		codeBeginPic.append(yAxis);
@@ -1959,36 +1953,22 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			bracket = true;
 			codePoint.append("dotstyle=");
 			switch (dotstyle) {
-			case EuclidianStyleConstants.POINT_STYLE_CROSS:
-				codePoint.append("x");
-				break;
-			case EuclidianStyleConstants.POINT_STYLE_DOT:
-				codePoint.append("*");
-				break;
-			case EuclidianStyleConstants.POINT_STYLE_EMPTY_DIAMOND:
-				codePoint.append("square,dotangle=45");
-				break;
-			case EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND:
-				codePoint.append("square*,dotangle=45");
-				break;
-			case EuclidianStyleConstants.POINT_STYLE_PLUS:
-				codePoint.append("+");
-				break;
-			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_EAST:
-				codePoint.append("triangle*,dotangle=270");
-				break;
-			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH:
-				codePoint.append("triangle*");
-				break;
-			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_SOUTH:
-				codePoint.append("triangle*,dotangle=180");
-				break;
-			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST:
-				codePoint.append("triangle*,dotangle=90");
-				break;
-			default:
-				codePoint.append("*");
-				break;
+			case EuclidianStyleConstants.POINT_STYLE_CROSS -> codePoint.append("x");
+			case EuclidianStyleConstants.POINT_STYLE_DOT -> codePoint.append("*");
+			case EuclidianStyleConstants.POINT_STYLE_EMPTY_DIAMOND ->
+					codePoint.append("square,dotangle=45");
+			case EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND ->
+					codePoint.append("square*,dotangle=45");
+			case EuclidianStyleConstants.POINT_STYLE_PLUS -> codePoint.append("+");
+			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_EAST ->
+					codePoint.append("triangle*,dotangle=270");
+			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH ->
+					codePoint.append("triangle*");
+			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_SOUTH ->
+					codePoint.append("triangle*,dotangle=180");
+			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST ->
+					codePoint.append("triangle*,dotangle=90");
+			default -> codePoint.append("*");
 			}
 		}
 		if (!dotcolor.equals(GColor.BLACK)) {
@@ -2192,10 +2172,10 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 				colorname = customColor.get(c).toString();
 			} else {
 				colorname = createCustomColor(grayscale, grayscale, grayscale);
-				codeBeginDoc.append("\\newrgbcolor{" + colorname + "}{"
-						+ format(grayscale / 255d) + " "
-						+ format(grayscale / 255d) + " "
-						+ format(grayscale / 255d) + "}\n");
+				codeBeginDoc.append("\\newrgbcolor{").append(colorname).append("}{")
+						.append(format(grayscale / 255d)).append(" ")
+						.append(format(grayscale / 255d)).append(" ")
+						.append(format(grayscale / 255d)).append("}\n");
 				customColor.put(gray, colorname);
 			}
 			if (gray.equals(GColor.BLACK)) {
@@ -2245,9 +2225,9 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 					int green = c.getGreen();
 					int blue = c.getBlue();
 					colorname = createCustomColor(red, green, blue);
-					codeBeginDoc.append("\\newrgbcolor{" + colorname + "}{"
-							+ format(red / 255d) + " " + format(green / 255d)
-							+ " " + format(blue / 255d) + "}\n");
+					codeBeginDoc.append("\\newrgbcolor{").append(colorname).append("}{")
+							.append(format(red / 255d)).append(" ").append(format(green / 255d))
+							.append(" ").append(format(blue / 255d)).append("}\n");
 					customColor.put(c, colorname);
 				}
 				sb.append(colorname);
@@ -2373,16 +2353,11 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			code.append("}");
 		}
 		switch (style) {
-		default:
-			// do nothing
-			break;
-		case 1:
-		case 2:
-			code.append("}");
-			break;
-		case 3:
-			code.append("}}");
-			break;
+		default -> {
+		}
+		// do nothing
+		case 1, 2 -> code.append("}");
+		case 3 -> code.append("}}");
 		}
 		if (isLatex && !st.endsWith("$")) {
 			code.append("$");
@@ -2422,8 +2397,8 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		code.append("\\psline");
 		code.append(lineOptionCode(geo, true));
 
-		for (int i = 0; i < path.length; i++) {
-			Coords coords = path[i].getInhomCoords();
+		for (GeoPointND geoPointND : path) {
+			Coords coords = geoPointND.getInhomCoords();
 			String x1 = format(coords.getX());
 			String y1 = format(coords.getY());
 			if (x1.contains("?") || y1.contains("?")) {
@@ -2461,7 +2436,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 				codeFilledObject.append(lineOptionCode(g, true));
 				codeFilledObject.append("(");
 				codeFilledObject.append(format(x[i] + width / 2));
-				codeFilledObject.append("," + format(y[i]) + ")(");
+				codeFilledObject.append(",").append(format(y[i])).append(")(");
 				codeFilledObject.append(format(x[i + 1] + width / 2));
 				codeFilledObject.append(",");
 				codeFilledObject.append(format(y[i]));
@@ -2522,8 +2497,8 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		fill.append(liopco);
 		fill.append("\n{\n");
 		code.append(fill);
-		for (int i = 0; i < curves.length; i++) {
-			drawSingleCurveCartesian(curves[i], false);
+		for (GeoCurveCartesian curve : curves) {
+			drawSingleCurveCartesian(curve, false);
 		}
 		code.append("}\n");
 		return true;

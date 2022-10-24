@@ -77,33 +77,13 @@ public class PrintScalePanel extends JPanel {
 
 		setLayout(new FlowLayout(FlowLayout.LEFT));
 
-		Runnable updateCm = new Runnable() {
-			@Override
-			public void run() {
-				fireTextFieldUpdate();
-			}
-		};
+		Runnable updateCm = this::fireTextFieldUpdate;
 
-		Runnable updateFixedSize = new Runnable() {
-			@Override
-			public void run() {
-				fireFixedSizeTextFieldUpdate();
-			}
-		};
+		Runnable updateFixedSize = this::fireFixedSizeTextFieldUpdate;
 
-		Runnable updateWidth = new Runnable() {
-			@Override
-			public void run() {
-				fireWidthTextFieldUpdate();
-			}
-		};
+		Runnable updateWidth = this::fireWidthTextFieldUpdate;
 
-		Runnable updateHeight = new Runnable() {
-			@Override
-			public void run() {
-				fireHeightTextFieldUpdate();
-			}
-		};
+		Runnable updateHeight = this::fireHeightTextFieldUpdate;
 
 		tfScale1 = getNumberField(app, updateCm);
 		tfScale2 = getNumberField(app, updateCm);
@@ -129,14 +109,7 @@ public class PrintScalePanel extends JPanel {
 
 		add(exportMode);
 
-		exportMode.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				switchMode();
-
-			}
-		});
+		exportMode.addActionListener(arg0 -> switchMode());
 
 		fixedSizeModePanel = new JPanel();
 		fixedSizeModePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -202,26 +175,26 @@ public class PrintScalePanel extends JPanel {
 		}
 
 		switch (mode) {
-		case SIZEINCM:
+		case SIZEINCM -> {
 			PrintScalePanel.this.remove(pxModePanel);
 			PrintScalePanel.this.remove(fixedSizeModePanel);
 			PrintScalePanel.this.add(cmModePanel);
 			updateScaleTextFields();
-			break;
-		case SIZEINPX:
+		}
+		case SIZEINPX -> {
 			PrintScalePanel.this.remove(cmModePanel);
 			PrintScalePanel.this.remove(fixedSizeModePanel);
 			PrintScalePanel.this.add(pxModePanel);
 			updateSizeTextFields(ev.getExportWidth(), ev.getExportHeight());
-			break;
-		case FIXED_SIZE:
+		}
+		case FIXED_SIZE -> {
 			PrintScalePanel.this.remove(cmModePanel);
 			PrintScalePanel.this.remove(pxModePanel);
 			PrintScalePanel.this.add(fixedSizeModePanel);
 			updateFixedSizeTextFields();
 			revalidate();
 			repaint();
-			break;
+		}
 		}
 
 		SwingUtilities.updateComponentTreeUI(PrintScalePanel.this);
@@ -243,12 +216,7 @@ public class PrintScalePanel extends JPanel {
 				//
 			}
 		};
-		ActionListener al = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				run.run();
-			}
-		};
+		ActionListener al = e -> run.run();
 		ret.addActionListener(al);
 		ret.addFocusListener(flst);
 		return ret;
@@ -373,8 +341,8 @@ public class PrintScalePanel extends JPanel {
 
 	private void notifyListeners() {
 		int size = listeners.size();
-		for (int i = 0; i < size; i++) {
-			listeners.get(i).actionPerformed(new ActionEvent(this,
+		for (ActionListener listener : listeners) {
+			listener.actionPerformed(new ActionEvent(this,
 					ActionEvent.ACTION_PERFORMED, "ViewChanged"));
 		}
 	}

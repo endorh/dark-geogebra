@@ -180,10 +180,7 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 		// get intersection of all children of P and all parents of Q
 		locusConsOrigElements = new TreeSet<>();
 		TreeSet<Long> usedAlgoIds = new TreeSet<>();
-		Iterator<GeoElement> it = Qin.iterator();
-		while (it.hasNext()) {
-			GeoElement parent = it.next();
-
+		for (GeoElement parent : Qin) {
 			if (parent.isLabelSet() && parent.isChildOf(movingSlider)) {
 				// note: locusConsOrigElements will contain AlgoElement and
 				// GeoElement objects
@@ -286,9 +283,7 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 		// tell the macro construction about reserved names:
 		// these names will not be looked up in the parent
 		// construction
-		Iterator<ConstructionElement> it = locusConsElements.iterator();
-		while (it.hasNext()) {
-			ConstructionElement ce = it.next();
+		for (ConstructionElement ce : locusConsElements) {
 			if (ce.isGeoElement()) {
 				GeoElement geo = (GeoElement) ce;
 				macroKernel.addReservedLabel(
@@ -343,9 +338,7 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 	 * construction
 	 */
 	private void resetMacroConstruction() {
-		Iterator<ConstructionElement> it = locusConsOrigElements.iterator();
-		while (it.hasNext()) {
-			ConstructionElement ce = it.next();
+		for (ConstructionElement ce : locusConsOrigElements) {
 			if (ce.isGeoElement()) {
 				GeoElement geoOrig = (GeoElement) ce;
 				// do not copy functions, their expressions already
@@ -585,8 +578,8 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 			}
 		}
 
-		for (int i = 0; i < distanceOK.length; i++) {
-			if (!distanceOK[i]) {
+		for (boolean b : distanceOK) {
+			if (!b) {
 				return false;
 			}
 		}
@@ -758,28 +751,26 @@ public abstract class AlgoLocusSliderND<T extends MyPoint> extends AlgoElement
 	private void updateScreenBorders(int v) {
 
 		switch (v) {
-		default:
-		case 0:
+		case 0 -> {
 			xmax[v] = kernel.getXmax(true, false);
 			xmin[v] = kernel.getXmin(true, false);
 			ymax[v] = kernel.getYmax(true, false);
 			ymin[v] = kernel.getYmin(true, false);
-			break;
-		case 1:
+		}
+		case 1 -> {
 			xmax[v] = kernel.getXmax(false, true);
 			xmin[v] = kernel.getXmin(false, true);
 			ymax[v] = kernel.getYmax(false, true);
 			ymin[v] = kernel.getYmin(false, true);
-			break;
-		case 2:
+		}
+		case 2 -> {
 			EuclidianView3DInterface view3D = kernel.getApplication()
 					.getEuclidianView3D();
-
 			xmax[v] = view3D.getXmax();
 			xmin[v] = view3D.getXmin();
 			ymax[v] = view3D.getYmax();
 			ymin[v] = view3D.getYmin();
-			break;
+		}
 		}
 
 		setMaxDistances(v);

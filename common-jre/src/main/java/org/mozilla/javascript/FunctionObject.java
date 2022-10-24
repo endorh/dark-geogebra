@@ -193,7 +193,7 @@ public class FunctionObject extends BaseFunction
           case JAVA_INT_TYPE:
               if (arg instanceof Integer)
                 return arg;
-            return Integer.valueOf(ScriptRuntime.toInt32(arg));
+            return ScriptRuntime.toInt32(arg);
           case JAVA_BOOLEAN_TYPE:
               if (arg instanceof Boolean)
                 return arg;
@@ -202,7 +202,7 @@ public class FunctionObject extends BaseFunction
           case JAVA_DOUBLE_TYPE:
             if (arg instanceof Double)
                 return arg;
-            return new Double(ScriptRuntime.toNumber(arg));
+            return ScriptRuntime.toNumber(arg);
           case JAVA_SCRIPTABLE_TYPE:
               return ScriptRuntime.toObjectOrNull(cx, arg, scope);
           case JAVA_OBJECT_TYPE:
@@ -300,9 +300,9 @@ public class FunctionObject extends BaseFunction
         }
         Method[] result = new Method[count];
         int j=0;
-        for (int i=0; i < methods.length; i++) {
-            if (methods[i] != null)
-                result[j++] = methods[i];
+        for (Method method : methods) {
+            if (method != null)
+                result[j++] = method;
         }
         return result;
     }

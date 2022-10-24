@@ -172,8 +172,7 @@ public class AlgoSample extends AlgoElement implements SetRandomValue {
 
 	@Override
 	public boolean setRandomValue(GeoElementND d) {
-		if (d instanceof GeoList) {
-			GeoList otherList = (GeoList) d;
+		if (d instanceof GeoList otherList) {
 			if (withReplacement()) {
 				for (int i = 0; i < otherList.size(); i++) {
 					if (!inputContains(otherList.get(i))) {

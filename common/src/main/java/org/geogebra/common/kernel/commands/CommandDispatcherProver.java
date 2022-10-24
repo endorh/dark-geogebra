@@ -21,33 +21,20 @@ public class CommandDispatcherProver implements CommandDispatcherInterface {
 
     @Override
     public CommandProcessor dispatch(Commands c, Kernel kernel) {
-        switch (c) {
-        case Prove:
-            return new CmdProve(kernel);
-        case ProveDetails:
-            return new CmdProveDetails(kernel);
-        case AreCollinear:
-            return new CmdAreCollinear(kernel);
-        case IsTangent:
-            return new CmdIsTangent(kernel);
-        case AreParallel:
-            return new CmdAreParallel(kernel);
-        case AreConcyclic:
-            return new CmdAreConcyclic(kernel);
-        case ArePerpendicular:
-            return new CmdArePerpendicular(kernel);
-        case AreEqual:
-            return new CmdAreEqual(kernel);
-        case AreCongruent:
-            return new CmdAreCongruent(kernel);
-        case AreConcurrent:
-            return new CmdAreConcurrent(kernel);
-        case LocusEquation:
-            return new CmdLocusEquation(kernel);
-        case Envelope:
-            return new CmdEnvelope(kernel);
-        default:
-            return null;
-        }
+	    return switch (c) {
+		    case Prove -> new CmdProve(kernel);
+		    case ProveDetails -> new CmdProveDetails(kernel);
+		    case AreCollinear -> new CmdAreCollinear(kernel);
+		    case IsTangent -> new CmdIsTangent(kernel);
+		    case AreParallel -> new CmdAreParallel(kernel);
+		    case AreConcyclic -> new CmdAreConcyclic(kernel);
+		    case ArePerpendicular -> new CmdArePerpendicular(kernel);
+		    case AreEqual -> new CmdAreEqual(kernel);
+		    case AreCongruent -> new CmdAreCongruent(kernel);
+		    case AreConcurrent -> new CmdAreConcurrent(kernel);
+		    case LocusEquation -> new CmdLocusEquation(kernel);
+		    case Envelope -> new CmdEnvelope(kernel);
+		    default -> null;
+	    };
     }
 }

@@ -38,7 +38,7 @@ public class CmdTranslate3D extends CmdTranslate {
 		GeoElement[] ret = new GeoElement[1];
 
 		switch (n) {
-		case 2:
+		case 2 -> {
 			arg = resArgs(c);
 
 			// check if there is a 3D geo
@@ -70,7 +70,7 @@ public class CmdTranslate3D extends CmdTranslate {
 				}
 				throw argErr(c, getBadArg(ok, arg));
 			}
-			break;
+		}
 		}
 
 		return super.process(c);

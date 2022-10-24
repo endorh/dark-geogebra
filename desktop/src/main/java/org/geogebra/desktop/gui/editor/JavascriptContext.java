@@ -16,7 +16,6 @@ package org.geogebra.desktop.gui.editor;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -146,11 +145,9 @@ public class JavascriptContext extends ViewContext {
 	public void genAttributes() {
 		tokenAttrib = new int[JavascriptLexerConstants.NUMBEROFTOKENS];
 		Map<String, Integer> map = attribMap;
-		Iterator<Entry<String, Integer>> it = map.entrySet().iterator();
-		while (it.hasNext()) {
-			Entry<String, Integer> entry = it.next();
+		for (Entry<String, Integer> entry : map.entrySet()) {
 			String tokenType = entry.getKey();
-			tokenAttrib[TOKENS.get(tokenType)] = entry.getValue().intValue();
+			tokenAttrib[TOKENS.get(tokenType)] = entry.getValue();
 		}
 
 		for (Integer i : typeToDefault) {
@@ -164,9 +161,7 @@ public class JavascriptContext extends ViewContext {
 	public void genColors() {
 		tokenColors = new Color[JavascriptLexerConstants.NUMBEROFTOKENS];
 		Map<String, Color> map = colorMap;
-		Iterator<Entry<String, Color>> it = map.entrySet().iterator();
-		while (it.hasNext()) {
-			Entry<String, Color> entry = it.next();
+		for (Entry<String, Color> entry : map.entrySet()) {
 			String tokenType = entry.getKey();
 			tokenColors[TOKENS.get(tokenType)] = entry.getValue();
 		}

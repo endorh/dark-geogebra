@@ -62,8 +62,7 @@ public class SegmentsIntersection extends Intersection {
 
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof SegmentsIntersection) {
-			SegmentsIntersection s = (SegmentsIntersection) o;
+		if (o instanceof SegmentsIntersection s) {
 			if (this.getPoint().equals(s.getPoint())) {
 				if (s1.equals(s.s1) && s2.equals(s.s2)) {
 					return true;

@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.advanced;
 
+import java.util.Objects;
+
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
@@ -53,12 +55,8 @@ public class AlgoCurvatureVectorCurve3D extends AlgoElement {
 			GeoPointND pt, GeoCurveCartesian3D f) {
 		this(cons, pt, f);
 
-		if (label != null) {
-			v.setLabel(label);
-		} else {
-			// if we don't have a label we could try c
-			v.setLabel("cv");
-		}
+		// if we don't have a label we could try c
+		v.setLabel(Objects.requireNonNullElse(label, "cv"));
 	}
 
 	AlgoCurvatureVectorCurve3D(Construction cons, GeoPointND A,

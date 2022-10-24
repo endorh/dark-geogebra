@@ -236,9 +236,9 @@ public class DynamicTextProcessor {
 		StringBuilder sb = new StringBuilder();
 		String text;
 		DynamicTextType mode;
-		for (int i = 0; i < list.size(); i++) {
-			text = list.get(i).text;
-			mode = list.get(i).type;
+		for (DynamicTextElement dynamicTextElement : list) {
+			text = dynamicTextElement.text;
+			mode = dynamicTextElement.type;
 
 			if (mode == DynamicTextType.STATIC) {
 				for (int k = 0; k < text.length(); k++) {

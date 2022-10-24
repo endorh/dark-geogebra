@@ -66,7 +66,7 @@ public final class BreakFormula {
 		VerticalBox vbox = new VerticalBox();
 		HorizontalBox first;
 		HorizontalBox second = null;
-		Stack<Position> positions = new Stack<Position>();
+		Stack<Position> positions = new Stack<>();
 		double w = -1;
 		while (hbox.width > width
 				&& (w = canBreak(positions, hbox, width)) != hbox.width) {
@@ -123,7 +123,7 @@ public final class BreakFormula {
 			if (cumWidth[i + 1] > width) {
 				int pos = getBreakPosition(hbox, i);
 				if (box instanceof HorizontalBox) {
-					Stack<Position> newStack = new Stack<Position>();
+					Stack<Position> newStack = new Stack<>();
 					double w = canBreak(newStack, (HorizontalBox) box,
 							width - cumWidth[i]);
 					if (w != box.width

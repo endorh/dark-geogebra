@@ -14,7 +14,6 @@ package org.geogebra.common.kernel.commands;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeSet;
 
@@ -529,23 +528,19 @@ public class AlgebraProcessor {
 	private void replaceDerivative(ValidExpression ve, final GeoElementND geo) {
 		if (geo.getLabelSimple() != null && geo.getLabelSimple().endsWith("'")
 				&& geo.getParentAlgorithm() instanceof AlgoDependentFunction) {
-			ve.traverse(new Traversing() {
-
-				@Override
-				public ExpressionValue process(ExpressionValue ev) {
-					if (ev == geo) {
-						ExpressionNode en = ((AlgoDependentFunction) geo
-								.getParentAlgorithm()).getExpression().unwrap()
-										.wrap();
-						// f'(x) => f'
-						if (en.getOperation() == Operation.FUNCTION
-								&& en.getRight() instanceof FunctionVariable) {
-							en = en.getLeft().wrap();
-						}
-						return en.deepCopy(kernel);
+			ve.traverse(ev -> {
+				if (ev == geo) {
+					ExpressionNode en = ((AlgoDependentFunction) geo
+							.getParentAlgorithm()).getExpression().unwrap()
+									.wrap();
+					// f'(x) => f'
+					if (en.getOperation() == Operation.FUNCTION
+							&& en.getRight() instanceof FunctionVariable) {
+						en = en.getLeft().wrap();
 					}
-					return ev;
+					return en.deepCopy(kernel);
 				}
+				return ev;
 			});
 		}
 
@@ -596,26 +591,22 @@ public class AlgebraProcessor {
 			// try to overwrite
 			final boolean listeners = app.getScriptManager().hasListeners();
 			app.getScriptManager().disableListeners();
-			AsyncOperation<GeoElementND[]> changeCallback = new AsyncOperation<GeoElementND[]>() {
-
-				@Override
-				public void callback(GeoElementND[] obj) {
-					if (obj != null) {
-						app.getScriptManager().enableListeners();
-						if (listeners && obj.length > 0) {
-							app.dispatchEvent(new Event(EventType.REDEFINE, obj[0].toGeoElement()));
-							obj[0].updateCascade();
-						}
-						app.getCompanion().recallViewCreators();
-						if (storeUndoInfo) {
-							app.storeUndoInfo();
-						}
-						if (callback != null) {
-							callback.callback(obj.length > 0 ? obj[0] : null);
-						}
+			AsyncOperation<GeoElementND[]> changeCallback = obj -> {
+				if (obj != null) {
+					app.getScriptManager().enableListeners();
+					if (listeners && obj.length > 0) {
+						app.dispatchEvent(new Event(EventType.REDEFINE, obj[0].toGeoElement()));
+						obj[0].updateCascade();
 					}
-
+					app.getCompanion().recallViewCreators();
+					if (storeUndoInfo) {
+						app.storeUndoInfo();
+					}
+					if (callback != null) {
+						callback.callback(obj.length > 0 ? obj[0] : null);
+					}
 				}
+
 			};
 
 			processAlgebraCommandNoExceptionHandling(newValue, false, handler,
@@ -649,8 +640,7 @@ public class AlgebraProcessor {
 
 	private void updateTypePreservingFlags(ValidExpression newValue, GeoElementND geo,
 			boolean preventTypeChange) {
-		if (newValue instanceof ExpressionNode) {
-			ExpressionNode n = (ExpressionNode) newValue;
+		if (newValue instanceof ExpressionNode n) {
 			if (geo.isGeoPoint()) {
 				n.setForcePoint();
 			} else if (geo.isGeoVector()) {
@@ -712,7 +702,7 @@ public class AlgebraProcessor {
 	 * @return a_1 transformed into a_{1}
 	 */
 	public static String curlyLabel(String newLabel) {
-		if (newLabel.indexOf("_{") > 0 || newLabel.indexOf("_") == -1) {
+		if (newLabel.indexOf("_{") > 0 || !newLabel.contains("_")) {
 			return newLabel;
 		}
 		return newLabel.replace("_", "_{") + "}";
@@ -795,9 +785,7 @@ public class AlgebraProcessor {
 		try {
 			return processAlgebraCommandNoExceptionHandling(str, storeUndo,
 					ErrorHelper.silent(), false, null);
-		} catch (Exception e) {
-			return null;
-		} catch (MyError e) {
+		} catch (Exception | MyError e) {
 			return null;
 		}
 	}
@@ -981,9 +969,7 @@ public class AlgebraProcessor {
 			// step3: make a list of undefined variables so we can ask the
 			// user
 			// ==========================
-			Iterator<String> it = undefinedVariables.iterator();
-			while (it.hasNext()) {
-				String label = it.next();
+			for (String label : undefinedVariables) {
 				if (kernel.lookupLabel(label) == null) {
 					// Log.debug("not found: " + label);
 					sb.append(label);
@@ -1019,41 +1005,36 @@ public class AlgebraProcessor {
 				// final FunctionVariable fvX2 = fvX;
 				final ValidExpression ve2 = ve;
 
-				callback = new AsyncOperation<String[]>() {
+				callback = dialogResult -> {
+					GeoElement[] geos = null;
 
-					@Override
-					public void callback(String[] dialogResult) {
-						GeoElement[] geos = null;
-
-						// TODO: need we to catch the Exception
-						// here,
-						// which can throw the
-						// processAlgebraInputCommandNoExceptionHandling
-						// function?
-						if (CREATE_SLIDER.equals(dialogResult[0])) {
-							// insertStarIfNeeded(undefinedVariables,
-							// ve2, fvX2);
-							replaceUndefinedVariables(ve2,
-									new TreeSet<GeoNumeric>(), null,
-									info.isMultipleUnassignedAllowed());
-						}
-						try {
-							geos = processValidExpression(storeUndo, handler,
-									ve2, info);
-						} catch (MyError ee) {
-							ErrorHelper.handleError(ee,
-									ve2.toString(
-											StringTemplate.defaultTemplate),
-									loc2, handler);
-							return;
-						} catch (Exception ee) {
-							ErrorHelper.handleException(ee, app, handler);
-							return;
-						}
-
-						runCallback(callback0, geos, step);
+					// TODO: need we to catch the Exception
+					// here,
+					// which can throw the
+					// processAlgebraInputCommandNoExceptionHandling
+					// function?
+					if (CREATE_SLIDER.equals(dialogResult[0])) {
+						// insertStarIfNeeded(undefinedVariables,
+						// ve2, fvX2);
+						replaceUndefinedVariables(ve2,
+								new TreeSet<>(), null,
+								info.isMultipleUnassignedAllowed());
+					}
+					try {
+						geos = processValidExpression(storeUndo, handler,
+								ve2, info);
+					} catch (MyError ee) {
+						ErrorHelper.handleError(ee,
+								ve2.toString(
+										StringTemplate.defaultTemplate),
+								loc2, handler);
+						return;
+					} catch (Exception ee) {
+						ErrorHelper.handleException(ee, app, handler);
+						return;
 					}
 
+					runCallback(callback0, geos, step);
 				};
 				boolean autoCreateSlidersAnswer = handler
 						.onUndefinedVariables(sb.toString(), callback);
@@ -1068,7 +1049,7 @@ public class AlgebraProcessor {
 			// ==========================
 			// step5: replace undefined variables
 			// ==========================
-			replaceUndefinedVariables(ve, new TreeSet<GeoNumeric>(), null,
+			replaceUndefinedVariables(ve, new TreeSet<>(), null,
 					info.isMultipleUnassignedAllowed());
 
 			// Do not copy plain variables, as
@@ -1089,8 +1070,7 @@ public class AlgebraProcessor {
 			symbolicProcessor = new SymbolicProcessor(kernel);
 		}
 		ValidExpression extracted = replaceFunctionVariables(ve);
-		if (ve.unwrap() instanceof Equation && info != null) {
-			Equation equation = (Equation) ve.unwrap();
+		if (ve.unwrap() instanceof Equation equation && info != null) {
 			extracted = symbolicProcessor.extractAssignment(equation, info);
 			ve.setLabel(extracted.getLabel());
 		}
@@ -1454,8 +1434,7 @@ public class AlgebraProcessor {
 						new Variable(kernel, ve.getLabel()),
 						Operation.EQUAL_BOOLEAN, ve);
 				// A+B=C as comparison, not equation
-			} else if (ve.unwrap() instanceof Equation) {
-				Equation eq = (Equation) ve.unwrap();
+			} else if (ve.unwrap() instanceof Equation eq) {
 				ve = new ExpressionNode(kernel, eq.getLHS(),
 						Operation.EQUAL_BOOLEAN, eq.getRHS());
 			} else if (ve.unwrap() instanceof Variable && !isBoolean((Variable) ve.unwrap())) {
@@ -1606,30 +1585,26 @@ public class AlgebraProcessor {
 	}
 
 	private Traversing getArbcostReverse() {
-		return new Traversing() {
-
-			@Override
-			public ExpressionValue process(ExpressionValue ev) {
-				if (ev instanceof Variable) {
-					GeoElement geo = kernel
-							.lookupLabel(((Variable) ev).getName());
-					String[] parts = ((Variable) ev).getName().split("_");
-					if (geo == null && parts.length == 2) {
-						try {
-							int idx = Integer.parseInt(
-									parts[1].replace("{", "").replace("}", ""));
-							return new ExpressionNode(kernel,
-									new MyDouble(kernel, idx),
-									Operation.ARBCONST, null);
-						} catch (Exception e) {
-							Log.debug("Invalid variable");
-						}
-					} else if (geo != null) {
-						return geo;
+		return ev -> {
+			if (ev instanceof Variable) {
+				GeoElement geo = kernel
+						.lookupLabel(((Variable) ev).getName());
+				String[] parts = ((Variable) ev).getName().split("_");
+				if (geo == null && parts.length == 2) {
+					try {
+						int idx = Integer.parseInt(
+								parts[1].replace("{", "").replace("}", ""));
+						return new ExpressionNode(kernel,
+								new MyDouble(kernel, idx),
+								Operation.ARBCONST, null);
+					} catch (Exception e) {
+						Log.debug("Invalid variable");
 					}
+				} else if (geo != null) {
+					return geo;
 				}
-				return ev;
 			}
+			return ev;
 		};
 	}
 
@@ -1815,8 +1790,7 @@ public class AlgebraProcessor {
 		GeoElementND[] temp = null;
 		try {
 			ValidExpression ve = parser.parseGeoGebraExpression(str);
-			if (ve instanceof ExpressionNode) {
-				ExpressionNode en = (ExpressionNode) ve;
+			if (ve instanceof ExpressionNode en) {
 				en.setForcePoint();
 			}
 
@@ -1974,8 +1948,7 @@ public class AlgebraProcessor {
 		// check for existing labels
 		String[] labels = expression.getLabels();
 		GeoElement replaceable = getReplaceable(labels);
-		if (replaceable instanceof HasArbitraryConstant) {
-			HasArbitraryConstant hasConstant = (HasArbitraryConstant) replaceable;
+		if (replaceable instanceof HasArbitraryConstant hasConstant) {
 			evalInfo = evalInfo.withArbitraryConstant(hasConstant.getArbitraryConstant());
 		}
 
@@ -2058,8 +2031,8 @@ public class AlgebraProcessor {
 		GeoElement replaceable = null;
 		if (labels != null && labels.length > 0) {
 			boolean firstTime = true;
-			for (int i = 0; i < labels.length; i++) {
-				GeoElement geo = kernel.lookupLabel(labels[i]);
+			for (String label : labels) {
+				GeoElement geo = kernel.lookupLabel(label);
 				if (geo != null) {
 					if (geo.isProtected(EventType.UPDATE)) {
 						throw new MyError(loc, Errors.IllegalAssignment,
@@ -2267,8 +2240,7 @@ public class AlgebraProcessor {
 			}
 		}
 
-		if (ve instanceof ExpressionNode) {
-			ExpressionNode node = (ExpressionNode) ve;
+		if (ve instanceof ExpressionNode node) {
 			ret = processExpressionNode(node, info);
 			boolean singleReturnValue = ret != null && ret.length == 1;
 			if (ret != null && ret.length > 0
@@ -3085,16 +3057,13 @@ public class AlgebraProcessor {
 		// command is leaf: process command
 		if (n.isLeaf()) {
 			ExpressionValue leaf = n.getLeft();
-			if (leaf instanceof Command) {
-				Command c = (Command) leaf;
+			if (leaf instanceof Command c) {
 				c.setLabels(n.getLabels());
 				return processCommand(c, info);
-			} else if (leaf instanceof Equation) {
-				Equation eqn = (Equation) leaf;
+			} else if (leaf instanceof Equation eqn) {
 				eqn.setLabels(n.getLabels());
 				return processEquation(eqn, n, info);
-			} else if (leaf instanceof Function) {
-				Function fun = (Function) leaf;
+			} else if (leaf instanceof Function fun) {
 				fun.setLabels(n.getLabels());
 				if (node.isForceSurface()) {
 					fun.initFunction(info.withSimplifying(false));
@@ -3103,8 +3072,7 @@ public class AlgebraProcessor {
 				}
 				fun.setForceInequality(node.isForceInequality());
 				return processFunction(fun, info);
-			} else if (leaf instanceof FunctionNVar) {
-				FunctionNVar fun = (FunctionNVar) leaf;
+			} else if (leaf instanceof FunctionNVar fun) {
 				fun.setLabels(n.getLabels());
 				fun.setForceInequality(node.isForceInequality());
 				return processFunctionNVar(fun, info);

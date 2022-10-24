@@ -41,7 +41,7 @@ public class CmdTranslate extends CommandProcessor {
 		GeoElement[] ret = new GeoElement[1];
 
 		switch (n) {
-		case 2:
+		case 2 -> {
 			arg = resArgs(c);
 
 			// translate object
@@ -73,9 +73,8 @@ public class CmdTranslate extends CommandProcessor {
 				}
 				throw argErr(c, arg[1]);
 			}
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

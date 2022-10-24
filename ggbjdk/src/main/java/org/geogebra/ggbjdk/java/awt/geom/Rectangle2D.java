@@ -715,9 +715,8 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
         if (obj == this) {
             return true;
         }
-        if (obj instanceof GRectangle2D) {
-            GRectangle2D r2d = (GRectangle2D) obj;
-            return ((getX() == r2d.getX()) &&
+        if (obj instanceof GRectangle2D r2d) {
+	        return ((getX() == r2d.getX()) &&
                     (getY() == r2d.getY()) &&
                     (getWidth() == r2d.getWidth()) &&
                     (getHeight() == r2d.getHeight()));

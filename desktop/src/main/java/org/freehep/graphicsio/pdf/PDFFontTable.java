@@ -5,7 +5,6 @@ import java.awt.Font;
 import java.awt.font.FontRenderContext;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Properties;
 
 import org.freehep.graphics2d.font.CharTable;
@@ -41,8 +40,8 @@ public class PDFFontTable extends FontTable {
 		Collection fonts = getEntries();
 		if (fonts.size() > 0) {
 			PDFDictionary fontList = pdf.openDictionary("FontList");
-			for (Iterator i = fonts.iterator(); i.hasNext();) {
-				Entry e = (Entry) i.next();
+			for (Object font : fonts) {
+				Entry e = (Entry) font;
 				fontList.entry(e.getReference(), pdf.ref(e.getReference()));
 			}
 			pdf.close(fontList);
@@ -54,9 +53,8 @@ public class PDFFontTable extends FontTable {
 	public void embedAll(FontRenderContext context, boolean embed,
 			String embedAs) throws IOException {
 		Collection col = getEntries();
-		Iterator i = col.iterator();
-		while (i.hasNext()) {
-			Entry e = (Entry) i.next();
+		for (Object o : col) {
+			Entry e = (Entry) o;
 			if (!e.isWritten()) {
 				e.setWritten(true);
 

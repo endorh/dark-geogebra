@@ -39,7 +39,7 @@ public class ActionSet {
 	 *            to be added
 	 */
 	public void addAction(Action action) {
-		actions.put(Integer.valueOf(action.getCode()), action);
+		actions.put(action.getCode(), action);
 	}
 
 	/**
@@ -51,7 +51,7 @@ public class ActionSet {
 	 *         found.
 	 */
 	public Action get(int actionCode) {
-		Action action = (Action) actions.get(Integer.valueOf(actionCode));
+		Action action = (Action) actions.get(actionCode);
 		if (action == null) {
 			action = defaultAction;
 		}
@@ -66,6 +66,6 @@ public class ActionSet {
 	 * @return true if action exists for code
 	 */
 	public boolean exists(int actionCode) {
-		return (actions.get(Integer.valueOf(actionCode)) != null);
+		return (actions.get(actionCode) != null);
 	}
 }

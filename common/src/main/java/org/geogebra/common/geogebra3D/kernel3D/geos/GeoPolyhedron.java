@@ -407,7 +407,7 @@ public class GeoPolyhedron extends GeoElement3D
 		// Application.debug(polygonsIndexMax);
 
 		// add to index
-		polygonsIndex.put(currentFace, Integer.valueOf(polygonsIndexMax));
+		polygonsIndex.put(currentFace, polygonsIndexMax);
 		polygonsDescriptions.add(currentFace);
 		polygonsIndexMax++;
 
@@ -661,7 +661,7 @@ public class GeoPolyhedron extends GeoElement3D
 	 */
 	protected void storeSegment(GeoSegment3D segment,
 			ConstructionElementCycle key) {
-		Long index = Long.valueOf(segmentsIndexMax);
+		Long index = segmentsIndexMax;
 		segmentsIndex.put(key, index);
 		segments.put(index, segment);
 		segmentsIndexMax++;
@@ -1392,26 +1392,16 @@ public class GeoPolyhedron extends GeoElement3D
 
 	@Override
 	public String getTypeString() {
-		switch (type) {
-		case TYPE_PRISM:
-			return "Prism";
-		case TYPE_PYRAMID:
-			return "Pyramid";
-
-		case TYPE_TETRAHEDRON:
-			return "Tetrahedron";
-		case TYPE_CUBE:
-			return "Cube";
-		case TYPE_OCTAHEDRON:
-			return "Octahedron";
-		case TYPE_DODECAHEDRON:
-			return "Dodecahedron";
-		case TYPE_ICOSAHEDRON:
-			return "Icosahedron";
-
-		default:
-			return "Polyhedron";
-		}
+		return switch (type) {
+			case TYPE_PRISM -> "Prism";
+			case TYPE_PYRAMID -> "Pyramid";
+			case TYPE_TETRAHEDRON -> "Tetrahedron";
+			case TYPE_CUBE -> "Cube";
+			case TYPE_OCTAHEDRON -> "Octahedron";
+			case TYPE_DODECAHEDRON -> "Dodecahedron";
+			case TYPE_ICOSAHEDRON -> "Icosahedron";
+			default -> "Polyhedron";
+		};
 	}
 
 	/**
@@ -1436,8 +1426,7 @@ public class GeoPolyhedron extends GeoElement3D
 	@Override
 	public void set(GeoElementND geo) {
 		// use instanceof to support Net too
-		if (geo instanceof GeoPolyhedron) {
-			GeoPolyhedron polyhedron = (GeoPolyhedron) geo;
+		if (geo instanceof GeoPolyhedron polyhedron) {
 
 			isDefined = polyhedron.isDefined;
 
@@ -1456,17 +1445,8 @@ public class GeoPolyhedron extends GeoElement3D
 			// init copy points list
 			if (copyPoints == null) {
 				if (pointIdComparator == null) {
-					pointIdComparator = new Comparator<GeoPointND>() {
-						@Override
-						public int compare(GeoPointND o1, GeoPointND o2) {
-							if (o1.getID() < o2.getID()) {
-								return -1;
-							}
-							if (o1.getID() > o2.getID()) {
-								return 1;
-							}
-							return 0;
-						}
+					pointIdComparator = (o1, o2) -> {
+						return Long.compare(o1.getID(), o2.getID());
 					};
 				}
 				copyPoints = new TreeMap<>(
@@ -2011,11 +1991,9 @@ public class GeoPolyhedron extends GeoElement3D
 		}
 
 		// TODO remove that
-		if (!(PI instanceof GeoPoint3D)) {
+		if (!(PI instanceof GeoPoint3D P)) {
 			return;
 		}
-
-		GeoPoint3D P = (GeoPoint3D) PI;
 
 		PathParameter pp = P.getPathParameter();
 
@@ -2046,11 +2024,9 @@ public class GeoPolyhedron extends GeoElement3D
 	@Override
 	public void pointChanged(GeoPointND PI) {
 		// TODO remove that
-		if (!(PI instanceof GeoPoint3D)) {
+		if (!(PI instanceof GeoPoint3D P)) {
 			return;
 		}
-
-		GeoPoint3D P = (GeoPoint3D) PI;
 
 		Coords coordsOld = P.getInhomCoords().copyVector();
 

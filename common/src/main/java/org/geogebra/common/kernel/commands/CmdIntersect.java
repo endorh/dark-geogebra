@@ -77,18 +77,18 @@ public class CmdIntersect extends CommandProcessor {
 		// Application.debug(n,1);
 
 		switch (n) {
-		case 2:
+		case 2 -> {
 			arg = resArgs(c);
 			// Line - Line
 			return intersect2(arg, c);
-
-		case 3: // only one of the intersection points: the third argument
+		}
+		case 3 -> { // only one of the intersection points: the third argument
 			// states which one
 			arg = resArgs(c);
 			// Line - Conic
 			return intersect3(arg, c);
-
-		case 4:
+		}
+		case 4 -> {
 			arg = resArgs(c);
 			// Function - Function in interval [a,b]
 			// Polynomial - Polynomial with index of point
@@ -114,9 +114,8 @@ public class CmdIntersect extends CommandProcessor {
 				return algo.getOutput();
 			}
 			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

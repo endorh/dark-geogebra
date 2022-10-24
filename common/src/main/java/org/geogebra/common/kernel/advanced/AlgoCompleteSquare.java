@@ -64,8 +64,7 @@ public class AlgoCompleteSquare extends AlgoElement {
 		double q = s - p - r;
 		boolean isQuadratic = !f.isGeoFunctionConditional();
 		double[] checkpoints = { 1000, -1000, Math.PI, Math.E };
-		for (int i = 0; i < checkpoints.length; i++) {
-			double x = checkpoints[i];
+		for (double x : checkpoints) {
 			if (!DoubleUtil.isZero(p * x * x + q * x + r - f.value(x))) {
 				// Log.debug(p + "," + q + "," + r + ","
 				// + (p * x * x + q * x + r - f.evaluate(x)));

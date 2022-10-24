@@ -75,9 +75,7 @@ public class DataImportD extends DataImport {
 				// .getTransferData(DataFlavor.stringFlavor);
 			}
 
-		} catch (UnsupportedFlavorException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (UnsupportedFlavorException | IOException e) {
 			e.printStackTrace();
 		}
 
@@ -121,9 +119,10 @@ public class DataImportD extends DataImport {
 						// quotes ""
 						boolean containsComma = false;
 						boolean appendQuotes = false;
-						for (int i = 0; i < data.length; i++) {
-							if (data[i] == ',') {
+						for (char c : data) {
+							if (c == ',') {
 								containsComma = true;
+								break;
 							}
 						}
 
@@ -135,8 +134,8 @@ public class DataImportD extends DataImport {
 						if (appendQuotes) {
 							sbHTML.append('"');
 						}
-						for (int i = 0; i < data.length; i++) {
-							sbHTML.append(data[i]);
+						for (char datum : data) {
+							sbHTML.append(datum);
 						}
 						if (appendQuotes) {
 							sbHTML.append('"');

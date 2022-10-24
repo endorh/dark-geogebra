@@ -252,9 +252,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 		// get intersection of all children of P and all parents of Q
 		locusConsOrigElements = new TreeSet<>();
 		TreeSet<Long> usedAlgoIds = new TreeSet<>();
-		Iterator<GeoElement> it = Qin.iterator();
-		while (it.hasNext()) {
-			GeoElement parent = it.next();
+		for (GeoElement parent : Qin) {
 			if (parent.isLabelSet()
 					&& parent.isChildOf(movingPoint)) {
 				// note: locusConsOrigElements will contain AlgoElement and
@@ -370,9 +368,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 		// tell the macro construction about reserved names:
 		// these names will not be looked up in the parent
 		// construction
-		Iterator<ConstructionElement> it = locusConsElements.iterator();
-		while (it.hasNext()) {
-			ConstructionElement ce = it.next();
+		for (ConstructionElement ce : locusConsElements) {
 			if (ce.isGeoElement()) {
 				GeoElement geo = (GeoElement) ce;
 				macroKernel.addReservedLabel(
@@ -432,9 +428,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 	 * construction
 	 */
 	private void resetMacroConstruction() {
-		Iterator<ConstructionElement> it = locusConsOrigElements.iterator();
-		while (it.hasNext()) {
-			ConstructionElement ce = it.next();
+		for (ConstructionElement ce : locusConsOrigElements) {
 			if (ce.isGeoElement()) {
 				GeoElement geoOrig = (GeoElement) ce;
 				// do not copy functions, their expressions already
@@ -848,8 +842,8 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 			}
 		}
 
-		for (int i = 0; i < distanceOK.length; i++) {
-			if (!distanceOK[i]) {
+		for (boolean b : distanceOK) {
+			if (!b) {
 				return false;
 			}
 		}
@@ -959,10 +953,9 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 	 */
 	public static boolean validLocus(GeoPointND locusPoint,
 			GeoPointND movingPoint) {
-		HashSet<GeoElement> mPChildren = new HashSet<>();
-		mPChildren.addAll(movingPoint.getAllChildren());
-		HashSet<GeoElement> lPParents = new HashSet<>();
-		lPParents.addAll(((GeoElement) locusPoint).getAllPredecessors());
+		HashSet<GeoElement> mPChildren = new HashSet<>(movingPoint.getAllChildren());
+		HashSet<GeoElement> lPParents =
+				new HashSet<>(((GeoElement) locusPoint).getAllPredecessors());
 		mPChildren.retainAll(lPParents);
 		Log.debug("Elements between mover and tracer: " + mPChildren);
 		for (GeoElement ge : mPChildren) {

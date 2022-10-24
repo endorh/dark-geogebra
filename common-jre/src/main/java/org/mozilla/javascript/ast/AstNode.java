@@ -68,7 +68,7 @@ public abstract class AstNode extends Node implements Comparable<AstNode> {
     protected AstNode parent;
 
     private static Map<Integer,String> operatorNames =
-            new HashMap<Integer,String>();
+            new HashMap<>();
 
     static {
         operatorNames.put(Token.IN, "in");
@@ -306,9 +306,7 @@ public abstract class AstNode extends Node implements Comparable<AstNode> {
      */
     public String makeIndent(int indent) {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < indent; i++) {
-            sb.append("  ");
-        }
+        sb.append("  ".repeat(Math.max(0, indent)));
         return sb.toString();
     }
 
@@ -357,79 +355,11 @@ public abstract class AstNode extends Node implements Comparable<AstNode> {
     @Override
     public boolean hasSideEffects()
     {
-        switch (getType()) {
-          case Token.ASSIGN:
-          case Token.ASSIGN_ADD:
-          case Token.ASSIGN_BITAND:
-          case Token.ASSIGN_BITOR:
-          case Token.ASSIGN_BITXOR:
-          case Token.ASSIGN_DIV:
-          case Token.ASSIGN_LSH:
-          case Token.ASSIGN_MOD:
-          case Token.ASSIGN_MUL:
-          case Token.ASSIGN_RSH:
-          case Token.ASSIGN_SUB:
-          case Token.ASSIGN_URSH:
-          case Token.BLOCK:
-          case Token.BREAK:
-          case Token.CALL:
-          case Token.CATCH:
-          case Token.CATCH_SCOPE:
-          case Token.CONST:
-          case Token.CONTINUE:
-          case Token.DEC:
-          case Token.DELPROP:
-          case Token.DEL_REF:
-          case Token.DO:
-          case Token.ELSE:
-          case Token.ENTERWITH:
-          case Token.ERROR:         // Avoid cascaded error messages
-          case Token.EXPORT:
-          case Token.EXPR_RESULT:
-          case Token.FINALLY:
-          case Token.FUNCTION:
-          case Token.FOR:
-          case Token.GOTO:
-          case Token.IF:
-          case Token.IFEQ:
-          case Token.IFNE:
-          case Token.IMPORT:
-          case Token.INC:
-          case Token.JSR:
-          case Token.LABEL:
-          case Token.LEAVEWITH:
-          case Token.LET:
-          case Token.LETEXPR:
-          case Token.LOCAL_BLOCK:
-          case Token.LOOP:
-          case Token.NEW:
-          case Token.REF_CALL:
-          case Token.RETHROW:
-          case Token.RETURN:
-          case Token.RETURN_RESULT:
-          case Token.SEMI:
-          case Token.SETELEM:
-          case Token.SETELEM_OP:
-          case Token.SETNAME:
-          case Token.SETPROP:
-          case Token.SETPROP_OP:
-          case Token.SETVAR:
-          case Token.SET_REF:
-          case Token.SET_REF_OP:
-          case Token.SWITCH:
-          case Token.TARGET:
-          case Token.THROW:
-          case Token.TRY:
-          case Token.VAR:
-          case Token.WHILE:
-          case Token.WITH:
-          case Token.WITHEXPR:
-          case Token.YIELD:
-            return true;
-
-          default:
-            return false;
-        }
+        return switch (getType()) {         // Avoid cascaded error messages
+            case Token.ASSIGN, Token.ASSIGN_ADD, Token.ASSIGN_BITAND, Token.ASSIGN_BITOR, Token.ASSIGN_BITXOR, Token.ASSIGN_DIV, Token.ASSIGN_LSH, Token.ASSIGN_MOD, Token.ASSIGN_MUL, Token.ASSIGN_RSH, Token.ASSIGN_SUB, Token.ASSIGN_URSH, Token.BLOCK, Token.BREAK, Token.CALL, Token.CATCH, Token.CATCH_SCOPE, Token.CONST, Token.CONTINUE, Token.DEC, Token.DELPROP, Token.DEL_REF, Token.DO, Token.ELSE, Token.ENTERWITH, Token.ERROR, Token.EXPORT, Token.EXPR_RESULT, Token.FINALLY, Token.FUNCTION, Token.FOR, Token.GOTO, Token.IF, Token.IFEQ, Token.IFNE, Token.IMPORT, Token.INC, Token.JSR, Token.LABEL, Token.LEAVEWITH, Token.LET, Token.LETEXPR, Token.LOCAL_BLOCK, Token.LOOP, Token.NEW, Token.REF_CALL, Token.RETHROW, Token.RETURN, Token.RETURN_RESULT, Token.SEMI, Token.SETELEM, Token.SETELEM_OP, Token.SETNAME, Token.SETPROP, Token.SETPROP_OP, Token.SETVAR, Token.SET_REF, Token.SET_REF_OP, Token.SWITCH, Token.TARGET, Token.THROW, Token.TRY, Token.VAR, Token.WHILE, Token.WITH, Token.WITHEXPR, Token.YIELD ->
+                    true;
+            default -> false;
+        };
     }
 
     /**
@@ -555,9 +485,7 @@ public abstract class AstNode extends Node implements Comparable<AstNode> {
         }
         private String makeIndent(int depth) {
             StringBuilder sb = new StringBuilder(DEBUG_INDENT * depth);
-            for (int i = 0; i < (DEBUG_INDENT * depth); i++) {
-                sb.append(" ");
-            }
+            sb.append(" ".repeat(Math.max(0, (DEBUG_INDENT * depth))));
             return sb.toString();
         }
         public boolean visit(AstNode node) {

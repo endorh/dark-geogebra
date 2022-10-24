@@ -124,16 +124,16 @@ public class IsEqualPolynomialEquation extends TypeSafeMatcher<String> {
 			}
 
 			int termNumber = 0;
-			String signs = "";
+			StringBuilder signs = new StringBuilder();
 			for (int c = 0; c < part.length(); c++) {
 				char toCheck = part.charAt(c);
 				if (toCheck == '+' || toCheck == '-') {
 					termNumber++;
-					signs += toCheck;
+					signs.append(toCheck);
 				} else if (termNumber == 0) {
 					// first factor has no sign so we add one
 					termNumber = 1;
-					signs += "+";
+					signs.append("+");
 				}
 			}
 
@@ -171,9 +171,8 @@ public class IsEqualPolynomialEquation extends TypeSafeMatcher<String> {
 
 		String[] splitTerm = term.split("\\*");
 		LinkedList<String> variables = new LinkedList<>();
-		for (int i = 0; i < splitTerm.length; i++) {
+		for (String s : splitTerm) {
 			// handle the number of the factor or one variable
-			String s = splitTerm[i];
 			if (Character.isDigit(s.charAt(0))) {
 				numericalFactor = s;
 			} else {
@@ -183,15 +182,15 @@ public class IsEqualPolynomialEquation extends TypeSafeMatcher<String> {
 
 		for (int i = 0; i < variables.size(); i++) {
 			String variable = variables.get(i);
-			String factor = sign + numericalFactor;
+			StringBuilder factor = new StringBuilder(sign + numericalFactor);
 			for (int ii = 0; ii < variables.size(); ii++) {
 				if (i != ii) {
 					// add every variable which is in the factor to the
 					// factor-String
-					factor += "*" + variables.get(ii);
+					factor.append("*").append(variables.get(ii));
 				}
 			}
-			terms.put(variable, factor);
+			terms.put(variable, factor.toString());
 		}
 	}
 
@@ -257,10 +256,8 @@ public class IsEqualPolynomialEquation extends TypeSafeMatcher<String> {
 			HashMap<String, String>[] testResultTerms) {
 		for (int i = 0; i < expectedTerms.length; i++) {
 			Set<String> keys = expectedTerms[i].keySet();
-			Iterator<String> it = keys.iterator();
 			// compare the factors of every variable
-			while (it.hasNext()) {
-				String key = it.next();
+			for (String key : keys) {
 				if (!expectedTerms[i].get(key).equals(
 						testResultTerms[i].get(key))) {
 					return false;

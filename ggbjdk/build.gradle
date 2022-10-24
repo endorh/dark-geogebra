@@ -5,8 +5,11 @@ plugins {
 }
 project.setDescription('Platform independent supplementary files for graphics support')
 
-sourceCompatibility = 17
-targetCompatibility = 17
+tasks.withType(JavaCompile) {
+    sourceCompatibility = 17
+    targetCompatibility = 17
+    options.encoding = 'UTF-8'
+}
 
 dependencies {
     implementation project(':common')

@@ -464,13 +464,10 @@ class MyJToggleButton extends JToggleButton
 			// which ensures that the menu is displayed after user released the
 			// mouse
 			if (showMenuTimer == null) {
-				showMenuTimer = new Timer(1000, new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e1) {
-						menu.setPopupVisible(true);
-						showMenuTimer.stop();
+				showMenuTimer = new Timer(1000, e1 -> {
+					menu.setPopupVisible(true);
+					showMenuTimer.stop();
 
-					}
 				});
 				showMenuTimer.setRepeats(false);
 			}
@@ -546,12 +543,11 @@ class MyJToggleButton extends JToggleButton
 
 		Point p = new Point();
 		switch (app.getToolbarPosition()) {
-		case SwingConstants.NORTH:
+		case SwingConstants.NORTH -> {
 			p.y = this.getY() + this.getHeight();
 			p.x = this.getX();
-			break;
-		default:
-		case SwingConstants.SOUTH:
+		}
+		case SwingConstants.SOUTH -> {
 			p.y = this.getY();
 			p.x = this.getX();
 			if (tip != null) {
@@ -559,13 +555,12 @@ class MyJToggleButton extends JToggleButton
 			} else {
 				p.y += this.getHeight();
 			}
-
-			break;
-		case SwingConstants.WEST:
+		}
+		case SwingConstants.WEST -> {
 			p.y = this.getY();
 			p.x = this.getX() + this.getWidth();
-			break;
-		case SwingConstants.EAST:
+		}
+		case SwingConstants.EAST -> {
 			p.y = this.getY();
 			p.x = this.getX();
 			if (tip != null) {
@@ -573,7 +568,7 @@ class MyJToggleButton extends JToggleButton
 			} else {
 				p.x += this.getWidth();
 			}
-			break;
+		}
 		}
 
 		return p;

@@ -339,7 +339,7 @@ public class ByteOrderInputStream extends BitInputStream implements DataInput {
 	 *             if read fails
 	 */
 	public String readAsciiZString() throws IOException {
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		char c = (char) readUnsignedByte();
 		while (c != 0) {
 			buffer.append(c);

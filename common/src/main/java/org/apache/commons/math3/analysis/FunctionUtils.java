@@ -428,7 +428,7 @@ public class FunctionUtils {
         if (n <= 0) {
             throw new NotStrictlyPositiveException(
                     LocalizedFormats.NOT_POSITIVE_NUMBER_OF_SAMPLES,
-                    Integer.valueOf(n));
+		            n);
         }
         if (min >= max) {
             throw new NumberIsTooLargeException(min, max, false);
@@ -635,15 +635,16 @@ public class FunctionUtils {
                 }
 
                 // check all elements in the array are consistent
-                for (int i = 0; i < n; ++i) {
-                    if (t[i].getFreeParameters() != parameters) {
-                        throw new DimensionMismatchException(t[i].getFreeParameters(), parameters);
-                    }
+	            for (DerivativeStructure derivativeStructure : t) {
+		            if (derivativeStructure.getFreeParameters() != parameters) {
+			            throw new DimensionMismatchException(
+					            derivativeStructure.getFreeParameters(), parameters);
+		            }
 
-                    if (t[i].getOrder() != order) {
-                        throw new DimensionMismatchException(t[i].getOrder(), order);
-                    }
-                }
+		            if (derivativeStructure.getOrder() != order) {
+			            throw new DimensionMismatchException(derivativeStructure.getOrder(), order);
+		            }
+	            }
 
                 // delegate computation to underlying function
                 final double[] point = new double[n];
@@ -762,15 +763,16 @@ public class FunctionUtils {
                 }
 
                 // check all elements in the array are consistent
-                for (int i = 0; i < n; ++i) {
-                    if (t[i].getFreeParameters() != parameters) {
-                        throw new DimensionMismatchException(t[i].getFreeParameters(), parameters);
-                    }
+	            for (DerivativeStructure derivativeStructure : t) {
+		            if (derivativeStructure.getFreeParameters() != parameters) {
+			            throw new DimensionMismatchException(
+					            derivativeStructure.getFreeParameters(), parameters);
+		            }
 
-                    if (t[i].getOrder() != order) {
-                        throw new DimensionMismatchException(t[i].getOrder(), order);
-                    }
-                }
+		            if (derivativeStructure.getOrder() != order) {
+			            throw new DimensionMismatchException(derivativeStructure.getOrder(), order);
+		            }
+	            }
 
                 // delegate computation to underlying function
                 final double[] point = new double[n];

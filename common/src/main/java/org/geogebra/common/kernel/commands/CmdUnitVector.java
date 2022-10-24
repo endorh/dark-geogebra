@@ -40,26 +40,25 @@ public class CmdUnitVector extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
+		case 1 -> {
 			arg = resArgs(c);
 			if (arg[0].isGeoLine()) {
 
 				AlgoUnitVector algo = algo((GeoLineND) arg[0]);
 				algo.getVector().setLabel(c.getLabel());
-				GeoElement[] ret = { (GeoElement) algo.getVector() };
+				GeoElement[] ret = {(GeoElement) algo.getVector()};
 				return ret;
 			} else if (arg[0] instanceof VectorNDValue) {
 
 				AlgoUnitVector algo = algo((VectorNDValue) arg[0]);
 				algo.getVector().setLabel(c.getLabel());
-				GeoElement[] ret = { (GeoElement) algo.getVector() };
+				GeoElement[] ret = {(GeoElement) algo.getVector()};
 				return ret;
 			} else {
 				return processNotLineNotVector(c, arg[0]);
 			}
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

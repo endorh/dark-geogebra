@@ -108,10 +108,7 @@ public class AlgoDelauneyTriangulation extends AlgoDiscrete {
 
 			}
 
-			Iterator<MyLine> it2 = tree.iterator();
-
-			while (it2.hasNext()) {
-				MyLine line = it2.next();
+			for (MyLine line : tree) {
 				al.add(new MyPoint(line.p1.getX(), line.p1.getY(),
 						SegmentType.MOVE_TO));
 				al.add(new MyPoint(line.p2.getX(), line.p2.getY(),
@@ -132,39 +129,36 @@ public class AlgoDelauneyTriangulation extends AlgoDiscrete {
 	 */
 	public static Comparator<MyLine> getComparator() {
 		if (lineComparator == null) {
-			lineComparator = new Comparator<MyLine>() {
-				@Override
-				public int compare(MyLine itemA, MyLine itemB) {
+			lineComparator = (itemA, itemB) -> {
 
-					GPoint2D p1A = itemA.p1;
-					GPoint2D p2A = itemA.p2;
-					GPoint2D p1B = itemB.p1;
-					GPoint2D p2B = itemB.p2;
+				GPoint2D p1A = itemA.p1;
+				GPoint2D p2A = itemA.p2;
+				GPoint2D p1B = itemB.p1;
+				GPoint2D p2B = itemB.p2;
 
-					// return 0 if endpoints the same
-					// so no duplicates in the TreeMap
-					if (DoubleUtil.isEqual(p1A.getX(), p2B.getX())
-							&& DoubleUtil.isEqual(p1A.getY(), p2B.getY())
-							&& DoubleUtil.isEqual(p2A.getX(), p1B.getX())
-							&& DoubleUtil.isEqual(p2A.getY(), p1B.getY())) {
-						// Application.debug("equal2");
-						return 0;
-					}
-					// check this one second (doesn't occur in practice)
-					if (DoubleUtil.isEqual(p1A.getX(), p1B.getX())
-							&& DoubleUtil.isEqual(p1A.getY(), p1B.getY())
-							&& DoubleUtil.isEqual(p2A.getX(), p2B.getX())
-							&& DoubleUtil.isEqual(p2A.getY(), p2B.getY())) {
-						// Application.debug("equal1");
-						return 0;
-					}
-
-					// need to return something sensible, otherwise tree doesn't
-					// work
-					return itemA.lengthSquared() > itemB.lengthSquared() ? -1
-							: 1;
-
+				// return 0 if endpoints the same
+				// so no duplicates in the TreeMap
+				if (DoubleUtil.isEqual(p1A.getX(), p2B.getX())
+						&& DoubleUtil.isEqual(p1A.getY(), p2B.getY())
+						&& DoubleUtil.isEqual(p2A.getX(), p1B.getX())
+						&& DoubleUtil.isEqual(p2A.getY(), p1B.getY())) {
+					// Application.debug("equal2");
+					return 0;
 				}
+				// check this one second (doesn't occur in practice)
+				if (DoubleUtil.isEqual(p1A.getX(), p1B.getX())
+						&& DoubleUtil.isEqual(p1A.getY(), p1B.getY())
+						&& DoubleUtil.isEqual(p2A.getX(), p2B.getX())
+						&& DoubleUtil.isEqual(p2A.getY(), p2B.getY())) {
+					// Application.debug("equal1");
+					return 0;
+				}
+
+				// need to return something sensible, otherwise tree doesn't
+				// work
+				return itemA.lengthSquared() > itemB.lengthSquared() ? -1
+						: 1;
+
 			};
 
 		}

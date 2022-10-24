@@ -266,8 +266,8 @@ public final class ImplicitIntersectionFinder {
 
 		int steps = 10, size = guess.size();
 
-		for (int i = 0; i < size; i++) {
-			evals = guess.get(i).val;
+		for (Coords coords : guess) {
+			evals = coords.val;
 
 			if (!MyDouble.isFinite(evals[0]) || !MyDouble.isFinite(evals[1])) {
 				continue;
@@ -361,7 +361,7 @@ public final class ImplicitIntersectionFinder {
 					&& (evals[1] >= params[1] && evals[1] <= params[3]);
 
 			if (add) {
-				insert(new double[] { evals[0], evals[1] }, vals);
+				insert(new double[]{evals[0], evals[1]}, vals);
 			}
 		}
 	}

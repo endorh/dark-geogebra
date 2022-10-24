@@ -2,10 +2,10 @@ package org.geogebra.desktop.gui.inputfield;
 
 import java.awt.Component;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -180,16 +180,13 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 		historyPopup.setDownPopup(isDownPopup);
 
-		ActionListener al = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String cmd = e.getActionCommand();
-				if (cmd.equals(1 + BorderButtonD.cmdSuffix)) {
+		ActionListener al = e -> {
+			String cmd = e.getActionCommand();
+			if (cmd.equals(1 + BorderButtonD.cmdSuffix)) {
 
-					// TODO: should up/down orientation be tied to InputBar?
-					// show popup
-					historyPopup.showPopup();
-				}
+				// TODO: should up/down orientation be tied to InputBar?
+				// show popup
+				historyPopup.showPopup();
 			}
 		};
 		setBorderButton(1, GeoGebraIconD.createUpDownTriangleIcon(false, true),
@@ -436,8 +433,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 				GeoElement next = app.getSelectionManager().getSelectedGeos()
 						.get(0);
 				Log.debug("next is " + next);
-				if (next instanceof GeoInputBox) {
-					GeoInputBox input = (GeoInputBox) next;
+				if (next instanceof GeoInputBox input) {
 					app.getActiveEuclidianView().focusTextField(input);
 				} else {
 					// app.getActiveEuclidianView().requestFocus();
@@ -654,23 +650,18 @@ public class AutoCompleteTextFieldD extends MathTextField
 						.isCloseBracketOrWhitespace(text.charAt(caretPos)))) {
 			this.setPreviewActive(false);
 			switch (ch) {
-			default:
-				// do nothing
-				break;
-			case '(':
+			default -> {
+			}
+			// do nothing
+			case '(' ->
 				// opening parentheses: insert closing parenthesis automatically
-				insertString(")");
-				break;
-
-			case '{':
+					insertString(")");
+			case '{' ->
 				// opening braces: insert closing parenthesis automatically
-				insertString("}");
-				break;
-
-			case '[':
+					insertString("}");
+			case '[' ->
 				// opening bracket: insert closing parenthesis automatically
-				insertString("]");
-				break;
+					insertString("]");
 			}
 			this.setPreviewActive(true);
 		}
@@ -804,9 +795,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 				continue;
 			}
-			for (String syntax : syntaxString.split("\\n")) {
-				syntaxes.add(syntax);
-			}
+			syntaxes.addAll(Arrays.asList(syntaxString.split("\\n")));
 		}
 		return syntaxes;
 	}
@@ -868,10 +857,10 @@ public class AutoCompleteTextFieldD extends MathTextField
 			setCaretPosition(start + bracketIndex + 1);
 			return true;
 		}
-		if (command.indexOf("()") > -1) {
+		if (command.contains("()")) {
 			// eg GetTime[]
 			bracketIndex += 2;
-		} else if (command.indexOf("( )") > -1) {
+		} else if (command.contains("( )")) {
 			// eg GetTime[ ]
 			bracketIndex += 3;
 		}
@@ -994,12 +983,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 	@Override
 	public void wrapSetText(final String s) {
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				setText(s);
-			}
-		});
+		SwingUtilities.invokeLater(() -> setText(s));
 	}
 
 	@Override

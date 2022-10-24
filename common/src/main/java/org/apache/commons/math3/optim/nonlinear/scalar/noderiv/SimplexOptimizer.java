@@ -139,14 +139,14 @@ public class SimplexOptimizer extends MultivariateOptimizer {
 
         final boolean isMinim = getGoalType() == GoalType.MINIMIZE;
         final Comparator<PointValuePair> comparator
-            = new Comparator<PointValuePair>() {
-            /** {@inheritDoc} */
-            public int compare(final PointValuePair o1,
-                               final PointValuePair o2) {
-                final double v1 = o1.getValue();
-                final double v2 = o2.getValue();
-                return isMinim ? Double.compare(v1, v2) : Double.compare(v2, v1);
-            }
+            = new Comparator<>() {
+	        /** {@inheritDoc} */
+	        public int compare(final PointValuePair o1,
+			        final PointValuePair o2) {
+		        final double v1 = o1.getValue();
+		        final double v2 = o2.getValue();
+		        return isMinim ? Double.compare(v1, v2) : Double.compare(v2, v1);
+	        }
         };
 
         // Initialize search.

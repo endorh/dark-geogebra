@@ -214,7 +214,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
         }
         this.binCount = binCount;
         this.randomData = randomData;
-        binStats = new ArrayList<SummaryStatistics>();
+        binStats = new ArrayList<>();
     }
 
     /**
@@ -313,7 +313,7 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
      * Provides methods for computing <code>sampleStats</code> and
      * <code>beanStats</code> abstracting the source of data.
      */
-    private abstract class DataAdapter{
+    private abstract static class DataAdapter{
 
         /**
          * Compute bin stats.
@@ -403,19 +403,19 @@ public class EmpiricalDistribution extends AbstractRealDistribution {
         @Override
         public void computeStats() throws IOException {
             sampleStats = new SummaryStatistics();
-            for (int i = 0; i < inputArray.length; i++) {
-                sampleStats.addValue(inputArray[i]);
-            }
+	        for (double v : inputArray) {
+		        sampleStats.addValue(v);
+	        }
         }
 
         /** {@inheritDoc} */
         @Override
         public void computeBinStats() throws IOException {
-            for (int i = 0; i < inputArray.length; i++) {
-                SummaryStatistics stats =
-                    binStats.get(findBin(inputArray[i]));
-                stats.addValue(inputArray[i]);
-            }
+	        for (double v : inputArray) {
+		        SummaryStatistics stats =
+				        binStats.get(findBin(v));
+		        stats.addValue(v);
+	        }
         }
     }
 

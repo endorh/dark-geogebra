@@ -62,8 +62,8 @@ public class ArrayOfAtoms implements AtomConsumer {
 
 	public ArrayOfAtoms() {
 		ra = new RowAtom();
-		array = new ArrayList<ArrayList<Atom>>();
-		currentRow = new ArrayList<Atom>();
+		array = new ArrayList<>();
+		currentRow = new ArrayList<>();
 		array.add(currentRow);
 		row = 0;
 	}
@@ -140,7 +140,7 @@ public class ArrayOfAtoms implements AtomConsumer {
 			ra = new RowAtom();
 		} else if (a instanceof EnvArray.RowSep) {
 			currentRow.add(ra.simplify());
-			currentRow = new ArrayList<Atom>();
+			currentRow = new ArrayList<>();
 			array.add(currentRow);
 			ra = new RowAtom();
 			++row;
@@ -166,7 +166,7 @@ public class ArrayOfAtoms implements AtomConsumer {
 			ra = new RowAtom();
 		} else if (a instanceof EnvArray.RowSep) {
 			currentRow.add(ra.simplify());
-			currentRow = new ArrayList<Atom>();
+			currentRow = new ArrayList<>();
 			array.add(currentRow);
 			ra = new RowAtom();
 			++row;
@@ -177,7 +177,7 @@ public class ArrayOfAtoms implements AtomConsumer {
 
 	public void updateRowColors(Color c) {
 		if (rowcolors == null) {
-			rowcolors = new ArrayList<Color>(array.size());
+			rowcolors = new ArrayList<>(array.size());
 		}
 		final int N = array.size() - rowcolors.size();
 		for (int i = 0; i < N; i++) {
@@ -188,7 +188,7 @@ public class ArrayOfAtoms implements AtomConsumer {
 
 	public void updateColors(Color c) {
 		if (colors == null) {
-			colors = new ArrayList<ArrayList<Color>>(array.size());
+			colors = new ArrayList<>(array.size());
 		}
 		final int N = array.size() - colors.size();
 		for (int i = 0; i < N; ++i) {
@@ -199,7 +199,7 @@ public class ArrayOfAtoms implements AtomConsumer {
 		ArrayList<Color> rowC = colors.get(last);
 		ArrayList<Atom> rowA = array.get(last);
 		if (rowC == null) {
-			rowC = new ArrayList<Color>(rowA.size());
+			rowC = new ArrayList<>(rowA.size());
 			colors.set(last, rowC);
 		}
 		final int Nc = rowA.size() - rowC.size();
@@ -300,14 +300,14 @@ public class ArrayOfAtoms implements AtomConsumer {
 
 	@Override
 	public String toString() {
-		String s = "";
+		StringBuilder s = new StringBuilder();
 		for (ArrayList<Atom> aa : array) {
 			for (Atom a : aa) {
-				s += a + " & ";
+				s.append(a).append(" & ");
 			}
-			s += "\n";
+			s.append("\n");
 		}
 
-		return s;
+		return s.toString();
 	}
 }

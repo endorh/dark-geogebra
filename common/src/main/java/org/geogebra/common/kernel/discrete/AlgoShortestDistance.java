@@ -84,12 +84,7 @@ public class AlgoShortestDistance extends AlgoElement implements GraphAlgo {
 
 	// weighted Shortest Path
 	// use length of segments to weight
-	private Transformer<MyLink, Double> wtTransformer = new Transformer<MyLink, Double>() {
-		@Override
-		public Double transform(MyLink link) {
-			return link.weight;
-		}
-	};
+	private Transformer<MyLink, Double> wtTransformer = link -> link.weight;
 
 	@Override
 	public final void compute() {

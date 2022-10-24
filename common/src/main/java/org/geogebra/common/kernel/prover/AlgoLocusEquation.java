@@ -175,8 +175,8 @@ public class AlgoLocusEquation extends AlgoElement implements UsesCAS {
 	private static String fingerprint(GeoElement[] input) {
 		StringBuilder ret = new StringBuilder();
 		int size = input.length;
-		for (int i = 0; i < size; ++i) {
-			ret.append(input[i]
+		for (GeoElement geoElement : input) {
+			ret.append(geoElement
 					.getAlgebraDescription(StringTemplate.defaultTemplate));
 			ret.append(",");
 		}

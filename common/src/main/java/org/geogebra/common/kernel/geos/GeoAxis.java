@@ -53,24 +53,22 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 		setStartPoint(origin);
 
 		GeoPoint end = new GeoPoint(cons);
-		
+
 		switch (type) {
-		default:
-		case X_AXIS:
+		case X_AXIS -> {
 			setCoords(0, 1, 0);
 			label = "xAxis";
 			coloredColorFor3D = GColor.RED;
 			end.setCoords(1, 0, 1);
 			setEndPoint(end);
-			break;
-
-		case Y_AXIS:
+		}
+		case Y_AXIS -> {
 			setCoords(-1, 0, 0);
 			label = "yAxis";
 			coloredColorFor3D = GColor.DARK_GREEN;
 			end.setCoords(0, 1, 1);
 			setEndPoint(end);
-			break;
+		}
 		}
 
 		setLabelSet(true);

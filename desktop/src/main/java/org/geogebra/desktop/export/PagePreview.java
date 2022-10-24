@@ -127,9 +127,7 @@ class PagePreview extends JPanel {
 	public void update() {
 		try {
 			updateBufferedImage();
-		} catch (Exception e) {
-			e.printStackTrace();
-		} catch (OutOfMemoryError e) {
+		} catch (Exception | OutOfMemoryError e) {
 			e.printStackTrace();
 		}
 		repaint();

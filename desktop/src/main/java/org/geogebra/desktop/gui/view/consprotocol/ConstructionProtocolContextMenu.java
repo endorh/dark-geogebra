@@ -11,7 +11,6 @@ the Free Software Foundation.
 */
 package org.geogebra.desktop.gui.view.consprotocol;
 
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -108,24 +107,15 @@ public class ConstructionProtocolContextMenu extends JPopupMenu {
 				loc.getMenu("ShowOnlyBreakpoints"));
 		cbShowOnlyBreakpoints.setSelected(cons.showOnlyBreakpoints());
 
-		cbShowOnlyBreakpoints.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				constprotView.showOnlyBreakpointsAction();
-			}
-		});
+		cbShowOnlyBreakpoints.addActionListener(e -> constprotView.showOnlyBreakpointsAction());
 		optionsMenu.add(cbShowOnlyBreakpoints);
 
 		JCheckBoxMenuItem cbUseColors = new JCheckBoxMenuItem(
 				loc.getMenu("ColorfulConstructionProtocol"));
 		cbUseColors.setSelected(constprotView.getUseColors());
-		cbUseColors.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				constprotView.setUseColors(!constprotView.getUseColors());
-				// constprotView.getData().updateAll();
-			}
+		cbUseColors.addActionListener(e -> {
+			constprotView.setUseColors(!constprotView.getUseColors());
+			// constprotView.getData().updateAll();
 		});
 		optionsMenu.add(cbUseColors);
 		add(optionsMenu);
@@ -137,12 +127,9 @@ public class ConstructionProtocolContextMenu extends JPopupMenu {
 		// Help menu
 		JMenuItem mi = new JMenuItem(loc.getMenu("FastHelp"),
 				app.getScaledIcon(GuiResourcesD.HELP));
-		ActionListener lstHelp = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				app.showHelp("ConstructionProtocolHelp");
-				requestFocus();
-			}
+		ActionListener lstHelp = e -> {
+			app.showHelp("ConstructionProtocolHelp");
+			requestFocus();
 		};
 		mi.addActionListener(lstHelp);
 		add(mi);

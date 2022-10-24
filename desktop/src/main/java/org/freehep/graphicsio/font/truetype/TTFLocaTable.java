@@ -25,19 +25,19 @@ public class TTFLocaTable extends TTFTable {
 		offset = new long[numGlyphs];
 		for (int i = 0; i < numGlyphs; i++) {
 			offset[i] = (format == TTFHeadTable.ITLF_LONG ? ttf.readULong()
-					: ttf.readUShort() * 2);
+					: ttf.readUShort() * 2L);
 		}
 	}
 
 	@Override
 	public String toString() {
-		String str = super.toString();
+		StringBuilder str = new StringBuilder(super.toString());
 		for (int i = 0; i < offset.length; i++) {
 			if (i % 16 == 0) {
-				str += "\n  ";
+				str.append("\n  ");
 			}
-			str += offset[i] + " ";
+			str.append(offset[i]).append(" ");
 		}
-		return str;
+		return str.toString();
 	}
 }

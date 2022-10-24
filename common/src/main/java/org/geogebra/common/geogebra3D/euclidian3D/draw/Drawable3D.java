@@ -1153,16 +1153,11 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 		}
 
 		// finally check if one is before the other
-		if (this.zPickNear > d.zPickNear) {
-			// Log.debug("-1");
-			return -1;
-		}
-		if (this.zPickNear < d.zPickNear) {
-			// Log.debug("1");
-			return 1;
-		}
+	    // Log.debug("-1");
+	    return Double.compare(d.zPickNear, this.zPickNear);
+	    // Log.debug("1");
 
-		// says that the two objects are equal for the comparator
+	    // says that the two objects are equal for the comparator
 		/*
 		 * if (DEBUG){ DecimalFormat df = new DecimalFormat("0.000000000");
 		 * Log.debug("equality :\n" +"zMin= "+df.format(this.zPickNear) +
@@ -1172,9 +1167,8 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 		 * " ("
 		 * +d.getGeoElement().getLabel(StringTemplate.defaultTemplate)+")\n"); }
 		 */
-		return 0;
 
-	}
+    }
 
 	/** Comparator for Drawable3Ds */
 	static final public class DrawableComparator

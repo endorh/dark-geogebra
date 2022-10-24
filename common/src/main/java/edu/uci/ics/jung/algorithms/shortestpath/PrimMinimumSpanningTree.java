@@ -55,7 +55,7 @@ public class PrimMinimumSpanningTree<V, E>
 	 */
 	@Override
 	public Graph<V, E> transform(Graph<V, E> graph) {
-		Set<E> unfinishedEdges = new HashSet<E>(graph.getEdges());
+		Set<E> unfinishedEdges = new HashSet<>(graph.getEdges());
 		Graph<V, E> tree = treeFactory.create();
 		V root = findRoot(graph);
 		if (graph.getVertices().contains(root)) {

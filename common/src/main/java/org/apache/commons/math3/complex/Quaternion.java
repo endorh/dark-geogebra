@@ -268,9 +268,8 @@ public final class Quaternion implements Serializable {
         if (this == other) {
             return true;
         }
-        if (other instanceof Quaternion) {
-            final Quaternion q = (Quaternion) other;
-            return q0 == q.getQ0() &&
+        if (other instanceof final Quaternion q) {
+	        return q0 == q.getQ0() &&
                 q1 == q.getQ1() &&
                 q2 == q.getQ2() &&
                 q3 == q.getQ3();

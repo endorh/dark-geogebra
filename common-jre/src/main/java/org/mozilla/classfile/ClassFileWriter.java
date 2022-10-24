@@ -83,7 +83,7 @@ public class ClassFileWriter {
      */
     public void addInterface(String interfaceName) {
         short interfaceIndex = itsConstantPool.addClass(interfaceName);
-        itsInterfaces.add(Short.valueOf(interfaceIndex));
+        itsInterfaces.add(interfaceIndex);
     }
 
     public static final short
@@ -639,15 +639,13 @@ public class ClassFileWriter {
      */
     public void addLoadConstant(int k) {
         switch (k) {
-            case 0: add(ByteCode.ICONST_0); break;
-            case 1: add(ByteCode.ICONST_1); break;
-            case 2: add(ByteCode.ICONST_2); break;
-            case 3: add(ByteCode.ICONST_3); break;
-            case 4: add(ByteCode.ICONST_4); break;
-            case 5: add(ByteCode.ICONST_5); break;
-            default:
-                add(ByteCode.LDC, itsConstantPool.addConstant(k));
-                break;
+        case 0 -> add(ByteCode.ICONST_0);
+        case 1 -> add(ByteCode.ICONST_1);
+        case 2 -> add(ByteCode.ICONST_2);
+        case 3 -> add(ByteCode.ICONST_3);
+        case 4 -> add(ByteCode.ICONST_4);
+        case 5 -> add(ByteCode.ICONST_5);
+        default -> add(ByteCode.LDC, itsConstantPool.addConstant(k));
         }
     }
 
@@ -752,19 +750,13 @@ public class ClassFileWriter {
         int newStack = itsStackTop + stackChange(theOpCode);
         if (newStack < 0 || Short.MAX_VALUE < newStack) badStack(newStack);
         switch (theOpCode) {
-            case ByteCode.NEW :
-            case ByteCode.ANEWARRAY :
-            case ByteCode.CHECKCAST :
-            case ByteCode.INSTANCEOF : {
-                short classIndex = itsConstantPool.addClass(className);
-                addToCodeBuffer(theOpCode);
-                addToCodeInt16(classIndex);
-            }
-            break;
-
-            default :
-                throw new IllegalArgumentException(
-                    "bad opcode for class reference");
+        case ByteCode.NEW, ByteCode.ANEWARRAY, ByteCode.CHECKCAST, ByteCode.INSTANCEOF -> {
+            short classIndex = itsConstantPool.addClass(className);
+            addToCodeBuffer(theOpCode);
+            addToCodeInt16(classIndex);
+        }
+        default -> throw new IllegalArgumentException(
+                "bad opcode for class reference");
         }
         itsStackTop = (short)newStack;
         if (newStack > itsMaxStack) itsMaxStack = (short)newStack;
@@ -787,17 +779,10 @@ public class ClassFileWriter {
         int fieldSize = (fieldTypeChar == 'J' || fieldTypeChar == 'D')
                         ? 2 : 1;
         switch (theOpCode) {
-            case ByteCode.GETFIELD :
-            case ByteCode.GETSTATIC :
-                newStack += fieldSize;
-                break;
-            case ByteCode.PUTSTATIC :
-            case ByteCode.PUTFIELD :
-                newStack -= fieldSize;
-                break;
-            default :
-                throw new IllegalArgumentException(
-                    "bad opcode for field reference");
+        case ByteCode.GETFIELD, ByteCode.GETSTATIC -> newStack += fieldSize;
+        case ByteCode.PUTSTATIC, ByteCode.PUTFIELD -> newStack -= fieldSize;
+        default -> throw new IllegalArgumentException(
+                "bad opcode for field reference");
         }
         if (newStack < 0 || Short.MAX_VALUE < newStack) badStack(newStack);
         short fieldRefIndex = itsConstantPool.addFieldRef(className,
@@ -830,32 +815,25 @@ public class ClassFileWriter {
         if (newStack < 0 || Short.MAX_VALUE < newStack) badStack(newStack);
 
         switch (theOpCode) {
-            case ByteCode.INVOKEVIRTUAL :
-            case ByteCode.INVOKESPECIAL :
-            case ByteCode.INVOKESTATIC :
-            case ByteCode.INVOKEINTERFACE : {
-                    addToCodeBuffer(theOpCode);
-                    if (theOpCode == ByteCode.INVOKEINTERFACE) {
-                        short ifMethodRefIndex
-                                    = itsConstantPool.addInterfaceMethodRef(
-                                               className, methodName,
-                                               methodType);
-                        addToCodeInt16(ifMethodRefIndex);
-                        addToCodeBuffer(parameterCount + 1);
-                        addToCodeBuffer(0);
-                    }
-                    else {
-                        short methodRefIndex = itsConstantPool.addMethodRef(
-                                               className, methodName,
-                                               methodType);
-                        addToCodeInt16(methodRefIndex);
-                    }
-                }
-                break;
-
-            default :
-                throw new IllegalArgumentException(
-                    "bad opcode for method reference");
+        case ByteCode.INVOKEVIRTUAL, ByteCode.INVOKESPECIAL, ByteCode.INVOKESTATIC, ByteCode.INVOKEINTERFACE -> {
+            addToCodeBuffer(theOpCode);
+            if (theOpCode == ByteCode.INVOKEINTERFACE) {
+                short ifMethodRefIndex
+                        = itsConstantPool.addInterfaceMethodRef(
+                        className, methodName,
+                        methodType);
+                addToCodeInt16(ifMethodRefIndex);
+                addToCodeBuffer(parameterCount + 1);
+                addToCodeBuffer(0);
+            } else {
+                short methodRefIndex = itsConstantPool.addMethodRef(
+                        className, methodName,
+                        methodType);
+                addToCodeInt16(methodRefIndex);
+            }
+        }
+        default -> throw new IllegalArgumentException(
+                "bad opcode for method reference");
         }
         itsStackTop = (short)newStack;
         if (newStack > itsMaxStack) itsMaxStack = (short)newStack;
@@ -1096,20 +1074,11 @@ public class ClassFileWriter {
     private void xop(int shortOp, int op, int local)
     {
         switch (local) {
-          case 0:
-            add(shortOp);
-            break;
-          case 1:
-            add(shortOp + 1);
-            break;
-          case 2:
-            add(shortOp + 2);
-            break;
-          case 3:
-            add(shortOp + 3);
-            break;
-          default:
-            add(op, local);
+        case 0 -> add(shortOp);
+        case 1 -> add(shortOp + 1);
+        case 2 -> add(shortOp + 2);
+        case 3 -> add(shortOp + 3);
+        default -> add(op, local);
         }
     }
 
@@ -1485,14 +1454,13 @@ public class ClassFileWriter {
         }
 
         private SuperBlock getSuperBlockFromOffset(int offset) {
-            for (int i = 0; i < superBlocks.length; i++) {
-                SuperBlock sb = superBlocks[i];
-                if (sb == null) {
-                    break;
-                } else if (offset >= sb.getStart() && offset < sb.getEnd()) {
-                    return sb;
-                }
-            }
+	        for (SuperBlock sb : superBlocks) {
+		        if (sb == null) {
+			        break;
+		        } else if (offset >= sb.getStart() && offset < sb.getEnd()) {
+			        return sb;
+		        }
+	        }
             throw new IllegalArgumentException("bad offset: " + offset);
         }
 
@@ -1501,21 +1469,11 @@ public class ClassFileWriter {
          * block. This includes any returns or unconditional jumps.
          */
         private boolean isSuperBlockEnd(int opcode) {
-            switch (opcode) {
-                case ByteCode.ARETURN:
-                case ByteCode.FRETURN:
-                case ByteCode.IRETURN:
-                case ByteCode.LRETURN:
-                case ByteCode.RETURN:
-                case ByteCode.ATHROW:
-                case ByteCode.GOTO:
-                case ByteCode.GOTO_W:
-                case ByteCode.TABLESWITCH:
-                case ByteCode.LOOKUPSWITCH:
-                    return true;
-                default:
-                    return false;
-            }
+            return switch (opcode) {
+                case ByteCode.ARETURN, ByteCode.FRETURN, ByteCode.IRETURN, ByteCode.LRETURN, ByteCode.RETURN, ByteCode.ATHROW, ByteCode.GOTO, ByteCode.GOTO_W, ByteCode.TABLESWITCH, ByteCode.LOOKUPSWITCH ->
+                        true;
+                default -> false;
+            };
         }
 
         /**
@@ -1536,13 +1494,12 @@ public class ClassFileWriter {
                 deps[handlerSB.getIndex()] = dep;
             }
             int[] targetPCs = itsJumpFroms.getKeys();
-            for (int i = 0; i < targetPCs.length; i++) {
-                int targetPC = targetPCs[i];
-                int branchPC = itsJumpFroms.getInt(targetPC, -1);
-                SuperBlock branchSB = getSuperBlockFromOffset(branchPC);
-                SuperBlock targetSB = getSuperBlockFromOffset(targetPC);
-                deps[targetSB.getIndex()] = branchSB;
-            }
+	        for (int targetPC : targetPCs) {
+		        int branchPC = itsJumpFroms.getInt(targetPC, -1);
+		        SuperBlock branchSB = getSuperBlockFromOffset(branchPC);
+		        SuperBlock targetSB = getSuperBlockFromOffset(targetPC);
+		        deps[targetSB.getIndex()] = branchSB;
+	        }
 
             return deps;
         }
@@ -1567,29 +1524,11 @@ public class ClassFileWriter {
          * jump.
          */
         private boolean isBranch(int opcode) {
-            switch (opcode) {
-                case ByteCode.GOTO:
-                case ByteCode.GOTO_W:
-                case ByteCode.IFEQ:
-                case ByteCode.IFGE:
-                case ByteCode.IFGT:
-                case ByteCode.IFLE:
-                case ByteCode.IFLT:
-                case ByteCode.IFNE:
-                case ByteCode.IFNONNULL:
-                case ByteCode.IFNULL:
-                case ByteCode.IF_ACMPEQ:
-                case ByteCode.IF_ACMPNE:
-                case ByteCode.IF_ICMPEQ:
-                case ByteCode.IF_ICMPGE:
-                case ByteCode.IF_ICMPGT:
-                case ByteCode.IF_ICMPLE:
-                case ByteCode.IF_ICMPLT:
-                case ByteCode.IF_ICMPNE:
-                    return true;
-                default:
-                    return false;
-            }
+            return switch (opcode) {
+                case ByteCode.GOTO, ByteCode.GOTO_W, ByteCode.IFEQ, ByteCode.IFGE, ByteCode.IFGT, ByteCode.IFLE, ByteCode.IFLT, ByteCode.IFNE, ByteCode.IFNONNULL, ByteCode.IFNULL, ByteCode.IF_ACMPEQ, ByteCode.IF_ACMPNE, ByteCode.IF_ICMPEQ, ByteCode.IF_ICMPGE, ByteCode.IF_ICMPGT, ByteCode.IF_ICMPLE, ByteCode.IF_ICMPLT, ByteCode.IF_ICMPNE ->
+                        true;
+                default -> false;
+            };
         }
 
         private int getOperand(int offset) {
@@ -1628,12 +1567,11 @@ public class ClassFileWriter {
             executeWorkList();
 
             // Replace dead code with no-ops.
-            for (int i = 0; i < superBlocks.length; i++) {
-                SuperBlock sb = superBlocks[i];
-                if (!sb.isInitialized()) {
-                    killSuperBlock(sb);
-                }
-            }
+	        for (SuperBlock sb : superBlocks) {
+		        if (!sb.isInitialized()) {
+			        killSuperBlock(sb);
+		        }
+	        }
             executeWorkList();
         }
 
@@ -2115,25 +2053,14 @@ public class ClassFileWriter {
                     }
                     byte constType = itsConstantPool.getConstantType(index);
                     switch (constType) {
-                        case ConstantPool.CONSTANT_Double:
-                            push(TypeInfo.DOUBLE);
-                            break;
-                        case ConstantPool.CONSTANT_Float:
-                            push(TypeInfo.FLOAT);
-                            break;
-                        case ConstantPool.CONSTANT_Long:
-                            push(TypeInfo.LONG);
-                            break;
-                        case ConstantPool.CONSTANT_Integer:
-                            push(TypeInfo.INTEGER);
-                            break;
-                        case ConstantPool.CONSTANT_String:
-                            push(TypeInfo.OBJECT("java/lang/String",
-                                                 itsConstantPool));
-                            break;
-                        default:
-                            throw new IllegalArgumentException(
-                                "bad const type " + constType);
+                    case ConstantPool.CONSTANT_Double -> push(TypeInfo.DOUBLE);
+                    case ConstantPool.CONSTANT_Float -> push(TypeInfo.FLOAT);
+                    case ConstantPool.CONSTANT_Long -> push(TypeInfo.LONG);
+                    case ConstantPool.CONSTANT_Integer -> push(TypeInfo.INTEGER);
+                    case ConstantPool.CONSTANT_String -> push(TypeInfo.OBJECT("java/lang/String",
+                            itsConstantPool));
+                    default -> throw new IllegalArgumentException(
+                            "bad const type " + constType);
                     }
                     break;
                 case ByteCode.NEW:
@@ -2600,26 +2527,17 @@ public class ClassFileWriter {
      * Convert a newarray operand into an internal type.
      */
     private static char arrayTypeToName(int type) {
-        switch (type) {
-            case ByteCode.T_BOOLEAN:
-                return 'Z';
-            case ByteCode.T_CHAR:
-                return 'C';
-            case ByteCode.T_FLOAT:
-                return 'F';
-            case ByteCode.T_DOUBLE:
-                return 'D';
-            case ByteCode.T_BYTE:
-                return 'B';
-            case ByteCode.T_SHORT:
-                return 'S';
-            case ByteCode.T_INT:
-                return 'I';
-            case ByteCode.T_LONG:
-                return 'J';
-            default:
-                throw new IllegalArgumentException("bad operand");
-        }
+        return switch (type) {
+            case ByteCode.T_BOOLEAN -> 'Z';
+            case ByteCode.T_CHAR -> 'C';
+            case ByteCode.T_FLOAT -> 'F';
+            case ByteCode.T_DOUBLE -> 'D';
+            case ByteCode.T_BYTE -> 'B';
+            case ByteCode.T_SHORT -> 'S';
+            case ByteCode.T_INT -> 'I';
+            case ByteCode.T_LONG -> 'J';
+            default -> throw new IllegalArgumentException("bad operand");
+        };
     }
 
     /**
@@ -2637,24 +2555,12 @@ public class ClassFileWriter {
      * @param descriptor the simple type descriptor to convert
      */
     private static String descriptorToInternalName(String descriptor) {
-        switch (descriptor.charAt(0)) {
-            case 'B':
-            case 'C':
-            case 'D':
-            case 'F':
-            case 'I':
-            case 'J':
-            case 'S':
-            case 'Z':
-            case 'V':
-            case '[':
-                return descriptor;
-            case 'L':
-                return classDescriptorToInternalName(descriptor);
-            default:
-                throw new IllegalArgumentException("bad descriptor:" +
-                                                   descriptor);
-        }
+        return switch (descriptor.charAt(0)) {
+            case 'B', 'C', 'D', 'F', 'I', 'J', 'S', 'Z', 'V', '[' -> descriptor;
+            case 'L' -> classDescriptorToInternalName(descriptor);
+            default -> throw new IllegalArgumentException("bad descriptor:" +
+                    descriptor);
+        };
     }
 
     /**
@@ -2689,27 +2595,21 @@ public class ClassFileWriter {
         StringBuilder paramType = new StringBuilder();
         while (start < rParenIndex) {
             switch (type.charAt(start)) {
-                case 'B':
-                case 'C':
-                case 'D':
-                case 'F':
-                case 'I':
-                case 'J':
-                case 'S':
-                case 'Z':
-                    paramType.append(type.charAt(start));
-                    ++start;
-                    break;
-                case 'L':
-                    int end = type.indexOf(';', start) + 1;
-                    String name = type.substring(start, end);
-                    paramType.append(name);
-                    start = end;
-                    break;
-                case '[':
-                    paramType.append('[');
-                    ++start;
-                    continue;
+            case 'B', 'C', 'D', 'F', 'I', 'J', 'S', 'Z' -> {
+                paramType.append(type.charAt(start));
+                ++start;
+            }
+            case 'L' -> {
+                int end = type.indexOf(';', start) + 1;
+                String name = type.substring(start, end);
+                paramType.append(name);
+                start = end;
+            }
+            case '[' -> {
+                paramType.append('[');
+                ++start;
+                continue;
+            }
             }
             String internalType =
                     descriptorToInternalName(paramType.toString());
@@ -2798,7 +2698,7 @@ public class ClassFileWriter {
         offset = putInt16(itsSuperClassIndex, data, offset);
         offset = putInt16(itsInterfaces.size(), data, offset);
         for (int i = 0; i < itsInterfaces.size(); i++) {
-            int interfaceIndex = ((Short)(itsInterfaces.get(i))).shortValue();
+            int interfaceIndex = (Short) (itsInterfaces.get(i));
             offset = putInt16(interfaceIndex, data, offset);
         }
         offset = putInt16(itsFields.size(), data, offset);
@@ -2958,14 +2858,14 @@ public class ClassFileWriter {
 
     static int putInt16(int value, byte[] array, int offset)
     {
-        array[offset + 0] = (byte)(value >>> 8);
+        array[offset] = (byte)(value >>> 8);
         array[offset + 1] = (byte)value;
         return offset + 2;
     }
 
     static int putInt32(int value, byte[] array, int offset)
     {
-        array[offset + 0] = (byte)(value >>> 24);
+        array[offset] = (byte)(value >>> 24);
         array[offset + 1] = (byte)(value >>> 16);
         array[offset + 2] = (byte)(value >>> 8);
         array[offset + 3] = (byte)value;
@@ -4766,8 +4666,7 @@ final class FieldOrMethodRef
     @Override
     public boolean equals(Object obj)
     {
-        if (!(obj instanceof FieldOrMethodRef)) { return false; }
-        FieldOrMethodRef x = (FieldOrMethodRef)obj;
+        if (!(obj instanceof FieldOrMethodRef x)) { return false; }
         return className.equals(x.className)
             && name.equals(x.name)
             && type.equals(x.type);
@@ -5005,22 +4904,17 @@ final class TypeInfo {
      */
     static final int fromType(String type, ConstantPool pool) {
         if (type.length() == 1) {
-            switch (type.charAt(0)) {
-                case 'B': // sbyte
-                case 'C': // unicode char
-                case 'S': // short
-                case 'Z': // boolean
-                case 'I': // all of the above are verified as integers
-                    return INTEGER;
-                case 'D':
-                    return DOUBLE;
-                case 'F':
-                    return FLOAT;
-                case 'J':
-                    return LONG;
-                default:
-                    throw new IllegalArgumentException("bad type");
-            }
+            return switch (type.charAt(0)) { // sbyte
+                // unicode char
+                // short
+                // boolean
+                case 'B', 'C', 'S', 'Z', 'I' -> // all of the above are verified as integers
+                        INTEGER;
+                case 'D' -> DOUBLE;
+                case 'F' -> FLOAT;
+                case 'J' -> LONG;
+                default -> throw new IllegalArgumentException("bad type");
+            };
         }
         return TypeInfo.OBJECT(type, pool);
     }

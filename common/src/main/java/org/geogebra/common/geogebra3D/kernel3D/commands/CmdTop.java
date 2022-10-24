@@ -26,17 +26,16 @@ public class CmdTop extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
+		case 1 -> {
 			arg = resArgs(c);
 			if (arg[0] instanceof GeoQuadric3DLimited) {
-				GeoElement[] ret = { kernel.getManager3D().quadricTop(
-						c.getLabel(), (GeoQuadric3DLimited) arg[0]) };
+				GeoElement[] ret = {kernel.getManager3D().quadricTop(
+						c.getLabel(), (GeoQuadric3DLimited) arg[0])};
 				return ret;
 			}
 			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 
 	}

@@ -364,19 +364,18 @@ public class DrawAngle extends Drawable implements Previewable {
 
 			// For Decoration
 			switch (geo.getDecorationType()) {
-			default:
-				// do nothing
-				break;
-			case GeoElementND.DECORATION_ANGLE_TWO_ARCS:
+			default -> {
+			}
+			// do nothing
+			case GeoElementND.DECORATION_ANGLE_TWO_ARCS -> {
 				rdiff = 4 + geo.getLineThickness() / 2d;
 				r = (arcSize - rdiff) * scale;
 				decoArc.setArcByCenter(m[0], m[1], r, -as, -ae, GArc2D.OPEN);
 				// transform arc to screen coords
 				shapeArc1 = view.getCoordTransform()
 						.createTransformedShape(decoArc);
-				break;
-
-			case GeoElementND.DECORATION_ANGLE_THREE_ARCS:
+			}
+			case GeoElementND.DECORATION_ANGLE_THREE_ARCS -> {
 				rdiff = 4 + geo.getLineThickness() / 2d;
 				r = (arcSize - rdiff) * scale;
 				decoArc.setArcByCenter(m[0], m[1], r, -as, -ae, GArc2D.OPEN);
@@ -388,14 +387,12 @@ public class DrawAngle extends Drawable implements Previewable {
 				// transform arc to screen coords
 				shapeArc2 = view.getCoordTransform()
 						.createTransformedShape(decoArc);
-				break;
-
-			case GeoElementND.DECORATION_ANGLE_ONE_TICK:
+			}
+			case GeoElementND.DECORATION_ANGLE_ONE_TICK -> {
 				angleTick[0] = -angSt - angExt / 2;
 				updateTick(angleTick[0], arcSize, 0);
-				break;
-
-			case GeoElementND.DECORATION_ANGLE_TWO_TICKS:
+			}
+			case GeoElementND.DECORATION_ANGLE_TWO_TICKS -> {
 				angleTick[0] = -angSt - 2 * angExt / 5;
 				angleTick[1] = -angSt - 3 * angExt / 5;
 				if (Math.abs(angleTick[1] - angleTick[0]) > MAX_TICK_DISTANCE) {
@@ -404,9 +401,8 @@ public class DrawAngle extends Drawable implements Previewable {
 				}
 				updateTick(angleTick[0], arcSize, 0);
 				updateTick(angleTick[1], arcSize, 1);
-				break;
-
-			case GeoElementND.DECORATION_ANGLE_THREE_TICKS:
+			}
+			case GeoElementND.DECORATION_ANGLE_THREE_TICKS -> {
 				angleTick[0] = -angSt - 3 * angExt / 8;
 				angleTick[1] = -angSt - 5 * angExt / 8;
 				if (Math.abs(angleTick[1] - angleTick[0]) > 2
@@ -419,9 +415,8 @@ public class DrawAngle extends Drawable implements Previewable {
 				// middle tick
 				angleTick[0] = -angSt - angExt / 2;
 				updateTick(angleTick[0], arcSize, 2);
-				break;
-			case GeoElementND.DECORATION_ANGLE_ARROW_ANTICLOCKWISE:
-			case GeoElementND.DECORATION_ANGLE_ARROW_CLOCKWISE:
+			}
+			case GeoElementND.DECORATION_ANGLE_ARROW_ANTICLOCKWISE, GeoElementND.DECORATION_ANGLE_ARROW_CLOCKWISE -> {
 
 				// actual angle for arrow point
 				double[] n2 = new double[2];
@@ -432,7 +427,6 @@ public class DrawAngle extends Drawable implements Previewable {
 
 				// angle to rotate arrow
 				double rotateangle = 8d / arcSize;
-
 				if (geo.getDecorationType() == GeoElementND.DECORATION_ANGLE_ARROW_CLOCKWISE) {
 					n2[0] = Math.cos(angSt);
 					n2[1] = Math.sin(angSt);
@@ -448,11 +442,9 @@ public class DrawAngle extends Drawable implements Previewable {
 					v[0] = n[1];
 					v[1] = -n[0];
 				}
-
 				double[] p1 = new double[2]; // arrow tip
 				p1[0] = m[0] + r * n2[0];
 				p1[1] = m[1] + r * n2[1];
-
 				double[] p2 = new double[2]; // arrow vertex 1
 				double size = 4d + geo.getLineThickness() / 4d;
 				size = size * 0.9d;
@@ -460,23 +452,20 @@ public class DrawAngle extends Drawable implements Previewable {
 						+ (1 * n[0] + 3 * v[0]) * size * scale;
 				p2[1] = p1[1]
 						+ (1 * n[1] + 3 * v[1]) * size * scale;
-
 				double[] p3 = new double[2]; // arrow vertex 2
 				p3[0] = p1[0]
 						+ (-1 * n[0] + 3 * v[0]) * size * scale;
 				p3[1] = p1[1]
 						+ (-1 * n[1] + 3 * v[1]) * size * scale;
-
 				view.toScreenCoords(p1);
 				view.toScreenCoords(p2);
 				view.toScreenCoords(p3);
-
 				polygon.reset();
 				polygon.moveTo(p1[0], p1[1]);
 				polygon.lineTo(p2[0], p2[1]);
 				polygon.lineTo(p3[0], p3[1]);
 				polygon.closePath();
-				break;
+			}
 			}
 		}
 
@@ -529,51 +518,42 @@ public class DrawAngle extends Drawable implements Previewable {
 			// special handling of 90 degree dot
 			if (show90degrees) {
 				switch (view.getRightAngleStyle()) {
-				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT:
-					g2.fill(dot90degree);
-					break;
-
-				default:
-					// nothing to do as square for
-					// EuclidianView.RIGHT_ANGLE_STYLE_SQUARE
-					// was already drawn as shape
+				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT -> g2.fill(dot90degree);
+				default -> {
+				}
+				// nothing to do as square for
+				// EuclidianView.RIGHT_ANGLE_STYLE_SQUARE
+				// was already drawn as shape
 				}
 			} else {
 				// if we don't have a special 90 degrees appearance we might
 				// need to draw
 				// other decorations
 				switch (geo.getDecorationType()) {
-				case GeoElementND.DECORATION_ANGLE_TWO_ARCS:
-					g2.draw(shapeArc1);
-					break;
-
-				case GeoElementND.DECORATION_ANGLE_THREE_ARCS:
+				case GeoElementND.DECORATION_ANGLE_TWO_ARCS -> g2.draw(shapeArc1);
+				case GeoElementND.DECORATION_ANGLE_THREE_ARCS -> {
 					g2.draw(shapeArc1);
 					g2.draw(shapeArc2);
-					break;
-
-				case GeoElementND.DECORATION_ANGLE_ONE_TICK:
+				}
+				case GeoElementND.DECORATION_ANGLE_ONE_TICK -> {
 					g2.setStroke(decoStroke);
 					g2.draw(tick[0]);
-					break;
-
-				case GeoElementND.DECORATION_ANGLE_TWO_TICKS:
+				}
+				case GeoElementND.DECORATION_ANGLE_TWO_TICKS -> {
 					g2.setStroke(decoStroke);
 					g2.draw(tick[0]);
 					g2.draw(tick[1]);
-					break;
-
-				case GeoElementND.DECORATION_ANGLE_THREE_TICKS:
+				}
+				case GeoElementND.DECORATION_ANGLE_THREE_TICKS -> {
 					g2.setStroke(decoStroke);
 					g2.draw(tick[0]);
 					g2.draw(tick[1]);
 					g2.draw(tick[2]);
-					break;
-				case GeoElementND.DECORATION_ANGLE_ARROW_ANTICLOCKWISE:
-				case GeoElementND.DECORATION_ANGLE_ARROW_CLOCKWISE:
+				}
+				case GeoElementND.DECORATION_ANGLE_ARROW_ANTICLOCKWISE, GeoElementND.DECORATION_ANGLE_ARROW_CLOCKWISE -> {
 					g2.setStroke(decoStroke);
 					g2.fill(polygon);
-					break;
+				}
 				}
 			}
 

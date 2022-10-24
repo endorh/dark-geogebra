@@ -164,7 +164,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 		primarySwatchPanel = new PrimarySwatchPanel();
 		customSwatchPanel = new CustomSwatchPanel();
 
-		swatchPanelList = new ArrayList<SwatchPanel>();
+		swatchPanelList = new ArrayList<>();
 		swatchPanelList.add(mainSwatchPanel);
 		swatchPanelList.add(primarySwatchPanel);
 		swatchPanelList.add(recentSwatchPanel);
@@ -287,9 +287,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 		@Override
 		public void mousePressed(MouseEvent e) {
 
-			if (e.getSource() instanceof SwatchPanel) {
-
-				SwatchPanel mySwatchPanel = (SwatchPanel) e.getSource();
+			if (e.getSource() instanceof SwatchPanel mySwatchPanel) {
 
 				// exit if the mouse is not over a color swatch
 				if (!mySwatchPanel.isSwatchLocation(e.getX(), e.getY())) {

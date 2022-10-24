@@ -188,21 +188,18 @@ public class GeoConic3D extends GeoConicND
 		StringBuilder sbToString = new StringBuilder();
 
 		switch (getType()) {
-		case CONIC_CIRCLE:
-		case CONIC_ELLIPSE:
-		case CONIC_HYPERBOLA:
-		case CONIC_PARABOLA:
+		case CONIC_CIRCLE, CONIC_ELLIPSE, CONIC_HYPERBOLA, CONIC_PARABOLA -> {
 			sbToString.setLength(0);
 			sbToString.append(label);
 			sbToString.append(": ");
-			// GeoFunction.initStringBuilder(sbToString, tpl, label, "t",
-			// isLabelSet(), false);
-			break;
-		default:
+		}
+		// GeoFunction.initStringBuilder(sbToString, tpl, label, "t",
+		// isLabelSet(), false);
+		default -> {
 			sbToString.setLength(0);
 			sbToString.append(label);
 			sbToString.append(": ");
-			break;
+		}
 		}
 
 		sbToString.append(buildValueString(tpl));
@@ -528,14 +525,10 @@ public class GeoConic3D extends GeoConicND
 
 	@Override
 	public Coords getDirectionInD3() {
-		switch (type) {
-		case CONIC_LINE:
-		case CONIC_EMPTY:
-		case CONIC_SINGLE_POINT:
-			return null;
-		default:
-			return getCoordSys().getVz();
-		}
+		return switch (type) {
+			case CONIC_LINE, CONIC_EMPTY, CONIC_SINGLE_POINT -> null;
+			default -> getCoordSys().getVz();
+		};
 	}
 
 	// ////////////////////////////////////////////

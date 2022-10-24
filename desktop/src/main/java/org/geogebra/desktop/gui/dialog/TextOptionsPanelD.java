@@ -121,8 +121,8 @@ class TextOptionsPanelD extends JPanel
 		cbSize.removeActionListener(this);
 		cbSize.removeAllItems();
 
-		for (int i = 0; i < fontSizes.length; ++i) {
-			cbSize.addItem(fontSizes[i]);
+		for (String fontSize : fontSizes) {
+			cbSize.addItem(fontSize);
 		}
 
 		cbSize.addItem(loc.getMenu("Custom") + Unicode.ELLIPSIS);

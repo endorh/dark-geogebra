@@ -95,12 +95,10 @@ public abstract class GeoGebraTubeExport {
 				String key = line.substring(0, delimiterPos).toLowerCase();
 				String value = line.substring(delimiterPos + 1).toLowerCase();
 
-				if ("status".equals(key)) {
-					status = value;
-				} else if ("uid".equals(key)) {
-					uid = value;
-				} else if ("error".equals(key)) {
-					errorMessage = value;
+				switch (key) {
+				case "status" -> status = value;
+				case "uid" -> uid = value;
+				case "error" -> errorMessage = value;
 				}
 			}
 		}

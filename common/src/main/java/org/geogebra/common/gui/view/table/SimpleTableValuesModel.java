@@ -61,8 +61,7 @@ class SimpleTableValuesModel implements TableValuesModel {
 		int rowCount = 0;
 		for (TableValuesColumn column : columns) {
 			GeoEvaluatable evaluatable = column.getEvaluatable();
-			if (evaluatable instanceof GeoList) {
-				GeoList list = (GeoList) evaluatable;
+			if (evaluatable instanceof GeoList list) {
 				rowCount = Math.max(rowCount, list.size());
 			}
 		}
@@ -172,10 +171,9 @@ class SimpleTableValuesModel implements TableValuesModel {
 		collector.startCollection(this);
 		for (int column = 0; column < columns.size(); column++) {
 			GeoEvaluatable evaluatable = columns.get(column).getEvaluatable();
-			if (!(evaluatable instanceof GeoList)) {
+			if (!(evaluatable instanceof GeoList list)) {
 				continue;
 			}
-			GeoList list = (GeoList) evaluatable;
 			int row = list.find(element);
 			if (row <= -1) {
 				continue;
@@ -393,10 +391,9 @@ class SimpleTableValuesModel implements TableValuesModel {
 		int lastRowIndex = getRowCount() - 1;
 		for (TableValuesColumn column : columns) {
 			GeoEvaluatable element = column.getEvaluatable();
-			if (!(element instanceof GeoList)) {
+			if (!(element instanceof GeoList list)) {
 				continue;
 			}
-			GeoList list = (GeoList) element;
 			if (list.size() <= lastRowIndex) {
 				continue;
 			}
@@ -413,10 +410,9 @@ class SimpleTableValuesModel implements TableValuesModel {
 		for (int columnIndex = 0; columnIndex < getColumnCount(); columnIndex++) {
 			TableValuesColumn tableValuesColumn = columns.get(columnIndex);
 			GeoEvaluatable evaluatable = tableValuesColumn.getEvaluatable();
-			if (!(evaluatable instanceof GeoList)) {
+			if (!(evaluatable instanceof GeoList column)) {
 				continue;
 			}
-			GeoList column = (GeoList) evaluatable;
 			if (lastRowIndex < column.size()) {
 				column.remove(lastRowIndex);
 			}

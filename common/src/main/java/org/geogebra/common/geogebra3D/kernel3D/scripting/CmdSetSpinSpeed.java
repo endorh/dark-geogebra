@@ -28,10 +28,9 @@ public class CmdSetSpinSpeed extends CmdScripting {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
-		case 1:
+		case 1 -> {
 			GeoElement[] arg = resArgs(c);
-			if (arg[0] instanceof GeoNumberValue) {
-				GeoNumberValue v = (GeoNumberValue) arg[0];
+			if (arg[0] instanceof GeoNumberValue v) {
 				if (!app.isEuclidianView3Dinited()) {
 					EuclidianSettings3D settings = (EuclidianSettings3D) app
 							.getSettings().getEuclidian(3);
@@ -45,11 +44,9 @@ public class CmdSetSpinSpeed extends CmdScripting {
 				return arg;
 
 			}
-
 			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

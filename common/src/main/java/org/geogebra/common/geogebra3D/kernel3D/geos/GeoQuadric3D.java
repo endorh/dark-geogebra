@@ -142,9 +142,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	 *            Array of coefficients
 	 */
 	final public void setMatrix(double[] coeffs) {
-		for (int i = 0; i < 10; i++) {
-			matrix[i] = coeffs[i];
-		}
+		System.arraycopy(coeffs, 0, matrix, 0, 10);
 
 		// try to classify quadric
 		classifyQuadric();
@@ -152,9 +150,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 	@Override
 	final public void setMatrixFromXML(double[] coeffs) {
-		for (int i = 0; i < 10; i++) {
-			matrix[i] = coeffs[i];
-		}
+		System.arraycopy(coeffs, 0, matrix, 0, 10);
 		ensureClassified();
 	}
 
@@ -896,9 +892,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		}
 
 		// set the diagonal values
-		for (int i = 0; i < 3; i++) {
-			diagonal[i] = mu[i];
-		}
+		System.arraycopy(mu, 0, diagonal, 0, 3);
 		diagonal[3] = -1;
 
 		// eigen matrix
@@ -929,9 +923,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		halfAxes[2] = Math.sqrt(1.0d / mu[2]);
 
 		// set the diagonal values
-		for (int i = 0; i < 3; i++) {
-			diagonal[i] = mu[i];
-		}
+		System.arraycopy(mu, 0, diagonal, 0, 3);
 		diagonal[3] = -1;
 
 		// eigen matrix
@@ -1309,9 +1301,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			}
 
 			// set the diagonal values
-			for (int i = 0; i < 3; i++) {
-				diagonal[i] = mu[i];
-			}
+			System.arraycopy(mu, 0, diagonal, 0, 3);
 			diagonal[3] = -1;
 
 			// eigen matrix
@@ -1819,18 +1809,15 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		final boolean typeChanged = type != quadric.type;
 		type = quadric.type;
 
-		for (int i = 0; i < 10; i++) {
-			matrix[i] = quadric.matrix[i]; // flat matrix A
-		}
+		// flat matrix A
+		System.arraycopy(quadric.matrix, 0, matrix, 0, 10);
 
 		for (int i = 0; i < 3; i++) {
 			eigenvecND[i].set(quadric.getEigenvec3D(i));
 			halfAxes[i] = quadric.halfAxes[i];
 		}
 
-		for (int i = 0; i < 4; i++) {
-			diagonal[i] = quadric.diagonal[i];
-		}
+		System.arraycopy(quadric.diagonal, 0, diagonal, 0, 4);
 
 		setMidpoint(quadric.getMidpoint().get());
 
@@ -2395,26 +2382,22 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		double z = eigenCoords.getZ();
 
 		switch (getType()) {
-		case QUADRIC_SPHERE:
-		case QUADRIC_ELLIPSOID: // eigenMatrix is dilated with half axes
+		case QUADRIC_SPHERE, QUADRIC_ELLIPSOID -> { // eigenMatrix is dilated with half axes
 			parameters[0] = Math.atan2(y, x);
 			double r = Math.sqrt(x * x + y * y);
 			parameters[1] = Math.atan2(z, r);
-			break;
-
-		case QUADRIC_HYPERBOLOID_ONE_SHEET: // eigenMatrix is dilated with half
-											// axes
-			parameters[0] = Math.atan2(y, x);
-			parameters[1] = z;
-			break;
-
-		case QUADRIC_HYPERBOLOID_TWO_SHEETS: // eigenMatrix is dilated with half
+		}
+		case QUADRIC_HYPERBOLOID_ONE_SHEET -> { // eigenMatrix is dilated with half
 			// axes
 			parameters[0] = Math.atan2(y, x);
 			parameters[1] = z;
-			break;
-
-		case QUADRIC_PARABOLOID: // eigenMatrix is dilated with half axes
+		}
+		case QUADRIC_HYPERBOLOID_TWO_SHEETS -> { // eigenMatrix is dilated with half
+			// axes
+			parameters[0] = Math.atan2(y, x);
+			parameters[1] = z;
+		}
+		case QUADRIC_PARABOLOID -> { // eigenMatrix is dilated with half axes
 			double a = Math.atan2(y, x);
 			if (a < 0) {
 				a += 2 * Math.PI;
@@ -2425,13 +2408,13 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 			} else {
 				parameters[1] = Math.sqrt(z);
 			}
-			break;
-		case QUADRIC_HYPERBOLIC_PARABOLOID:
+		}
+		case QUADRIC_HYPERBOLIC_PARABOLOID -> {
 			parameters[0] = x;
 			parameters[1] = y;
-			break;
-		case QUADRIC_PARABOLIC_CYLINDER: // eigenMatrix is dilated with half
-											// axes
+		}
+		case QUADRIC_PARABOLIC_CYLINDER -> { // eigenMatrix is dilated with half
+			// axes
 			parameters[0] = y;
 			if (x < 0) {
 				parameters[1] = 0;
@@ -2441,47 +2424,37 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 					parameters[1] *= -1;
 				}
 			}
-			break;
-
-		case QUADRIC_HYPERBOLIC_CYLINDER: // eigenMatrix is dilated with half
+		}
+		case QUADRIC_HYPERBOLIC_CYLINDER -> { // eigenMatrix is dilated with half
 			// axes
 			parameters[0] = PathNormalizer.inverseInfFunction(y);
 			if (x > 0) {
 				parameters[0] += 2;
 			}
 			parameters[1] = z;
-			break;
-
-		case QUADRIC_CONE:
-		case QUADRIC_CYLINDER: // eigenMatrix is dilated with half axes
+		}
+		case QUADRIC_CONE, QUADRIC_CYLINDER -> { // eigenMatrix is dilated with half axes
 			parameters[0] = Math.atan2(y, x);
 			parameters[1] = z;
-			break;
-
-		case QUADRIC_PARALLEL_PLANES:
-		case QUADRIC_INTERSECTING_PLANES:
+		}
+		case QUADRIC_PARALLEL_PLANES, QUADRIC_INTERSECTING_PLANES -> {
 			coords.projectPlaneInPlaneCoords(
 					planes[0].getCoordSys().getMatrixOrthonormal(), tmpCoords);
 			parameters[0] = PathNormalizer.inverseInfFunction(tmpCoords.getX());
 			parameters[1] = tmpCoords.getY();
-			break;
-
-		case QUADRIC_PLANE:
+		}
+		case QUADRIC_PLANE -> {
 			coords.projectPlaneInPlaneCoords(
 					planes[0].getCoordSys().getMatrixOrthonormal(), tmpCoords);
 			parameters[0] = PathNormalizer.inverseInfFunction(tmpCoords.getX());
 			parameters[1] = tmpCoords.getY();
-			break;
-
-		case QUADRIC_LINE:
+		}
+		case QUADRIC_LINE -> {
 			coords.projectLine(line.getStartInhomCoords(),
 					line.getDirectionInD3(), tmpCoords, parameters);
 			parameters[1] = 0;
-			break;
-
-		default:
-			Log.error("Missing type -- type: " + getType());
-			break;
+		}
+		default -> Log.error("Missing type -- type: " + getType());
 		}
 	}
 
@@ -3410,7 +3383,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	protected void getMatrixXML(StringBuilder sb) {
 		sb.append("\t<matrix");
 		for (int i = 0; i < 10; i++) {
-			sb.append(" A" + i + "=\"" + matrix[i] + "\"");
+			sb.append(" A").append(i).append("=\"").append(matrix[i]).append("\"");
 		}
 		sb.append("/>\n");
 	}

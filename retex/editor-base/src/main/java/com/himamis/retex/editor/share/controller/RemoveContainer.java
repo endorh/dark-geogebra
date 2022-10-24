@@ -101,10 +101,9 @@ public class RemoveContainer {
 	// if parent is 1DArray or Vector and cursor is at the beginning of
 	// intermediate the field
 	private boolean is1DArrayWithCursorInIt(MathContainer container, int parentIndex) {
-		if (!(container instanceof MathArray)) {
+		if (!(container instanceof MathArray array)) {
 			return false;
 		}
-		MathArray array = (MathArray) container;
 		return (array.is1DArray() || array.isVector())
 				&& parentIndex > 0
 				&& !MathArray.isLocked(array);
@@ -142,8 +141,7 @@ public class RemoveContainer {
 		setEditorState(editorState);
 
 		// if parent is function (cursor is at the end of the field)
-		if (currentField.getParent() instanceof MathFunction) {
-			MathFunction parent = (MathFunction) currentField.getParent();
+		if (currentField.getParent() instanceof MathFunction parent) {
 
 			// fraction has operator like behavior
 			if (Tag.FRAC.equals(parent.getName())) {
@@ -200,9 +198,8 @@ public class RemoveContainer {
 
 	private static void delContainer(EditorState editorState,
 			MathContainer container, MathSequence operand) {
-		if (container.getParent() instanceof MathSequence) {
+		if (container.getParent() instanceof MathSequence parent) {
 			// when parent is sequence
-			MathSequence parent = (MathSequence) container.getParent();
 			int offset = container.getParentIndex();
 			// delete container
 			parent.delArgument(offset);

@@ -172,37 +172,36 @@ public class EuclidianViewInput3DCompanion extends EuclidianView3DCompanion {
 			float completingDelay) {
 
 		switch (input3D.getOutOfField()) {
-		case RIGHT:
+		case RIGHT -> {
 			origin.setX(renderer1.getRight());
 			origin.setY(0);
 			origin.setZ(0);
-			break;
-		case LEFT:
+		}
+		case LEFT -> {
 			origin.setX(renderer1.getLeft());
 			origin.setY(0);
 			origin.setZ(0);
-			break;
-		case TOP:
+		}
+		case TOP -> {
 			origin.setX(0);
 			origin.setY(renderer1.getTop());
 			origin.setZ(0);
-			break;
-		case BOTTOM:
+		}
+		case BOTTOM -> {
 			origin.setX(0);
 			origin.setY(renderer1.getBottom());
 			origin.setZ(0);
-			break;
-		case FAR:
+		}
+		case FAR -> {
 			origin.setX(0);
 			origin.setY(0);
 			origin.setZ(renderer1.getFar());
-			break;
-		default:
-		case NEAR:
+		}
+		case NEAR -> {
 			origin.setX(0);
 			origin.setY(0);
 			origin.setZ(renderer1.getNear());
-			break;
+		}
 		}
 
 		// draw at the mouse location

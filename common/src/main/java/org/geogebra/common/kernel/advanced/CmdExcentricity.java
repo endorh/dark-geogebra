@@ -28,7 +28,7 @@ public class CmdExcentricity extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
+		case 1 -> {
 			arg = resArgs(c);
 
 			// asymptotes to conic
@@ -37,13 +37,12 @@ public class CmdExcentricity extends CommandProcessor {
 				AlgoExcentricity algo = new AlgoExcentricity(cons, c.getLabel(),
 						(GeoConicND) arg[0]);
 
-				GeoElement[] ret = { algo.getLinearEccentricity() };
+				GeoElement[] ret = {algo.getLinearEccentricity()};
 				return ret;
 			}
 			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

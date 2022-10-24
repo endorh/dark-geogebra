@@ -71,7 +71,7 @@ public class ButtonDialogModel {
 		button.setLabel(null);
 
 		ScriptType scriptType = ScriptType.GGBSCRIPT;
-		if (scriptText.indexOf("ggbApplet.") > -1) {
+		if (scriptText.contains("ggbApplet.")) {
 			scriptType = ScriptType.JAVASCRIPT;
 		}
 

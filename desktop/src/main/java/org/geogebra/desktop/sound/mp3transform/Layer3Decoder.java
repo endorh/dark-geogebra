@@ -1096,17 +1096,13 @@ final class Layer3Decoder {
 					: gi.blockType;
 			double[] tsOut = out1d;
 			double[] r = rawout;
-			for (int cc = 0; cc < 18; cc++) {
-				tsOutCopy[cc] = tsOut[cc + sb18];
-			}
+			System.arraycopy(tsOut, 0 + sb18, tsOutCopy, 0, 18);
 			fastInvMdct(tsOutCopy, r, bt);
-			for (int cc = 0; cc < 18; cc++) {
-				tsOut[cc + sb18] = tsOutCopy[cc];
-			}
+			System.arraycopy(tsOutCopy, 0, tsOut, 0 + sb18, 18);
 			// overlap addition
 			double[] p = prevBlock[ch];
-			tsOut[0 + sb18] = r[0] + p[sb18 + 0];
-			p[sb18 + 0] = r[18];
+			tsOut[sb18] = r[0] + p[sb18];
+			p[sb18] = r[18];
 			tsOut[1 + sb18] = r[1] + p[sb18 + 1];
 			p[sb18 + 1] = r[19];
 			tsOut[2 + sb18] = r[2] + p[sb18 + 2];
@@ -1162,7 +1158,7 @@ final class Layer3Decoder {
 				in[12 + i] += in[9 + i];
 				in[9 + i] += in[6 + i];
 				in[6 + i] += in[3 + i];
-				in[3 + i] += in[0 + i];
+				in[3 + i] += in[i];
 				// Input aliasing on odd indices (for 6 point IDCT)
 				in[15 + i] += in[9 + i];
 				in[9 + i] += in[3 + i];
@@ -1170,8 +1166,8 @@ final class Layer3Decoder {
 				double pp1, pp2, sum;
 				pp2 = in[12 + i] * 0.500000000f;
 				pp1 = in[6 + i] * 0.866025403f;
-				sum = in[0 + i] + pp2;
-				t1 = in[0 + i] - in[12 + i];
+				sum = in[i] + pp2;
+				t1 = in[i] - in[12 + i];
 				t0 = sum + pp1;
 				t2 = sum - pp1;
 				// End 3 point IDCT on even indices
@@ -1301,7 +1297,7 @@ final class Layer3Decoder {
 					- in[14] * 1.2855752193731f;
 			// 9 point IDCT on odd indices
 			// 5 points on odd indices (not really an IDCT)
-			double i0 = in[0 + 1] + in[0 + 1];
+			double i0 = in[1] + in[1];
 			double i0p12 = i0 + in[12 + 1];
 			tmp0o = i0p12 + in[4 + 1] * 1.8793852415718f
 					+ in[8 + 1] * 1.532088886238f
@@ -1314,7 +1310,7 @@ final class Layer3Decoder {
 			tmp3o = i0p12 - in[4 + 1] * 1.532088886238f
 					+ in[8 + 1] * 0.34729635533386f
 					- in[16 + 1] * 1.8793852415718f;
-			tmp4o = (in[0 + 1] - in[4 + 1] + in[8 + 1] - in[12 + 1]
+			tmp4o = (in[1] - in[4 + 1] + in[8 + 1] - in[12 + 1]
 					+ in[16 + 1]) * 0.707106781f; // Twiddled
 			// 4 points on even indices
 			double i7s = in[6 + 1] * 1.732050808f; // Sqrt[3]

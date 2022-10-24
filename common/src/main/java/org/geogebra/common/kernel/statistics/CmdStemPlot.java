@@ -34,41 +34,36 @@ public class CmdStemPlot extends CommandProcessor {
 		arg = resArgs(c);
 
 		switch (n) {
-
-		case 1:
+		case 1 -> {
 			if (arg[0].isGeoList()) {
 				GeoList list = (GeoList) arg[0];
 
-				GeoElement[] ret = { stemPlot(c.getLabel(), list, null) };
+				GeoElement[] ret = {stemPlot(c.getLabel(), list, null)};
 				return ret;
 			}
 			throw argErr(c, arg[0]);
-
-		case 2:
+		}
+		case 2 -> {
 			if (!arg[0].isGeoList()) {
 				throw argErr(c, arg[0]);
 			}
 			if (!arg[1].isGeoNumeric()) {
 				throw argErr(c, arg[1]);
 			}
-
-			GeoElement[] ret = { stemPlot(c.getLabel(), (GeoList) arg[0],
-					(GeoNumeric) arg[1]) };
+			GeoElement[] ret = {stemPlot(c.getLabel(), (GeoList) arg[0],
+					(GeoNumeric) arg[1])};
 			return ret;
-
-		case 0:
-			throw argNumErr(c);
-
-		default:
-
+		}
+		case 0 -> throw argNumErr(c);
+		default -> {
 			GeoList list = wrapInList(kernel, arg, arg.length,
 					GeoClass.DEFAULT);
 			if (list != null) {
-				GeoElement[] ret2 = { stemPlot(c.getLabel(), list, null) };
+				GeoElement[] ret2 = {stemPlot(c.getLabel(), list, null)};
 				return ret2;
 			}
-
 			throw argErr(c, arg[0]);
+		}
 		}
 	}
 

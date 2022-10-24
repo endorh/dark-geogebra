@@ -87,9 +87,7 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints {
 		// /////////
 
 		points = new GeoPointND[bottomPointsLength + 1];
-		for (int i = 0; i < bottomPointsLength; i++) {
-			points[i] = bottomPoints[i];
-		}
+		System.arraycopy(bottomPoints, 0, points, 0, bottomPointsLength);
 		points[bottomPointsLength] = topPoint;
 
 		// /////////
@@ -227,9 +225,9 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints {
 
 		Coords bottomCenter1 = new Coords(4);
 		// interiorPoint.set(0);
-		for (int i = 0; i < bottomPoints.length; i++) {
+		for (GeoPointND bottomPoint : bottomPoints) {
 			bottomCenter1 = bottomCenter1
-					.add(bottomPoints[i].getInhomCoordsInD3());
+					.add(bottomPoint.getInhomCoordsInD3());
 		}
 
 		bottomCenter = bottomCenter1.mul((double) 1 / (bottomPoints.length));
@@ -270,8 +268,8 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints {
 			GeoSegmentND[] segments = polygon.getSegments();
 			if (step == 1 && !bottomAsInput) { // bottom
 				outputPolygonsBottom.addOutput((GeoPolygon3D) polygon, false);
-				for (int i = 0; i < segments.length; i++) {
-					outputSegmentsBottom.addOutput((GeoSegment3D) segments[i],
+				for (GeoSegmentND segment : segments) {
+					outputSegmentsBottom.addOutput((GeoSegment3D) segment,
 							false);
 				}
 				step++;

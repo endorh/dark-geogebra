@@ -73,8 +73,7 @@ public class CmdSetViewDirection extends CmdScripting {
 			return arg;
 		}
 
-		if (arg[0] instanceof GeoDirectionND) {
-			GeoDirectionND d = (GeoDirectionND) arg[0];
+		if (arg[0] instanceof GeoDirectionND d) {
 
 			EuclidianView3DInterface view3D = app.getEuclidianView3D();
 

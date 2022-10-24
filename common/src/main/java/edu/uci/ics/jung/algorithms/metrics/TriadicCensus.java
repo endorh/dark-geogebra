@@ -164,7 +164,7 @@ public class TriadicCensus {
 	public static <V, E> long[] getCounts(DirectedGraph<V, E> g) {
 		long[] count = new long[MAX_TRIADS];
 
-		List<V> id = new ArrayList<V>(g.getVertices());
+		List<V> id = new ArrayList<>(g.getVertices());
 
 		// apply algorithm to each edge, one at at time
 		for (int i_v = 0; i_v < g.getVertexCount(); i_v++) {
@@ -174,7 +174,7 @@ public class TriadicCensus {
 				if (id.indexOf(u) <= i_v) {
 					continue;
 				}
-				Set<V> neighbors = new HashSet<V>(CollectionUtils
+				Set<V> neighbors = new HashSet<>(CollectionUtils
 						.union(g.getNeighbors(u), g.getNeighbors(v)));
 				neighbors.remove(u);
 				neighbors.remove(v);
@@ -196,7 +196,7 @@ public class TriadicCensus {
 			sum += count[i];
 		}
 		int n = g.getVertexCount();
-		count[1] = n * (n - 1) * (n - 2) / 6 - sum;
+		count[1] = (long) n * (n - 1) * (n - 2) / 6 - sum;
 		return count;
 	}
 

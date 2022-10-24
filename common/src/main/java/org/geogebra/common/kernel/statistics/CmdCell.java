@@ -29,20 +29,19 @@ public class CmdCell extends CommandProcessor {
 		arg = resArgs(c);
 
 		switch (n) {
-		case 2:
+		case 2 -> {
 			if ((ok = arg[0] instanceof GeoNumberValue)
 					&& arg[1] instanceof GeoNumberValue) {
 
 				AlgoCell algo = new AlgoCell(cons, c.getLabel(),
 						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1]);
 
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 				return ret;
 			}
 			throw argErr(c, ok ? arg[1] : arg[0]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

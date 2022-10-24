@@ -69,7 +69,7 @@ public class PageRankWithPriors<V, E>
 	public PageRankWithPriors(Hypergraph<V, E> graph,
 			Transformer<V, Double> vertex_priors, double alpha) {
 		super(graph, vertex_priors, alpha);
-		this.edge_weights = new UniformDegreeWeight<V, E>(graph);
+		this.edge_weights = new UniformDegreeWeight<>(graph);
 	}
 
 	/**

@@ -70,7 +70,7 @@ public class AstRoot extends ScriptNode {
     public void addComment(Comment comment) {
         assertNotNull(comment);
         if (comments == null) {
-            comments = new TreeSet<Comment>(new AstNode.PositionComparator());
+            comments = new TreeSet<>(new AstNode.PositionComparator());
         }
         comments.add(comment);
         comment.setParent(this);
@@ -136,17 +136,15 @@ public class AstRoot extends ScriptNode {
      * @throws IllegalStateException if a parent link is missing
      */
     public void checkParentLinks() {
-        this.visit(new NodeVisitor() {
-            public boolean visit(AstNode node) {
-                int type = node.getType();
-                if (type == Token.SCRIPT)
-                    return true;
-                if (node.getParent() == null)
-                    throw new IllegalStateException
-                            ("No parent for node: " + node
-                             + "\n" + node.toSource(0));
+        this.visit(node -> {
+            int type = node.getType();
+            if (type == Token.SCRIPT)
                 return true;
-            }
+            if (node.getParent() == null)
+                throw new IllegalStateException
+                        ("No parent for node: " + node
+                         + "\n" + node.toSource(0));
+            return true;
         });
     }
 }

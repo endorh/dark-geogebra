@@ -16,44 +16,44 @@ public class StringUtilTest {
 	@Test
 	public void isLetterShouldComplyWithJava() {
 		assumeTrue(IS_JAVA_8);
-		String falseNeg = "";
-		String falsePos = "";
+		StringBuilder falseNeg = new StringBuilder();
+		StringBuilder falsePos = new StringBuilder();
 		for (int cc = 0; cc < 65536; ++cc) {
 			char c = (char) cc;
 			if (Character.isLetter(
 					c) != com.himamis.retex.editor.share.input.Character
 							.isLetter(c)) {
 				if (Character.isLetter(c)) {
-					falseNeg += c;
+					falseNeg.append(c);
 				} else {
-					falsePos += c;
+					falsePos.append(c);
 				}
 			}
 		}
 
 		assertEquals(7512, falseNeg.length());
-		assertEquals(-1477782608, falseNeg.hashCode());
+		assertEquals(-1477782608, falseNeg.toString().hashCode());
 		assertEquals(4583, falsePos.length());
-		assertEquals(-1032620861, falsePos.hashCode());
+		assertEquals(-1032620861, falsePos.toString().hashCode());
 	}
 
 	@Test
 	public void isDigitShouldComplyWithJava() {
 		assumeTrue(IS_JAVA_8);
-		String falseNeg = "";
-		String falsePos = "";
+		StringBuilder falseNeg = new StringBuilder();
+		StringBuilder falsePos = new StringBuilder();
 		for (int cc = 0; cc < 65536; ++cc) {
 			char c = (char) cc;
 			if (Character.isDigit(c) != StringUtil.isDigit(c)) {
 				if (Character.isDigit(c)) {
-					falseNeg += c;
+					falseNeg.append(c);
 				} else {
-					falsePos += c;
+					falsePos.append(c);
 				}
 			}
 		}
-		assertEquals(StringUtil.toHexString(falseNeg),
-				falseNeg,
+		assertEquals(StringUtil.toHexString(falseNeg.toString()),
+				falseNeg.toString(),
 				"\u07C0\u07C1\u07C2\u07C3\u07C4\u07C5\u07C6\u07C7\u07C8\u07C9"
 						+ "\u1090\u1091\u1092\u1093\u1094\u1095\u1096\u1097\u1098\u1099"
 						+ "\u1946\u1947\u1948\u1949\u194A\u194B\u194C\u194D\u194E\u194F"
@@ -67,7 +67,7 @@ public class StringUtilTest {
 						+ "\uABF0\uABF1\uABF2\uABF3\uABF4\uABF5\uABF6\uABF7\uABF8\uABF9"
 						+ "\uFF10\uFF11\uFF12\uFF13\uFF14\uFF15\uFF16\uFF17\uFF18\uFF19");
 
-		assertEquals(StringUtil.toHexString(falsePos), falsePos,
+		assertEquals(StringUtil.toHexString(falsePos.toString()), falsePos.toString(),
 				"");
 	}
 

@@ -31,8 +31,7 @@ public class CmdZMeanTest extends CommandProcessor {
 		arg = resArgs(c);
 
 		switch (n) {
-
-		case 4:
+		case 4 -> {
 			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoNumeric())
 					&& (ok[2] = arg[2].isGeoNumeric())
 					&& (ok[3] = arg[3].isGeoText())) {
@@ -41,14 +40,13 @@ public class CmdZMeanTest extends CommandProcessor {
 						(GeoList) arg[0], (GeoNumeric) arg[1],
 						(GeoNumeric) arg[2], (GeoText) arg[3]);
 
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 				return ret;
 
 			}
-
 			throw argErr(c, getBadArg(ok, arg));
-
-		case 5:
+		}
+		case 5 -> {
 			if ((ok[0] = arg[0].isGeoNumeric())
 					&& (ok[1] = arg[1].isGeoNumeric())
 					&& (ok[2] = arg[2].isGeoNumeric())
@@ -60,14 +58,12 @@ public class CmdZMeanTest extends CommandProcessor {
 						(GeoNumeric) arg[2], (GeoNumeric) arg[3],
 						(GeoText) arg[4]);
 				algo.getResult().setLabel(c.getLabel());
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 				return ret;
 			}
-
 			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

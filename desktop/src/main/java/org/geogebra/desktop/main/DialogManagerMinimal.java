@@ -199,13 +199,9 @@ public class DialogManagerMinimal extends DialogManager {
 
 		makeRegularPolygon(app, ec, inputString, geoPoint1, geoPoint2,
 				direction,
-				app.getErrorHandler(), new AsyncOperation<Boolean>() {
+				app.getErrorHandler(), obj -> {
+					// TODO Auto-generated method stub
 
-					@Override
-					public void callback(Boolean obj) {
-						// TODO Auto-generated method stub
-
-					}
 				});
 
 	}
@@ -300,14 +296,7 @@ public class DialogManagerMinimal extends DialogManager {
 
 		rotateObject(app, inputString, false, selectedPolygons,
 				new CreateGeoForRotatePoint(selectedPoints[0]), selGeos, ec,
-				app.getDefaultErrorHandler(), new AsyncOperation<String>() {
-
-					@Override
-					public void callback(String obj) {
-						defaultAngle = obj;
-
-					}
-				});
+				app.getDefaultErrorHandler(), obj -> defaultAngle = obj);
 
 	}
 }

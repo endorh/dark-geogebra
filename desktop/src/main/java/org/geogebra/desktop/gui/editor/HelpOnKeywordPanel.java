@@ -76,8 +76,8 @@ public class HelpOnKeywordPanel extends JPanel {
 				app.getReverseCommand(command) + Localization.syntaxStr);
 		String[] lines = help.split("\n");
 		int cols = 1;
-		for (int i = 0; i < lines.length; i++) {
-			cols = Math.max(cols, lines[i].length());
+		for (String line : lines) {
+			cols = Math.max(cols, line.length());
 		}
 		textarea.setText(help);
 		textarea.setFont(app.getPlainFont());

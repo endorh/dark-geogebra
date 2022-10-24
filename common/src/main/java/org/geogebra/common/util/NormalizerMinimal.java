@@ -141,9 +141,7 @@ public class NormalizerMinimal {
 				{ "z", "\u007A\u24E9\uFF5A\u017A\u1E91\u017C\u017E\u1E93\u1E95"
 						+ "\u01B6\u0225\u0240\u2C6C\uA763" } };
 
-		for (int i = 0; i < defaultDiacriticsRemovalMap.length; i++) {
-			String[] s = defaultDiacriticsRemovalMap[i];
-
+		for (String[] s : defaultDiacriticsRemovalMap) {
 			for (int j = 0; j < s[1].length(); j++) {
 				hm.put(s[1].charAt(j), s[0]);
 			}

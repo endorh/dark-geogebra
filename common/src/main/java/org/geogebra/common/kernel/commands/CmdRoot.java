@@ -40,16 +40,17 @@ public class CmdRoot extends CommandProcessor {
 
 		switch (n) {
 		// roots of polynomial
-		case 1:
+		case 1 -> {
 			arg = resArgs(c);
 			if (arg[0].isRealValuedFunction()) {
 				GeoFunctionable gf = (GeoFunctionable) arg[0];
 				return root(c, gf);
 			}
 			throw argErr(c, arg[0]);
+		}
 
-			// root with start value
-		case 2:
+		// root with start value
+		case 2 -> {
 			arg = resArgs(c);
 			if ((ok[0] = arg[0].isRealValuedFunction())
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
@@ -58,18 +59,19 @@ public class CmdRoot extends CommandProcessor {
 						(GeoFunctionable) arg[0],
 						(GeoNumberValue) arg[1]);
 
-				GeoElement[] ret = { algo.getRootPoint() };
+				GeoElement[] ret = {algo.getRootPoint()};
 				return ret;
 			}
 			if (arg[0].isGeoFunction() && arg[1].isGeoFunction()) {
 				c.setName("Intersect"); // bug in some GGB versions saving
-										// Intersect(f,g) as Root(f,g)
+				// Intersect(f,g) as Root(f,g)
 				return kernel.getAlgebraProcessor().processCommand(c, info);
 			}
 			throw argErr(c, getBadArg(ok, arg));
+		}
 
-			// root in interval
-		case 3:
+		// root in interval
+		case 3 -> {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isRealValuedFunction()))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
@@ -79,13 +81,12 @@ public class CmdRoot extends CommandProcessor {
 						(GeoFunctionable) arg[0],
 						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2]);
 
-				GeoElement[] ret = { algo.getRootPoint() };
+				GeoElement[] ret = {algo.getRootPoint()};
 				return ret;
 			}
 			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

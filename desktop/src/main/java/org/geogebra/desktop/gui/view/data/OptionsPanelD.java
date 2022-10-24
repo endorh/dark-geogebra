@@ -177,8 +177,7 @@ public class OptionsPanelD extends JPanel implements PropertyChangeListener,
 
 		// set visibility for plot-specific panels
 		switch (plotType) {
-
-		case HISTOGRAM:
+		case HISTOGRAM -> {
 			classesPanel.setVisible(true);
 			histogramPanel.setVisible(true);
 			rbNormalized.setVisible(true);
@@ -186,36 +185,19 @@ public class OptionsPanelD extends JPanel implements PropertyChangeListener,
 			ckShowHistogram.setVisible(true);
 			ckCumulative.setVisible(true);
 			ckOverlayPolygon.setVisible(true);
-
 			layoutHistogramPanel();
-
-			break;
-
-		case BOXPLOT:
-		case MULTIBOXPLOT:
-			boxPlotPanel.setVisible(true);
-			break;
-
-		case BARCHART:
+		}
+		case BOXPLOT, MULTIBOXPLOT -> boxPlotPanel.setVisible(true);
+		case BARCHART -> {
 			barChartPanel.setVisible(true);
 			layoutBarChartPanel();
-			break;
+		}
+		case SCATTERPLOT -> scatterplotPanel.setVisible(true);
 
-		case SCATTERPLOT:
-			scatterplotPanel.setVisible(true);
-			break;
 
 		// graph tab only
-		case DOTPLOT:
-		case NORMALQUANTILE:
-		case RESIDUAL:
-			tabbedPane.removeTabAt(0);
-			break;
-
-		case STEMPLOT:
-			this.setVisible(false);
-			break;
-
+		case DOTPLOT, NORMALQUANTILE, RESIDUAL -> tabbedPane.removeTabAt(0);
+		case STEMPLOT -> this.setVisible(false);
 		}
 
 		setLabels();
@@ -529,8 +511,8 @@ public class OptionsPanelD extends JPanel implements PropertyChangeListener,
 
 	private static JComponent insetPanel(int inset, JComponent... comp) {
 		JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		for (int i = 0; i < comp.length; i++) {
-			p.add(comp[i]);
+		for (JComponent jComponent : comp) {
+			p.add(jComponent);
 		}
 		p.setBorder(BorderFactory.createEmptyBorder(2, inset, 0, 0));
 		return p;

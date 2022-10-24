@@ -113,22 +113,18 @@ public class AlgoAreaConic extends AlgoElement {
 		// standard case: area of conic
 		int type = conic.getType();
 		switch (type) {
-		case GeoConicNDConstants.CONIC_SINGLE_POINT:
-		case GeoConicNDConstants.CONIC_CIRCLE:
+		case GeoConicNDConstants.CONIC_SINGLE_POINT, GeoConicNDConstants.CONIC_CIRCLE -> {
 			// r is length of one of the half axes
 			double r = conic.getHalfAxis(0);
 			area.setValue(r * r * Math.PI);
-			break;
-
-		case GeoConicNDConstants.CONIC_ELLIPSE:
+		}
+		case GeoConicNDConstants.CONIC_ELLIPSE -> {
 			// lengths of the half axes
 			double a = conic.getHalfAxis(0);
 			double b = conic.getHalfAxis(1);
 			area.setValue(a * b * Math.PI);
-			break;
-
-		default:
-			area.setUndefined();
+		}
+		default -> area.setUndefined();
 		}
 	}
 

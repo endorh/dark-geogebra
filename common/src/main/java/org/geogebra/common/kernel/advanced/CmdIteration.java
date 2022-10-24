@@ -37,11 +37,8 @@ public class CmdIteration extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 0:
-		case 1:
-		case 2:
-			throw argNumErr(c);
-		case 3:
+		case 0, 1, 2 -> throw argNumErr(c);
+		case 3 -> {
 			arg = resArgs(c);
 			if ((ok[0] = arg[0].isGeoFunction())
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
@@ -51,10 +48,9 @@ public class CmdIteration extends CommandProcessor {
 						(GeoFunction) arg[0], (GeoNumberValue) arg[1],
 						(GeoNumberValue) arg[2]);
 
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 				return ret;
 			}
-
 			if ((ok[0] = (arg[0].isGeoFunctionNVar()
 					&& ((GeoFunctionNVar) arg[0]).isFun2Var()))
 					&& (ok[1] = arg[1] instanceof GeoList)
@@ -63,19 +59,19 @@ public class CmdIteration extends CommandProcessor {
 						(GeoFunctionNVar) arg[0], (GeoList) arg[1],
 						(GeoNumberValue) arg[2]);
 
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 				return ret;
 			}
-
 			throw argErr(c, getBadArg(ok, arg));
-		default:
+		}
+		default -> {
 			GeoElement arg1 = null;
 			GeoElement[] vars = new GeoElement[n - 3]; // exp, list and limit
-														// not included
+
+			// not included
 			GeoList[] over = new GeoList[1];
 			GeoNumeric[] num = new GeoNumeric[1];
 			boolean oldval = cons.isSuppressLabelsActive();
-
 			try {
 				cons.setSuppressLabelCreation(true);
 				arg1 = resArgsForIteration(c, vars, over, num);
@@ -88,11 +84,11 @@ public class CmdIteration extends CommandProcessor {
 				}
 				cons.setSuppressLabelCreation(oldval);
 			}
-
 			AlgoIteration algo = new AlgoIteration(cons, arg1,
 					vars, over, num[0]);
 			algo.getOutput(0).setLabel(c.getLabel());
 			return algo.getOutput();
+		}
 		}
 	}
 }

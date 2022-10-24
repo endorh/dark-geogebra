@@ -892,22 +892,13 @@ public class Node implements Iterable<Node>
                 if (first == null)
                     return END_DROPS_OFF;
 
-                switch(first.type) {
-                    case Token.LABEL:
-                        return first.endCheckLabel();
-
-                    case Token.IFNE:
-                        return first.endCheckIf();
-
-                    case Token.SWITCH:
-                        return first.endCheckSwitch();
-
-                    case Token.TRY:
-                        return first.endCheckTry();
-
-                    default:
-                        return endCheckBlock();
-                }
+                return switch (first.type) {
+                    case Token.LABEL -> first.endCheckLabel();
+                    case Token.IFNE -> first.endCheckIf();
+                    case Token.SWITCH -> first.endCheckSwitch();
+                    case Token.TRY -> first.endCheckTry();
+                    default -> endCheckBlock();
+                };
 
             default:
                 return END_DROPS_OFF;
@@ -1066,11 +1057,9 @@ public class Node implements Iterable<Node>
                     sb.append("]");
                 }
             } else if (this instanceof Scope) {
-                if (this instanceof ScriptNode) {
-                    ScriptNode sof = (ScriptNode)this;
-                    if (this instanceof FunctionNode) {
-                        FunctionNode fn = (FunctionNode)this;
-                        sb.append(' ');
+                if (this instanceof ScriptNode sof) {
+	                if (this instanceof FunctionNode fn) {
+		                sb.append(' ');
                         sb.append(fn.getName());
                     }
                     sb.append(" [source name: ");
@@ -1088,17 +1077,14 @@ public class Node implements Iterable<Node>
                     sb.append(" [scope ");
                     appendPrintId(this, printIds, sb);
                     sb.append(": ");
-                    Iterator<String> iter =
-                        ((Scope) this).getSymbolTable().keySet().iterator();
-                    while (iter.hasNext()) {
-                        sb.append(iter.next());
+                    for (String s : ((Scope) this).getSymbolTable().keySet()) {
+                        sb.append(s);
                         sb.append(" ");
                     }
                     sb.append("]");
                 }
-            } else if (this instanceof Jump) {
-                Jump jump = (Jump)this;
-                if (type == Token.BREAK || type == Token.CONTINUE) {
+            } else if (this instanceof Jump jump) {
+	            if (type == Token.BREAK || type == Token.CONTINUE) {
                     sb.append(" [label: ");
                     appendPrintId(jump.getJumpStatement(), printIds, sb);
                     sb.append(']');
@@ -1148,59 +1134,48 @@ public class Node implements Iterable<Node>
                 sb.append(" [");
                 sb.append(propToString(type));
                 sb.append(": ");
-                String value;
+                StringBuilder value;
                 switch (type) {
                   case TARGETBLOCK_PROP : // can't add this as it recurses
-                    value = "target block property";
+                    value = new StringBuilder("target block property");
                     break;
                   case LOCAL_BLOCK_PROP :     // can't add this as it is dull
-                    value = "last local block";
+                    value = new StringBuilder("last local block");
                     break;
                   case ISNUMBER_PROP:
-                    switch (x.intValue) {
-                      case BOTH:
-                        value = "both";
-                        break;
-                      case RIGHT:
-                        value = "right";
-                        break;
-                      case LEFT:
-                        value = "left";
-                        break;
-                      default:
-                        throw Kit.codeBug();
-                    }
+                      value = new StringBuilder(switch (x.intValue) {
+                          case BOTH -> "both";
+                          case RIGHT -> "right";
+                          case LEFT -> "left";
+                          default -> throw Kit.codeBug();
+                      });
                     break;
                   case SPECIALCALL_PROP:
-                    switch (x.intValue) {
-                      case SPECIALCALL_EVAL:
-                        value = "eval";
-                        break;
-                      case SPECIALCALL_WITH:
-                        value = "with";
-                        break;
-                      default:
-                        // NON_SPECIALCALL should not be stored
-                        throw Kit.codeBug();
-                    }
+                      value = new StringBuilder(switch (x.intValue) {
+                          case SPECIALCALL_EVAL -> "eval";
+                          case SPECIALCALL_WITH -> "with";
+                          default ->
+                              // NON_SPECIALCALL should not be stored
+                                  throw Kit.codeBug();
+                      });
                     break;
                   case OBJECT_IDS_PROP: {
                     Object[] a = (Object[]) x.objectValue;
-                    value = "[";
+                    value = new StringBuilder("[");
                     for (int i=0; i < a.length; i++) {
-                        value += a[i].toString();
+                        value.append(a[i].toString());
                         if (i+1 < a.length)
-                            value += ", ";
+                            value.append(", ");
                     }
-                    value += "]";
+                    value.append("]");
                     break;
                   }
                   default :
                     Object obj = x.objectValue;
                     if (obj != null) {
-                        value = obj.toString();
+                        value = new StringBuilder(obj.toString());
                     } else {
-                        value = String.valueOf(x.intValue);
+                        value = new StringBuilder(String.valueOf(x.intValue));
                     }
                     break;
                 }
@@ -1228,9 +1203,7 @@ public class Node implements Iterable<Node>
                 printIds = new ObjToIntMap();
                 generatePrintIds(treeTop, printIds);
             }
-            for (int i = 0; i != level; ++i) {
-                sb.append("    ");
-            }
+            sb.append("    ".repeat(Math.max(0, level)));
             n.toString(printIds, sb);
             sb.append('\n');
             for (Node cursor = n.getFirstChild(); cursor != null;

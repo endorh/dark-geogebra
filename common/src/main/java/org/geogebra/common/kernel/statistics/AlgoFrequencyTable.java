@@ -194,41 +194,31 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 	protected void setInputOutput() {
 
 		switch (type) {
-		case HISTOGRAM:
-		case BARCHART:
+		case HISTOGRAM, BARCHART -> {
 			input = new GeoElement[1];
 			input[0] = chart;
-			break;
-
-		case STANDARD:
-
+		}
+		case STANDARD -> {
 			ArrayList<GeoElement> tempList = new ArrayList<>();
-
 			if (isCumulative != null) {
 				tempList.add(isCumulative);
 			}
-
 			if (classList != null) {
 				tempList.add(classList);
 			}
-
 			tempList.add(dataList);
-
 			if (useDensity != null) {
 				tempList.add(useDensity);
 			}
-
 			if (density != null) {
 				tempList.add(density);
 			}
-
 			if (scale != null) {
 				tempList.add(scale);
 			}
-
 			input = new GeoElement[tempList.size()];
 			input = tempList.toArray(input);
-			break;
+		}
 		}
 
 		setOutputLength(1);
@@ -277,7 +267,7 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 	public final void compute() {
 
 		switch (type) {
-		case HISTOGRAM:
+		case HISTOGRAM -> {
 			AlgoHistogram algoHistogram = (AlgoHistogram) chart
 					.getParentAlgorithm();
 			if (algoHistogram == null || algoHistogram.getLeftBorder() == null
@@ -285,17 +275,15 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 				table.setUndefined();
 				return;
 			}
-
 			strHeader = new String[2];
 			strHeader[0] = getLoc().getMenu("Interval");
 			if (algoHistogram.getUseDensityGeo() != null
 					&& ((GeoBoolean) algoHistogram.getUseDensityGeo())
-							.getBoolean()) {
+					.getBoolean()) {
 				strHeader[1] = getLoc().getMenu("Frequency");
 			} else {
 				strHeader[1] = getLoc().getMenu("Count");
 			}
-
 			double[] leftBorder = algoHistogram.getLeftBorder();
 			double[] f = algoHistogram.getValues();
 			strValue = new String[f.length];
@@ -306,11 +294,9 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 				strFrequency[i] = kernel.format(f[i],
 						table.getStringTemplate());
 			}
-
 			createLaTeXTable(true);
-			break;
-
-		case BARCHART:
+		}
+		case BARCHART -> {
 			AlgoBarChart algoBarChart = (AlgoBarChart) chart
 					.getParentAlgorithm();
 			if (algoBarChart == null || algoBarChart.getValue() == null
@@ -321,7 +307,6 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 			strHeader = new String[2];
 			strHeader[0] = getLoc().getMenu("Value");
 			strHeader[1] = getLoc().getMenu("Count");
-
 			strValue = algoBarChart.getValue();
 			double[] f2 = algoBarChart.getYValue();
 			strFrequency = new String[f2.length];
@@ -329,18 +314,15 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 				strFrequency[i] = kernel.format(f2[i],
 						table.getStringTemplate());
 			}
-
 			createLaTeXTable(false);
-			break;
-
-		case STANDARD:
+		}
+		case STANDARD -> {
 
 			// validate input arguments
 			if (!freq.getResult().isDefined()) {
 				table.setUndefined();
 				return;
 			}
-
 			boolean useDens = useDensity != null && useDensity.getBoolean();
 			GeoList fr = freq.getResult();
 			int length = fr.size();
@@ -351,7 +333,7 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 
 				if (scale != null) {
 					useDens = true; // we assume this will be used to compute
-									// frequencies
+					// frequencies
 				}
 
 				strHeader = new String[2];
@@ -422,8 +404,7 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 
 				createLaTeXTable(true);
 			}
-
-			break;
+		}
 		}
 
 		table.setTextString(sb.toString());

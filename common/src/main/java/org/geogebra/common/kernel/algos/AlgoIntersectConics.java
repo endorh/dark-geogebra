@@ -154,10 +154,10 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 		ArrayList<GeoPointND> list2 = B.getPointsOnConic();
 
 		if (list1 != null && list2 != null) {
-			for (int i = 0; i < list1.size(); i++) {
-				if (list1.get(i).getIncidenceList() != null
-						&& list1.get(i).getIncidenceList().contains(B)) {
-					preexistPoints.add(list1.get(i));
+			for (GeoPointND geoPointND : list1) {
+				if (geoPointND.getIncidenceList() != null
+						&& geoPointND.getIncidenceList().contains(B)) {
+					preexistPoints.add(geoPointND);
 				}
 			}
 		}
@@ -430,8 +430,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 		ArrayList<GeoPointND> pointsOnConic = A.getPointsOnConic();
 		if (pointsOnConic != null) {
 			int size = pointsOnConic.size();
-			for (int i = 0; i < size; i++) {
-				GeoPointND p = pointsOnConic.get(i);
+			for (GeoPointND p : pointsOnConic) {
 				if (p.isLabelSet() && p.getIncidenceList() != null
 						&& p.getIncidenceList().contains(B)) {
 
@@ -518,10 +517,10 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 		if (firstIntersection) {
 			// init points in order P[0], P[1] , ...
 			int count = 0;
-			for (int i = 0; i < Q.length; i++) {
+			for (GeoPoint geoPoint : Q) {
 				// make sure intersection points lie on limited paths
-				if (Q[i].isDefined() && pointLiesOnBothPaths(Q[i])) {
-					P[count].setCoords(Q[i]);
+				if (geoPoint.isDefined() && pointLiesOnBothPaths(geoPoint)) {
+					P[count].setCoords(geoPoint);
 					D[count].setCoords(P[count]);
 					firstIntersection = false;
 					count++;
@@ -770,12 +769,12 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 	 */
 	private boolean testPoints(GeoConic A, GeoConic B, GeoPoint[] P, double eps) {
 		boolean foundPoint = false;
-		for (int i = 0; i < P.length; i++) {
-			if (P[i].isDefined()) {
+		for (GeoPoint geoPoint : P) {
+			if (geoPoint.isDefined()) {
 
 				// if we have eg -7.000000048833772 check if -7 works as well or better
-				double x = P[i].inhomX;
-				double y = P[i].inhomY;
+				double x = geoPoint.inhomX;
+				double y = geoPoint.inhomY;
 				double x2 = DoubleUtil.checkDecimalFraction(x, 100000000);
 				double y2 = DoubleUtil.checkDecimalFraction(y, 100000000);
 				if (x != x2 || y != y2) {
@@ -788,12 +787,12 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 						// needs to use >= instead of DoubleUtil.greaterEqual to avoid making
 						// the rounding error worse, e.g.
 						// {Intersect(4y² + 3x - 6y = 13, -7 x y - 2x + 8y = -32)}
-						P[i].setCoords(x2, y2, 1);
+						geoPoint.setCoords(x2, y2, 1);
 					}
 				}
 
-				if (!(A.isOnFullConic(P[i], eps) && B.isOnFullConic(P[i], eps))) {
-					P[i].setUndefined();
+				if (!(A.isOnFullConic(geoPoint, eps) && B.isOnFullConic(geoPoint, eps))) {
+					geoPoint.setUndefined();
 				} else {
 					foundPoint = true;
 				}
@@ -1253,10 +1252,10 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 	}
 
 	private void savePoints(ArrayList<MyPoint> set, GeoPoint[] points) {
-		for (int i = 0; i < points.length; i++) {
-			if (points[i] != null && points[i].isDefined()
-					&& points[i].isFinite() && !contains(set, points[i])) {
-				MyPoint pt = new MyPoint(points[i].x, points[i].y);
+		for (GeoPoint point : points) {
+			if (point != null && point.isDefined()
+					&& point.isFinite() && !contains(set, point)) {
+				MyPoint pt = new MyPoint(point.x, point.y);
 				set.add(pt);
 			}
 		}
@@ -1265,8 +1264,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 
 	private boolean contains(ArrayList<MyPoint> set, GeoPoint geoPoint) {
 
-		for (int i = 0; i < set.size(); i++) {
-			MyPoint pt = set.get(i);
+		for (MyPoint pt : set) {
 			if (DoubleUtil.isEqual(pt.x, geoPoint.inhomX)
 					&& DoubleUtil.isEqual(pt.y, geoPoint.inhomY)) {
 				return true;
@@ -1383,8 +1381,8 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 	private static void normalizeArray(double[] array) {
 		// find max abs value in array
 		double max = 0;
-		for (int i = 0; i < array.length; i++) {
-			double abs = Math.abs(array[i]);
+		for (double v : array) {
+			double abs = Math.abs(v);
 			if (abs > max) {
 				max = abs;
 			}

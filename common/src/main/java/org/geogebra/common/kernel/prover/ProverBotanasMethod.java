@@ -259,9 +259,7 @@ public class ProverBotanasMethod {
 		List<GeoElement> freePoints = getFreePoints(statement);
 		List<GeoElement> fixedPoints = new ArrayList<>();
 		/* Adding free points: */
-		for (GeoElement ge : freePoints) {
-			fixedPoints.add(ge);
-		}
+		fixedPoints.addAll(freePoints);
 
 		HashMap<PVariable, BigInteger> ret = new HashMap<>();
 
@@ -575,13 +573,11 @@ public class ProverBotanasMethod {
 			TreeSet<PVariable> dependentVariablesWithAlmostFree = new TreeSet<>();
 
 			PPolynomial[] eqSystem = this.getPolynomials()
-					.toArray(new PPolynomial[this.getPolynomials().size()]);
+					.toArray(new PPolynomial[0]);
 			TreeSet<PVariable> variables = new TreeSet<>(
 					PPolynomial.getVars(eqSystem));
 
-			Iterator<PVariable> variablesIterator = variables.iterator();
-			while (variablesIterator.hasNext()) {
-				PVariable variable = variablesIterator.next();
+			for (PVariable variable : variables) {
 				if (!freeVariables.contains(variable)) {
 					dependentVariablesWithAlmostFree.add(variable);
 					dependentVariables.add(variable);
@@ -729,6 +725,7 @@ public class ProverBotanasMethod {
 								numerical.equals(input) && !(algo instanceof AlgoPointOnPath)) {
 							// Forbid numerical computation in this case:
 							numerical = null;
+							break;
 						}
 					}
 				}
@@ -1539,8 +1536,7 @@ public class ProverBotanasMethod {
 
 				eliminationIdeal = PPolynomial.eliminate(
 						as.getPolynomials()
-								.toArray(new PPolynomial[as.getPolynomials()
-										.size()]),
+								.toArray(new PPolynomial[0]),
 						substitutions, k, permutation++, true, false,
 						as.freeVariables);
 				if (eliminationIdeal == null) {
@@ -1588,8 +1584,7 @@ public class ProverBotanasMethod {
 							as.addNegatedThesis();
 							eliminationIdeal = PPolynomial.eliminate(
 									as.getPolynomials()
-											.toArray(new PPolynomial[as
-													.getPolynomials().size()]),
+											.toArray(new PPolynomial[0]),
 									substitutions, k, permutation++, true,
 									false, as.freeVariables);
 							ndgSet = eliminationIdeal.iterator();
@@ -1627,8 +1622,7 @@ public class ProverBotanasMethod {
 										as.addNegatedThesis();
 										eliminationIdeal = PPolynomial.eliminate(
 												as.getPolynomials()
-														.toArray(new PPolynomial[as
-																.getPolynomials().size()]),
+														.toArray(new PPolynomial[0]),
 												substitutions, k, permutation++, true,
 												false, HilbertDimension.getAMaximalSet());
 										ndgSet = eliminationIdeal.iterator();
@@ -1763,8 +1757,7 @@ public class ProverBotanasMethod {
 		} else {
 			ExtendedBoolean solvable = PPolynomial.solvable(
 					as.getPolynomials()
-							.toArray(new PPolynomial[as.getPolynomials()
-									.size()]),
+							.toArray(new PPolynomial[0]),
 					substitutions, statement.getKernel(),
 					proverSettings.transcext, as.freeVariables);
 			if (ExtendedBoolean.UNKNOWN.equals(solvable)) {
@@ -1796,8 +1789,7 @@ public class ProverBotanasMethod {
 				solvable = PPolynomial
 						.solvable(
 								as.getPolynomials()
-										.toArray(new PPolynomial[as
-												.getPolynomials().size()]),
+										.toArray(new PPolynomial[0]),
 								substitutions, statement.getKernel(),
 								proverSettings.transcext, as.freeVariables);
 				if (ExtendedBoolean.UNKNOWN.equals(solvable)) {
@@ -1832,8 +1824,7 @@ public class ProverBotanasMethod {
 					as.addNegatedThesis();
 					solvable = PPolynomial.solvable(
 							as.getPolynomials()
-									.toArray(new PPolynomial[as.getPolynomials()
-											.size()]),
+									.toArray(new PPolynomial[0]),
 							substitutions, statement.getKernel(),
 							proverSettings.transcext,
 							HilbertDimension.getAMaximalSet());
@@ -1902,7 +1893,7 @@ public class ProverBotanasMethod {
 		/* axis and fixed slope line support */
 		Kernel k = mover.getKernel();
 		for (GeoElement geo : (tracer).getAllPredecessors()) {
-			if (geo instanceof GeoLine && ((GeoLine) geo).hasFixedSlope()) {
+			if (geo instanceof GeoLine l && ((GeoLine) geo).hasFixedSlope()) {
 
 				PVariable[] vars;
 				try {
@@ -1912,8 +1903,6 @@ public class ProverBotanasMethod {
 					Log.debug("Cannot get Botana variables for " + geo);
 					return null;
 				}
-
-				GeoLine l = (GeoLine) geo;
 
 				/*
 				 * a0/a1*x+b0/b1*y+c0/c1=0, that is:
@@ -2017,13 +2006,11 @@ public class ProverBotanasMethod {
 		if (autoNdg && !implicit) {
 			AlgoPointOnPath apop = (AlgoPointOnPath) mover.getParentAlgorithm();
 			GeoElement i0 = apop.input[0];
-			if (i0 instanceof GeoLine) {
-				GeoLine gl = (GeoLine) i0;
+			if (i0 instanceof GeoLine gl) {
 				// End points of the line path of the mover should be avoided.
 				moverDirectDependencies.add(gl.startPoint);
 				moverDirectDependencies.add(gl.endPoint);
-			} else if (i0 instanceof GeoConic && ((GeoConic) i0).isCircle()) {
-				GeoConic gc = (GeoConic) i0;
+			} else if (i0 instanceof GeoConic gc && ((GeoConic) i0).isCircle()) {
 				if (gc.isCircle()) {
 					// Circumpoints of the circular path may be considered to avoid.
 					for (GeoElementND ge : gc.getPointsOnConic()) {
@@ -2152,9 +2139,8 @@ public class ProverBotanasMethod {
 							 * carefully decide which coordinate should be
 							 * fixed.
 							 */
-							if (input instanceof GeoConic
+							if (input instanceof GeoConic gc
 									&& ((GeoConic) input).isCircle()) {
-								GeoConic gc = (GeoConic) input;
 								Coords co = gc.getMidpoint();
 								Coords cp = ((GeoPoint) freePoint).getCoords();
 								if (co.get(3) == 1.0 && cp.get(3) == 1.0

@@ -405,15 +405,13 @@ public class GeoPlane3D extends GeoElement3D
 	 */
 	@Override
 	public void set(GeoElementND geo) {
-		if (geo instanceof GeoPlane3D) {
-			GeoPlane3D plane = (GeoPlane3D) geo;
+		if (geo instanceof GeoPlane3D plane) {
 			getCoordSys().set(plane.getCoordSys());
 			reuseDefinition(geo);
 			return;
 		}
 		setDefinition(null);
-		if (geo instanceof GeoLine) {
-			GeoLine line = (GeoLine) geo;
+		if (geo instanceof GeoLine line) {
 			setEquation(line.getX(), line.getY(), 0, line.getZ());
 		} else {
 			setUndefined();

@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 import javax.swing.text.BadLocationException;
@@ -179,10 +178,8 @@ public final class GeoGebraLexer extends Lexer
 
 	public GeoGebraLexer(AppD app) {
 		variables = new HashSet<>();
-		Iterator<GeoElement> iter = app.getKernel().getConstruction()
-				.getGeoSetLabelOrder().iterator();
-		while (iter.hasNext()) {
-			GeoElement g = iter.next();
+		for (GeoElement g : app.getKernel().getConstruction()
+				.getGeoSetLabelOrder()) {
 			if (g.isLabelSet()) {
 				variables.add(g.getLabel(StringTemplate.defaultTemplate));
 			}

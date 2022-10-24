@@ -625,16 +625,18 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
 
     /** {@inheritDoc} */
     public Field<DerivativeStructure> getField() {
-        return new Field<DerivativeStructure>() {
+        return new Field<>() {
 
             /** {@inheritDoc} */
             public DerivativeStructure getZero() {
-                return new DerivativeStructure(compiler.getFreeParameters(), compiler.getOrder(), 0.0);
+                return new DerivativeStructure(compiler.getFreeParameters(), compiler.getOrder(),
+                        0.0);
             }
 
             /** {@inheritDoc} */
             public DerivativeStructure getOne() {
-                return new DerivativeStructure(compiler.getFreeParameters(), compiler.getOrder(), 1.0);
+                return new DerivativeStructure(compiler.getFreeParameters(), compiler.getOrder(),
+                        1.0);
             }
 
             /** {@inheritDoc} */
@@ -1123,9 +1125,8 @@ public class DerivativeStructure implements RealFieldElement<DerivativeStructure
             return true;
         }
 
-        if (other instanceof DerivativeStructure) {
-            final DerivativeStructure rhs = (DerivativeStructure)other;
-            return (getFreeParameters() == rhs.getFreeParameters()) &&
+        if (other instanceof final DerivativeStructure rhs) {
+	        return (getFreeParameters() == rhs.getFreeParameters()) &&
                    (getOrder() == rhs.getOrder()) &&
                    MathArrays.equals(data, rhs.data);
         }

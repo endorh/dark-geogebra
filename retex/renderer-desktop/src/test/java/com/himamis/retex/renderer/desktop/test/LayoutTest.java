@@ -1,4 +1,4 @@
-package com.himamis.retex.renderer.desktop;
+package com.himamis.retex.renderer.desktop.test;
 
 import java.awt.Graphics2D;
 

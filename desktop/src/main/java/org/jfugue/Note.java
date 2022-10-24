@@ -351,7 +351,7 @@ public final class Note implements JFugueElement {
 	 */
 	@Override
 	public String getMusicString() {
-		StringBuffer buffy = new StringBuffer();
+		StringBuilder buffy = new StringBuilder();
 
 		// If this is a Sequential note or a Parallel note, include that
 		// information.
@@ -389,7 +389,7 @@ public final class Note implements JFugueElement {
 	 */
 	@Override
 	public String getVerifyString() {
-		StringBuffer buffy = new StringBuffer();
+		StringBuilder buffy = new StringBuilder();
 		buffy.append("Note: value=");
 		buffy.append(getValue());
 		buffy.append(", duration=");
@@ -438,7 +438,7 @@ public final class Note implements JFugueElement {
 	public static String createVerifyString(int value, double duration,
 			boolean startTie, boolean endTie, int attack, int decay,
 			boolean isFirst, boolean isParallel, boolean isSequential) {
-		StringBuffer buffy = new StringBuffer();
+		StringBuilder buffy = new StringBuilder();
 		buffy.append("Note: value=");
 		buffy.append(value);
 		buffy.append(", duration=");
@@ -468,7 +468,7 @@ public final class Note implements JFugueElement {
 	 * endTie=F, attack=64, decay=64, isFirst=F, isParallel=T, isSequential=F
 	 */
 	public static String createCompoundVerifyString(String... strings) {
-		StringBuffer buffy = new StringBuffer();
+		StringBuilder buffy = new StringBuilder();
 
 		for (String string : strings) {
 			buffy.append(string);
@@ -490,7 +490,7 @@ public final class Note implements JFugueElement {
 	 */
 	public static String getStringForNote(byte noteValue,
 			double decimalDuration) {
-		StringBuffer buffy = new StringBuffer();
+		StringBuilder buffy = new StringBuilder();
 		buffy.append(getStringForNote(noteValue));
 		buffy.append(getStringForDuration(decimalDuration));
 		return buffy.toString();
@@ -527,7 +527,7 @@ public final class Note implements JFugueElement {
 	public static String getStringForNote(byte noteValue) {
 		int note = noteValue % 12;
 		int octave = noteValue / 12;
-		StringBuffer buffy = new StringBuffer();
+		StringBuilder buffy = new StringBuilder();
 		buffy.append(NOTES[note]);
 		buffy.append(octave);
 		return buffy.toString();
@@ -602,39 +602,24 @@ public final class Note implements JFugueElement {
 	 */
 	public static double getDecimalForDuration(String stringDuration) {
 		String stringDuration2 = stringDuration.toLowerCase();
-		if (stringDuration2.equals("w")) {
-			return 1.0;
-		} else if (stringDuration2.equals("h.")) {
-			return 0.75;
-		} else if (stringDuration2.equals("h")) {
-			return 0.5;
-		} else if (stringDuration2.equals("q.")) {
-			return 0.375;
-		} else if (stringDuration2.equals("q")) {
-			return 0.25;
-		} else if (stringDuration2.equals("i.")) {
-			return 0.1875;
-		} else if (stringDuration2.equals("i")) {
-			return 0.125;
-		} else if (stringDuration2.equals("s.")) {
-			return 0.09375;
-		} else if (stringDuration2.equals("s")) {
-			return 0.0625;
-		} else if (stringDuration2.equals("t.")) {
-			return 0.046875;
-		} else if (stringDuration2.equals("t")) {
-			return 0.03125;
-		} else if (stringDuration2.equals("x.")) {
-			return 0.0234375;
-		} else if (stringDuration2.equals("x")) {
-			return 0.015625;
-		} else if (stringDuration2.equals("o.")) {
-			return 0.01171875;
-		} else if (stringDuration2.equals("o")) {
-			return 0.0078125;
-		} else {
-			return 0.0;
-		}
+		return switch (stringDuration2) {
+			case "w" -> 1.0;
+			case "h." -> 0.75;
+			case "h" -> 0.5;
+			case "q." -> 0.375;
+			case "q" -> 0.25;
+			case "i." -> 0.1875;
+			case "i" -> 0.125;
+			case "s." -> 0.09375;
+			case "s" -> 0.0625;
+			case "t." -> 0.046875;
+			case "t" -> 0.03125;
+			case "x." -> 0.0234375;
+			case "x" -> 0.015625;
+			case "o." -> 0.01171875;
+			case "o" -> 0.0078125;
+			default -> 0.0;
+		};
 	}
 
 	public static final String[] NOTES = new String[] { "C", "C#", "D", "Eb",

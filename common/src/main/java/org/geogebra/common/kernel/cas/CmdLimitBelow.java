@@ -31,21 +31,21 @@ public class CmdLimitBelow extends CommandProcessor implements UsesCAS {
 		arg = resArgs(c);
 
 		switch (n) {
-		case 2:
+		case 2 -> {
 			if ((ok = arg[0].isGeoFunction())
 					&& (arg[1] instanceof GeoNumberValue)) {
 
 				AlgoLimitBelow algo = new AlgoLimitBelow(cons, c.getLabel(),
 						(GeoFunction) arg[0], (GeoNumberValue) arg[1]);
 
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 				return ret;
 			}
 			throw argErr(c, ok ? arg[1] : arg[0]);
+		}
 
-			// more than one argument
-		default:
-			throw argNumErr(c);
+		// more than one argument
+		default -> throw argNumErr(c);
 		}
 	}
 }

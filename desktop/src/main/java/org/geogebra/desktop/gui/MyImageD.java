@@ -130,18 +130,12 @@ public class MyImageD implements MyImageJre {
 		if (StringUtil.toLowerCaseUS(imageFile.getName()).endsWith(".svg")) {
 
 			svg = new StringBuilder((int) imageFile.length());
-			BufferedReader reader = null;
-			try {
-				reader = new BufferedReader(new InputStreamReader(
-						new FileInputStream(imageFile), Charsets.getUtf8()));
+			try (BufferedReader reader = new BufferedReader(new InputStreamReader(
+					new FileInputStream(imageFile), Charsets.getUtf8()))) {
 				for (String line = reader
 						.readLine(); line != null; line = reader.readLine()) {
 					svg.append(line);
 					svg.append('\n');
-				}
-			} finally {
-				if (reader != null) {
-					reader.close();
 				}
 			}
 			svg = new StringBuilder(ImageManager.fixSVG(svg.toString()));
@@ -212,8 +206,7 @@ public class MyImageD implements MyImageJre {
 
 	@Override
 	public String toLaTeXStringBase64() {
-		if (!isSVG() && img instanceof BufferedImage) {
-			BufferedImage bi = (BufferedImage) img;
+		if (!isSVG() && img instanceof BufferedImage bi) {
 
 			final ByteArrayOutputStream os = new ByteArrayOutputStream();
 

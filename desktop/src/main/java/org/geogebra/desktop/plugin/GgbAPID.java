@@ -7,13 +7,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.security.AccessController;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.security.PrivilegedAction;
 import java.util.Iterator;
 import java.util.function.Consumer;
 
@@ -118,14 +115,14 @@ public class GgbAPID extends GgbAPIJre {
 	 */
 	@Override
 	public synchronized void setErrorDialogsActive(boolean flag) {
-		((AppD) app).setErrorDialogsActive(flag);
+		app.setErrorDialogsActive(flag);
 	}
 
 	/**
 	 * Clears the construction and resets all views.
 	 */
 	public synchronized void fileNew() {
-		((AppD) app).fileNew();
+		app.fileNew();
 	}
 
 	/**
@@ -197,40 +194,32 @@ public class GgbAPID extends GgbAPIJre {
 			return false;
 		}
 		final File file = file1;
-		return (Boolean) AccessController.doPrivileged(new PrivilegedAction<Object>() {
-			@Override
-			public Boolean run() {
+		try {
+			// draw graphics view into image
+			GBufferedImage img = getApplication()
+					.getActiveEuclidianView()
+					.getExportImage(exportScale, transparent,
+							ExportType.PNG);
 
-				try {
-					// draw graphics view into image
-					GBufferedImage img = ((AppD) getApplication())
-							.getActiveEuclidianView()
-							.getExportImage(exportScale, transparent,
-									ExportType.PNG);
-
-					if (greyscale) {
-						((GBufferedImageD) img).convertToGrayscale();
-					}
-
-					// write image to file
-					MyImageIO.write(
-							GBufferedImageD.getAwtBufferedImage(img),
-							"png", (float) DPI, file);
-
-					return true;
-				} catch (Exception ex) {
-					ex.printStackTrace();
-					Log.debug(ex.toString());
-					return false;
-				} catch (Error ex) {
-					ex.printStackTrace();
-					Log.debug(ex.toString());
-					return false;
-				}
-
+			if (greyscale) {
+				((GBufferedImageD) img).convertToGrayscale();
 			}
-		});
 
+			// write image to file
+			MyImageIO.write(
+					GBufferedImageD.getAwtBufferedImage(img),
+					"png", (float) DPI, file);
+
+			return true;
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			Log.debug(ex.toString());
+			return false;
+		} catch (Error ex) {
+			ex.printStackTrace();
+			Log.debug(ex.toString());
+			throw ex;
+		}
 	}
 
 	@Override
@@ -376,8 +365,7 @@ public class GgbAPID extends GgbAPIJre {
 		
 		try {
 			// read file back as String
-			callback.accept(new String(Files.readAllBytes(Paths.get(filename)),
-					StandardCharsets.UTF_8));
+			callback.accept(Files.readString(Paths.get(filename)));
 		} catch (IOException e) {
 			Log.error("problem reading " + filename);
 		}
@@ -403,8 +391,7 @@ public class GgbAPID extends GgbAPIJre {
 
 		try {
 			// read file back as String
-			callback.accept(new String(Files.readAllBytes(Paths.get(filename)),
-					StandardCharsets.UTF_8));
+			callback.accept(Files.readString(Paths.get(filename)));
 		} catch (IOException e) {
 			Log.error("problem reading " + filename);
 		}

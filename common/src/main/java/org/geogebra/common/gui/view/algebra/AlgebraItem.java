@@ -49,8 +49,7 @@ public class AlgebraItem {
 			((HasSymbolicMode) geo).setSymbolicMode(
 					!((HasSymbolicMode) geo).isSymbolicMode(), true);
 
-			if (geo instanceof GeoSymbolic) {
-				GeoSymbolic symbolic = (GeoSymbolic) geo;
+			if (geo instanceof GeoSymbolic symbolic) {
 				if (isSymbolicSolve(symbolic)) {
 					toggleNumeric(symbolic);
 					symbolic.setDescriptionNeedsUpdateInAV(true);
@@ -90,11 +89,10 @@ public class AlgebraItem {
 	 *         effect
 	 */
 	public static boolean isSymbolicDiffers(GeoElement geo) {
-		if (!(geo instanceof HasSymbolicMode)) {
+		if (!(geo instanceof HasSymbolicMode sm)) {
 			return false;
 		}
-		if (geo instanceof GeoSymbolic) {
-			GeoSymbolic symbolic = (GeoSymbolic) geo;
+		if (geo instanceof GeoSymbolic symbolic) {
 			if (isSymbolicSolve(symbolic)) {
 				return isSymbolicSolveDiffers(symbolic);
 			} else if (!(symbolic.getTwinGeo() instanceof HasSymbolicMode)) {
@@ -110,7 +108,6 @@ public class AlgebraItem {
 					: geo.getDefinition().asFraction();
 			return def != null && def.unwrap().isExpressionNode();
 		}
-		HasSymbolicMode sm = (HasSymbolicMode) geo;
 		boolean orig = sm.isSymbolicMode();
 		String text1 = geo.getLaTeXAlgebraDescription(true,
 				StringTemplate.latexTemplate);

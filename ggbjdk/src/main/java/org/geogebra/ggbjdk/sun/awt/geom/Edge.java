@@ -87,7 +87,7 @@ final class Edge {
             if (yrange[1] > other.lastLimit) {
                 yrange[1] = other.lastLimit;
             }
-            return 0-other.lastResult;
+            return -other.lastResult;
         }
         //long start = System.currentTimeMillis();
         int ret = curve.compareTo(other.curve, yrange);

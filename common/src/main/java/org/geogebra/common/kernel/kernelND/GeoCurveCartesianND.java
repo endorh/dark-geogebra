@@ -143,9 +143,9 @@ public abstract class GeoCurveCartesianND extends GeoElement
 	@Override
 	public void replaceChildrenByValues(GeoElement geo) {
 
-		for (int i = 0; i < fun.length; i++) {
-			if (fun[i] != null) {
-				fun[i].replaceChildrenByValues(geo);
+		for (Function function : fun) {
+			if (function != null) {
+				function.replaceChildrenByValues(geo);
 			}
 		}
 	}

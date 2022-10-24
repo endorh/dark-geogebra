@@ -88,9 +88,8 @@ public abstract class BaseMultivariateOptimizer<PAIR>
                 start = ((InitialGuess) data).getInitialGuess();
                 continue;
             }
-            if (data instanceof SimpleBounds) {
-                final SimpleBounds bounds = (SimpleBounds) data;
-                lowerBound = bounds.getLower();
+            if (data instanceof final SimpleBounds bounds) {
+	            lowerBound = bounds.getLower();
                 upperBound = bounds.getUpper();
                 continue;
             }

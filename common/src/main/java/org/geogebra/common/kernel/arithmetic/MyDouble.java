@@ -1092,8 +1092,7 @@ public class MyDouble extends ValidExpression
 	 */
 	@Override
 	public int compareTo(Object arg0) {
-		if (arg0 instanceof MyDouble) {
-			MyDouble d = (MyDouble) arg0;
+		if (arg0 instanceof MyDouble d) {
 			if (DoubleUtil.isEqual(val, d.getDouble())) {
 				return 0;
 			}

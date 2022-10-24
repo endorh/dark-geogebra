@@ -187,9 +187,8 @@ public class LinearConstraint implements Serializable {
         if (this == other) {
             return true;
         }
-        if (other instanceof LinearConstraint) {
-            LinearConstraint rhs = (LinearConstraint) other;
-            return relationship == rhs.relationship &&
+        if (other instanceof LinearConstraint rhs) {
+	        return relationship == rhs.relationship &&
                 value == rhs.value &&
                 coefficients.equals(rhs.coefficients);
         }

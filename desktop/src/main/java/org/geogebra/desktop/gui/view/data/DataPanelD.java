@@ -225,10 +225,7 @@ public class DataPanelD extends JPanel
 		String[] titles = daView.getDataTitles();
 
 		switch (daView.getModel().getMode()) {
-
-		default:
-		case DataAnalysisModel.MODE_ONEVAR:
-
+		case DataAnalysisModel.MODE_ONEVAR -> {
 			dataModel = new DefaultTableModel(dataArray.size(), 1);
 			for (int row = 0; row < dataArray.size(); ++row) {
 				dataModel
@@ -237,21 +234,16 @@ public class DataPanelD extends JPanel
 										StringTemplate.defaultTemplate),
 								row, 0);
 			}
-
 			dataTable.setModel(dataModel);
 			dataTable.getColumnModel().getColumn(0).setHeaderValue(titles[0]);
-
 			updateSelectionList(dataArray);
-
-			break;
-
-		case DataAnalysisModel.MODE_REGRESSION:
+		}
+		case DataAnalysisModel.MODE_REGRESSION -> {
 
 			// a data source may be a list of points with a single title
 			// so we must create a title for the y column
 			String titleX = titles[0];
 			String titleY = titles.length == 1 ? titleX : titles[1];
-
 			dataModel = new DefaultTableModel(dataArray.size(), 2);
 			for (int row = 0; row < dataArray.size(); ++row) {
 				dataModel.setValueAt(
@@ -259,7 +251,6 @@ public class DataPanelD extends JPanel
 				dataModel.setValueAt(
 						((GeoPoint) (dataArray.get(row))).getInhomY(), row, 1);
 			}
-
 			dataTable.setModel(dataModel);
 
 			// handle x,y titles
@@ -287,10 +278,8 @@ public class DataPanelD extends JPanel
 					Log.error("problem setting title for 2nd column");
 				}
 			}
-
 			updateSelectionList(dataArray);
-
-			break;
+		}
 		}
 
 	}
@@ -597,8 +586,8 @@ public class DataPanelD extends JPanel
 		}
 
 		public boolean isAllEnabled() {
-			for (int i = 0; i < selectionList.length; ++i) {
-				if (!selectionList[i]) {
+			for (Boolean aBoolean : selectionList) {
+				if (!aBoolean) {
 					return false;
 				}
 			}

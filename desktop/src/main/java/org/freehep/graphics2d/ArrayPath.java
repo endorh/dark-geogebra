@@ -18,7 +18,7 @@ import java.awt.geom.Rectangle2D;
  */
 public class ArrayPath implements Shape {
 
-	private class ArrayPathIterator implements PathIterator {
+	private static class ArrayPathIterator implements PathIterator {
 
 		private double[] xPoints, yPoints;
 

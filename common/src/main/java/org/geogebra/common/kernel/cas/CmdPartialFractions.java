@@ -30,20 +30,20 @@ public class CmdPartialFractions extends CommandProcessor implements UsesCAS {
 		arg = resArgs(c);
 
 		switch (n) {
-		case 1:
+		case 1 -> {
 			if (arg[0] instanceof CasEvaluableFunction) {
 
 				AlgoPartialFractions algo = new AlgoPartialFractions(cons,
 						c.getLabel(), (CasEvaluableFunction) arg[0], info);
 
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 				return ret;
 			}
 			throw argErr(c, arg[0]);
+		}
 
-			// more than one argument
-		default:
-			throw argNumErr(c);
+		// more than one argument
+		default -> throw argNumErr(c);
 		}
 	}
 }

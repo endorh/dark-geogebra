@@ -34,24 +34,16 @@ public interface GeoGebraConstants {
 		PROBABILITY;
 
 		public String getTransKey() {
-			switch (this) {
-			case GRAPHING:
-				return "GeoGebraGraphingCalculator";
-			case GRAPHING_3D:
-				return "GeoGebra3DGrapher";
-			case SCIENTIFIC:
-				return "GeoGebraScientificCalculator";
-			case CAS:
-				return "GeoGebraCASCalculator";
-			case GEOMETRY:
-				return "GeoGebraGeometry";
-			case NOTES:
-				return "GeoGebraNotes";
-			case SUITE:
-				return "GeoGebraCalculatorSuite";
-			default:
-				return null;
-			}
+			return switch (this) {
+				case GRAPHING -> "GeoGebraGraphingCalculator";
+				case GRAPHING_3D -> "GeoGebra3DGrapher";
+				case SCIENTIFIC -> "GeoGebraScientificCalculator";
+				case CAS -> "GeoGebraCASCalculator";
+				case GEOMETRY -> "GeoGebraGeometry";
+				case NOTES -> "GeoGebraNotes";
+				case SUITE -> "GeoGebraCalculatorSuite";
+				default -> null;
+			};
 		}
 	}
 
@@ -104,13 +96,12 @@ public interface GeoGebraConstants {
 
 			// everything except old Java desktop version should be version
 			// 6.0.x.x
-			switch (this) {
-			default:
-				// change 5.0.274.0 to 6.0.274.0
-				return VERSION_STRING.replace("5.0.", "6.0.") + "-" + suffix;
-			case DESKTOP:
-				return VERSION_STRING + "-" + suffix;
-			}
+			return switch (this) {
+				default ->
+					// change 5.0.274.0 to 6.0.274.0
+						VERSION_STRING.replace("5.0.", "6.0.") + "-" + suffix;
+				case DESKTOP -> VERSION_STRING + "-" + suffix;
+			};
 		}
 
 		/**

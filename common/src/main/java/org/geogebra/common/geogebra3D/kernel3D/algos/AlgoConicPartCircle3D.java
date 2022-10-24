@@ -154,22 +154,19 @@ public class AlgoConicPartCircle3D extends AlgoConicPart {
 
 	@Override
 	public Commands getClassName() {
-		switch (type) {
-		case GeoConicNDConstants.CONIC_PART_ARC:
-			return Commands.CircleArc;
-		default:
-			return Commands.CircleSector;
-		}
+		return switch (type) {
+			case GeoConicNDConstants.CONIC_PART_ARC -> Commands.CircleArc;
+			default -> Commands.CircleSector;
+		};
 	}
 
 	@Override
 	public int getRelatedModeID() {
-		switch (type) {
-		case GeoConicNDConstants.CONIC_PART_ARC:
-			return EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS;
-		default:
-			return EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS;
-		}
+		return switch (type) {
+			case GeoConicNDConstants.CONIC_PART_ARC ->
+					EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS;
+			default -> EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS;
+		};
 	}
 
 	// for AlgoElement

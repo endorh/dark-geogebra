@@ -160,15 +160,11 @@ public abstract class TextPreviewer {
 			if (inputValue.length() > 0) {
 				showErrorMessage = true;
 			}
-		} catch (MyError e) {
+		} catch (MyError | TokenMgrError e) {
 			isIndependent = true;
 			hasParseError = true; // odd numbers of quotes give parse errors
 			showErrorMessage = true;
 
-		} catch (TokenMgrError e) {
-			isIndependent = true;
-			hasParseError = true; // odd numbers of quotes give parse errors
-			showErrorMessage = true;
 		}
 
 		// resolve variables and evaluate the expression

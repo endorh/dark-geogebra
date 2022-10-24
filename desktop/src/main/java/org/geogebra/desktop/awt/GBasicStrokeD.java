@@ -45,8 +45,7 @@ public class GBasicStrokeD implements GBasicStroke {
 	@Override
 	public GShape createStrokedShape(GShape shape, int capacity) {
 		Shape shapeD = GGenericShapeD.getAwtShape(shape);
-		if (shapeD instanceof Path2D) {
-			Path2D p2d = (Path2D) shapeD;
+		if (shapeD instanceof Path2D p2d) {
 			if (p2d.getCurrentPoint() != null
 					&& Double.isNaN(p2d.getCurrentPoint().getX())) {
 				// Log.debug("fix kicks in");

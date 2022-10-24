@@ -151,23 +151,16 @@ public abstract class CASView implements Editing, SetLabels {
 		// "Derivative"
 		boolean backToEvaluate = true;
 		switch (mode) {
-		case EuclidianConstants.MODE_CAS_EVALUATE:
-		case EuclidianConstants.MODE_CAS_NUMERIC:
-		case EuclidianConstants.MODE_CAS_KEEP_INPUT:
+		case EuclidianConstants.MODE_CAS_EVALUATE, EuclidianConstants.MODE_CAS_NUMERIC, EuclidianConstants.MODE_CAS_KEEP_INPUT -> {
 			// no parameters, keep mode
 			backToEvaluate = false;
 			processInput(command, focus);
-			break;
-		case EuclidianConstants.MODE_CAS_EXPAND:
-		case EuclidianConstants.MODE_CAS_FACTOR:
-		case EuclidianConstants.MODE_CAS_SUBSTITUTE:
-		case EuclidianConstants.MODE_CAS_NUMERICAL_SOLVE:
-		case EuclidianConstants.MODE_CAS_SOLVE:
+		}
+		case EuclidianConstants.MODE_CAS_EXPAND, EuclidianConstants.MODE_CAS_FACTOR, EuclidianConstants.MODE_CAS_SUBSTITUTE, EuclidianConstants.MODE_CAS_NUMERICAL_SOLVE, EuclidianConstants.MODE_CAS_SOLVE ->
 
 			// no parameters
-			processInput(command, focus);
-			break;
-		case EuclidianConstants.MODE_DELETE:
+				processInput(command, focus);
+		case EuclidianConstants.MODE_DELETE -> {
 			// make sure we don't switch to evaluate if delete tool is used in
 			// EV
 			if (getApp().getGuiManager() != null && getApp().getGuiManager()
@@ -178,8 +171,8 @@ public abstract class CASView implements Editing, SetLabels {
 			if (undo) {
 				getConsoleTable().getApplication().storeUndoInfo();
 			}
-			break;
-		case EuclidianConstants.MODE_FUNCTION_INSPECTOR:
+		}
+		case EuclidianConstants.MODE_FUNCTION_INSPECTOR -> {
 			// make sure we don't switch to evaluate if delete tool is used in
 			// EV
 			if (getApp().getGuiManager() != null && getApp().getGuiManager()
@@ -194,15 +187,12 @@ public abstract class CASView implements Editing, SetLabels {
 							(GeoFunction) cell.getTwinGeo());
 				}
 			}
-			break;
+		}
+		case EuclidianConstants.MODE_CAS_DERIVATIVE, EuclidianConstants.MODE_CAS_INTEGRAL ->
+				processInput(command, focus);
+		default -> backToEvaluate = false;
 
-		case EuclidianConstants.MODE_CAS_DERIVATIVE:
-		case EuclidianConstants.MODE_CAS_INTEGRAL:
-			processInput(command, focus);
-			break;
-		default:
-			backToEvaluate = false;
-			// ignore other modes
+		// ignore other modes
 		}
 		if (backToEvaluate) {
 			getApp().setMode(EuclidianConstants.MODE_CAS_EVALUATE,
@@ -289,8 +279,7 @@ public abstract class CASView implements Editing, SetLabels {
 	 */
 	@Override
 	public void remove(GeoElement geo) {
-		if (geo instanceof GeoCasCell) {
-			GeoCasCell casCell = (GeoCasCell) geo;
+		if (geo instanceof GeoCasCell casCell) {
 			int row = casCell.getRowNumber();
 			if (row < 0) {
 				return;
@@ -315,8 +304,7 @@ public abstract class CASView implements Editing, SetLabels {
 	@Override
 	public void update(GeoElement geo) {
 
-		if (geo instanceof GeoCasCell) {
-			GeoCasCell casCell = (GeoCasCell) geo;
+		if (geo instanceof GeoCasCell casCell) {
 			if (casCell.getRowNumber() < 0) {
 				casCell.reloadRowNumber();
 			}

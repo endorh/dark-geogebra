@@ -57,7 +57,7 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 
 	private void registerEV(double absCorner) {
 		cons.registerEuclidianViewCE(this);
-		Double d = number.getDouble();
+		double d = number.getDouble();
 		if (DoubleUtil.isEqual(d, CORNER_VIEW_DIRECTION)
 				|| DoubleUtil.isEqual(d, CORNER_SCREEN_RIGHT)) {
 			cons.registerCorner11(this);
@@ -173,34 +173,21 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 		double xmax = ev.toRealWorldCoordX((double) (ev.getWidth()) + 1);
 		double ymin = ev.toRealWorldCoordY((double) (ev.getHeight()) + 1);
 		double zeroX = ev.toRealWorldCoordX(-1);
-		double zeroY = ev.toRealWorldCoordY(0 - 1);
+		double zeroY = ev.toRealWorldCoordY(-1);
 
 		switch ((int) number.getDouble()) {
-		case 1:
-			corner.setCoords(zeroX, ymin, 1.0);
-			break;
-		case 2:
-			corner.setCoords(xmax, ymin, 1.0);
-			break;
-		case 3:
-			corner.setCoords(xmax, zeroY, 1.0);
-			break;
-		case 4:
-			corner.setCoords(zeroX, zeroY, 1.0);
-			break;
-		case 5: // return size of Graphics View in pixels
-			corner.setCoords(getWidth(ev), getHeight(ev), 1.0);
-			break;
-		case 6: // return size of Window in pixels
+		case 1 -> corner.setCoords(zeroX, ymin, 1.0);
+		case 2 -> corner.setCoords(xmax, ymin, 1.0);
+		case 3 -> corner.setCoords(xmax, zeroY, 1.0);
+		case 4 -> corner.setCoords(zeroX, zeroY, 1.0);
+		case 5 -> // return size of Graphics View in pixels
+				corner.setCoords(getWidth(ev), getHeight(ev), 1.0);
+		case 6 -> // return size of Window in pixels
 			// (to help with sizing for export to applet)
 			// doesn't work very well as it receives updates only when
 			// EuclidianView is changed
-			corner.setCoords(app.getWidth(), app.getHeight(), 1.0);
-
-			break;
-		default:
-			corner.setUndefined();
-			break;
+				corner.setCoords(app.getWidth(), app.getHeight(), 1.0);
+		default -> corner.setUndefined();
 		}
 	}
 

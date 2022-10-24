@@ -47,7 +47,7 @@ public class CmdSurfaceCartesian extends CmdCurveCartesian {
 			throw argNumErr(c);
 		}
 		switch (n) {
-		case 2:
+		case 2 -> {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0] instanceof GeoFunction
 					|| arg[0] instanceof GeoCurveCartesian
@@ -63,7 +63,8 @@ public class CmdSurfaceCartesian extends CmdCurveCartesian {
 				return ret;
 			}
 			throw argErr(c, getBadArg(ok, arg));
-		case 3:
+		}
+		case 3 -> {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0] instanceof ParametricCurve))
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
@@ -88,10 +89,11 @@ public class CmdSurfaceCartesian extends CmdCurveCartesian {
 				return ret;
 			}
 			throw argErr(c, getBadArg(ok, arg));
-		case 7:
+		}
+		case 7 -> {
 			// create local variables and resolve arguments
 			// Surface[(1;a;b),a,0,pi,b,0,pi]
-			arg = resArgsLocalNumVar(c, new int[] { 1, 4 }, new int[] { 2, 5 });
+			arg = resArgsLocalNumVar(c, new int[]{1, 4}, new int[]{2, 5});
 			if ((ok[0] = arg[0] instanceof VectorNDValue)
 
 					&& (ok[1] = arg[1] instanceof GeoNumeric)
@@ -121,9 +123,10 @@ public class CmdSurfaceCartesian extends CmdCurveCartesian {
 				return ret;
 			}
 			throw argErr(c, getBadArg(ok, arg));
-		case 9:
+		}
+		case 9 -> {
 			// create local variables and resolve arguments
-			arg = resArgsLocalNumVar(c, new int[] { 3, 6 }, new int[] { 4, 7 });
+			arg = resArgsLocalNumVar(c, new int[]{3, 6}, new int[]{4, 7});
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2] instanceof GeoNumberValue)
@@ -134,9 +137,9 @@ public class CmdSurfaceCartesian extends CmdCurveCartesian {
 					&& (ok[7] = arg[7] instanceof GeoNumberValue)
 					&& (ok[8] = arg[8] instanceof GeoNumberValue)) {
 				GeoElement[] ret = new GeoElement[1];
-				GeoNumberValue[] coords = new GeoNumberValue[] {
+				GeoNumberValue[] coords = new GeoNumberValue[]{
 						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
-						(GeoNumberValue) arg[2] };
+						(GeoNumberValue) arg[2]};
 				ret[0] = surfaceCartesian3D(c.getLabel(),
 						null, coords, (GeoNumeric) arg[3],
 						(GeoNumberValue) arg[4], (GeoNumberValue) arg[5],
@@ -144,11 +147,9 @@ public class CmdSurfaceCartesian extends CmdCurveCartesian {
 						(GeoNumberValue) arg[8]);
 				return ret;
 			}
-
 			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

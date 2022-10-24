@@ -102,9 +102,8 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt instanceof BooleanValue) {
+			if (lt instanceof BooleanValue a) {
 
-				BooleanValue a = (BooleanValue) lt;
 				boolean defined = a.isDefined();
 
 				MyBoolean bool = a.getMyBoolean();
@@ -123,10 +122,8 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt instanceof BooleanValue && rt instanceof BooleanValue) {
+			if (lt instanceof BooleanValue a && rt instanceof BooleanValue b) {
 
-				BooleanValue a = (BooleanValue) lt;
-				BooleanValue b = (BooleanValue) rt;
 				boolean defined = a.isDefined() && b.isDefined();
 
 				MyBoolean bool = a.getMyBoolean();
@@ -145,10 +142,8 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt instanceof BooleanValue && rt instanceof BooleanValue) {
+			if (lt instanceof BooleanValue a && rt instanceof BooleanValue b) {
 
-				BooleanValue a = (BooleanValue) lt;
-				BooleanValue b = (BooleanValue) rt;
 				boolean defined = a.isDefined() && b.isDefined();
 
 				MyBoolean bool = a.getMyBoolean();
@@ -167,10 +162,8 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt instanceof BooleanValue && rt instanceof BooleanValue) {
+			if (lt instanceof BooleanValue a && rt instanceof BooleanValue b) {
 
-				BooleanValue a = (BooleanValue) lt;
-				BooleanValue b = (BooleanValue) rt;
 				boolean defined = a.isDefined() && b.isDefined();
 
 				MyBoolean bool = a.getMyBoolean();
@@ -189,10 +182,8 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt instanceof BooleanValue && rt instanceof BooleanValue) {
+			if (lt instanceof BooleanValue a && rt instanceof BooleanValue b) {
 
-				BooleanValue a = (BooleanValue) lt;
-				BooleanValue b = (BooleanValue) rt;
 				boolean defined = a.isDefined() && b.isDefined();
 
 				MyBoolean bool = a.getMyBoolean();
@@ -469,19 +460,14 @@ public enum Operation {
 
 		private void add(MyList ret, ExpressionValue lt,
 				ExpressionValue rt, final Operation op) {
-			Traversing pmSimplifier = new Traversing() {
-
-				@Override
-				public ExpressionValue process(ExpressionValue ev) {
-					if (ev.isExpressionNode()) {
-						ExpressionNode en = (ExpressionNode) ev;
-						if (en.getOperation() == Operation.PLUSMINUS) {
-							en.setOperation(op);
-						}
+			Traversing pmSimplifier = ev -> {
+				if (ev.isExpressionNode()) {
+					ExpressionNode en = (ExpressionNode) ev;
+					if (en.getOperation() == Operation.PLUSMINUS) {
+						en.setOperation(op);
 					}
-					return ev;
 				}
-
+				return ev;
 			};
 			ret.addListElement(
 					ret.getKernel().getAlgebraProcessor()
@@ -546,11 +532,10 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt instanceof NumberValue && rt instanceof ListValue) {
+			if (lt instanceof NumberValue && rt instanceof ListValue list) {
 				double x = lt.evaluateDouble();
 				double ret = Double.NaN;
 
-				ListValue list = (ListValue) rt;
 				if (list instanceof GeoList && ((GeoList) list)
 						.getElementType() != GeoClass.NUMERIC) {
 					return new MyDouble(ev.getKernel(), Double.NaN);
@@ -1631,8 +1616,7 @@ public enum Operation {
 				return ((ParametricCurve) lt)
 						.evaluateCurve(rt.evaluateDouble());
 			}
-			if (rt instanceof ListValue) {
-				ListValue arg = (ListValue) rt;
+			if (rt instanceof ListValue arg) {
 
 				if (lt instanceof GeoSurfaceCartesianND) {
 					return ((GeoSurfaceCartesianND) lt).evaluateSurface(
@@ -1748,8 +1732,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			if (lt instanceof MyList && rt instanceof MyList) {
-				MyList cond = (MyList) lt;
+			if (lt instanceof MyList cond && rt instanceof MyList) {
 				for (int i = 0; i < cond.size(); i++) {
 					ExpressionValue curr = cond.getListElement(i).evaluate(tpl);
 
@@ -1869,11 +1852,10 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 
-			if (!(lt.unwrap() instanceof MyList)) {
+			if (!(lt.unwrap() instanceof MyList list)) {
 				return lt;
 			}
 
-			MyList list = (MyList) lt.unwrap();
 			if (list.size() == 3) {
 				return new MyVec3DNode(ev.getKernel(),
 						MyList.getCell(list, 0, 0), MyList.getCell(list, 0, 1),
@@ -1924,47 +1906,11 @@ public enum Operation {
 	 * @return whether operation is a real->real function
 	 */
 	public static boolean isSimpleFunction(Operation op) {
-		switch (op) {
-		case SIN:
-		case COS:
-		case TAN:
-		case ARCSIN:
-		case ARCSIND:
-		case ARCCOS:
-		case ARCCOSD:
-		case ARCTAN:
-		case ARCTAND:
-		case SINH:
-		case COSH:
-		case TANH:
-		case ASINH:
-		case ACOSH:
-		case ATANH:
-		case CSC:
-		case SEC:
-		case COT:
-		case CSCH:
-		case SECH:
-		case COTH:
-
-		case EXP:
-		case ZETA:
-		case LOG:
-		case LOG10:
-		case LOG2:
-		case SQRT:
-		case CBRT:
-		case ERF:
-		case ABS:
-		case CI:
-		case SI:
-		case EI:
-		case PSI:
-		case GAMMA:
-
-			return true;
-		}
-		return false;
+		return switch (op) {
+			case SIN, COS, TAN, ARCSIN, ARCSIND, ARCCOS, ARCCOSD, ARCTAN, ARCTAND, SINH, COSH, TANH, ASINH, ACOSH, ATANH, CSC, SEC, COT, CSCH, SECH, COTH, EXP, ZETA, LOG, LOG10, LOG2, SQRT, CBRT, ERF, ABS, CI, SI, EI, PSI, GAMMA ->
+					true;
+			default -> false;
+		};
 	}
 
 	/**
@@ -1972,30 +1918,20 @@ public enum Operation {
 	 *         inverse, not hyperbolic
 	 */
 	public boolean hasDegreeInput() {
-		switch (this) {
-		case SIN:
-		case COS:
-		case TAN:
-		case CSC:
-		case SEC:
-		case COT:
-			return true;
-		}
-		return false;
+		return switch (this) {
+			case SIN, COS, TAN, CSC, SEC, COT -> true;
+			default -> false;
+		};
 	}
 
 	/**
 	 * @return true if it's a trig function that returns degrees
 	 */
 	public boolean doesReturnDegrees() {
-		switch (this) {
-		case ARCSIND:
-		case ARCCOSD:
-		case ARCTAND:
-		case ARCTAN2D:
-			return true;
-		}
-		return false;
+		return switch (this) {
+			case ARCSIND, ARCCOSD, ARCTAND, ARCTAN2D -> true;
+			default -> false;
+		};
 	}
 
 	public abstract ExpressionValue handle(ExpressionNodeEvaluator ev,
@@ -2025,91 +1961,58 @@ public enum Operation {
 	 * @return inverse of op eg Operation.ARCSIN
 	 */
 	public static Operation inverse(Operation op) {
-		switch (op) {
-		case PLUS:
-			return Operation.MINUS;
-		case MINUS:
-			return Operation.PLUS;
-		case MULTIPLY:
-			return Operation.DIVIDE;
-		case DIVIDE:
-			return Operation.MULTIPLY;
-		case SIN:
-			return Operation.ARCSIN;
-		case COS:
-			return Operation.ARCCOS;
-		case TAN:
-			return Operation.ARCTAN;
-		case ARCSIN:
-		case ARCSIND:
-			return Operation.SIN;
-		case ARCCOS:
-			return Operation.COS;
-		case ARCTAN:
-			return Operation.TAN;
-		case SINH:
-			return Operation.ASINH;
-		case COSH:
-			return Operation.ACOSH;
-		case TANH:
-			return Operation.ATANH;
-		case ASINH:
-			return Operation.SINH;
-		case ACOSH:
-			return Operation.COSH;
-		case ATANH:
-			return Operation.TANH;
-		case EXP:
-			return Operation.LOG;
-		case LOG:
-			return Operation.EXP;
-		default:
-			return null;
-		}
+		return switch (op) {
+			case PLUS -> Operation.MINUS;
+			case MINUS -> Operation.PLUS;
+			case MULTIPLY -> Operation.DIVIDE;
+			case DIVIDE -> Operation.MULTIPLY;
+			case SIN -> Operation.ARCSIN;
+			case COS -> Operation.ARCCOS;
+			case TAN -> Operation.ARCTAN;
+			case ARCSIN, ARCSIND -> Operation.SIN;
+			case ARCCOS -> Operation.COS;
+			case ARCTAN -> Operation.TAN;
+			case SINH -> Operation.ASINH;
+			case COSH -> Operation.ACOSH;
+			case TANH -> Operation.ATANH;
+			case ASINH -> Operation.SINH;
+			case ACOSH -> Operation.COSH;
+			case ATANH -> Operation.TANH;
+			case EXP -> Operation.LOG;
+			case LOG -> Operation.EXP;
+			default -> null;
+		};
 	}
 
 	/**
 	 * @return negation of this expression (optimizes negation of >,<,=>,<=)
 	 */
 	public Operation negate() {
-		switch (this) {
-		case GREATER:
-			return Operation.LESS_EQUAL;
-		case GREATER_EQUAL:
-			return Operation.LESS;
-		case LESS:
-			return Operation.GREATER_EQUAL;
-		case LESS_EQUAL:
-			return Operation.GREATER;
-		case EQUAL_BOOLEAN:
-			return Operation.NOT_EQUAL;
-		case NOT_EQUAL:
-			return Operation.EQUAL_BOOLEAN;
-		default:
-			return Operation.NOT;
-		}
+		return switch (this) {
+			case GREATER -> Operation.LESS_EQUAL;
+			case GREATER_EQUAL -> Operation.LESS;
+			case LESS -> Operation.GREATER_EQUAL;
+			case LESS_EQUAL -> Operation.GREATER;
+			case EQUAL_BOOLEAN -> Operation.NOT_EQUAL;
+			case NOT_EQUAL -> Operation.EQUAL_BOOLEAN;
+			default -> Operation.NOT;
+		};
 	}
 
 	/**
 	 * @return operation swapped left to right
 	 */
 	public Operation reverseLeftToRight() {
-		switch (this) {
-		case GREATER:
-			return Operation.LESS;
-		case GREATER_EQUAL:
-			return Operation.LESS_EQUAL;
-		case LESS:
-			return Operation.GREATER;
-		case LESS_EQUAL:
-			return Operation.GREATER_EQUAL;
-		case EQUAL_BOOLEAN:
-			return Operation.EQUAL_BOOLEAN;
-		case NOT_EQUAL:
-			return Operation.NOT_EQUAL;
-		}
+		return switch (this) {
+			case GREATER -> Operation.LESS;
+			case GREATER_EQUAL -> Operation.LESS_EQUAL;
+			case LESS -> Operation.GREATER;
+			case LESS_EQUAL -> Operation.GREATER_EQUAL;
+			case EQUAL_BOOLEAN -> Operation.EQUAL_BOOLEAN;
+			case NOT_EQUAL -> Operation.NOT_EQUAL;
+			default -> Operation.NO_OPERATION;
+		};
 
-		return Operation.NO_OPERATION;
 	}
 
 	/**
@@ -2118,14 +2021,11 @@ public enum Operation {
 	 * @return whether operation is one of (freehand, data)
 	 */
 	public static boolean includesFreehandOrData(Operation op) {
-		switch (op) {
-		case DATA:
-		case FREEHAND:
+		return switch (op) {
+			case DATA, FREEHAND -> true;
+			default -> false;
+		};
 
-			return true;
-		}
-
-		return false;
 	}
 
 	/**
@@ -2135,38 +2035,12 @@ public enum Operation {
 	 */
 	public static boolean integralIsNonContinuous(Operation op) {
 
-		switch (op) {
-		case ABS:
-		case SGN:
-		case FLOOR:
-		case CEIL:
-		case ROUND:
-		case ROUND2:
-		case TAN:
-		case COT:
-		case SEC:
-		case CSC:
-		case FRACTIONAL_PART:
-		case ZETA:
-		case GAMMA:
-		case GAMMA_INCOMPLETE:
-		case GAMMA_INCOMPLETE_REGULARIZED:
-		case BETA:
-		case BETA_INCOMPLETE:
-		case BETA_INCOMPLETE_REGULARIZED:
-		case POLYGAMMA:
-		case PSI:
-		case IF:
-		case IF_SHORT:
-		case IF_ELSE:
-		case IF_LIST:
-		case DATA:
-		case FREEHAND:
+		return switch (op) {
+			case ABS, SGN, FLOOR, CEIL, ROUND, ROUND2, TAN, COT, SEC, CSC, FRACTIONAL_PART, ZETA, GAMMA, GAMMA_INCOMPLETE, GAMMA_INCOMPLETE_REGULARIZED, BETA, BETA_INCOMPLETE, BETA_INCOMPLETE_REGULARIZED, POLYGAMMA, PSI, IF, IF_SHORT, IF_ELSE, IF_LIST, DATA, FREEHAND ->
+					true;
+			default -> false;
+		};
 
-			return true;
-		}
-
-		return false;
 	}
 
 	public boolean isIf() {

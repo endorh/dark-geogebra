@@ -29,8 +29,7 @@ public class CASTableCellRenderer extends CASTableCell
 	public Component getTableCellRendererComponent(JTable table, Object value,
 			boolean isSelected, boolean hasFocus, int row, int column) {
 		Font casFont = view.getCASViewComponent().getFont();
-		if (value instanceof GeoCasCell) {
-			GeoCasCell cell = (GeoCasCell) value;
+		if (value instanceof GeoCasCell cell) {
 			// set CASTableCell value
 			setValue(cell);
 

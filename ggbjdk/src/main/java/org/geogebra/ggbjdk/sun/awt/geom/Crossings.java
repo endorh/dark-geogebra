@@ -128,53 +128,51 @@ public abstract class Crossings {
         double newx, newy;
         while (!pi.isDone()) {
             int type = pi.currentSegment(coords);
-            switch (type) {
-			case GPathIterator.SEG_MOVETO:
-                if (movy != cury &&
-                    cross.accumulateLine(curx, cury, movx, movy))
-                {
-                    return null;
-                }
-                movx = curx = coords[0];
-                movy = cury = coords[1];
-                break;
-			case GPathIterator.SEG_LINETO:
-                newx = coords[0];
-                newy = coords[1];
-                if (cross.accumulateLine(curx, cury, newx, newy)) {
-                    return null;
-                }
-                curx = newx;
-                cury = newy;
-                break;
-			case GPathIterator.SEG_QUADTO:
-                newx = coords[2];
-                newy = coords[3];
-                if (cross.accumulateQuad(curx, cury, coords)) {
-                    return null;
-                }
-                curx = newx;
-                cury = newy;
-                break;
-			case GPathIterator.SEG_CUBICTO:
-                newx = coords[4];
-                newy = coords[5];
-                if (cross.accumulateCubic(curx, cury, coords)) {
-                    return null;
-                }
-                curx = newx;
-                cury = newy;
-                break;
-			case GPathIterator.SEG_CLOSE:
-                if (movy != cury &&
-                    cross.accumulateLine(curx, cury, movx, movy))
-                {
-                    return null;
-                }
-                curx = movx;
-                cury = movy;
-                break;
-            }
+	        switch (type) {
+	        case GPathIterator.SEG_MOVETO -> {
+		        if (movy != cury &&
+				        cross.accumulateLine(curx, cury, movx, movy)) {
+			        return null;
+		        }
+		        movx = curx = coords[0];
+		        movy = cury = coords[1];
+	        }
+	        case GPathIterator.SEG_LINETO -> {
+		        newx = coords[0];
+		        newy = coords[1];
+		        if (cross.accumulateLine(curx, cury, newx, newy)) {
+			        return null;
+		        }
+		        curx = newx;
+		        cury = newy;
+	        }
+	        case GPathIterator.SEG_QUADTO -> {
+		        newx = coords[2];
+		        newy = coords[3];
+		        if (cross.accumulateQuad(curx, cury, coords)) {
+			        return null;
+		        }
+		        curx = newx;
+		        cury = newy;
+	        }
+	        case GPathIterator.SEG_CUBICTO -> {
+		        newx = coords[4];
+		        newy = coords[5];
+		        if (cross.accumulateCubic(curx, cury, coords)) {
+			        return null;
+		        }
+		        curx = newx;
+		        cury = newy;
+	        }
+	        case GPathIterator.SEG_CLOSE -> {
+		        if (movy != cury &&
+				        cross.accumulateLine(curx, cury, movx, movy)) {
+			        return null;
+		        }
+		        curx = movx;
+		        cury = movy;
+	        }
+	        }
             pi.next();
         }
         if (movy != cury) {
@@ -237,7 +235,7 @@ public abstract class Crossings {
         return false;
     }
 
-    private Vector<Order2> tmp = new Vector<Order2>();
+    private Vector<Order2> tmp = new Vector<>();
 
     public boolean accumulateQuad(double x0, double y0, double coords[]) {
         if (y0 < ylo && coords[1] < ylo && coords[3] < ylo) {
@@ -447,7 +445,7 @@ public abstract class Crossings {
                                  crosscounts, cur/2+1,
                                  rem/2);
             }
-            yranges[cur+0] = lo;
+            yranges[cur] = lo;
             yranges[cur+1] = hi;
             crosscounts[cur/2] = dir;
             limit += 2;
@@ -465,7 +463,7 @@ public abstract class Crossings {
             }
             if (cur < limit) {
                 int rdir = crosscounts[cur/2];
-                double yrlo = yranges[cur+0];
+                double yrlo = yranges[cur];
                 double yrhi = yranges[cur+1];
                 if (yrhi == ystart && rdir == direction) {
                     // Remove the range from the list and collapse it
@@ -480,7 +478,7 @@ public abstract class Crossings {
                     remove(cur);
                     ystart = yrlo;
                     rdir = crosscounts[cur/2];
-                    yrlo = yranges[cur+0];
+                    yrlo = yranges[cur];
                     yrhi = yranges[cur+1];
                 }
                 if (yend < yrlo) {

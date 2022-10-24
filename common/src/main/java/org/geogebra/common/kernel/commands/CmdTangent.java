@@ -41,7 +41,7 @@ public class CmdTangent extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2:
+		case 2 -> {
 			arg = resArgs(c);
 
 			// tangents through point
@@ -67,30 +67,30 @@ public class CmdTangent extends CommandProcessor {
 				t.setToExplicit();
 				t.update();
 
-				GeoElement[] ret = { t };
+				GeoElement[] ret = {t};
 				return ret;
 			}
 
 			// tangents of function at x = x(Point P)
 			else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isRealValuedFunction()))) {
-				GeoElement[] ret = { getAlgoDispatcher().tangent(c.getLabel(),
+				GeoElement[] ret = {getAlgoDispatcher().tangent(c.getLabel(),
 						(GeoPointND) arg[0],
-						(GeoFunctionable) arg[1]) };
+						(GeoFunctionable) arg[1])};
 				return ret;
 			} else if ((ok[0] = (arg[0].isRealValuedFunction()))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
-				GeoElement[] ret = { getAlgoDispatcher().tangent(c.getLabel(),
+				GeoElement[] ret = {getAlgoDispatcher().tangent(c.getLabel(),
 						(GeoPointND) arg[1],
-						(GeoFunctionable) arg[0]) };
+						(GeoFunctionable) arg[0])};
 				return ret;
 			}
 			// Victor Franco 11-02-2007: for curve's
 			else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoCurveCartesian()))) {
 
-				GeoElement[] ret = { tangentToCurve(c.getLabel(),
-						(GeoPointND) arg[0], (GeoCurveCartesianND) arg[1]) };
+				GeoElement[] ret = {tangentToCurve(c.getLabel(),
+						(GeoPointND) arg[0], (GeoCurveCartesianND) arg[1])};
 
 				return ret;
 			}
@@ -128,9 +128,8 @@ public class CmdTangent extends CommandProcessor {
 				}
 				throw argErr(c, arg[1]);
 			}
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

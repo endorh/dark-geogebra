@@ -311,8 +311,7 @@ public class Decompiler
         if (!toSource) {
             // add an initial newline to exactly match js.
             result.append('\n');
-            for (int j = 0; j < indent; j++)
-                result.append(' ');
+            result.append(" ".repeat(indent));
         } else {
             if (topFunctionType == FunctionNode.FUNCTION_EXPRESSION) {
                 result.append('(');
@@ -395,15 +394,11 @@ public class Decompiler
 
                 result.append('}');
                 switch (getNext(source, length, i)) {
-                    case Token.EOL:
-                    case FUNCTION_END:
-                        indent -= indentGap;
-                        break;
-                    case Token.WHILE:
-                    case Token.ELSE:
-                        indent -= indentGap;
-                        result.append(' ');
-                        break;
+                case Token.EOL, FUNCTION_END -> indent -= indentGap;
+                case Token.WHILE, Token.ELSE -> {
+                    indent -= indentGap;
+                    result.append(' ');
+                }
                 }
                 break;
             }

@@ -403,10 +403,10 @@ public class Base64 {
 		// so we don't have to reallocate & copy it later.
 		int sepCnt = 0; // Number of separator characters. (Actually illegal
 						// characters, but that's a bonus...)
-		for (int i = 0; i < sLen; i++) {
+		for (byte b : sArr) {
 			// separators or illegal chars) base64
 			// this loop can be commented out.
-			if (IA[sArr[i] & 0xff] < 0) {
+			if (IA[b & 0xff] < 0) {
 				sepCnt++;
 			}
 		}

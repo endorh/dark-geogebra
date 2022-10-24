@@ -18,7 +18,6 @@ the Free Software Foundation.
 
 package org.geogebra.common.kernel.algos;
 
-import java.util.Iterator;
 import java.util.TreeSet;
 
 import org.geogebra.common.kernel.Construction;
@@ -87,11 +86,10 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 		}
 		String rl = r.getLabelSimple();
 		if (rl == null) {
-			if (!(r.getParentAlgorithm() instanceof AlgoRadius)) {
+			if (!(r.getParentAlgorithm() instanceof AlgoRadius ar)) {
 				return;
 			}
 			// Circle(<Point>, Radius(<Circle>)) case
-			AlgoRadius ar = (AlgoRadius) r.getParentAlgorithm();
 			GeoQuadricND c = ar.getQuadricOrConic();
 			copyStyle(c);
 			return;
@@ -99,12 +97,9 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 
 		TreeSet<GeoElement> geoSet = cons.getGeoSetConstructionOrder();
 
-		Iterator<GeoElement> it = geoSet.iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
+		for (GeoElement geo : geoSet) {
 			AlgoElement ae = geo.getParentAlgorithm();
-			if (ae instanceof AlgoSphereNDPointRadius && !ae.equals(this.sphereND)) {
-				AlgoSphereNDPointRadius sphereND2 = (AlgoSphereNDPointRadius) ae;
+			if (ae instanceof AlgoSphereNDPointRadius sphereND2 && !ae.equals(this.sphereND)) {
 				GeoNumberValue r2 = sphereND2.r;
 				if (r2 != null) {
 					String r2l = r2.getLabelSimple();
@@ -215,13 +210,8 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 	@Override
 	public final void compute() {
 		switch (type) {
-		default:
-		case TYPE_RADIUS:
-			sphereND.setSphereND(M, r.getDouble());
-			break;
-		case TYPE_SEGMENT:
-			sphereND.setSphereND(M, (GeoSegmentND) rgeo);
-			break;
+		case TYPE_RADIUS -> sphereND.setSphereND(M, r.getDouble());
+		case TYPE_SEGMENT -> sphereND.setSphereND(M, (GeoSegmentND) rgeo);
 		}
 	}
 

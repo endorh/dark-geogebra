@@ -39,9 +39,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.GeneralPath;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -99,13 +97,12 @@ abstract public class SVGElement {
 	protected static final Set ignorePresAttrib;
 
 	static {
-		HashSet set = new HashSet();
 		// set.add("id");
 		// set.add("class");
 		// set.add("style");
 		// set.add("xml:base");
 
-		ignorePresAttrib = Collections.unmodifiableSet(set);
+		ignorePresAttrib = Set.of();
 	}
 	/**
 	 * This element may override the URI we resolve against with an xml:base
@@ -189,8 +186,8 @@ abstract public class SVGElement {
 	 * @return the child of the given id, or null if no such child exists.
 	 */
 	public SVGElement getChild(String id) {
-		for (Iterator it = children.iterator(); it.hasNext();) {
-			SVGElement ele = (SVGElement) it.next();
+		for (Object child : children) {
+			SVGElement ele = (SVGElement) child;
 			String eleId = ele.getId();
 			if (eleId != null && eleId.equals(id)) {
 				return ele;
@@ -283,12 +280,14 @@ abstract public class SVGElement {
 
 	public void removeAttribute(String name, int attribType) {
 		switch (attribType) {
-		case AnimationElement.AT_CSS:
+		case AnimationElement.AT_CSS -> {
 			inlineStyles.remove(name);
 			return;
-		case AnimationElement.AT_XML:
+		}
+		case AnimationElement.AT_XML -> {
 			presAttribs.remove(name);
 			return;
+		}
 		}
 	}
 
@@ -312,12 +311,14 @@ abstract public class SVGElement {
 		}
 
 		switch (attribType) {
-		case AnimationElement.AT_CSS:
+		case AnimationElement.AT_CSS -> {
 			inlineStyles.put(name, new StyleAttribute(name, value));
 			return;
-		case AnimationElement.AT_XML:
+		}
+		case AnimationElement.AT_XML -> {
 			presAttribs.put(name, new StyleAttribute(name, value));
 			return;
+		}
 		}
 
 		throw new SVGElementException(this,
@@ -373,8 +374,8 @@ abstract public class SVGElement {
 	protected void setDiagram(SVGDiagram diagram) {
 		this.diagram = diagram;
 		diagram.setElement(id, this);
-		for (Iterator it = children.iterator(); it.hasNext();) {
-			SVGElement ele = (SVGElement) it.next();
+		for (Object child : children) {
+			SVGElement ele = (SVGElement) child;
 			ele.setDiagram(diagram);
 		}
 	}
@@ -433,8 +434,8 @@ abstract public class SVGElement {
 		}
 
 		// Build children
-		for (int i = 0; i < children.size(); ++i) {
-			SVGElement ele = (SVGElement) children.get(i);
+		for (Object child : children) {
+			SVGElement ele = (SVGElement) child;
 			ele.build();
 		}
 	}
@@ -493,15 +494,15 @@ abstract public class SVGElement {
 		StyleAttribute styAttr;
 
 		switch (attribType) {
-		case AnimationElement.AT_CSS: {
+		case AnimationElement.AT_CSS -> {
 			styAttr = (StyleAttribute) inlineStyles.get(name);
 			break;
 		}
-		case AnimationElement.AT_XML: {
+		case AnimationElement.AT_XML -> {
 			styAttr = (StyleAttribute) presAttribs.get(name);
 			break;
 		}
-		case AnimationElement.AT_AUTO: {
+		case AnimationElement.AT_AUTO -> {
 			styAttr = (StyleAttribute) inlineStyles.get(name);
 
 			if (styAttr == null) {
@@ -509,9 +510,8 @@ abstract public class SVGElement {
 			}
 			break;
 		}
-		default:
-			throw new SVGElementException(this,
-					"Invalid attribute type " + attribType);
+		default -> throw new SVGElementException(this,
+				"Invalid attribute type " + attribType);
 		}
 
 		if (styAttr == null) {
@@ -702,33 +702,40 @@ abstract public class SVGElement {
 		}
 
 		// Calculate transformation
-		if (function.equals("matrix")) {
+		switch (function) {
+		case "matrix":
 			retXform.setTransform(terms[0], terms[1], terms[2], terms[3],
 					terms[4], terms[5]);
-		} else if (function.equals("translate")) {
+			break;
+		case "translate":
 			if (terms.length == 1) {
 				retXform.setToTranslation(terms[0], 0);
 			} else {
 				retXform.setToTranslation(terms[0], terms[1]);
 			}
-		} else if (function.equals("scale")) {
+			break;
+		case "scale":
 			if (terms.length > 1) {
 				retXform.setToScale(terms[0], terms[1]);
 			} else {
 				retXform.setToScale(terms[0], terms[0]);
 			}
-		} else if (function.equals("rotate")) {
+			break;
+		case "rotate":
 			if (terms.length > 2) {
 				retXform.setToRotation(Math.toRadians(terms[0]), terms[1],
 						terms[2]);
 			} else {
 				retXform.setToRotation(Math.toRadians(terms[0]));
 			}
-		} else if (function.equals("skewx")) {
+			break;
+		case "skewx":
 			retXform.setToShear(Math.toRadians(terms[0]), 0.0);
-		} else if (function.equals("skewy")) {
+			break;
+		case "skewy":
 			retXform.setToShear(0.0, Math.toRadians(terms[0]));
-		} else {
+			break;
+		default:
 			throw new SVGException("Unknown transform type");
 		}
 
@@ -767,86 +774,50 @@ abstract public class SVGElement {
 			PathCommand cmd = null;
 
 			switch (curCmd) {
-			case 'M':
+			case 'M' -> {
 				cmd = new MoveTo(false, nextFloat(tokens), nextFloat(tokens));
 				curCmd = 'L';
-				break;
-			case 'm':
+			}
+			case 'm' -> {
 				cmd = new MoveTo(true, nextFloat(tokens), nextFloat(tokens));
 				curCmd = 'l';
-				break;
-			case 'L':
-				cmd = new LineTo(false, nextFloat(tokens), nextFloat(tokens));
-				break;
-			case 'l':
-				cmd = new LineTo(true, nextFloat(tokens), nextFloat(tokens));
-				break;
-			case 'H':
-				cmd = new Horizontal(false, nextFloat(tokens));
-				break;
-			case 'h':
-				cmd = new Horizontal(true, nextFloat(tokens));
-				break;
-			case 'V':
-				cmd = new Vertical(false, nextFloat(tokens));
-				break;
-			case 'v':
-				cmd = new Vertical(true, nextFloat(tokens));
-				break;
-			case 'A':
-				cmd = new Arc(false, nextFloat(tokens), nextFloat(tokens),
-						nextFloat(tokens), nextFloat(tokens) == 1f,
-						nextFloat(tokens) == 1f, nextFloat(tokens),
-						nextFloat(tokens));
-				break;
-			case 'a':
-				cmd = new Arc(true, nextFloat(tokens), nextFloat(tokens),
-						nextFloat(tokens), nextFloat(tokens) == 1f,
-						nextFloat(tokens) == 1f, nextFloat(tokens),
-						nextFloat(tokens));
-				break;
-			case 'Q':
-				cmd = new Quadratic(false, nextFloat(tokens), nextFloat(tokens),
-						nextFloat(tokens), nextFloat(tokens));
-				break;
-			case 'q':
-				cmd = new Quadratic(true, nextFloat(tokens), nextFloat(tokens),
-						nextFloat(tokens), nextFloat(tokens));
-				break;
-			case 'T':
-				cmd = new QuadraticSmooth(false, nextFloat(tokens),
-						nextFloat(tokens));
-				break;
-			case 't':
-				cmd = new QuadraticSmooth(true, nextFloat(tokens),
-						nextFloat(tokens));
-				break;
-			case 'C':
-				cmd = new Cubic(false, nextFloat(tokens), nextFloat(tokens),
-						nextFloat(tokens), nextFloat(tokens), nextFloat(tokens),
-						nextFloat(tokens));
-				break;
-			case 'c':
-				cmd = new Cubic(true, nextFloat(tokens), nextFloat(tokens),
-						nextFloat(tokens), nextFloat(tokens), nextFloat(tokens),
-						nextFloat(tokens));
-				break;
-			case 'S':
-				cmd = new CubicSmooth(false, nextFloat(tokens),
-						nextFloat(tokens), nextFloat(tokens),
-						nextFloat(tokens));
-				break;
-			case 's':
-				cmd = new CubicSmooth(true, nextFloat(tokens),
-						nextFloat(tokens), nextFloat(tokens),
-						nextFloat(tokens));
-				break;
-			case 'Z':
-			case 'z':
-				cmd = new Terminal();
-				break;
-			default:
-				throw new RuntimeException("Invalid path element");
+			}
+			case 'L' -> cmd = new LineTo(false, nextFloat(tokens), nextFloat(tokens));
+			case 'l' -> cmd = new LineTo(true, nextFloat(tokens), nextFloat(tokens));
+			case 'H' -> cmd = new Horizontal(false, nextFloat(tokens));
+			case 'h' -> cmd = new Horizontal(true, nextFloat(tokens));
+			case 'V' -> cmd = new Vertical(false, nextFloat(tokens));
+			case 'v' -> cmd = new Vertical(true, nextFloat(tokens));
+			case 'A' -> cmd = new Arc(false, nextFloat(tokens), nextFloat(tokens),
+					nextFloat(tokens), nextFloat(tokens) == 1f,
+					nextFloat(tokens) == 1f, nextFloat(tokens),
+					nextFloat(tokens));
+			case 'a' -> cmd = new Arc(true, nextFloat(tokens), nextFloat(tokens),
+					nextFloat(tokens), nextFloat(tokens) == 1f,
+					nextFloat(tokens) == 1f, nextFloat(tokens),
+					nextFloat(tokens));
+			case 'Q' -> cmd = new Quadratic(false, nextFloat(tokens), nextFloat(tokens),
+					nextFloat(tokens), nextFloat(tokens));
+			case 'q' -> cmd = new Quadratic(true, nextFloat(tokens), nextFloat(tokens),
+					nextFloat(tokens), nextFloat(tokens));
+			case 'T' -> cmd = new QuadraticSmooth(false, nextFloat(tokens),
+					nextFloat(tokens));
+			case 't' -> cmd = new QuadraticSmooth(true, nextFloat(tokens),
+					nextFloat(tokens));
+			case 'C' -> cmd = new Cubic(false, nextFloat(tokens), nextFloat(tokens),
+					nextFloat(tokens), nextFloat(tokens), nextFloat(tokens),
+					nextFloat(tokens));
+			case 'c' -> cmd = new Cubic(true, nextFloat(tokens), nextFloat(tokens),
+					nextFloat(tokens), nextFloat(tokens), nextFloat(tokens),
+					nextFloat(tokens));
+			case 'S' -> cmd = new CubicSmooth(false, nextFloat(tokens),
+					nextFloat(tokens), nextFloat(tokens),
+					nextFloat(tokens));
+			case 's' -> cmd = new CubicSmooth(true, nextFloat(tokens),
+					nextFloat(tokens), nextFloat(tokens),
+					nextFloat(tokens));
+			case 'Z', 'z' -> cmd = new Terminal();
+			default -> throw new RuntimeException("Invalid path element");
 			}
 
 			cmdList.add(cmd);
@@ -861,16 +832,15 @@ abstract public class SVGElement {
 		PathCommand[] commands = parsePathList(text);
 
 		int numKnots = 2;
-		for (int i = 0; i < commands.length; i++) {
-			numKnots += commands[i].getNumKnotsAdded();
+		for (PathCommand command : commands) {
+			numKnots += command.getNumKnotsAdded();
 		}
 
 		GeneralPath path = new GeneralPath(windingRule, numKnots);
 
 		BuildHistory hist = new BuildHistory();
 
-		for (int i = 0; i < commands.length; i++) {
-			PathCommand cmd = commands[i];
+		for (PathCommand cmd : commands) {
 			cmd.appendPath(path, hist);
 		}
 

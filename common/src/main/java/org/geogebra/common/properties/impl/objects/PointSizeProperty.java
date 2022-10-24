@@ -42,8 +42,7 @@ public class PointSizeProperty extends AbstractRangeProperty<Integer> {
 	}
 
 	private void setSize(GeoElement element, int size) {
-		if (element instanceof GeoList) {
-			GeoList list = (GeoList) element;
+		if (element instanceof GeoList list) {
 			for (int i = 0; i < list.size(); i++) {
 				setSize(list.get(i), size);
 			}

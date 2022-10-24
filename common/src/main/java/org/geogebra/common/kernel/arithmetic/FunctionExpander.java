@@ -62,9 +62,8 @@ public class FunctionExpander implements Traversing {
 
 	@Override
 	public ExpressionValue process(ExpressionValue ev) {
-		if (ev instanceof ExpressionNode) {
+		if (ev instanceof final ExpressionNode en) {
 			boolean surfaceNoComplex = false;
-			final ExpressionNode en = (ExpressionNode) ev;
 			if (en.getOperation() == Operation.FUNCTION
 					|| en.getOperation() == Operation.FUNCTION_NVAR
 					|| en.getOperation() == Operation.VEC_FUNCTION) {
@@ -108,8 +107,7 @@ public class FunctionExpander implements Traversing {
 							.traverse(this);
 					fv = ((FunctionalNVar) geo).getFunction()
 							.getFunctionVariables();
-				} else if (geo instanceof GeoSymbolic) {
-					GeoSymbolic symbolic = (GeoSymbolic) geo;
+				} else if (geo instanceof GeoSymbolic symbolic) {
 					FunctionExpander expander = newFunctionExpander(symbolic);
 					en2 = (ExpressionNode) symbolic.getValue().wrap()
 							.getCopy(symbolic.getKernel()).traverse(expander);
@@ -156,7 +154,7 @@ public class FunctionExpander implements Traversing {
 					}
 					fv = ((GeoCasCell) geo).getFunctionVariables();
 				}
-				if (geo instanceof GeoSurfaceCartesianND) {
+				if (geo instanceof GeoSurfaceCartesianND geoSurface) {
 					if (en.getRight() instanceof MyList
 							&& ((MyList) en.getRight()).getListElement(
 							0) instanceof ExpressionNode
@@ -166,7 +164,6 @@ public class FunctionExpander implements Traversing {
 						en.setRight(((ExpressionNode) ((MyList) en.getRight())
 								.getListElement(0)).getLeft());
 					}
-					GeoSurfaceCartesianND geoSurface = (GeoSurfaceCartesianND) geo;
 					Kernel kernel = geoSurface.kernel;
 					fv = geoSurface.getFunctionVariables();
 					if (geoSurface.getComplexVariable() != null) {

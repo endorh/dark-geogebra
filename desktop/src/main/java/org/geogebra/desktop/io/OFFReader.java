@@ -60,9 +60,7 @@ public class OFFReader {
 		} catch (FileNotFoundException e) {
 			// It is unexpected as we already have checked existence GUI
 			throw new RuntimeException(e);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (CSVException e) {
+		} catch (IOException | CSVException e) {
 			e.printStackTrace();
 		}
 	}

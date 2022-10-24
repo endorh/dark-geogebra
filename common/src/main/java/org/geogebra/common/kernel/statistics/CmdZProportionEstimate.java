@@ -29,8 +29,7 @@ public class CmdZProportionEstimate extends CommandProcessor {
 		arg = resArgs(c);
 
 		switch (n) {
-
-		case 3:
+		case 3 -> {
 			if ((ok[0] = arg[0].isGeoNumeric())
 					&& (ok[1] = arg[1].isGeoNumeric())
 					&& (ok[2] = arg[2].isGeoNumeric())) {
@@ -41,11 +40,9 @@ public class CmdZProportionEstimate extends CommandProcessor {
 				algo.getResult().setLabel(c.getLabel());
 				return algo.getResult().asArray();
 			}
-
 			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

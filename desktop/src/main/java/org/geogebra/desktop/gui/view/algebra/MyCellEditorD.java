@@ -41,11 +41,9 @@ public class MyCellEditorD extends DefaultCellEditor {
 			boolean isSelected, boolean expanded, boolean leaf, int row) {
 
 		String str = null;
-		if (value instanceof DefaultMutableTreeNode) {
-			DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
+		if (value instanceof DefaultMutableTreeNode node) {
 			Object ob = node.getUserObject();
-			if (ob instanceof GeoElement) {
-				GeoElement geo = (GeoElement) ob;
+			if (ob instanceof GeoElement geo) {
 				StringTemplate tpl = StringTemplate.defaultTemplate;
 				if ((geo.isPointOnPath() || geo.isPointInRegion())
 						&& geo.isChangeable()) {

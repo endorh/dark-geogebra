@@ -121,7 +121,7 @@ public class StatisticsCollection {
 		if (count > n) {
 			return Double.NaN;
 		}
-		return 1.0 * count / n;
+		return count / n;
 	}
 
 	/**
@@ -131,7 +131,7 @@ public class StatisticsCollection {
 		if (count2 > n2) {
 			return Double.NaN;
 		}
-		return 1.0 * count2 / n2;
+		return count2 / n2;
 	}
 
 	/**

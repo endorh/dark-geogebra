@@ -31,7 +31,7 @@ public class CmdTurningPoint extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
+		case 1 -> {
 			arg = resArgs(c);
 			if (arg[0].isRealValuedFunction()) {
 
@@ -55,9 +55,8 @@ public class CmdTurningPoint extends CommandProcessor {
 				return algo.getRootPoints();
 			}
 			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

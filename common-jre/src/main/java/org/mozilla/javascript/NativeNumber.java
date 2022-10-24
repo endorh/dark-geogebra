@@ -83,15 +83,39 @@ final class NativeNumber extends IdScriptableObject
         String s;
         int arity;
         switch (id) {
-          case Id_constructor:    arity=1; s="constructor";    break;
-          case Id_toString:       arity=1; s="toString";       break;
-          case Id_toLocaleString: arity=1; s="toLocaleString"; break;
-          case Id_toSource:       arity=0; s="toSource";       break;
-          case Id_valueOf:        arity=0; s="valueOf";        break;
-          case Id_toFixed:        arity=1; s="toFixed";        break;
-          case Id_toExponential:  arity=1; s="toExponential";  break;
-          case Id_toPrecision:    arity=1; s="toPrecision";    break;
-          default: throw new IllegalArgumentException(String.valueOf(id));
+        case Id_constructor -> {
+            arity = 1;
+            s = "constructor";
+        }
+        case Id_toString -> {
+            arity = 1;
+            s = "toString";
+        }
+        case Id_toLocaleString -> {
+            arity = 1;
+            s = "toLocaleString";
+        }
+        case Id_toSource -> {
+            arity = 0;
+            s = "toSource";
+        }
+        case Id_valueOf -> {
+            arity = 0;
+            s = "valueOf";
+        }
+        case Id_toFixed -> {
+            arity = 1;
+            s = "toFixed";
+        }
+        case Id_toExponential -> {
+            arity = 1;
+            s = "toExponential";
+        }
+        case Id_toPrecision -> {
+            arity = 1;
+            s = "toPrecision";
+        }
+        default -> throw new IllegalArgumentException(String.valueOf(id));
         }
         initPrototypeMethod(NUMBER_TAG, id, s, arity);
     }
@@ -272,7 +296,7 @@ final class NativeNumber extends IdScriptableObject
     static Object isFinite(Object val)
     {
         double d = ScriptRuntime.toNumber(val);
-        Double nd = Double.valueOf(d);
+        Double nd = d;
         return ScriptRuntime.wrapBoolean(!nd.isInfinite() && !nd.isNaN());
     }
 
@@ -296,7 +320,7 @@ final class NativeNumber extends IdScriptableObject
     private boolean isDoubleInteger(Double d)
     {
         return (!d.isInfinite() && !d.isNaN() &&
-                (Math.floor(d.doubleValue()) == d.doubleValue()));
+                (Math.floor(d) == d));
     }
 
     private boolean isSafeInteger(Number val)
@@ -308,8 +332,8 @@ final class NativeNumber extends IdScriptableObject
     private boolean isDoubleSafeInteger(Double d)
     {
         return (isDoubleInteger(d) &&
-                (d.doubleValue() <= MAX_SAFE_INTEGER) &&
-                (d.doubleValue() >= MIN_SAFE_INTEGER));
+                (d <= MAX_SAFE_INTEGER) &&
+                (d >= MIN_SAFE_INTEGER));
     }
 
     private Double doubleVal(Number val)
@@ -318,7 +342,7 @@ final class NativeNumber extends IdScriptableObject
             return (Double)val;
         } else {
             double d = val.doubleValue();
-            return Double.valueOf(d);
+            return d;
         }
     }
 
@@ -330,21 +354,46 @@ final class NativeNumber extends IdScriptableObject
         int id;
 // #generated# Last update: 2007-05-09 08:15:50 EDT
         L0: { id = 0; String X = null; int c;
-            L: switch (s.length()) {
-            case 7: c=s.charAt(0);
-                if (c=='t') { X="toFixed";id=Id_toFixed; }
-                else if (c=='v') { X="valueOf";id=Id_valueOf; }
-                break L;
-            case 8: c=s.charAt(3);
-                if (c=='o') { X="toSource";id=Id_toSource; }
-                else if (c=='t') { X="toString";id=Id_toString; }
-                break L;
-            case 11: c=s.charAt(0);
-                if (c=='c') { X="constructor";id=Id_constructor; }
-                else if (c=='t') { X="toPrecision";id=Id_toPrecision; }
-                break L;
-            case 13: X="toExponential";id=Id_toExponential; break L;
-            case 14: X="toLocaleString";id=Id_toLocaleString; break L;
+            L:
+            switch (s.length()) {
+            case 7 -> {
+                c = s.charAt(0);
+                if (c == 't') {
+                    X = "toFixed";
+                    id = Id_toFixed;
+                } else if (c == 'v') {
+                    X = "valueOf";
+                    id = Id_valueOf;
+                }
+            }
+            case 8 -> {
+                c = s.charAt(3);
+                if (c == 'o') {
+                    X = "toSource";
+                    id = Id_toSource;
+                } else if (c == 't') {
+                    X = "toString";
+                    id = Id_toString;
+                }
+            }
+            case 11 -> {
+                c = s.charAt(0);
+                if (c == 'c') {
+                    X = "constructor";
+                    id = Id_constructor;
+                } else if (c == 't') {
+                    X = "toPrecision";
+                    id = Id_toPrecision;
+                }
+            }
+            case 13 -> {
+                X = "toExponential";
+                id = Id_toExponential;
+            }
+            case 14 -> {
+                X = "toLocaleString";
+                id = Id_toLocaleString;
+            }
             }
             if (X!=null && X!=s && !X.equals(s)) id = 0;
             break L0;

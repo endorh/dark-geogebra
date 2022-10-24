@@ -72,8 +72,9 @@ public class FillEllipse extends EMFPlusTag {
 
 	@Override
 	public String toString() {
-		StringBuffer sb = new StringBuffer(super.toString());
-		sb.append("\n  rect: (" + x + ", " + y + ", " + w + ", " + h + ")");
+		StringBuilder sb = new StringBuilder(super.toString());
+		sb.append("\n  rect: (").append(x).append(", ").append(y).append(", ").append(w)
+				.append(", ").append(h).append(")");
 		sb.append("\n  ");
 		sb.append(brushColor != null ? "brushColor: " + brushColor
 				: "brushIndex: " + brushIndex);

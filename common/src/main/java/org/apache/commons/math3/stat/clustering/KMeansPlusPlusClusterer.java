@@ -19,7 +19,6 @@ package org.apache.commons.math3.stat.clustering;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
@@ -180,28 +179,22 @@ public class KMeansPlusPlusClusterer<T extends Clusterable<T>> {
         final int max = (maxIterations < 0) ? Integer.MAX_VALUE : maxIterations;
         for (int count = 0; count < max; count++) {
             boolean emptyCluster = false;
-            List<Cluster<T>> newClusters = new ArrayList<Cluster<T>>();
+            List<Cluster<T>> newClusters = new ArrayList<>();
             for (final Cluster<T> cluster : clusters) {
                 final T newCenter;
                 if (cluster.getPoints().isEmpty()) {
-                    switch (emptyStrategy) {
-                        case LARGEST_VARIANCE :
-                            newCenter = getPointFromLargestVarianceCluster(clusters);
-                            break;
-                        case LARGEST_POINTS_NUMBER :
-                            newCenter = getPointFromLargestNumberCluster(clusters);
-                            break;
-                        case FARTHEST_POINT :
-                            newCenter = getFarthestPoint(clusters);
-                            break;
-                        default :
-                            throw new ConvergenceException(LocalizedFormats.EMPTY_CLUSTER_IN_K_MEANS);
-                    }
+	                newCenter = switch (emptyStrategy) {
+		                case LARGEST_VARIANCE -> getPointFromLargestVarianceCluster(clusters);
+		                case LARGEST_POINTS_NUMBER -> getPointFromLargestNumberCluster(clusters);
+		                case FARTHEST_POINT -> getFarthestPoint(clusters);
+		                default -> throw new ConvergenceException(
+				                LocalizedFormats.EMPTY_CLUSTER_IN_K_MEANS);
+	                };
                     emptyCluster = true;
                 } else {
                     newCenter = cluster.getCenter().centroidOf(cluster.getPoints());
                 }
-                newClusters.add(new Cluster<T>(newCenter));
+                newClusters.add(new Cluster<>(newCenter));
             }
             int changes = assignPointsToClusters(newClusters, points, assignments);
             clusters = newClusters;
@@ -257,7 +250,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable<T>> {
 
         // Convert to list for indexed access. Make it unmodifiable, since removal of items
         // would screw up the logic of this method.
-        final List<T> pointList = Collections.unmodifiableList(new ArrayList<T> (points));
+        final List<T> pointList = List.copyOf(points);
 
         // The number of points in the list.
         final int numPoints = pointList.size();
@@ -267,14 +260,14 @@ public class KMeansPlusPlusClusterer<T extends Clusterable<T>> {
         final boolean[] taken = new boolean[numPoints];
 
         // The resulting list of initial centers.
-        final List<Cluster<T>> resultSet = new ArrayList<Cluster<T>>();
+        final List<Cluster<T>> resultSet = new ArrayList<>();
 
         // Choose one center uniformly at random from among the data points.
         final int firstPointIndex = random.nextInt(numPoints);
 
         final T firstPoint = pointList.get(firstPointIndex);
 
-        resultSet.add(new Cluster<T>(firstPoint));
+        resultSet.add(new Cluster<>(firstPoint));
 
         // Must mark it as taken
         taken[firstPointIndex] = true;
@@ -341,7 +334,7 @@ public class KMeansPlusPlusClusterer<T extends Clusterable<T>> {
 
                 final T p = pointList.get(nextPointIndex);
 
-                resultSet.add(new Cluster<T> (p));
+                resultSet.add(new Cluster<>(p));
 
                 // Mark it as taken.
                 taken[nextPointIndex] = true;

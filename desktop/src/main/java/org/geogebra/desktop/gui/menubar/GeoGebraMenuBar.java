@@ -150,8 +150,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 	}
 
 	protected void doRenderEvent(BaseEvent event) {
-		if (event instanceof TubeAvailabilityCheckEvent) {
-			TubeAvailabilityCheckEvent checkEvent = (TubeAvailabilityCheckEvent) event;
+		if (event instanceof TubeAvailabilityCheckEvent checkEvent) {
 			onTubeAvailable(checkEvent.isAvailable());
 		}
 	}
@@ -269,29 +268,26 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 	 * @param app
 	 */
 	public static void showPrintPreview(final AppD app) {
-		Thread runner = new Thread() {
-			@Override
-			public void run() {
+		Thread runner = new Thread(() -> {
 
-				try {
-					app.setWaitCursor();
-					GuiManagerD gui = (GuiManagerD) app.getGuiManager();
-					DockManagerD dm = gui.getLayout().getDockManager();
-					int viewId = (dm.getFocusedPanel() == null) ? -1
-							: dm.getFocusedPanel().getViewId();
-					PrintPreviewD pre = PrintPreviewD.get(app, viewId,
-							PageFormat.LANDSCAPE);
+			try {
+				app.setWaitCursor();
+				GuiManagerD gui = (GuiManagerD) app.getGuiManager();
+				DockManagerD dm = gui.getLayout().getDockManager();
+				int viewId = (dm.getFocusedPanel() == null) ? -1
+						: dm.getFocusedPanel().getViewId();
+				PrintPreviewD pre = PrintPreviewD.get(app, viewId,
+						PageFormat.LANDSCAPE);
 
-					pre.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-					Log.debug("Print preview not available");
-				} finally {
-					app.setDefaultCursor();
-				}
-
+				pre.setVisible(true);
+			} catch (Exception e) {
+				e.printStackTrace();
+				Log.debug("Print preview not available");
+			} finally {
+				app.setDefaultCursor();
 			}
-		};
+
+		});
 		runner.start();
 
 	}
@@ -324,7 +320,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 
 		if (singularWS != null
 				&& (v = singularWS.getSingularVersionString()) != null) {
-			sb.append(",<br>" + v);
+			sb.append(",<br>").append(v);
 		}
 		sb.append(")<br>");
 
@@ -409,7 +405,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 			sb.append("\nGraphics Card: ").append(glCard);
 		}
 		if (glVersion != null) {
-			sb.append("\nGL Version: " + glVersion);
+			sb.append("\nGL Version: ").append(glVersion);
 		}
 		sb.append("\n\n");
 
@@ -422,22 +418,16 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 
 		// copy file log
 		if (app.logFile != null) {
-			sb.append("File log from " + app.logFile.toString() + ":\n");
+			sb.append("File log from ").append(app.logFile.toString()).append(":\n");
 			String NL = System.getProperty("line.separator");
-			Scanner scanner = null;
-			try {
-				scanner = new Scanner(new File(app.logFile.toString()),
-						Charsets.UTF_8);
+			try (Scanner scanner = new Scanner(new File(app.logFile.toString()),
+					Charsets.UTF_8)) {
 				while (scanner.hasNextLine()) {
 					sb.append(scanner.nextLine() + NL);
 				}
 			} catch (FileNotFoundException e) {
 				app.showMessage(
 						app.getLocalization().getMenu("CannotOpenLogFile"));
-			} finally {
-				if (scanner != null) {
-					scanner.close();
-				}
 			}
 			sb.append("\n");
 		}

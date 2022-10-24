@@ -35,36 +35,36 @@ public class CmdDistance extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2:
+		case 2 -> {
 			arg = resArgs(c);
 
 			// distance between two points
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
-				GeoElement[] ret = { getAlgoDispatcher().distance(c.getLabel(),
-						(GeoPointND) arg[0], (GeoPointND) arg[1]) };
+				GeoElement[] ret = {getAlgoDispatcher().distance(c.getLabel(),
+						(GeoPointND) arg[0], (GeoPointND) arg[1])};
 				return ret;
 			}
 
 			// distance between point and line
 			else if (arg[0].isGeoPoint()) {
-				GeoElement[] ret = { getAlgoDispatcher().distance(c.getLabel(),
-						(GeoPointND) arg[0], arg[1]) };
+				GeoElement[] ret = {getAlgoDispatcher().distance(c.getLabel(),
+						(GeoPointND) arg[0], arg[1])};
 				return ret;
 			}
 
 			// distance between line and point
 			else if (arg[1].isGeoPoint()) {
-				GeoElement[] ret = { getAlgoDispatcher().distance(c.getLabel(),
-						(GeoPointND) arg[1], arg[0]) };
+				GeoElement[] ret = {getAlgoDispatcher().distance(c.getLabel(),
+						(GeoPointND) arg[1], arg[0])};
 				return ret;
 			}
 
 			// distance between line and line
 			else if ((ok[0] = (arg[0].isGeoLine()))
 					&& (ok[1] = (arg[1].isGeoLine()))) {
-				GeoElement[] ret = { getAlgoDispatcher().distance(c.getLabel(),
-						(GeoLine) arg[0], (GeoLine) arg[1]) };
+				GeoElement[] ret = {getAlgoDispatcher().distance(c.getLabel(),
+						(GeoLine) arg[0], (GeoLine) arg[1])};
 				return ret;
 			}
 
@@ -75,9 +75,8 @@ public class CmdDistance extends CommandProcessor {
 				}
 				throw argErr(c, arg[0]);
 			}
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

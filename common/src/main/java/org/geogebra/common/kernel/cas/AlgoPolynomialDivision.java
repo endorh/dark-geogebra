@@ -159,9 +159,7 @@ public class AlgoPolynomialDivision extends AlgoElement {
 				return;
 			}
 
-			for (int i = 0; i < divisor2.length; i++) {
-				divisor2[i] = divisor[i];
-			}
+			System.arraycopy(divisor, 0, divisor2, 0, divisor2.length);
 
 			divisor = divisor2;
 			n = divisor.length;

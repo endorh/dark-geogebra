@@ -160,17 +160,11 @@ public class SliderPanelD extends JPanel
 			textField.addFocusListener(this);
 			p.add(textField);
 			switch (i) {
-			case 2:
-				p.add(lbWidthUnit);
-				break;
-			case 3:
-				p.add(lblBlobSizeUnit);
-				break;
-			case 4:
-				p.add(lblLineThicknessUnit);
-				break;
-			default:
-				break;
+			case 2 -> p.add(lbWidthUnit);
+			case 3 -> p.add(lblBlobSizeUnit);
+			case 4 -> p.add(lblLineThicknessUnit);
+			default -> {
+			}
 			}
 			p.setAlignmentX(Component.LEFT_ALIGNMENT);
 

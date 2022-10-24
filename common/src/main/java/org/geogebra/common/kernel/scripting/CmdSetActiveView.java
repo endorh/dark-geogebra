@@ -33,7 +33,7 @@ public class CmdSetActiveView extends CmdScripting {
 		}
 
 		switch (n) {
-		case 1:
+		case 1 -> {
 			GeoElement[] arg = resArgs(c);
 			if (arg[0].isGeoNumeric()) {
 				GeoNumeric numGeo = (GeoNumeric) arg[0];
@@ -42,20 +42,14 @@ public class CmdSetActiveView extends CmdScripting {
 
 				// ignore all errors (eg when a view is not available etc)
 				switch (view) {
-				default:
-					// do nothing for now
-					// might be needed when support for more than 2
-					// Euclidian Views added
-					break;
-				case 1:
-					app.setActiveView(App.VIEW_EUCLIDIAN);
-					break;
-				case 2:
-					app.setActiveView(App.VIEW_EUCLIDIAN2);
-					break;
-				case -1:
-					app.setActiveView(App.VIEW_EUCLIDIAN3D);
-					break;
+				default -> {
+				}
+				// do nothing for now
+				// might be needed when support for more than 2
+				// Euclidian Views added
+				case 1 -> app.setActiveView(App.VIEW_EUCLIDIAN);
+				case 2 -> app.setActiveView(App.VIEW_EUCLIDIAN2);
+				case -1 -> app.setActiveView(App.VIEW_EUCLIDIAN3D);
 				}
 
 				return arg;
@@ -66,36 +60,22 @@ public class CmdSetActiveView extends CmdScripting {
 				if (code.length() == 1) {
 					char letter = code.charAt(0);
 					switch (letter) {
-					default:
-						// do nothing
-						break;
-					case 'G':
-						app.setActiveView(App.VIEW_EUCLIDIAN);
-						break;
-					case 'D':
-						app.setActiveView(App.VIEW_EUCLIDIAN2);
-						break;
-					case 'T':
-						app.setActiveView(App.VIEW_EUCLIDIAN3D);
-						break;
-					case 'S':
-						app.setActiveView(App.VIEW_SPREADSHEET);
-						break;
-					case 'A':
-						app.setActiveView(App.VIEW_ALGEBRA);
-						break;
-					case 'C':
-						app.setActiveView(App.VIEW_CAS);
-						break;
-
+					default -> {
+					}
+					// do nothing
+					case 'G' -> app.setActiveView(App.VIEW_EUCLIDIAN);
+					case 'D' -> app.setActiveView(App.VIEW_EUCLIDIAN2);
+					case 'T' -> app.setActiveView(App.VIEW_EUCLIDIAN3D);
+					case 'S' -> app.setActiveView(App.VIEW_SPREADSHEET);
+					case 'A' -> app.setActiveView(App.VIEW_ALGEBRA);
+					case 'C' -> app.setActiveView(App.VIEW_CAS);
 					}
 				}
 
 				return arg;
 			} else {
 				GeoElement geo = arg[0];
-				if (geo instanceof ViewCreator) {
-					ViewCreator plane = (ViewCreator) geo;
+				if (geo instanceof ViewCreator plane) {
 					if (plane.hasView2DVisible()) {
 						app.setActiveView(plane.getViewID());
 					}
@@ -103,9 +83,8 @@ public class CmdSetActiveView extends CmdScripting {
 				}
 			}
 			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

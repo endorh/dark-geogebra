@@ -17,9 +17,7 @@ import java.util.ArrayList;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Function;
-import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.PolyFunction;
 import org.geogebra.common.kernel.commands.Commands;
@@ -117,8 +115,7 @@ public class AlgoCoefficients extends AlgoElement implements UsesCAS {
 			for (int i = coeffs.length - 1; i >= 0; i--) {
 				g.add(new GeoNumeric(cons, coeffs[i]));
 			}
-		} else if (f.getParentAlgorithm() instanceof FitAlgo) {
-			FitAlgo fitAlgo = (FitAlgo) f.getParentAlgorithm();
+		} else if (f.getParentAlgorithm() instanceof FitAlgo fitAlgo) {
 			double[] coeffs = fitAlgo.getCoeffs();
 			for (int i = coeffs.length - 1; i >= 0; i--) {
 				g.add(new GeoNumeric(cons, coeffs[i]));
@@ -133,14 +130,11 @@ public class AlgoCoefficients extends AlgoElement implements UsesCAS {
 
 	private ArrayList<Double> extractConstants(ExpressionNode expression) {
 		ArrayList<Double> constants = new ArrayList<>();
-		expression.inspect(new Inspecting() {
-			@Override
-			public boolean check(ExpressionValue v) {
-				if (v instanceof MyDouble && v.isConstant()) {
-					constants.add(v.evaluateDouble());
-				}
-				return false;
+		expression.inspect(v -> {
+			if (v instanceof MyDouble && v.isConstant()) {
+				constants.add(v.evaluateDouble());
 			}
+			return false;
 		});
 		return constants;
 	}

@@ -392,9 +392,7 @@ public class SpreadsheetViewDnD
 
 			return true;
 
-		} catch (UnsupportedFlavorException e) {
-			// e.printStackTrace();
-		} catch (IOException e) {
+		} catch (UnsupportedFlavorException | IOException e) {
 			// e.printStackTrace();
 		}
 

@@ -29,32 +29,30 @@ public abstract class CmdTwoNumFunction extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-
-		case 2:
+		case 2 -> {
 			arg = resArgs(c);
 			if ((arg[0] instanceof GeoNumberValue)
 					&& (arg[1] instanceof GeoNumberValue)) {
-				GeoElement[] ret = { doCommand(c.getLabel(),
-						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1]) };
+				GeoElement[] ret = {doCommand(c.getLabel(),
+						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1])};
 				return ret;
 
 			}
 			throw argErr(c, arg[0]);
-
-		case 3: // return list of results
+		}
+		case 3 -> { // return list of results
 			arg = resArgs(c);
 			if ((arg[0] instanceof GeoNumberValue)
 					&& (arg[1] instanceof GeoNumberValue)
 					&& (arg[2] instanceof GeoNumberValue)) {
-				GeoElement[] ret = { doCommand2(c, (GeoNumberValue) arg[0],
-						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2]) };
+				GeoElement[] ret = {doCommand2(c, (GeoNumberValue) arg[0],
+						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2])};
 				return ret;
 
 			}
 			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

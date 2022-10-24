@@ -1822,45 +1822,18 @@ public abstract class ProbabilityCalculatorView
 		AlgoDistributionDF ret = null;
 		GeoBoolean cumulativeGeo = new GeoBoolean(cons, cumulative);
 		switch (type) {
-		case NORMAL:
-			ret = new AlgoNormalDF(cons, param1, param2, cumulativeGeo);
-			break;
-		case STUDENT:
-			ret = new AlgoTDistributionDF(cons, param1, cumulativeGeo);
-			break;
-		case CHISQUARE:
-			ret = new AlgoChiSquaredDF(cons, param1, cumulativeGeo);
-			break;
-		case F:
-			ret = new AlgoFDistributionDF(cons, param1, param2, cumulativeGeo);
-			break;
-		case CAUCHY:
-			ret = new AlgoCauchyDF(cons, param1, param2, cumulativeGeo);
-			break;
-		case EXPONENTIAL:
-			ret = new AlgoExponentialDF(cons, param1, cumulativeGeo);
-			break;
-		case GAMMA:
-			ret = new AlgoGammaDF(cons, param1, param2, cumulativeGeo);
-			break;
-		case WEIBULL:
-			ret = new AlgoWeibullDF(cons, param1, param2, cumulativeGeo);
-			break;
-		case LOGNORMAL:
-			ret = new AlgoLogNormalDF(cons, param1, param2, cumulativeGeo);
-			break;
-		case LOGISTIC:
-			ret = new AlgoLogisticDF(cons, param1, param2, cumulativeGeo);
-			break;
-
-		case BINOMIAL:
-		case PASCAL:
-		case POISSON:
-		case HYPERGEOMETRIC:
-			Log.error("Not continuous distribution");
-			break;
-		default:
-			Log.error("Missing case for density curve");
+		case NORMAL -> ret = new AlgoNormalDF(cons, param1, param2, cumulativeGeo);
+		case STUDENT -> ret = new AlgoTDistributionDF(cons, param1, cumulativeGeo);
+		case CHISQUARE -> ret = new AlgoChiSquaredDF(cons, param1, cumulativeGeo);
+		case F -> ret = new AlgoFDistributionDF(cons, param1, param2, cumulativeGeo);
+		case CAUCHY -> ret = new AlgoCauchyDF(cons, param1, param2, cumulativeGeo);
+		case EXPONENTIAL -> ret = new AlgoExponentialDF(cons, param1, cumulativeGeo);
+		case GAMMA -> ret = new AlgoGammaDF(cons, param1, param2, cumulativeGeo);
+		case WEIBULL -> ret = new AlgoWeibullDF(cons, param1, param2, cumulativeGeo);
+		case LOGNORMAL -> ret = new AlgoLogNormalDF(cons, param1, param2, cumulativeGeo);
+		case LOGISTIC -> ret = new AlgoLogisticDF(cons, param1, param2, cumulativeGeo);
+		case BINOMIAL, PASCAL, POISSON, HYPERGEOMETRIC -> Log.error("Not continuous distribution");
+		default -> Log.error("Missing case for density curve");
 		}
 
 		if (ret != null) {

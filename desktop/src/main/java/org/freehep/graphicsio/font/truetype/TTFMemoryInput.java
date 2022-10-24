@@ -67,7 +67,7 @@ public class TTFMemoryInput extends TTFInput {
 		readFully(temp);
 		long l = 0;
 		for (int i = 0; i < temp.length; i++) {
-			l |= (temp[3 - i] & 255) << (8 * i);
+			l |= (long) (temp[3 - i] & 255) << (8 * i);
 		}
 		return l;
 	}

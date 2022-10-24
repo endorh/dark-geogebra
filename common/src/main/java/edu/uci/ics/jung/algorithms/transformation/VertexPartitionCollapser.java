@@ -56,7 +56,7 @@ public class VertexPartitionCollapser<V, E, CV, CE> {
 		this.graph_factory = graph_factory;
 		this.vertex_factory = vertex_factory;
 		this.edge_factory = edge_factory;
-		this.set_collapsedv = new HashMap<Set<V>, CV>();
+		this.set_collapsedv = new HashMap<>();
 	}
 
 	/**
@@ -83,7 +83,7 @@ public class VertexPartitionCollapser<V, E, CV, CE> {
 		// create edges in new graph corresponding to edges in original graph
 		for (E e : original.getEdges()) {
 			Collection<V> incident = original.getIncidentVertices(e);
-			Collection<CV> collapsed_vertices = new HashSet<CV>();
+			Collection<CV> collapsed_vertices = new HashSet<>();
 			Map<V, Set<V>> vertex_partitions = partitioning
 					.getVertexToPartitionMap();
 			// collect the collapsed vertices corresponding to the original

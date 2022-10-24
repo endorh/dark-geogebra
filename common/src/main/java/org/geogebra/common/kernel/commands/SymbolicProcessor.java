@@ -237,8 +237,7 @@ public class SymbolicProcessor {
 
 	private boolean isFunctionNCall(ExpressionNode value) {
 		if (value.getOperation() == Operation.FUNCTION_NVAR
-				&& value.getRight() instanceof MyList) {
-			MyList args = (MyList) value.getRight();
+				&& value.getRight() instanceof MyList args) {
 			for (int i = 0; i < args.size(); i++) {
 				ExpressionValue arg = args.getItem(i);
 				if (!(arg instanceof FunctionVariable)) {

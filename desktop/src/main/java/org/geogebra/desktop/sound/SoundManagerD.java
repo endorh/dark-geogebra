@@ -129,70 +129,67 @@ public class SoundManagerD implements SoundManager {
 	@Override
 	public void playFile(GeoElement geoElement, final String fileName) {
 
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
+		SwingUtilities.invokeLater(() -> {
 
-				try {
-					if (fileName.startsWith("data:") || fileName.startsWith("#")
-							|| !(fileName.endsWith(".midi")
-							&& fileName.endsWith(".mid"))) {
+			try {
+				if (fileName.startsWith("data:") || fileName.startsWith("#")
+						|| !(fileName.endsWith(".midi")
+						&& fileName.endsWith(".mid"))) {
 
-						InputStream is;
+					InputStream is;
 
-						if (fileName.startsWith(StringUtil.mp3Marker)) {
+					if (fileName.startsWith(StringUtil.mp3Marker)) {
 
-							String mp3base64 = fileName
-									.substring(StringUtil.mp3Marker.length());
+						String mp3base64 = fileName
+								.substring(StringUtil.mp3Marker.length());
 
-							byte[] mp3 = Base64.decode(mp3base64);
+						byte[] mp3 = Base64.decode(mp3base64);
 
-							is = new ByteArrayInputStream(mp3);
+						is = new ByteArrayInputStream(mp3);
 
-						} else if (fileName.startsWith("#")) {
-							// eg PlaySound["#12345"] to play from GeoGebraTube
-							String id = fileName.substring(1);
+					} else if (fileName.startsWith("#")) {
+						// eg PlaySound["#12345"] to play from GeoGebraTube
+						String id = fileName.substring(1);
 
-							String url = app.getURLforID(id);
+						String url = app.getURLforID(id);
 
-							// #5094
-							is = new URL(url).openStream();
+						// #5094
+						is = new URL(url).openStream();
 
-						} else if (fileName.startsWith("http:")
-								|| fileName.startsWith("https:")) {
+					} else if (fileName.startsWith("http:")
+							|| fileName.startsWith("https:")) {
 
-							is = new URL(fileName).openStream();
+						is = new URL(fileName).openStream();
 
-						} else {
-							// assume local file
-							// eg c:\
-							// eg file://
-							is = new FileInputStream(fileName);
-
-						}
-
-						if (decoder == null) {
-							decoder = new Decoder();
-						}
-
-						Thread thread = new Thread(
-								new PlayMP3Thread(decoder, fileName, is));
-						thread.start();
-
-						return;
+					} else {
+						// assume local file
+						// eg c:\
+						// eg file://
+						is = new FileInputStream(fileName);
 
 					}
 
-					// not .mp3, must be .mid
-					stopCurrentSound();
-					currentSoundType = SOUNDTYPE_MIDI;
-					getMidiSound().playMidiFile(fileName);
+					if (decoder == null) {
+						decoder = new Decoder();
+					}
 
-				} catch (Exception e) {
-					e.printStackTrace();
+					Thread thread = new Thread(
+							new PlayMP3Thread(decoder, fileName, is));
+					thread.start();
+
+					return;
+
 				}
 
+				// not .mp3, must be .mid
+				stopCurrentSound();
+				currentSoundType = SOUNDTYPE_MIDI;
+				getMidiSound().playMidiFile(fileName);
+
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
+
 		});
 
 	}

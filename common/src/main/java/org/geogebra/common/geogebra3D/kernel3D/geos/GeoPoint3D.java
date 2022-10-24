@@ -386,14 +386,11 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	@Override
 	public Coords getInhomCoordsInD(int dimension) {
-		switch (dimension) {
-		case 3:
-			return getInhomCoordsInD3();
-		case 2:
-			return getInhomCoordsInD2();
-		default:
-			return null;
-		}
+		return switch (dimension) {
+			case 3 -> getInhomCoordsInD3();
+			case 2 -> getInhomCoordsInD2();
+			default -> null;
+		};
 	}
 
 	@Override
@@ -491,26 +488,24 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 	@Override
 	public Coords getCoordsInD(int dimension) {
-		switch (dimension) {
-		case 3:
-			return getCoords();
-		case 2:
-			/*
-			 * GgbVector coords; if (getWillingCoords()!=null) if
-			 * (getWillingDirection()!=null){ //TODO use region matrix in place
-			 * of identity
-			 * coords=getWillingCoords().projectPlaneThruV(GgbMatrix4x4
-			 * .Identity(), getWillingDirection())[1]; }else
-			 * coords=getWillingCoords
-			 * ().projectPlane(GgbMatrix4x4.Identity())[1]; else
-			 * coords=getCoords(); GgbVector v = new GgbVector(3);
-			 * v.setX(coords.getX()); v.setY(coords.getY());
-			 * v.setZ(coords.getW()); return v;
-			 */
-			return getCoordsInD2();
-		default:
-			return null;
-		}
+		return switch (dimension) {
+			case 3 -> getCoords();
+			case 2 ->
+				/*
+				 * GgbVector coords; if (getWillingCoords()!=null) if
+				 * (getWillingDirection()!=null){ //TODO use region matrix in place
+				 * of identity
+				 * coords=getWillingCoords().projectPlaneThruV(GgbMatrix4x4
+				 * .Identity(), getWillingDirection())[1]; }else
+				 * coords=getWillingCoords
+				 * ().projectPlane(GgbMatrix4x4.Identity())[1]; else
+				 * coords=getCoords(); GgbVector v = new GgbVector(3);
+				 * v.setX(coords.getX()); v.setY(coords.getY());
+				 * v.setZ(coords.getW()); return v;
+				 */
+					getCoordsInD2();
+			default -> null;
+		};
 	}
 
 	@Override
@@ -1087,24 +1082,13 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 
 		// polar or cartesian coords
 		switch (getToStringMode()) {
-		case Kernel.COORD_POLAR:
-			sb.append("\t<coordStyle style=\"polar\"/>\n");
-			break;
-
-		case Kernel.COORD_COMPLEX:
-			sb.append("\t<coordStyle style=\"complex\"/>\n");
-			break;
-
-		case Kernel.COORD_CARTESIAN:
-			sb.append("\t<coordStyle style=\"cartesian\"/>\n");
-			break;
-
-		case Kernel.COORD_SPHERICAL:
-			sb.append("\t<coordStyle style=\"spherical\"/>\n");
-			break;
-
-		default:
-			// don't save default (Kernel.COORD_CARTESIAN_3D)
+		case Kernel.COORD_POLAR -> sb.append("\t<coordStyle style=\"polar\"/>\n");
+		case Kernel.COORD_COMPLEX -> sb.append("\t<coordStyle style=\"complex\"/>\n");
+		case Kernel.COORD_CARTESIAN -> sb.append("\t<coordStyle style=\"cartesian\"/>\n");
+		case Kernel.COORD_SPHERICAL -> sb.append("\t<coordStyle style=\"spherical\"/>\n");
+		default -> {
+		}
+		// don't save default (Kernel.COORD_CARTESIAN_3D)
 		}
 
 		// point size
@@ -1942,14 +1926,12 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 			AlgoElement parentAlgo = getParentAlgorithm();
 
 			// dependent point of form P = (a, b)
-			if (parentAlgo instanceof AlgoDependentPoint3D) {
-				AlgoDependentPoint3D algo = (AlgoDependentPoint3D) parentAlgo;
+			if (parentAlgo instanceof AlgoDependentPoint3D algo) {
 				ExpressionNode en = algo.getExpression();
 
 				// (xExpression, yExpression)
-				if (en.isLeaf() && en.getLeft() instanceof MyVec3DNode) {
+				if (en.isLeaf() && en.getLeft() instanceof MyVec3DNode vn) {
 					// (xExpression, yExpression)
-					MyVec3DNode vn = (MyVec3DNode) en.getLeft();
 					hasPolarParentNumbers = vn
 							.getToStringMode() == Kernel.COORD_SPHERICAL
 							|| vn.getToStringMode() == Kernel.COORD_POLAR;

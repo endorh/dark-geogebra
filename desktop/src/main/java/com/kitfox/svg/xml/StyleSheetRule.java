@@ -4,6 +4,8 @@
  */
 package com.kitfox.svg.xml;
 
+import java.util.Objects;
+
 /**
  *
  * @author kitfox
@@ -39,16 +41,13 @@ public class StyleSheetRule {
 			return false;
 		}
 		final StyleSheetRule other = (StyleSheetRule) obj;
-		if ((this.styleName == null) ? (other.styleName != null)
-				: !this.styleName.equals(other.styleName)) {
+		if (!Objects.equals(this.styleName, other.styleName)) {
 			return false;
 		}
-		if ((this.tag == null) ? (other.tag != null)
-				: !this.tag.equals(other.tag)) {
+		if (!Objects.equals(this.tag, other.tag)) {
 			return false;
 		}
-		if ((this.className == null) ? (other.className != null)
-				: !this.className.equals(other.className)) {
+		if (!Objects.equals(this.className, other.className)) {
 			return false;
 		}
 		return true;

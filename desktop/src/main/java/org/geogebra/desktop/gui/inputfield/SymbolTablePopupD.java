@@ -242,22 +242,16 @@ public class SymbolTablePopupD {
 		int keyCode = keyEvent.getKeyCode();
 
 		switch (keyCode) {
-		case VK_ESCAPE: // [ESC] cancel the popup and undo any changes
+		case VK_ESCAPE -> { // [ESC] cancel the popup and undo any changes
 			hidePopup();
 			keyEvent.consume();
-			break;
-
-		case VK_ENTER:
+		}
+		case VK_ENTER -> {
 			handlePopupSelection();
 			hidePopup();
 			keyEvent.consume();
-			break;
-
-		case KeyEvent.VK_UP:
-		case KeyEvent.VK_DOWN:
-		case KeyEvent.VK_LEFT:
-		case KeyEvent.VK_RIGHT:
-
+		}
+		case KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_LEFT, KeyEvent.VK_RIGHT -> {
 			int row = symbolTable.getSelectedRow();
 			int column = symbolTable.getSelectedColumn();
 			if (keyCode == KeyEvent.VK_RIGHT
@@ -274,13 +268,10 @@ public class SymbolTablePopupD {
 			if (keyCode == KeyEvent.VK_UP && row >= 0) {
 				--row;
 			}
-
 			symbolTable.changeSelection(row, column, false, false);
 			keyEvent.consume();
-			break;
-
-		default:
-			hidePopup();
+		}
+		default -> hidePopup();
 		}
 	}
 

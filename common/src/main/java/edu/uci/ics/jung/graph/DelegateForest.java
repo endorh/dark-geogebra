@@ -27,7 +27,7 @@ public class DelegateForest<V, E> extends GraphDecorator<V, E>
 	 * Creates an instance backed by a new {@code DirectedSparseGraph} instance.
 	 */
 	public DelegateForest() {
-		this(new DirectedSparseGraph<V, E>());
+		this(new DirectedSparseGraph<>());
 	}
 
 	/**
@@ -156,7 +156,7 @@ public class DelegateForest<V, E> extends GraphDecorator<V, E>
 			return false;
 		}
 		if (remove_subtrees) {
-			for (V v : new ArrayList<V>(delegate.getSuccessors(vertex))) {
+			for (V v : new ArrayList<>(delegate.getSuccessors(vertex))) {
 				removeVertex(v, true);
 			}
 		}
@@ -175,7 +175,7 @@ public class DelegateForest<V, E> extends GraphDecorator<V, E>
 		if (!delegate.containsVertex(child)) {
 			return null;
 		}
-		List<V> list = new ArrayList<V>();
+		List<V> list = new ArrayList<>();
 		list.add(child);
 		V parent = getParent(child);
 		while (parent != null) {
@@ -297,7 +297,7 @@ public class DelegateForest<V, E> extends GraphDecorator<V, E>
 		if (vertices instanceof Pair) {
 			pair = (Pair<V>) vertices;
 		} else {
-			pair = new Pair<V>(vertices);
+			pair = new Pair<>(vertices);
 		}
 		return addEdge(edge, pair.getFirst(), pair.getSecond());
 	}
@@ -306,7 +306,7 @@ public class DelegateForest<V, E> extends GraphDecorator<V, E>
 	 * Returns the root of each tree of this forest as a {@code Collection}.
 	 */
 	public Collection<V> getRoots() {
-		Collection<V> roots = new HashSet<V>();
+		Collection<V> roots = new HashSet<>();
 		for (V v : delegate.getVertices()) {
 			if (delegate.getPredecessorCount(v) == 0) {
 				roots.add(v);
@@ -317,9 +317,9 @@ public class DelegateForest<V, E> extends GraphDecorator<V, E>
 
 	@Override
 	public Collection<Tree<V, E>> getTrees() {
-		Collection<Tree<V, E>> trees = new HashSet<Tree<V, E>>();
+		Collection<Tree<V, E>> trees = new HashSet<>();
 		for (V v : getRoots()) {
-			Tree<V, E> tree = new DelegateTree<V, E>();
+			Tree<V, E> tree = new DelegateTree<>();
 			tree.addVertex(v);
 			TreeUtils.growSubTree(this, tree, v);
 			trees.add(tree);

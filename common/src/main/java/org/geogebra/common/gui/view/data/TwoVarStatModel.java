@@ -175,16 +175,16 @@ public class TwoVarStatModel {
 					.get(selectedDataIndex[0]);
 			double[] sample1 = listener.getValueArray(dataList1);
 			SummaryStatistics stats1 = new SummaryStatistics();
-			for (int i = 0; i < sample1.length; i++) {
-				stats1.addValue(sample1[i]);
+			for (double value : sample1) {
+				stats1.addValue(value);
 			}
 
 			GeoList dataList2 = (GeoList) dataCollection
 					.get(selectedDataIndex[1]);
 			double[] sample2 = listener.getValueArray(dataList2);
 			SummaryStatistics stats2 = new SummaryStatistics();
-			for (int i = 0; i < sample2.length; i++) {
-				stats2.addValue(sample2[i]);
+			for (double v : sample2) {
+				stats2.addValue(v);
 			}
 
 			// exit if sample sizes are unequal
@@ -216,16 +216,16 @@ public class TwoVarStatModel {
 					.get(selectedDataIndex[0]);
 			double[] sample1 = listener.getValueArray(dataList1);
 			SummaryStatistics stats1 = new SummaryStatistics();
-			for (int i = 0; i < sample1.length; i++) {
-				stats1.addValue(sample1[i]);
+			for (double value : sample1) {
+				stats1.addValue(value);
 			}
 
 			GeoList dataList2 = (GeoList) dataCollection
 					.get(selectedDataIndex[1]);
 			double[] sample2 = listener.getValueArray(dataList2);
 			SummaryStatistics stats2 = new SummaryStatistics();
-			for (int i = 0; i < sample2.length; i++) {
-				stats2.addValue(sample2[i]);
+			for (double v : sample2) {
+				stats2.addValue(v);
 			}
 
 			mean1 = stats1.getMean();

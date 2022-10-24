@@ -33,37 +33,37 @@ public class CmdSlopeField extends CommandProcessor {
 		arg = resArgs(c);
 
 		switch (n) {
-		case 1:
+		case 1 -> {
 			if (arg[0] instanceof Evaluate2Var) {
 				GeoElement[] ret = {
 						slopeField(c.getLabel(), (Evaluate2Var) arg[0], null,
-								null, null, null, null, null) };
+								null, null, null, null, null)};
 				return ret;
 			}
 			throw argErr(c, arg[0]);
-
-		case 2:
+		}
+		case 2 -> {
 			if ((ok[0] = arg[0] instanceof Evaluate2Var)
 					&& (ok[1] = arg[1].isGeoNumeric())) {
-				GeoElement[] ret = { slopeField(c.getLabel(),
+				GeoElement[] ret = {slopeField(c.getLabel(),
 						(Evaluate2Var) arg[0], (GeoNumeric) arg[1], null, null,
-						null, null, null) };
+						null, null, null)};
 				return ret;
 			}
 			throw argErr(c, getBadArg(ok, arg));
-
-		case 3:
+		}
+		case 3 -> {
 			if ((ok[0] = arg[0] instanceof Evaluate2Var)
 					&& (ok[1] = arg[1].isGeoNumeric())
 					&& (ok[2] = arg[2].isGeoNumeric())) {
-				GeoElement[] ret = { slopeField(c.getLabel(),
+				GeoElement[] ret = {slopeField(c.getLabel(),
 						(Evaluate2Var) arg[0], (GeoNumeric) arg[1],
-						(GeoNumeric) arg[2], null, null, null, null) };
+						(GeoNumeric) arg[2], null, null, null, null)};
 				return ret;
 			}
 			throw argErr(c, getBadArg(ok, arg));
-
-		case 7:
+		}
+		case 7 -> {
 			if ((ok[0] = arg[0] instanceof Evaluate2Var)
 					&& (ok[1] = arg[1].isGeoNumeric())
 					&& (ok[2] = arg[2].isGeoNumeric())
@@ -75,13 +75,12 @@ public class CmdSlopeField extends CommandProcessor {
 						slopeField(c.getLabel(), (FunctionalNVar) arg[0],
 								(GeoNumeric) arg[1], (GeoNumeric) arg[2],
 								(GeoNumeric) arg[3], (GeoNumeric) arg[4],
-								(GeoNumeric) arg[5], (GeoNumeric) arg[6]) };
+								(GeoNumeric) arg[5], (GeoNumeric) arg[6])};
 				return ret;
 			}
 			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

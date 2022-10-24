@@ -89,8 +89,7 @@ public class DrawInequality extends Drawable {
 		}
 
 		if (this.operation.equals(Operation.AND_INTERVAL)
-				&& left.drawable instanceof DrawInequality1Var) {
-			DrawInequality1Var leftIneq = (DrawInequality1Var) left.drawable;
+				&& left.drawable instanceof DrawInequality1Var leftIneq) {
 			if (leftIneq.isMinBoundSet()) {
 				double minLeft = leftIneq
 						.getMinBound();
@@ -120,14 +119,13 @@ public class DrawInequality extends Drawable {
 					leftIneq.ignoreLines();
 				}
 			}
-			if (!(right.drawable instanceof DrawInequality1Var)) {
+			if (!(right.drawable instanceof DrawInequality1Var rightIneq)) {
 				Log.error("right.drawable not instanceof DrawInequality1Var");
 				if (right.drawable != null) {
 					Log.error("class = " + right.drawable.getClass());
 				}
 				return;
 			}
-			DrawInequality1Var rightIneq = (DrawInequality1Var) right.drawable;
 			if (rightIneq.isMinBoundSet()) {
 				double minRight = rightIneq
 						.getMinBound();
@@ -191,8 +189,7 @@ public class DrawInequality extends Drawable {
 			this.max = left.max;
 			this.minBound = left.minBound;
 			this.maxBound = left.maxBound;
-		} else if (left.drawable instanceof DrawInequality1Var && !wasOR) {
-			DrawInequality1Var leftIneq = (DrawInequality1Var) left.drawable;
+		} else if (left.drawable instanceof DrawInequality1Var leftIneq && !wasOR) {
 			if (leftIneq.isMinBoundSet()) {
 				double minLeft = leftIneq
 						.getMinBound();
@@ -280,9 +277,8 @@ public class DrawInequality extends Drawable {
 				this.minBound = right.minBound;
 				this.maxBound = right.maxBound;
 			}
-		} else if (right.drawable instanceof DrawInequality1Var
+		} else if (right.drawable instanceof DrawInequality1Var rightIneq
 				&& !operation.equals(Operation.OR)) {
-			DrawInequality1Var rightIneq = (DrawInequality1Var) right.drawable;
 			if (rightIneq.isMinBoundSet()) {
 				double minRight = rightIneq
 						.getMinBound();
@@ -315,8 +311,7 @@ public class DrawInequality extends Drawable {
 		}
 		if (this.operation.equals(Operation.OR)) {
 
-			if (right.drawable instanceof DrawInequality1Var) {
-				DrawInequality1Var rightIneq = (DrawInequality1Var) right.drawable;
+			if (right.drawable instanceof DrawInequality1Var rightIneq) {
 				if (rightIneq.isMinBoundSet()) {
 					double minRight = rightIneq
 							.getMinBound();
@@ -370,10 +365,10 @@ public class DrawInequality extends Drawable {
 	private static void isRightInOrBounds(
 			ArrayList<Pair<Map<Double, Drawable>>> orBounds2,
 			DrawInequality right2) {
-		for (int i = 0; i < orBounds2.size(); i++) {
-			double minCurrOrBound = orBounds2.get(i).getFirst().keySet()
+		for (Pair<Map<Double, Drawable>> maps : orBounds2) {
+			double minCurrOrBound = maps.getFirst().keySet()
 					.iterator().next();
-			double maxCurrOrBound = orBounds2.get(i).getSecond().keySet()
+			double maxCurrOrBound = maps.getSecond().keySet()
 					.iterator().next();
 			if (DoubleUtil.isGreater(right2.minBound, minCurrOrBound)
 					&& DoubleUtil.isGreater(maxCurrOrBound, right2.minBound)
@@ -504,35 +499,28 @@ public class DrawInequality extends Drawable {
 
 	private void createDrawable() {
 		switch (ineq.getType()) {
-		case INEQUALITY_PARAMETRIC_Y:
-			drawable = new DrawParametricInequality(ineq, view, geo);
-			break;
-		case INEQUALITY_PARAMETRIC_X:
-			drawable = new DrawParametricInequality(ineq, view, geo);
-			break;
-		case INEQUALITY_1VAR_X:
-			drawable = new DrawInequality1Var(ineq, view, geo, false);
-			break;
-		case INEQUALITY_1VAR_Y:
-			drawable = new DrawInequality1Var(ineq, view, geo, true);
-			break;
-		case INEQUALITY_CONIC:
+		case INEQUALITY_PARAMETRIC_Y -> drawable = new DrawParametricInequality(ineq, view, geo);
+		case INEQUALITY_PARAMETRIC_X -> drawable = new DrawParametricInequality(ineq, view, geo);
+		case INEQUALITY_1VAR_X -> drawable = new DrawInequality1Var(ineq, view, geo, false);
+		case INEQUALITY_1VAR_Y -> drawable = new DrawInequality1Var(ineq, view, geo, true);
+		case INEQUALITY_CONIC -> {
 			drawable = new DrawConic(view, ineq.getConicBorder(),
 					!ineq.isStrict() == ineq.isAboveBorder());
 			ineq.getConicBorder().setInverseFill(ineq.isAboveBorder());
-			break;
-		case INEQUALITY_LINEAR:
+		}
+		case INEQUALITY_LINEAR -> {
 			drawable = new DrawLine(view, ineq.getLineBorder());
 			ineq.getLineBorder().setInverseFill(ineq.isAboveBorder());
-			break;
+		}
 		/*
 		 * case IneqType.INEQUALITY_IMPLICIT: drawable = new
 		 * DrawImplicitPoly(view, ineq.getImpBorder()); break; TODO put this
 		 * back when implicit polynomial can be shaded
 		 */
-		default:
+		default -> {
 			Log.debug("Unhandled inequality type");
 			return;
+		}
 		}
 		drawable.setGeoElement(geo);
 		drawable.setForceNoFill(true);

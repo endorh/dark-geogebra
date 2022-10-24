@@ -204,9 +204,9 @@ public class AlgoDerivative extends AlgoCasBase {
 				FunctionVariable[] fVars = inFun.getFunctionVariables();
 				FunctionVariable fv = null;
 
-				for (int i = 0; i < fVars.length; i++) {
-					if (varStr.equals(fVars[i].getSetVarString())) {
-						fv = fVars[i];
+				for (FunctionVariable fVar : fVars) {
+					if (varStr.equals(fVar.getSetVarString())) {
+						fv = fVar;
 						break;
 					}
 				}

@@ -66,64 +66,64 @@ public class DrawImageResizable extends DrawImage {
 		int imageHeight = geoImage.getFillImage().getHeight();
 		double originalRatio = transformableRectangle.getAspectRatio();
 		switch (handler) {
-		case BOTTOM:
+		case BOTTOM -> {
 			newHeight = MyMath.clamp(event.y - cropTop,
 					minHeight, imageHeight - cropTop);
 			cropBoxRelative.setFrame(cropLeft, cropTop,
 					cropBoxRelative.getWidth(), newHeight);
-			break;
-		case TOP:
+		}
+		case TOP -> {
 			newHeight = MyMath.clamp(cropBottom - event.y,
 					minHeight, cropBottom);
 			cropBoxRelative.setFrame(cropLeft, cropBottom - newHeight,
 					cropBoxRelative.getWidth(), newHeight);
-			break;
-		case LEFT:
+		}
+		case LEFT -> {
 			newWidth = MyMath.clamp(cropRight - event.x,
 					minWidth, cropRight);
 			cropBoxRelative.setFrame(cropRight - newWidth, cropTop,
 					newWidth, cropBoxRelative.getHeight());
-			break;
-		case RIGHT:
+		}
+		case RIGHT -> {
 			newWidth = MyMath.clamp(event.x - cropLeft,
 					minWidth, imageWidth - cropLeft);
 			cropBoxRelative.setFrame(cropBoxRelative.getX(), cropBoxRelative.getY(),
 					newWidth, cropBoxRelative.getHeight());
-			break;
-		case BOTTOM_RIGHT:
+		}
+		case BOTTOM_RIGHT -> {
 			newWidth = MyMath.clamp(event.x - cropLeft,
 					minWidth, imageWidth - cropLeft);
 			newHeight = MyMath.clamp(originalRatio * newWidth,
 					minHeight, imageHeight - cropTop);
 			cropBoxRelative.setFrame(cropLeft, cropTop,
 					newWidth, newHeight);
-			break;
-		case BOTTOM_LEFT:
+		}
+		case BOTTOM_LEFT -> {
 			newWidth = MyMath.clamp(cropRight - event.x,
 					minWidth, cropRight);
 			newHeight = MyMath.clamp(originalRatio * newWidth,
 					minHeight, imageHeight - cropTop);
-			cropBoxRelative.setFrame(cropRight - newWidth , cropTop,
+			cropBoxRelative.setFrame(cropRight - newWidth, cropTop,
 					newWidth, newHeight);
-			break;
-		case TOP_RIGHT:
+		}
+		case TOP_RIGHT -> {
 			newWidth = MyMath.clamp(event.x - cropLeft,
 					minWidth, imageWidth - cropLeft);
 			newHeight = MyMath.clamp(originalRatio * newWidth,
 					minHeight, cropBottom);
 			cropBoxRelative.setFrame(cropLeft, cropBottom - newHeight,
 					newWidth, newHeight);
-			break;
-		case TOP_LEFT:
+		}
+		case TOP_LEFT -> {
 			newWidth = MyMath.clamp(cropRight - event.x,
 					minWidth, cropRight);
 			newHeight = MyMath.clamp(originalRatio * newWidth,
 					minHeight, cropBottom);
-			cropBoxRelative.setFrame(cropRight - newWidth , cropBottom - newHeight,
+			cropBoxRelative.setFrame(cropRight - newWidth, cropBottom - newHeight,
 					newWidth, newHeight);
-			break;
-		default:
-			break;
+		}
+		default -> {
+		}
 		}
 		geoImage.update();
 	}

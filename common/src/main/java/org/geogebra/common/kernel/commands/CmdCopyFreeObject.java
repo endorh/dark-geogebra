@@ -34,7 +34,7 @@ public class CmdCopyFreeObject extends CommandProcessor {
 
 		switch (n) {
 		// FunctionalNVar
-		case 1:
+		case 1 -> {
 			GeoElement geo;
 			String label = c.getLabel();
 			if (arg[0] instanceof FunctionalNVar) {
@@ -42,7 +42,6 @@ public class CmdCopyFreeObject extends CommandProcessor {
 				return copyFunction(arg[0], c, label);
 
 			}
-
 			if (arg[0] instanceof GeoSegmentND) {
 
 				geo = ((GeoSegmentND) arg[0]).copyFreeSegment();
@@ -56,18 +55,17 @@ public class CmdCopyFreeObject extends CommandProcessor {
 				// https://help.geogebra.org/topic/copyfreeobject-a1-a3-not-free
 				geo = arg[0].deepCopyGeo();
 			}
-
 			geo.setVisualStyle(arg[0]);
 			geo.setLabel(label);
-			GeoElement[] ret = { geo };
+			GeoElement[] ret = {geo};
 			if (!arg[0].isLabelSet()) {
 				arg[0].remove();
 			}
 			return ret;
+		}
 
 		// more than one argument
-		default:
-			throw argNumErr(c);
+		default -> throw argNumErr(c);
 		}
 	}
 

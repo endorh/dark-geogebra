@@ -85,19 +85,10 @@ public class DrawConic3D extends Drawable3DCurves
 		GeoConicND conic1 = (GeoConicND) getGeoElement();
 
 		switch (conic1.getType()) {
-		case GeoConicNDConstants.CONIC_CIRCLE:
-		case GeoConicNDConstants.CONIC_ELLIPSE:
-		case GeoConicNDConstants.CONIC_HYPERBOLA:
-		case GeoConicNDConstants.CONIC_PARABOLA:
-		case GeoConicNDConstants.CONIC_DOUBLE_LINE:
-		case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
-		case GeoConicNDConstants.CONIC_PARALLEL_LINES:
-		case GeoConicNDConstants.CONIC_SINGLE_POINT:
-			renderer.getGeometryManager().draw(getGeometryIndex());
-			break;
-		default:
-			break;
-
+		case GeoConicNDConstants.CONIC_CIRCLE, GeoConicNDConstants.CONIC_ELLIPSE, GeoConicNDConstants.CONIC_HYPERBOLA, GeoConicNDConstants.CONIC_PARABOLA, GeoConicNDConstants.CONIC_DOUBLE_LINE, GeoConicNDConstants.CONIC_INTERSECTING_LINES, GeoConicNDConstants.CONIC_PARALLEL_LINES, GeoConicNDConstants.CONIC_SINGLE_POINT ->
+				renderer.getGeometryManager().draw(getGeometryIndex());
+		default -> {
+		}
 		}
 
 	}
@@ -209,30 +200,19 @@ public class DrawConic3D extends Drawable3DCurves
 
 				brush.setAffineTexture(0f, 0f);
 				switch (conic.getType()) {
-				case GeoConicNDConstants.CONIC_CIRCLE:
-					updateEllipse(brush);
-					break;
-				case GeoConicNDConstants.CONIC_ELLIPSE:
-					updateEllipse(brush);
-					break;
-				case GeoConicNDConstants.CONIC_HYPERBOLA:
-					updateHyperbola(brush);
-					break;
-				case GeoConicNDConstants.CONIC_PARABOLA:
-					updateParabola(brush);
-					break;
-				case GeoConicNDConstants.CONIC_DOUBLE_LINE:
+				case GeoConicNDConstants.CONIC_CIRCLE -> updateEllipse(brush);
+				case GeoConicNDConstants.CONIC_ELLIPSE -> updateEllipse(brush);
+				case GeoConicNDConstants.CONIC_HYPERBOLA -> updateHyperbola(brush);
+				case GeoConicNDConstants.CONIC_PARABOLA -> updateParabola(brush);
+				case GeoConicNDConstants.CONIC_DOUBLE_LINE -> {
 					createTmpCoordsIfNeeded();
 					brush.segment(tmpCoords1.setAdd3(m, tmpCoords1.setMul3(d, minmax[0])),
 							tmpCoords2.setAdd3(m, tmpCoords2.setMul3(d, minmax[1])));
-					break;
-				case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
-				case GeoConicNDConstants.CONIC_PARALLEL_LINES:
-					updateLines(brush);
-					break;
-				default:
-					break;
-
+				}
+				case GeoConicNDConstants.CONIC_INTERSECTING_LINES, GeoConicNDConstants.CONIC_PARALLEL_LINES ->
+						updateLines(brush);
+				default -> {
+				}
 				}
 
 				setGeometryIndex(brush.end());
@@ -245,26 +225,14 @@ public class DrawConic3D extends Drawable3DCurves
 			surface.start(getReusableSurfaceIndex());
 
 			switch (conic.getType()) {
-			case GeoConicNDConstants.CONIC_CIRCLE:
-			case GeoConicNDConstants.CONIC_ELLIPSE:
-				updateEllipse(surface);
-				break;
-			case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
-				updateIntersectingLines(surface);
-				break;
-			case GeoConicNDConstants.CONIC_PARALLEL_LINES:
-				updateParallelLines(surface);
-				break;
-			case GeoConicNDConstants.CONIC_HYPERBOLA:
-				updateHyperbola(surface);
-				break;
-			case GeoConicNDConstants.CONIC_PARABOLA:
-				updateParabola(surface);
-				break;
-
-			default:
-				break;
-
+			case GeoConicNDConstants.CONIC_CIRCLE, GeoConicNDConstants.CONIC_ELLIPSE ->
+					updateEllipse(surface);
+			case GeoConicNDConstants.CONIC_INTERSECTING_LINES -> updateIntersectingLines(surface);
+			case GeoConicNDConstants.CONIC_PARALLEL_LINES -> updateParallelLines(surface);
+			case GeoConicNDConstants.CONIC_HYPERBOLA -> updateHyperbola(surface);
+			case GeoConicNDConstants.CONIC_PARABOLA -> updateParabola(surface);
+			default -> {
+			}
 			}
 
 			setSurfaceIndex(surface.end());
@@ -613,19 +581,14 @@ public class DrawConic3D extends Drawable3DCurves
 	private void drawSurfaceGeometry(Renderer renderer) {
 
 		switch (((GeoConicND) getGeoElement()).getType()) {
-		default:
-			// do nothing
-			break;
-		case GeoConicNDConstants.CONIC_CIRCLE:
-		case GeoConicNDConstants.CONIC_ELLIPSE:
-		case GeoConicNDConstants.CONIC_PARALLEL_LINES:
-		case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
-		case GeoConicNDConstants.CONIC_HYPERBOLA:
-		case GeoConicNDConstants.CONIC_PARABOLA:
+		default -> {
+		}
+		// do nothing
+		case GeoConicNDConstants.CONIC_CIRCLE, GeoConicNDConstants.CONIC_ELLIPSE, GeoConicNDConstants.CONIC_PARALLEL_LINES, GeoConicNDConstants.CONIC_INTERSECTING_LINES, GeoConicNDConstants.CONIC_HYPERBOLA, GeoConicNDConstants.CONIC_PARABOLA -> {
 			renderer.getRendererImpl().setLayer(getLayer());
 			renderer.getGeometryManager().draw(getSurfaceIndex());
 			renderer.getRendererImpl().setLayer(Renderer.LAYER_DEFAULT);
-			break;
+		}
 		}
 
 	}
@@ -803,14 +766,11 @@ public class DrawConic3D extends Drawable3DCurves
 	@Override
 	public void enlargeBounds(Coords min, Coords max, boolean dontExtend) {
 		switch (conic.getType()) {
-		default:
-			// do nothing
-			break;
-		case GeoConicNDConstants.CONIC_SINGLE_POINT:
-		case GeoConicNDConstants.CONIC_CIRCLE:
-		case GeoConicNDConstants.CONIC_ELLIPSE:
-			enlargeBounds(min, max, boundsMin, boundsMax);
-			break;
+		default -> {
+		}
+		// do nothing
+		case GeoConicNDConstants.CONIC_SINGLE_POINT, GeoConicNDConstants.CONIC_CIRCLE, GeoConicNDConstants.CONIC_ELLIPSE ->
+				enlargeBounds(min, max, boundsMin, boundsMax);
 		}
 	}
 

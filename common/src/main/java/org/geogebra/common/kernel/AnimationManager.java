@@ -155,8 +155,7 @@ public class AnimationManager implements GTimerListener {
 	 * Empties list of animated geos
 	 */
 	public void clearAnimatedGeos() {
-		for (int i = 0; i < animatedGeos.size(); i++) {
-			GeoElement geo = animatedGeos.get(i);
+		for (GeoElement geo : animatedGeos) {
 			geo.setAnimating(false);
 		}
 

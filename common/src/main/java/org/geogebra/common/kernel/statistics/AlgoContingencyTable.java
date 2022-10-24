@@ -505,9 +505,7 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo {
 
 	private void beginTable() {
 		tableSb.append("\\begin{array}{|l");
-		for (int i = 0; i < colValues.length - 1; i++) {
-			tableSb.append("|r");
-		}
+		tableSb.append("|r".repeat(Math.max(0, colValues.length - 1)));
 		tableSb.append("|r||r|}"); // extra column for margin
 
 	}

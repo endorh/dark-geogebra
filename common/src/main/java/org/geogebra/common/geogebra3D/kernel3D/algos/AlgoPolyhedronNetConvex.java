@@ -103,18 +103,15 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 			}
 		}
 
-		for (int i = 0; i < input.length; i++) {
-			input[i].addAlgorithm(this);
+		for (GeoElement geoElement : input) {
+			geoElement.addAlgorithm(this);
 		}
 
 		outputNet = new OutputHandler<>(
-				new ElementFactory<GeoPolyhedronNet>() {
-					@Override
-					public GeoPolyhedronNet newElement() {
-						GeoPolyhedronNet p1 = new GeoPolyhedronNet(cons);
-						p1.setParentAlgorithm(AlgoPolyhedronNetConvex.this);
-						return p1;
-					}
+				() -> {
+					GeoPolyhedronNet p1 = new GeoPolyhedronNet(cons);
+					p1.setParentAlgorithm(AlgoPolyhedronNetConvex.this);
+					return p1;
 				});
 
 		outputNet.adjustOutputSize(1);
@@ -436,9 +433,9 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 			}
 
 			// rotate the points of the list
-			for (int iPoint = 0; iPoint < pointsToRotate.size(); iPoint++) {
+			for (Integer integer : pointsToRotate) {
 				facePoint = outputPointsNet
-						.getElement(pointsToRotate.get(iPoint));
+						.getElement(integer);
 				facePoint.rotate(f * sgn * angle, o, vs);
 			}
 		}
@@ -447,17 +444,14 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 	}
 
 	private OutputHandler<GeoPoint3D> createOutputPoints() {
-		return new OutputHandler<>(new ElementFactory<GeoPoint3D>() {
-			@Override
-			public GeoPoint3D newElement() {
-				GeoPoint3D p1 = new GeoPoint3D(cons);
-				p1.setCoords(0, 0, 0, 1);
-				p1.setParentAlgorithm(AlgoPolyhedronNetConvex.this);
-				getNet().addPointCreated(p1);
-				p1.setLabelVisible(false);
-				p1.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
-				return p1;
-			}
+		return new OutputHandler<>(() -> {
+			GeoPoint3D p1 = new GeoPoint3D(cons);
+			p1.setCoords(0, 0, 0, 1);
+			p1.setParentAlgorithm(AlgoPolyhedronNetConvex.this);
+			getNet().addPointCreated(p1);
+			p1.setLabelVisible(false);
+			p1.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
+			return p1;
 		});
 	}
 
@@ -493,9 +487,9 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 		createFace(iBottom);
 
 		// create faces
-		for (int pNum = 0; pNum < polygonInfo.size(); pNum++) {
+		for (PolygonInfoElement polygonInfoElement : polygonInfo) {
 			net.startNewFace();
-			for (int i : polygonInfo.get(pNum).pointIndex) {
+			for (int i : polygonInfoElement.pointIndex) {
 				net.addPointToCurrentFace(outputPointsNet.getElement(i));
 			}
 			net.endCurrentFace();
@@ -642,25 +636,19 @@ public class AlgoPolyhedronNetConvex extends AlgoElement3D {
 
 	private OutputHandler<GeoSegment3D> createOutputSegments() {
 		return new OutputHandler<>(
-				new ElementFactory<GeoSegment3D>() {
-					@Override
-					public GeoSegment3D newElement() {
-						GeoSegment3D s = new GeoSegment3D(cons);
-						s.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
-						return s;
-					}
+				() -> {
+					GeoSegment3D s = new GeoSegment3D(cons);
+					s.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
+					return s;
 				});
 	}
 
 	private OutputHandler<GeoPolygon3D> createOutputPolygons() {
 		return new OutputHandler<>(
-				new ElementFactory<GeoPolygon3D>() {
-					@Override
-					public GeoPolygon3D newElement() {
-						GeoPolygon3D p1 = new GeoPolygon3D(cons);
-						p1.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
-						return p1;
-					}
+				() -> {
+					GeoPolygon3D p1 = new GeoPolygon3D(cons);
+					p1.setAuxiliaryObject(Auxiliary.YES_DEFAULT);
+					return p1;
 				});
 	}
 

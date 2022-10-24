@@ -304,9 +304,9 @@ public class GgbMat extends Array2DRowRealMatrix {
 	 * @return true if all entries are integers
 	 */
 	public boolean hasOnlyIntegers() {
-		for (int i = 0; i < data.length; i++) {
-			for (int j = 0; j < data[i].length; j++) {
-				if (!DoubleUtil.isInteger(data[i][j])) {
+		for (double[] datum : data) {
+			for (double v : datum) {
+				if (!DoubleUtil.isInteger(v)) {
 					return false;
 				}
 			}

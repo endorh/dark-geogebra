@@ -331,8 +331,7 @@ public class SpecialPointsManager implements UpdateSelection, EventListener, Coo
 			if (outputElement != null) {
 				outputElement.remove();
 				outputElement.setAdvancedVisualStyle(defaultPoint);
-				if (outputElement instanceof PointProperties) {
-					PointProperties point = (PointProperties) outputElement;
+				if (outputElement instanceof PointProperties point) {
 					point.setPointStyle(pointStyle);
 				}
 				retList.add(outputElement);

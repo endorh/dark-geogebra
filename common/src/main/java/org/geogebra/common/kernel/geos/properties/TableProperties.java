@@ -14,8 +14,7 @@ public class TableProperties {
 	 *            target function
 	 */
 	public static void transfer(GeoElementND fromGeo, GeoEvaluatable to) {
-		if (fromGeo instanceof GeoEvaluatable) {
-			GeoEvaluatable from = (GeoEvaluatable) fromGeo;
+		if (fromGeo instanceof GeoEvaluatable from) {
 			to.setTableColumn(from.getTableColumn());
 			to.setPointsVisible(from.isPointsVisible());
 		}

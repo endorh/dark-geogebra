@@ -215,57 +215,37 @@ class Edge {
 
 		switch (clipType) {
 		case INTERSECTION:
-			switch (pft2) {
-			case EVEN_ODD:
-			case NON_ZERO:
-				return windCnt2 != 0;
-			case POSITIVE:
-				return windCnt2 > 0;
-			default:
-				return windCnt2 < 0;
-			}
+			return switch (pft2) {
+				case EVEN_ODD, NON_ZERO -> windCnt2 != 0;
+				case POSITIVE -> windCnt2 > 0;
+				default -> windCnt2 < 0;
+			};
 		case UNION:
-			switch (pft2) {
-			case EVEN_ODD:
-			case NON_ZERO:
-				return windCnt2 == 0;
-			case POSITIVE:
-				return windCnt2 <= 0;
-			default:
-				return windCnt2 >= 0;
-			}
+			return switch (pft2) {
+				case EVEN_ODD, NON_ZERO -> windCnt2 == 0;
+				case POSITIVE -> windCnt2 <= 0;
+				default -> windCnt2 >= 0;
+			};
 		case DIFFERENCE:
 			if (polyTyp == PolyType.SUBJECT) {
-				switch (pft2) {
-				case EVEN_ODD:
-				case NON_ZERO:
-					return windCnt2 == 0;
-				case POSITIVE:
-					return windCnt2 <= 0;
-				default:
-					return windCnt2 >= 0;
-				}
+				return switch (pft2) {
+					case EVEN_ODD, NON_ZERO -> windCnt2 == 0;
+					case POSITIVE -> windCnt2 <= 0;
+					default -> windCnt2 >= 0;
+				};
 			}
-			switch (pft2) {
-			case EVEN_ODD:
-			case NON_ZERO:
-				return windCnt2 != 0;
-			case POSITIVE:
-				return windCnt2 > 0;
-			default:
-				return windCnt2 < 0;
-			}
+			return switch (pft2) {
+				case EVEN_ODD, NON_ZERO -> windCnt2 != 0;
+				case POSITIVE -> windCnt2 > 0;
+				default -> windCnt2 < 0;
+			};
 		case XOR:
 			if (windDelta == 0) {
-				switch (pft2) {
-				case EVEN_ODD:
-				case NON_ZERO:
-					return windCnt2 == 0;
-				case POSITIVE:
-					return windCnt2 <= 0;
-				default:
-					return windCnt2 >= 0;
-				}
+				return switch (pft2) {
+					case EVEN_ODD, NON_ZERO -> windCnt2 == 0;
+					case POSITIVE -> windCnt2 <= 0;
+					default -> windCnt2 >= 0;
+				};
 			}
 			return true;
 		}

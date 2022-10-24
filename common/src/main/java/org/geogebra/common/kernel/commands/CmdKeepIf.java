@@ -37,8 +37,7 @@ public class CmdKeepIf extends CommandProcessor {
 		GeoElement[] args;
 		String arg1Str;
 		switch (n) {
-
-		case 3:
+		case 3 -> {
 			// eg KeepIf[x(A)<2,A,{(1,1),(2,2),(3,3)}]
 
 			// eg KeepIf[x(A)<3, A+B, {1,2,3}]
@@ -52,7 +51,6 @@ public class CmdKeepIf extends CommandProcessor {
 				throw argErr(c,
 						new MyStringBuffer(kernel, arg1Str));
 			}
-
 			GeoElement[] vars = new GeoElement[1];
 			GeoList[] over = new GeoList[1];
 			boolean oldval = cons.isSuppressLabelsActive();
@@ -68,18 +66,15 @@ public class CmdKeepIf extends CommandProcessor {
 				}
 				cons.setSuppressLabelCreation(oldval);
 			}
-
 			if (arg instanceof GeoBoolean) {
 
 				GeoElement[] ret = getResult3(c, (GeoBoolean) arg, vars, over);
 				return ret;
 			}
-
 			throw argErr(c, arg);
-
-		case 2:
+		}
+		case 2 -> {
 			args = resArgs(c);
-
 			if ((ok[0] = args[0] instanceof GeoFunction)
 					&& (ok[1] = args[1].isGeoList())) {
 				GeoFunction booleanFun = (GeoFunction) args[0];
@@ -92,11 +87,9 @@ public class CmdKeepIf extends CommandProcessor {
 					return ret2;
 				}
 			}
-
 			throw argErr(c, getBadArg(ok, args));
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

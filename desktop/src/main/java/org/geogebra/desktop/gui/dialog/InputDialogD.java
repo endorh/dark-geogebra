@@ -247,19 +247,14 @@ public class InputDialogD extends InputDialog
 		inputPanel = new InputPanelD(getInitString(), app, rows, columns,
 				showSymbolPopupIcon, type);
 
-		sl = new GeoElementSelectionListener() {
-			@Override
-			public void geoElementSelected(GeoElement geo1,
-					boolean addToSelection) {
-				insertGeoElement(geo1);
-				inputPanel.getTextComponent().requestFocusInWindow();
-			}
+		sl = (geo1, addToSelection) -> {
+			insertGeoElement(geo1);
+			inputPanel.getTextComponent().requestFocusInWindow();
 		};
 
 		// add listeners to textfield
 		JTextComponent textComp = inputPanel.getTextComponent();
-		if (textComp instanceof AutoCompleteTextFieldD) {
-			AutoCompleteTextFieldD tf = (AutoCompleteTextFieldD) textComp;
+		if (textComp instanceof AutoCompleteTextFieldD tf) {
 			tf.setAutoComplete(autoComplete);
 			tf.addActionListener(this);
 		}
@@ -431,14 +426,7 @@ public class InputDialogD extends InputDialog
 		try {
 			if (source == btOK || source == inputPanel.getTextComponent()) {
 				String inputText = inputPanel.getText();
-				processInputHandler(inputText, new AsyncOperation<Boolean>() {
-
-					@Override
-					public void callback(Boolean ok) {
-						setVisible(!ok);
-
-					}
-				});
+				processInputHandler(inputText, ok -> setVisible(!ok));
 			} else if (source == btApply) {
 				String inputText = inputPanel.getText();
 				processInputHandler(inputText, null);

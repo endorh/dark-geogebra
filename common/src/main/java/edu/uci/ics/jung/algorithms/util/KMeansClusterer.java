@@ -123,10 +123,10 @@ public class KMeansClusterer<T> {
 					+ object_locations.size() + ")");
 		}
 
-		Set<double[]> centroids = new HashSet<double[]>();
+		Set<double[]> centroids = new HashSet<>();
 
 		Object[] obj_array = object_locations.keySet().toArray();
-		Set<T> tried = new HashSet<T>();
+		Set<T> tried = new HashSet<>();
 
 		// create the specified number of clusters
 		while (centroids.size() < num_clusters
@@ -138,6 +138,7 @@ public class KMeansClusterer<T> {
 			for (double[] cur : centroids) {
 				if (Arrays.equals(mean_value, cur)) {
 					duplicate = true;
+					break;
 				}
 			}
 			if (!duplicate) {
@@ -162,13 +163,13 @@ public class KMeansClusterer<T> {
 		while (iterations++ < max_iterations
 				&& max_movement > convergence_threshold) {
 			max_movement = 0;
-			Set<double[]> new_centroids = new HashSet<double[]>();
+			Set<double[]> new_centroids = new HashSet<>();
 			// calculate new mean for each cluster
 			for (Map.Entry<double[], Map<T, double[]>> entry : clusterMap
 					.entrySet()) {
 				double[] centroid = entry.getKey();
 				Map<T, double[]> elements = entry.getValue();
-				ArrayList<double[]> locations = new ArrayList<double[]>(
+				ArrayList<double[]> locations = new ArrayList<>(
 						elements.values());
 
 				double[] mean = DiscreteDistribution.mean(locations);
@@ -197,9 +198,9 @@ public class KMeansClusterer<T> {
 	 */
 	protected Map<double[], Map<T, double[]>> assignToClusters(
 			Map<T, double[]> object_locations, Set<double[]> centroids) {
-		Map<double[], Map<T, double[]>> clusterMap = new HashMap<double[], Map<T, double[]>>();
+		Map<double[], Map<T, double[]>> clusterMap = new HashMap<>();
 		for (double[] centroid : centroids) {
-			clusterMap.put(centroid, new HashMap<T, double[]>());
+			clusterMap.put(centroid, new HashMap<>());
 		}
 
 		for (Map.Entry<T, double[]> object_location : object_locations

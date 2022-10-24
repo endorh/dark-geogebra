@@ -14,7 +14,6 @@ package org.geogebra.common.kernel;
 
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Iterator;
 import java.util.TreeSet;
 
 import org.apache.commons.math3.analysis.solvers.BrentSolver;
@@ -65,31 +64,21 @@ public class EquationSolver implements EquationSolverInterface {
 		}
 
 		switch (degree) { // degree of polynomial
-		case -1:
-		case 0:
-			realRoots = 0;
-			break;
-
-		case 1:
+		case -1, 0 -> realRoots = 0;
+		case 1 -> {
 			roots[0] = -roots[0] / roots[1];
 			realRoots = 1;
-			break;
-
-		case 2:
+		}
+		case 2 -> {
 			realRoots = solveQuadraticS(roots, roots,
 					Kernel.STANDARD_PRECISION);
 			if (multiple && realRoots == 1) {
 				realRoots = 2;
 				roots[1] = roots[0];
 			}
-			break;
-
-		case 3:
-			realRoots = solveCubicS(roots, roots, Kernel.STANDARD_PRECISION);
-			break;
-
-		default:
-			realRoots = laguerreAll(roots);
+		}
+		case 3 -> realRoots = solveCubicS(roots, roots, Kernel.STANDARD_PRECISION);
+		default -> realRoots = laguerreAll(roots);
 		}
 
 		// solveQuadratic and solveCubic may return -1
@@ -100,22 +89,14 @@ public class EquationSolver implements EquationSolverInterface {
 	final public int polynomialComplexRoots(double[] real, double[] complex) {
 		int ret = -1;
 		switch (real.length - 1) { // degree of polynomial
-		case 0:
-			ret = 0;
-			break;
-
-		case 1:
+		case 0 -> ret = 0;
+		case 1 -> {
 			real[0] = -real[0] / real[1];
 			complex[0] = 0;
 			ret = 1;
-			break;
-
-		case 2:
-			ret = solveQuadraticComplex(real, complex);
-			break;
-
-		default:
-			ret = laguerreAllComplex(real, complex);
+		}
+		case 2 -> ret = solveQuadraticComplex(real, complex);
+		default -> ret = laguerreAllComplex(real, complex);
 		}
 
 		return ret;
@@ -682,15 +663,12 @@ public class EquationSolver implements EquationSolverInterface {
 
 		TreeSet<Complex> sortedSet = new TreeSet<>(getComparatorReal());
 
-		for (int i = 0; i < complexRoots.length; i++) {
-			sortedSet.add(complexRoots[i]);
-		}
+		sortedSet.addAll(Arrays.asList(complexRoots));
 
 		int roots = 0;
 		Complex temp;
-		Iterator<Complex> iterator = sortedSet.iterator();
-		while (iterator.hasNext()) {
-			temp = iterator.next();
+		for (Complex value : sortedSet) {
+			temp = value;
 			real[roots] = temp.getReal();
 			complex[roots] = temp.getImaginary();
 			roots++;
@@ -1013,26 +991,23 @@ public class EquationSolver implements EquationSolverInterface {
 	 */
 	public static Comparator<Complex> getComparatorReal() {
 		if (comparatorReal == null) {
-			comparatorReal = new Comparator<Complex>() {
-				@Override
-				public int compare(Complex itemA, Complex itemB) {
+			comparatorReal = (itemA, itemB) -> {
 
-					double compReal = itemA.getReal() - itemB.getReal();
+				double compReal = itemA.getReal() - itemB.getReal();
 
-					if (DoubleUtil.isZero(compReal)) {
-						double compImaginary = itemA.getImaginary()
-								- itemB.getImaginary();
+				if (DoubleUtil.isZero(compReal)) {
+					double compImaginary = itemA.getImaginary()
+							- itemB.getImaginary();
 
-						// if real parts equal, sort on imaginary
-						if (!DoubleUtil.isZero(compImaginary)) {
-							return compImaginary < 0 ? -1 : +1;
-						}
-
-						// return 0 -> remove duplicates!
-						return 0;
+					// if real parts equal, sort on imaginary
+					if (!DoubleUtil.isZero(compImaginary)) {
+						return compImaginary < 0 ? -1 : +1;
 					}
-					return compReal < 0 ? -1 : +1;
+
+					// return 0 -> remove duplicates!
+					return 0;
 				}
+				return compReal < 0 ? -1 : +1;
 			};
 
 		}

@@ -192,7 +192,7 @@ public class DrawConicSection extends DrawConic {
 
 		onlyEdge = false;
 
-		Double start0 = getStart(0);
+		double start0 = getStart(0);
 		// if no hole, just draw an ellipse
 		if (Double.isNaN(start0)) {
 			super.updateEllipse();
@@ -231,8 +231,8 @@ public class DrawConicSection extends DrawConic {
 			arc = AwtFactory.getPrototype().newArc2D();
 		}
 
-		Double extent0 = getExtent(0);
-		Double start1 = getStart(1);
+		double extent0 = getExtent(0);
+		double start1 = getStart(1);
 
 		// set the arc type : if one hole, add chord to close the arc, if two
 		// holes, let arcs open
@@ -258,7 +258,7 @@ public class DrawConicSection extends DrawConic {
 			((GGeneralPath) arcs).append(arc, true);
 
 			// second arc
-			Double extent1 = getExtent(1);
+			double extent1 = getExtent(1);
 			arc.setArc(-halfAxes[0], -halfAxes[1], 2 * halfAxes[0],
 					2 * halfAxes[1], -Math.toDegrees(start1),
 					-Math.toDegrees(extent1), GArc2D.OPEN);

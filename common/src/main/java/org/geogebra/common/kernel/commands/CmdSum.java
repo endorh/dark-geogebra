@@ -65,27 +65,27 @@ public class CmdSum extends CommandProcessor {
 		// if (size == 0) throw argErr(app, c, arg[0]);
 
 		switch (n) {
-		case 1:
+		case 1 -> {
 			if (fold instanceof NumberFold) {
-				GeoElement[] ret = { sum(c.getLabel(), list) };
+				GeoElement[] ret = {sum(c.getLabel(), list)};
 				return ret;
 			} else if (fold != null) {
-				GeoElement[] ret = { sum(c.getLabel(), list, null, fold) };
+				GeoElement[] ret = {sum(c.getLabel(), list, null, fold)};
 				return ret;
 			}
 			throw argErr(c, arg[0]);
-
-		case 2:
+		}
+		case 2 -> {
 			if (arg[1].isGeoNumeric()) {
 
 				if (fold instanceof NumberFold) {
 					AlgoSum algo = new AlgoSum(cons, list, (GeoNumeric) arg[1]);
 					algo.getResult().setLabel(c.getLabel());
-					GeoElement[] ret = { algo.getResult() };
+					GeoElement[] ret = {algo.getResult()};
 					return ret;
 				} else if (fold != null) {
-					GeoElement[] ret = { sum(c.getLabel(), list,
-							(GeoNumeric) arg[1], fold) };
+					GeoElement[] ret = {sum(c.getLabel(), list,
+							(GeoNumeric) arg[1], fold)};
 					return ret;
 				} else {
 					throw argErr(c, arg[0]);
@@ -96,20 +96,20 @@ public class CmdSum extends CommandProcessor {
 
 					AlgoSum algo = new AlgoSum(cons, list, (GeoList) arg[1]);
 					algo.getResult().setLabel(c.getLabel());
-					GeoElement[] ret = { algo.getResult() };
+					GeoElement[] ret = {algo.getResult()};
 					return ret;
 				}
 				throw argErr(c, arg[0]);
 			}
 			throw argErr(c, arg[0]);
-
-		default:
+		}
+		default -> {
 			// try to create list of numbers
 			if (arg[0] instanceof GeoNumberValue) {
 				GeoList wrapList = wrapInList(kernel, arg, arg.length,
 						GeoClass.NUMERIC);
 				if (wrapList != null) {
-					GeoElement[] ret = { sum(c.getLabel(), wrapList) };
+					GeoElement[] ret = {sum(c.getLabel(), wrapList)};
 					return ret;
 				}
 			} else if (arg[0] instanceof VectorValue) {
@@ -119,7 +119,7 @@ public class CmdSum extends CommandProcessor {
 				if (wrapList != null) {
 					GeoElement[] ret = {
 							sum(c.getLabel(), wrapList, null,
-									new PointNDFold()) };
+									new PointNDFold())};
 					return ret;
 				}
 			} else if (arg[0].isGeoFunction()) {
@@ -129,7 +129,7 @@ public class CmdSum extends CommandProcessor {
 				if (wrapList != null) {
 					GeoElement[] ret = {
 							sum(c.getLabel(), wrapList, null,
-									new FunctionFold()) };
+									new FunctionFold())};
 					return ret;
 				}
 			} else if (arg[0].isGeoFunctionNVar()) {
@@ -139,7 +139,7 @@ public class CmdSum extends CommandProcessor {
 				if (wrapList != null) {
 					GeoElement[] ret = {
 							sum(c.getLabel(), wrapList, null,
-									new FunctionNvarFold()) };
+									new FunctionNvarFold())};
 					return ret;
 				}
 			} else if (arg[0].isGeoText()) {
@@ -149,7 +149,7 @@ public class CmdSum extends CommandProcessor {
 				if (wrapList != null) {
 					GeoElement[] ret = {
 							sum(c.getLabel(), wrapList, null,
-									new TextFold()) };
+									new TextFold())};
 					return ret;
 				}
 			} else if (arg[0].isGeoList()) {
@@ -159,11 +159,12 @@ public class CmdSum extends CommandProcessor {
 				if (wrapList != null) {
 					GeoElement[] ret = {
 							sum(c.getLabel(), wrapList, null,
-									new ListFold()) };
+									new ListFold())};
 					return ret;
 				}
 			}
 			throw argNumErr(c);
+		}
 		}
 	}
 

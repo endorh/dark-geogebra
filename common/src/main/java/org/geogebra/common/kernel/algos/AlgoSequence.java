@@ -352,8 +352,7 @@ public class AlgoSequence extends AlgoElement implements SetRandomValue {
 		// by their current values
 		if (expIsFunctionOrCurve) {
 			// GeoFunction
-			if (listElement instanceof ReplaceChildrenByValues) {
-				ReplaceChildrenByValues f = (ReplaceChildrenByValues) listElement;
+			if (listElement instanceof ReplaceChildrenByValues f) {
 				f.replaceChildrenByValues(var);
 			}
 		}

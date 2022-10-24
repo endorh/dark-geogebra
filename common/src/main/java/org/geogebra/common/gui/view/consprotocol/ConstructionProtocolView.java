@@ -280,11 +280,11 @@ public class ConstructionProtocolView implements ConstructionStepper {
 			consProtocolVisible = ConstructionProtocolView.getBreakpoint(geo);
 
 			// does this line include an index?
-			includesIndex = (name.indexOf("<sub>") >= 0)
-					|| (algebra.indexOf("<sub>") >= 0)
-					|| (description.indexOf("<sub>") >= 0)
-					|| (definition.indexOf("<sub>") >= 0)
-					|| (caption.indexOf("<sub>") >= 0);
+			includesIndex = (name.contains("<sub>"))
+					|| (algebra.contains("<sub>"))
+					|| (description.contains("<sub>"))
+					|| (definition.contains("<sub>"))
+					|| (caption.contains("<sub>"));
 		}
 
 		protected int getConstructionIndex(int row) {
@@ -380,8 +380,8 @@ public class ConstructionProtocolView implements ConstructionStepper {
 		// update all registered navigation bars
 		kernel.notifyRepaint();
 		int size = navigationBars.size();
-		for (int i = 0; i < size; i++) {
-			navigationBars.get(i).update();
+		for (ConstructionProtocolNavigation navigationBar : navigationBars) {
+			navigationBar.update();
 		}
 	}
 
@@ -577,8 +577,7 @@ public class ConstructionProtocolView implements ConstructionStepper {
 
 			// search the current construction step in the rowList
 			int size = rowList.size();
-			for (int i = 0; i < size; i++) {
-				RowData rd = rowList.get(i);
+			for (RowData rd : rowList) {
 				if (rd.getGeo().getConstructionIndex() == kernel
 						.getClosestStep(step)) {
 					return rd.getIndex();
@@ -871,8 +870,8 @@ public class ConstructionProtocolView implements ConstructionStepper {
 			int lastIndex = -1;
 			int count = 0;
 			RowData row;
-			for (int i = 0; i < size; ++i) {
-				row = rowList.get(i);
+			for (RowData rowData : rowList) {
+				row = rowData;
 				int newIndex = row.getGeo().getConstructionIndex();
 				if (lastIndex != newIndex) {
 					lastIndex = newIndex;
@@ -1085,10 +1084,10 @@ public class ConstructionProtocolView implements ConstructionStepper {
 
 		int nColumns = columns.size();
 
-		for (int nCol = 0; nCol < nColumns; nCol++) {
+		for (Columns value : columns) {
 			// toolbar icon will only be inserted on request
 
-			title = columns.get(nCol).getTranslation(loc);
+			title = value.getTranslation(loc);
 			sb.append("<th>");
 			sb.append(StringUtil.toHTMLString(title));
 			sb.append("</th>\n");
@@ -1103,51 +1102,21 @@ public class ConstructionProtocolView implements ConstructionStepper {
 		for (int nRow = 0; nRow < endRow; nRow++) {
 			GeoElement geo = it.next();
 			sb.append("<tr style='vertical-align:baseline;'>\n");
-			for (int nCol = 0; nCol < nColumns; nCol++) {
-
-				Columns column = columns.get(nCol);
+			for (Columns column : columns) {
 
 				// toolbar icon will only be inserted on request
 
-				String str = "";
-
-				switch (column) {
-				default:
-					str = "";
-					break;
-
-				case NUMBER:
-					str = (nRow + 1) + "";
-					break;
-				case CAPTION:
-					str = getCaption(geo, false);
-					break;
-
-				case NAME:
-					str = getName(geo);
-					break;
-
-				case TOOLBARICON:
-					str = getModeIcon(geo);
-					break;
-
-				case DESCRIPTION:
-					str = getDescription(geo, false);
-					break;
-
-				case DEFINITION:
-					str = getDefinition(geo, false);
-					break;
-
-				case VALUE:
-					str = getAlgebra(geo);
-					break;
-
-				case BREAKPOINT:
-					str = getBreakpoint(geo) + "";
-					break;
-
-				}
+				String str = switch (column) {
+					default -> "";
+					case NUMBER -> (nRow + 1) + "";
+					case CAPTION -> getCaption(geo, false);
+					case NAME -> getName(geo);
+					case TOOLBARICON -> getModeIcon(geo);
+					case DESCRIPTION -> getDescription(geo, false);
+					case DEFINITION -> getDefinition(geo, false);
+					case VALUE -> getAlgebra(geo);
+					case BREAKPOINT -> getBreakpoint(geo) + "";
+				};
 
 				sb.append("<td>");
 				if ("".equals(str)) {
@@ -1231,7 +1200,7 @@ public class ConstructionProtocolView implements ConstructionStepper {
 			sb.append("<tr>\n");
 
 			sb.append("<td>");
-			sb.append("#" + (i + 1));
+			sb.append("#").append(i + 1);
 			sb.append("</td>\n");
 			sb.append("<td>");
 			appendHTML(sb, input);
@@ -1322,7 +1291,7 @@ public class ConstructionProtocolView implements ConstructionStepper {
 			sb.append("<tr>\n");
 
 			sb.append("<td>");
-			sb.append("" + (row + 1));
+			sb.append("").append(row + 1);
 			sb.append("</td>\n");
 
 			for (int col = 0 ; col < cols ; col++) {
@@ -1347,7 +1316,7 @@ public class ConstructionProtocolView implements ConstructionStepper {
 				}
 
 				if (row == 0) {
-					sb.append("<td style='width:" + widthPercent + "%'>");
+					sb.append("<td style='width:").append(widthPercent).append("%'>");
 				} else {
 					sb.append("<td>");
 				}

@@ -28,29 +28,26 @@ public class CmdClosestPointRegion extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2:
+		case 2 -> {
 			arg = resArgs(c);
-
 			if ((ok[0] = arg[0].isRegion()) && (ok[1] = arg[1].isGeoPoint())) {
-				return new GeoElement[] { (GeoElement) kernel.getManager3D()
+				return new GeoElement[]{(GeoElement) kernel.getManager3D()
 						.closestPoint(c.getLabel(), (Region) arg[0],
-								(GeoPointND) arg[1]) };
+								(GeoPointND) arg[1])};
 			}
-
 			if ((ok[1] = arg[1].isRegion()) && (ok[0] = arg[0].isGeoPoint())) {
-				return new GeoElement[] { (GeoElement) kernel.getManager3D()
+				return new GeoElement[]{(GeoElement) kernel.getManager3D()
 						.closestPoint(c.getLabel(), (Region) arg[1],
-								(GeoPointND) arg[0]) };
+								(GeoPointND) arg[0])};
 			}
-
 			if (ok[0] && !ok[1]) {
 				throw argErr(c, arg[1]);
 			}
 			throw argErr(c, arg[0]);
-
-		default:
+		}
+		default ->
 			// return super.process(c);
-			throw argNumErr(c);
+				throw argNumErr(c);
 		}
 	}
 }

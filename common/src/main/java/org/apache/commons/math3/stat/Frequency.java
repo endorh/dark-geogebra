@@ -73,7 +73,7 @@ public class Frequency implements Serializable {
      * Default constructor.
      */
     public Frequency() {
-        freqTable = new TreeMap<Comparable<?>, Long>();
+        freqTable = new TreeMap<>();
     }
 
     /**
@@ -83,7 +83,7 @@ public class Frequency implements Serializable {
      */
     @SuppressWarnings("unchecked") // TODO is the cast OK?
     public Frequency(Comparator<?> comparator) {
-        freqTable = new TreeMap<Comparable<?>, Long>((Comparator<? super Comparable<?>>) comparator);
+        freqTable = new TreeMap<>((Comparator<? super Comparable<?>>) comparator);
     }
 
     /**
@@ -95,9 +95,7 @@ public class Frequency implements Serializable {
     public String toString() {
         StringBuilder outBuffer = new StringBuilder();
         outBuffer.append("Value \t Freq. \t Pct. \t Cum Pct. \n");
-        Iterator<Comparable<?>> iter = freqTable.keySet().iterator();
-        while (iter.hasNext()) {
-            Comparable<?> value = iter.next();
+        for (Comparable<?> value : freqTable.keySet()) {
             outBuffer.append(value);
             outBuffer.append('\t');
             outBuffer.append(getCount(value));
@@ -172,14 +170,14 @@ public class Frequency implements Serializable {
     public void incrementValue(Comparable<?> v, long increment) throws MathIllegalArgumentException {
         Comparable<?> obj = v;
         if (v instanceof Integer) {
-            obj = Long.valueOf(((Integer) v).longValue());
+            obj = ((Integer) v).longValue();
         }
         try {
             Long count = freqTable.get(obj);
             if (count == null) {
-                freqTable.put(obj, Long.valueOf(increment));
+                freqTable.put(obj, increment);
             } else {
-                freqTable.put(obj, Long.valueOf(count.longValue() + increment));
+                freqTable.put(obj, count.longValue() + increment);
             }
         } catch (ClassCastException ex) {
             //TreeMap will throw ClassCastException if v is not comparable
@@ -284,9 +282,8 @@ public class Frequency implements Serializable {
      */
     public long getSumFreq() {
         long result = 0;
-        Iterator<Long> iterator = freqTable.values().iterator();
-        while (iterator.hasNext())  {
-            result += iterator.next().longValue();
+        for (Long aLong : freqTable.values()) {
+            result += aLong;
         }
         return result;
     }
@@ -306,7 +303,7 @@ public class Frequency implements Serializable {
         try {
             Long count =  freqTable.get(v);
             if (count != null) {
-                result = count.longValue();
+                result = count;
             }
         } catch (ClassCastException ex) { // NOPMD
             // ignore and return 0 -- ClassCastException will be thrown if value is not comparable
@@ -433,7 +430,7 @@ public class Frequency implements Serializable {
         try {
             Long value = freqTable.get(v);
             if (value != null) {
-                result = value.longValue();
+                result = value;
             }
         } catch (ClassCastException ex) {
             return result;   // v is not comparable
@@ -566,15 +563,15 @@ public class Frequency implements Serializable {
 
         // Get the max count first, so we avoid having to recreate the List each time
         for(Long l : freqTable.values()) {
-            long frequency = l.longValue();
+            long frequency = l;
             if (frequency > mostPopular) {
                 mostPopular = frequency;
             }
         }
 
-        List<Comparable<?>> modeList = new ArrayList<Comparable<?>>();
+        List<Comparable<?>> modeList = new ArrayList<>();
         for (Entry<Comparable<?>, Long> ent : freqTable.entrySet()) {
-            long frequency = ent.getValue().longValue();
+            long frequency = ent.getValue();
             if (frequency == mostPopular) {
                modeList.add(ent.getKey());
             }
@@ -599,7 +596,7 @@ public class Frequency implements Serializable {
         final Iterator<Map.Entry<Comparable<?>, Long>> iter = other.entrySetIterator();
         while (iter.hasNext()) {
             final Map.Entry<Comparable<?>, Long> entry = iter.next();
-            incrementValue(entry.getKey(), entry.getValue().longValue());
+            incrementValue(entry.getKey(), entry.getValue());
         }
     }
 
@@ -667,10 +664,9 @@ public class Frequency implements Serializable {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof Frequency)) {
+        if (!(obj instanceof Frequency other)) {
             return false;
         }
-        Frequency other = (Frequency) obj;
         if (freqTable == null) {
             if (other.freqTable != null) {
                 return false;

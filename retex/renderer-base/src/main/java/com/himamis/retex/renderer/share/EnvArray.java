@@ -209,8 +209,7 @@ public class EnvArray {
 			final AtomConsumer ac = tp.pop();
 			if (ac instanceof ArrayOfAtoms) {
 				final AtomConsumer c = tp.pop();
-				if (c instanceof Begin) {
-					final Begin beg = (Begin) c;
+				if (c instanceof final Begin beg) {
 					if (type != beg.getType()) {
 						throw new ParseException(tp,
 								"Close a " + beg.getType().toString() + " with a " + type.toString());

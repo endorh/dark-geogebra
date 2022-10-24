@@ -87,20 +87,16 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 
 				sb.append(' ');
 				switch (stringType) {
-				case LATEX:
+				case LATEX -> {
 					if (tpl.isInsertLineBreaks()) {
 						sb.append("\\-");
 					}
 					sb.append("\\to");
-					break;
+				}
+				case LIBRE_OFFICE -> sb.append("toward"); // don't know if it is correct TAM
 
-				case LIBRE_OFFICE:
-					sb.append("toward"); // don't know if it is correct TAM
-											// 5/28/2012
-					break;
-
-				default:
-					sb.append(strIMPLIES);
+				// 5/28/2012
+				default -> sb.append(strIMPLIES);
 				}
 				sb.append(' ');
 
@@ -112,7 +108,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 			if (stringType.equals(StringType.CONTENT_MATHML)) {
 				MathmlTemplate.mathml(sb, "<eq/>", leftStr, rightStr);
 			} else if (stringType.equals(StringType.OGP)) {
-				sb.append("AreEqual[" + leftStr + "," + rightStr + "]");
+				sb.append("AreEqual[").append(leftStr).append(",").append(rightStr).append("]");
 			} else {
 
 				if (tpl.getStringType().isGiac()) {
@@ -154,17 +150,14 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				// sb.append(leftStr);
 				sb.append(' ');
 				switch (stringType) {
-				case LATEX:
+				case LATEX -> {
 					if (tpl.isInsertLineBreaks()) {
 						sb.append("\\-");
 					}
 					sb.append("\\in");
-					break;
-				case LIBRE_OFFICE:
-					sb.append(" in ");
-					break;
-				default:
-					sb.append(strIS_ELEMENT_OF);
+				}
+				case LIBRE_OFFICE -> sb.append(" in ");
+				default -> sb.append(strIS_ELEMENT_OF);
 				}
 				sb.append(' ');
 				tpl.append(sb, rightStr, right, operation);
@@ -225,17 +218,14 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				// sb.append(leftStr);
 				sb.append(' ');
 				switch (stringType) {
-				case LATEX:
+				case LATEX -> {
 					if (tpl.isInsertLineBreaks()) {
 						sb.append("\\-");
 					}
 					sb.append("\\setminus");
-					break;
-				case LIBRE_OFFICE:
-					sb.append(" setminus ");
-					break;
-				default:
-					sb.append(strSET_DIFFERENCE);
+				}
+				case LIBRE_OFFICE -> sb.append(" setminus ");
+				default -> sb.append(strSET_DIFFERENCE);
 				}
 				sb.append(' ');
 				if (right.isExpressionNode()
@@ -283,7 +273,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 
 		case PARALLEL:
 			if (stringType.equals(StringType.OGP)) {
-				sb.append("AreParallel[" + leftStr + "," + rightStr + "]");
+				sb.append("AreParallel[").append(leftStr).append(",").append(rightStr).append("]");
 				break;
 			}
 			tpl.infixBinary(sb, left, right, operation, leftStr, rightStr, tpl.parallelSign());
@@ -291,7 +281,8 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 
 		case PERPENDICULAR:
 			if (stringType.equals(StringType.OGP)) {
-				sb.append("ArePerpendicular[" + leftStr + "," + rightStr + "]");
+				sb.append("ArePerpendicular[").append(leftStr).append(",").append(rightStr)
+						.append("]");
 				break;
 			}
 			tpl.infixBinary(sb, left, right, operation, leftStr, rightStr, tpl.perpSign());
@@ -313,17 +304,14 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				// sb.append(leftStr);
 				sb.append(' ');
 				switch (stringType) {
-				case LATEX:
+				case LATEX -> {
 					if (tpl.isInsertLineBreaks()) {
 						sb.append("\\-");
 					}
 					sb.append("\\otimes");
-					break;
-				case LIBRE_OFFICE:
-					sb.append(" cdot ");
-					break;
-				default:
-					sb.append(strVECTORPRODUCT);
+				}
+				case LIBRE_OFFICE -> sb.append(" cdot ");
+				default -> sb.append(strVECTORPRODUCT);
 				}
 				sb.append(' ');
 				boolean rightVectorProduct = right.isExpressionNode()
@@ -354,10 +342,8 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 
 		case FACTORIAL:
 			switch (stringType) {
-			case CONTENT_MATHML:
-				MathmlTemplate.mathml(sb, "<factorial/>", leftStr, null);
-				break;
-			case LIBRE_OFFICE:
+			case CONTENT_MATHML -> MathmlTemplate.mathml(sb, "<factorial/>", leftStr, null);
+			case LIBRE_OFFICE -> {
 				sb.append("fact {");
 				if ((leftStr.charAt(0) != '-') && // no unary
 						left.isLeaf()) {
@@ -368,21 +354,20 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 					sb.append(')');
 				}
 				sb.append(" }");
-				break;
-
-			default:
+			}
+			default -> {
 				if (((leftStr.charAt(0) != '-') && // no unary
 						tpl.isSinglePowerArg(left) && !StringTemplate.isFraction(left))
 						&& !(left instanceof GeoSymbolicI && stringType == StringType.GIAC)
 						|| (ExpressionNode.opID(left) > Operation.POWER.ordinal()
-								&& ExpressionNode.opID(left) != Operation.FACTORIAL.ordinal())) {
+						&& ExpressionNode.opID(left) != Operation.FACTORIAL.ordinal())) {
 					// not +, -, *, /, ^
 					sb.append(leftStr);
 				} else {
 					tpl.appendWithBrackets(sb, leftStr);
 				}
 				sb.append('!');
-				break;
+			}
 			}
 			break;
 
@@ -507,85 +492,49 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 			break;
 		case ZETA:
 			switch (stringType) {
-			case LATEX:
-				sb.append("\\zeta\\left( ");
-				break;
-
-			case LIBRE_OFFICE:
-				sb.append("func zeta left (");
-				break;
-			case GIAC:
-				sb.append("Zeta(");
-				break;
-			default:
-				sb.append("zeta(");
+			case LATEX -> sb.append("\\zeta\\left( ");
+			case LIBRE_OFFICE -> sb.append("func zeta left (");
+			case GIAC -> sb.append("Zeta(");
+			default -> sb.append("zeta(");
 			}
 			sb.append(leftStr);
 			sb.append(tpl.rightBracket());
 			break;
 		case CI:
 			switch (stringType) {
-			case LATEX:
-
+			case LATEX -> {
 				wrapInBackslashOperatorname(sb, "Ci");
-
 				sb.append(" \\left( ");
-				break;
-
-			case LIBRE_OFFICE:
-				sb.append("func Ci left (");
-				break;
-
-			case GIAC:
-				appendFunction(sb, "Ci");
-				break;
-			default:
-				sb.append("cosIntegral(");
+			}
+			case LIBRE_OFFICE -> sb.append("func Ci left (");
+			case GIAC -> appendFunction(sb, "Ci");
+			default -> sb.append("cosIntegral(");
 			}
 			sb.append(leftStr);
 			sb.append(tpl.rightBracket());
 			break;
 		case SI:
 			switch (stringType) {
-			case LATEX:
-
+			case LATEX -> {
 				wrapInBackslashOperatorname(sb, "Si");
-
 				sb.append(" \\left( ");
-				break;
-
-			case LIBRE_OFFICE:
-				sb.append("func Si left (");
-				break;
-
-			case GIAC:
-				appendFunction(sb, "Si");
-				break;
-
-			default:
-				sb.append("sinIntegral(");
+			}
+			case LIBRE_OFFICE -> sb.append("func Si left (");
+			case GIAC -> appendFunction(sb, "Si");
+			default -> sb.append("sinIntegral(");
 			}
 			sb.append(leftStr);
 			sb.append(tpl.rightBracket());
 			break;
 		case EI:
 			switch (stringType) {
-			case LATEX:
-
+			case LATEX -> {
 				wrapInBackslashOperatorname(sb, "Ei");
-
 				sb.append(" \\left( ");
-				break;
-			case LIBRE_OFFICE:
-				sb.append("func Ei left (");
-				break;
-
-			case GIAC:
-				appendFunction(sb, "Ei");
-				break;
-
-			default:
-				sb.append("expIntegral(");
+			}
+			case LIBRE_OFFICE -> sb.append("func Ei left (");
+			case GIAC -> appendFunction(sb, "Ei");
+			default -> sb.append("expIntegral(");
 			}
 			sb.append(leftStr);
 			sb.append(tpl.rightBracket());
@@ -662,15 +611,9 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				MathmlTemplate.mathml(sb, "<ln/>", leftStr, null);
 			} else {
 				switch (stringType) {
-				case LATEX:
-					sb.append("\\ln");
-					break;
-				case GIAC:
-					sb.append("log");
-					break;
-				default:
-					sb.append("ln");
-					break;
+				case LATEX -> sb.append("\\ln");
+				case GIAC -> sb.append("log");
+				default -> sb.append("ln");
 				}
 				tpl.addLogBracketsIfNecessary(sb, leftStr, left);
 			}
@@ -760,16 +703,15 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 
 		case POLYGAMMA:
 			switch (stringType) {
-			case LATEX:
+			case LATEX -> {
 				sb.append("\\psi_{");
 				sb.append(leftStr);
 				sb.append('}');
 				sb.append(tpl.leftBracket());
 				sb.append(rightStr);
 				sb.append(tpl.rightBracket());
-				break;
-
-			case GIAC:
+			}
+			case GIAC -> {
 				// *******************
 				// arguments swapped
 				// swapped back in CommandDispatcherGiac
@@ -779,8 +721,8 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				sb.append(',');
 				sb.append(leftStr);
 				sb.append(')');
-				break;
-			default:
+			}
+			default -> {
 				sb.append("polygamma(");
 				sb.append(leftStr);
 				if (stringType.equals(StringType.LIBRE_OFFICE)) {
@@ -790,8 +732,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				}
 				sb.append(rightStr);
 				sb.append(')');
-				break;
-
+			}
 			}
 			break;
 
@@ -841,33 +782,28 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 
 		case LOG10:
 			switch (stringType) {
-			case CONTENT_MATHML:
-				MathmlTemplate.mathml(sb, "<log/>", leftStr, null);
-				break;
-			case LATEX:
+			case CONTENT_MATHML -> MathmlTemplate.mathml(sb, "<log/>", leftStr, null);
+			case LATEX -> {
 				sb.append("\\log_{10} \\left(");
 				sb.append(leftStr);
 				sb.append("\\right)");
-				break;
-			case LIBRE_OFFICE:
+			}
+			case LIBRE_OFFICE -> {
 				sb.append("log_10 (");
 				sb.append(leftStr);
 				sb.append(")");
-				break;
-			case PSTRICKS:
+			}
+			case PSTRICKS -> {
 				sb.append("log(");
 				sb.append(leftStr);
 				sb.append(')');
-				break;
-
-			case GIAC:
-			case PGF:
+			}
+			case GIAC, PGF -> {
 				sb.append("log10("); // user-defined function in Maxima
 				sb.append(leftStr);
 				sb.append(')');
-				break;
-
-			default:
+			}
+			default -> {
 				if (tpl == StringTemplate.editorTemplate) {
 					sb.append("log(10,");
 				} else {
@@ -875,29 +811,28 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				}
 				sb.append(leftStr);
 				sb.append(')');
-				break;
+			}
 			}
 			break;
 
 		case LOG2:
 			switch (stringType) {
-			case LATEX:
+			case LATEX -> {
 				sb.append("\\log_{2} \\left(");
 				sb.append(leftStr);
 				sb.append("\\right)");
-				break;
-			case LIBRE_OFFICE:
+			}
+			case LIBRE_OFFICE -> {
 				sb.append("log_2 (");
 				sb.append(leftStr);
 				sb.append(")");
-				break;
-			case GIAC:
+			}
+			case GIAC -> {
 				sb.append("log(");
 				sb.append(leftStr);
 				sb.append(")/log(2)");
-				break;
-
-			default:
+			}
+			default -> {
 				if (tpl == StringTemplate.editorTemplate) {
 					sb.append("log(2,");
 				} else {
@@ -905,7 +840,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				}
 				sb.append(leftStr);
 				sb.append(')');
-				break;
+			}
 			}
 			break;
 		case NROOT:
@@ -986,27 +921,23 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 		case SQRT_SHORT:
 		case SQRT:
 			switch (stringType) {
-			case SCREEN_READER:
+			case SCREEN_READER -> {
 				sb.append(ScreenReader.getStartSqrt(loc));
 				sb.append(leftStr);
 				sb.append(ScreenReader.getEndSqrt(loc));
-
-				break;
-			case CONTENT_MATHML:
-				MathmlTemplate.mathml(sb, "<root/>", leftStr, null);
-				break;
-			case LATEX:
+			}
+			case CONTENT_MATHML -> MathmlTemplate.mathml(sb, "<root/>", leftStr, null);
+			case LATEX -> {
 				sb.append("\\sqrt{");
 				sb.append(leftStr);
 				sb.append('}');
-				break;
-			case LIBRE_OFFICE:
+			}
+			case LIBRE_OFFICE -> {
 				sb.append("sqrt{");
 				sb.append(leftStr);
 				sb.append('}');
-				break;
-
-			default:
+			}
+			default -> {
 				if (tpl.printsUnicodeSqrt()) {
 					sb.append("\u221a");
 				} else {
@@ -1016,76 +947,75 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				sb.append(leftStr);
 				sb.append(')');
 			}
+			}
 			break;
 
 		case CBRT:
 			switch (stringType) {
-			case SCREEN_READER:
+			case SCREEN_READER -> {
 				sb.append(ScreenReader.getStartCbrt(loc));
 				sb.append(leftStr);
 				sb.append(ScreenReader.getEndCbrt(loc));
-				break;
-			case CONTENT_MATHML:
-				MathmlTemplate.mathml(sb, "<root/>", "<degree>", "3", "</degree>", "", leftStr, "");
-				break;
-			case LATEX:
+			}
+			case CONTENT_MATHML ->
+					MathmlTemplate.mathml(sb, "<root/>", "<degree>", "3", "</degree>", "", leftStr,
+							"");
+			case LATEX -> {
 				sb.append("\\sqrt[3]{");
 				sb.append(leftStr);
 				sb.append('}');
-				break;
-			case LIBRE_OFFICE:
+			}
+			case LIBRE_OFFICE -> {
 				sb.append("nroot{3}{");
 				sb.append(leftStr);
 				sb.append('}');
-				break;
-
-			case GIAC:
+			}
+			case GIAC -> {
 				// was simplify(surd(, causes problems with output from cubic
 				// formula, eg x^3 - 6x^2 - 7x + 9
 				sb.append("surd(");
 				sb.append(leftStr);
 				sb.append(",3)");
-				break;
-			default:
+			}
+			default -> {
 				sb.append("cbrt(");
 				sb.append(leftStr);
 				sb.append(')');
+			}
 			}
 			break;
 
 		case ABS:
 			switch (stringType) {
-			case SCREEN_READER:
+			case SCREEN_READER -> {
 				sb.append(ScreenReader.getStartAbs(loc));
 				sb.append(leftStr);
 				sb.append(ScreenReader.getEndAbs(loc));
-				break;
-			case CONTENT_MATHML:
-				MathmlTemplate.mathml(sb, "<abs/>", leftStr, null);
-				break;
-			case LATEX:
+			}
+			case CONTENT_MATHML -> MathmlTemplate.mathml(sb, "<abs/>", leftStr, null);
+			case LATEX -> {
 				sb.append("\\left|");
 				sb.append(leftStr);
 				sb.append("\\right|");
-				break;
-			case LIBRE_OFFICE:
+			}
+			case LIBRE_OFFICE -> {
 				sb.append("abs{");
 				sb.append(leftStr);
 				sb.append('}');
-				break;
-			case GIAC:
+			}
+			case GIAC -> {
 				// Giac's abs() now works for Vectors
 				// so this is OK
 				// (used to be custom ggbabs() function)
 				sb.append("abs(");
 				sb.append(leftStr);
 				sb.append(")");
-				break;
-
-			default:
+			}
+			default -> {
 				sb.append("abs(");
 				sb.append(leftStr);
 				sb.append(')');
+			}
 			}
 			break;
 
@@ -1111,35 +1041,32 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 
 		case CONJUGATE:
 			switch (stringType) {
-			case CONTENT_MATHML:
-				MathmlTemplate.mathml(sb, "<conjugate/>", leftStr, null);
-				break;
-			case LATEX:
+			case CONTENT_MATHML -> MathmlTemplate.mathml(sb, "<conjugate/>", leftStr, null);
+			case LATEX -> {
 				sb.append("\\overline{");
 				sb.append(leftStr);
 				sb.append("}");
-				break;
-			case LIBRE_OFFICE:
+			}
+			case LIBRE_OFFICE -> {
 				sb.append("overline{");
 				sb.append(leftStr);
 				sb.append("}");
-				break;
-
-			case GIAC:
+			}
+			case GIAC -> {
 				sb.append("conj(");
 				sb.append(leftStr);
 				sb.append(')');
-				break;
-			default:
+			}
+			default -> {
 				if (tpl.isPrintLocalizedCommandNames()) {
 					sb.append(loc.getFunction("conjugate"));
 				} else {
 					sb.append("conjugate");
 				}
-
 				sb.append("(");
 				sb.append(leftStr);
 				sb.append(')');
+			}
 			}
 			break;
 
@@ -1195,63 +1122,52 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 
 		case FLOOR:
 			switch (stringType) {
-			case CONTENT_MATHML:
-				MathmlTemplate.mathml(sb, "<floor/>", leftStr, null);
-				break;
-			case LATEX:
+			case CONTENT_MATHML -> MathmlTemplate.mathml(sb, "<floor/>", leftStr, null);
+			case LATEX -> {
 				sb.append("\\left");
 				sb.append("\\lfloor ");
 				sb.append(leftStr);
 				sb.append("\\right");
-
 				sb.append("\\rfloor ");
-				break;
-			case LIBRE_OFFICE:
+			}
+			case LIBRE_OFFICE -> {
 				sb.append(" left lfloor ");
 				sb.append(leftStr);
 				sb.append(" right rfloor");
-				break;
-
-			default:
+			}
+			default -> {
 				sb.append("floor(");
 				sb.append(leftStr);
 				sb.append(')');
+			}
 			}
 			break;
 
 		case CEIL:
 			switch (stringType) {
-			case CONTENT_MATHML:
-				MathmlTemplate.mathml(sb, "<ceiling/>", leftStr, null);
-				break;
-			case LATEX:
-
+			case CONTENT_MATHML -> MathmlTemplate.mathml(sb, "<ceiling/>", leftStr, null);
+			case LATEX -> {
 				sb.append("\\left");
-
 				sb.append("\\lceil ");
 				sb.append(leftStr);
-
 				sb.append("\\right");
-
 				sb.append("\\rceil ");
-				break;
-			case LIBRE_OFFICE:
+			}
+			case LIBRE_OFFICE -> {
 				sb.append("left lceil ");
 				sb.append(leftStr);
 				sb.append(" right rceil");
-				break;
-
-			case GIAC:
-			case PSTRICKS:
+			}
+			case GIAC, PSTRICKS -> {
 				sb.append("ceiling(");
 				sb.append(leftStr);
 				sb.append(')');
-				break;
-
-			default:
+			}
+			default -> {
 				sb.append("ceil(");
 				sb.append(leftStr);
 				sb.append(')');
+			}
 			}
 			break;
 
@@ -1285,18 +1201,10 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 
 		case GAMMA:
 			switch (stringType) {
-			case LATEX:
-				sb.append(" \\Gamma \\left( ");
-				break;
-			case LIBRE_OFFICE:
-				sb.append("%GAMMA left (");
-				break;
-			case GIAC:
-				sb.append("Gamma(");
-				break;
-
-			default:
-				sb.append("gamma(");
+			case LATEX -> sb.append(" \\Gamma \\left( ");
+			case LIBRE_OFFICE -> sb.append("%GAMMA left (");
+			case GIAC -> sb.append("Gamma(");
+			default -> sb.append("gamma(");
 			}
 			sb.append(leftStr);
 			sb.append(tpl.rightBracket());
@@ -1304,18 +1212,10 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 
 		case GAMMA_INCOMPLETE:
 			switch (stringType) {
-			case LATEX:
-				sb.append(" \\gamma \\left( ");
-				break;
-			case LIBRE_OFFICE:
-				sb.append("%GAMMA left (");
-				break;
-			case GIAC:
-				sb.append("igamma(");
-				break;
-
-			default:
-				sb.append("gamma(");
+			case LATEX -> sb.append(" \\gamma \\left( ");
+			case LIBRE_OFFICE -> sb.append("%GAMMA left (");
+			case GIAC -> sb.append("igamma(");
+			default -> sb.append("gamma(");
 			}
 			sb.append(leftStr);
 			if (stringType.equals(StringType.LIBRE_OFFICE)) {
@@ -1362,18 +1262,10 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 
 		case BETA:
 			switch (stringType) {
-			case LATEX:
-				sb.append("\\Beta \\left( ");
-				break;
-			case LIBRE_OFFICE:
-				sb.append("%BETA left(");
-				break;
-			case GIAC:
-				sb.append("Beta(");
-				break;
-
-			default:
-				sb.append("beta(");
+			case LATEX -> sb.append("\\Beta \\left( ");
+			case LIBRE_OFFICE -> sb.append("%BETA left(");
+			case GIAC -> sb.append("Beta(");
+			default -> sb.append("beta(");
 			}
 			sb.append(leftStr);
 			if (stringType.equals(StringType.LIBRE_OFFICE)) {
@@ -1387,19 +1279,10 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 
 		case BETA_INCOMPLETE:
 			switch (stringType) {
-			case LATEX:
-				sb.append("\\Beta \\left( ");
-				break;
-			case LIBRE_OFFICE:
-				sb.append("%BETA left(");
-				break;
-
-			case GIAC:
-				sb.append("Beta(");
-				break;
-
-			default:
-				sb.append("beta(");
+			case LATEX -> sb.append("\\Beta \\left( ");
+			case LIBRE_OFFICE -> sb.append("%BETA left(");
+			case GIAC -> sb.append("Beta(");
+			default -> sb.append("beta(");
 			}
 			sb.append(leftStr);
 			if (stringType.equals(StringType.LIBRE_OFFICE)) {
@@ -1560,10 +1443,8 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 			//$FALL-THROUGH$
 		case FUNCTION:
 
-			if (stringType.isGiac() && right instanceof ListValue) {
+			if (stringType.isGiac() && right instanceof ListValue list) {
 				// TODO: does this ever get called?
-
-				ListValue list = (ListValue) right;
 
 				// eg seq(sin({4,5,6}[j]),j,0,2)
 				// DON'T USE i (sqrt(-1) in Giac)
@@ -1578,8 +1459,7 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 			}
 
 			// GeoFunction and GeoFunctionConditional should not be expanded
-			if (left instanceof GeoFunction) {
-				GeoFunction geo = (GeoFunction) left;
+			if (left instanceof GeoFunction geo) {
 				if (geo.isLabelSet() || geo.isLocalVariable()) {
 					if (stringType.equals(StringType.LIBRE_OFFICE)) {
 						sb.append("func ");
@@ -1614,12 +1494,9 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				// e.g. A1(x) = x^2 and B1(x) = $A$1(x)
 				// value form of B1 is x^2 and NOT x^2(x)
 				switch (en.getOperation()) {
-				case DOLLAR_VAR_ROW:
-				case DOLLAR_VAR_COL:
-				case DOLLAR_VAR_ROW_COL:
-					tpl.appendWithBrackets(sb, leftStr);
-					break;
-				case DERIVATIVE:
+				case DOLLAR_VAR_ROW, DOLLAR_VAR_COL, DOLLAR_VAR_ROW_COL ->
+						tpl.appendWithBrackets(sb, leftStr);
+				case DERIVATIVE -> {
 					if (stringType.isGiac()) {
 
 						String funStr = en.getLeft().toValueString(tpl);
@@ -1645,10 +1522,8 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 						break;
 					}
 					appendUserFunction(sb, leftStr, rightStr, tpl);
-					break;
-				default:
-					appendUserFunction(sb, leftStr, rightStr, tpl);
-					break;
+				}
+				default -> appendUserFunction(sb, leftStr, rightStr, tpl);
 				}
 			} else {
 				// standard case if we get here
@@ -2049,18 +1924,16 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 			MathmlTemplate.mathml(sb, mathml, leftStr, null);
 		} else {
 			switch (tpl.getStringType()) {
-			case SCREEN_READER:
-
+			case SCREEN_READER -> {
 				if (altText == null) {
 					sb.append(loc.getFunction(key));
 				} else if (altText.startsWith("altText.")) {
 					sb.append(loc.getMenuDefault(altText,
 							altText.replace("altText.", "")));
 				}
-
 				sb.append(tpl.leftBracket());
-				break;
-			case LATEX:
+			}
+			case LATEX -> {
 				if (tpl.isPrintLocalizedCommandNames()) {
 					// eg \\operatorname{sen} when sin translated
 					sb.append("\\operatorname{");
@@ -2070,31 +1943,29 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 					sb.append(latex);
 				}
 				sb.append(" \\left( ");
-				break;
-			case LIBRE_OFFICE:
+			}
+			case LIBRE_OFFICE -> {
 				if (!libreOffice.equals(loc.getFunction(key))) {
 					sb.append("func ");
 
 				}
 				sb.append(loc.getFunction(key));
 				sb.append(" left( ");
-				break;
-			case GIAC:
+			}
+			case GIAC -> {
 				sb.append(giac);
 				sb.append('(');
-				break;
-			case PGF:
+			}
+			case PGF -> {
 				// http://tex.stackexchange.com/questions/12951/incorrect-plot-using-pgfplots
 				if (inverseNeedsDegrees) {
 					sb.append("rad(");
 				}
 				sb.append(key);
 				sb.append('(');
-				break;
-			case PSTRICKS:
-				sb.append(psTricks);
-				break;
-			default:
+			}
+			case PSTRICKS -> sb.append(psTricks);
+			default -> {
 				if (tpl.isPrintLocalizedCommandNames() || loc.areEnglishCommandsForced()) {
 					sb.append(loc.getFunction(key));
 				} else {
@@ -2102,8 +1973,9 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 				}
 				sb.append("(");
 			}
+			}
 			if (needDegrees && tpl.hasType(StringType.PGF)) {
-				sb.append("(" + leftStr + ") 180/pi");
+				sb.append("(").append(leftStr).append(") 180/pi");
 			} else {
 				sb.append(leftStr);
 			}
@@ -2130,30 +2002,27 @@ public class ExpressionSerializer implements ExpressionNodeConstants {
 			MathmlTemplate.mathml(sb, mathml, leftStr, rightStr);
 		} else {
 			switch (stringType) {
-			case LATEX:
-
+			case LATEX -> {
 				wrapInBackslashOperatorname(sb, op);
-
 				sb.append(" \\left( ");
-				break;
-			case LIBRE_OFFICE:
+			}
+			case LIBRE_OFFICE -> {
 				sb.append("func ");
 				sb.append(op);
 				sb.append("left( ");
-				break;
-			case PSTRICKS:
+			}
+			case PSTRICKS -> {
 				sb.append(pstricks);
 				sb.append("(");
-				break;
-
-			case GIAC:
+			}
+			case GIAC -> {
 				sb.append(trig ? giacDegFix(giac, kernel) : op);
 				sb.append("(");
-				break;
-
-			default:
+			}
+			default -> {
 				sb.append(op);
 				sb.append(tpl.leftBracket());
+			}
 			}
 			sb.append(leftStr);
 			sb.append(", ");

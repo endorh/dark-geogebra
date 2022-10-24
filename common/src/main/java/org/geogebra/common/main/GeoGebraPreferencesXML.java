@@ -71,7 +71,7 @@ public class GeoGebraPreferencesXML {
 				+ rightAngleStyle
 
 				+ "\" checkboxSize=\"26\" gridType=\""
-				+ +EuclidianView.GRID_CARTESIAN_WITH_SUBGRID + "\"/>"
+				+ EuclidianView.GRID_CARTESIAN_WITH_SUBGRID + "\"/>"
 				+ "<bgColor r=\"255\" g=\"255\" b=\"255\"/>"
 				+ "<axesColor r=\"0\" g=\"0\" b=\"0\"/>"
 				+ "<gridColor r=\"192\" g=\"192\" b=\"192\"/>"

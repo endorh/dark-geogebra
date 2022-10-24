@@ -17,23 +17,14 @@ public class DefaultLabelDescriptionConverter implements ToStringConverter<GeoEl
 
 	@Override
 	public String convert(GeoElement element) {
-		String labelDescription;
-		switch (element.getLabelMode()) {
-			case LABEL_CAPTION_VALUE:
-				labelDescription = getCaptionAndValue(element);
-				break;
-			case LABEL_NAME_VALUE:
-				labelDescription = element.getAlgebraDescriptionDefault();
-				break;
-			case LABEL_VALUE:
-				labelDescription = element.toDefinedValueString(element.getLabelStringTemplate());
-				break;
-			case LABEL_CAPTION:
-				labelDescription = element.getCaption(element.getLabelStringTemplate());
-				break;
-			default: // case LABEL_NAME:
-				labelDescription = element.getLabel(element.getLabelStringTemplate());
-		}
+		String labelDescription = switch (element.getLabelMode()) {
+			case LABEL_CAPTION_VALUE -> getCaptionAndValue(element);
+			case LABEL_NAME_VALUE -> element.getAlgebraDescriptionDefault();
+			case LABEL_VALUE -> element.toDefinedValueString(element.getLabelStringTemplate());
+			case LABEL_CAPTION -> element.getCaption(element.getLabelStringTemplate());
+			default -> // case LABEL_NAME:
+					element.getLabel(element.getLabelStringTemplate());
+		};
 		return labelDescription.startsWith(LabelManager.HIDDEN_PREFIX) ? "" : labelDescription;
 	}
 

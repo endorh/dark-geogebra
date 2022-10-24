@@ -31,8 +31,7 @@ public class CreateSlider implements MenuAction<GeoElement>,
 
 	@Override
 	public boolean isAvailable(GeoElement element) {
-		if (element instanceof GeoSymbolic) {
-			GeoSymbolic symbolic = (GeoSymbolic) element;
+		if (element instanceof GeoSymbolic symbolic) {
 			return symbolic.getDefinition().isSimpleNumber();
 		}
 		return false;

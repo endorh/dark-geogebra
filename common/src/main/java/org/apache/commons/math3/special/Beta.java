@@ -220,8 +220,7 @@ public class Beta {
                 }
             };
             ret = Math.exp((a * Math.log(x)) + (b * Math.log1p(-x)) -
-                Math.log(a) - logBeta(a, b)) *
-                1.0 / fraction.evaluate(x, epsilon, maxIterations);
+                    Math.log(a) - logBeta(a, b)) / fraction.evaluate(x, epsilon, maxIterations);
         }
 
         return ret;

@@ -81,11 +81,6 @@ public class MidiSoundD implements MetaEventListener {
 
 				setChannels(synthesizer.getChannels());
 			}
-		}
-
-		catch (MidiUnavailableException e) {
-			e.printStackTrace();
-			return false;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return false;
@@ -103,7 +98,7 @@ public class MidiSoundD implements MetaEventListener {
 
 		StringBuilder list = new StringBuilder("{");
 		for (int i = 0; i < size; i++) {
-			list.append("\"" + i + ": " + instruments[i].getName() + "\"");
+			list.append("\"").append(i).append(": ").append(instruments[i].getName()).append("\"");
 			if (i != (size - 1)) {
 				list.append(",");
 			}
@@ -147,9 +142,7 @@ public class MidiSoundD implements MetaEventListener {
 			// Start playing
 			sequencer.start();
 
-		} catch (MidiUnavailableException e) {
-			// ignore
-		} catch (InvalidMidiDataException e) {
+		} catch (MidiUnavailableException | InvalidMidiDataException e) {
 			// ignore
 		}
 	}
@@ -292,9 +285,7 @@ public class MidiSoundD implements MetaEventListener {
 				playSequence(seq, tickPos);
 			}
 
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (InvalidMidiDataException e) {
+		} catch (IOException | InvalidMidiDataException e) {
 			e.printStackTrace();
 		}
 
@@ -320,11 +311,7 @@ public class MidiSoundD implements MetaEventListener {
 				Log.debug("Instruments loaded: " + bInstrumentsLoaded);
 			}
 
-		} catch (MidiUnavailableException e) {
-			e.printStackTrace();
-		} catch (InvalidMidiDataException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (MidiUnavailableException | IOException | InvalidMidiDataException e) {
 			e.printStackTrace();
 		}
 	}
@@ -349,7 +336,7 @@ public class MidiSoundD implements MetaEventListener {
 
 	public void playJFugueFromFile(File file, URL url) throws IOException {
 
-		StringBuffer contents = new StringBuffer();
+		StringBuilder contents = new StringBuilder();
 		BufferedReader reader = null;
 
 		try {

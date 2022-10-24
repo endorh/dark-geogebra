@@ -14,41 +14,13 @@ public class UnsupportedOperatorChecker implements Inspecting {
 	public boolean check(ExpressionValue v) {
 		ExpressionNode wrap = v.wrap();
 		Operation operation = wrap.getOperation();
-		switch (operation) {
-		case PLUS:
-		case MINUS:
-		case DIVIDE:
-		case NROOT:
-		case DIFF:
-		case SIN:
-		case COS:
-		case SEC:
-		case COT:
-		case CSC:
-		case SQRT:
-		case TAN:
-		case EXP:
-		case LOG:
-		case ARCCOS:
-		case ARCSIN:
-		case ARCTAN:
-		case ABS:
-		case COSH:
-		case SINH:
-		case TANH:
-		case LOG10:
-		case LOG2:
-		case IF:
-		case IF_ELSE:
-		case NO_OPERATION:
-			return false;
-		case MULTIPLY:
-			return checkMultiply(wrap);
-		case POWER:
-			return checkPower(wrap);
-		default:
-			return true;
-		}
+		return switch (operation) {
+			case PLUS, MINUS, DIVIDE, NROOT, DIFF, SIN, COS, SEC, COT, CSC, SQRT, TAN, EXP, LOG, ARCCOS, ARCSIN, ARCTAN, ABS, COSH, SINH, TANH, LOG10, LOG2, IF, IF_ELSE, NO_OPERATION ->
+					false;
+			case MULTIPLY -> checkMultiply(wrap);
+			case POWER -> checkPower(wrap);
+			default -> true;
+		};
 	}
 
 	private boolean checkMultiply(ExpressionNode node) {

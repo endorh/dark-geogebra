@@ -33,15 +33,15 @@ public class CmdRoots extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
+		case 1 -> {
 			arg = resArgs(c);
 			if (arg[0].isRealValuedFunction()) {
 				return CmdRoot.nonPolyRoots(c, kernel,
 						(GeoFunctionable) arg[0]);
 			}
 			throw argErr(c, arg[0]);
-
-		case 3:
+		}
+		case 3 -> {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isRealValuedFunction()))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
@@ -55,9 +55,8 @@ public class CmdRoots extends CommandProcessor {
 				return ret;
 			}
 			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

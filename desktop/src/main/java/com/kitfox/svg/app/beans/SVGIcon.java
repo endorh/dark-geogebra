@@ -165,18 +165,12 @@ public class SVGIcon {
 		Object oldInterpolationHint = g
 				.getRenderingHint(RenderingHints.KEY_INTERPOLATION);
 		switch (interpolation) {
-		case INTERP_NEAREST_NEIGHBOR:
-			g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-					RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
-			break;
-		case INTERP_BILINEAR:
-			g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-					RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-			break;
-		case INTERP_BICUBIC:
-			g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
-					RenderingHints.VALUE_INTERPOLATION_BICUBIC);
-			break;
+		case INTERP_NEAREST_NEIGHBOR -> g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+				RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
+		case INTERP_BILINEAR -> g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+				RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+		case INTERP_BICUBIC -> g.setRenderingHint(RenderingHints.KEY_INTERPOLATION,
+				RenderingHints.VALUE_INTERPOLATION_BICUBIC);
 		}
 
 		SVGDiagram diagram = svgUniverse.getDiagram(svgURI);

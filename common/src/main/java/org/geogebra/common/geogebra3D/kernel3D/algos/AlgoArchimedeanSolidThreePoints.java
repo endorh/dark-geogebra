@@ -170,10 +170,10 @@ public class AlgoArchimedeanSolidThreePoints extends AlgoPolyhedron {
 
 		// faces
 		int[][] faces = solidDescription.getFaces();
-		for (int i = 0; i < faces.length; i++) {
+		for (int[] face : faces) {
 			polyhedron.startNewFace();
-			for (int j = 0; j < faces[i].length; j++) {
-				polyhedron.addPointToCurrentFace(points[faces[i][j]]);
+			for (int i : face) {
+				polyhedron.addPointToCurrentFace(points[i]);
 			}
 			polyhedron.endCurrentFace();
 		}
@@ -251,37 +251,31 @@ public class AlgoArchimedeanSolidThreePoints extends AlgoPolyhedron {
 	private void setVolumeAreaAndHeightFactors() {
 
 		switch (name) {
-		default:
-		case Tetrahedron:
+		case Tetrahedron -> {
 			volumeFactor = Math.sqrt(2) / 12;
 			heightFactor = Math.sqrt(2. / 3.);
 			areaFactor = Math.sqrt(3);
-			break;
-
-		case Cube:
+		}
+		case Cube -> {
 			volumeFactor = 1;
 			heightFactor = 1;
 			areaFactor = 6;
-			break;
-
-		case Octahedron:
+		}
+		case Octahedron -> {
 			volumeFactor = Math.sqrt(2) / 3;
 			heightFactor = Math.sqrt(2. / 3.);
 			areaFactor = 2 * Math.sqrt(3);
-			break;
-
-		case Dodecahedron:
+		}
+		case Dodecahedron -> {
 			volumeFactor = (15 + 7 * Math.sqrt(5)) / 4;
 			heightFactor = Math.sqrt(2.5 + 1.1 * Math.sqrt(5));
 			areaFactor = 3 * Math.sqrt(25 + 10 * Math.sqrt(5));
-			break;
-
-		case Icosahedron:
+		}
+		case Icosahedron -> {
 			volumeFactor = (15 + 5 * Math.sqrt(5)) / 12;
 			heightFactor = (3 + Math.sqrt(5)) / (2 * Math.sqrt(3));
 			areaFactor = 5 * Math.sqrt(3);
-			break;
-
+		}
 		}
 
 	}

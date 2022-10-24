@@ -265,20 +265,15 @@ public class EuclidianViewD extends EuclidianView
 		defaultCursor = null;
 
 		switch (getMode()) {
-		default:
-			// do nothing
-			break;
-		case EuclidianConstants.MODE_ZOOM_IN:
-			defaultCursor = getCursorForImage(GuiResourcesD.CURSOR_ZOOMIN);
-			break;
-
-		case EuclidianConstants.MODE_ZOOM_OUT:
-			defaultCursor = getCursorForImage(GuiResourcesD.CURSOR_ZOOMOUT);
-			break;
-
-		case EuclidianConstants.MODE_TRANSLATEVIEW:
-			defaultCursor = getCursorForImage(GuiResourcesD.CURSOR_GRAB);
-			break;
+		default -> {
+		}
+		// do nothing
+		case EuclidianConstants.MODE_ZOOM_IN ->
+				defaultCursor = getCursorForImage(GuiResourcesD.CURSOR_ZOOMIN);
+		case EuclidianConstants.MODE_ZOOM_OUT ->
+				defaultCursor = getCursorForImage(GuiResourcesD.CURSOR_ZOOMOUT);
+		case EuclidianConstants.MODE_TRANSLATEVIEW ->
+				defaultCursor = getCursorForImage(GuiResourcesD.CURSOR_GRAB);
 		}
 
 		setDefaultCursor();
@@ -966,27 +961,34 @@ public class EuclidianViewD extends EuclidianView
 	@Override
 	public void setCursor(EuclidianCursor cursor) {
 		switch (cursor) {
-		case HIT:
+		case HIT -> {
 			setHitCursor();
 			return;
-		case DRAG:
+		}
+		case DRAG -> {
 			setDragCursor();
 			return;
-		case MOVE:
+		}
+		case MOVE -> {
 			setMoveCursor();
 			return;
-		case DEFAULT:
+		}
+		case DEFAULT -> {
 			setDefaultCursor();
 			return;
-		case RESIZE_X:
+		}
+		case RESIZE_X -> {
 			setResizeXAxisCursor();
 			return;
-		case RESIZE_Y:
+		}
+		case RESIZE_Y -> {
 			setResizeYAxisCursor();
 			return;
-		case TRANSPARENT:
+		}
+		case TRANSPARENT -> {
 			setTransparentCursor();
 			return;
+		}
 		}
 
 	}

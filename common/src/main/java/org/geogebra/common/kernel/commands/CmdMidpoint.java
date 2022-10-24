@@ -35,11 +35,11 @@ public class CmdMidpoint extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
+		case 1 -> {
 			arg = resArgs(c);
 			return process1(c, arg[0]);
-
-		case 2:
+		}
+		case 2 -> {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
@@ -47,9 +47,8 @@ public class CmdMidpoint extends CommandProcessor {
 						(GeoPointND) arg[1]);
 			}
 			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

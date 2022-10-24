@@ -33,16 +33,15 @@ public class CmdPolyLine extends CommandProcessor {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		switch (n) {
-		case 0:
-			throw argNumErr(c);
-		case 1:
+		case 0 -> throw argNumErr(c);
+		case 1 -> {
 			arg = resArgs(c);
 			if (arg[0].isGeoList()) {
 				return polyLine(c.getLabel(), (GeoList) arg[0]);
 			}
 			throw argErr(c, arg[0]);
-
-		case 2:
+		}
+		case 2 -> {
 			arg = resArgs(c);
 			if (arg[0].isGeoList()) {
 
@@ -62,10 +61,11 @@ public class CmdPolyLine extends CommandProcessor {
 				return genericPolyline(arg[1], arg, c);
 			}
 			throw argErr(c, arg[0]);
-		default:
+		}
+		default -> {
 			GeoElement lastArg = resArgSilent(c, n - 1, info.withLabels(false));
 			return genericPolyline(lastArg, null, c);
-
+		}
 		}
 	}
 

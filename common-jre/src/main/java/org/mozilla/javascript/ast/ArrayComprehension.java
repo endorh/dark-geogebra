@@ -19,7 +19,7 @@ public class ArrayComprehension extends Scope {
 
     private AstNode result;
     private List<ArrayComprehensionLoop> loops =
-        new ArrayList<ArrayComprehensionLoop>();
+            new ArrayList<>();
     private AstNode filter;
     private int ifPosition = -1;
     private int lp = -1;

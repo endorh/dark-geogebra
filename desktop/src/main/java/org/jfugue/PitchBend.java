@@ -74,7 +74,7 @@ public final class PitchBend implements JFugueElement {
 	 */
 	@Override
 	public String getMusicString() {
-		StringBuffer buffy = new StringBuffer();
+		StringBuilder buffy = new StringBuilder();
 		buffy.append("&");
 		buffy.append(getBend()[1] * 0x80 + getBend()[0]);
 		return buffy.toString();
@@ -87,7 +87,7 @@ public final class PitchBend implements JFugueElement {
 	 */
 	@Override
 	public String getVerifyString() {
-		StringBuffer buffy = new StringBuffer();
+		StringBuilder buffy = new StringBuilder();
 		buffy.append("PitchBend: bend={");
 		buffy.append(lsb);
 		buffy.append(',');

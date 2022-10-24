@@ -16,7 +16,6 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
@@ -25,14 +24,12 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingUtilities;
-import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import org.geogebra.common.GeoGebraConstants;
@@ -191,32 +188,28 @@ public class ToolManagerDialogD extends Dialog
 			panel.add(closePanel, BorderLayout.SOUTH);
 
 			// action listener for buttone
-			ActionListener ac = new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					Object src = e.getSource();
-					if (src == btClose) {
-						// ensure to set macro properties from namePanel
-						namePanel.init(null, null);
+			ActionListener ac = e -> {
+				Object src = e.getSource();
+				if (src == btClose) {
+					// ensure to set macro properties from namePanel
+					namePanel.init(null, null);
 
-						// make sure new macro command gets into dictionary
-						app.updateCommandDictionary();
+					// make sure new macro command gets into dictionary
+					app.updateCommandDictionary();
 
-						// destroy dialog
-						setVisible(false);
-						dispose();
+					// destroy dialog
+					setVisible(false);
+					dispose();
 
-					} else if (src == btDelete) {
-						deleteTools(toolList, toolsModel);
-					} else if (src == btOpen) {
-						openTools(toolList);
-					} else if (src == btSave) {
-						saveTools(toolList);
-					} else if (src == btShare) {
-						uploadToGeoGebraTube(toolList);
-					}
+				} else if (src == btDelete) {
+					deleteTools(toolList, toolsModel);
+				} else if (src == btOpen) {
+					openTools(toolList);
+				} else if (src == btSave) {
+					saveTools(toolList);
+				} else if (src == btShare) {
+					uploadToGeoGebraTube(toolList);
 				}
-
 			};
 
 			btShare.addActionListener(ac);
@@ -227,22 +220,19 @@ public class ToolManagerDialogD extends Dialog
 
 			// add selection listener for list
 			final ListSelectionModel selModel = toolList.getSelectionModel();
-			ListSelectionListener selListener = new ListSelectionListener() {
-				@Override
-				public void valueChanged(ListSelectionEvent e) {
-					if (selModel.getValueIsAdjusting()) {
-						return;
-					}
+			ListSelectionListener selListener = e -> {
+				if (selModel.getValueIsAdjusting()) {
+					return;
+				}
 
-					int[] selIndices = toolList.getSelectedIndices();
-					if (selIndices == null || selIndices.length != 1) {
-						// no or several tools selected
-						namePanel.init(null, null);
-					} else {
-						Macro macro = (Macro) toolsModel
-								.getElementAt(selIndices[0]);
-						namePanel.init(ToolManagerDialogD.this, macro);
-					}
+				int[] selIndices = toolList.getSelectedIndices();
+				if (selIndices == null || selIndices.length != 1) {
+					// no or several tools selected
+					namePanel.init(null, null);
+				} else {
+					Macro macro = (Macro) toolsModel
+							.getElementAt(selIndices[0]);
+					namePanel.init(ToolManagerDialogD.this, macro);
 				}
 			};
 			selModel.addListSelectionListener(selListener);
@@ -279,32 +269,25 @@ public class ToolManagerDialogD extends Dialog
 			return;
 		}
 
-		for (int i = 0; i < sel.length; i++) {
-			final Macro macro = (Macro) sel[i];
-			Thread runner = new Thread() {
-				@Override
-				public void run() {
-					app.setWaitCursor();
-					// avoid deadlock with current app
-					SwingUtilities.invokeLater(new Runnable() {
+		for (Object o : sel) {
+			final Macro macro = (Macro) o;
+			Thread runner = new Thread(() -> {
+				app.setWaitCursor();
+				// avoid deadlock with current app
+				SwingUtilities.invokeLater(() -> {
+					GeoGebraFrame newframe = ((GeoGebraFrame) app
+							.getFrame()).createNewWindow(null, macro);
+					newframe.setTitle(macro.getCommandName());
+					byte[] byteArray = app.getMacroFileAsByteArray();
+					newframe.getApplication()
+							.loadMacroFileFromByteArray(byteArray,
+									false);
+					newframe.getApplication().openMacro(macro);
+					app.setDefaultCursor();
 
-						@Override
-						public void run() {
-							GeoGebraFrame newframe = ((GeoGebraFrame) app
-									.getFrame()).createNewWindow(null, macro);
-							newframe.setTitle(macro.getCommandName());
-							byte[] byteArray = app.getMacroFileAsByteArray();
-							newframe.getApplication()
-									.loadMacroFileFromByteArray(byteArray,
-											false);
-							newframe.getApplication().openMacro(macro);
-							app.setDefaultCursor();
+				});
 
-						}
-					});
-
-				}
-			};
+			});
 			runner.start();
 
 			this.setVisible(false);
@@ -371,13 +354,8 @@ public class ToolManagerDialogD extends Dialog
 	 */
 	private void uploadToGeoGebraTube(final JList<Macro> toolList) {
 
-		Thread runner = new Thread() {
-			@Override
-			public void run() {
-				model.uploadToGeoGebraTube(
-						toolList.getSelectedValuesList().toArray());
-			}
-		};
+		Thread runner = new Thread(() -> model.uploadToGeoGebraTube(
+				toolList.getSelectedValuesList().toArray()));
 		runner.start();
 	}
 

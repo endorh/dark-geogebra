@@ -18,8 +18,8 @@
 package org.apache.commons.math3.util;
 
 //import java.lang.reflect.Array;
+
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -336,35 +336,35 @@ public class MathArrays {
         final int max = val.length;
         for (int i = 1; i < max; i++) {
             final int comp;
-            switch (dir) {
-            case INCREASING:
-                comp = previous.compareTo(val[i]);
-                if (strict) {
-                    if (comp >= 0) {
-                        return false;
-                    }
-                } else {
-                    if (comp > 0) {
-                        return false;
-                    }
-                }
-                break;
-            case DECREASING:
-                comp = val[i].compareTo(previous);
-                if (strict) {
-                    if (comp >= 0) {
-                        return false;
-                    }
-                } else {
-                    if (comp > 0) {
-                       return false;
-                    }
-                }
-                break;
-            default:
-                // Should never happen.
-                throw new MathInternalError();
-            }
+	        switch (dir) {
+	        case INCREASING -> {
+		        comp = previous.compareTo(val[i]);
+		        if (strict) {
+			        if (comp >= 0) {
+				        return false;
+			        }
+		        } else {
+			        if (comp > 0) {
+				        return false;
+			        }
+		        }
+	        }
+	        case DECREASING -> {
+		        comp = val[i].compareTo(previous);
+		        if (strict) {
+			        if (comp >= 0) {
+				        return false;
+			        }
+		        } else {
+			        if (comp > 0) {
+				        return false;
+			        }
+		        }
+	        }
+	        default ->
+		        // Should never happen.
+			        throw new MathInternalError();
+	        }
 
             previous = val[i];
         }
@@ -577,11 +577,11 @@ public class MathArrays {
      */
     public static void checkPositive(final double[] in)
         throws NotStrictlyPositiveException {
-        for (int i = 0; i < in.length; i++) {
-            if (in[i] <= 0) {
-                throw new NotStrictlyPositiveException(in[i]);
-            }
-        }
+	    for (double v : in) {
+		    if (v <= 0) {
+			    throw new NotStrictlyPositiveException(v);
+		    }
+	    }
     }
 
     /**
@@ -593,11 +593,11 @@ public class MathArrays {
      */
     public static void checkNotNaN(final double[] in)
         throws NotANumberException {
-        for(int i = 0; i < in.length; i++) {
-            if (Double.isNaN(in[i])) {
-                throw new NotANumberException();
-            }
-        }
+	    for (double v : in) {
+		    if (Double.isNaN(v)) {
+			    throw new NotANumberException();
+		    }
+	    }
     }
 
     /**
@@ -609,11 +609,11 @@ public class MathArrays {
      */
     public static void checkNonNegative(final long[] in)
         throws NotPositiveException {
-        for (int i = 0; i < in.length; i++) {
-            if (in[i] < 0) {
-                throw new NotPositiveException(in[i]);
-            }
-        }
+	    for (long l : in) {
+		    if (l < 0) {
+			    throw new NotPositiveException(l);
+		    }
+	    }
     }
 
     /**
@@ -625,13 +625,13 @@ public class MathArrays {
      */
     public static void checkNonNegative(final long[][] in)
         throws NotPositiveException {
-        for (int i = 0; i < in.length; i ++) {
-            for (int j = 0; j < in[i].length; j++) {
-                if (in[i][j] < 0) {
-                    throw new NotPositiveException(in[i][j]);
+	    for (long[] longs : in) {
+            for (long aLong : longs) {
+                if (aLong < 0) {
+                    throw new NotPositiveException(aLong);
                 }
             }
-        }
+	    }
     }
 
     /**
@@ -704,34 +704,34 @@ public class MathArrays {
         double x3max = 0;
         double floatn = v.length;
         double agiant = rgiant / floatn;
-        for (int i = 0; i < v.length; i++) {
-            double xabs = Math.abs(v[i]);
-            if (xabs < rdwarf || xabs > agiant) {
-                if (xabs > rdwarf) {
-                    if (xabs > x1max) {
-                        double r = x1max / xabs;
-                        s1= 1 + s1 * r * r;
-                        x1max = xabs;
-                    } else {
-                        double r = xabs / x1max;
-                        s1 += r * r;
-                    }
-                } else {
-                    if (xabs > x3max) {
-                        double r = x3max / xabs;
-                        s3= 1 + s3 * r * r;
-                        x3max = xabs;
-                    } else {
-                        if (xabs != 0) {
-                            double r = xabs / x3max;
-                            s3 += r * r;
-                        }
-                    }
-                }
-            } else {
-                s2 += xabs * xabs;
-            }
-        }
+	    for (double value : v) {
+		    double xabs = Math.abs(value);
+		    if (xabs < rdwarf || xabs > agiant) {
+			    if (xabs > rdwarf) {
+				    if (xabs > x1max) {
+					    double r = x1max / xabs;
+					    s1 = 1 + s1 * r * r;
+					    x1max = xabs;
+				    } else {
+					    double r = xabs / x1max;
+					    s1 += r * r;
+				    }
+			    } else {
+				    if (xabs > x3max) {
+					    double r = x3max / xabs;
+					    s3 = 1 + s3 * r * r;
+					    x3max = xabs;
+				    } else {
+					    if (xabs != 0) {
+						    double r = xabs / x3max;
+						    s3 += r * r;
+					    }
+				    }
+			    }
+		    } else {
+			    s2 += xabs * xabs;
+		    }
+	    }
         double norm;
         if (s1 != 0) {
             norm = x1max * Math.sqrt(s1 + (s2 / x1max) / x1max);
@@ -830,19 +830,18 @@ public class MathArrays {
         final int yListLen = yList.length;
         final int len = x.length;
 
-        for (int j = 0; j < yListLen; j++) {
-            final double[] y = yList[j];
-            if (y == null) {
-                throw new NullArgumentException();
-            }
-            if (y.length != len) {
-                throw new DimensionMismatchException(y.length, len);
-            }
-        }
+	    for (final double[] y : yList) {
+		    if (y == null) {
+			    throw new NullArgumentException();
+		    }
+		    if (y.length != len) {
+			    throw new DimensionMismatchException(y.length, len);
+		    }
+	    }
 
         // Associate each abscissa "x[i]" with its index "i".
         final List<PairDoubleInteger> list
-            = new ArrayList<PairDoubleInteger>(len);
+            = new ArrayList<>(len);
         for (int i = 0; i < len; i++) {
             list.add(new PairDoubleInteger(x[i], i));
         }
@@ -850,22 +849,22 @@ public class MathArrays {
         // Create comparators for increasing and decreasing orders.
         final Comparator<PairDoubleInteger> comp
             = dir == MathArrays.OrderDirection.INCREASING ?
-            new Comparator<PairDoubleInteger>() {
+                new Comparator<>() {
+                    /** {@inheritDoc} */
+                    public int compare(PairDoubleInteger o1,
+                            PairDoubleInteger o2) {
+                        return Double.compare(o1.getKey(), o2.getKey());
+                    }
+                } : new Comparator<>() {
             /** {@inheritDoc} */
             public int compare(PairDoubleInteger o1,
-                               PairDoubleInteger o2) {
-                return Double.compare(o1.getKey(), o2.getKey());
-            }
-        } : new Comparator<PairDoubleInteger>() {
-            /** {@inheritDoc} */
-            public int compare(PairDoubleInteger o1,
-                               PairDoubleInteger o2) {
+                    PairDoubleInteger o2) {
                 return Double.compare(o2.getKey(), o1.getKey());
             }
         };
 
         // Sort.
-        Collections.sort(list, comp);
+        list.sort(comp);
 
         // Modify the original array so that its elements are in
         // the prescribed order.
@@ -879,15 +878,14 @@ public class MathArrays {
 
         // In each of the associated arrays, move the
         // elements to their new location.
-        for (int j = 0; j < yListLen; j++) {
-            // Input array will be modified in place.
-            final double[] yInPlace = yList[j];
-			final double[] yOrig = Cloner.clone(yInPlace);
+	    for (final double[] yInPlace : yList) {
+		    // Input array will be modified in place.
+		    final double[] yOrig = Cloner.clone(yInPlace);
 
-            for (int i = 0; i < len; i++) {
-                yInPlace[i] = yOrig[indices[i]];
-            }
-        }
+		    for (int i = 0; i < len; i++) {
+			    yInPlace[i] = yOrig[indices[i]];
+		    }
+	    }
     }
 
     /**
@@ -1632,40 +1630,37 @@ public class MathArrays {
                                int start,
                                Position pos,
                                RandomGenerator rng) {
-        switch (pos) {
-        case TAIL: {
-            for (int i = list.length - 1; i >= start; i--) {
-                final int target;
-                if (i == start) {
-                    target = start;
-                } else {
-                    // NumberIsTooLargeException cannot occur.
-                    target = new UniformIntegerDistribution(rng, start, i).sample();
-                }
-                final int temp = list[target];
-                list[target] = list[i];
-                list[i] = temp;
-            }
-        }
-            break;
-        case HEAD: {
-            for (int i = 0; i <= start; i++) {
-                final int target;
-                if (i == start) {
-                    target = start;
-                } else {
-                    // NumberIsTooLargeException cannot occur.
-                    target = new UniformIntegerDistribution(rng, i, start).sample();
-                }
-                final int temp = list[target];
-                list[target] = list[i];
-                list[i] = temp;
-            }
-        }
-            break;
-        default:
-            throw new MathInternalError(); // Should never happen.
-        }
+	    switch (pos) {
+	    case TAIL -> {
+		    for (int i = list.length - 1; i >= start; i--) {
+			    final int target;
+			    if (i == start) {
+				    target = start;
+			    } else {
+				    // NumberIsTooLargeException cannot occur.
+				    target = new UniformIntegerDistribution(rng, start, i).sample();
+			    }
+			    final int temp = list[target];
+			    list[target] = list[i];
+			    list[i] = temp;
+		    }
+	    }
+	    case HEAD -> {
+		    for (int i = 0; i <= start; i++) {
+			    final int target;
+			    if (i == start) {
+				    target = start;
+			    } else {
+				    // NumberIsTooLargeException cannot occur.
+				    target = new UniformIntegerDistribution(rng, i, start).sample();
+			    }
+			    final int temp = list[target];
+			    list[target] = list[i];
+			    list[i] = temp;
+		    }
+	    }
+	    default -> throw new MathInternalError(); // Should never happen.
+	    }
     }
 
     /**
@@ -1778,16 +1773,16 @@ public class MathArrays {
         }
 
         if (begin < 0) {
-            throw new NotPositiveException(LocalizedFormats.START_POSITION, Integer.valueOf(begin));
+            throw new NotPositiveException(LocalizedFormats.START_POSITION, begin);
         }
 
         if (length < 0) {
-            throw new NotPositiveException(LocalizedFormats.LENGTH, Integer.valueOf(length));
+            throw new NotPositiveException(LocalizedFormats.LENGTH, length);
         }
 
         if (begin + length > values.length) {
             throw new NumberIsTooLargeException(LocalizedFormats.SUBARRAY_ENDS_AFTER_ARRAY_END,
-                    Integer.valueOf(begin + length), Integer.valueOf(values.length), true);
+                    begin + length, values.length, true);
         }
 
         if (length == 0 && !allowEmpty) {
@@ -1881,13 +1876,17 @@ public class MathArrays {
         for (int i = begin; i < begin + length; i++) {
             final double weight = weights[i];
             if (Double.isNaN(weight)) {
-                throw new MathIllegalArgumentException(LocalizedFormats.NAN_ELEMENT_AT_INDEX, Integer.valueOf(i));
+                throw new MathIllegalArgumentException(LocalizedFormats.NAN_ELEMENT_AT_INDEX, i);
             }
             if (Double.isInfinite(weight)) {
-                throw new MathIllegalArgumentException(LocalizedFormats.INFINITE_ARRAY_ELEMENT, Double.valueOf(weight), Integer.valueOf(i));
+                throw new MathIllegalArgumentException(LocalizedFormats.INFINITE_ARRAY_ELEMENT,
+                        weight,
+                        i);
             }
             if (weight < 0) {
-                throw new MathIllegalArgumentException(LocalizedFormats.NEGATIVE_ELEMENT_AT_INDEX, Integer.valueOf(i), Double.valueOf(weight));
+                throw new MathIllegalArgumentException(LocalizedFormats.NEGATIVE_ELEMENT_AT_INDEX,
+                        i,
+                        weight);
             }
             if (!containsPositiveWeight && weight > 0.0) {
                 containsPositiveWeight = true;
@@ -1920,11 +1919,11 @@ public class MathArrays {
         int offset = 0;
         int curLength = 0;
         final double[] combined = new double[combinedLength];
-        for (int i = 0; i < x.length; i++) {
-            curLength = x[i].length;
-            System.arraycopy(x[i], 0, combined, offset, curLength);
-            offset += curLength;
-        }
+	    for (double[] doubles : x) {
+		    curLength = doubles.length;
+		    System.arraycopy(doubles, 0, combined, offset, curLength);
+		    offset += curLength;
+	    }
         return combined;
     }
 
@@ -1943,10 +1942,10 @@ public class MathArrays {
      * @since 3.6
      */
     public static double[] unique(double[] data) {
-        TreeSet<Double> values = new TreeSet<Double>();
-        for (int i = 0; i < data.length; i++) {
-            values.add(data[i]);
-        }
+        TreeSet<Double> values = new TreeSet<>();
+	    for (double datum : data) {
+		    values.add(datum);
+	    }
         final int count = values.size();
         final double[] out = new double[count];
         Iterator<Double> iterator = values.iterator();

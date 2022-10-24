@@ -93,7 +93,7 @@ final class Order3 extends Curve {
         }
         while (numparams >= 0) {
             addInstance(curves,
-                        tmp[index + 0], tmp[index + 1],
+                        tmp[index], tmp[index + 1],
                         tmp[index + 2], tmp[index + 3],
                         tmp[index + 4], tmp[index + 5],
                         tmp[index + 6], tmp[index + 7],
@@ -202,7 +202,7 @@ final class Order3 extends Curve {
         cy1 = coords[pos+5];
         x1 = cx1 + (x1 - cx1) * t;
         y1 = cy1 + (y1 - cy1) * t;
-        x0 = coords[pos+0];
+        x0 = coords[pos];
         y0 = coords[pos+1];
         cx0 = coords[pos+2];
         cy0 = coords[pos+3];
@@ -504,34 +504,24 @@ final class Order3 extends Curve {
 
     @Override
 	public double dXforT(double t, int deriv) {
-        switch (deriv) {
-        case 0:
-            return (((xcoeff3 * t) + xcoeff2) * t + xcoeff1) * t + xcoeff0;
-        case 1:
-            return ((3 * xcoeff3 * t) + 2 * xcoeff2) * t + xcoeff1;
-        case 2:
-            return (6 * xcoeff3 * t) + 2 * xcoeff2;
-        case 3:
-            return 6 * xcoeff3;
-        default:
-            return 0;
-        }
+	    return switch (deriv) {
+		    case 0 -> (((xcoeff3 * t) + xcoeff2) * t + xcoeff1) * t + xcoeff0;
+		    case 1 -> ((3 * xcoeff3 * t) + 2 * xcoeff2) * t + xcoeff1;
+		    case 2 -> (6 * xcoeff3 * t) + 2 * xcoeff2;
+		    case 3 -> 6 * xcoeff3;
+		    default -> 0;
+	    };
     }
 
     @Override
 	public double dYforT(double t, int deriv) {
-        switch (deriv) {
-        case 0:
-            return (((ycoeff3 * t) + ycoeff2) * t + ycoeff1) * t + ycoeff0;
-        case 1:
-            return ((3 * ycoeff3 * t) + 2 * ycoeff2) * t + ycoeff1;
-        case 2:
-            return (6 * ycoeff3 * t) + 2 * ycoeff2;
-        case 3:
-            return 6 * ycoeff3;
-        default:
-            return 0;
-        }
+	    return switch (deriv) {
+		    case 0 -> (((ycoeff3 * t) + ycoeff2) * t + ycoeff1) * t + ycoeff0;
+		    case 1 -> ((3 * ycoeff3 * t) + 2 * ycoeff2) * t + ycoeff1;
+		    case 2 -> (6 * ycoeff3 * t) + 2 * ycoeff2;
+		    case 3 -> 6 * ycoeff3;
+		    default -> 0;
+	    };
     }
 
     @Override
@@ -606,7 +596,7 @@ final class Order3 extends Curve {
             split(eqn, 0, t0 / t1);
             i = 6;
         }
-        return new Order3(eqn[i+0], ystart,
+        return new Order3(eqn[i], ystart,
                           eqn[i+2], eqn[i+3],
                           eqn[i+4], eqn[i+5],
                           eqn[i+6], yend,

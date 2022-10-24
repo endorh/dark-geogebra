@@ -35,33 +35,30 @@ public class CmdEllipseHyperbola extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 3:
+		case 3 -> {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
-				return new GeoElement[] {
+				return new GeoElement[]{
 						ellipseHyperbola(c.getLabel(), (GeoPointND) arg[0],
-								(GeoPointND) arg[1], (GeoNumberValue) arg[2]) };
+								(GeoPointND) arg[1], (GeoNumberValue) arg[2])};
 			} else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
-				GeoElement[] ret = { ellipse(c.getLabel(), (GeoPointND) arg[0],
-						(GeoPointND) arg[1], (GeoPointND) arg[2]) };
+				GeoElement[] ret = {ellipse(c.getLabel(), (GeoPointND) arg[0],
+						(GeoPointND) arg[1], (GeoPointND) arg[2])};
 				return ret;
 			} else {
 				throw argErr(c, getBadArg(ok, arg));
 			}
-
-		case 4:
+		}
+		case 4 -> {
 			arg = resArgs(c);
-
 			GeoElement[] ret = process4(c, arg, ok);
-
 			return ret;
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

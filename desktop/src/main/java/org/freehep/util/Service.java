@@ -9,7 +9,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.List;
 
 import org.geogebra.common.util.Charsets;
@@ -84,9 +83,8 @@ public class Service {
 			}
 		}
 
-		Iterator names = nameSet.iterator();
-		while (names.hasNext()) {
-			String className = (String) names.next();
+		for (Object o : nameSet) {
+			String className = (String) o;
 			try {
 				classList.add(
 						Class.forName(className, true, loader).newInstance());

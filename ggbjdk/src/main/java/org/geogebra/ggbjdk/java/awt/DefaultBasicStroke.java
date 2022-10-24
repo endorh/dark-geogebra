@@ -108,13 +108,13 @@ public class DefaultBasicStroke implements GBasicStroke {
 				throw new IllegalArgumentException(("Zero dash length awt.138")); //$NON-NLS-1$
 			}
 			ZERO: {
-				for (int i = 0; i < dash.length; i++) {
-					if (dash[i] < 0.0) {
+				for (double v : dash) {
+					if (v < 0.0) {
 						// awt.139=Negative dash[{0}]
 						throw new IllegalArgumentException(
 								("Negative dash[{0}] awt.139")); //$NON-NLS-1$
 					}
-					if (dash[i] > 0.0) {
+					if (v > 0.0) {
 						break ZERO;
 					}
 				}
@@ -241,7 +241,7 @@ public class DefaultBasicStroke implements GBasicStroke {
 
 		while (!pathIterator.isDone()) {
 			switch (pathIterator.currentSegment(coords)) {
-			case GPathIterator.SEG_MOVETO:
+			case GPathIterator.SEG_MOVETO -> {
 				if (!isClosed) {
 					closeSolidShape();
 					isClosed = true;
@@ -250,22 +250,22 @@ public class DefaultBasicStroke implements GBasicStroke {
 				mx = cx = coords[0];
 				my = cy = coords[1];
 				isMove = true;
-				break;
-			case GPathIterator.SEG_LINETO:
+			}
+			case GPathIterator.SEG_LINETO -> {
 				addLine(cx, cy, cx = coords[0], cy = coords[1], true);
 				isClosed = false;
-				break;
-			case GPathIterator.SEG_QUADTO:
+			}
+			case GPathIterator.SEG_QUADTO -> {
 				addQuad(cx, cy, coords[0], coords[1], cx = coords[2],
 						cy = coords[3]);
 				isClosed = false;
-				break;
-			case GPathIterator.SEG_CUBICTO:
+			}
+			case GPathIterator.SEG_CUBICTO -> {
 				addCubic(cx, cy, coords[0], coords[1], coords[2], coords[3],
 						cx = coords[4], cy = coords[5]);
 				isClosed = false;
-				break;
-			case GPathIterator.SEG_CLOSE:
+			}
+			case GPathIterator.SEG_CLOSE -> {
 				addLine(cx, cy, mx, my, false);
 				addJoin(lp, mx, my, lp.xMove, lp.yMove, true);
 				addJoin(rp, mx, my, rp.xMove, rp.yMove, false);
@@ -273,7 +273,7 @@ public class DefaultBasicStroke implements GBasicStroke {
 				rp.closePath();
 				lp.appendReverse(rp);
 				isClosed = true;
-				break;
+			}
 			}
 			pathIterator.next();
 		}
@@ -310,12 +310,10 @@ public class DefaultBasicStroke implements GBasicStroke {
 
 		while (!pathIterator.isDone()) {
 			switch (pathIterator.currentSegment(coords)) {
-			case GPathIterator.SEG_MOVETO:
-
+			case GPathIterator.SEG_MOVETO -> {
 				if (!isClosed) {
 					closeDashedShape();
 				}
-
 				dasher = new Dasher(dash, 0);
 				lp.clean();
 				rp.clean();
@@ -325,21 +323,15 @@ public class DefaultBasicStroke implements GBasicStroke {
 				isClosed = false;
 				mx = cx = coords[0];
 				my = cy = coords[1];
-				break;
-			case GPathIterator.SEG_LINETO:
-				addDashLine(cx, cy, cx = coords[0], cy = coords[1]);
-				break;
-			case GPathIterator.SEG_QUADTO:
-				addDashQuad(cx, cy, coords[0], coords[1], cx = coords[2],
-						cy = coords[3]);
-				break;
-			case GPathIterator.SEG_CUBICTO:
-				addDashCubic(cx, cy, coords[0], coords[1], coords[2],
-						coords[3], cx = coords[4], cy = coords[5]);
-				break;
-			case GPathIterator.SEG_CLOSE:
+			}
+			case GPathIterator.SEG_LINETO -> addDashLine(cx, cy, cx = coords[0], cy = coords[1]);
+			case GPathIterator.SEG_QUADTO ->
+					addDashQuad(cx, cy, coords[0], coords[1], cx = coords[2],
+							cy = coords[3]);
+			case GPathIterator.SEG_CUBICTO -> addDashCubic(cx, cy, coords[0], coords[1], coords[2],
+					coords[3], cx = coords[4], cy = coords[5]);
+			case GPathIterator.SEG_CLOSE -> {
 				addDashLine(cx, cy, cx = mx, cy = my);
-
 				if (dasher.isConnected() && sp != null) {
 					// Connect current and head segments
 					addJoin(lp, fmx, fmy, sp.xMove, sp.yMove, true);
@@ -353,9 +345,8 @@ public class DefaultBasicStroke implements GBasicStroke {
 				} else {
 					closeDashedShape();
 				}
-
 				isClosed = true;
-				break;
+			}
 			}
 			pathIterator.next();
 		}
@@ -411,29 +402,24 @@ public class DefaultBasicStroke implements GBasicStroke {
 		double y20 = y2 - y0;
 
 		switch (cap) {
-		case CAP_BUTT:
-			p.lineTo(x2, y2);
-			break;
-		case CAP_ROUND:
+		case CAP_BUTT -> p.lineTo(x2, y2);
+		case CAP_ROUND -> {
 			double mx = x10 * CUBIC_ARC;
 			double my = y10 * CUBIC_ARC;
-
 			double x3 = x0 + y10;
 			double y3 = y0 - x10;
-
 			x10 *= CUBIC_ARC;
 			y10 *= CUBIC_ARC;
 			x20 *= CUBIC_ARC;
 			y20 *= CUBIC_ARC;
-
 			p.cubicTo(x1 + y10, y1 - x10, x3 + mx, y3 + my, x3, y3);
 			p.cubicTo(x3 - mx, y3 - my, x2 - y20, y2 + x20, x2, y2);
-			break;
-		case CAP_SQUARE:
+		}
+		case CAP_SQUARE -> {
 			p.lineTo(x1 + y10, y1 - x10);
 			p.lineTo(x2 - y20, y2 + x20);
 			p.lineTo(x2, y2);
-			break;
+		}
 		}
 	}
 
@@ -489,10 +475,8 @@ public class DefaultBasicStroke implements GBasicStroke {
 			p.lineTo(x2, y2);
 		} else {
 			switch (join) {
-			case JOIN_BEVEL:
-				p.lineTo(x2, y2);
-				break;
-			case JOIN_MITER:
+			case JOIN_BEVEL -> p.lineTo(x2, y2);
+			case JOIN_MITER -> {
 				double s1 = x1 * x10 + y1 * y10;
 				double s2 = x2 * x20 + y2 * y20;
 				double x3 = (s1 * y20 - s2 * y10) / sin0;
@@ -504,10 +488,8 @@ public class DefaultBasicStroke implements GBasicStroke {
 					p.lineTo(x3, y3);
 				}
 				p.lineTo(x2, y2);
-				break;
-			case JOIN_ROUND:
-				addRoundJoin(p, x0, y0, x2, y2, isLeft);
-				break;
+			}
+			case JOIN_ROUND -> addRoundJoin(p, x0, y0, x2, y2, isLeft);
 			}
 		}
 	}
@@ -1813,7 +1795,7 @@ public class DefaultBasicStroke implements GBasicStroke {
 			checkBuf(p.typeSize, p.pointSize);
 			// Skip last point, because it's the first point of the second path
 			for (int i = p.pointSize - 2; i >= 0; i -= 2) {
-				points[pointSize++] = p.points[i + 0];
+				points[pointSize++] = p.points[i];
 				points[pointSize++] = p.points[i + 1];
 			}
 			// Skip first type, because it's always MOVETO
@@ -1851,7 +1833,7 @@ public class DefaultBasicStroke implements GBasicStroke {
 			checkBuf(p.typeSize - 1, p.pointSize - 2);
 			// Skip last point, because it's the first point of the second path
 			for (int i = p.pointSize - 4; i >= 0; i -= 2) {
-				points[pointSize++] = p.points[i + 0];
+				points[pointSize++] = p.points[i];
 				points[pointSize++] = p.points[i + 1];
 			}
 			// Skip first type, because it's always MOVETO
@@ -1868,23 +1850,13 @@ public class DefaultBasicStroke implements GBasicStroke {
 			for (int i = 0; i < typeSize; i++) {
 				int type = types[i];
 				switch (type) {
-				case GPathIterator.SEG_MOVETO:
-					p.moveTo(points[j], points[j + 1]);
-					break;
-				case GPathIterator.SEG_LINETO:
-					p.lineTo(points[j], points[j + 1]);
-					break;
-				case GPathIterator.SEG_QUADTO:
-					p.quadTo(points[j], points[j + 1], points[j + 2],
-							points[j + 3]);
-					break;
-				case GPathIterator.SEG_CUBICTO:
-					p.curveTo(points[j], points[j + 1], points[j + 2],
-							points[j + 3], points[j + 4], points[j + 5]);
-					break;
-				case GPathIterator.SEG_CLOSE:
-					p.closePath();
-					break;
+				case GPathIterator.SEG_MOVETO -> p.moveTo(points[j], points[j + 1]);
+				case GPathIterator.SEG_LINETO -> p.lineTo(points[j], points[j + 1]);
+				case GPathIterator.SEG_QUADTO -> p.quadTo(points[j], points[j + 1], points[j + 2],
+						points[j + 3]);
+				case GPathIterator.SEG_CUBICTO -> p.curveTo(points[j], points[j + 1], points[j + 2],
+						points[j + 3], points[j + 4], points[j + 5]);
+				case GPathIterator.SEG_CLOSE -> p.closePath();
 				}
 				j += pointShift[type];
 			}

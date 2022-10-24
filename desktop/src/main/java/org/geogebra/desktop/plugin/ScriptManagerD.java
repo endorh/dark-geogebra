@@ -60,8 +60,7 @@ public class ScriptManagerD extends ScriptManagerJre {
 	}
 
 	private void callNativeFunction(Object nativeRunnable, Object[] args) {
-		if (nativeRunnable instanceof org.mozilla.javascript.NativeFunction) {
-			NativeFunction nativeFunction = (NativeFunction) nativeRunnable;
+		if (nativeRunnable instanceof NativeFunction nativeFunction) {
 			CallJavaScript.evalFunction(nativeFunction, args, app);
 		}
 	}

@@ -10,7 +10,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.ListIterator;
 
 import org.freehep.graphicsio.ImageConstants;
 
@@ -28,7 +27,7 @@ public class PDFPaintDelayQueue {
 
 	private static int currentNumber = 0;
 
-	private class Entry {
+	private static class Entry {
 		private Paint paint;
 
 		private String name;
@@ -84,9 +83,8 @@ public class PDFPaintDelayQueue {
 
 	/** Creates a stream for every delayed image. */
 	public void processAll() throws IOException {
-		ListIterator i = paintList.listIterator();
-		while (i.hasNext()) {
-			Entry e = (Entry) i.next();
+		for (Object o : paintList) {
+			Entry e = (Entry) o;
 
 			if (!e.written) {
 				e.written = true;
@@ -111,9 +109,8 @@ public class PDFPaintDelayQueue {
 	public int addPatterns() throws IOException {
 		if (paintList.size() > 0) {
 			PDFDictionary patterns = pdf.openDictionary("Pattern");
-			ListIterator i = paintList.listIterator();
-			while (i.hasNext()) {
-				Entry e = (Entry) i.next();
+			for (Object o : paintList) {
+				Entry e = (Entry) o;
 				patterns.entry(e.name, pdf.ref(e.name));
 			}
 			pdf.close(patterns);

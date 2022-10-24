@@ -161,9 +161,7 @@ public class AlgoContinuedFraction extends AlgoElement {
 		}
 		// checkDecimalFraction() needed for eg
 		// FractionText[20.0764]
-		for (int i = 0; i < steps - 1; i++) {
-			sb.append("}");
-		}
+		sb.append("}".repeat(steps - 1));
 		// Log.debug(sb.toString());
 		text.setTextString(sb.toString());
 

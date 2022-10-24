@@ -381,24 +381,13 @@ public class GeoVector3D extends GeoVec4D
 
 		// polar or cartesian coords
 		switch (getToStringMode()) {
-		case Kernel.COORD_POLAR:
-			sbXml.append("\t<coordStyle style=\"polar\"/>\n");
-			break;
-
-		case Kernel.COORD_COMPLEX:
-			sbXml.append("\t<coordStyle style=\"complex\"/>\n");
-			break;
-
-		case Kernel.COORD_CARTESIAN:
-			sbXml.append("\t<coordStyle style=\"cartesian\"/>\n");
-			break;
-
-		case Kernel.COORD_SPHERICAL:
-			sbXml.append("\t<coordStyle style=\"spherical\"/>\n");
-			break;
-
-		default:
-			// don't save default (Kernel.COORD_CARTESIAN_3D)
+		case Kernel.COORD_POLAR -> sbXml.append("\t<coordStyle style=\"polar\"/>\n");
+		case Kernel.COORD_COMPLEX -> sbXml.append("\t<coordStyle style=\"complex\"/>\n");
+		case Kernel.COORD_CARTESIAN -> sbXml.append("\t<coordStyle style=\"cartesian\"/>\n");
+		case Kernel.COORD_SPHERICAL -> sbXml.append("\t<coordStyle style=\"spherical\"/>\n");
+		default -> {
+		}
+		// don't save default (Kernel.COORD_CARTESIAN_3D)
 		}
 
 		// line thickness and type

@@ -238,7 +238,7 @@ public abstract class AlgoElement extends ConstructionElement
 			this.fac = fac;
 			outputList = new ArrayList<>();
 			if (getOutputHandler() == null) {
-				setOutputHandler(new ArrayList<OutputHandler<?>>());
+				setOutputHandler(new ArrayList<>());
 			}
 			getOutputHandler().add(this);
 		}
@@ -341,8 +341,8 @@ public abstract class AlgoElement extends ConstructionElement
 		 */
 		public void addOutput(T[] geos, boolean setDependencies,
 				boolean refresh) {
-			for (int i = 0; i < geos.length; i++) {
-				addOutput(geos[i], setDependencies);
+			for (T geo : geos) {
+				addOutput(geo, setDependencies);
 			}
 
 			if (refresh) {
@@ -419,8 +419,8 @@ public abstract class AlgoElement extends ConstructionElement
 		 * set all geos undefined
 		 */
 		public void setUndefined() {
-			for (int i = 0; i < outputList.size(); i++) {
-				outputList.get(i).setUndefined();
+			for (T t : outputList) {
+				t.setUndefined();
 			}
 		}
 
@@ -428,8 +428,8 @@ public abstract class AlgoElement extends ConstructionElement
 		 * call update for each geo
 		 */
 		public void update() {
-			for (int i = 0; i < outputList.size(); i++) {
-				outputList.get(i).update();
+			for (T t : outputList) {
+				t.update();
 			}
 		}
 
@@ -437,8 +437,8 @@ public abstract class AlgoElement extends ConstructionElement
 		 * call update for each geo parent algo
 		 */
 		public void updateParentAlgorithm() {
-			for (int i = 0; i < outputList.size(); i++) {
-				outputList.get(i).getParentAlgorithm().update();
+			for (T t : outputList) {
+				t.getParentAlgorithm().update();
 			}
 		}
 
@@ -618,22 +618,22 @@ public abstract class AlgoElement extends ConstructionElement
 			return false;
 		}
 		boolean ret = false;
-		for (int i = 0; i < input.length; i++) {
-			if (!input[i].isLabelSet()) {
-				if (input[i].getParentAlgorithm() != null) {
+		for (GeoElement geoElement : input) {
+			if (!geoElement.isLabelSet()) {
+				if (geoElement.getParentAlgorithm() != null) {
 					// if Mod[RandomBetween[1,3],2], we must go deeper and
 					// update
 					// if just RandomBetween[1,3] we just update
-					if (input[i].getParentAlgorithm()
+					if (geoElement.getParentAlgorithm()
 							.updateUnlabeledRandomGeos()
-							|| input[i].isRandomGeo()) {
-						input[i].getParentAlgorithm().compute();
+							|| geoElement.isRandomGeo()) {
+						geoElement.getParentAlgorithm().compute();
 						ret = true;
 					}
 				} else {
 					// random() has no parent algo
-					if (input[i].isRandomGeo()) {
-						input[i].updateRandomGeo();
+					if (geoElement.isRandomGeo()) {
+						geoElement.updateRandomGeo();
 						ret = true;
 					}
 				}
@@ -673,8 +673,7 @@ public abstract class AlgoElement extends ConstructionElement
 		}
 
 		ArrayList<GeoElement> geos = new ArrayList<>();
-		for (int i = 0; i < size; i++) {
-			AlgoElement algo = algos.get(i);
+		for (AlgoElement algo : algos) {
 			algo.compute();
 			for (int j = 0; j < algo.getOutputLength(); j++) {
 				algo.getOutput(j).update();
@@ -738,8 +737,8 @@ public abstract class AlgoElement extends ConstructionElement
 	 */
 	final protected void setDependencies() {
 		// dependents on input
-		for (int i = 0; i < input.length; i++) {
-			input[i].addAlgorithm(this);
+		for (GeoElement geoElement : input) {
+			geoElement.addAlgorithm(this);
 		}
 
 		doSetDependencies();
@@ -751,8 +750,8 @@ public abstract class AlgoElement extends ConstructionElement
 	 */
 	final protected void setDependenciesOutputOnly() {
 
-		for (int i = 0; i < input.length; i++) {
-			input[i].addToUpdateSetOnly(this);
+		for (GeoElement geoElement : input) {
+			geoElement.addToUpdateSetOnly(this);
 		}
 
 		doSetDependencies();
@@ -776,13 +775,13 @@ public abstract class AlgoElement extends ConstructionElement
 	protected final void setEfficientDependencies(GeoElement[] standardInput,
 			GeoElementND[] efficientInput) {
 		// dependens on standardInput
-		for (int i = 0; i < standardInput.length; i++) {
-			standardInput[i].addToAlgorithmListOnly(this);
+		for (GeoElement geoElement : standardInput) {
+			geoElement.addToAlgorithmListOnly(this);
 		}
 
 		// we use efficientInput for updating
-		for (int i = 0; i < efficientInput.length; i++) {
-			efficientInput[i].addToUpdateSetOnly(this);
+		for (GeoElementND geoElementND : efficientInput) {
+			geoElementND.addToUpdateSetOnly(this);
 		}
 
 		// input is standardInput
@@ -860,18 +859,18 @@ public abstract class AlgoElement extends ConstructionElement
 		removeOutput();
 
 		// delete from algorithm lists of input
-		for (int i = 0; i < input.length; i++) {
-			if (!isProtectedInput() && input[i].canBeRemovedAsInput()
-					&& !input[i].isLabelSet() && !input[i].isGeoCasCell()) {
-				input[i].remove();
+		for (GeoElement geoElement : input) {
+			if (!isProtectedInput() && geoElement.canBeRemovedAsInput()
+					&& !geoElement.isLabelSet() && !geoElement.isGeoCasCell()) {
+				geoElement.remove();
 			}
-			input[i].removeAlgorithm(this);
+			geoElement.removeAlgorithm(this);
 		}
 
 		// delete from algorithm lists of efficient input
 		if (efficientInput != null) {
-			for (int i = 0; i < efficientInput.length; i++) {
-				efficientInput[i].removeAlgorithm(this);
+			for (GeoElementND geoElementND : efficientInput) {
+				geoElementND.removeAlgorithm(this);
 			}
 		}
 	}
@@ -1018,8 +1017,8 @@ public abstract class AlgoElement extends ConstructionElement
 		}
 
 		// algorithm is not in construction list
-		for (int i = 0; i < input.length; i++) {
-			int temp = input[i].getConstructionIndex();
+		for (GeoElement geoElement : input) {
+			int temp = geoElement.getConstructionIndex();
 			if (temp > index) {
 				index = temp;
 			}
@@ -1035,8 +1034,8 @@ public abstract class AlgoElement extends ConstructionElement
 	public int getMinConstructionIndex() {
 		// index must be greater than every input's index
 		int max = 0;
-		for (int i = 0; i < input.length; ++i) {
-			int index = input[i].getConstructionIndex();
+		for (GeoElement geoElement : input) {
+			int index = geoElement.getConstructionIndex();
 			if (index > max) {
 				max = index;
 			}
@@ -1069,9 +1068,7 @@ public abstract class AlgoElement extends ConstructionElement
 	@Override
 	public final void addPredecessorsToSet(TreeSet<GeoElement> set,
 			boolean onlyIndependent) {
-		for (int i = 0; i < input.length; i++) {
-			GeoElement parent = input[i];
-
+		for (GeoElement parent : input) {
 			if (!set.contains(parent)) {
 				if (!onlyIndependent) {
 					set.add(parent);
@@ -1089,9 +1086,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 */
 	public final void addPredecessorsToSet(TreeSet<GeoElement> set,
 			Inspecting check) {
-		for (int i = 0; i < input.length; i++) {
-			GeoElement parent = input[i];
-
+		for (GeoElement parent : input) {
 			if (!set.contains(parent)) {
 				if (check.check(parent)) {
 					set.add(parent);
@@ -1107,9 +1102,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 */
 	public final void addRandomizablePredecessorsToSet(
 			TreeSet<GeoElement> set) {
-		for (int i = 0; i < input.length; i++) {
-			GeoElement parent = input[i];
-
+		for (GeoElement parent : input) {
 			if (!set.contains(parent)) {
 				parent.addRandomizablePredecessorsToSet(set);
 			}
@@ -1132,12 +1125,12 @@ public abstract class AlgoElement extends ConstructionElement
 			// don't use free points from dependent algos with expression trees
 			if (!(this instanceof DependentAlgo)) {
 				boolean allIndependent = true;
-				for (int i = 0; i < input.length; i++) {
-					if (input[i].isGeoPoint()
-							&& (input[i].isIndependent()
-									|| input[i].isMoveable())) {
-						freeInputPoints.add((GeoPointND) input[i]);
-						allIndependent &= input[i].isIndependent();
+				for (GeoElement geoElement : input) {
+					if (geoElement.isGeoPoint()
+							&& (geoElement.isIndependent()
+							|| geoElement.isMoveable())) {
+						freeInputPoints.add((GeoPointND) geoElement);
+						allIndependent &= geoElement.isIndependent();
 					}
 				}
 				if (!allIndependent && freeInputPoints.size() > 1) {
@@ -1161,9 +1154,9 @@ public abstract class AlgoElement extends ConstructionElement
 	 * 
 	 */
 	public void removeInputPoints(ArrayList<GeoElement> superset) {
-		for (int i = 0; i < input.length; i++) {
-			if (input[i].isGeoPoint()) {
-				superset.remove(input[i]);
+		for (GeoElement geoElement : input) {
+			if (geoElement.isGeoPoint()) {
+				superset.remove(geoElement);
 			}
 		}
 	}
@@ -1654,10 +1647,9 @@ public abstract class AlgoElement extends ConstructionElement
 	}
 
 	private boolean isGeoListImageType(GeoElement geo) {
-		if (!(geo instanceof GeoList)) {
+		if (!(geo instanceof GeoList list)) {
 			return false;
 		}
-		GeoList list = (GeoList) geo;
 		return list.getElementType() == GeoClass.IMAGE
 				|| (list.getElementType() == GeoClass.LIST
 				&& list.size() > 0 && isGeoListImageType(list.get(0)));

@@ -163,8 +163,8 @@ public class HistoryPopupD implements ListSelectionListener {
 				model.addElement(list.get(list.size() - i - 1));
 			}
 		} else {
-			for (int i = 0; i < list.size(); i++) {
-				model.addElement(list.get(i));
+			for (String s : list) {
+				model.addElement(s);
 			}
 		}
 

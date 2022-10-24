@@ -120,7 +120,7 @@ public class MouseTouchGestureController {
 		}
 
 		switch (multitouchMode) {
-		case zoomY:
+		case zoomY -> {
 			if (scale == 0 || !app.isShiftDragZoomEnabled()) {
 				return;
 			}
@@ -128,8 +128,8 @@ public class MouseTouchGestureController {
 			ec.getView().setCoordSystem(ec.getView().getXZero(),
 					ec.getView().getYZero(), ec.getView().getXscale(),
 					newRatioY);
-			break;
-		case zoomX:
+		}
+		case zoomX -> {
 			if (this.scale == 0 || !app.isShiftDragZoomEnabled()) {
 				return;
 			}
@@ -137,12 +137,11 @@ public class MouseTouchGestureController {
 			ec.getView().setCoordSystem(ec.getView().getXZero(),
 					ec.getView().getYZero(), newRatioX,
 					ec.getView().getYscale());
-			break;
-		case circle3Points:
+		}
+		case circle3Points -> {
 			double dist = MyMath.length(x1 - x2, y1 - y2);
 			this.scale = dist / ec.getOldDistance();
 			int i = 0;
-
 			for (GeoPointND p : scaleConic.getFreeInputPoints(ec.getView())) {
 				double newX = midpoint[0]
 						+ (originalPointX[i] - midpoint[0]) * scale;
@@ -153,8 +152,8 @@ public class MouseTouchGestureController {
 				i++;
 			}
 			ec.getKernel().notifyRepaint();
-			break;
-		case circle2Points:
+		}
+		case circle2Points -> {
 			double dist2P = MyMath.length(x1 - x2, y1 - y2);
 			this.scale = dist2P / ec.getOldDistance();
 
@@ -167,38 +166,35 @@ public class MouseTouchGestureController {
 			p.setCoords(newX, newY, 1.0);
 			p.updateCascade();
 			ec.getKernel().notifyRepaint();
-			break;
-		case circleRadius:
+		}
+		case circleRadius -> {
 			double distR = MyMath.length(x1 - x2, y1 - y2);
 			this.scale = distR / ec.getOldDistance();
 			GeoNumeric newRadius = new GeoNumeric(
 					ec.getKernel().getConstruction(),
 					this.scale * this.originalRadius);
-
 			((AlgoSphereNDPointRadius) scaleConic.getParentAlgorithm())
 					.setRadius(newRadius);
 			scaleConic.updateCascade();
 			ec.getKernel().notifyUpdate(scaleConic);
 			ec.getKernel().notifyRepaint();
-			break;
-		case circleFormula:
+		}
+		case circleFormula -> {
 			double distF = MyMath.length(x1 - x2, y1 - y2);
 			this.scale = distF / ec.getOldDistance();
-
 			scaleConic.halfAxes[0] = this.scale * this.originalRadius;
 			scaleConic.halfAxes[1] = this.scale * this.originalRadius;
 			scaleConic.updateCascade();
 			ec.getKernel().notifyUpdate(scaleConic);
 			ec.getKernel().notifyRepaint();
-			break;
-		case moveLine:
+		}
+		case moveLine -> {
 			// ignore minimal changes of finger-movement
 			if (onlyJitter(firstFingerTouch.getX(), firstFingerTouch.getY(),
 					secondFingerTouch.getX(), secondFingerTouch.getY(), x1d,
 					y1d, x2d, y2d)) {
 				return;
 			}
-
 			final Coords oldStart = firstFingerTouch.getCoords();
 			final Coords oldEnd = secondFingerTouch.getCoords();
 			if (firstTouchIsAttachedToStartPoint) {
@@ -238,29 +234,22 @@ public class MouseTouchGestureController {
 					- (oldEnd.getX() - secondFingerTouch.getX());
 			double newEndY = lineToMove.getEndPoint().getY()
 					- (oldEnd.getY() - secondFingerTouch.getY());
-
 			lineToMove.getStartPoint().setCoords(newStartX, newStartY, 1);
 			lineToMove.getEndPoint().setCoords(newEndX, newEndY, 1);
-
 			lineToMove.getStartPoint().updateCascade();
 			lineToMove.getEndPoint().updateCascade();
-
 			ec.getKernel().notifyUpdate(lineToMove.getStartPoint());
 			ec.getKernel().notifyUpdate(lineToMove.getEndPoint());
-
 			ec.getKernel().notifyRepaint();
-
-			break;
-		default:
+		}
+		default -> {
 			if (!app.isShiftDragZoomEnabled()) {
 				return;
 			}
 			// pinch
 			ec.twoTouchMoveCommon(x1, y1, x2, y2);
-
 			int centerX = (x1 + x2) / 2;
 			int centerY = (y1 + y2) / 2;
-
 			if (MyMath.length(oldCenterX - centerX,
 					oldCenterY - centerY) > MIN_MOVE) {
 				ec.getView().rememberOrigins();
@@ -270,6 +259,7 @@ public class MouseTouchGestureController {
 				oldCenterX = centerX;
 				oldCenterY = centerY;
 			}
+		}
 		}
 	}
 
@@ -290,9 +280,7 @@ public class MouseTouchGestureController {
 				PointerEventType.TOUCH);
 		// needs to be copied, because the reference is changed in the next step
 		Hits hits1 = new Hits();
-		for (GeoElement geo : ec.getView().getHits()) {
-			hits1.add(geo);
-		}
+		hits1.addAll(ec.getView().getHits());
 
 		ec.getView().setHits(new GPoint((int) x2, (int) y2),
 				PointerEventType.TOUCH);

@@ -125,7 +125,7 @@ public class Codegen implements Evaluator
         NativeFunction f;
         try {
             Constructor<?>ctor = cl.getConstructors()[0];
-            Object[] initArgs = { scope, cx, Integer.valueOf(0) };
+            Object[] initArgs = { scope, cx, 0};
             f = (NativeFunction)ctor.newInstance(initArgs);
         } catch (Exception ex) {
             throw new RuntimeException
@@ -152,12 +152,10 @@ public class Codegen implements Evaluator
             Class<?> cl = loader.defineClass(className, classBytes);
             loader.linkClass(cl);
             return cl;
-        } catch (SecurityException x) {
-            e = x;
-        } catch (IllegalArgumentException x) {
+        } catch (SecurityException | IllegalArgumentException x) {
             e = x;
         }
-        throw new RuntimeException("Malformed optimizer package " + e);
+	    throw new RuntimeException("Malformed optimizer package " + e);
     }
 
     public byte[] compileToClassFile(CompilerEnvirons compilerEnv,
@@ -226,7 +224,7 @@ public class Codegen implements Evaluator
                         String name = ofn.fnode.getName();
                         if (name.length() != 0) {
                             if (possibleDirectCalls == null) {
-                                possibleDirectCalls = new HashMap<String,OptFunctionNode>();
+                                possibleDirectCalls = new HashMap<>();
                             }
                             possibleDirectCalls.put(name, ofn);
                         }
@@ -426,9 +424,9 @@ public class Codegen implements Evaluator
     private void generateResumeGenerator(ClassFileWriter cfw)
     {
         boolean hasGenerators = false;
-        for (int i=0; i < scriptOrFnNodes.length; i++) {
-            if (isGenerator(scriptOrFnNodes[i]))
-            	hasGenerators = true;
+        for (ScriptNode scriptOrFnNode : scriptOrFnNodes) {
+            if (isGenerator(scriptOrFnNode))
+                hasGenerators = true;
         }
 
         // if there are no generators defined, we don't implement a
@@ -790,39 +788,38 @@ public class Codegen implements Evaluator
 
             short methodLocals;
             switch (methodIndex) {
-              case Do_getFunctionName:
+            case Do_getFunctionName -> {
                 methodLocals = 1; // Only this
                 cfw.startMethod("getFunctionName", "()Ljava/lang/String;",
-                                ACC_PUBLIC);
-                break;
-              case Do_getParamCount:
+                        ACC_PUBLIC);
+            }
+            case Do_getParamCount -> {
                 methodLocals = 1; // Only this
                 cfw.startMethod("getParamCount", "()I",
-                                ACC_PUBLIC);
-                break;
-              case Do_getParamAndVarCount:
+                        ACC_PUBLIC);
+            }
+            case Do_getParamAndVarCount -> {
                 methodLocals = 1; // Only this
                 cfw.startMethod("getParamAndVarCount", "()I",
-                                ACC_PUBLIC);
-                break;
-              case Do_getParamOrVarName:
+                        ACC_PUBLIC);
+            }
+            case Do_getParamOrVarName -> {
                 methodLocals = 1 + 1; // this + paramOrVarIndex
                 cfw.startMethod("getParamOrVarName", "(I)Ljava/lang/String;",
-                                ACC_PUBLIC);
-                break;
-              case Do_getParamOrVarConst:
+                        ACC_PUBLIC);
+            }
+            case Do_getParamOrVarConst -> {
                 methodLocals = 1 + 1 + 1; // this + paramOrVarName
                 cfw.startMethod("getParamOrVarConst", "(I)Z",
-                                ACC_PUBLIC);
-                break;
-              case Do_getEncodedSource:
+                        ACC_PUBLIC);
+            }
+            case Do_getEncodedSource -> {
                 methodLocals = 1; // Only this
                 cfw.startMethod("getEncodedSource", "()Ljava/lang/String;",
-                                ACC_PUBLIC);
+                        ACC_PUBLIC);
                 cfw.addPush(encodedSource);
-                break;
-              default:
-                throw Kit.codeBug();
+            }
+            default -> throw Kit.codeBug();
             }
 
             int count = scriptOrFnNodes.length;
@@ -1204,9 +1201,7 @@ public class Codegen implements Evaluator
             OptFunctionNode ofn = OptFunctionNode.get(n);
             if (ofn.isTargetOfDirectCall()) {
                 int pCount = ofn.fnode.getParamCount();
-                for (int i = 0; i != pCount; i++) {
-                    sb.append("Ljava/lang/Object;D");
-                }
+                sb.append("Ljava/lang/Object;D".repeat(Math.max(0, pCount)));
             }
         }
         sb.append("[Ljava/lang/Object;)Ljava/lang/Object;");
@@ -1325,14 +1320,9 @@ class BodyCodegen
                 Node node = literals.get(i);
                 int type = node.getType();
                 switch (type) {
-                    case Token.OBJECTLIT:
-                        generateObjectLiteralFactory(node, i + 1);
-                        break;
-                    case Token.ARRAYLIT:
-                        generateArrayLiteralFactory(node, i + 1);
-                        break;
-                    default:
-                        Kit.codeBug(Token.typeToName(type));
+                case Token.OBJECTLIT -> generateObjectLiteralFactory(node, i + 1);
+                case Token.ARRAYLIT -> generateArrayLiteralFactory(node, i + 1);
+                default -> Kit.codeBug(Token.typeToName(type));
                 }
             }
         }
@@ -1747,18 +1737,17 @@ class BodyCodegen
             Map<Node,int[]> liveLocals = ((FunctionNode)scriptOrFn).getLiveLocals();
             if (liveLocals != null) {
                 List<Node> nodes = ((FunctionNode)scriptOrFn).getResumptionPoints();
-                for (int i = 0; i < nodes.size(); i++) {
-                    Node node = nodes.get(i);
+                for (Node node : nodes) {
                     int[] live = liveLocals.get(node);
                     if (live != null) {
                         cfw.markTableSwitchCase(generatorSwitch,
-                            getNextGeneratorState(node));
+                                getNextGeneratorState(node));
                         generateGetGeneratorLocalsState();
                         for (int j = 0; j < live.length; j++) {
-                                cfw.add(ByteCode.DUP);
-                                cfw.addLoadConstant(j);
-                                cfw.add(ByteCode.AALOAD);
-                                cfw.addAStore(live[j]);
+                            cfw.add(ByteCode.DUP);
+                            cfw.addLoadConstant(j);
+                            cfw.add(ByteCode.AALOAD);
+                            cfw.addAStore(live[j]);
                         }
                         cfw.add(ByteCode.POP);
                         cfw.add(ByteCode.GOTO, getTargetLabel(node));
@@ -1783,7 +1772,7 @@ class BodyCodegen
                             // generate gotos back to the JSR location
                             cfw.markTableSwitchCase(startSwitch, c);
                             cfw.add(ByteCode.GOTO,
-                                    ret.jsrPoints.get(i).intValue());
+		                            ret.jsrPoints.get(i));
                             c++;
                         }
                     }
@@ -2726,44 +2715,43 @@ class BodyCodegen
                     cfw.addALoad(contextLocal);
                     String methodName, signature;
                     switch (type) {
-                      case Token.REF_MEMBER:
+                    case Token.REF_MEMBER -> {
                         methodName = "memberRef";
                         signature = "(Ljava/lang/Object;"
-                                    +"Ljava/lang/Object;"
-                                    +"Lorg/mozilla/javascript/Context;"
-                                    +"I"
-                                    +")Lorg/mozilla/javascript/Ref;";
-                        break;
-                      case Token.REF_NS_MEMBER:
+                                + "Ljava/lang/Object;"
+                                + "Lorg/mozilla/javascript/Context;"
+                                + "I"
+                                + ")Lorg/mozilla/javascript/Ref;";
+                    }
+                    case Token.REF_NS_MEMBER -> {
                         methodName = "memberRef";
                         signature = "(Ljava/lang/Object;"
-                                    +"Ljava/lang/Object;"
-                                    +"Ljava/lang/Object;"
-                                    +"Lorg/mozilla/javascript/Context;"
-                                    +"I"
-                                    +")Lorg/mozilla/javascript/Ref;";
-                        break;
-                      case Token.REF_NAME:
+                                + "Ljava/lang/Object;"
+                                + "Ljava/lang/Object;"
+                                + "Lorg/mozilla/javascript/Context;"
+                                + "I"
+                                + ")Lorg/mozilla/javascript/Ref;";
+                    }
+                    case Token.REF_NAME -> {
                         methodName = "nameRef";
                         signature = "(Ljava/lang/Object;"
-                                    +"Lorg/mozilla/javascript/Context;"
-                                    +"Lorg/mozilla/javascript/Scriptable;"
-                                    +"I"
-                                    +")Lorg/mozilla/javascript/Ref;";
+                                + "Lorg/mozilla/javascript/Context;"
+                                + "Lorg/mozilla/javascript/Scriptable;"
+                                + "I"
+                                + ")Lorg/mozilla/javascript/Ref;";
                         cfw.addALoad(variableObjectLocal);
-                        break;
-                      case Token.REF_NS_NAME:
+                    }
+                    case Token.REF_NS_NAME -> {
                         methodName = "nameRef";
                         signature = "(Ljava/lang/Object;"
-                                    +"Ljava/lang/Object;"
-                                    +"Lorg/mozilla/javascript/Context;"
-                                    +"Lorg/mozilla/javascript/Scriptable;"
-                                    +"I"
-                                    +")Lorg/mozilla/javascript/Ref;";
+                                + "Ljava/lang/Object;"
+                                + "Lorg/mozilla/javascript/Context;"
+                                + "Lorg/mozilla/javascript/Scriptable;"
+                                + "I"
+                                + ")Lorg/mozilla/javascript/Ref;";
                         cfw.addALoad(variableObjectLocal);
-                        break;
-                      default:
-                        throw Kit.codeBug();
+                    }
+                    default -> throw Kit.codeBug();
                     }
                     cfw.addPush(memberTypeFlags);
                     addScriptRuntimeInvoke(methodName, signature);
@@ -2926,47 +2914,30 @@ class BodyCodegen
         Node child = node.getFirstChild();
 
         switch (type) {
-          case Token.NOT:
-            generateIfJump(child, node, falseLabel, trueLabel);
-            break;
-
-          case Token.OR:
-          case Token.AND: {
+        case Token.NOT -> generateIfJump(child, node, falseLabel, trueLabel);
+        case Token.OR, Token.AND -> {
             int interLabel = cfw.acquireLabel();
             if (type == Token.AND) {
                 generateIfJump(child, node, interLabel, falseLabel);
-            }
-            else {
+            } else {
                 generateIfJump(child, node, trueLabel, interLabel);
             }
             cfw.markLabel(interLabel);
             child = child.getNext();
             generateIfJump(child, node, trueLabel, falseLabel);
             break;
-          }
-
-          case Token.IN:
-          case Token.INSTANCEOF:
-          case Token.LE:
-          case Token.LT:
-          case Token.GE:
-          case Token.GT:
-            visitIfJumpRelOp(node, child, trueLabel, falseLabel);
-            break;
-
-          case Token.EQ:
-          case Token.NE:
-          case Token.SHEQ:
-          case Token.SHNE:
-            visitIfJumpEqOp(node, child, trueLabel, falseLabel);
-            break;
-
-          default:
+        }
+        case Token.IN, Token.INSTANCEOF, Token.LE, Token.LT, Token.GE, Token.GT ->
+                visitIfJumpRelOp(node, child, trueLabel, falseLabel);
+        case Token.EQ, Token.NE, Token.SHEQ, Token.SHNE ->
+                visitIfJumpEqOp(node, child, trueLabel, falseLabel);
+        default -> {
             // Generate generic code for non-optimized jump
             generateExpression(node, parent);
             addScriptRuntimeInvoke("toBoolean", "(Ljava/lang/Object;)Z");
             cfw.add(ByteCode.IFNE, trueLabel);
             cfw.add(ByteCode.GOTO, falseLabel);
+        }
         }
     }
 
@@ -3040,7 +3011,7 @@ class BodyCodegen
         addGoto(target, ByteCode.GOTO);
         int retLabel = cfw.acquireLabel();
         cfw.markLabel(retLabel);
-        ret.jsrPoints.add(Integer.valueOf(retLabel));
+        ret.jsrPoints.add(retLabel);
     }
 
     private void generateArrayLiteralFactory(Node node, int count) {
@@ -3087,7 +3058,7 @@ class BodyCodegen
         if (!topLevel && (count > 10 || cfw.getCurrentCodeOffset() > 30000)
                 && !hasVarsInRegs && !isGenerator && !inLocalBlock) {
             if (literals == null) {
-                literals = new LinkedList<Node>();
+                literals = new LinkedList<>();
             }
             literals.add(node);
             String methodName = codegen.getBodyMethodName(scriptOrFn) + "_literal" + literals.size();
@@ -3160,7 +3131,7 @@ class BodyCodegen
             if (id instanceof String) {
                 cfw.addPush((String)id);
             } else {
-                cfw.addPush(((Integer)id).intValue());
+                cfw.addPush((Integer) id);
                 addScriptRuntimeInvoke("wrapInt", "(I)Ljava/lang/Integer;");
             }
             cfw.add(ByteCode.AASTORE);
@@ -3215,7 +3186,7 @@ class BodyCodegen
         if (!topLevel && (count > 10 || cfw.getCurrentCodeOffset() > 30000)
                 && !hasVarsInRegs && !isGenerator && !inLocalBlock) {
             if (literals == null) {
-                literals = new LinkedList<Node>();
+                literals = new LinkedList<>();
             }
             literals.add(node);
             String methodName = codegen.getBodyMethodName(scriptOrFn) + "_literal" + literals.size();
@@ -3649,11 +3620,8 @@ Else pass the JS object in the aReg and 0.0 in the dReg.
         // Place on stack (function object, function this) pair
         int type = node.getType();
         switch (node.getType()) {
-          case Token.GETPROPNOWARN:
-            throw Kit.codeBug();
-
-          case Token.GETPROP:
-          case Token.GETELEM: {
+        case Token.GETPROPNOWARN -> throw Kit.codeBug();
+        case Token.GETPROP, Token.GETELEM -> {
             Node target = node.getFirstChild();
             generateExpression(target, node);
             Node id = target.getNext();
@@ -3663,12 +3631,12 @@ Else pass the JS object in the aReg and 0.0 in the dReg.
                 cfw.addALoad(contextLocal);
                 cfw.addALoad(variableObjectLocal);
                 addScriptRuntimeInvoke(
-                    "getPropFunctionAndThis",
-                    "(Ljava/lang/Object;"
-                    +"Ljava/lang/String;"
-                    +"Lorg/mozilla/javascript/Context;"
-                    +"Lorg/mozilla/javascript/Scriptable;"
-                    +")Lorg/mozilla/javascript/Callable;");
+                        "getPropFunctionAndThis",
+                        "(Ljava/lang/Object;"
+                                + "Ljava/lang/String;"
+                                + "Lorg/mozilla/javascript/Context;"
+                                + "Lorg/mozilla/javascript/Scriptable;"
+                                + ")Lorg/mozilla/javascript/Callable;");
             } else {
                 generateExpression(id, node);  // id
                 if (node.getIntProp(Node.ISNUMBER_PROP, -1) != -1)
@@ -3676,39 +3644,37 @@ Else pass the JS object in the aReg and 0.0 in the dReg.
                 cfw.addALoad(contextLocal);
                 cfw.addALoad(variableObjectLocal);
                 addScriptRuntimeInvoke(
-                    "getElemFunctionAndThis",
-                    "(Ljava/lang/Object;"
-                    +"Ljava/lang/Object;"
-                    +"Lorg/mozilla/javascript/Context;"
-                    +"Lorg/mozilla/javascript/Scriptable;"
-                    +")Lorg/mozilla/javascript/Callable;");
+                        "getElemFunctionAndThis",
+                        "(Ljava/lang/Object;"
+                                + "Ljava/lang/Object;"
+                                + "Lorg/mozilla/javascript/Context;"
+                                + "Lorg/mozilla/javascript/Scriptable;"
+                                + ")Lorg/mozilla/javascript/Callable;");
             }
             break;
-          }
-
-          case Token.NAME: {
+        }
+        case Token.NAME -> {
             String name = node.getString();
             cfw.addPush(name);
             cfw.addALoad(contextLocal);
             cfw.addALoad(variableObjectLocal);
             addScriptRuntimeInvoke(
-                "getNameFunctionAndThis",
-                "(Ljava/lang/String;"
-                +"Lorg/mozilla/javascript/Context;"
-                +"Lorg/mozilla/javascript/Scriptable;"
-                +")Lorg/mozilla/javascript/Callable;");
+                    "getNameFunctionAndThis",
+                    "(Ljava/lang/String;"
+                            + "Lorg/mozilla/javascript/Context;"
+                            + "Lorg/mozilla/javascript/Scriptable;"
+                            + ")Lorg/mozilla/javascript/Callable;");
             break;
-          }
-
-          default: // including GETVAR
+        }
+        default -> { // including GETVAR
             generateExpression(node, parent);
             cfw.addALoad(contextLocal);
             addScriptRuntimeInvoke(
-                "getValueFunctionAndThis",
-                "(Ljava/lang/Object;"
-                +"Lorg/mozilla/javascript/Context;"
-                +")Lorg/mozilla/javascript/Callable;");
-            break;
+                    "getValueFunctionAndThis",
+                    "(Ljava/lang/Object;"
+                            + "Lorg/mozilla/javascript/Context;"
+                            + ")Lorg/mozilla/javascript/Callable;");
+        }
         }
         // Get thisObj prepared by get(Name|Prop|Elem|Value)FunctionAndThis
         cfw.addALoad(contextLocal);
@@ -3776,7 +3742,7 @@ Else pass the JS object in the aReg and 0.0 in the dReg.
         if (isGenerator && finallyTarget != null) {
             FinallyReturnPoint ret = new FinallyReturnPoint();
             if (finallys == null) {
-                finallys = new HashMap<Node,FinallyReturnPoint>();
+                finallys = new HashMap<>();
             }
             // add the finally target to hashtable
             finallys.put(finallyTarget, ret);
@@ -3967,7 +3933,7 @@ Else pass the JS object in the aReg and 0.0 in the dReg.
     {
         ExceptionManager()
         {
-            exceptionInfo = new LinkedList<ExceptionInfo>();
+            exceptionInfo = new LinkedList<>();
         }
 
         /**
@@ -4395,7 +4361,7 @@ Else pass the JS object in the aReg and 0.0 in the dReg.
         int incrDecrMask = node.getExistingIntProp(Node.INCRDECR_PROP);
         Node child = node.getFirstChild();
         switch (child.getType()) {
-          case Token.GETVAR:
+        case Token.GETVAR -> {
             if (!hasVarsInRegs) Kit.codeBug();
             boolean post = ((incrDecrMask & Node.POST_FLAG) != 0);
             int varIndex = fnCurrent.getVarIndex(child);
@@ -4474,21 +4440,20 @@ Else pass the JS object in the aReg and 0.0 in the dReg.
                 }
                 cfw.addAStore(reg);
             }
-            break;
-          case Token.NAME:
+        }
+        case Token.NAME -> {
             cfw.addALoad(variableObjectLocal);
             cfw.addPush(child.getString());          // push name
             cfw.addALoad(contextLocal);
             cfw.addPush(incrDecrMask);
             addScriptRuntimeInvoke("nameIncrDecr",
-                "(Lorg/mozilla/javascript/Scriptable;"
-                +"Ljava/lang/String;"
-                +"Lorg/mozilla/javascript/Context;"
-                +"I)Ljava/lang/Object;");
-            break;
-          case Token.GETPROPNOWARN:
-            throw Kit.codeBug();
-          case Token.GETPROP: {
+                    "(Lorg/mozilla/javascript/Scriptable;"
+                            + "Ljava/lang/String;"
+                            + "Lorg/mozilla/javascript/Context;"
+                            + "I)Ljava/lang/Object;");
+        }
+        case Token.GETPROPNOWARN -> throw Kit.codeBug();
+        case Token.GETPROP -> {
             Node getPropChild = child.getFirstChild();
             generateExpression(getPropChild, node);
             generateExpression(getPropChild.getNext(), node);
@@ -4496,14 +4461,14 @@ Else pass the JS object in the aReg and 0.0 in the dReg.
             cfw.addALoad(variableObjectLocal);
             cfw.addPush(incrDecrMask);
             addScriptRuntimeInvoke("propIncrDecr",
-                                   "(Ljava/lang/Object;"
-                                   +"Ljava/lang/String;"
-                                   +"Lorg/mozilla/javascript/Context;"
-                                   +"Lorg/mozilla/javascript/Scriptable;"
-                                   +"I)Ljava/lang/Object;");
+                    "(Ljava/lang/Object;"
+                            + "Ljava/lang/String;"
+                            + "Lorg/mozilla/javascript/Context;"
+                            + "Lorg/mozilla/javascript/Scriptable;"
+                            + "I)Ljava/lang/Object;");
             break;
-          }
-          case Token.GETELEM: {
+        }
+        case Token.GETELEM -> {
             Node elemChild = child.getFirstChild();
             generateExpression(elemChild, node);
             generateExpression(elemChild.getNext(), node);
@@ -4511,40 +4476,39 @@ Else pass the JS object in the aReg and 0.0 in the dReg.
             cfw.addALoad(variableObjectLocal);
             cfw.addPush(incrDecrMask);
             if (elemChild.getNext().getIntProp(Node.ISNUMBER_PROP, -1) != -1) {
-              addOptRuntimeInvoke("elemIncrDecr",
-                  "(Ljava/lang/Object;"
-                  +"D"
-                  +"Lorg/mozilla/javascript/Context;"
-                  +"Lorg/mozilla/javascript/Scriptable;"
-                  +"I"
-                  +")Ljava/lang/Object;");
+                addOptRuntimeInvoke("elemIncrDecr",
+                        "(Ljava/lang/Object;"
+                                + "D"
+                                + "Lorg/mozilla/javascript/Context;"
+                                + "Lorg/mozilla/javascript/Scriptable;"
+                                + "I"
+                                + ")Ljava/lang/Object;");
             } else {
-              addScriptRuntimeInvoke("elemIncrDecr",
-                  "(Ljava/lang/Object;"
-                  +"Ljava/lang/Object;"
-                  +"Lorg/mozilla/javascript/Context;"
-                  +"Lorg/mozilla/javascript/Scriptable;"
-                  +"I"
-                  +")Ljava/lang/Object;");
+                addScriptRuntimeInvoke("elemIncrDecr",
+                        "(Ljava/lang/Object;"
+                                + "Ljava/lang/Object;"
+                                + "Lorg/mozilla/javascript/Context;"
+                                + "Lorg/mozilla/javascript/Scriptable;"
+                                + "I"
+                                + ")Ljava/lang/Object;");
             }
             break;
-          }
-          case Token.GET_REF: {
+        }
+        case Token.GET_REF -> {
             Node refChild = child.getFirstChild();
             generateExpression(refChild, node);
             cfw.addALoad(contextLocal);
             cfw.addALoad(variableObjectLocal);
             cfw.addPush(incrDecrMask);
             addScriptRuntimeInvoke(
-                "refIncrDecr",
-                "(Lorg/mozilla/javascript/Ref;"
-                +"Lorg/mozilla/javascript/Context;"
-                +"Lorg/mozilla/javascript/Scriptable;"
-                +"I)Ljava/lang/Object;");
+                    "refIncrDecr",
+                    "(Lorg/mozilla/javascript/Ref;"
+                            + "Lorg/mozilla/javascript/Context;"
+                            + "Lorg/mozilla/javascript/Scriptable;"
+                            + "I)Ljava/lang/Object;");
             break;
-          }
-          default:
-            Codegen.badTree();
+        }
+        default -> Codegen.badTree();
         }
     }
 
@@ -4613,23 +4577,12 @@ Else pass the JS object in the aReg and 0.0 in the dReg.
             addScriptRuntimeInvoke("toInt32", "(D)I");
         }
         switch (type) {
-          case Token.BITOR:
-            cfw.add(ByteCode.IOR);
-            break;
-          case Token.BITXOR:
-            cfw.add(ByteCode.IXOR);
-            break;
-          case Token.BITAND:
-            cfw.add(ByteCode.IAND);
-            break;
-          case Token.RSH:
-            cfw.add(ByteCode.ISHR);
-            break;
-          case Token.LSH:
-            cfw.add(ByteCode.ISHL);
-            break;
-          default:
-            throw Codegen.badTree();
+        case Token.BITOR -> cfw.add(ByteCode.IOR);
+        case Token.BITXOR -> cfw.add(ByteCode.IXOR);
+        case Token.BITAND -> cfw.add(ByteCode.IAND);
+        case Token.RSH -> cfw.add(ByteCode.ISHR);
+        case Token.LSH -> cfw.add(ByteCode.ISHL);
+        default -> throw Codegen.badTree();
         }
         cfw.add(ByteCode.I2D);
         if (childNumberFlag == -1) {
@@ -4660,25 +4613,23 @@ Else pass the JS object in the aReg and 0.0 in the dReg.
     {
         if (trueGOTO == -1) throw Codegen.badTree();
         switch (type) {
-            case Token.LE :
-                cfw.add(ByteCode.DCMPG);
-                cfw.add(ByteCode.IFLE, trueGOTO);
-                break;
-            case Token.GE :
-                cfw.add(ByteCode.DCMPL);
-                cfw.add(ByteCode.IFGE, trueGOTO);
-                break;
-            case Token.LT :
-                cfw.add(ByteCode.DCMPG);
-                cfw.add(ByteCode.IFLT, trueGOTO);
-                break;
-            case Token.GT :
-                cfw.add(ByteCode.DCMPL);
-                cfw.add(ByteCode.IFGT, trueGOTO);
-                break;
-            default :
-                throw Codegen.badTree();
-
+        case Token.LE -> {
+            cfw.add(ByteCode.DCMPG);
+            cfw.add(ByteCode.IFLE, trueGOTO);
+        }
+        case Token.GE -> {
+            cfw.add(ByteCode.DCMPL);
+            cfw.add(ByteCode.IFGE, trueGOTO);
+        }
+        case Token.LT -> {
+            cfw.add(ByteCode.DCMPG);
+            cfw.add(ByteCode.IFLT, trueGOTO);
+        }
+        case Token.GT -> {
+            cfw.add(ByteCode.DCMPL);
+            cfw.add(ByteCode.IFGT, trueGOTO);
+        }
+        default -> throw Codegen.badTree();
         }
         if (falseGOTO != -1)
             cfw.add(ByteCode.GOTO, falseGOTO);
@@ -4860,24 +4811,23 @@ Else pass the JS object in the aReg and 0.0 in the dReg.
             String name;
             int testCode;
             switch (type) {
-              case Token.EQ:
+            case Token.EQ -> {
                 name = "eq";
                 testCode = ByteCode.IFNE;
-                break;
-              case Token.NE:
+            }
+            case Token.NE -> {
                 name = "eq";
                 testCode = ByteCode.IFEQ;
-                break;
-              case Token.SHEQ:
+            }
+            case Token.SHEQ -> {
                 name = "shallowEq";
                 testCode = ByteCode.IFNE;
-                break;
-              case Token.SHNE:
+            }
+            case Token.SHNE -> {
                 name = "shallowEq";
                 testCode = ByteCode.IFEQ;
-                break;
-              default:
-                throw Codegen.badTree();
+            }
+            default -> throw Codegen.badTree();
             }
             addScriptRuntimeInvoke(name,
                                    "(Ljava/lang/Object;"
@@ -5511,7 +5461,7 @@ Else pass the JS object in the aReg and 0.0 in the dReg.
     private List<Node> literals;
 
     static class FinallyReturnPoint {
-        public List<Integer> jsrPoints  = new ArrayList<Integer>();
+        public List<Integer> jsrPoints  = new ArrayList<>();
         public int tableLabel = 0;
     }
 }

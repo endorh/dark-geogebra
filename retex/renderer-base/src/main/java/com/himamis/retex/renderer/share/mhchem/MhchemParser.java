@@ -152,7 +152,7 @@ public class MhchemParser extends TeXParser {
 		}
 	}
 
-	private final class NormalParser extends TeXParser {
+	private static final class NormalParser extends TeXParser {
 
 		NormalParser(String parseString, int pos, int line, int col) {
 			super(parseString, pos, line, col);
@@ -192,7 +192,7 @@ public class MhchemParser extends TeXParser {
 
 	private Set<String> getLowerGreeks() {
 		if (lowerGreeks == null) {
-			lowerGreeks = new HashSet<String>() {
+			lowerGreeks = new HashSet<>() {
 				{
 					add("alpha");
 					add("beta");
@@ -276,54 +276,23 @@ public class MhchemParser extends TeXParser {
 		while (pos < len || removeString()) {
 			final char c = parseString.charAt(pos);
 			switch (c) {
-			case '\u0000':
-			case '\u0001':
-			case '\u0002':
-			case '\u0003':
-			case '\u0004':
-			case '\u0005':
-			case '\u0006':
-			case '\u0007':
-			case '\u0008':
-			case '\u0009':
-				++pos;
-				break;
-			case '\n':
+			case '\u0000', '\u0001', '\u0002', '\u0003', '\u0004', '\u0005', '\u0006', '\u0007', '\u0008', '\u0009' ->
+					++pos;
+			case '\n' -> {
 				newLine();
 				skipWhites();
-				break;
-			case '\u000B':
-			case '\u000C':
-			case '\r':
-			case '\u000E':
-			case '\u000F':
-			case '\u0010':
-			case '\u0011':
-			case '\u0012':
-			case '\u0013':
-			case '\u0014':
-			case '\u0015':
-			case '\u0016':
-			case '\u0017':
-			case '\u0018':
-			case '\u0019':
-			case '\u001A':
-			case '\u001B':
-			case '\u001C':
-			case '\u001D':
-			case '\u001E':
-			case '\u001F':
-				++pos;
-				break;
-			case ' ':
+			}
+			case '\u000B', '\u000C', '\r', '\u000E', '\u000F', '\u0010', '\u0011', '\u0012', '\u0013', '\u0014', '\u0015', '\u0016', '\u0017', '\u0018', '\u0019', '\u001A', '\u001B', '\u001C', '\u001D', '\u001E', '\u001F' ->
+					++pos;
+			case ' ' -> {
 				++pos;
 				handleSpace();
-				break;
-			case '!':
+			}
+			case '!' -> {
 				++pos;
 				charMapping.replaceUnsafe('!', this);
-				break;
-			case '\"':
+			}
+			case '\"' -> {
 				++pos;
 				if (isTextMode()) {
 					charMapping.replaceUnsafe('\'', this);
@@ -331,20 +300,18 @@ public class MhchemParser extends TeXParser {
 				} else {
 					cumSupSymbols(Symbols.APOSTROPHE, Symbols.APOSTROPHE);
 				}
-				break;
-			case '#':
+			}
+			case '#' -> {
 				++pos;
 				addToConsumer(new MhchemBondAtom(3));
-				break;
-			case '$':
-				addToConsumer(handleNormal());
-				break;
-			case '%':
+			}
+			case '$' -> addToConsumer(handleNormal());
+			case '%' -> {
 				// We've a comment
 				++pos;
 				skipUntilCr();
-				break;
-			case '&':
+			}
+			case '&' -> {
 				close();
 				if (isAmpersandAllowed()) {
 					++pos;
@@ -353,8 +320,8 @@ public class MhchemParser extends TeXParser {
 					throw new ParseException(this,
 							"Character '&' is only available in array mode !");
 				}
-				break;
-			case '\'':
+			}
+			case '\'' -> {
 				++pos;
 				if (isTextMode()) {
 					charMapping.replaceUnsafe('\'', this);
@@ -362,56 +329,42 @@ public class MhchemParser extends TeXParser {
 					// For this kind of syms, need to modify SubSupCom
 					cumSupSymbols(Symbols.PRIME);
 				}
-				break;
-			case '(':
+			}
+			case '(' -> {
 				++pos;
 				addToConsumer(Symbols.LBRACK);
-				break;
-			case ')':
-				handleElement();
-				break;
-			case '*':
+			}
+			case ')' -> handleElement();
+			case '*' -> {
 				++pos;
 				addToConsumer(Symbols.CDOT);
-				break;
-			case '+':
+			}
+			case '+' -> {
 				++pos;
 				addToConsumer(Symbols.PLUS);
-				break;
-			case ',':
+			}
+			case ',' -> {
 				++pos;
 				charMapping.replaceUnsafe(c, this);
-				break;
-			case '-':
+			}
+			case '-' -> {
 				++pos;
 				addToConsumer(SymbolAtom.get("textminus"));
-				break;
-			case '.':
+			}
+			case '.' -> {
 				++pos;
 				handlePoint();
-				break;
-			case '/':
+			}
+			case '/' -> {
 				++pos;
 				charMapping.replaceUnsafe(c, this);
-				break;
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-				handleNumber(c);
-				break;
-			case ':':
-			case ';':
+			}
+			case '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' -> handleNumber(c);
+			case ':', ';' -> {
 				++pos;
 				charMapping.replaceUnsafe(c, this);
-				break;
-			case '<': {
+			}
+			case '<' -> {
 				if (!handleArrow('<')) {
 					++pos;
 					boolean ll = false;
@@ -429,7 +382,7 @@ public class MhchemParser extends TeXParser {
 				}
 				break;
 			}
-			case '=': {
+			case '=' -> {
 				++pos;
 				if (pos < len) {
 					final char cc = parseString.charAt(pos);
@@ -443,7 +396,7 @@ public class MhchemParser extends TeXParser {
 				}
 				break;
 			}
-			case '>': {
+			case '>' -> {
 				if (!handleArrow('>')) {
 					++pos;
 					boolean gg = false;
@@ -461,45 +414,19 @@ public class MhchemParser extends TeXParser {
 				}
 				break;
 			}
-			case '?':
-			case '@':
+			case '?', '@' -> {
 				++pos;
 				charMapping.replaceUnsafe(c, this);
-				break;
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
-			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
+			}
+			case 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' -> {
 				etype = ElementType.roman;
 				handleElement();
-				break;
-			case '[':
+			}
+			case '[' -> {
 				++pos;
 				addToConsumer(Symbols.LSQBRACK);
-				break;
-			case '\\': {
+			}
+			case '\\' -> {
 				final Atom greek = handleGreek('\\', true);
 				if (greek != null) {
 					addToConsumer(greek);
@@ -514,21 +441,19 @@ public class MhchemParser extends TeXParser {
 				}
 				break;
 			}
-			case ']':
+			case ']' -> {
 				++pos;
 				if (!processRSqBracket()) {
 					charMapping.replaceUnsafe(']', this);
 				}
-				break;
-			case '^':
-				handleSupAndSub('^', false);
-				break;
-			case '_': {
+			}
+			case '^' -> handleSupAndSub('^', false);
+			case '_' -> {
 				++pos;
 				processSubSup('_');
 				break;
 			}
-			case '`':
+			case '`' -> {
 				++pos;
 				if (isTextMode()) {
 					charMapping.replaceUnsafe('`', this);
@@ -536,54 +461,26 @@ public class MhchemParser extends TeXParser {
 					// For this kind of syms, need to modify SubSupCom
 					cumSupSymbols(Symbols.BACKPRIME);
 				}
-				break;
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':
-				handleLower(c);
-				break;
-			case '{':
-				processLBrace();
-				break;
-			case '|':
+			}
+			case 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' ->
+					handleLower(c);
+			case '{' -> processLBrace();
+			case '|' -> {
 				++pos;
 				charMapping.replaceUnsafe('|', this);
-				break;
-			case '}':
+			}
+			case '}' -> {
 				++pos;
 				processRBrace();
-				break;
-			case '~':
+			}
+			case '~' -> {
 				++pos;
 				addToConsumer(new SpaceAtom());
-				break;
-			default:
+			}
+			default -> {
 				++pos;
 				convertCharacter(c, false);
-				break;
+			}
 			}
 		}
 	}

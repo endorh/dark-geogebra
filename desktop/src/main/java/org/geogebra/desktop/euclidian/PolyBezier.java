@@ -19,7 +19,6 @@ the Free Software Foundation.
 package org.geogebra.desktop.euclidian;
 
 import java.awt.geom.GeneralPath;
-import java.util.Iterator;
 import java.util.List;
 
 import org.geogebra.common.awt.GPoint;
@@ -48,9 +47,7 @@ public class PolyBezier {
 		setNumberOfPoints(al.size());
 
 		int i = 0;
-		Iterator<GPoint> it = al.iterator();
-		while (it.hasNext()) {
-			GPoint p = it.next();
+		for (GPoint p : al) {
 			x[i] = p.getX();
 			y[i] = p.getY();
 			i++;

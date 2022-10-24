@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.prover;
 
-import java.util.Iterator;
 import java.util.TreeSet;
 
 import org.geogebra.common.cas.GeoGebraCAS;
@@ -94,10 +93,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 		// we need all independent parents of Q PLUS
 		// all parents of Q that are points on a path
 
-		Iterator<GeoElement> it = this.path.toGeoElement().getAllPredecessors()
-				.iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
+		for (GeoElement geo : this.path.toGeoElement().getAllPredecessors()) {
 			if (geo.isIndependent() || geo.isPointOnPath()) {
 				inSet.add(geo);
 			}
@@ -176,8 +172,8 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 	private static String fingerprint(GeoElement[] input) {
 		StringBuilder ret = new StringBuilder();
 		int size = input.length;
-		for (int i = 0; i < size; ++i) {
-			ret.append(input[i]
+		for (GeoElement geoElement : input) {
+			ret.append(geoElement
 					.getAlgebraDescription(StringTemplate.defaultTemplate));
 			ret.append(",");
 		}
@@ -263,10 +259,7 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 
 		TreeSet<GeoElement> inSet = new TreeSet<>();
 		inSet.add(this.movingPoint);
-		Iterator<GeoElement> it = this.path.toGeoElement().getAllPredecessors()
-				.iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
+		for (GeoElement geo : this.path.toGeoElement().getAllPredecessors()) {
 			if (geo.isIndependent() || geo.isPointOnPath()) {
 				inSet.add(geo);
 			}
@@ -372,25 +365,26 @@ public class AlgoEnvelope extends AlgoElement implements UsesCAS {
 					+ "if (find(SLo,\"Normal\") == 0 and find(SLo,\"Accumulation\") == 0 and find(SLo,\"Special\") == 0)"
 					+ "{ return(1); }"
 					+ "else { return(mylocusdgto(locus(GGG))); } }");
-			sb.append("LIB \"" + locusLib + ".lib\";ring r=(0," + vars + "),("
-					+ elimVars).append("),dp;short=0;ideal m=");
+			sb.append("LIB \"").append(locusLib).append(".lib\";ring r=(0,").append(vars)
+					.append("),(").append(elimVars).append("),dp;short=0;ideal m=");
 			sb.append(polys);
-			sb.append(";poly D=det(jacob(m));ideal S=" + polys
-					+ ",D;list e=myenvelopeto(grobcov(S));");
+			sb.append(";poly D=det(jacob(m));ideal S=").append(polys)
+					.append(",D;list e=myenvelopeto(grobcov(S));");
 			/*
 			 * This trick is required to push the result polynomial to the new
 			 * ring world:
 			 */
 			sb.append("string ex=\"poly p=\" + string(e[1]);");
-			sb.append("ring rr=0,(" + vars + "),dp;");
+			sb.append("ring rr=0,(").append(vars).append("),dp;");
 			sb.append("execute(ex);");
 			/*
 			 * Now we obtain the coefficients (see exactly the same code for
 			 * locus equation):
 			 */
-			sb.append("string out=sprintf(\"%s,%s,%s\",size(coeffs(p," + varx
-					+ ")),size(coeffs(p," + vary + ")),")
-					.append("coeffs(coeffs(p," + varx + ")," + vary + "));");
+			sb.append("string out=sprintf(\"%s,%s,%s\",size(coeffs(p,").append(varx)
+					.append(")),size(coeffs(p,").append(vary).append(")),")
+					.append("coeffs(coeffs(p,").append(varx).append("),").append(vary)
+					.append("));");
 			/*
 			 * Temporary workaround by creating dummy factor, because the output
 			 * is not factorized (that is, it may not produce nice plots in some

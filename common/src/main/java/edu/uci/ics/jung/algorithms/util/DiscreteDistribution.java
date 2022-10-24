@@ -120,9 +120,9 @@ public class DiscreteDistribution {
 	public static double entropy(double[] dist) {
 		double total = 0;
 
-		for (int i = 0; i < dist.length; i++) {
-			if (dist[i] > 0) {
-				total += dist[i] * Math.log(dist[i]);
+		for (double v : dist) {
+			if (v > 0) {
+				total += v * Math.log(v);
 			}
 		}
 		return -total;
@@ -152,8 +152,8 @@ public class DiscreteDistribution {
 	public static void normalize(double[] counts, double alpha) {
 		double total_count = 0;
 
-		for (int i = 0; i < counts.length; i++) {
-			total_count += counts[i];
+		for (double count : counts) {
+			total_count += count;
 		}
 
 		for (int i = 0; i < counts.length; i++) {
@@ -197,9 +197,9 @@ public class DiscreteDistribution {
 			d_mean[j] = 0;
 		}
 
-		for (int i = 0; i < distributions.length; i++) {
+		for (double[] distribution : distributions) {
 			for (int j = 0; j < d_mean.length; j++) {
-				d_mean[j] += distributions[i][j] / distributions.length;
+				d_mean[j] += distribution[j] / distributions.length;
 			}
 		}
 

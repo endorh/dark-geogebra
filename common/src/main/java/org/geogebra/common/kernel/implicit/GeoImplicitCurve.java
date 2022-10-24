@@ -331,9 +331,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			coeffSquarefree = new double[1][coeff.length][];
 			for (int i = 0; i < coeff.length; ++i) {
 				coeffSquarefree[0][i] = new double[coeff[i].length];
-				for (int j = 0; j < coeff[i].length; ++j) {
-					coeffSquarefree[0][i][j] = coeff[i][j];
-				}
+				System.arraycopy(coeff[i], 0, coeffSquarefree[0][i], 0, coeff[i].length);
 			}
 		}
 		/*
@@ -1198,35 +1196,35 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			double[][] qY) {
 		int degXpX = pX.length - 1;
 		int degYpX = 0;
-		for (int i = 0; i < pX.length; i++) {
-			if (pX[i].length - 1 > degYpX) {
-				degYpX = pX[i].length - 1;
+		for (double[] item : pX) {
+			if (item.length - 1 > degYpX) {
+				degYpX = item.length - 1;
 			}
 		}
 		int degXqX = -1;
 		int degYqX = -1;
 		if (qX != null) {
 			degXqX = qX.length - 1;
-			for (int i = 0; i < qX.length; i++) {
-				if (qX[i].length - 1 > degYqX) {
-					degYqX = qX[i].length - 1;
+			for (double[] x : qX) {
+				if (x.length - 1 > degYqX) {
+					degYqX = x.length - 1;
 				}
 			}
 		}
 		int degXpY = pY.length - 1;
 		int degYpY = 0;
-		for (int i = 0; i < pY.length; i++) {
-			if (pY[i].length - 1 > degYpY) {
-				degYpY = pY[i].length - 1;
+		for (double[] value : pY) {
+			if (value.length - 1 > degYpY) {
+				degYpY = value.length - 1;
 			}
 		}
 		int degXqY = -1;
 		int degYqY = -1;
 		if (qY != null) {
 			degXqY = qY.length - 1;
-			for (int i = 0; i < qY.length; i++) {
-				if (qY[i].length - 1 > degYqY) {
-					degYqY = qY[i].length - 1;
+			for (double[] doubles : qY) {
+				if (doubles.length - 1 > degYqY) {
+					degYqY = doubles.length - 1;
 				}
 			}
 		}
@@ -1347,8 +1345,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		// calculate new degree
 		degX = coeff.length - 1;
 		degY = 0;
-		for (int i = 0; i < coeff.length; i++) {
-			degY = Math.max(degY, coeff[i].length - 1);
+		for (double[] doubles : coeff) {
+			degY = Math.max(degY, doubles.length - 1);
 		}
 
 		setCoeff(coeff, true);
@@ -1476,9 +1474,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			}
 		}
 		for (int n = 0; n <= degDestX + degSrcX; n++) {
-			for (int m = 0; m <= degDestY + degSrcY; m++) {
-				polyDest[n][m] = result[n][m];
-			}
+			if (degDestY + degSrcY + 1 >= 0)
+				System.arraycopy(result[n], 0, polyDest[n], 0, degDestY + degSrcY + 1);
 		}
 	}
 
@@ -2100,8 +2097,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		this.setCoeff(coeffMatrix, true);
 
 		setDefined();
-		for (int i = 0; i < points.size(); i++) {
-			if (!this.isOnPath(points.get(i), 1)) {
+		for (GeoPointND point : points) {
+			if (!this.isOnPath(point, 1)) {
 				this.setUndefined();
 				return;
 			}
@@ -2175,9 +2172,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 		// Setting factors.
 		this.coeffSquarefree = new double[coeffMatrix.length - 1][][];
-		for (int factor = 0; factor < coeffMatrix.length - 1; ++factor) {
-			this.coeffSquarefree[factor] = coeffMatrix[factor + 1];
-		}
+		System.arraycopy(coeffMatrix, 1, this.coeffSquarefree, 0, coeffMatrix.length - 1);
 		setFactorExpression();
 
 		if (updatePath) {
@@ -2307,19 +2302,12 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 				int i = exp;
 				while (i > 0) {
 					int c = i % 10;
-					switch (c) {
-					case 1:
-						p = Unicode.SUPERSCRIPT_1 + p;
-						break;
-					case 2:
-						p = Unicode.SUPERSCRIPT_2 + p;
-						break;
-					case 3:
-						p = Unicode.SUPERSCRIPT_3 + p;
-						break;
-					default:
-						p = (char) (Unicode.SUPERSCRIPT_0 + c) + p;
-					}
+					p = switch (c) {
+						case 1 -> Unicode.SUPERSCRIPT_1 + p;
+						case 2 -> Unicode.SUPERSCRIPT_2 + p;
+						case 3 -> Unicode.SUPERSCRIPT_3 + p;
+						default -> (char) (Unicode.SUPERSCRIPT_0 + c) + p;
+					};
 					i = i / 10;
 				}
 				sb.append(p);

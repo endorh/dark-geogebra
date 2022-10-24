@@ -37,14 +37,15 @@ public class CmdExtremum extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
+		case 1 -> {
 			arg = resArgs(c);
 			ok[0] = arg[0].isRealValuedFunction();
 			if (ok[0]) {
 				return extremum(c, (GeoFunctionable) arg[0]);
 			}
 			throw argErr(c, arg[0]);
-		case 3: // Extremum[f,start-x,end-x]
+		}
+		case 3 -> { // Extremum[f,start-x,end-x]
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isRealValuedFunction()))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
@@ -58,10 +59,9 @@ public class CmdExtremum extends CommandProcessor {
 						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2], true);
 				return algo.getExtremumPoints();
 			}
-
 			throw argErr(c, getBadArg(ok, arg));
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

@@ -1198,19 +1198,10 @@ public abstract class Renderer {
 			rendererImpl.setProjectionMatrixViewForAR();
 		} else {
 			switch (view3D.getProjection()) {
-				default:
-			case EuclidianView3DInterface.PROJECTION_ORTHOGRAPHIC:
-				rendererImpl.viewOrtho();
-					break;
-			case EuclidianView3DInterface.PROJECTION_PERSPECTIVE:
-				rendererImpl.viewPersp();
-					break;
-			case EuclidianView3DInterface.PROJECTION_GLASSES:
-				rendererImpl.viewGlasses();
-					break;
-			case EuclidianView3DInterface.PROJECTION_OBLIQUE:
-				rendererImpl.viewOblique();
-					break;
+			case EuclidianView3DInterface.PROJECTION_ORTHOGRAPHIC -> rendererImpl.viewOrtho();
+			case EuclidianView3DInterface.PROJECTION_PERSPECTIVE -> rendererImpl.viewPersp();
+			case EuclidianView3DInterface.PROJECTION_GLASSES -> rendererImpl.viewGlasses();
+			case EuclidianView3DInterface.PROJECTION_OBLIQUE -> rendererImpl.viewOblique();
 			}
 		}
 	}
@@ -1373,22 +1364,17 @@ public abstract class Renderer {
 		}
 
 		switch (view3D.getProjection()) {
-		default:
-		case EuclidianView3DInterface.PROJECTION_ORTHOGRAPHIC:
-			updateOrthoValues();
-			break;
-		case EuclidianView3DInterface.PROJECTION_PERSPECTIVE:
+		case EuclidianView3DInterface.PROJECTION_ORTHOGRAPHIC -> updateOrthoValues();
+		case EuclidianView3DInterface.PROJECTION_PERSPECTIVE -> {
 			updatePerspValues();
 			updatePerspEye();
-			break;
-		case EuclidianView3DInterface.PROJECTION_GLASSES:
+		}
+		case EuclidianView3DInterface.PROJECTION_GLASSES -> {
 			updatePerspValues();
 			updateGlassesValues();
 			updatePerspEye();
-			break;
-		case EuclidianView3DInterface.PROJECTION_OBLIQUE:
-			updateProjectionObliqueValues();
-			break;
+		}
+		case EuclidianView3DInterface.PROJECTION_OBLIQUE -> updateProjectionObliqueValues();
 		}
 
 		setView();

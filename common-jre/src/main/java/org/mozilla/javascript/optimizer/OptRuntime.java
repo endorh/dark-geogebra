@@ -8,7 +8,6 @@ package org.mozilla.javascript.optimizer;
 import org.mozilla.javascript.Callable;
 import org.mozilla.javascript.ConsString;
 import org.mozilla.javascript.Context;
-import org.mozilla.javascript.ContextAction;
 import org.mozilla.javascript.ContextFactory;
 import org.mozilla.javascript.JavaScriptException;
 import org.mozilla.javascript.NativeFunction;
@@ -22,9 +21,9 @@ import org.mozilla.javascript.ScriptableObject;
 public final class OptRuntime extends ScriptRuntime
 {
 
-    public static final Double zeroObj = new Double(0.0);
-    public static final Double oneObj = new Double(1.0);
-    public static final Double minusOneObj = new Double(-1.0);
+    public static final Double zeroObj = 0.0;
+    public static final Double oneObj = 1.0;
+    public static final Double minusOneObj = -1.0;
 
     /**
      * Implement ....() call shrinking optimizer code.
@@ -129,7 +128,7 @@ public final class OptRuntime extends ScriptRuntime
                                       Context cx, Scriptable scope,
                                       int incrDecrMask)
     {
-        return ScriptRuntime.elemIncrDecr(obj, new Double(index), cx, scope,
+        return ScriptRuntime.elemIncrDecr(obj, index, cx, scope,
                                           incrDecrMask);
     }
 
@@ -177,7 +176,7 @@ public final class OptRuntime extends ScriptRuntime
         } else if (num != num) {
             return NaNobj;
         }
-        return new Double(num);
+        return num;
     }
 
     static String encodeIntArray(int[] array)
@@ -226,21 +225,18 @@ public final class OptRuntime extends ScriptRuntime
 
     public static void main(final Script script, final String[] args)
     {
-        ContextFactory.getGlobal().call(new ContextAction() {
-            public Object run(Context cx)
-            {
-                ScriptableObject global = getGlobal(cx);
+        ContextFactory.getGlobal().call(cx -> {
+            ScriptableObject global = getGlobal(cx);
 
-                // get the command line arguments and define "arguments"
-                // array in the top-level object
-                Object[] argsCopy = new Object[args.length];
-                System.arraycopy(args, 0, argsCopy, 0, args.length);
-                Scriptable argsObj = cx.newArray(global, argsCopy);
-                global.defineProperty("arguments", argsObj,
-                                      ScriptableObject.DONTENUM);
-                script.exec(cx, global);
-                return null;
-            }
+            // get the command line arguments and define "arguments"
+            // array in the top-level object
+            Object[] argsCopy = new Object[args.length];
+            System.arraycopy(args, 0, argsCopy, 0, args.length);
+            Scriptable argsObj = cx.newArray(global, argsCopy);
+            global.defineProperty("arguments", argsObj,
+                                  ScriptableObject.DONTENUM);
+            script.exec(cx, global);
+            return null;
         });
     }
 

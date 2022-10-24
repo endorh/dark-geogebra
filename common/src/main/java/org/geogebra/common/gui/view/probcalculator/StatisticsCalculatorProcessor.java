@@ -124,24 +124,12 @@ public class StatisticsCalculatorProcessor {
 		pooled.setValue(sc.pooled);
 
 		switch (statCalc.getSelectedProcedure()) {
-
-		default:
-		case ZMEAN_TEST:
-		case ZMEAN_CI:
-		case TMEAN_TEST:
-		case TMEAN_CI:
-
+		case ZMEAN_TEST, ZMEAN_CI, TMEAN_TEST, TMEAN_CI -> {
 			mean.setValue(sc.mean);
 			sd.setValue(sc.sd);
 			n.setValue(sc.n);
-
-			break;
-
-		case ZMEAN2_TEST:
-		case ZMEAN2_CI:
-		case TMEAN2_TEST:
-		case TMEAN2_CI:
-
+		}
+		case ZMEAN2_TEST, ZMEAN2_CI, TMEAN2_TEST, TMEAN2_CI -> {
 			mean.setValue(sc.mean);
 			sd.setValue(sc.sd);
 			n.setValue(sc.n);
@@ -149,26 +137,17 @@ public class StatisticsCalculatorProcessor {
 			sd2.setValue(sc.sd2);
 			n2.setValue(sc.n2);
 			pooled.setValue(sc.pooled);
-
-			break;
-
-		case ZPROP_TEST:
-		case ZPROP_CI:
-
+		}
+		case ZPROP_TEST, ZPROP_CI -> {
 			n.setValue(sc.n);
 			proportion.setValue(sc.getProportion());
-
-			break;
-
-		case ZPROP2_TEST:
-		case ZPROP2_CI:
-
+		}
+		case ZPROP2_TEST, ZPROP2_CI -> {
 			n.setValue(sc.n);
 			proportion.setValue(sc.getProportion());
 			n2.setValue(sc.n2);
 			proportion2.setValue(sc.getProportion2());
-
-			break;
+		}
 		}
 	}
 
@@ -183,40 +162,30 @@ public class StatisticsCalculatorProcessor {
 		updateGeoValues();
 
 		switch (statCalc.getSelectedProcedure()) {
-
-		case ZMEAN_TEST:
-
+		case ZMEAN_TEST -> {
 			algo = new AlgoZMeanTest(cons, mean, sd, n, nullHyp, tail);
 			cons.removeFromConstructionList(algo);
 			result = algo.getOutput();
 			setTestResults(result[0]);
 			sc.se = sc.sd / Math.sqrt(sc.n);
-
-			break;
-
-		case ZMEAN_CI:
-
+		}
+		case ZMEAN_CI -> {
 			algo = new AlgoZMeanEstimate(cons, mean, sd, n, level);
 			cons.removeFromConstructionList(algo);
 			result = algo.getOutput();
 			setIntervalResults(result[0]);
 			sc.me = ((AlgoZMeanEstimate) algo).getME();
 			sc.se = sc.sd / Math.sqrt(sc.n);
-
-			break;
-
-		case TMEAN_TEST:
-
+		}
+		case TMEAN_TEST -> {
 			algo = new AlgoTTest(cons, mean, sd, n, nullHyp, tail);
 			cons.removeFromConstructionList(algo);
 			result = algo.getOutput();
 			setTestResults(result[0]);
 			sc.se = sc.sd / Math.sqrt(sc.n);
 			sc.df = n.getDouble() - 1;
-			break;
-
-		case TMEAN_CI:
-
+		}
+		case TMEAN_CI -> {
 			algo = new AlgoTMeanEstimate(cons, mean, sd, n, level);
 			cons.removeFromConstructionList(algo);
 			result = algo.getOutput();
@@ -224,19 +193,15 @@ public class StatisticsCalculatorProcessor {
 			sc.me = ((AlgoTMeanEstimate) algo).getME();
 			sc.se = sc.sd / Math.sqrt(sc.n);
 			sc.df = n.getDouble() - 1;
-			break;
-
-		case ZMEAN2_TEST:
-
+		}
+		case ZMEAN2_TEST -> {
 			algo = new AlgoZMean2Test(cons, mean, sd, n, mean2, sd2, n2, tail);
 			cons.removeFromConstructionList(algo);
 			result = algo.getOutput();
 			setTestResults(result[0]);
 			sc.se = ((AlgoZMean2Test) algo).getSE();
-			break;
-
-		case ZMEAN2_CI:
-
+		}
+		case ZMEAN2_CI -> {
 			algo = new AlgoZMean2Estimate(cons, mean, sd, n, mean2, sd2, n2,
 					level);
 			cons.removeFromConstructionList(algo);
@@ -244,83 +209,56 @@ public class StatisticsCalculatorProcessor {
 			setIntervalResults(result[0]);
 			sc.se = ((AlgoZMean2Estimate) algo).getSE();
 			sc.me = ((AlgoZMean2Estimate) algo).getME();
-			break;
-
-		case TMEAN2_TEST:
-
+		}
+		case TMEAN2_TEST -> {
 			algo = new AlgoTTest2(cons, mean, sd, n, mean2, sd2, n2, tail,
 					pooled);
 			cons.removeFromConstructionList(algo);
 			result = algo.getOutput();
 			setTestResults(result[0]);
 			setT2Stats();
-			break;
-
-		case TMEAN2_CI:
-
+		}
+		case TMEAN2_CI -> {
 			algo = new AlgoTMean2Estimate(cons, mean, sd, n, mean2, sd2, n2,
 					level, pooled);
 			cons.removeFromConstructionList(algo);
 			result = algo.getOutput();
 			setIntervalResults(result[0]);
 			setT2Stats();
-			break;
-
-		case ZPROP_TEST:
-
+		}
+		case ZPROP_TEST -> {
 			algo = new AlgoZProportionTest(cons, proportion, n, nullHyp, tail);
 			cons.removeFromConstructionList(algo);
 			result = algo.getOutput();
 			setTestResults(result[0]);
-
 			sc.se = ((AlgoZProportionTest) algo).getSE();
-
-			break;
-
-		case ZPROP_CI:
-
+		}
+		case ZPROP_CI -> {
 			algo = new AlgoZProportionEstimate(cons, proportion, n, level);
 			cons.removeFromConstructionList(algo);
-
 			result = algo.getOutput();
 			setIntervalResults(result[0]);
 			sc.se = ((AlgoZProportionEstimate) algo).getSE();
 			sc.me = ((AlgoZProportionEstimate) algo).getME();
-
-			break;
-
-		case ZPROP2_TEST:
-
+		}
+		case ZPROP2_TEST -> {
 			algo = new AlgoZProportion2Test(cons, proportion, n, proportion2,
 					n2, tail);
 			cons.removeFromConstructionList(algo);
 			result = algo.getOutput();
 			setTestResults(result[0]);
-
 			sc.se = ((AlgoZProportion2Test) algo).getSE();
-
-			break;
-
-		case ZPROP2_CI:
-
+		}
+		case ZPROP2_CI -> {
 			algo = new AlgoZProportion2Estimate(cons, proportion, n,
 					proportion2, n2, level);
-
 			result = algo.getOutput();
 			setIntervalResults(result[0]);
 			sc.me = ((AlgoZProportion2Estimate) algo).getME();
 			sc.se = ((AlgoZProportion2Estimate) algo).getSE();
-
-			break;
-
-		case CHISQ_TEST:
-			updateChiSq();
-			break;
-
-		case GOF_TEST:
-			updateGOF();
-			break;
-
+		}
+		case CHISQ_TEST -> updateChiSq();
+		case GOF_TEST -> updateGOF();
 		}
 
 	}

@@ -193,9 +193,7 @@ public class MathMLTest {
 
 		MathMLParser mathmlParser = new MathMLParser(true);
 
-		for (int i = 0; i < mathmlTest.length; i++) {
-			String s = mathmlTest[i];
-
+		for (String s : mathmlTest) {
 			String latex = mathmlParser.parse(s, false, false);
 
 			System.out.println(latex);
@@ -207,9 +205,7 @@ public class MathMLTest {
 
 		MathMLParser mathmlParser = new MathMLParser(false);
 
-		for (int i = 0; i < mathmlTest.length; i++) {
-			String s = mathmlTest[i];
-
+		for (String s : mathmlTest) {
 			String latex = mathmlParser.parse(s, false, false);
 
 			System.out.println(latex);

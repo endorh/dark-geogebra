@@ -245,23 +245,23 @@ public class LeastSquaresFactory {
      * @return a convergence checker that delegates to {@code checker}.
      */
     public static ConvergenceChecker<Evaluation> evaluationChecker(final ConvergenceChecker<PointVectorValuePair> checker) {
-        return new ConvergenceChecker<Evaluation>() {
-            /** {@inheritDoc} */
-            public boolean converged(final int iteration,
-                                     final Evaluation previous,
-                                     final Evaluation current) {
-                return checker.converged(
-                        iteration,
-                        new PointVectorValuePair(
-                                previous.getPoint().toArray(),
-                                previous.getResiduals().toArray(),
-                                false),
-                        new PointVectorValuePair(
-                                current.getPoint().toArray(),
-                                current.getResiduals().toArray(),
-                                false)
-                );
-            }
+        return new ConvergenceChecker<>() {
+	        /** {@inheritDoc} */
+	        public boolean converged(final int iteration,
+			        final Evaluation previous,
+			        final Evaluation current) {
+		        return checker.converged(
+				        iteration,
+				        new PointVectorValuePair(
+						        previous.getPoint().toArray(),
+						        previous.getResiduals().toArray(),
+						        false),
+				        new PointVectorValuePair(
+						        current.getPoint().toArray(),
+						        current.getResiduals().toArray(),
+						        false)
+		        );
+	        }
         };
     }
 
@@ -329,8 +329,8 @@ public class LeastSquaresFactory {
             final double[] p = point.toArray();
 
             // Evaluate.
-            return new Pair<RealVector, RealMatrix>(computeValue(p),
-                                                    computeJacobian(p));
+            return new Pair<>(computeValue(p),
+		            computeJacobian(p));
         }
 
         /** {@inheritDoc} */

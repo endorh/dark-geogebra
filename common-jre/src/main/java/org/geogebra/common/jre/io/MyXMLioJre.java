@@ -31,7 +31,6 @@ import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.TreeSet;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -103,14 +102,12 @@ public abstract class MyXMLioJre extends MyXMLio {
 
 	@Override
 	public void readZipFromString(ZipFile zipFile) throws Exception {
-		if (zipFile instanceof ByteArrayZipFile) {
-			ByteArrayZipFile byteArrayZipFile = (ByteArrayZipFile) zipFile;
+		if (zipFile instanceof ByteArrayZipFile byteArrayZipFile) {
 			ZipInputStream zip = new ZipInputStream(
 					new ByteArrayInputStream(byteArrayZipFile.getByteArray()));
 
 			readZip(zip, false);
-		} else if (zipFile instanceof InputStreamZipFile) {
-			InputStreamZipFile inputStreamZipFile = (InputStreamZipFile) zipFile;
+		} else if (zipFile instanceof InputStreamZipFile inputStreamZipFile) {
 			readZipFromInputStream(inputStreamZipFile.getInputStream(), false);
 		}
 	}
@@ -362,9 +359,7 @@ public abstract class MyXMLioJre extends MyXMLio {
 			return;
 		}
 
-		Iterator<GeoElement> it = geos.iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
+		for (GeoElement geo : geos) {
 			String fileName = geo.getImageFileName();
 			MyImageJre image = (MyImageJre) geo.getFillImage();
 			if (fileName != null && image != null) {
@@ -458,9 +453,8 @@ public abstract class MyXMLioJre extends MyXMLio {
 			return;
 		}
 
-		for (int i = 0; i < macros.size(); i++) {
+		for (Macro macro : macros) {
 			// save all images in macro construction
-			Macro macro = macros.get(i);
 			writeConstructionImages(macro.getMacroConstruction(), zip,
 					filePath);
 

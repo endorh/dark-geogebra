@@ -15,8 +15,7 @@ public abstract class MyComboBoxListener extends MouseAdapter
 		Object src = e.getSource();
 
 		doActionPerformed(src);
-		if (src instanceof JComboBox) {
-			JComboBox cb = (JComboBox) src;
+		if (src instanceof JComboBox cb) {
 			cb.setPopupVisible(false);
 		}
 	}
@@ -24,8 +23,7 @@ public abstract class MyComboBoxListener extends MouseAdapter
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		Object src = e.getSource();
-		if (src instanceof JComboBox) {
-			JComboBox cb = (JComboBox) src;
+		if (src instanceof JComboBox cb) {
 			cb.setPopupVisible(false);
 		}
 	}

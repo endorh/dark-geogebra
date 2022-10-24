@@ -42,12 +42,7 @@ public class SortedSparseMultigraph<V, E> extends OrderedSparseMultigraph<V, E>
 	 *            the edge type for the graph factory
 	 */
 	public static <V, E> Factory<Graph<V, E>> getFactory() {
-		return new Factory<Graph<V, E>>() {
-			@Override
-			public Graph<V, E> create() {
-				return new SortedSparseMultigraph<V, E>();
-			}
-		};
+		return SortedSparseMultigraph::new;
 	}
 
 	/**
@@ -72,9 +67,9 @@ public class SortedSparseMultigraph<V, E> extends OrderedSparseMultigraph<V, E>
 			Comparator<E> edge_comparator) {
 		this.vertex_comparator = vertex_comparator;
 		this.edge_comparator = edge_comparator;
-		vertices = new TreeMap<V, Pair<Set<E>>>(vertex_comparator);
-		edges = new TreeMap<E, Pair<V>>(edge_comparator);
-		directedEdges = new TreeSet<E>(edge_comparator);
+		vertices = new TreeMap<>(vertex_comparator);
+		edges = new TreeMap<>(edge_comparator);
+		directedEdges = new TreeSet<>(edge_comparator);
 	}
 
 	/**
@@ -94,11 +89,9 @@ public class SortedSparseMultigraph<V, E> extends OrderedSparseMultigraph<V, E>
 	 */
 	public void setVertexComparator(Comparator<V> vertex_comparator) {
 		this.vertex_comparator = vertex_comparator;
-		Map<V, Pair<Set<E>>> tmp_vertices = new TreeMap<V, Pair<Set<E>>>(
+		Map<V, Pair<Set<E>>> tmp_vertices = new TreeMap<>(
 				vertex_comparator);
-		for (Map.Entry<V, Pair<Set<E>>> entry : vertices.entrySet()) {
-			tmp_vertices.put(entry.getKey(), entry.getValue());
-		}
+		tmp_vertices.putAll(vertices);
 		this.vertices = tmp_vertices;
 	}
 
@@ -109,8 +102,8 @@ public class SortedSparseMultigraph<V, E> extends OrderedSparseMultigraph<V, E>
 		}
 		if (!containsVertex(vertex)) {
 			vertices.put(vertex,
-					new Pair<Set<E>>(new TreeSet<E>(edge_comparator),
-							new TreeSet<E>(edge_comparator)));
+					new Pair<>(new TreeSet<>(edge_comparator),
+							new TreeSet<>(edge_comparator)));
 			return true;
 		}
 		return false;

@@ -115,9 +115,8 @@ public class GeoConicPartParameters {
 		}
 		// handle conic types
 		switch (conic.getType()) {
-		case GeoConicNDConstants.CONIC_CIRCLE:
+		case GeoConicNDConstants.CONIC_CIRCLE -> {
 			setExtentEllipse(startParam, endParam);
-
 			double r = conic.getHalfAxis(0);
 			arcLength = r * paramExtent;
 			if (conicPartType == GeoConicNDConstants.CONIC_PART_ARC) {
@@ -129,32 +128,26 @@ public class GeoConicPartParameters {
 				area = value; // area
 			}
 			setValueDefined(!Double.isNaN(value) && !Double.isInfinite(value));
-			break;
-
-		case GeoConicNDConstants.CONIC_ELLIPSE:
+		}
+		case GeoConicNDConstants.CONIC_ELLIPSE -> {
 			setExtentEllipse(startParam, endParam);
-
 			if (ellipticArcLength == null) {
 				ellipticArcLength = new EllipticArcLength(conic);
 			}
-
 			arcLength = ellipticArcLength.compute(paramStart, paramEnd);
 			area = conic.getHalfAxis(0) * conic.getHalfAxis(1) * paramExtent
 					/ 2.0;
-
 			if (conicPartType == GeoConicNDConstants.CONIC_PART_ARC) {
 				value = arcLength;
 			} else {
 				value = area;
 			}
 			setValueDefined(!Double.isNaN(value) && !Double.isInfinite(value));
-
-			break;
+		}
 
 		// a circular arc through 3 points may degenerate
 		// to a segment or two rays
-		case GeoConicNDConstants.CONIC_LINE:
-		case GeoConicNDConstants.CONIC_PARALLEL_LINES:
+		case GeoConicNDConstants.CONIC_LINE, GeoConicNDConstants.CONIC_PARALLEL_LINES -> {
 			if (conicPartType == GeoConicNDConstants.CONIC_PART_ARC
 					&& posOrientation) {
 				// length of segment
@@ -174,10 +167,8 @@ public class GeoConicPartParameters {
 				value = Double.POSITIVE_INFINITY; // area or length of rays
 			}
 			setValueDefined(true);
-			break;
-
-		default:
-			setValueDefined(false);
+		}
+		default -> setValueDefined(false);
 		}
 	}
 
@@ -383,13 +374,13 @@ public class GeoConicPartParameters {
 		pp.setPathType(conic.type);
 
 		switch (conic.type) {
-		case GeoConicNDConstants.CONIC_CIRCLE:
-		case GeoConicNDConstants.CONIC_ELLIPSE:
+		case GeoConicNDConstants.CONIC_CIRCLE, GeoConicNDConstants.CONIC_ELLIPSE -> {
 			setEllipseParameter(P, pp);
 			return pp.t >= 0 && pp.t <= 1;
+		}
 
 		// degenerate case: two rays or one segment
-		case GeoConicNDConstants.CONIC_PARALLEL_LINES:
+		case GeoConicNDConstants.CONIC_PARALLEL_LINES -> {
 			if (posOrientation) {
 				// segment
 				conic.lines[0].doPointChanged(P, pp);
@@ -399,6 +390,7 @@ public class GeoConicPartParameters {
 			}
 			// two rays
 			return true;
+		}
 		}
 
 		return false;

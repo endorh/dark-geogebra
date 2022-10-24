@@ -32,7 +32,6 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.MyError;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.common.main.settings.EuclidianSettings;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 
 public class EuclidianStyleBarStatic {
@@ -83,10 +82,7 @@ public class EuclidianStyleBarStatic {
 				}
 			}
 
-			if (geo.getParentAlgorithm() instanceof AlgoAttachCopyToView) {
-
-				AlgoAttachCopyToView algo = (AlgoAttachCopyToView) geo
-						.getParentAlgorithm();
+			if (geo.getParentAlgorithm() instanceof AlgoAttachCopyToView algo) {
 
 				if (!flag) {
 
@@ -171,9 +167,7 @@ public class EuclidianStyleBarStatic {
 		// see applyFixPosition() called with a geo with label not set below
 		app.getSelectionManager().clearSelectedGeos(false);
 
-		for (int i = 0; i < geos.size(); i++) {
-			GeoElement geo = geos.get(i);
-
+		for (GeoElement geo : geos) {
 			if (geo.isDefaultGeo()) {
 				if (geo.isFixable()) {
 					geo.setFixed(flag);
@@ -270,14 +264,10 @@ public class EuclidianStyleBarStatic {
 		try {
 			app.getKernel().getAlgebraProcessor().changeGeoElement(geo, cmdtext,
 					true, true, app.getDefaultErrorHandler(),
-					new AsyncOperation<GeoElementND>() {
-
-						@Override
-						public void callback(GeoElementND newGeo1) {
-							if (newGeo1 != null) {
-								app.doAfterRedefine(newGeo1);
-								newGeo1.updateRepaint();
-							}
+					newGeo1 -> {
+						if (newGeo1 != null) {
+							app.doAfterRedefine(newGeo1);
+							newGeo1.updateRepaint();
 						}
 					});
 
@@ -328,19 +318,19 @@ public class EuclidianStyleBarStatic {
 
 		StringBuilder cmdText = new StringBuilder();
 
-		for (int i = 0; i < geos.size(); i++) {
+		for (GeoElement element : geos) {
 
 			// get the TableText algo for this geo and its input
-			geo = geos.get(i);
+			geo = element;
 			algo = geo.getParentAlgorithm();
 			input = algo.getInput();
 
 			// create a new TableText cmd
 			cmdText.setLength(0);
 			cmdText.append("TableText[");
-			for (int j = 0; j < input.length; j++) {
-				if (input[j] instanceof GeoList) {
-					cmdText.append(input[j]
+			for (GeoElement geoElement : input) {
+				if (geoElement instanceof GeoList) {
+					cmdText.append(geoElement
 							.getFormulaString(StringTemplate.defaultTemplate,
 									false));
 					cmdText.append(",");
@@ -402,8 +392,7 @@ public class EuclidianStyleBarStatic {
 
 		App app = geos.get(0).getKernel().getApplication();
 
-		for (int i = 0; i < geos.size(); i++) {
-			GeoElement geo = geos.get(i);
+		for (GeoElement geo : geos) {
 			if (geo.isLabelShowable()
 					|| geo.isGeoAngle()
 					|| (geo.isGeoNumeric() && geo.isLockedPosition())) {
@@ -461,12 +450,11 @@ public class EuclidianStyleBarStatic {
 			int pointStyleSelIndex, int pointSize) {
 		int pointStyle = EuclidianView.getPointStyle(pointStyleSelIndex);
 		boolean needUndo = false;
-		for (int i = 0; i < geos.size(); i++) {
-			GeoElement geo = geos.get(i);
+		for (GeoElement geo : geos) {
 			if (geo instanceof PointProperties) {
 				if (((PointProperties) geo).getPointSize() != pointSize
 						|| (((PointProperties) geo)
-								.getPointStyle() != pointStyle)) {
+						.getPointStyle() != pointStyle)) {
 					((PointProperties) geo).setPointSize(pointSize);
 					((PointProperties) geo).setPointStyle(pointStyle);
 					geo.updateVisualStyleRepaint(GProperty.POINT_STYLE);
@@ -552,10 +540,8 @@ public class EuclidianStyleBarStatic {
 			boolean add) {
 		boolean needUndo = false;
 
-		for (int i = 0; i < geos.size(); i++) {
-			GeoElement geo = geos.get(i);
-			if (geo instanceof TextProperties) {
-				TextProperties text = (TextProperties) geo;
+		for (GeoElement geo : geos) {
+			if (geo instanceof TextProperties text) {
 				int oldStyle = text.getFontStyle();
 				int newStyle = add ? (oldStyle | mask) : (oldStyle & ~mask);
 				if (oldStyle != newStyle) {
@@ -595,8 +581,7 @@ public class EuclidianStyleBarStatic {
 		// transform indices to the range -4, // .. , 4
 		double fontSize = GeoText.getRelativeFontSize(textSizeIndex);
 
-		for (int i = 0; i < geos.size(); i++) {
-			GeoElement geo = geos.get(i);
+		for (GeoElement geo : geos) {
 			if (geo instanceof TextProperties && ((TextProperties) geo)
 					.getFontSizeMultiplier() != fontSize) {
 				((TextProperties) geo).setFontSizeMultiplier(fontSize);
@@ -680,8 +665,8 @@ public class EuclidianStyleBarStatic {
 		boolean geosOK = true;
 		AlgoElement algo;
 
-		for (int i = 0; i < geos.size(); i++) {
-			algo = geos.get(i).getParentAlgorithm();
+		for (GeoElement geo : geos) {
+			algo = geo.getParentAlgorithm();
 			if (!(algo instanceof AlgoTableText)) {
 				geosOK = false;
 			}
@@ -938,8 +923,7 @@ public class EuclidianStyleBarStatic {
 
 		boolean needUndo = false;
 
-		for (int i = 0; i < geos.size(); i++) {
-			GeoElement geo = geos.get(i);
+		for (GeoElement geo : geos) {
 			if (geo instanceof AngleProperties) {
 				if (((AngleProperties) geo).getAngleStyle()
 						.getXmlVal() != index) {

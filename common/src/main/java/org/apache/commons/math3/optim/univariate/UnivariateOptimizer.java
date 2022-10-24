@@ -97,9 +97,8 @@ public abstract class UnivariateOptimizer
         // The existing values (as set by the previous call) are reused if
         // not provided in the argument list.
         for (OptimizationData data : optData) {
-            if (data instanceof SearchInterval) {
-                final SearchInterval interval = (SearchInterval) data;
-                min = interval.getMin();
+            if (data instanceof final SearchInterval interval) {
+	            min = interval.getMin();
                 max = interval.getMax();
                 start = interval.getStartValue();
                 continue;

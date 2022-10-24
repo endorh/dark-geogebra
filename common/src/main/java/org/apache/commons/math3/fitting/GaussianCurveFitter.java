@@ -18,7 +18,6 @@ package org.apache.commons.math3.fitting;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -248,47 +247,41 @@ public class GaussianCurveFitter extends AbstractCurveFitter {
          * @return the input observations, sorted.
          */
         private List<WeightedObservedPoint> sortObservations(Collection<WeightedObservedPoint> unsorted) {
-            final List<WeightedObservedPoint> observations = new ArrayList<WeightedObservedPoint>(unsorted);
+            final List<WeightedObservedPoint> observations = new ArrayList<>(unsorted);
 
-            final Comparator<WeightedObservedPoint> cmp = new Comparator<WeightedObservedPoint>() {
-                /** {@inheritDoc} */
-                public int compare(WeightedObservedPoint p1,
-                                   WeightedObservedPoint p2) {
-                    if (p1 == null && p2 == null) {
-                        return 0;
-                    }
-                    if (p1 == null) {
-                        return -1;
-                    }
-                    if (p2 == null) {
-                        return 1;
-                    }
-                    final int cmpX = Double.compare(p1.getX(), p2.getX());
-                    if (cmpX < 0) {
-                        return -1;
-                    }
-                    if (cmpX > 0) {
-                        return 1;
-                    }
-                    final int cmpY = Double.compare(p1.getY(), p2.getY());
-                    if (cmpY < 0) {
-                        return -1;
-                    }
-                    if (cmpY > 0) {
-                        return 1;
-                    }
-                    final int cmpW = Double.compare(p1.getWeight(), p2.getWeight());
-                    if (cmpW < 0) {
-                        return -1;
-                    }
-                    if (cmpW > 0) {
-                        return 1;
-                    }
-                    return 0;
-                }
+            final Comparator<WeightedObservedPoint> cmp = new Comparator<>() {
+	            /** {@inheritDoc} */
+	            public int compare(WeightedObservedPoint p1,
+			            WeightedObservedPoint p2) {
+		            if (p1 == null && p2 == null) {
+			            return 0;
+		            }
+		            if (p1 == null) {
+			            return -1;
+		            }
+		            if (p2 == null) {
+			            return 1;
+		            }
+		            final int cmpX = Double.compare(p1.getX(), p2.getX());
+		            if (cmpX < 0) {
+			            return -1;
+		            }
+		            if (cmpX > 0) {
+			            return 1;
+		            }
+		            final int cmpY = Double.compare(p1.getY(), p2.getY());
+		            if (cmpY < 0) {
+			            return -1;
+		            }
+		            if (cmpY > 0) {
+			            return 1;
+		            }
+		            final int cmpW = Double.compare(p1.getWeight(), p2.getWeight());
+		            return Integer.compare(cmpW, 0);
+	            }
             };
 
-            Collections.sort(observations, cmp);
+            observations.sort(cmp);
             return observations;
         }
 

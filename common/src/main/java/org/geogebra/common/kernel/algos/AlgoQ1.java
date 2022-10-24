@@ -123,20 +123,12 @@ public class AlgoQ1 extends AlgoElement {
 			Arrays.sort(sortList);
 
 			switch (size % 4) {
-			case 0:
-				Q1.setValue((sortList[size / 4 - 1]
-						+ sortList[(size + 4) / 4 - 1]) / 2);
-				break;
-			case 1:
-				Q1.setValue((sortList[(size - 1) / 4 - 1]
-						+ sortList[(size + 3) / 4 - 1]) / 2);
-				break;
-			case 2:
-				Q1.setValue(sortList[(size + 2) / 4 - 1]);
-				break;
-			default:
-				Q1.setValue(sortList[(size + 1) / 4 - 1]);
-				break;
+			case 0 -> Q1.setValue((sortList[size / 4 - 1]
+					+ sortList[(size + 4) / 4 - 1]) / 2);
+			case 1 -> Q1.setValue((sortList[(size - 1) / 4 - 1]
+					+ sortList[(size + 3) / 4 - 1]) / 2);
+			case 2 -> Q1.setValue(sortList[(size + 2) / 4 - 1]);
+			default -> Q1.setValue(sortList[(size + 1) / 4 - 1]);
 			}
 
 		}
@@ -183,20 +175,12 @@ public class AlgoQ1 extends AlgoElement {
 
 			// find Q1
 			switch (n % 4) {
-			case 0:
-				Q1.setValue((AlgoMedian.getValueAt(n / 4 - 1, v, f)
-						+ AlgoMedian.getValueAt((n + 4) / 4 - 1, v, f)) / 2);
-				break;
-			case 1:
-				Q1.setValue((AlgoMedian.getValueAt((n - 1) / 4 - 1, v, f)
-						+ AlgoMedian.getValueAt((n + 3) / 4 - 1, v, f)) / 2);
-				break;
-			case 2:
-				Q1.setValue(AlgoMedian.getValueAt((n + 2) / 4 - 1, v, f));
-				break;
-			default:
-				Q1.setValue(AlgoMedian.getValueAt((n + 1) / 4 - 1, v, f));
-				break;
+			case 0 -> Q1.setValue((AlgoMedian.getValueAt(n / 4 - 1, v, f)
+					+ AlgoMedian.getValueAt((n + 4) / 4 - 1, v, f)) / 2);
+			case 1 -> Q1.setValue((AlgoMedian.getValueAt((n - 1) / 4 - 1, v, f)
+					+ AlgoMedian.getValueAt((n + 3) / 4 - 1, v, f)) / 2);
+			case 2 -> Q1.setValue(AlgoMedian.getValueAt((n + 2) / 4 - 1, v, f));
+			default -> Q1.setValue(AlgoMedian.getValueAt((n + 1) / 4 - 1, v, f));
 			}
 
 		}

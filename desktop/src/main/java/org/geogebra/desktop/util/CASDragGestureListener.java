@@ -62,7 +62,7 @@ public class CASDragGestureListener
 		table.stopEditing();
 
 		if (geoLabelList == null) {
-			geoLabelList = new ArrayList<String>();
+			geoLabelList = new ArrayList<>();
 		} else {
 			geoLabelList.clear();
 		}

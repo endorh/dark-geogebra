@@ -51,7 +51,6 @@ import com.himamis.retex.renderer.share.Atom;
 import com.himamis.retex.renderer.share.FencedAtom;
 import com.himamis.retex.renderer.share.MiddleAtom;
 import com.himamis.retex.renderer.share.RowAtom;
-import com.himamis.retex.renderer.share.Substitution;
 import com.himamis.retex.renderer.share.SymbolAtom;
 import com.himamis.retex.renderer.share.Symbols;
 import com.himamis.retex.renderer.share.TeXParser;
@@ -68,23 +67,19 @@ public class CommandBra extends Command1A {
 
 	@Override
 	public Atom newI(TeXParser tp, Atom a) {
-		final ArrayList<MiddleAtom> middles = new ArrayList<MiddleAtom>();
-		if (a instanceof RowAtom) {
-			final RowAtom ra = (RowAtom) a;
-			ra.substitute(new Substitution() {
-				@Override
-				public Atom get(Atom a) {
-					if (a == Symbols.VERT) {
-						final MiddleAtom ma = new MiddleAtom(a);
-						middles.add(ma);
-						return ma;
-					} else if (a == Symbols.DOUBLE_VERT) {
-						final MiddleAtom ma = new MiddleAtom(a);
-						middles.add(ma);
-						return ma;
-					}
-					return a;
+		final ArrayList<MiddleAtom> middles = new ArrayList<>();
+		if (a instanceof final RowAtom ra) {
+			ra.substitute(a1 -> {
+				if (a1 == Symbols.VERT) {
+					final MiddleAtom ma = new MiddleAtom(a1);
+					middles.add(ma);
+					return ma;
+				} else if (a1 == Symbols.DOUBLE_VERT) {
+					final MiddleAtom ma = new MiddleAtom(a1);
+					middles.add(ma);
+					return ma;
 				}
+				return a1;
 			});
 		} else if (a instanceof MiddleAtom) {
 			middles.add((MiddleAtom) a);

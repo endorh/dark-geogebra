@@ -3,8 +3,6 @@ package org.geogebra.desktop.gui.view.properties;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
@@ -78,7 +76,7 @@ public class PropertiesStyleBarD extends PropertiesStyleBar {
 		toolbar = new JToolBar();
 		toolbar.setFloatable(false);
 
-		buttonMap = new HashMap<OptionType, AbstractButton>();
+		buttonMap = new HashMap<>();
 
 		ButtonGroup btnGroup = new ButtonGroup();
 		for (final OptionType type : OptionType.values()) {
@@ -93,12 +91,7 @@ public class PropertiesStyleBarD extends PropertiesStyleBar {
 					btn.setIcon(icon);
 					btn.setPreferredSize(new Dimension(icon.getIconWidth(),
 							icon.getIconHeight()));
-					btn.addActionListener(new ActionListener() {
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							propertiesView.setOptionPanel(type);
-						}
-					});
+					btn.addActionListener(e -> propertiesView.setOptionPanel(type));
 					btnGroup.add(btn);
 					toolbar.add(btn);
 					buttonMap.put(type, btn);
@@ -211,14 +204,11 @@ public class PropertiesStyleBarD extends PropertiesStyleBar {
 				mi.setBackground(ThemeD.color(ColorKeys.BACKGROUND));
 				mi.setText(propertiesView.getTypeString(type));
 				mi.setIcon(PropertiesViewD.getTypeIcon(app, type));
-				mi.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						propertiesView.setOptionPanel(type);
-						buildMenu();
-						btnOption.setFixedIcon(mi.getIcon());
-						btnOption.setText(mi.getText() + downTriangle);
-					}
+				mi.addActionListener(e -> {
+					propertiesView.setOptionPanel(type);
+					buildMenu();
+					btnOption.setFixedIcon(mi.getIcon());
+					btnOption.setText(mi.getText() + downTriangle);
 				});
 				menu.add(mi);
 				// mi.setSelected(type ==

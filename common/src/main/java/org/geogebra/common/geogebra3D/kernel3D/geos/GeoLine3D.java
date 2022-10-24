@@ -152,8 +152,7 @@ public class GeoLine3D extends GeoCoordSys1D {
 		AlgoElement algo = getParentAlgorithm();
 		Coords O = coordsys.getOrigin(); // TODO inhom coords
 		Coords V = coordsys.getVx();
-		if (algo instanceof AlgoLinePoint) {
-			AlgoLinePoint algoLP = (AlgoLinePoint) algo;
+		if (algo instanceof AlgoLinePoint algoLP) {
 
 			GeoElement[] geos = algoLP.getInput();
 

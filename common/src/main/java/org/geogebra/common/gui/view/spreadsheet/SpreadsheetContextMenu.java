@@ -414,110 +414,45 @@ public class SpreadsheetContextMenu<T> {
 		boolean succ = false;
 
 		switch (MenuCommand.valueOf(cmdString)) {
-
-		default:
-			// do nothing
-			break;
-		case ShowObject:
-			cmdShowObject();
-			break;
-
-		case ShowLabel:
-			cmdShowLabel();
-			break;
-
-		case RecordToSpreadsheet:
-			cmdRecordToSpreadsheet();
-			break;
-
-		case Copy:
-			cmdCopy();
-			break;
-
-		case Duplicate:
+		default -> {
+		}
+		// do nothing
+		case ShowObject -> cmdShowObject();
+		case ShowLabel -> cmdShowLabel();
+		case RecordToSpreadsheet -> cmdRecordToSpreadsheet();
+		case Copy -> cmdCopy();
+		case Duplicate -> {
 			cmdCopy();
 			cmdPaste();
-			break;
-
-		case Paste:
-			cmdPaste();
-			break;
-
-		case Cut:
+		}
+		case Paste -> cmdPaste();
+		case Cut -> {
 			succ = table.getCopyPasteCut().cut(column1, row1, column2, row2);
 			if (succ) {
 				app.storeUndoInfo();
 			}
-			break;
-
-		case Delete:
-		case DeleteObjects:
+		}
+		case Delete, DeleteObjects -> {
 			succ = table.getCopyPasteCut().delete(column1, row1, column2, row2);
 			if (succ) {
 				app.storeUndoInfo();
 			}
-			break;
-
-		case InsertLeft:
-			cp.insertColumn(column1, column2, true);
-			break;
-
-		case InsertRight:
-			cp.insertColumn(column1, column2, false);
-			break;
-
-		case InsertAbove:
-			cp.insertRow(row1, row2, true);
-			break;
-
-		case InsertBelow:
-			cp.insertRow(row1, row2, false);
-			break;
-
-		case DeleteColumn:
-			cp.deleteColumns(column1, column2);
-			break;
-
-		case DeleteRow:
-			cp.deleteRows(row1, row2);
-			break;
-
-		case List:
-			cp.createList(selectedCellRanges, true, false);
-			break;
-
-		case ListOfPoints:
-			cmdListOfPoints();
-			break;
-
-		case Matrix:
-			cp.createMatrix(column1, column2, row1, row2, false);
-			break;
-
-		case Table:
-			cp.createTableText(column1, column2, row1, row2, false, false);
-			break;
-
-		case PolyLine:
-			cmdPolyLine();
-			break;
-
-		case OperationTable:
-			cp.createOperationTable(selectedCellRanges.get(0));
-			break;
-
-		case ImportDataFile:
-			cmdImportDataFile();
-			break;
-
-		case SpreadsheetOptions:
-			cmdSpreadsheetOptions();
-			break;
-
-		case Properties:
-			cmdProperties();
-			break;
-
+		}
+		case InsertLeft -> cp.insertColumn(column1, column2, true);
+		case InsertRight -> cp.insertColumn(column1, column2, false);
+		case InsertAbove -> cp.insertRow(row1, row2, true);
+		case InsertBelow -> cp.insertRow(row1, row2, false);
+		case DeleteColumn -> cp.deleteColumns(column1, column2);
+		case DeleteRow -> cp.deleteRows(row1, row2);
+		case List -> cp.createList(selectedCellRanges, true, false);
+		case ListOfPoints -> cmdListOfPoints();
+		case Matrix -> cp.createMatrix(column1, column2, row1, row2, false);
+		case Table -> cp.createTableText(column1, column2, row1, row2, false, false);
+		case PolyLine -> cmdPolyLine();
+		case OperationTable -> cp.createOperationTable(selectedCellRanges.get(0));
+		case ImportDataFile -> cmdImportDataFile();
+		case SpreadsheetOptions -> cmdSpreadsheetOptions();
+		case Properties -> cmdProperties();
 		}
 
 	}

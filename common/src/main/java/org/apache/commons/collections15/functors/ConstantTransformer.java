@@ -61,7 +61,7 @@ public class ConstantTransformer<T>
 		if (constantToReturn == null) {
 			return NULL_INSTANCE;
 		}
-		return new ConstantTransformer<T>(constantToReturn);
+		return new ConstantTransformer<>(constantToReturn);
 	}
 
 	/**

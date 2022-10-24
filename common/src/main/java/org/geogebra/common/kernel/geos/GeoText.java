@@ -15,6 +15,7 @@ package org.geogebra.common.kernel.geos;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.CheckForNull;
 
@@ -603,10 +604,7 @@ public class GeoText extends GeoElement
 
 	@Override
 	public MyStringBuffer getText() {
-		if (str != null) {
-			return new MyStringBuffer(kernel, str);
-		}
-		return new MyStringBuffer(kernel, "");
+		return new MyStringBuffer(kernel, Objects.requireNonNullElse(str, ""));
 	}
 
 	/**
@@ -708,8 +706,7 @@ public class GeoText extends GeoElement
 				setAuxiliaryProperty);
 
 		// start point of text
-		if (geo instanceof GeoText) {
-			GeoText text = (GeoText) geo;
+		if (geo instanceof GeoText text) {
 			setSameLocation(text);
 			setLaTeX(text.isLaTeX, true);
 		}
@@ -1014,27 +1011,18 @@ public class GeoText extends GeoElement
 		}
 
 		switch (n) {
-		case 4: // top left
-			result.setCoords(boundingBox.getX(), boundingBox.getY(), 1.0);
-			break;
-
-		case 3: // top right
-			result.setCoords(boundingBox.getX() + boundingBox.getWidth(),
-					boundingBox.getY(), 1.0);
-			break;
-
-		case 2: // bottom right
-			result.setCoords(boundingBox.getX() + boundingBox.getWidth(),
-					boundingBox.getY() + boundingBox.getHeight(), 1.0);
-			break;
-
-		case 1: // bottom left
-			result.setCoords(boundingBox.getX(),
-					boundingBox.getY() + boundingBox.getHeight(), 1.0);
-			break;
-
-		default:
-			result.setUndefined();
+		case 4 -> // top left
+				result.setCoords(boundingBox.getX(), boundingBox.getY(), 1.0);
+		case 3 -> // top right
+				result.setCoords(boundingBox.getX() + boundingBox.getWidth(),
+						boundingBox.getY(), 1.0);
+		case 2 -> // bottom right
+				result.setCoords(boundingBox.getX() + boundingBox.getWidth(),
+						boundingBox.getY() + boundingBox.getHeight(), 1.0);
+		case 1 -> // bottom left
+				result.setCoords(boundingBox.getX(),
+						boundingBox.getY() + boundingBox.getHeight(), 1.0);
+		default -> result.setUndefined();
 		}
 	}
 
@@ -1108,34 +1096,31 @@ public class GeoText extends GeoElement
 	 */
 	public static Comparator<GeoText> getComparator() {
 		if (comparator == null) {
-			comparator = new Comparator<GeoText>() {
-				@Override
-				public int compare(GeoText itemA, GeoText itemB) {
+			comparator = (itemA, itemB) -> {
 
-					NormalizerMinimal noramlizer = itemA.getKernel()
-							.getApplication().getNormalizer();
+				NormalizerMinimal noramlizer = itemA.getKernel()
+						.getApplication().getNormalizer();
 
-					// remove accents etc
-					String strA = noramlizer.transform(itemA.getTextStringSafe());
-					String strB = noramlizer.transform(itemB.getTextStringSafe());
+				// remove accents etc
+				String strA = noramlizer.transform(itemA.getTextStringSafe());
+				String strB = noramlizer.transform(itemB.getTextStringSafe());
 
-					// do comparison without accents etc
-					int comp = strA.compareTo(strB);
+				// do comparison without accents etc
+				int comp = strA.compareTo(strB);
 
-					if (comp == 0) {
-						// try compare with accents
-						comp = itemA.getTextStringSafe()
-								.compareTo(itemB.getTextStringSafe());
-					}
-
-					if (comp == 0) {
-						// if we return 0 for equal strings, the TreeSet deletes
-						// the equal one
-						return itemA.getConstructionIndex() > itemB
-								.getConstructionIndex() ? -1 : 1;
-					}
-					return comp;
+				if (comp == 0) {
+					// try compare with accents
+					comp = itemA.getTextStringSafe()
+							.compareTo(itemB.getTextStringSafe());
 				}
+
+				if (comp == 0) {
+					// if we return 0 for equal strings, the TreeSet deletes
+					// the equal one
+					return itemA.getConstructionIndex() > itemB
+							.getConstructionIndex() ? -1 : 1;
+				}
+				return comp;
 			};
 		}
 

@@ -53,7 +53,7 @@ public class SVGGlyph {
 
 	@Override
 	public String toString() {
-		StringBuffer result = new StringBuffer("<glyph ");
+		StringBuilder result = new StringBuilder("<glyph ");
 
 		// unicode
 		result.append("unicode=\"");
@@ -91,7 +91,7 @@ public class SVGGlyph {
 	 * @return SVG tag horiz-adv-x
 	 */
 	public String getHorizontalAdvanceXString() {
-		StringBuffer result = new StringBuffer();
+		StringBuilder result = new StringBuilder();
 
 		if (glyphMetrics.getAdvanceX() != 0) {
 			result.append("horiz-adv-x=\"");
@@ -107,7 +107,7 @@ public class SVGGlyph {
 	 * @return SVG tag horiz-adv-y
 	 */
 	public String getHorizontalAdvanceYString() {
-		StringBuffer result = new StringBuffer();
+		StringBuilder result = new StringBuilder();
 
 		if (glyphMetrics.getAdvanceY() != 0) {
 			result.append("horiz-adv-y=\"");

@@ -23,24 +23,24 @@ public abstract class XArrowBox extends Box {
 		int j = 0;
 		for (char c : commands.toCharArray()) {
 			switch (c) {
-			case 'M':
+			case 'M' -> {
 				g2.moveTo(data[j], data[j + 1]);
 				j += 2;
-				break;
-			case 'L':
+			}
+			case 'L' -> {
 				g2.lineTo(data[j], data[j + 1]);
 				j += 2;
-				break;
-			case 'Q':
+			}
+			case 'Q' -> {
 				g2.quadraticCurveTo(data[j + 2], data[j + 3], data[j],
 						data[j + 1]);
 				j += 4;
-				break;
-			case 'C':
+			}
+			case 'C' -> {
 				g2.bezierCurveTo(data[j], data[j + 1], data[j + 2], data[j + 3],
 						data[j + 4], data[j + 5]);
 				j += 6;
-				break;
+			}
 			}
 		}
 		g2.finishDrawing();

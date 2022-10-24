@@ -198,8 +198,7 @@ public class CASTableCellEditorD extends CASTableCell
 	protected void fireEditingCanceled() {
 		if (editing && editingRow < table.getRowCount()) {
 			ChangeEvent ce = new ChangeEvent(this);
-			for (int i = 0; i < listeners.size(); i++) {
-				CellEditorListener l = listeners.get(i);
+			for (CellEditorListener l : listeners) {
 				l.editingCanceled(ce);
 			}
 		}
@@ -213,8 +212,7 @@ public class CASTableCellEditorD extends CASTableCell
 	protected void fireEditingStopped() {
 		if (editing && editingRow < table.getRowCount()) {
 			ChangeEvent ce = new ChangeEvent(this);
-			for (int i = 0; i < listeners.size(); i++) {
-				CellEditorListener l = listeners.get(i);
+			for (CellEditorListener l : listeners) {
 				l.editingStopped(ce);
 			}
 		}
@@ -301,23 +299,22 @@ public class CASTableCellEditorD extends CASTableCell
 
 		if (!selCellValue.isError()) {
 			switch (ch) {
-			default:
-				// do nothing
-				break;
-			case ' ':
-			case '|':
+			default -> {
+			}
+			// do nothing
+			case ' ', '|' -> {
 				// insert output of previous row (not in parentheses)
 				inputArea.setText(selCellValue
 						.getOutputRHS(StringTemplate.defaultTemplate) + " ");
 				e.consume();
-				break;
-			case ')':
+			}
+			case ')' -> {
 				// insert output of previous row in parentheses
 				String prevOutput = selCellValue
 						.getOutputRHS(StringTemplate.defaultTemplate);
 				inputArea.setText("(" + prevOutput + ")");
 				e.consume();
-				break;
+			}
 			}
 		}
 		// insert input of previous row

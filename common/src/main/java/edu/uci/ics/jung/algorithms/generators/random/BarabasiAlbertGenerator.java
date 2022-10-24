@@ -146,8 +146,8 @@ public class BarabasiAlbertGenerator<V, E>
 
 		mGraph = graphFactory.create();
 
-		vertex_index = new ArrayList<V>(2 * init_vertices);
-		index_vertex = new HashMap<V, Integer>(2 * init_vertices);
+		vertex_index = new ArrayList<>(2 * init_vertices);
+		index_vertex = new HashMap<>(2 * init_vertices);
 		for (int i = 0; i < init_vertices; i++) {
 			V v = vertexFactory.create();
 			mGraph.addVertex(v);
@@ -168,7 +168,7 @@ public class BarabasiAlbertGenerator<V, E>
 			attach_point = vertex_index
 					.get(mRandom.nextInt(vertex_index.size()));
 
-			endpoints = new Pair<V>(newVertex, attach_point);
+			endpoints = new Pair<>(newVertex, attach_point);
 
 			// if parallel edges are not allowed, skip attach_point if
 			// <newVertex, attach_point>
@@ -181,7 +181,7 @@ public class BarabasiAlbertGenerator<V, E>
 				}
 				if (mGraph.getDefaultEdgeType() == EdgeType.UNDIRECTED
 						&& added_pairs
-								.contains(new Pair<V>(attach_point, newVertex))) {
+								.contains(new Pair<>(attach_point, newVertex))) {
 					continue;
 				}
 			}
@@ -202,7 +202,7 @@ public class BarabasiAlbertGenerator<V, E>
 		added_pairs.add(endpoints);
 
 		if (mGraph.getDefaultEdgeType() == EdgeType.UNDIRECTED) {
-			added_pairs.add(new Pair<V>(attach_point, newVertex));
+			added_pairs.add(new Pair<>(attach_point, newVertex));
 		}
 	}
 
@@ -223,7 +223,7 @@ public class BarabasiAlbertGenerator<V, E>
 		// generate and store the new edges; don't add them to the graph
 		// yet because we don't want to bias the degree calculations
 		// (all new edges in a timestep should be added in parallel)
-		Set<Pair<V>> added_pairs = new HashSet<Pair<V>>(
+		Set<Pair<V>> added_pairs = new HashSet<>(
 				mNumEdgesToAttachPerStep * 3);
 
 		for (int i = 0; i < mNumEdgesToAttachPerStep; i++) {
@@ -241,7 +241,7 @@ public class BarabasiAlbertGenerator<V, E>
 		// now that we're done attaching edges to this new vertex,
 		// add it to the index
 		vertex_index.add(newVertex);
-		index_vertex.put(newVertex, Integer.valueOf(vertex_index.size() - 1));
+		index_vertex.put(newVertex, vertex_index.size() - 1);
 	}
 
 	@Override

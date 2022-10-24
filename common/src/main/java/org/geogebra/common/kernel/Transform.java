@@ -90,8 +90,7 @@ public abstract class Transform {
 		}
 
 		// for polygons we transform
-		if (geo instanceof GeoPoly && this.isAffine()) {
-			GeoPoly poly = (GeoPoly) geo;
+		if (geo instanceof GeoPoly poly && this.isAffine()) {
 			if (poly.isVertexCountFixed() && poly.isAllVertexLabelsSet()) {
 				return transformPoly(label, poly,
 						transformPoints(poly.getPointsND()));
@@ -165,8 +164,8 @@ public abstract class Transform {
 			ret = cons.getKernel().polyLineND(polyLabel, transformedPoints);
 		}
 
-		for (int i = 0; i < ret.length; i++) {
-			setVisualStyleForTransformations((GeoElement) oldPoly, ret[i]);
+		for (GeoElement geoElement : ret) {
+			setVisualStyleForTransformations((GeoElement) oldPoly, geoElement);
 		}
 
 		if (oldPoly instanceof GeoPolygon) {

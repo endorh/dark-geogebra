@@ -448,16 +448,12 @@ public class Function extends FunctionNVar
 	}
 
 	private ExpressionValue strip(ExpressionNode expr) {
-		switch (expr.getOperation()) {
-		case MULTIPLY:
-			return new ExpressionNode(kernel, strip(expr.getLeftTree()),
+		return switch (expr.getOperation()) {
+			case MULTIPLY -> new ExpressionNode(kernel, strip(expr.getLeftTree()),
 					Operation.MULTIPLY, strip(expr.getRightTree()));
-		case ABS:
-		case CBRT:
-		case SQRT:
-			return expr.getLeft();
-		}
-		return expr;
+			case ABS, CBRT, SQRT -> expr.getLeft();
+			default -> expr;
+		};
 	}
 
 	/**
@@ -509,7 +505,7 @@ public class Function extends FunctionNVar
 			}
 			if (symbolicPolyFactorList.get(rootIdx) == null) {
 				symbolicPolyFactorList.set(rootIdx,
-						new LinkedList<PolyFunction>());
+						new LinkedList<>());
 			} else {
 				symbolicPolyFactorList.get(rootIdx).clear();
 			}
@@ -529,12 +525,7 @@ public class Function extends FunctionNVar
 	}
 
 	private Inspecting getVariableDegreeCheck() {
-		return new Inspecting() {
-			@Override
-			public boolean check(ExpressionValue v) {
-				return v.isOperation(Operation.POWER) && !v.wrap().getRight().isConstant();
-			}
-		};
+		return v -> v.isOperation(Operation.POWER) && !v.wrap().getRight().isConstant();
 	}
 
 	/**
@@ -821,10 +812,7 @@ public class Function extends FunctionNVar
 				return null;
 			}
 			return en;
-		} catch (Exception e) {
-			Log.debug(e);
-			return null;
-		} catch (Error e) {
+		} catch (Exception | Error e) {
 			Log.debug(e);
 			return null;
 		}
@@ -900,21 +888,17 @@ public class Function extends FunctionNVar
 
 			// NB keepFractions ignored, so different answer given for f(x) =
 			// 3x^2 / 5, f'(x)
-			boolean factor = getExpression().inspect(new Inspecting() {
-
-				@Override
-				public boolean check(ExpressionValue v) {
-					if (v instanceof ExpressionNode && ((ExpressionNode) v)
-							.getOperation() == Operation.POWER) {
-						if (((ExpressionNode) v).getLeft().unwrap()
-								.isExpressionNode()
-								&& ((ExpressionNode) v).getRight()
-										.evaluateDouble() > Function.MAX_EXPAND_DEGREE) {
-							return true;
-						}
+			boolean factor = getExpression().inspect(v -> {
+				if (v instanceof ExpressionNode && ((ExpressionNode) v)
+						.getOperation() == Operation.POWER) {
+					if (((ExpressionNode) v).getLeft().unwrap()
+							.isExpressionNode()
+							&& ((ExpressionNode) v).getRight()
+									.evaluateDouble() > Function.MAX_EXPAND_DEGREE) {
+						return true;
 					}
-					return false;
 				}
+				return false;
 			});
 			if (factor) {
 				return getDerivativeNoCAS(n);

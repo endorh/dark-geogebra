@@ -207,57 +207,35 @@ public abstract class AlgoStats2D extends AlgoElement {
 		double var;
 
 		switch (stat) {
-		default:
-			result.setValue(Double.NaN);
-			break;
-		case STATS_MEANX:
-			result.setValue(mux);
-			break;
-		case STATS_MEANY:
-			result.setValue(muy);
-			break;
-		case STATS_COVARIANCE:
-			result.setValue(sumxy / sizex - mux * muy);
-			break;
-		case STATS_SIGMAXY:
-			result.setValue(sumxy);
-			break;
-		case STATS_SIGMAXX:
-			result.setValue(sumxx);
-			break;
-		case STATS_SIGMAYY:
-			result.setValue(sumyy);
-			break;
-		case STATS_SXX:
-			result.setValue(sumxx - sumx * sumx / sizex);
-			break;
-		case STATS_SYY:
-			result.setValue(sumyy - sumy * sumy / sizex);
-			break;
-		case STATS_SXY:
-			result.setValue(sumxy - sumx * sumy / sizex);
-			break;
-		case STATS_PMCC:
-			result.setValue((sumxy * sizex - sumx * sumy)
-					/ Math.sqrt((sumxx * sizex - sumx * sumx)
-							* (sumyy * sizex - sumy * sumy)));
-			break;
-		case STATS_SAMPLESDX:
+		default -> result.setValue(Double.NaN);
+		case STATS_MEANX -> result.setValue(mux);
+		case STATS_MEANY -> result.setValue(muy);
+		case STATS_COVARIANCE -> result.setValue(sumxy / sizex - mux * muy);
+		case STATS_SIGMAXY -> result.setValue(sumxy);
+		case STATS_SIGMAXX -> result.setValue(sumxx);
+		case STATS_SIGMAYY -> result.setValue(sumyy);
+		case STATS_SXX -> result.setValue(sumxx - sumx * sumx / sizex);
+		case STATS_SYY -> result.setValue(sumyy - sumy * sumy / sizex);
+		case STATS_SXY -> result.setValue(sumxy - sumx * sumy / sizex);
+		case STATS_PMCC -> result.setValue((sumxy * sizex - sumx * sumy)
+				/ Math.sqrt((sumxx * sizex - sumx * sumx)
+				* (sumyy * sizex - sumy * sumy)));
+		case STATS_SAMPLESDX -> {
 			var = (sumxx - sumx * sumx / sizex) / (sizex - 1);
 			result.setValue(Math.sqrt(var));
-			break;
-		case STATS_SAMPLESDY:
+		}
+		case STATS_SAMPLESDY -> {
 			var = (sumyy - sumy * sumy / sizey) / (sizey - 1);
 			result.setValue(Math.sqrt(var));
-			break;
-		case STATS_SDX:
+		}
+		case STATS_SDX -> {
 			var = (sumxx - sumx * sumx / sizex) / sizex;
 			result.setValue(Math.sqrt(var));
-			break;
-		case STATS_SDY:
+		}
+		case STATS_SDY -> {
 			var = (sumyy - sumy * sumy / sizey) / sizey;
 			result.setValue(Math.sqrt(var));
-			break;
+		}
 		}
 	}
 

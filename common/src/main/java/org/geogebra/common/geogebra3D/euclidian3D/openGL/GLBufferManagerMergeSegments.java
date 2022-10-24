@@ -173,11 +173,8 @@ abstract public class GLBufferManagerMergeSegments extends GLBufferManager {
 	private void addToAvailableBufferPacks(BufferPackAbstract buffer) {
 		int length = BufferPackAbstract.ELEMENT_SIZE_MAX
 				- buffer.elementsLength;
-		LinkedList<BufferPackAbstract> list = availableBufferPacks.get(length);
-		if (list == null) {
-			list = new LinkedList<>();
-			availableBufferPacks.put(length, list);
-		}
+		LinkedList<BufferPackAbstract> list =
+				availableBufferPacks.computeIfAbsent(length, k -> new LinkedList<>());
 		list.add(buffer);
 	}
 

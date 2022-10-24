@@ -64,9 +64,8 @@ public class CmdPlaySound extends CmdScripting {
 		case 2:
 			arg = resArgs(c);
 
-			if (arg[0].isGeoAudio() && arg[1] instanceof GeoBoolean) {
+			if (arg[0].isGeoAudio() && arg[1] instanceof GeoBoolean playPause) {
 
-				GeoBoolean playPause = (GeoBoolean) arg[1];
 				if (playPause.getBoolean()) {
 					sm.play((GeoAudio) arg[0]);
 				} else {

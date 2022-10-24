@@ -28,8 +28,7 @@ public class ProverPureSymbolicMethod {
 
 		GeoElement statement = prover.getStatement();
 
-		if (statement instanceof SymbolicParametersAlgo) {
-			SymbolicParametersAlgo statementSymbolic = (SymbolicParametersAlgo) statement;
+		if (statement instanceof SymbolicParametersAlgo statementSymbolic) {
 			SymbolicParameters parameters = statementSymbolic
 					.getSymbolicParameters();
 			try {
@@ -40,9 +39,7 @@ public class ProverPureSymbolicMethod {
 				return ProofResult.UNKNOWN;
 			}
 		} else if (statement
-				.getParentAlgorithm() instanceof SymbolicParametersAlgo) {
-			SymbolicParametersAlgo statementSymbolic = (SymbolicParametersAlgo) statement
-					.getParentAlgorithm();
+				.getParentAlgorithm() instanceof SymbolicParametersAlgo statementSymbolic) {
 			try {
 				PPolynomial[] poly = statementSymbolic.getPolynomials();
 				for (PPolynomial polynomial : poly) {

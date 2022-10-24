@@ -33,7 +33,6 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.StringTokenizer;
@@ -73,15 +72,13 @@ public class Pattern {
 	 */
 	public Pattern(String musicString) {
 		setMusicString(musicString);
-		properties = new HashMap<String, String>();
+		properties = new HashMap<>();
 	}
 
 	/** Copy constructor */
 	public Pattern(Pattern pattern) {
 		this(pattern.getMusicString());
-		Iterator<String> iter = pattern.getProperties().keySet().iterator();
-		while (iter.hasNext()) {
-			String key = iter.next();
+		for (String key : pattern.getProperties().keySet()) {
 			String value = pattern.getProperty(key);
 			setProperty(key, value);
 		}
@@ -348,7 +345,7 @@ public class Pattern {
 
 	private void repeat(String header, String repeater, int times,
 			String trailer) {
-		StringBuffer buffy = new StringBuffer();
+		StringBuilder buffy = new StringBuilder();
 
 		// Add the header, if it exists
 		if (header != null) {
@@ -401,7 +398,7 @@ public class Pattern {
 	}
 
 	public static Pattern loadPattern(File file) throws IOException {
-		StringBuffer buffy = new StringBuffer();
+		StringBuilder buffy = new StringBuilder();
 
 		Pattern pattern = new Pattern();
 
@@ -448,9 +445,7 @@ public class Pattern {
 				out.write(getTitle());
 				out.write("\n");
 			}
-			Iterator<String> iter = getProperties().keySet().iterator();
-			while (iter.hasNext()) {
-				String key = iter.next();
+			for (String key : getProperties().keySet()) {
 				if (!key.equals(TITLE)) {
 					String value = getProperty(key);
 					out.write("# ");
@@ -490,9 +485,7 @@ public class Pattern {
 	 */
 	public String getPropertiesAsSentence() {
 		StringBuilder buddy = new StringBuilder();
-		Iterator<String> iter = getProperties().keySet().iterator();
-		while (iter.hasNext()) {
-			String key = iter.next();
+		for (String key : getProperties().keySet()) {
 			String value = getProperty(key);
 			buddy.append(key);
 			buddy.append(": ");
@@ -516,9 +509,7 @@ public class Pattern {
 	 */
 	public String getPropertiesAsParagraph() {
 		StringBuilder buddy = new StringBuilder();
-		Iterator<String> iter = getProperties().keySet().iterator();
-		while (iter.hasNext()) {
-			String key = iter.next();
+		for (String key : getProperties().keySet()) {
 			String value = getProperty(key);
 			buddy.append(key);
 			buddy.append(": ");
@@ -537,24 +528,24 @@ public class Pattern {
 	 * @param offsetTime
 	 */
 	public void offset(long offsetTime) {
-		StringBuffer buffy = new StringBuffer();
+		StringBuilder buffy = new StringBuilder();
 		String[] tokens = getMusicString().split(" ");
-		for (int i = 0; i < tokens.length; i++) {
-			if ((tokens[i].length() > 0) && (tokens[i].charAt(0) == '@')) {
-				String timeNumberString = tokens[i].substring(1,
-						tokens[i].length());
-				if (timeNumberString.indexOf("[") == -1) {
+		for (String token : tokens) {
+			if ((token.length() > 0) && (token.charAt(0) == '@')) {
+				String timeNumberString = token.substring(1,
+						token.length());
+				if (!timeNumberString.contains("[")) {
 					long timeNumber = Long.parseLong(timeNumberString);
 					long newTime = timeNumber + offsetTime;
 					if (newTime < 0) {
 						newTime = 0;
 					}
-					buffy.append("@" + newTime);
+					buffy.append("@").append(newTime);
 				} else {
-					buffy.append(tokens[i]);
+					buffy.append(token);
 				}
 			} else {
-				buffy.append(tokens[i]);
+				buffy.append(token);
 			}
 			buffy.append(" ");
 		}
@@ -570,7 +561,7 @@ public class Pattern {
 		StringTokenizer strtok = new StringTokenizer(musicString.toString(),
 				" \n\t");
 
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 		while (strtok.hasMoreTokens()) {
 			String token = strtok.nextToken();
 			if (token != null) {
@@ -636,8 +627,8 @@ public class Pattern {
 	protected void clearPatternListeners() {
 		EventListener[] l = listenerList.getListeners(PatternListener.class);
 		int numListeners = l.length;
-		for (int i = 0; i < numListeners; i++) {
-			listenerList.remove(PatternListener.class, (PatternListener) l[i]);
+		for (EventListener eventListener : l) {
+			listenerList.remove(PatternListener.class, (PatternListener) eventListener);
 		}
 	}
 

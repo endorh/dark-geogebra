@@ -356,13 +356,7 @@ public class EvalInfo {
 	 */
 	public EvalInfo withLabelRedefinitionAllowedFor(final String string) {
 		EvalInfo copy = copy();
-		copy.labelFilter = new GPredicate<String>() {
-
-			@Override
-			public boolean test(String t) {
-				return t == null || t.equals(string);
-			}
-		};
+		copy.labelFilter = t -> t == null || t.equals(string);
 		return copy;
 	}
 

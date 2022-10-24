@@ -86,14 +86,10 @@ public class AlgoTangentCurve3D extends AlgoLinePoint {
 
 		// check if P is defined as a point of the curve's graph
 		pointOnCurve = false;
-		if (P.getParentAlgorithm() instanceof AlgoPointOnPath) {
-			AlgoPointOnPath algoPOP = (AlgoPointOnPath) P.getParentAlgorithm();
+		if (P.getParentAlgorithm() instanceof AlgoPointOnPath algoPOP) {
 			pointOnCurve = algoPOP.getPath() == f;
-		} else if (P.getParentAlgorithm() instanceof AlgoDependentPoint3D) {
+		} else if (P.getParentAlgorithm() instanceof AlgoDependentPoint3D algoDP) {
 			// special code for curve(t)
-
-			AlgoDependentPoint3D algoDP = (AlgoDependentPoint3D) P
-					.getParentAlgorithm();
 
 			ExpressionNode en = algoDP.getExpression();
 

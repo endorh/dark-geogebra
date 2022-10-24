@@ -33,28 +33,15 @@ public class GeoGebraGlobal implements IdFunctionCall {
 		for (int id = 1; id <= LAST_SCOPE_FUNCTION_ID; ++id) {
 			String name;
 			int arity = 1;
-			switch (id) {
-			case Id_alert:
-				name = "alert";
-				break;
-			case Id_prompt:
-				name = "prompt";
-				break;
-			case Id_setTimeout:
-				name = "setTimeout";
-				break;
-			case Id_setInterval:
-				name = "setInterval";
-				break;
-			case Id_clearTimeout:
-				name = "clearTimeout";
-				break;
-			case Id_clearInterval:
-				name = "clearInterval";
-				break;
-			default:
-				throw Kit.codeBug();
-			}
+			name = switch (id) {
+				case Id_alert -> "alert";
+				case Id_prompt -> "prompt";
+				case Id_setTimeout -> "setTimeout";
+				case Id_setInterval -> "setInterval";
+				case Id_clearTimeout -> "clearTimeout";
+				case Id_clearInterval -> "clearInterval";
+				default -> throw Kit.codeBug();
+			};
 			IdFunctionObject f = new IdFunctionObject(obj, FTAG, id, name,
 					arity, scope);
 			if (sealed) {
@@ -70,7 +57,7 @@ public class GeoGebraGlobal implements IdFunctionCall {
 		if (f.hasTag(FTAG)) {
 			int methodId = f.methodId();
 			switch (methodId) {
-			case Id_alert: {
+			case Id_alert -> {
 
 				if (args.length > 1) {
 					String error = argNumError(args.length,
@@ -84,7 +71,7 @@ public class GeoGebraGlobal implements IdFunctionCall {
 
 				return "";
 			}
-			case Id_prompt: {
+			case Id_prompt -> {
 				Object value0 = getElementAsString(args, 0);
 				Object value1 = getElementAsString(args, 1);
 				/*
@@ -94,12 +81,10 @@ public class GeoGebraGlobal implements IdFunctionCall {
 				 */
 				return ((GgbAPID) app.getGgbApi()).prompt(value0, value1);
 			}
-			case Id_clearInterval:
-			case Id_clearTimeout:
-			case Id_setInterval:
-			case Id_setTimeout:
+			case Id_clearInterval, Id_clearTimeout, Id_setInterval, Id_setTimeout -> {
 				Log.debug("ignored in desktop");
 				return null;
+			}
 			}
 		}
 		throw f.unknown();

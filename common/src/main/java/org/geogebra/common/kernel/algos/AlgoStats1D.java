@@ -168,16 +168,18 @@ public abstract class AlgoStats1D extends AlgoElement {
 
 		if (size == 0) {
 			switch (stat) {
-			case STATS_SIGMAX:
-			case STATS_SIGMAXX:
+			case STATS_SIGMAX, STATS_SIGMAXX -> {
 				result.setValue(0);
 				return;
-			case STATS_PRODUCT:
+			}
+			case STATS_PRODUCT -> {
 				result.setValue(1);
 				return;
-			default:
+			}
+			default -> {
 				result.setUndefined();
 				return;
+			}
 			}
 		}
 
@@ -262,11 +264,8 @@ public abstract class AlgoStats1D extends AlgoElement {
 		mu = sumVal / n;
 
 		switch (stat) {
-		default:
-			result.setValue(Double.NaN);
-			break;
-		case STATS_MEAN_ABSOLUTE_DEVIATION:
-
+		default -> result.setValue(Double.NaN);
+		case STATS_MEAN_ABSOLUTE_DEVIATION -> {
 			double sumAbsoluteDeviation = 0;
 			if (geoList2 == null) {
 				double val;
@@ -304,41 +303,32 @@ public abstract class AlgoStats1D extends AlgoElement {
 
 				}
 			}
-
 			result.setValue(sumAbsoluteDeviation / n);
-			break;
-		case STATS_MEAN:
-			result.setValue(mu);
-			break;
-		case STATS_SD:
+		}
+		case STATS_MEAN -> result.setValue(mu);
+		case STATS_SD -> {
 			var = sumSquares / n - mu * mu;
 			result.setValue(Math.sqrt(var));
-			break;
-		case STATS_SAMPLE_SD:
+		}
+		case STATS_SAMPLE_SD -> {
 			var = (sumSquares - sumVal * sumVal / n) / (n - 1);
 			result.setValue(Math.sqrt(var));
-			break;
-		case STATS_VARIANCE:
+		}
+		case STATS_VARIANCE -> {
 			var = sumSquares / n - mu * mu;
 			result.setValue(var);
-			break;
-		case STATS_SAMPLE_VARIANCE:
+		}
+		case STATS_SAMPLE_VARIANCE -> {
 			var = (sumSquares - sumVal * sumVal / n) / (n - 1);
 			result.setValue(var);
-			break;
-		case STATS_SXX:
+		}
+		case STATS_SXX -> {
 			var = sumSquares - (sumVal * sumVal) / n;
 			result.setValue(var);
-			break;
-		case STATS_SIGMAX:
-			result.setValue(sumVal);
-			break;
-		case STATS_SIGMAXX:
-			result.setValue(sumSquares);
-			break;
-		case STATS_PRODUCT:
-			result.setValue(product);
-			break;
+		}
+		case STATS_SIGMAX -> result.setValue(sumVal);
+		case STATS_SIGMAXX -> result.setValue(sumSquares);
+		case STATS_PRODUCT -> result.setValue(product);
 		}
 	}
 

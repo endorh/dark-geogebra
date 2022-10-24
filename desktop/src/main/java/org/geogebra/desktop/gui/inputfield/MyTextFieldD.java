@@ -304,8 +304,7 @@ public class MyTextFieldD extends JTextField
 		setCaretPosition(pos1 + text.length());
 
 		// make sure AutoComplete works
-		if (this instanceof AutoCompleteTextFieldD) {
-			AutoCompleteTextFieldD tf = (AutoCompleteTextFieldD) this;
+		if (this instanceof AutoCompleteTextFieldD tf) {
 			tf.updateCurrentWord(false);
 			tf.startAutoCompletion();
 		}

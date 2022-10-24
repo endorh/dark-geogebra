@@ -124,16 +124,9 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 
 		if (equ.containsZ()) {
 			switch (equ.degree()) {
-			case 0:
-			case 1:
-				equ.setForcePlane();
-				break;
-			case 2:
-				equ.setForceQuadric();
-				break;
-			default:
-				equ.setForceSurface();
-				break;
+			case 0, 1 -> equ.setForcePlane();
+			case 2 -> equ.setForceQuadric();
+			default -> equ.setForceSurface();
 			}
 		}
 

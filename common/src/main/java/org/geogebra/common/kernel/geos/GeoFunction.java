@@ -424,11 +424,10 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 			// store surfaces to reset derivatives if needed
 			for (int i = 0; i < algorithm.getOutputLength(); i++) {
 				GeoElement geo = algorithm.getOutput(i);
-				if (geo instanceof SurfaceEvaluable) {
+				if (geo instanceof SurfaceEvaluable surface) {
 
 					// the cast here is needed for FindBugs
 					// leave as separate statement so it's not automatically removed
-					SurfaceEvaluable surface = (SurfaceEvaluable) geo;
 
 					surfaceEvaluables.remove(surface);
 				}
@@ -674,8 +673,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 *            vertical shift
 	 */
 	public void translate(double vx, double vy) {
-		if (getParentAlgorithm() instanceof AlgoFunctionFreehand) {
-			AlgoFunctionFreehand algo = (AlgoFunctionFreehand) getParentAlgorithm();
+		if (getParentAlgorithm() instanceof AlgoFunctionFreehand algo) {
 			GeoList list = algo.getList();
 
 			// left/right boundaries
@@ -969,18 +967,12 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 		Operation op = inequalityEn.getOperation();
 
 		switch (op) {
-		default:
+		default -> {
 			Log.error("problem in GeoFunction.getInterval()");
 			return;
-
-		case AND_INTERVAL:
-			GeoIntervalUtil.updateBoundaries(inequalityEn, bounds0);
-			break;
-
-		case LESS:
-		case LESS_EQUAL:
-		case GREATER:
-		case GREATER_EQUAL:
+		}
+		case AND_INTERVAL -> GeoIntervalUtil.updateBoundaries(inequalityEn, bounds0);
+		case LESS, LESS_EQUAL, GREATER, GREATER_EQUAL -> {
 
 			// make sure 2<x and x>2 both work
 			if (inequalityEn.getLeft() instanceof FunctionVariable) {
@@ -992,20 +984,13 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 				// shouldn't happen
 				bound = Double.NaN;
 			}
-
 			switch (op) {
-
-			case LESS:
-			case LESS_EQUAL:
-				bounds0[1] = bound;
-				break;
-			case GREATER:
-			case GREATER_EQUAL:
-				bounds0[0] = bound;
-				break;
-			default:
-				break;
+			case LESS, LESS_EQUAL -> bounds0[1] = bound;
+			case GREATER, GREATER_EQUAL -> bounds0[0] = bound;
+			default -> {
 			}
+			}
+		}
 		}
 
 	}
@@ -1382,24 +1367,12 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 	@Override
 	final public UnivariateFunction getUnivariateFunctionX() {
-		return new UnivariateFunction() {
-			@Override
-			public double value(double t) {
-				return t;
-			}
-
-		};
+		return t -> t;
 	}
 
 	@Override
 	final public UnivariateFunction getUnivariateFunctionY() {
-		return new UnivariateFunction() {
-			@Override
-			public double value(double t) {
-				return GeoFunction.this.value(t);
-			}
-
-		};
+		return GeoFunction.this::value;
 	}
 
 	@Override

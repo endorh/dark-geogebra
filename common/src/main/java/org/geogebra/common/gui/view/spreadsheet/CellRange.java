@@ -597,8 +597,7 @@ final public class CellRange {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof CellRange) {
-			CellRange cr = (CellRange) obj;
+		if (obj instanceof CellRange cr) {
 			return cr.minColumn == minColumn && cr.minRow == minRow
 					&& cr.maxColumn == maxColumn && cr.maxRow == maxRow
 					&& cr.anchorColumn == anchorColumn

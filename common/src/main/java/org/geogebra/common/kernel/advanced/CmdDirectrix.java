@@ -28,7 +28,7 @@ public class CmdDirectrix extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
+		case 1 -> {
 			arg = resArgs(c);
 
 			// asymptotes to conic
@@ -37,14 +37,13 @@ public class CmdDirectrix extends CommandProcessor {
 				AlgoDirectrix algo = new AlgoDirectrix(cons, c.getLabel(),
 						(GeoConic) arg[0]);
 
-				GeoElement[] ret = { algo.getDirectrix(),
-						algo.getDirectrix2() };
+				GeoElement[] ret = {algo.getDirectrix(),
+						algo.getDirectrix2()};
 				return ret;
 			}
 			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

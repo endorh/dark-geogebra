@@ -33,31 +33,29 @@ public class CmdClosestPoint extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2:
+		case 2 -> {
 			arg = resArgs(c);
 
 			// distance between two points
 			if ((ok[0] = (arg[0] instanceof Path))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
-				GeoElement[] ret = { closestPoint(c.getLabel(), (Path) arg[0],
-						(GeoPointND) arg[1]) };
+				GeoElement[] ret = {closestPoint(c.getLabel(), (Path) arg[0],
+						(GeoPointND) arg[1])};
 				return ret;
 			}
 
 			// distance between point and line
 			else if ((ok[1] = (arg[1] instanceof Path))
 					&& (ok[0] = (arg[0].isGeoPoint()))) {
-				GeoElement[] ret = { closestPoint(c.getLabel(), (Path) arg[1],
-						(GeoPointND) arg[0]) };
+				GeoElement[] ret = {closestPoint(c.getLabel(), (Path) arg[1],
+						(GeoPointND) arg[0])};
 				return ret;
-			}
-
-			else if ((ok[1] = (arg[1] instanceof GeoLine))
+			} else if ((ok[1] = (arg[1] instanceof GeoLine))
 					&& (ok[0] = (arg[0] instanceof GeoLine))) {
 				GeoElement[] ret = {
 						new AlgoClosestPointLines(kernel.getConstruction(),
 								c.getLabel(), (GeoLine) arg[1],
-								(GeoLine) arg[0]).getOutput(0) };
+								(GeoLine) arg[0]).getOutput(0)};
 				return ret;
 			}
 
@@ -68,9 +66,8 @@ public class CmdClosestPoint extends CommandProcessor {
 				}
 				throw argErr(c, arg[0]);
 			}
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

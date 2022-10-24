@@ -208,8 +208,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 	@Override
 	final public void draw(GGraphics2D g2) {
 		// draw single points
-		for (int i = 0; i < pointList.size(); i++) {
-			GPoint2D v = pointList.get(i);
+		for (GPoint2D v : pointList) {
 			if (poly.getLineType() == EuclidianStyleConstants.LINE_TYPE_FULL) {
 				drawEllipse(g2, v);
 			} else {
@@ -344,8 +343,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		it.next();
 		if (it.isDone()) {
 			if (pointList != null) {
-				for (int i = 0; i < pointList.size(); i++) {
-					GPoint2D p = pointList.get(i);
+				for (GPoint2D p : pointList) {
 					GRectangle rect = AwtFactory.getPrototype().newRectangle(0,
 							0, 100, 100);
 					rect.setBounds(x - hitThreshold, y - hitThreshold,
@@ -374,8 +372,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 			// if no hit of polyline
 			// try single points of polyline
 			if (!intersects && pointList != null) {
-				for (int i = 0; i < pointList.size(); i++) {
-					GPoint2D p = pointList.get(i);
+				for (GPoint2D p : pointList) {
 					GRectangle rect = AwtFactory.getPrototype().newRectangle(0,
 							0, 100, 100);
 					rect.setBounds(x - hitThreshold, y - hitThreshold,
@@ -408,8 +405,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		it.next();
 		if (it.isDone()) {
 			if (pointList != null) {
-				for (int i = 0; i < pointList.size(); i++) {
-					GPoint2D p = pointList.get(i);
+				for (GPoint2D p : pointList) {
 					if (rect.contains(p)) {
 						return true;
 					}
@@ -431,8 +427,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 			}
 			boolean intersects = strokedShape.intersects(rect);
 			if (!intersects && pointList != null) {
-				for (int i = 0; i < pointList.size(); i++) {
-					GPoint2D p = pointList.get(i);
+				for (GPoint2D p : pointList) {
 					if (rect.contains(p)) {
 						return true;
 					}

@@ -39,9 +39,8 @@ public class SpecialPointPopupHelper {
         GetCommand cmd = parentAlgo.getClassName();
         Localization localization = app.getLocalization();
         if (cmd == Commands.Intersect) {
-            if (parentAlgo instanceof AlgoIntersectAbstract) {
-                AlgoIntersectAbstract intersectAbstract = (AlgoIntersectAbstract) parentAlgo;
-                Kernel kernel = app.getKernel();
+            if (parentAlgo instanceof AlgoIntersectAbstract intersectAbstract) {
+	            Kernel kernel = app.getKernel();
                 GeoElement xAxis = kernel.getXAxis();
                 GeoElement yAxis = kernel.getYAxis();
                 for (GeoElement input : intersectAbstract.getInput()) {

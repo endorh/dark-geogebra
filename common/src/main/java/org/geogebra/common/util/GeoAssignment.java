@@ -3,7 +3,6 @@ package org.geogebra.common.util;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.TreeSet;
 
 import org.geogebra.common.factories.UtilFactory;
@@ -12,7 +11,6 @@ import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.algos.AlgoMacro;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
-import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoPoint;
@@ -68,15 +66,8 @@ public class GeoAssignment extends Assignment {
 
 		checkOp = "AreEqual";
 
-		geoInspector = new Inspecting() {
-
-			@Override
-			public boolean check(ExpressionValue v) {
-				return ((GeoElement) v).isLabelSet()
-						&& uniqueInputTypes.contains(TestGeo.getSpecificTest(v));
-			}
-
-		};
+		geoInspector = v -> ((GeoElement) v).isLabelSet()
+				&& uniqueInputTypes.contains(TestGeo.getSpecificTest(v));
 
 	}
 
@@ -98,9 +89,7 @@ public class GeoAssignment extends Assignment {
 			TreeSet<GeoElement> sortedSet = cons
 					.getGeoSetNameDescriptionOrder();
 
-			Iterator<GeoElement> it = sortedSet.iterator();
-			while (it.hasNext()) {
-				GeoElement geo = it.next();
+			for (GeoElement geo : sortedSet) {
 				TreeSet<GeoElement> allPredecessors = geo.getAllPredecessors();
 				if (!allPredecessors.isEmpty()) {
 					for (GeoElement macroOut : macro.getMacroOutput()) {
@@ -324,8 +313,7 @@ public class GeoAssignment extends Assignment {
 		int size = algo.getOutputLength();
 		for (int i = 0; i < size; i++) {
 			if (algo.isChangeable(algo.getOutput(i))
-					&& possibleOutput[i] instanceof GeoPoint) {
-				GeoPoint pt = (GeoPoint) possibleOutput[i];
+					&& possibleOutput[i] instanceof GeoPoint pt) {
 				algo.setCoords((GeoPoint) algo.getOutput(i), pt.getX(),
 						pt.getY(), pt.getZ());
 				ret = true;
@@ -338,12 +326,12 @@ public class GeoAssignment extends Assignment {
 			GeoElement[] possibleOutputPermutation, Inspecting geoInspector) {
 
 		TreeSet<GeoElement> possibleInputGeos = new TreeSet<>();
-		for (int i = 0; i < possibleOutputPermutation.length; i++) {
-			possibleOutputPermutation[i].addPredecessorsToSet(possibleInputGeos,
+		for (GeoElement element : possibleOutputPermutation) {
+			element.addPredecessorsToSet(possibleInputGeos,
 					geoInspector);
 		}
-		for (int i = 0; i < possibleOutputPermutation.length; i++) {
-			possibleInputGeos.remove(possibleOutputPermutation[i]);
+		for (GeoElement geoElement : possibleOutputPermutation) {
+			possibleInputGeos.remove(geoElement);
 		}
 
 		return possibleInputGeos;

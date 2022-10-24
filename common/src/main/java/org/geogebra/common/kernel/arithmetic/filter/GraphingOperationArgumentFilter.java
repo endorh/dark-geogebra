@@ -14,16 +14,12 @@ public class GraphingOperationArgumentFilter implements OperationArgumentFilter 
 
 	@Override
 	public boolean isAllowed(Operation operation, ExpressionValue left, ExpressionValue right) {
-		switch (operation) {
-		case ABS:
-			return allowAbs(left);
-		case MULTIPLY:
-			return !isInnerProduct(left, right);
-		case VECTORPRODUCT:
-			return false;
-		default:
-			return true;
-		}
+		return switch (operation) {
+			case ABS -> allowAbs(left);
+			case MULTIPLY -> !isInnerProduct(left, right);
+			case VECTORPRODUCT -> false;
+			default -> true;
+		};
 	}
 
 	private boolean isInnerProduct(ExpressionValue left,

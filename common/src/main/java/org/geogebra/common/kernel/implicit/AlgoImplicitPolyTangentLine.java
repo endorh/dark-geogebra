@@ -60,9 +60,8 @@ public class AlgoImplicitPolyTangentLine extends AlgoElement implements
 		}
 		GeoLine line2D = (GeoLine) this.line;
 		tangentPoly.setDefined();
-		if (poly instanceof GeoImplicitCurve
+		if (poly instanceof GeoImplicitCurve inputCurve
 				&& poly.getCoeff() == null) {
-			GeoImplicitCurve inputCurve = (GeoImplicitCurve) poly;
 
 			// build expression Fx*(x-x0)+Fy*(y-y0)
 			ExpressionNode y1 = new ExpressionNode(kernel, -line2D.getX());
@@ -136,7 +135,7 @@ public class AlgoImplicitPolyTangentLine extends AlgoElement implements
 	public void getTangents(GeoPoint[] ip, OutputHandler<GeoLine> tangents) {
 		int n = 0;
 		GeoLine line2d = (GeoLine) line;
-		for (int i = 0; i < ip.length; i++) {
+		for (GeoPoint geoPoint : ip) {
 
 			// normal vector does not exist, therefore tangent is not defined
 			// We need to check if F1 :=dF/dx and F2 :=dF/dy are both zero when
@@ -153,11 +152,11 @@ public class AlgoImplicitPolyTangentLine extends AlgoElement implements
 			// TODO: have a more reasonable choice; also we use standard
 			// precision rather than working precision (might not be a problem)
 			if (DoubleUtil.isEqual(0,
-					this.poly.derivativeX(ip[i].inhomX, ip[i].inhomY),
+					this.poly.derivativeX(geoPoint.inhomX, geoPoint.inhomY),
 					Kernel.STANDARD_PRECISION_SQRT)
 					&& DoubleUtil.isEqual(0,
-							this.poly.derivativeY(ip[i].inhomX, ip[i].inhomY),
-							Kernel.STANDARD_PRECISION_SQRT)) {
+					this.poly.derivativeY(geoPoint.inhomX, geoPoint.inhomY),
+					Kernel.STANDARD_PRECISION_SQRT)) {
 				continue;
 			}
 
@@ -166,9 +165,9 @@ public class AlgoImplicitPolyTangentLine extends AlgoElement implements
 			tangents.getElement(n).setCoords(
 					line2d.getX(),
 					line2d.getY(),
-					-ip[i].getX() * line2d.getX() - line2d.getY()
-									* ip[i].getY());
-			ip[i].addIncidence(tangents.getElement(n), false);
+					-geoPoint.getX() * line2d.getX() - line2d.getY()
+							* geoPoint.getY());
+			geoPoint.addIncidence(tangents.getElement(n), false);
 			n++;
 		}
 

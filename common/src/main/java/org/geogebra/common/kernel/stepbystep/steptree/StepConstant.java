@@ -37,8 +37,7 @@ public final class StepConstant extends StepExpression {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof StepConstant) {
-			StepConstant se = (StepConstant) obj;
+		if (obj instanceof StepConstant se) {
 
 			return Double.isNaN(se.value) && Double.isNaN(value)
 					|| Double.isInfinite(se.value) && Double.isInfinite(value)

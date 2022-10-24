@@ -253,8 +253,7 @@ public class AlgoDependentListExpression extends AlgoElement
 
 		// needed for matrix multiplication
 		// eg {{1,3,5},{2,4,6}}*{{11,14},{12,15},{13,a}}
-		else if (element instanceof MyList) {
-			MyList myList2 = (MyList) element;
+		else if (element instanceof MyList myList2) {
 			GeoList list2 = new GeoList(cons);
 			list2.clear();
 
@@ -281,8 +280,7 @@ public class AlgoDependentListExpression extends AlgoElement
 			}
 
 			return list2;
-		} else if (element instanceof MyStringBuffer) {
-			MyStringBuffer str = (MyStringBuffer) element;
+		} else if (element instanceof MyStringBuffer str) {
 			// try to use cached element of same type
 			if (cachedGeo != null) {
 
@@ -304,8 +302,7 @@ public class AlgoDependentListExpression extends AlgoElement
 
 			// add point to list
 			return geo;
-		} else if (element instanceof MyBoolean) {
-			MyBoolean bool = (MyBoolean) element;
+		} else if (element instanceof MyBoolean bool) {
 			// try to use cached element of same type
 			if (cachedGeo != null) {
 
@@ -325,11 +322,9 @@ public class AlgoDependentListExpression extends AlgoElement
 
 			// add point to list
 			return geo;
-		} else if (element instanceof GeoFunction) {
-			GeoFunction fun = (GeoFunction) element;
+		} else if (element instanceof GeoFunction fun) {
 			return getFunction(fun, cachedGeo);
-		} else if (element instanceof GeoText) {
-			GeoText text = (GeoText) element;
+		} else if (element instanceof GeoText text) {
 			if (cachedGeo != null) {
 
 				// the cached element is a point: set value
@@ -353,8 +348,7 @@ public class AlgoDependentListExpression extends AlgoElement
 			GeoFunctionNVar fun = new GeoFunctionNVar(cons,
 					(FunctionNVar) element);
 			return toGeo(fun, cachedGeo, cons);
-		} else if (element instanceof GeoElement) {
-			GeoElement geo0 = (GeoElement) element;
+		} else if (element instanceof GeoElement geo0) {
 			if (cachedGeo != null) {
 
 				// the cached element is the same type: set value

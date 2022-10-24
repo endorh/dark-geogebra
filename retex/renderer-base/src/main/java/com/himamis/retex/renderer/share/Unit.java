@@ -60,37 +60,22 @@ public enum Unit {
 
 	@Override
 	public String toString() {
-		switch (this) {
-		case EM:
-			return "em";
-		case EX:
-			return "ex";
-		case PIXEL:
-			return "pixel";
-		case POINT:
-			return "bp";
-		case PICA:
-			return "pica";
-		case MU:
-			return "mu";
-		case CM:
-			return "cm";
-		case MM:
-			return "mm";
-		case IN:
-			return "in";
-		case SP:
-			return "sp";
-		case PT:
-			return "pt";
-		case DD:
-			return "dd";
-		case CC:
-			return "cc";
-		case X8:
-			return "x8";
-		default:
-			return "";
-		}
+		return switch (this) {
+			case EM -> "em";
+			case EX -> "ex";
+			case PIXEL -> "pixel";
+			case POINT -> "bp";
+			case PICA -> "pica";
+			case MU -> "mu";
+			case CM -> "cm";
+			case MM -> "mm";
+			case IN -> "in";
+			case SP -> "sp";
+			case PT -> "pt";
+			case DD -> "dd";
+			case CC -> "cc";
+			case X8 -> "x8";
+			default -> "";
+		};
 	}
 }

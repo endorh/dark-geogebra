@@ -42,14 +42,11 @@ public class SimpleTextRenderer implements TextRenderer {
 
 	private static int getTextOffset(String text, GeoInputBox geoInputBox, App app,
 								 int boxWidth, GGraphics2D graphics2D) {
-		switch (geoInputBox.getAlignment()) {
-		case CENTER:
-			return (boxWidth - getTextWidth(app, graphics2D, text)) / 2;
-		case RIGHT:
-			return boxWidth - getTextWidth(app, graphics2D, text);
-		default:
-			return 0;
-		}
+		return switch (geoInputBox.getAlignment()) {
+			case CENTER -> (boxWidth - getTextWidth(app, graphics2D, text)) / 2;
+			case RIGHT -> boxWidth - getTextWidth(app, graphics2D, text);
+			default -> 0;
+		};
 	}
 
 	private static int getTextWidth(App app, GGraphics2D graphics2D, String text) {

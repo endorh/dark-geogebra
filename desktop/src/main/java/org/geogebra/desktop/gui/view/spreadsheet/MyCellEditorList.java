@@ -33,7 +33,7 @@ public class MyCellEditorList extends DefaultCellEditor
 
 	public MyCellEditorList() {
 
-		super(new JComboBox());
+		super(new JComboBox<>());
 		comboBox = (JComboBox) editorComponent;
 		comboBox.setRenderer(new MyListCellRenderer());
 		model = new DefaultComboBoxModel();

@@ -239,53 +239,24 @@ public class ProbabilityManager {
 		AlgoDistribution ret = null;
 
 		switch (dist) {
-		default:
-			// no nothing
-			break;
-		case NORMAL:
-			ret = new AlgoInverseNormal(cons, param1, param2, x);
-			break;
-		case LOGNORMAL:
-			ret = new AlgoInverseLogNormal(cons, param1, param2, x);
-			break;
-		case LOGISTIC:
-			ret = new AlgoInverseLogistic(cons, param1, param2, x);
-			break;
-		case STUDENT:
-			ret = new AlgoInverseTDistribution(cons, param1, x);
-			break;
-		case CHISQUARE:
-			ret = new AlgoInverseChiSquared(cons, param1, x);
-			break;
-		case F:
-			ret = new AlgoInverseFDistribution(cons, param1, param2, x);
-			break;
-		case CAUCHY:
-			ret = new AlgoInverseCauchy(cons, param1, param2, x);
-			break;
-		case EXPONENTIAL:
-			ret = new AlgoInverseExponential(cons, param1, x);
-			break;
-		case GAMMA:
-			ret = new AlgoInverseGamma(cons, param1, param2, x);
-			break;
-		case WEIBULL:
-			ret = new AlgoInverseWeibull(cons, param1, param2, x);
-			break;
-		case BINOMIAL:
-			ret = new AlgoInverseBinomial(cons, param1, param2, x);
-			break;
-		case PASCAL:
-			ret = new AlgoInversePascal(cons, param1, param2, x);
-			break;
-		case POISSON:
-			ret = new AlgoInversePoisson(cons, param1, x);
-			break;
-		case HYPERGEOMETRIC:
-			ret = new AlgoInverseHyperGeometric(cons, param1, param2,
-					param3, x);
-			break;
-
+		default -> {
+		}
+		// no nothing
+		case NORMAL -> ret = new AlgoInverseNormal(cons, param1, param2, x);
+		case LOGNORMAL -> ret = new AlgoInverseLogNormal(cons, param1, param2, x);
+		case LOGISTIC -> ret = new AlgoInverseLogistic(cons, param1, param2, x);
+		case STUDENT -> ret = new AlgoInverseTDistribution(cons, param1, x);
+		case CHISQUARE -> ret = new AlgoInverseChiSquared(cons, param1, x);
+		case F -> ret = new AlgoInverseFDistribution(cons, param1, param2, x);
+		case CAUCHY -> ret = new AlgoInverseCauchy(cons, param1, param2, x);
+		case EXPONENTIAL -> ret = new AlgoInverseExponential(cons, param1, x);
+		case GAMMA -> ret = new AlgoInverseGamma(cons, param1, param2, x);
+		case WEIBULL -> ret = new AlgoInverseWeibull(cons, param1, param2, x);
+		case BINOMIAL -> ret = new AlgoInverseBinomial(cons, param1, param2, x);
+		case PASCAL -> ret = new AlgoInversePascal(cons, param1, param2, x);
+		case POISSON -> ret = new AlgoInversePoisson(cons, param1, x);
+		case HYPERGEOMETRIC -> ret = new AlgoInverseHyperGeometric(cons, param1, param2,
+				param3, x);
 		}
 
 		if (ret != null) {
@@ -323,55 +294,25 @@ public class ProbabilityManager {
 		AlgoDistribution ret = null;
 
 		switch (dist) {
-		case NORMAL:
-			ret = new AlgoNormal(cons, param1, param2, x, null);
-			break;
-		case STUDENT:
-			ret = new AlgoTDistribution(cons, param1, x, null);
-			break;
-		case CHISQUARE:
-			ret = new AlgoChiSquared(cons, param1, x, null);
-			break;
-		case F:
-			ret = new AlgoFDistribution(cons, param1, param2, x, null);
-			break;
-		case CAUCHY:
-			ret = new AlgoCauchy(cons, param1, param2, x, null);
-			break;
-		case EXPONENTIAL:
-			ret = new AlgoExponential(cons, param1, x, null);
-			break;
-		case GAMMA:
-			ret = new AlgoGamma(cons, param1, param2, x, null);
-			break;
-		case WEIBULL:
-			ret = new AlgoWeibull(cons, param1, param2, x, null);
-			break;
-		case BINOMIAL:
-			ret = new AlgoBinomialDist(cons, param1, param2, x,
-					new GeoBoolean(cons, isCumulative));
-			break;
-		case PASCAL:
-			ret = new AlgoPascal(cons, param1, param2, x,
-					new GeoBoolean(cons, isCumulative));
-			break;
-		case POISSON:
-			ret = new AlgoPoisson(cons, param1, x,
-					new GeoBoolean(cons, isCumulative));
-			break;
-		case HYPERGEOMETRIC:
-			ret = new AlgoHyperGeometric(cons, param1, param2, param3, x,
-					new GeoBoolean(cons, isCumulative));
-			break;
-		case LOGNORMAL:
-			ret = new AlgoLogNormal(cons, param1, param2, x, null);
-			break;
-		case LOGISTIC:
-			ret = new AlgoLogistic(cons, param1, param2, x, null);
-			break;
-
-		default:
-			Log.error("missing case");
+		case NORMAL -> ret = new AlgoNormal(cons, param1, param2, x, null);
+		case STUDENT -> ret = new AlgoTDistribution(cons, param1, x, null);
+		case CHISQUARE -> ret = new AlgoChiSquared(cons, param1, x, null);
+		case F -> ret = new AlgoFDistribution(cons, param1, param2, x, null);
+		case CAUCHY -> ret = new AlgoCauchy(cons, param1, param2, x, null);
+		case EXPONENTIAL -> ret = new AlgoExponential(cons, param1, x, null);
+		case GAMMA -> ret = new AlgoGamma(cons, param1, param2, x, null);
+		case WEIBULL -> ret = new AlgoWeibull(cons, param1, param2, x, null);
+		case BINOMIAL -> ret = new AlgoBinomialDist(cons, param1, param2, x,
+				new GeoBoolean(cons, isCumulative));
+		case PASCAL -> ret = new AlgoPascal(cons, param1, param2, x,
+				new GeoBoolean(cons, isCumulative));
+		case POISSON -> ret = new AlgoPoisson(cons, param1, x,
+				new GeoBoolean(cons, isCumulative));
+		case HYPERGEOMETRIC -> ret = new AlgoHyperGeometric(cons, param1, param2, param3, x,
+				new GeoBoolean(cons, isCumulative));
+		case LOGNORMAL -> ret = new AlgoLogNormal(cons, param1, param2, x, null);
+		case LOGISTIC -> ret = new AlgoLogistic(cons, param1, param2, x, null);
+		default -> Log.error("missing case");
 		}
 
 		if (ret != null) {
@@ -395,31 +336,12 @@ public class ProbabilityManager {
 	 */
 	public static int getParmCount(Dist dist) {
 
-		switch (dist) {
-		case GAMMA:
-		case WEIBULL:
-		case LOGNORMAL:
-		case LOGISTIC:
-		case BINOMIAL:
-		case PASCAL:
-		case F:
-		case CAUCHY:
-		case NORMAL:
-			return 2;
-
-		case STUDENT:
-		case CHISQUARE:
-		case EXPONENTIAL:
-		case POISSON:
-			return 1;
-
-		case HYPERGEOMETRIC:
-			return 3;
-
-		default:
-			throw new Error("unknown distribution");
-
-		}
+		return switch (dist) {
+			case GAMMA, WEIBULL, LOGNORMAL, LOGISTIC, BINOMIAL, PASCAL, F, CAUCHY, NORMAL -> 2;
+			case STUDENT, CHISQUARE, EXPONENTIAL, POISSON -> 1;
+			case HYPERGEOMETRIC -> 3;
+			default -> throw new Error("unknown distribution");
+		};
 	}
 
 	/**
@@ -506,24 +428,21 @@ public class ProbabilityManager {
 		double mean, sigma, v, v2, k, median, scale, shape, mode, sd;
 
 		switch (selectedDist) {
-
-		case NORMAL:
+		case NORMAL -> {
 			mean = parms[0].getDouble();
 			sigma = parms[1].getDouble();
 			xMin = mean - 5 * sigma;
 			xMax = mean + 5 * sigma;
 			yMin = 0;
 			yMax = 1.2 * ((GeoFunction) densityCurve).value(mean);
-			break;
-
-		case STUDENT:
+		}
+		case STUDENT -> {
 			xMin = -5;
 			xMax = 5;
 			yMin = 0;
 			yMax = 1.2 * ((GeoFunction) densityCurve).value(0);
-			break;
-
-		case CHISQUARE:
+		}
+		case CHISQUARE -> {
 			k = parms[0].getDouble();
 			xMin = 0;
 			xMax = 4 * k;
@@ -535,18 +454,14 @@ public class ProbabilityManager {
 				// mode occurs at x = 0, but we only use x near zero
 				yMax = 1.2 * ((GeoFunction) densityCurve).value(0.1);
 			}
-			break;
-
-		case F:
+		}
+		case F -> {
 			v = parms[0].getDouble();
 			v2 = parms[1].getDouble();
 			mean = v2 > 2 ? v2 / (v2 - 2) : 1;
 			mode = ((v - 2) * v2) / (v * (v2 + 2));
-
 			xMin = 0;
-
 			xMax = getContXMax((GeoFunction) densityCurve, 1, .2, -1);
-
 			yMin = 0;
 			if (v > 2) {
 				yMax = 1.2 * ((GeoFunction) densityCurve).value(mode);
@@ -554,10 +469,8 @@ public class ProbabilityManager {
 				// yMax = 1.2 * ((GeoFunction) densityCurve).evaluate(0.01);
 				yMax = 2.5;
 			}
-
-			break;
-
-		case CAUCHY:
+		}
+		case CAUCHY -> {
 			median = parms[0].getDouble();
 			scale = parms[1].getDouble();
 			// TODO --- better estimates
@@ -565,20 +478,18 @@ public class ProbabilityManager {
 			xMax = median + 6 * scale;
 			yMin = 0;
 			yMax = 1.2 * (1 / (Math.PI * scale)); // Cauchy amplitude =
-													// 1/(pi*scale)
+		}
+		// 1/(pi*scale)
 
-			break;
-
-		case EXPONENTIAL:
+		case EXPONENTIAL -> {
 			double lambda = parms[0].getDouble();
 			xMin = 0;
 			// xMax = 4 * (1 / lambda); // st dev = 1/lambda
 			xMax = getContXMax((GeoFunction) densityCurve, 1, .2, -1);
 			yMin = 0;
 			yMax = 1.2 * lambda;
-			break;
-
-		case GAMMA:
+		}
+		case GAMMA -> {
 			double alpha = parms[0].getDouble(); // (shape)
 			double beta = parms[1].getDouble(); // (scale)
 			mode = (alpha - 1) * beta;
@@ -592,9 +503,8 @@ public class ProbabilityManager {
 			} else {
 				yMax = 1.2 * ((GeoFunction) densityCurve).value(0);
 			}
-			break;
-
-		case WEIBULL:
+		}
+		case WEIBULL -> {
 			shape = parms[0].getDouble();
 			scale = parms[1].getDouble();
 			median = scale * Math.pow(Math.log(2), 1 / shape);
@@ -608,29 +518,22 @@ public class ProbabilityManager {
 			} else {
 				yMax = 4;
 			}
-
-			break;
-
-		case LOGNORMAL:
+		}
+		case LOGNORMAL -> {
 			double meanParm = parms[0].getDouble();
 			double sdParm = parms[1].getDouble();
 			double varParm = sdParm * sdParm;
-
 			mean = Math.exp(meanParm + varParm / 2);
-
 			double var = (Math.exp(varParm) - 1)
 					* Math.exp(2 * meanParm + varParm);
 			sigma = Math.sqrt(var);
-
 			mode = Math.exp(meanParm - varParm);
 			xMin = 0;
 			xMax = mean + 5 * sigma;
-
 			yMin = 0;
 			yMax = 1.2 * ((GeoFunction) densityCurve).value(mode);
-			break;
-
-		case LOGISTIC:
+		}
+		case LOGISTIC -> {
 			mean = parms[0].getDouble();
 			scale = parms[1].getDouble();
 			sd = Math.PI * scale / Math.sqrt(3);
@@ -638,9 +541,8 @@ public class ProbabilityManager {
 			xMax = mean + 5 * sd;
 			yMin = 0;
 			yMax = 1.2 * ((GeoFunction) densityCurve).value(mean);
-			break;
-
-		case POISSON:
+		}
+		case POISSON -> {
 			// mode = mean = parms[0];
 			mode = Math.floor(parms[0].getDouble());
 			xMin = probCalc.getDiscreteXMin();
@@ -648,10 +550,8 @@ public class ProbabilityManager {
 			yMin = 0;
 			yMax = 1.2 * probability(mode, parms, Dist.POISSON, false);
 			xMin -= 1;
-
-			break;
-
-		case PASCAL:
+		}
+		case PASCAL -> {
 			// r = parms[0]
 			// p = parms[1]
 			// care: p swapped with 1-p from Wikipedia page
@@ -662,45 +562,38 @@ public class ProbabilityManager {
 				mode = Math.floor((1 - parms[1].getDouble()) * (parms[0].getDouble() - 1)
 						/ (parms[1].getDouble()));
 			}
-
 			xMin = probCalc.getDiscreteXMin();
 			xMax = probCalc.getDiscreteXMax();
 			yMin = 0;
 			yMax = 1.2 * probability(mode, parms, Dist.PASCAL, false);
 			xMin -= 1;
-
-			break;
-
-		case BINOMIAL:
+		}
+		case BINOMIAL -> {
 			// n = parms[0]
 			// p = parms[1]
 			// mode = np
 			mode = Math.floor((parms[0].getDouble() + 1) * parms[1].getDouble());
-
 			xMin = probCalc.getDiscreteXMin();
 			xMax = probCalc.getDiscreteXMax();
 			yMin = 0;
 			yMax = 1.2 * probability(mode, parms, Dist.BINOMIAL, false);
 			xMin -= 1;
 			xMax += 1;
-			break;
-
-		case HYPERGEOMETRIC:
+		}
+		case HYPERGEOMETRIC -> {
 			// N = parms[0];
 			// k = parms[1];
 			// n = parms[2];
 			// mode = floor(n+1)(k+1)/(N+2);
 			mode = Math.floor((parms[1].getDouble() + 1) * (parms[2].getDouble() + 1)
 					/ (parms[0].getDouble() + 2));
-
 			xMin = probCalc.getDiscreteXMin();
 			xMax = probCalc.getDiscreteXMax();
 			yMin = 0;
 			yMax = 1.2 * probability(mode, parms, Dist.HYPERGEOMETRIC, false);
 			xMin -= 1;
 			xMax += 1;
-			break;
-
+		}
 		}
 
 		if (isCumulative) {

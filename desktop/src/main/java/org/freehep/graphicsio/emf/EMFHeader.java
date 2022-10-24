@@ -176,22 +176,22 @@ public class EMFHeader implements EMFConstants {
 
 	@Override
 	public String toString() {
-		StringBuffer s = new StringBuffer("EMF Header\n");
-		s.append("  bounds: " + bounds + "\n");
-		s.append("  frame: " + frame + "\n");
-		s.append("  signature: " + signature + "\n");
-		s.append("  versionMajor: " + versionMajor + "\n");
-		s.append("  versionMinor: " + versionMinor + "\n");
-		s.append("  #bytes: " + bytes + "\n");
-		s.append("  #records: " + records + "\n");
-		s.append("  #handles: " + handles + "\n");
-		s.append("  description: " + description + "\n");
-		s.append("  #palEntries: " + palEntries + "\n");
-		s.append("  device: " + device + "\n");
-		s.append("  millimeters: " + millimeters + "\n");
+		StringBuilder s = new StringBuilder("EMF Header\n");
+		s.append("  bounds: ").append(bounds).append("\n");
+		s.append("  frame: ").append(frame).append("\n");
+		s.append("  signature: ").append(signature).append("\n");
+		s.append("  versionMajor: ").append(versionMajor).append("\n");
+		s.append("  versionMinor: ").append(versionMinor).append("\n");
+		s.append("  #bytes: ").append(bytes).append("\n");
+		s.append("  #records: ").append(records).append("\n");
+		s.append("  #handles: ").append(handles).append("\n");
+		s.append("  description: ").append(description).append("\n");
+		s.append("  #palEntries: ").append(palEntries).append("\n");
+		s.append("  device: ").append(device).append("\n");
+		s.append("  millimeters: ").append(millimeters).append("\n");
 
-		s.append("  openGL: " + openGL + "\n");
-		s.append("  micrometers: " + micrometers);
+		s.append("  openGL: ").append(openGL).append("\n");
+		s.append("  micrometers: ").append(micrometers);
 
 		return s.toString();
 	}

@@ -33,9 +33,8 @@ public class CmdShear extends CommandProcessor {
 		GeoElement[] ret;
 
 		switch (n) {
-		case 3:
+		case 3 -> {
 			arg = resArgs(c);
-
 			if ((arg[1] instanceof GeoVec3D) && arg[2].isGeoNumeric()) {
 
 				if (arg[0].isMatrixTransformable() || arg[0].isGeoFunction()
@@ -52,9 +51,8 @@ public class CmdShear extends CommandProcessor {
 				throw argErr(c, arg[1]);
 			}
 			throw argErr(c, arg[2]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

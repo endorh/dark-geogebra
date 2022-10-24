@@ -32,14 +32,14 @@ public class TagHandler {
 	 */
 	public String parse(TagString string) {
 		String src = string.toString();
-		StringBuffer parsedString = new StringBuffer();
-		StringBuffer textString = new StringBuffer();
+		StringBuilder parsedString = new StringBuilder();
+		StringBuilder textString = new StringBuilder();
 		int i = 0;
 		int p = 0;
 		try {
 			while (i < src.length()) {
 				switch (src.charAt(i)) {
-				case '&':
+				case '&' -> {
 					// handle entities
 					// look for closing ';'
 					i++;
@@ -55,15 +55,14 @@ public class TagHandler {
 					} else {
 						textString.append(entity(ent));
 					}
-					break;
-
-				case '<':
+				}
+				case '<' -> {
 					// handle tags
 
 					// handle any outstanding text
 					if (textString.length() > 0) {
 						parsedString.append(text(textString.toString()));
-						textString = new StringBuffer();
+						textString = new StringBuilder();
 					}
 
 					// look for closing '>'
@@ -72,17 +71,15 @@ public class TagHandler {
 					while (src.charAt(i) != '>') {
 						i++;
 					}
-
 					if (src.charAt(p) == '/') {
 						parsedString.append(closeTag(src.substring(p + 1, i)));
 					} else {
 						parsedString.append(openTag(src.substring(p, i)));
 					}
-					break;
-				default:
+				}
+				default ->
 					// just move the pointer
-					textString.append(src.charAt(i));
-					break;
+						textString.append(src.charAt(i));
 				} // switch
 				i++;
 			} // while
@@ -100,23 +97,19 @@ public class TagHandler {
 	}
 
 	protected String defaultEntity(String entity) {
-		StringBuffer dst = new StringBuffer();
-		if (entity.equals("amp")) {
-			dst.append('&');
-		} else if (entity.equals("gt")) {
-			dst.append('>');
-		} else if (entity.equals("lt")) {
-			dst.append('<');
-		} else if (entity.equals("quot")) {
-			dst.append('"');
-		} else if (entity.equals("apos")) {
-			dst.append('\'');
+		StringBuilder dst = new StringBuilder();
+		switch (entity) {
+		case "amp" -> dst.append('&');
+		case "gt" -> dst.append('>');
+		case "lt" -> dst.append('<');
+		case "quot" -> dst.append('"');
+		case "apos" -> dst.append('\'');
 		}
 		return dst.toString();
 	}
 
 	protected String entity(String entity) {
-		StringBuffer dst = new StringBuffer();
+		StringBuilder dst = new StringBuilder();
 		dst.append('&');
 		dst.append(entity);
 		dst.append(';');
@@ -124,7 +117,7 @@ public class TagHandler {
 	}
 
 	protected String openTag(String tag) {
-		StringBuffer dst = new StringBuffer();
+		StringBuilder dst = new StringBuilder();
 		dst.append('<');
 		dst.append(tag);
 		dst.append('>');
@@ -132,7 +125,7 @@ public class TagHandler {
 	}
 
 	protected String closeTag(String tag) {
-		StringBuffer dst = new StringBuffer();
+		StringBuilder dst = new StringBuilder();
 		dst.append("</");
 		dst.append(tag);
 		dst.append('>');

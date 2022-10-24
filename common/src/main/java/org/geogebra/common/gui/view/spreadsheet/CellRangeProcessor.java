@@ -936,6 +936,7 @@ public class CellRangeProcessor {
 		for (CellRange cr : rangeList) {
 			if (!cr.isColumn()) {
 				isAllColumns = false;
+				break;
 			}
 		}
 		return isAllColumns;

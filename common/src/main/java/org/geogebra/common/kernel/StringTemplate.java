@@ -609,36 +609,32 @@ public class StringTemplate implements ExpressionNodeConstants {
 		stringType = t;
 
 		switch (t) {
-		case GIAC:
+		case GIAC -> {
 			printFormPI = "%pi";
 			printFormImaginary = "i";
-			break;
-
-		case GEOGEBRA_XML:
+		}
+		case GEOGEBRA_XML -> {
 			printFormPI = "pi";
 			printFormImaginary = Unicode.IMAGINARY + "";
-			break;
-
-		case LATEX:
+		}
+		case LATEX -> {
 			printFormPI = "\\pi ";
 			printFormImaginary = "i";
-			break;
-
-		case LIBRE_OFFICE:
+		}
+		case LIBRE_OFFICE -> {
 			printFormPI = "%pi";
 			printFormImaginary = "i";
-			break;
-
-		case SCREEN_READER:
+		}
+		case SCREEN_READER -> {
 			printFormPI = " pi ";
 			printFormImaginary = " i ";
-			break;
-
-		default:
+		}
+		default -> {
 			// #5129
 			// #5130
 			printFormPI = Unicode.PI_STRING;
 			printFormImaginary = Unicode.IMAGINARY + "";
+		}
 		}
 	}
 
@@ -933,21 +929,19 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @return label depending on given string type
 	 */
 	public String printVariableName(final String label) {
-		switch (getStringType()) {
-		case GIAC:
-			// make sure we don't interfere with reserved names
-			// or command names in the underlying CAS
-			// see TRAC-793
-			return addTempVariablePrefix(label.replace("$", ""));
-
-		case LATEX:
-			// eg $1 in "Keep Input" mode
-			return label.replace("$", "\\$");
-
-		default:
-			// standard case
-			return label;
-		}
+		return switch (getStringType()) {
+			case GIAC ->
+				// make sure we don't interfere with reserved names
+				// or command names in the underlying CAS
+				// see TRAC-793
+					addTempVariablePrefix(label.replace("$", ""));
+			case LATEX ->
+				// eg $1 in "Keep Input" mode
+					label.replace("$", "\\$");
+			default ->
+				// standard case
+					label;
+		};
 	}
 
 	/**
@@ -1187,11 +1181,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 				sb.append("+");
 				sb.append(rightStr);
 
-			} else if (right instanceof MyVecNDNode
-					&& left instanceof MyVecNDNode) {
-
-				MyVecNDNode leftVN = (MyVecNDNode) left;
-				MyVecNDNode rightVN = (MyVecNDNode) right;
+			} else if (right instanceof MyVecNDNode rightVN
+					&& left instanceof MyVecNDNode leftVN) {
 
 				// Log.debug(left.getClass()+" "+right.getClass());
 
@@ -1602,11 +1593,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 				sb.append(rightStr);
 				sb.append("))");
 
-			} else if (right instanceof MyVecNDNode
-					&& left instanceof MyVecNDNode) {
-
-				MyVecNDNode leftVN = (MyVecNDNode) left;
-				MyVecNDNode rightVN = (MyVecNDNode) right;
+			} else if (right instanceof MyVecNDNode rightVN
+					&& left instanceof MyVecNDNode leftVN) {
 
 				// Log.debug(left.getClass()+" "+right.getClass());
 
@@ -1958,17 +1946,11 @@ public class StringTemplate implements ExpressionNodeConstants {
 			} else { // right is + or - tree
 				if (nounary) {
 					switch (stringType) {
-					case PGF:
-					case PSTRICKS:
-					case GEOGEBRA_XML:
-					case GIAC:
-					case SCREEN_READER:
-						sb.append(multiplicationSign(loc));
-						break;
-
-					default:
+					case PGF, PSTRICKS, GEOGEBRA_XML, GIAC, SCREEN_READER ->
+							sb.append(multiplicationSign(loc));
+					default ->
 						// space instead of multiplication sign
-						sb.append(multiplicationSpace());
+							sb.append(multiplicationSpace());
 					}
 				}
 				sb.append(leftBracket());
@@ -2106,18 +2088,14 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	private static String op(ExpressionNode right, boolean reverse) {
 
-		switch (right.getOperation()) {
-		case LESS:
-			return reverse ? ">" : "<";
-		case LESS_EQUAL:
-			return reverse ? ">=" : "<=";
-		case GREATER_EQUAL:
-			return reverse ? "<=" : ">=";
-		case GREATER:
-			return reverse ? "<" : ">";
-		}
+		return switch (right.getOperation()) {
+			case LESS -> reverse ? ">" : "<";
+			case LESS_EQUAL -> reverse ? ">=" : "<=";
+			case GREATER_EQUAL -> reverse ? "<=" : ">=";
+			case GREATER -> reverse ? "<" : ">";
+			default -> null;
+		};
 
-		return null;
 	}
 
 	/**
@@ -2126,23 +2104,15 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @return multiplication sign
 	 */
 	protected String multiplicationSign(Localization loc) {
-		switch (stringType) {
-		case LATEX:
-			return " \\cdot ";
-
-		case LIBRE_OFFICE:
-			return " cdot ";
-
-		case GEOGEBRA:
-			// space for multiplication
-			return !forEditorParser ? " * " : "*";
-
-		case SCREEN_READER:
-			return ScreenReader.getTimes(loc);
-
-		default:
-			return " * ";
-		}
+		return switch (stringType) {
+			case LATEX -> " \\cdot ";
+			case LIBRE_OFFICE -> " cdot ";
+			case GEOGEBRA ->
+				// space for multiplication
+					!forEditorParser ? " * " : "*";
+			case SCREEN_READER -> ScreenReader.getTimes(loc);
+			default -> " * ";
+		};
 	}
 
 	/**
@@ -2227,37 +2197,30 @@ public class StringTemplate implements ExpressionNodeConstants {
 			Localization loc) {
 		StringBuilder sb = new StringBuilder();
 		switch (stringType) {
-		case SCREEN_READER:
-			ScreenReader.fraction(sb, leftStr, rightStr, loc);
-
-			break;
-		case CONTENT_MATHML:
-			MathmlTemplate.mathml(sb, "<divide/>", leftStr, rightStr);
-			break;
-		case LATEX:
+		case SCREEN_READER -> ScreenReader.fraction(sb, leftStr, rightStr, loc);
+		case CONTENT_MATHML -> MathmlTemplate.mathml(sb, "<divide/>", leftStr, rightStr);
+		case LATEX -> {
 			sb.append("\\frac{");
 			sb.append(leftStr);
 			sb.append("}{");
 			sb.append(rightStr);
 			sb.append("}");
-			break;
-		case LIBRE_OFFICE:
+		}
+		case LIBRE_OFFICE -> {
 			sb.append("{ ");
 			sb.append(leftStr);
 			sb.append(" } over { ");
 			sb.append(rightStr);
 			sb.append(" }");
-			break;
-
-		case GIAC:
+		}
+		case GIAC -> {
 			sb.append("(");
 			sb.append(leftStr);
 			sb.append(")/(");
 			sb.append(rightStr);
 			sb.append(')');
-			break;
-
-		default:
+		}
+		default -> {
 			if (forEditorParser) {
 				appendWithBrackets(sb, leftStr);
 				sb.append('/');
@@ -2269,10 +2232,10 @@ public class StringTemplate implements ExpressionNodeConstants {
 			// put parentheses around +, -, *
 			if (left.isExpressionNode()
 					&& ((ExpressionNode) left)
-							.getOperation() == Operation.MULTIPLY
+					.getOperation() == Operation.MULTIPLY
 					&& !((ExpressionNode) left).hasBrackets()
 					&& ExpressionNode.isConstantDouble(
-							((ExpressionNode) left).getRight(), Math.PI)) {
+					((ExpressionNode) left).getRight(), Math.PI)) {
 				sb.append(leftStr);
 			} else if (left.isLeaf() && !isSinglePowerArg(left)) {
 				appendWithBrackets(sb, leftStr);
@@ -2288,6 +2251,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			} else {
 				append(sb, rightStr, right, Operation.POWER); // not +, -, *, /
 			}
+		}
 		}
 		return sb.toString();
 	}
@@ -2377,22 +2341,15 @@ public class StringTemplate implements ExpressionNodeConstants {
 			sb.append(' ');
 
 			switch (stringType) {
-			case LATEX:
+			case LATEX -> {
 				if (isInsertLineBreaks()) {
 					sb.append("\\-");
 				}
 				sb.append("\\vee");
-				break;
-			case LIBRE_OFFICE:
-				sb.append("or");
-				break;
-
-			case GIAC:
-				sb.append("||");
-				break;
-
-			default:
-				sb.append(strOR);
+			}
+			case LIBRE_OFFICE -> sb.append("or");
+			case GIAC -> sb.append("||");
+			default -> sb.append(strOR);
 			}
 
 			sb.append(' ');
@@ -2432,18 +2389,14 @@ public class StringTemplate implements ExpressionNodeConstants {
 			sb.append(' ');
 
 			switch (stringType) {
-			case LATEX:
+			case LATEX -> {
 				if (isInsertLineBreaks()) {
 					sb.append("\\-");
 				}
 				sb.append("\\oplus");
-				break;
-			case LIBRE_OFFICE:
-				sb.append("xor");
-				break;
-
-			default:
-				sb.append(strXOR);
+			}
+			case LIBRE_OFFICE -> sb.append("xor");
+			default -> sb.append(strXOR);
 			}
 
 			sb.append(' ');
@@ -2676,39 +2629,18 @@ public class StringTemplate implements ExpressionNodeConstants {
 			sb.append(expressionToString(left, valueForm));
 			appendOptionalSpace(sb);
 			switch (((ExpressionNode) right).getOperation()) {
-			case LESS:
-				sb.append(lessSign());
-				break;
-			case LESS_EQUAL:
-				sb.append(leqSign());
-				break;
-			case GREATER:
-				sb.append(greaterSign());
-				break;
-			case EQUAL_BOOLEAN:
-				sb.append(equalSign());
-				break;
-			case NOT_EQUAL:
-				sb.append(notEqualSign());
-				break;
-			case GREATER_EQUAL:
-				sb.append(geqSign());
-				break;
-			case IS_SUBSET_OF:
-				sb.append(subsetSign());
-				break;
-			case IS_SUBSET_OF_STRICT:
-				sb.append(strictSubsetSign());
-				break;
-			case PARALLEL:
-				sb.append(parallelSign());
-				break;
-			case PERPENDICULAR:
-				sb.append(perpSign());
-				break;
-			default:
-				Log.debug(((ExpressionNode) right).getOperation()
-						+ " invalid in chain");
+			case LESS -> sb.append(lessSign());
+			case LESS_EQUAL -> sb.append(leqSign());
+			case GREATER -> sb.append(greaterSign());
+			case EQUAL_BOOLEAN -> sb.append(equalSign());
+			case NOT_EQUAL -> sb.append(notEqualSign());
+			case GREATER_EQUAL -> sb.append(geqSign());
+			case IS_SUBSET_OF -> sb.append(subsetSign());
+			case IS_SUBSET_OF_STRICT -> sb.append(strictSubsetSign());
+			case PARALLEL -> sb.append(parallelSign());
+			case PERPENDICULAR -> sb.append(perpSign());
+			default -> Log.debug(((ExpressionNode) right).getOperation()
+					+ " invalid in chain");
 			}
 			appendOptionalSpace(sb);
 			sb.append(expressionToString(((ExpressionNode) right).getRight(), valueForm));
@@ -2749,23 +2681,15 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 			sb.append(' ');
 			switch (stringType) {
-			case LATEX:
+			case LATEX -> {
 				if (isInsertLineBreaks()) {
 					sb.append("\\-");
 				}
 				sb.append("\\wedge");
-				break;
-
-			case LIBRE_OFFICE:
-				sb.append("and");
-				break;
-
-			case GIAC:
-				sb.append("&&");
-				break;
-
-			default:
-				sb.append(strAND);
+			}
+			case LIBRE_OFFICE -> sb.append("and");
+			case GIAC -> sb.append("&&");
+			default -> sb.append(strAND);
 			}
 			sb.append(' ');
 
@@ -2985,23 +2909,10 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 
 	private boolean isTrigFunction(ExpressionNode expr) {
-		switch (expr.getOperation()) {
-		case SIN:
-		case COS:
-		case TAN:
-		case SEC:
-		case CSC:
-		case COT:
-		case SINH:
-		case COSH:
-		case TANH:
-		case SECH:
-		case CSCH:
-		case COTH:
-			return true;
-		default:
-			return false;
-		}
+		return switch (expr.getOperation()) {
+			case SIN, COS, TAN, SEC, CSC, COT, SINH, COSH, TANH, SECH, CSCH, COTH -> true;
+			default -> false;
+		};
 	}
 
 	/**
@@ -3431,16 +3342,11 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @return ^2 for this string type
 	 */
 	public String squared() {
-		switch (getStringType()) {
-		case LATEX:
-			return "^{2}";
-
-		case GIAC:
-			return "^2";
-
-		default:
-			return "\u00b2";
-		}
+		return switch (getStringType()) {
+			case LATEX -> "^{2}";
+			case GIAC -> "^2";
+			default -> "\u00b2";
+		};
 	}
 
 	/**
@@ -3502,45 +3408,36 @@ public class StringTemplate implements ExpressionNodeConstants {
 	 * @return degree symbol
 	 */
 	public String getDegree() {
-		switch (stringType) {
-		case GIAC:
-			return "pi/180";
-		case LATEX:
-			return "^{\\circ}";
-		case SCREEN_READER:
-			return "degree";
-		}
-		return Unicode.DEGREE_STRING;
+		return switch (stringType) {
+			case GIAC -> "pi/180";
+			case LATEX -> "^{\\circ}";
+			case SCREEN_READER -> "degree";
+			default -> Unicode.DEGREE_STRING;
+		};
 	}
 
 	/**
 	 * @return name for euler-mascheroni constant
 	 */
 	public String getEulerGamma() {
-		switch (stringType) {
-		case GIAC:
-			return "euler\\_gamma";
-		case LATEX:
-			return "\\mathit{e_{\\gamma}}";
-		case SCREEN_READER:
-			return "euler gamme";
-		}
-		return Unicode.EULER_GAMMA_STRING;
+		return switch (stringType) {
+			case GIAC -> "euler\\_gamma";
+			case LATEX -> "\\mathit{e_{\\gamma}}";
+			case SCREEN_READER -> "euler gamme";
+			default -> Unicode.EULER_GAMMA_STRING;
+		};
 	}
 
 	/**
 	 * @return name for euler number
 	 */
 	public String getEulerNumber() {
-		switch (stringType) {
-		case GIAC:
-			return "e";
-		case LATEX:
-			return "\\textit{e}";
-		case SCREEN_READER:
-			return "euler number";
-		}
-		return Unicode.EULER_STRING;
+		return switch (stringType) {
+			case GIAC -> "e";
+			case LATEX -> "\\textit{e}";
+			case SCREEN_READER -> "euler number";
+			default -> Unicode.EULER_STRING;
+		};
 	}
 
 	/**
@@ -3564,14 +3461,11 @@ public class StringTemplate implements ExpressionNodeConstants {
 		if (forEditorParser) {
 			return "=";
 		}
-		switch (stringType) {
-		case LATEX:
-			return "\\, = \\,";
-		case SCREEN_READER:
-			return " equals ";
-		default:
-			return " = ";
-		}
+		return switch (stringType) {
+			case LATEX -> "\\, = \\,";
+			case SCREEN_READER -> " equals ";
+			default -> " = ";
+		};
 	}
 
 	public boolean isLatex() {

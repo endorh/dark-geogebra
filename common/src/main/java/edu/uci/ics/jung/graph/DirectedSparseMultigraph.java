@@ -40,12 +40,7 @@ public class DirectedSparseMultigraph<V, E> extends AbstractTypedGraph<V, E>
 	 *            the edge type for the graph factory
 	 */
 	public static <V, E> Factory<DirectedGraph<V, E>> getFactory() {
-		return new Factory<DirectedGraph<V, E>>() {
-			@Override
-			public DirectedGraph<V, E> create() {
-				return new DirectedSparseMultigraph<V, E>();
-			}
-		};
+		return DirectedSparseMultigraph::new;
 	}
 
 	protected Map<V, Pair<Set<E>>> vertices; // Map of vertices to Pair of
@@ -58,8 +53,8 @@ public class DirectedSparseMultigraph<V, E> extends AbstractTypedGraph<V, E>
 	 */
 	public DirectedSparseMultigraph() {
 		super(EdgeType.DIRECTED);
-		vertices = new HashMap<V, Pair<Set<E>>>();
-		edges = new HashMap<E, Pair<V>>();
+		vertices = new HashMap<>();
+		edges = new HashMap<>();
 	}
 
 	@Override
@@ -97,7 +92,7 @@ public class DirectedSparseMultigraph<V, E> extends AbstractTypedGraph<V, E>
 		}
 		if (!containsVertex(vertex)) {
 			vertices.put(vertex,
-					new Pair<Set<E>>(new HashSet<E>(), new HashSet<E>()));
+					new Pair<>(new HashSet<>(), new HashSet<>()));
 			return true;
 		}
 		return false;
@@ -110,7 +105,7 @@ public class DirectedSparseMultigraph<V, E> extends AbstractTypedGraph<V, E>
 		}
 
 		// copy to avoid concurrent modification in removeEdge
-		Set<E> incident = new HashSet<E>(getIncoming_internal(vertex));
+		Set<E> incident = new HashSet<>(getIncoming_internal(vertex));
 		incident.addAll(getOutgoing_internal(vertex));
 
 		for (E edge : incident) {
@@ -164,7 +159,7 @@ public class DirectedSparseMultigraph<V, E> extends AbstractTypedGraph<V, E>
 			return null;
 		}
 
-		Set<V> preds = new HashSet<V>();
+		Set<V> preds = new HashSet<>();
 		for (E edge : getIncoming_internal(vertex)) {
 			preds.add(this.getSource(edge));
 		}
@@ -178,7 +173,7 @@ public class DirectedSparseMultigraph<V, E> extends AbstractTypedGraph<V, E>
 			return null;
 		}
 
-		Set<V> succs = new HashSet<V>();
+		Set<V> succs = new HashSet<>();
 		for (E edge : getOutgoing_internal(vertex)) {
 			succs.add(this.getDest(edge));
 		}
@@ -192,7 +187,7 @@ public class DirectedSparseMultigraph<V, E> extends AbstractTypedGraph<V, E>
 			return null;
 		}
 
-		Collection<V> neighbors = new HashSet<V>();
+		Collection<V> neighbors = new HashSet<>();
 		for (E edge : getIncoming_internal(vertex)) {
 			neighbors.add(this.getSource(edge));
 		}
@@ -208,7 +203,7 @@ public class DirectedSparseMultigraph<V, E> extends AbstractTypedGraph<V, E>
 			return null;
 		}
 
-		Collection<E> incident = new HashSet<E>();
+		Collection<E> incident = new HashSet<>();
 		incident.addAll(getIncoming_internal(vertex));
 		incident.addAll(getOutgoing_internal(vertex));
 		return incident;
@@ -305,6 +300,6 @@ public class DirectedSparseMultigraph<V, E> extends AbstractTypedGraph<V, E>
 
 	@Override
 	public DirectedSparseMultigraph<V, E> newInstance() {
-		return new DirectedSparseMultigraph<V, E>();
+		return new DirectedSparseMultigraph<>();
 	}
 }

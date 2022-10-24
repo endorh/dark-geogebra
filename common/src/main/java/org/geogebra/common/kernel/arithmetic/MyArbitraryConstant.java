@@ -410,19 +410,13 @@ public class MyArbitraryConstant {
 	public static boolean isMultipleOfArbconst(ExpressionValue right) {
 		if (right.isExpressionNode()) {
 			ExpressionNode en = right.wrap();
-			switch (en.getOperation()) {
-			case ARBCONST:
-			case ARBCOMPLEX:
-			case ARBINT:
-				return true;
-			case MULTIPLY:
-				return isMultipleOfArbconst(en.getLeft())
+			return switch (en.getOperation()) {
+				case ARBCONST, ARBCOMPLEX, ARBINT -> true;
+				case MULTIPLY -> isMultipleOfArbconst(en.getLeft())
 						|| isMultipleOfArbconst(en.getRight());
-			case DIVIDE:
-				return isMultipleOfArbconst(en.getLeft());
-			default:
-				return false;
-			}
+				case DIVIDE -> isMultipleOfArbconst(en.getLeft());
+				default -> false;
+			};
 		}
 		return false;
 	}

@@ -42,18 +42,18 @@ public abstract class AbstractPolygon extends EMFTag {
 
 	@Override
 	public String toString() {
-		String result = super.toString() + "\n  bounds: " + bounds
-				+ "\n  #points: " + numberOfPoints;
+		StringBuilder result = new StringBuilder(super.toString() + "\n  bounds: " + bounds
+				+ "\n  #points: " + numberOfPoints);
 		if (points != null) {
-			result += "\n  points: ";
+			result.append("\n  points: ");
 			for (int i = 0; i < points.length; i++) {
-				result += "[" + points[i].x + "," + points[i].y + "]";
+				result.append("[").append(points[i].x).append(",").append(points[i].y).append("]");
 				if (i < points.length - 1) {
-					result += ", ";
+					result.append(", ");
 				}
 			}
 		}
-		return result;
+		return result.toString();
 	}
 
 	protected Rectangle getBounds() {

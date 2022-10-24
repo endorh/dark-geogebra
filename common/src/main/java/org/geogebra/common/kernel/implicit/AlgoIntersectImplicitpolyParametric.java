@@ -184,9 +184,9 @@ public class AlgoIntersectImplicitpolyParametric
 
 		GeoPoint[] rootPoints = algo.getRootPoints();
 		List<double[]> valPairs = new ArrayList<>();
-		for (int i = 0; i < rootPoints.length; i++) {
-			double t = rootPoints[i].getX();
-			valPairs.add(new double[] { t, fun.value(t) });
+		for (GeoPoint rootPoint : rootPoints) {
+			double t = rootPoint.getX();
+			valPairs.add(new double[]{t, fun.value(t)});
 		}
 
 		setPoints(valPairs);

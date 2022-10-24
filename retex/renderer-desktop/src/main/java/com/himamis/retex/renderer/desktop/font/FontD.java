@@ -80,7 +80,7 @@ public class FontD implements Font {
 		return impl;
 	}
 
-	private static Map<java.awt.font.TextAttribute, Object> helper = new HashMap<java.awt.font.TextAttribute, Object>();
+	private static Map<java.awt.font.TextAttribute, Object> helper = new HashMap<>();
 
 	private static Map<java.awt.font.TextAttribute, Object> convertMap(
 			Map<TextAttribute, Object> map) {

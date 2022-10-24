@@ -74,23 +74,14 @@ public class AlgoFoldExpression extends AlgoElement {
 	}
 
 	private static FoldComputer getComputer(GeoElement expression) {
-		switch (expression.getGeoClassType()) {
-		case POINT:
-		case POINT3D:
-		case VECTOR:
-		case VECTOR3D:
-			return new PointNDFold();
-		case FUNCTION_NVAR:
-
-			return new FunctionNvarFold();
-		case FUNCTION:
-			return new FunctionFold();
-		case LIST:
-			return new ListFold();
-		case TEXT:
-			return new TextFold();
-		}
-		return new NumberFold();
+		return switch (expression.getGeoClassType()) {
+			case POINT, POINT3D, VECTOR, VECTOR3D -> new PointNDFold();
+			case FUNCTION_NVAR -> new FunctionNvarFold();
+			case FUNCTION -> new FunctionFold();
+			case LIST -> new ListFold();
+			case TEXT -> new TextFold();
+			default -> new NumberFold();
+		};
 	}
 
 	@Override

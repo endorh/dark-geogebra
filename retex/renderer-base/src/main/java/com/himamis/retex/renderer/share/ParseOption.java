@@ -55,14 +55,14 @@ import java.util.Map;
 public final class ParseOption {
 
 	public final static Map<String, String> parseMap(String options) {
-		Map<String, String> map = new HashMap<String, String>();
+		Map<String, String> map = new HashMap<>();
 		if (options == null || options.length() == 0) {
 			return map;
 		}
 
 		String[] tokens = options.split(",");
-		for (int i = 0; i < tokens.length; i++) {
-			String tok = tokens[i].trim();
+		for (String token : tokens) {
+			String tok = token.trim();
 			String[] optarg = tok.split("=");
 			if (optarg != null) {
 				if (optarg.length == 2) {

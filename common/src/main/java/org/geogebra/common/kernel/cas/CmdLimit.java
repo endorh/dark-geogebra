@@ -31,14 +31,15 @@ public class CmdLimit extends CommandProcessor implements UsesCAS {
 		arg = resArgs(c);
 
 		switch (n) {
-		case 2:
+		case 2 -> {
 			if ((ok[0] = arg[0].isGeoFunction())
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 
 				return process(c.getLabel(), arg[0], arg[1]);
 			}
 			throw argErr(c, getBadArg(ok, arg));
-		case 3:
+		}
+		case 3 -> {
 			/* Same as for 2 args but second arg is ignored. The 3 args syntax used in Classic CAS
 				eg: Limit(If(x<-1,x+2,-1<=x<=1, 1,1<x<2,x^2,4),x,2)
 				We need to keep it for backwards compatibility, see APPS-2791 */
@@ -48,9 +49,9 @@ public class CmdLimit extends CommandProcessor implements UsesCAS {
 				return process(c.getLabel(), arg[0], arg[2]);
 			}
 			throw argErr(c, getBadArg(ok, arg));
-			// more than one argument
-		default:
-			throw argNumErr(c);
+		}
+		// more than one argument
+		default -> throw argNumErr(c);
 		}
 	}
 

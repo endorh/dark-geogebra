@@ -144,26 +144,20 @@ final class Order1 extends Curve {
 
     @Override
 	public double dXforT(double t, int deriv) {
-        switch (deriv) {
-        case 0:
-            return x0 + t * (x1 - x0);
-        case 1:
-            return (x1 - x0);
-        default:
-            return 0;
-        }
+	    return switch (deriv) {
+		    case 0 -> x0 + t * (x1 - x0);
+		    case 1 -> (x1 - x0);
+		    default -> 0;
+	    };
     }
 
     @Override
 	public double dYforT(double t, int deriv) {
-        switch (deriv) {
-        case 0:
-            return y0 + t * (y1 - y0);
-        case 1:
-            return (y1 - y0);
-        default:
-            return 0;
-        }
+	    return switch (deriv) {
+		    case 0 -> y0 + t * (y1 - y0);
+		    case 1 -> (y1 - y0);
+		    default -> 0;
+	    };
     }
 
     @Override
@@ -239,11 +233,10 @@ final class Order1 extends Curve {
 
     @Override
 	public int compareTo(Curve other, double yrange[]) {
-        if (!(other instanceof Order1)) {
+        if (!(other instanceof Order1 c1)) {
             return super.compareTo(other, yrange);
         }
-        Order1 c1 = (Order1) other;
-        if (yrange[1] <= yrange[0]) {
+	    if (yrange[1] <= yrange[0]) {
             throw new RuntimeException("yrange already screwed up...");
         }
         yrange[1] = Math.min(Math.min(yrange[1], y1), c1.y1);

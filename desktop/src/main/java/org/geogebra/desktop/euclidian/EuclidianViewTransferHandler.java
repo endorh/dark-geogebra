@@ -111,10 +111,10 @@ public class EuclidianViewTransferHandler extends TransferHandler
 
 		setSupportedFlavours();
 
-		for (int i = 0, n = flavor.length; i < n; i++) {
+		for (DataFlavor dataFlavor : flavor) {
 			// System.out.println(flavor[i].getMimeType());
-			for (int j = 0, m = supportedFlavors.length; j < m; j++) {
-				if (flavor[i].equals(supportedFlavors[j])) {
+			for (DataFlavor supportedFlavor : supportedFlavors) {
+				if (dataFlavor.equals(supportedFlavor)) {
 					return true;
 				}
 			}
@@ -150,10 +150,7 @@ public class EuclidianViewTransferHandler extends TransferHandler
 						PlotPanelEuclidianViewD.plotPanelFlavor);
 				act.putValue("euclidianViewID", ev.getViewID());
 				act.actionPerformed(new ActionEvent(act, 0, null));
-			} catch (UnsupportedFlavorException e) {
-				e.printStackTrace();
-				return false;
-			} catch (IOException e) {
+			} catch (UnsupportedFlavorException | IOException e) {
 				e.printStackTrace();
 				return false;
 			}
@@ -259,7 +256,7 @@ public class EuclidianViewTransferHandler extends TransferHandler
 							BufferedReader br = new BufferedReader(r);
 							line = br.readLine();
 							while (line != null) {
-								sb.append(line + "\n");
+								sb.append(line).append("\n");
 								line = br.readLine();
 							}
 							br.close();
@@ -311,9 +308,7 @@ public class EuclidianViewTransferHandler extends TransferHandler
 
 				return true;
 
-			} catch (UnsupportedFlavorException ignored) {
-				// TODO
-			} catch (IOException ignored) {
+			} catch (UnsupportedFlavorException | IOException ignored) {
 				// TODO
 			}
 		}
@@ -351,8 +346,8 @@ public class EuclidianViewTransferHandler extends TransferHandler
 
 	@Override
 	public boolean isDataFlavorSupported(DataFlavor flavor) {
-		for (int i = 0; i < supportedFlavors.length; i++) {
-			if (supportedFlavors[i].equals(flavor)) {
+		for (DataFlavor supportedFlavor : supportedFlavors) {
+			if (supportedFlavor.equals(flavor)) {
 				return true;
 			}
 		}

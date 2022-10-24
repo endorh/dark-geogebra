@@ -64,7 +64,7 @@ public class AlgebraController {
 	}
 
 	public String getDragText() {
-		return getDragText(new ArrayList<String>());
+		return getDragText(new ArrayList<>());
 	}
 
 	/**
@@ -184,14 +184,11 @@ public class AlgebraController {
 		GeoElementND[] geos;
 		try {
 
-			final AsyncOperation<GeoElementND[]> callback = new AsyncOperation<GeoElementND[]>() {
-				@Override
-				public void callback(GeoElementND[] newGeos) {
-					if (cb != null) {
-						cb.callback(newGeos);
-					}
-					kernel.checkGeoTexts(newGeos);
+			final AsyncOperation<GeoElementND[]> callback = newGeos -> {
+				if (cb != null) {
+					cb.callback(newGeos);
 				}
+				kernel.checkGeoTexts(newGeos);
 			};
 
 			EvalInfo processingInfo = info;
@@ -231,42 +228,25 @@ public class AlgebraController {
 	 * @return true if changes for this property needs update in AV
 	 */
 	static public boolean needsUpdateVisualstyle(GProperty property) {
-		switch (property) {
-		case FONT:
-			return true;
-		case COLOR:
-			return true;
-		case POSITION:
-			return false;
-		case CAPTION:
-			return false;
-		case COMBINED:
-			return true;
-		case ANGLE_INTERVAL:
-			return false;
-		case COLOR_BG:
-			return true;
-		case LINE_STYLE:
-			return false;
-		case POINT_STYLE:
-			return false;
-		case VISIBLE:
-			return true;
-		case LAYER:
-			return false;
-		case ANGLE_STYLE:
-			return false;
-		case LABEL_STYLE:
-			return true;
-		case LENGTH:
-			return true;
-		case HATCHING:
-			return false;
-		case HIGHLIGHT:
-			return true;
-		default:
-			return true;
-		}
+		return switch (property) {
+			case FONT -> true;
+			case COLOR -> true;
+			case POSITION -> false;
+			case CAPTION -> false;
+			case COMBINED -> true;
+			case ANGLE_INTERVAL -> false;
+			case COLOR_BG -> true;
+			case LINE_STYLE -> false;
+			case POINT_STYLE -> false;
+			case VISIBLE -> true;
+			case LAYER -> false;
+			case ANGLE_STYLE -> false;
+			case LABEL_STYLE -> true;
+			case LENGTH -> true;
+			case HATCHING -> false;
+			case HIGHLIGHT -> true;
+			default -> true;
+		};
 	}
 
 	/**

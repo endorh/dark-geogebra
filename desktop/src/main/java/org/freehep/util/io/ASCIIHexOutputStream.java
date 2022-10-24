@@ -46,17 +46,16 @@ public class ASCIIHexOutputStream extends FilterOutputStream
 	public void write(int b) throws IOException {
 		String s = Integer.toHexString(b & 0x00FF);
 		switch (s.length()) {
-		case 1:
+		case 1 -> {
 			writeChar('0');
 			writeChar(s.charAt(0));
-			break;
-		case 2:
+		}
+		case 2 -> {
 			writeChar(s.charAt(0));
 			writeChar(s.charAt(1));
-			break;
-		default:
-			throw new IOException("ASCIIHexOutputStream: byte '" + b
-					+ "' was encoded in less than 1 or more than 2 chars");
+		}
+		default -> throw new IOException("ASCIIHexOutputStream: byte '" + b
+				+ "' was encoded in less than 1 or more than 2 chars");
 		}
 	}
 

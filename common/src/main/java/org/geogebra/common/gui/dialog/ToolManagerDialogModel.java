@@ -13,7 +13,6 @@ the Free Software Foundation.
 package org.geogebra.common.gui.dialog;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 
@@ -93,10 +92,9 @@ public class ToolManagerDialogModel {
 		boolean foundUsedMacro = false;
 		StringBuilder macroNames = new StringBuilder();
 		Kernel kernel = app.getKernel();
-		app.getSelectionManager().setSelectedGeos(new ArrayList<GeoElement>());
+		app.getSelectionManager().setSelectedGeos(new ArrayList<>());
 		deletedMacros.clear();
-		for (int i = 0; i < sel.size(); i++) {
-			Macro macro = sel.get(i);
+		for (Macro macro : sel) {
 			if (!macro.isUsed()) {
 				// delete macro
 				changeToolBar = changeToolBar || macro.isShowInToolBar();
@@ -110,9 +108,8 @@ public class ToolManagerDialogModel {
 			} else {
 				// don't delete, remember name
 				ArrayList<GeoElement> geos = macro.getDependentGeos();
-				Iterator<GeoElement> curr = geos.iterator();
-				while (curr.hasNext()) {
-					app.getSelectionManager().addSelectedGeo(curr.next());
+				for (GeoElement geo : geos) {
+					app.getSelectionManager().addSelectedGeo(geo);
 				}
 				foundUsedMacro = true;
 				macroNames.append("\n");
@@ -159,8 +156,8 @@ public class ToolManagerDialogModel {
 			// we need to save all selected tools and all tools
 			// that are used by the selected tools
 			LinkedHashSet<Macro> tools = new LinkedHashSet<>();
-			for (int i = 0; i < sel.length; i++) {
-				Macro macro = (Macro) sel[i];
+			for (Object o : sel) {
+				Macro macro = (Macro) o;
 				ArrayList<Macro> macros = macro.getUsedMacros();
 				if (macros != null) {
 					tools.addAll(macros);
@@ -170,9 +167,8 @@ public class ToolManagerDialogModel {
 
 			// create Macro array list from tools set
 			ArrayList<Macro> macros = new ArrayList<>(tools.size());
-			Iterator<Macro> it = tools.iterator();
-			while (it.hasNext()) {
-				macros.add(it.next());
+			for (Macro tool : tools) {
+				macros.add(tool);
 			}
 
 			listener.uploadWorksheet(macros);
@@ -196,8 +192,7 @@ public class ToolManagerDialogModel {
 		// we need to save all selected tools and all tools
 		// that are used by the selected tools
 		LinkedHashSet<Macro> tools = new LinkedHashSet<>();
-		for (int i = 0; i < sel.length; i++) {
-			Macro macro = sel[i];
+		for (Macro macro : sel) {
 			ArrayList<Macro> macros = macro.getUsedMacros();
 			if (macros != null) {
 				tools.addAll(macros);

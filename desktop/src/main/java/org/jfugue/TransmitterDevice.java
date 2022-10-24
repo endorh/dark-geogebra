@@ -80,7 +80,7 @@ public class TransmitterDevice {
 		this.transmitter.close();
 	}
 
-	class MidiReceiverForTransmitterDevice implements Receiver {
+	static class MidiReceiverForTransmitterDevice implements Receiver {
 		private MidiParser parser;
 		private Sequencer sequencer;
 		private Receiver sequencerReceiver;

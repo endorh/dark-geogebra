@@ -775,12 +775,7 @@ public class MathFieldInternal
 
 	private void insertStringFinished() {
 		if (mathField instanceof MathFieldAsync) {
-			((MathFieldAsync) mathField).requestViewFocus(new Runnable() {
-				@Override
-				public void run() {
-					onKeyTyped();
-				}
-			});
+			((MathFieldAsync) mathField).requestViewFocus(this::onKeyTyped);
 		} else {
 			mathField.requestViewFocus();
 			// do this as late as possible
@@ -911,8 +906,7 @@ public class MathFieldInternal
 	 */
 	public String getCurrentFunction() {
 		MathContainer container = editorState.getCurrentField().getParent();
-		if (container instanceof MathFunction) {
-			MathFunction function = (MathFunction) container;
+		if (container instanceof MathFunction function) {
 
 			if (function.getName() != Tag.APPLY) {
 				return function.getName().getFunction();

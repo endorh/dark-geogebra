@@ -65,14 +65,9 @@ public class LapedAtom extends Atom {
 		vb.add(b);
 		vb.setWidth(0);
 		switch (type1) {
-		case 'l':
-			b.setShift(-b.getWidth());
-			break;
-		case 'r':
-			b.setShift(0);
-			break;
-		default:
-			b.setShift(-b.getWidth() / 2);
+		case 'l' -> b.setShift(-b.getWidth());
+		case 'r' -> b.setShift(0);
+		default -> b.setShift(-b.getWidth() / 2);
 		}
 
 		return vb;

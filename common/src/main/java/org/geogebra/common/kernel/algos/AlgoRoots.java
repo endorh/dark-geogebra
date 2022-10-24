@@ -197,19 +197,19 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 	@Override
 	protected void setInputOutput() {
 		switch (type) {
-		default:
-		case TYPE_ROOTS:
+		case TYPE_ROOTS -> {
 			input = new GeoElement[3];
 			input[0] = f0.toGeoElement();
 			input[1] = left.toGeoElement();
 			input[2] = right.toGeoElement();
-			break;
-		case TYPE_INTERSECTIONS:
+		}
+		case TYPE_INTERSECTIONS -> {
 			input = new GeoElement[4];
 			input[0] = f1.toGeoElement();
 			input[1] = f2.toGeoElement();
 			input[2] = left.toGeoElement();
 			input[3] = right.toGeoElement();
+		}
 		}
 
 		super.setOutput(getPoints()); // Points in ancestor
@@ -461,9 +461,9 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		super.initPoints(number);
 
 		// parentAlgorithm is set to null in some cases (see below)
-		for (int i = 0; i < points.length; i++) {
-			points[i].setParentAlgorithm(this);
-			points[i].setUseVisualDefaults(false);
+		for (GeoPoint value : points) {
+			value.setParentAlgorithm(this);
+			value.setUseVisualDefaults(false);
 		}
 
 		if (points.length > number) {
@@ -471,20 +471,20 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 			// no visible points left
 			if (number == 0) {
 				ArrayList<GeoPoint> temp = new ArrayList<>();
-				for (int i = 0; i < points.length; i++) {
-					if (!points[i].getAlgoUpdateSet().isEmpty()) {
+				for (GeoPoint geoPoint : points) {
+					if (!geoPoint.getAlgoUpdateSet().isEmpty()) {
 						// store points that have dependent objects
-						temp.add(points[i]);
+						temp.add(geoPoint);
 					}
 				}
 
 				// at least one point with dependencies was found
 				if (temp.size() > 0) {
 					// delete all other points
-					for (int i = 0; i < points.length; i++) {
-						if (!temp.contains(points[i])) {
-							points[i].setParentAlgorithm(null);
-							points[i].remove();
+					for (GeoPoint point : points) {
+						if (!temp.contains(point)) {
+							point.setParentAlgorithm(null);
+							point.remove();
 						}
 					}
 					// do not reset points -> position of the not removed points

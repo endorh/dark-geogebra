@@ -32,7 +32,7 @@ import org.mozilla.javascript.Token;
 public class SwitchStatement extends Jump {
 
     private static final List<SwitchCase> NO_CASES =
-        Collections.unmodifiableList(new ArrayList<SwitchCase>());
+        Collections.unmodifiableList(new ArrayList<>());
 
     private AstNode expression;
     private List<SwitchCase> cases;
@@ -105,7 +105,7 @@ public class SwitchStatement extends Jump {
     public void addCase(SwitchCase switchCase) {
         assertNotNull(switchCase);
         if (cases == null) {
-            cases = new ArrayList<SwitchCase>();
+            cases = new ArrayList<>();
         }
         cases.add(switchCase);
         switchCase.setParent(this);

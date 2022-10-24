@@ -26,14 +26,11 @@ public class GLBufferManagerSurfacesClipped
 
 	@Override
 	protected int calculateIndicesLength(int size, TypeElement type) {
-		switch (type) {
-		case SURFACE:
-			return size;
-		case TRIANGLES:
-			return 3 * size;
-		default:
-			return size;
-		}
+		return switch (type) {
+			case SURFACE -> size;
+			case TRIANGLES -> 3 * size;
+			default -> size;
+		};
 	}
 
 	@Override

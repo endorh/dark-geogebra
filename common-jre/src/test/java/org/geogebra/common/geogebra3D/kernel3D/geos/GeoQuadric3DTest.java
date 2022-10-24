@@ -34,7 +34,7 @@ public class GeoQuadric3DTest extends BaseUnitTest {
 	}
 
 	private Matcher<Coords> hasCoords(final double... coords) {
-		return new TypeSafeMatcher<Coords>() {
+		return new TypeSafeMatcher<>() {
 			@Override
 			protected boolean matchesSafely(Coords item) {
 				return Arrays.equals(coords, item.get());

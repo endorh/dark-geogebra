@@ -48,7 +48,7 @@ public class TTFFile extends TTFFont {
 
 		// read table entries
 		for (int i = 0; i < numberOfTables; i++) {
-			ttf.seek(12 + i * 16);
+			ttf.seek(12 + i * 16L);
 			byte b[] = new byte[4];
 			ttf.readFully(b);
 			String tag = new String(b, Charsets.getUtf8());

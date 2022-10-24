@@ -683,7 +683,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 			// stores all characters which are written with the same font
 			// if font is changed the buffer will be written and cleared
 			// after it
-			StringBuffer sb = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 
 			for (char c = iterator
 					.first(); c != AttributedCharacterIterator.DONE; c = iterator
@@ -707,7 +707,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 							(float) tl.getBounds().getWidth());
 
 					// empty sb
-					sb = new StringBuffer();
+					sb = new StringBuilder();
 					sb.append(c);
 
 					// change the font
@@ -1109,8 +1109,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 	 * if any were different than the current stroke.
 	 */
 	protected void writeStroke(Stroke stroke) throws IOException {
-		if (stroke instanceof BasicStroke) {
-			BasicStroke ns = (BasicStroke) stroke;
+		if (stroke instanceof BasicStroke ns) {
 
 			// get the current values for comparison if available,
 			// otherwise set them to -1="undefined"
@@ -1118,8 +1117,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
 			float currentWidth = -1, currentLimit = -1, currentDashPhase = -1;
 			float[] currentDashArray = null;
 			if ((currentStroke != null)
-					&& (currentStroke instanceof BasicStroke)) {
-				BasicStroke cs = (BasicStroke) currentStroke;
+					&& (currentStroke instanceof BasicStroke cs)) {
 				currentCap = cs.getEndCap();
 				currentJoin = cs.getLineJoin();
 				currentWidth = cs.getLineWidth();

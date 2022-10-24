@@ -15,7 +15,7 @@ import java.util.Stack;
  */
 public abstract class TTFInput {
 
-	private Stack filePosStack = new Stack();
+	private Stack<Long> filePosStack = new Stack<>();
 
 	private int tempFlags;
 
@@ -26,11 +26,11 @@ public abstract class TTFInput {
 	abstract long getPointer() throws IOException;
 
 	public void pushPos() throws IOException {
-		filePosStack.push(new Long(getPointer()));
+		filePosStack.push(getPointer());
 	}
 
 	public void popPos() throws IOException {
-		seek(((Long) filePosStack.pop()).longValue());
+		seek(filePosStack.pop());
 	}
 
 	// ---------- Simple Data Types --------------
@@ -82,7 +82,7 @@ public abstract class TTFInput {
 		}
 	}
 
-	public static final boolean checkZeroBit(int b, int bit, String name)
+	public static boolean checkZeroBit(int b, int bit, String name)
 			throws IOException {
 		if (flagBit(b, bit)) {
 			System.err
@@ -127,13 +127,13 @@ public abstract class TTFInput {
 		int ushort = -1;
 		do {
 			ushort = readUShort();
-			values.add(Integer.valueOf(ushort));
+			values.add(ushort);
 		} while (ushort != 0xFFFF);
 		int[] shorts = new int[values.size()];
 		Iterator i = values.iterator();
 		int j = 0;
 		while (i.hasNext()) {
-			shorts[j++] = ((Integer) i.next()).intValue();
+			shorts[j++] = (Integer) i.next();
 		}
 		return shorts;
 	}

@@ -40,8 +40,6 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -249,12 +247,7 @@ public class FunctionInspectorD extends FunctionInspector
 		modelInterval.setRowCount(pointCount);
 		tableInterval.setModel(modelInterval);
 		tableInterval.getSelectionModel()
-				.addListSelectionListener(new ListSelectionListener() {
-					@Override
-					public void valueChanged(ListSelectionEvent e) {
-						getModel().updateIntervalGeoVisiblity();
-					}
-				});
+				.addListSelectionListener(e -> getModel().updateIntervalGeoVisiblity());
 
 		lblGeoName = new JLabel(getModel().getTitleString());
 		lblGeoName.setFont(getAppD().getBoldFont());
@@ -297,18 +290,10 @@ public class FunctionInspectorD extends FunctionInspector
 		btnRemoveColumn.addActionListener(this);
 
 		btnHelp = new JButton();
-		btnHelp.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Thread runner = new Thread() {
-					@Override
-					public void run() {
-						((GuiManagerD) app.getGuiManager())
-								.openHelp("Function_Inspector_Tool");
-					}
-				};
-				runner.start();
-			}
+		btnHelp.addActionListener(e -> {
+			Thread runner = new Thread(() -> ((GuiManagerD) app.getGuiManager())
+					.openHelp("Function_Inspector_Tool"));
+			runner.start();
 		});
 		btnHelp.setFocusable(false);
 		updateIcons();
@@ -647,13 +632,7 @@ public class FunctionInspectorD extends FunctionInspector
 
 		// copy to spreadsheet
 		JMenuItem mi = new JMenuItem(loc.getMenu("CopyToSpreadsheet"));
-		mi.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				doCopyToSpreadsheet();
-			}
-		});
+		mi.addActionListener(e -> doCopyToSpreadsheet());
 		mi.setEnabled(((GuiManagerD) app.getGuiManager()).hasSpreadsheetView());
 		btnOptions.addPopupMenuItem(mi);
 
@@ -771,25 +750,13 @@ public class FunctionInspectorD extends FunctionInspector
 
 	@Override
 	public GColor getColor(Colors id) {
-		Color color;
-		switch (id) {
-		case EVEN_ROW:
-			color = EVEN_ROW_COLOR;
-			break;
-		case GEO:
-			color = DISPLAY_GEO_COLOR;
-			break;
-		case GEO2:
-			color = DISPLAY_GEO2_COLOR;
-			break;
-		case GRID:
-			color = TABLE_GRID_COLOR;
-			break;
-		default:
-			color = ThemeD.color(ColorKeys.FOREGROUND);
-			break;
-
-		}
+		Color color = switch (id) {
+			case EVEN_ROW -> EVEN_ROW_COLOR;
+			case GEO -> DISPLAY_GEO_COLOR;
+			case GEO2 -> DISPLAY_GEO2_COLOR;
+			case GRID -> TABLE_GRID_COLOR;
+			default -> ThemeD.color(ColorKeys.FOREGROUND);
+		};
 		return GColorD.newColor(color);
 	}
 
@@ -811,13 +778,7 @@ public class FunctionInspectorD extends FunctionInspector
 		tabPanel.addTab("Interval", intervalTabPanel);
 		tabPanel.addTab("Point", pointTabPanel);
 
-		tabPanel.addChangeListener(new ChangeListener() {
-			@Override
-			public void stateChanged(ChangeEvent evt) {
-				updateTabPanels();
-			}
-
-		});
+		tabPanel.addChangeListener(evt -> updateTabPanels());
 
 	}
 

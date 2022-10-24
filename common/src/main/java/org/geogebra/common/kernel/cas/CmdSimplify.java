@@ -34,7 +34,7 @@ public class CmdSimplify extends CommandProcessor implements UsesCAS {
 		arg = resArgs(c, info);
 		AlgoElement algo;
 		switch (n) {
-		case 1:
+		case 1 -> {
 			if (arg[0] instanceof CasEvaluableFunction) {
 				algo = new AlgoCasBaseSingleArgument(cons, c.getLabel(),
 						(CasEvaluableFunction) arg[0], Commands.Simplify, info);
@@ -51,11 +51,11 @@ public class CmdSimplify extends CommandProcessor implements UsesCAS {
 			} else {
 				throw argErr(c, arg[0]);
 			}
-			GeoElement[] ret = { algo.getOutput(0) };
+			GeoElement[] ret = {algo.getOutput(0)};
 			return ret;
+		}
 		// more than one argument
-		default:
-			throw argNumErr(c);
+		default -> throw argNumErr(c);
 		}
 	}
 }

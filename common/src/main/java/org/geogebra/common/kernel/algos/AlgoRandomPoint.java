@@ -111,8 +111,7 @@ public class AlgoRandomPoint extends AlgoElement implements SetRandomValue  {
 
 	@Override
 	public boolean setRandomValue(GeoElementND val) {
-		if (val instanceof GeoPointND) {
-			GeoPointND pt = (GeoPointND) val;
+		if (val instanceof GeoPointND pt) {
 			if (pt.getInhomX() < b.getDouble()
 					&& pt.getInhomX() > a.getDouble()
 					&& pt.getInhomY() < d.getDouble()

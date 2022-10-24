@@ -32,8 +32,7 @@ public class FunctionVarCollector implements Traversing {
 				checkFunctional(en.getRight());
 			}
 		}
-		if (ev instanceof GeoSymbolic) {
-			GeoSymbolic symbolic = (GeoSymbolic) ev;
+		if (ev instanceof GeoSymbolic symbolic) {
 			for (FunctionVariable variable : symbolic.getFunctionVariables()) {
 				variableNames.add(variable.getSetVarString());
 			}

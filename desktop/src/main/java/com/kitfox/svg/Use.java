@@ -112,11 +112,10 @@ public class Use extends ShapeElement {
 
 		SVGElement ref = diagram.getUniverse().getElement(href);
 
-		if (ref == null || !(ref instanceof RenderableElement)) {
+		if (ref == null || !(ref instanceof RenderableElement rendEle)) {
 			return;
 		}
 
-		RenderableElement rendEle = (RenderableElement) ref;
 		rendEle.pushParentContext(this);
 		rendEle.render(g);
 		rendEle.popParentContext();
@@ -142,8 +141,7 @@ public class Use extends ShapeElement {
 	@Override
 	public Rectangle2D getBoundingBox() throws SVGException {
 		SVGElement ref = diagram.getUniverse().getElement(href);
-		if (ref instanceof ShapeElement) {
-			ShapeElement shapeEle = (ShapeElement) ref;
+		if (ref instanceof ShapeElement shapeEle) {
 			shapeEle.pushParentContext(this);
 			Rectangle2D bounds = shapeEle.getBoundingBox();
 			shapeEle.popParentContext();

@@ -45,7 +45,7 @@ public abstract class AbstractGraph<V, E> implements Graph<V, E>, Serializable {
 					: new Pair<V>(vertices), edgeType);
 		} else if (vertices.size() == 1) {
 			V vertex = vertices.iterator().next();
-			return addEdge(edge, new Pair<V>(vertex, vertex), edgeType);
+			return addEdge(edge, new Pair<>(vertex, vertex), edgeType);
 		} else {
 			throw new IllegalArgumentException(
 					"Graph objects connect 1 or 2 vertices; vertices arg has "
@@ -60,7 +60,7 @@ public abstract class AbstractGraph<V, E> implements Graph<V, E>, Serializable {
 
 	@Override
 	public boolean addEdge(E e, V v1, V v2, EdgeType edge_type) {
-		return addEdge(e, new Pair<V>(v1, v2), edge_type);
+		return addEdge(e, new Pair<>(v1, v2), edge_type);
 	}
 
 	/**
@@ -92,7 +92,7 @@ public abstract class AbstractGraph<V, E> implements Graph<V, E>, Serializable {
 			throw new IllegalArgumentException("endpoints may not be null");
 		}
 
-		Pair<V> new_endpoints = new Pair<V>(endpoints.getFirst(),
+		Pair<V> new_endpoints = new Pair<>(endpoints.getFirst(),
 				endpoints.getSecond());
 		if (containsEdge(edge)) {
 			Pair<V> existing_endpoints = getEndpoints(edge);
@@ -224,7 +224,7 @@ public abstract class AbstractGraph<V, E> implements Graph<V, E>, Serializable {
 					v2 + " is not an element of this graph");
 		}
 
-		Collection<E> edges = new ArrayList<E>();
+		Collection<E> edges = new ArrayList<>();
 		for (E e : getOutEdges(v1)) {
 			if (getOpposite(v1, e).equals(v2)) {
 				edges.add(e);
@@ -236,7 +236,7 @@ public abstract class AbstractGraph<V, E> implements Graph<V, E>, Serializable {
 	@Override
 	public Collection<V> getIncidentVertices(E edge) {
 		Pair<V> endpoints = this.getEndpoints(edge);
-		Collection<V> incident = new ArrayList<V>();
+		Collection<V> incident = new ArrayList<>();
 		incident.add(endpoints.getFirst());
 		incident.add(endpoints.getSecond());
 

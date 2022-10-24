@@ -228,31 +228,31 @@ public class CoordMatrix {
      */
     public static final void setRotation3DMatrix(int axe, double angle, CoordMatrix m) {
         m.set(0);
-        switch (axe) {
-            case Z_AXIS:
-                m.set(1, 1, Math.cos(angle));
-                m.set(1, 2, -Math.sin(angle));
-                m.set(2, 1, Math.sin(angle));
-                m.set(2, 2, Math.cos(angle));
-                m.set(3, 3, 1.0);
-                break;
-            case X_AXIS:
-                m.set(1, 1, 1.0);
-                m.set(2, 2, Math.cos(angle));
-                m.set(2, 3, -Math.sin(angle));
-                m.set(3, 2, Math.sin(angle));
-                m.set(3, 3, Math.cos(angle));
-                break;
-            case Y_AXIS:
-                m.set(2, 2, 1.0);
-                m.set(3, 3, Math.cos(angle));
-                m.set(3, 1, -Math.sin(angle));
-                m.set(1, 3, Math.sin(angle));
-                m.set(1, 1, Math.cos(angle));
-                break;
-            default:
-                break;
-        }
+	    switch (axe) {
+	    case Z_AXIS -> {
+		    m.set(1, 1, Math.cos(angle));
+		    m.set(1, 2, -Math.sin(angle));
+		    m.set(2, 1, Math.sin(angle));
+		    m.set(2, 2, Math.cos(angle));
+		    m.set(3, 3, 1.0);
+	    }
+	    case X_AXIS -> {
+		    m.set(1, 1, 1.0);
+		    m.set(2, 2, Math.cos(angle));
+		    m.set(2, 3, -Math.sin(angle));
+		    m.set(3, 2, Math.sin(angle));
+		    m.set(3, 3, Math.cos(angle));
+	    }
+	    case Y_AXIS -> {
+		    m.set(2, 2, 1.0);
+		    m.set(3, 3, Math.cos(angle));
+		    m.set(3, 1, -Math.sin(angle));
+		    m.set(1, 3, Math.sin(angle));
+		    m.set(1, 1, Math.cos(angle));
+	    }
+	    default -> {
+	    }
+	    }
         m.set(4, 4, 1.0);
     }
 
@@ -1343,9 +1343,7 @@ public class CoordMatrix {
 			pivotSolRes = new PivotSolRes();
 		}
 		pivotSolRes.res = new double[res.getLength()];
-		for (int r = 0; r < rows; r++) {
-			pivotSolRes.res[r] = res.val[r];
-		}
+		if (rows >= 0) System.arraycopy(res.val, 0, pivotSolRes.res, 0, rows);
 
 		pivotSolRes.sol = sol.val;
 
@@ -1369,9 +1367,7 @@ public class CoordMatrix {
 		}
 		pivotSolResDegenerate.init(pivotMatrix.length);
 		pivotSolResDegenerate.res = new double[res.getLength()];
-		for (int r = 0; r < rows; r++) {
-			pivotSolResDegenerate.res[r] = res.val[r];
-		}
+		if (rows >= 0) System.arraycopy(res.val, 0, pivotSolResDegenerate.res, 0, rows);
 
 		pivotSolResDegenerate.sol = sol.val;
 

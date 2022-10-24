@@ -120,7 +120,7 @@ public class AlgoNSolveODE extends AlgoElement {
 		al = new ArrayList<>(dim);
 
 		for (int i = 0; i < dim; i++) {
-			al.add(new ArrayList<MyPoint>());
+			al.add(new ArrayList<>());
 		}
 
 		FirstOrderIntegrator integrator = new DormandPrince54Integrator(0.001,
@@ -149,8 +149,8 @@ public class AlgoNSolveODE extends AlgoElement {
 	}
 
 	private void setUndefined() {
-		for (int i = 0; i < out.length; i++) {
-			out[i].setUndefined();
+		for (GeoLocus geoLocus : out) {
+			geoLocus.setUndefined();
 		}
 	}
 
@@ -191,9 +191,7 @@ public class AlgoNSolveODE extends AlgoElement {
 		public void computeDerivatives(double t, double[] y, double[] yDot) {
 			double[] input1 = new double[dim + 1];
 			input1[0] = t;
-			for (int i = 0; i < dim; i++) {
-				input1[i + 1] = y[i];
-			}
+			if (dim >= 0) System.arraycopy(y, 0, input1, 1, dim);
 			for (int i = 0; i < dim; i++) {
 				yDot[i] = ((FunctionalNVar) fun1.get(i)).evaluate(input1);
 			}

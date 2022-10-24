@@ -226,22 +226,22 @@ public class StatPanelSettings extends PlotSettings {
 	public void setCoordMode(CoordMode coordMode) {
 		this.coordMode = coordMode;
 		switch (coordMode) {
-		case STANDTOSTAND:
+		case STANDTOSTAND -> {
 			this.logXAxis = false;
 			this.logYAxis = false;
-			break;
-		case LOGTOSTAND:
+		}
+		case LOGTOSTAND -> {
 			this.logXAxis = true;
 			this.logYAxis = false;
-			break;
-		case STANDTOLOG:
+		}
+		case STANDTOLOG -> {
 			this.logXAxis = false;
 			this.logYAxis = true;
-			break;
-		case LOGTOLOG:
+		}
+		case LOGTOLOG -> {
 			this.logXAxis = true;
 			this.logYAxis = true;
-			break;
+		}
 		}
 	}
 

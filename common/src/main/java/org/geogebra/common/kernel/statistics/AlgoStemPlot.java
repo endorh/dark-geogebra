@@ -123,38 +123,20 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 		}
 
 		// find Q1 and Q3
-		double Q1;
-		switch (size % 4) {
-		case 0:
-			Q1 = (data[size / 4 - 1] + data[(size + 4) / 4 - 1]) / 2;
-			break;
-		case 1:
-			Q1 = (data[(size - 1) / 4 - 1] + data[(size + 3) / 4 - 1]) / 2;
-			break;
-		case 2:
-			Q1 = data[(size + 2) / 4 - 1];
-			break;
-		default:
-			Q1 = data[(size + 1) / 4 - 1];
-			break;
-		}
+		double Q1 = switch (size % 4) {
+			case 0 -> (data[size / 4 - 1] + data[(size + 4) / 4 - 1]) / 2;
+			case 1 -> (data[(size - 1) / 4 - 1] + data[(size + 3) / 4 - 1]) / 2;
+			case 2 -> data[(size + 2) / 4 - 1];
+			default -> data[(size + 1) / 4 - 1];
+		};
 
-		double Q3;
-		switch (size % 4) {
-		case 0:
-			Q3 = (data[(3 * size) / 4 - 1] + data[(3 * size + 4) / 4 - 1]) / 2;
-			break;
-		case 1:
-			Q3 = (data[(3 * size + 1) / 4 - 1] + data[(3 * size + 5) / 4 - 1])
+		double Q3 = switch (size % 4) {
+			case 0 -> (data[(3 * size) / 4 - 1] + data[(3 * size + 4) / 4 - 1]) / 2;
+			case 1 -> (data[(3 * size + 1) / 4 - 1] + data[(3 * size + 5) / 4 - 1])
 					/ 2;
-			break;
-		case 2:
-			Q3 = data[(3 * size + 2) / 4 - 1];
-			break;
-		default:
-			Q3 = data[(3 * size + 3) / 4 - 1];
-			break;
-		}
+			case 2 -> data[(3 * size + 2) / 4 - 1];
+			default -> data[(3 * size + 3) / 4 - 1];
+		};
 
 		// test for outliers and adjust the indicies accordingly
 		double IQRplus = 1.5 * (Q3 - Q1);
@@ -196,17 +178,17 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 		int leaf = Math.abs(n % 10);
 		int currentStem = stem;
 
-		lines.add(new ArrayList<Integer>());
+		lines.add(new ArrayList<>());
 		lines.get(lines.size() - 1).add(currentStem);
 
 		// for negative values we need two 0 stems
 		if (currentStem == 0 && n < 0) {
-			lines.add(new ArrayList<Integer>());
+			lines.add(new ArrayList<>());
 			lines.get(lines.size() - 1).add(currentStem);
-			lines.get(lines.size() - 2).add(Integer.valueOf(leaf));
+			lines.get(lines.size() - 2).add(leaf);
 
 		} else {
-			lines.get(lines.size() - 1).add(Integer.valueOf(leaf));
+			lines.get(lines.size() - 1).add(leaf);
 		}
 
 		// ===========================================
@@ -221,19 +203,19 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 			// if our stem is not the current one, add stems until we reach it
 			while (currentStem < stem) {
 				currentStem++;
-				lines.add(new ArrayList<Integer>());
+				lines.add(new ArrayList<>());
 				lines.get(lines.size() - 1).add(currentStem);
 				if (currentStem == 0 && n < 0) {
-					lines.add(new ArrayList<Integer>());
+					lines.add(new ArrayList<>());
 					lines.get(lines.size() - 1).add(currentStem);
 				}
 			}
 
 			// now add our leaf to the stem
 			if (stem == 0 && n < 0) {
-				lines.get(lines.size() - 2).add(Integer.valueOf(leaf));
+				lines.get(lines.size() - 2).add(leaf);
 			} else {
-				lines.get(lines.size() - 1).add(Integer.valueOf(leaf));
+				lines.get(lines.size() - 1).add(leaf);
 			}
 		}
 
@@ -328,8 +310,8 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 
 		// find the maximum length of the stem lines (used to create the LaTeX)
 		int maxSize = 0;
-		for (int i = 0; i < stemLines.size(); i++) {
-			maxSize = Math.max(maxSize, stemLines.get(i).size());
+		for (ArrayList<Integer> stemLine : stemLines) {
+			maxSize = Math.max(maxSize, stemLine.size());
 		}
 
 		// =============================================
@@ -341,10 +323,8 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 
 		// set alignments
 		body.append("r|"); // right align the stem and add divider bar
-		for (int i = 0; i < maxSize; i++) {
-			// left align all leaf digits
-			body.append('l');
-		}
+		// left align all leaf digits
+		body.append("l".repeat(maxSize));
 		body.append("}");
 
 		// populate the body array

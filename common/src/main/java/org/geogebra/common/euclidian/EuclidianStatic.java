@@ -101,35 +101,31 @@ public class EuclidianStatic {
 		double[] dash;
 
 		switch (type) {
-		case EuclidianStyleConstants.LINE_TYPE_DOTTED:
+		case EuclidianStyleConstants.LINE_TYPE_DOTTED -> {
 			dash = new double[2];
 			dash[0] = width; // dot
 			dash[1] = 3.0; // space
-			break;
-
-		case EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT:
+		}
+		case EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT -> {
 			dash = new double[2];
 			dash[0] = 4.0 + width;
 			// short dash
 			dash[1] = 4.0; // space
-			break;
-
-		case EuclidianStyleConstants.LINE_TYPE_DASHED_LONG:
+		}
+		case EuclidianStyleConstants.LINE_TYPE_DASHED_LONG -> {
 			dash = new double[2];
 			dash[0] = 8.0 + width; // long dash
 			dash[1] = 8.0; // space
-			break;
-
-		case EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED:
+		}
+		case EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED -> {
 			dash = new double[4];
 			dash[0] = 8.0 + width; // dash
 			dash[1] = 4.0; // space before dot
 			dash[2] = width; // dot
 			dash[3] = dash[1]; // space after dot
-			break;
-
-		default: // EuclidianStyleConstants.LINE_TYPE_FULL
-			dash = null;
+		}
+		default -> // EuclidianStyleConstants.LINE_TYPE_FULL
+				dash = null;
 		}
 
 		int endCap = dash != null ? GBasicStroke.CAP_BUTT
@@ -258,8 +254,8 @@ public class EuclidianStatic {
 			if (isLaTeX) {
 				// calculate the y offset of this element by: (lineHeight -
 				// elementHeight) / 2
-				yOffset = (((lineHeights.get(currentLine))).intValue()
-						- ((elementHeights.get(currentElement))).intValue())
+				yOffset = (lineHeights.get(currentLine)
+						- elementHeights.get(currentElement))
 						/ 2;
 
 				DrawEquation de = app.getDrawEquation();
@@ -275,8 +271,8 @@ public class EuclidianStatic {
 
 				for (int j = 0; j < lines.length; ++j) {
 					// calculate the y offset like done with the element
-					yOffset = (((lineHeights.get(currentLine))).intValue()
-							- ((elementHeights.get(currentElement))).intValue())
+					yOffset = (lineHeights.get(currentLine)
+							- elementHeights.get(currentElement))
 							/ 2;
 
 					// draw the string
@@ -287,7 +283,7 @@ public class EuclidianStatic {
 
 					// add the height of this line if more lines follow
 					if (j + 1 < lines.length) {
-						height += ((lineHeights.get(currentLine))).intValue();
+						height += lineHeights.get(currentLine);
 
 						if (xOffset > width) {
 							width = xOffset;
@@ -307,7 +303,7 @@ public class EuclidianStatic {
 			// last element, increase total height and check if this is the most
 			// wide element
 			if (i + 1 == elements.length) {
-				height += ((lineHeights.get(currentLine))).intValue();
+				height += lineHeights.get(currentLine);
 
 				if (xOffset > width) {
 					width = xOffset;

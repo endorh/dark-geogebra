@@ -80,13 +80,14 @@ public class TTFNameTable extends TTFTable {
 
 	@Override
 	public String toString() {
-		StringBuffer s = new StringBuffer();
-		s.append(super.toString() + "\n");
-		s.append("  format: " + format);
+		StringBuilder s = new StringBuilder();
+		s.append(super.toString()).append("\n");
+		s.append("  format: ").append(format);
 		for (int i = 0; i < name.length; i++) {
 			for (int j = 0; j < name[i].length; j++) {
 				if (name[i][j] != null) {
-					s.append("\n  name[" + i + "][" + j + "]: " + name[i][j]);
+					s.append("\n  name[").append(i).append("][").append(j).append("]: ")
+							.append(name[i][j]);
 				}
 			}
 		}

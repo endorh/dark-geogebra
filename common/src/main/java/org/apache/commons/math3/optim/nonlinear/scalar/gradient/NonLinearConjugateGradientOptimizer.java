@@ -299,21 +299,19 @@ public class NonLinearConjugateGradientOptimizer
             }
 
             final double beta;
-            switch (updateFormula) {
-            case FLETCHER_REEVES:
-                beta = delta / deltaOld;
-                break;
-            case POLAK_RIBIERE:
-                double deltaMid = 0;
-                for (int i = 0; i < r.length; ++i) {
-                    deltaMid += r[i] * steepestDescent[i];
-                }
-                beta = (delta - deltaMid) / deltaOld;
-                break;
-            default:
-                // Should never happen.
-                throw new MathInternalError();
-            }
+	        switch (updateFormula) {
+	        case FLETCHER_REEVES -> beta = delta / deltaOld;
+	        case POLAK_RIBIERE -> {
+		        double deltaMid = 0;
+		        for (int i = 0; i < r.length; ++i) {
+			        deltaMid += r[i] * steepestDescent[i];
+		        }
+		        beta = (delta - deltaMid) / deltaOld;
+	        }
+	        default ->
+		        // Should never happen.
+			        throw new MathInternalError();
+	        }
             steepestDescent = newSteepestDescent;
 
             // Compute conjugate search direction.

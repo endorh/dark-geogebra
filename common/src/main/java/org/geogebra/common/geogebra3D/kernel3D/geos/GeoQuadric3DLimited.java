@@ -582,8 +582,7 @@ public class GeoQuadric3DLimited extends GeoQuadricND
 
 	@Override
 	public void set(GeoElementND geo) {
-		if (geo instanceof GeoQuadric3DLimited) {
-			GeoQuadric3DLimited quadric = (GeoQuadric3DLimited) geo;
+		if (geo instanceof GeoQuadric3DLimited quadric) {
 
 			bottomParameter = quadric.bottomParameter;
 			topParameter = quadric.topParameter;

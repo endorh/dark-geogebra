@@ -407,7 +407,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 				objList.add(geo.getLabelSimple());
 			}
 		}
-		return objList.toArray(new String[objList.size()]);
+		return objList.toArray(new String[0]);
 	}
 
 	@Override
@@ -529,10 +529,9 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	public synchronized void setCorner(String objName, double x, double y,
 			int index) {
 		GeoElement geo = kernel.lookupLabel(objName);
-		if (!(geo instanceof AbsoluteScreenLocateable)) {
+		if (!(geo instanceof AbsoluteScreenLocateable loc)) {
 			return;
 		}
-		AbsoluteScreenLocateable loc = (AbsoluteScreenLocateable) geo;
 		if (loc.isAbsoluteScreenLocActive()) {
 			loc.setAbsoluteScreenLoc((int) Math.round(x), (int) Math.round(y));
 		} else if (geo instanceof Locateable) {
@@ -1591,8 +1590,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	public void setFont(String label, int size, boolean bold, boolean italic,
 			boolean serif) {
 		GeoElement geo = kernel.lookupLabel(label);
-		if (geo instanceof TextProperties) {
-			TextProperties text = (TextProperties) geo;
+		if (geo instanceof TextProperties text) {
 			text.setFontSizeMultiplier(size / (0.0
 					+ app.getSettings().getFontSettings().getAppFontSize()));
 			text.setFontStyle((bold ? GFont.BOLD : GFont.PLAIN)
@@ -1844,9 +1842,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	public void setDisplayStyle(String objName, String style) {
 		GeoElement geo = kernel.lookupLabel(objName);
 
-		if (geo instanceof GeoLine) {
-
-			GeoLine line = (GeoLine) geo;
+		if (geo instanceof GeoLine line) {
 
 			if ("parametric".equals(style)) {
 				line.setMode(GeoLine.PARAMETRIC);
@@ -1858,9 +1854,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 			geo.updateRepaint();
 
-		} else if (geo instanceof GeoConic) {
-
-			GeoConic conic = (GeoConic) geo;
+		} else if (geo instanceof GeoConic conic) {
 
 			if ("parametric".equals(style)) {
 				conic.setToStringMode(GeoConicND.EQUATION_PARAMETRIC);

@@ -1,6 +1,5 @@
 package org.geogebra.desktop.util;
 
-import java.util.Iterator;
 import java.util.Vector;
 
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -73,9 +72,7 @@ public class ProverD extends Prover {
 	}
 
 	private GeoElement getGeoByLabel(String label) {
-		Iterator<GeoElement> it = statement.getAllPredecessors().iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
+		for (GeoElement geo : statement.getAllPredecessors()) {
 			if (geo.getLabelSimple().equals(label)) {
 				return geo;
 			}

@@ -144,11 +144,10 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 
 	@Override
 	public void set(GeoElementND geo) {
-		if (!(geo instanceof GeoPolyLine)) {
+		if (!(geo instanceof GeoPolyLine poly)) {
 			Log.error("wrong class!");
 			return;
 		}
-		GeoPolyLine poly = (GeoPolyLine) geo;
 		length = poly.length;
 		defined = poly.defined;
 
@@ -491,24 +490,24 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 
 	@Override
 	public void rotate(NumberValue r) {
-		for (int i = 0; i < points.length; i++) {
-			points[i].rotate(r);
+		for (GeoPointND point : points) {
+			point.rotate(r);
 		}
 	}
 
 	@Override
 	public void rotate(NumberValue r, GeoPointND S) {
 		Coords sCoords = S.getInhomCoords();
-		for (int i = 0; i < points.length; i++) {
-			points[i].rotate(r, sCoords);
+		for (GeoPointND point : points) {
+			point.rotate(r, sCoords);
 		}
 	}
 
 	@Override
 	public void matrixTransform(double a00, double a01, double a10,
 			double a11) {
-		for (int i = 0; i < points.length; i++) {
-			((GeoPoint) points[i]).matrixTransform(a00, a01, a10, a11);
+		for (GeoPointND point : points) {
+			((GeoPoint) point).matrixTransform(a00, a01, a10, a11);
 		}
 		calcLength();
 
@@ -516,37 +515,37 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 
 	@Override
 	public void translate(Coords v) {
-		for (int i = 0; i < points.length; i++) {
-			points[i].translate(v);
+		for (GeoPointND point : points) {
+			point.translate(v);
 		}
 	}
 
 	@Override
 	public void dilate(NumberValue r, Coords S) {
-		for (int i = 0; i < points.length; i++) {
-			points[i].dilate(r, S);
+		for (GeoPointND point : points) {
+			point.dilate(r, S);
 		}
 		calcLength();
 	}
 
 	@Override
 	public void mirror(Coords Q) {
-		for (int i = 0; i < points.length; i++) {
-			points[i].mirror(Q);
+		for (GeoPointND point : points) {
+			point.mirror(Q);
 		}
 	}
 
 	@Override
 	public void mirror(GeoLineND g) {
-		for (int i = 0; i < points.length; i++) {
-			points[i].mirror(g);
+		for (GeoPointND point : points) {
+			point.mirror(g);
 		}
 	}
 
 	@Override
 	public boolean isAllVertexLabelsSet() {
-		for (int i = 0; i < points.length; i++) {
-			if (!points[i].isLabelSet()) {
+		for (GeoPointND point : points) {
+			if (!point.isLabelSet()) {
 				return false;
 			}
 		}
@@ -584,8 +583,8 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue,
 	@Override
 	public void matrixTransform(double a00, double a01, double a02, double a10,
 			double a11, double a12, double a20, double a21, double a22) {
-		for (int i = 0; i < points.length; i++) {
-			((GeoPoint) points[i]).matrixTransform(a00, a01, a02, a10, a11, a12,
+		for (GeoPointND point : points) {
+			((GeoPoint) point).matrixTransform(a00, a01, a02, a10, a11, a12,
 					a20, a21, a22);
 		}
 		calcLength();

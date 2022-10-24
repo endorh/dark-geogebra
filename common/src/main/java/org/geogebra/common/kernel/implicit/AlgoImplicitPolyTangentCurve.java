@@ -65,9 +65,8 @@ public class AlgoImplicitPolyTangentCurve extends AlgoElement implements
 		double y = point.getInhomY();
 
 		tangentPoly.setDefined();
-		if (poly instanceof GeoImplicitCurve
+		if (poly instanceof GeoImplicitCurve inputCurve
 				&& poly.getCoeff() == null) {
-			GeoImplicitCurve inputCurve = (GeoImplicitCurve) poly;
 			FunctionNVar f1 = inputCurve.getExpression();
 
 			FunctionVariable vx = f1.getFunctionVariables()[0];
@@ -162,10 +161,10 @@ public class AlgoImplicitPolyTangentCurve extends AlgoElement implements
 		if (pointOnPath) {
 			return;
 		}
-		for (int i = 0; i < ip.length; i++) {
+		for (GeoPoint geoPoint : ip) {
 
-			if (DoubleUtil.isEqual(ip[i].inhomX, point.getInhomX(), 1E-2)
-					&& DoubleUtil.isEqual(ip[i].inhomY, point.getInhomY(), 1E-2)) {
+			if (DoubleUtil.isEqual(geoPoint.inhomX, point.getInhomX(), 1E-2)
+					&& DoubleUtil.isEqual(geoPoint.inhomY, point.getInhomY(), 1E-2)) {
 				continue;
 			}
 
@@ -184,21 +183,21 @@ public class AlgoImplicitPolyTangentCurve extends AlgoElement implements
 			// TODO: have a more reasonable choice; also we use standard
 			// precision rather than working precision (might not be a problem)
 			if (DoubleUtil.isEqual(0,
-					this.poly.derivativeX(ip[i].inhomX, ip[i].inhomY),
+					this.poly.derivativeX(geoPoint.inhomX, geoPoint.inhomY),
 					Kernel.STANDARD_PRECISION_SQRT)
 					&& DoubleUtil.isEqual(0,
-							this.poly.derivativeY(ip[i].inhomX, ip[i].inhomY),
-							Kernel.STANDARD_PRECISION_SQRT)) {
+					this.poly.derivativeY(geoPoint.inhomX, geoPoint.inhomY),
+					Kernel.STANDARD_PRECISION_SQRT)) {
 				continue;
 			}
 
 			tangents.adjustOutputSize(n + 1);
 			tangents.getElement(n).setCoords(
-					ip[i].getY() - this.point.getInhomY(),
-					this.point.getInhomX() - ip[i].getX(),
-					ip[i].getX() * this.point.getInhomY()
-							- this.point.getInhomX() * ip[i].getY());
-			ip[i].addIncidence(tangents.getElement(n), false);
+					geoPoint.getY() - this.point.getInhomY(),
+					this.point.getInhomX() - geoPoint.getX(),
+					geoPoint.getX() * this.point.getInhomY()
+							- this.point.getInhomX() * geoPoint.getY());
+			geoPoint.addIncidence(tangents.getElement(n), false);
 			n++;
 		}
 

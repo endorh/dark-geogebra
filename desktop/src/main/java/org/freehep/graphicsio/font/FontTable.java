@@ -30,11 +30,12 @@ public abstract class FontTable {
 
 		private Entry(Font f, CharTable encoding) {
 			// get attributes of font for the stored default font
-			Map/* <TextAttribute,?> */ attributes = f.getAttributes();
+			Map<TextAttribute, Object> attributes =
+					(Map<TextAttribute, Object>) f.getAttributes();
 
 			// set default font size
 			attributes.put(TextAttribute.SIZE,
-					new Float(FontEmbedder.FONT_SIZE));
+					(float) FontEmbedder.FONT_SIZE);
 
 			// remove font transformations
 			attributes.remove(TextAttribute.TRANSFORM);
@@ -77,10 +78,10 @@ public abstract class FontTable {
 		}
 	}
 
-	private Hashtable table;
+	private Hashtable<String, Entry> table;
 
 	public FontTable() {
-		this.table = new Hashtable();
+		this.table = new Hashtable<>();
 	}
 
 	/**
@@ -113,7 +114,7 @@ public abstract class FontTable {
 		// look for stored font
 		font = substituteFont(font);
 		String key = getKey(font);
-		Entry e = (Entry) table.get(key);
+		Entry e = table.get(key);
 
 		// create new one
 		if (e == null) {
@@ -138,9 +139,9 @@ public abstract class FontTable {
 	 * @return something like Helvetica[BOLD:1][ITALIC:0][UNDERLINE:1]
 	 */
 	private static String getKey(Font font) {
-		Map/* <TextAttribute,?> */ attributes = font.getAttributes();
+		Map<TextAttribute, ?> attributes = font.getAttributes();
 
-		StringBuffer result = new StringBuffer(font.getName());
+		StringBuilder result = new StringBuilder(font.getName());
 
 		// bold
 		result.append("[WEIGHT:");
@@ -183,7 +184,9 @@ public abstract class FontTable {
 	 *
 	 * @param attributes
 	 */
-	public static void normalize(Map/* <TextAttribute,?> */ attributes) {
+	public static void normalize(Map<TextAttribute, ?>  attributes) {
+		Map<TextAttribute, Object> attrib = (Map<TextAttribute, Object>) attributes;
+
 		// get name
 		String family = (String) attributes.get(TextAttribute.FAMILY);
 
@@ -191,13 +194,12 @@ public abstract class FontTable {
 		// and ".italic". We have to convert this to an
 		// attribute first
 		if (family.toLowerCase().endsWith(".bold")) {
-			attributes.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
+			attrib.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
 			// cut the ".bold"
 			int pos = family.toLowerCase().indexOf(".bold");
 			family = family.substring(0, pos);
 		} else if (family.toLowerCase().endsWith(".italic")) {
-			attributes.put(TextAttribute.POSTURE,
-					TextAttribute.POSTURE_OBLIQUE);
+			attrib.put(TextAttribute.POSTURE, TextAttribute.POSTURE_OBLIQUE);
 			// cut the ".italic"
 			int pos = family.toLowerCase().indexOf(".bold");
 			family = family.substring(0, pos);
@@ -209,24 +211,24 @@ public abstract class FontTable {
 
 		// first character up
 		family = family.substring(0, 1).toUpperCase()
-				+ family.substring(1, family.length());
-		attributes.put(TextAttribute.FAMILY, family);
+				+ family.substring(1);
+		attrib.put(TextAttribute.FAMILY, family);
 	}
 
 	/**
 	 * Returns a Collection view of all fonts. The elements of the collection
 	 * are <tt>Entrie</tt>s.
 	 */
-	public Collection getEntries() {
+	public Collection<Entry> getEntries() {
 		return table.values();
 	}
 
 	private CharTable getEncodingTable(Font font) {
 		String fontname = font.getName().toLowerCase();
-		if (fontname.indexOf("symbol") >= 0) {
+		if (fontname.contains("symbol")) {
 			return Lookup.getInstance().getTable("Symbol");
 		}
-		if (fontname.indexOf("zapfdingbats") >= 0) {
+		if (fontname.contains("zapfdingbats")) {
 			return Lookup.getInstance().getTable("Zapfdingbats");
 		}
 		return getEncodingTable();

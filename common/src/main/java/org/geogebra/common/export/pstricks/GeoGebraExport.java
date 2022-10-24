@@ -268,15 +268,11 @@ public abstract class GeoGebraExport {
 		if (exp > 0) {
 			int id_point = number.indexOf(".");
 			if (id_point == -1) {
-				for (int i = 0; i < exp; i++) {
-					number.append("0");
-				}
+				number.append("0".repeat(exp));
 			} else {
 				number.deleteCharAt(id_point);
 				int zeros = exp - (number.length() - id_point);
-				for (int i = 0; i < zeros; i++) {
-					number.append("0");
-				}
+				number.append("0".repeat(Math.max(0, zeros)));
 			}
 		} else {
 			exp = -exp;
@@ -306,9 +302,9 @@ public abstract class GeoGebraExport {
 		final String suff = "qrstuvwxyzabcdef";
 		int[] nb = { red, green, blue };
 		StringBuilder sb = new StringBuilder();
-		for (int i = 0; i < nb.length; i++) {
-			int quot = nb[i] / 16;
-			int reste = nb[i] % 16;
+		for (int j : nb) {
+			int quot = j / 16;
+			int reste = j % 16;
 			sb.append(suff.charAt(quot));
 			sb.append(suff.charAt(reste));
 		}
@@ -414,8 +410,7 @@ public abstract class GeoGebraExport {
 			} else if (g instanceof GeoVector) {
 				drawGeoVector((GeoVector) g);
 				drawLabel(g, null);
-			} else if (g instanceof GeoConicPart) {
-				GeoConicPart geo = (GeoConicPart) g;
+			} else if (g instanceof GeoConicPart geo) {
 				drawGeoConicPart(geo);
 				if (geo.getConicPartType() == GeoConicNDConstants.CONIC_PART_ARC
 						|| geo.getConicPartType() == GeoConicNDConstants.CONIC_PART_SECTOR) {
@@ -479,13 +474,10 @@ public abstract class GeoGebraExport {
 
 	protected void drawBarChartOrHistogram(GeoNumeric g) {
 
-		if (g.getParentAlgorithm() instanceof AlgoFunctionAreaSums) {
-			AlgoFunctionAreaSums algo = (AlgoFunctionAreaSums) g
-					.getParentAlgorithm();
+		if (g.getParentAlgorithm() instanceof AlgoFunctionAreaSums algo) {
 			drawHistogramOrBarChartBox(algo.getValues(), algo.getLeftBorder(),
 					algo.getValues().length - 1, 0, g);
-		} else if (g.getParentAlgorithm() instanceof AlgoBarChart) {
-			AlgoBarChart algo = (AlgoBarChart) g.getParentAlgorithm();
+		} else if (g.getParentAlgorithm() instanceof AlgoBarChart algo) {
 			drawHistogramOrBarChartBox(algo.getValues(), algo.getLeftBorder(),
 					algo.getValues().length, algo.getWidth(), g);
 
@@ -993,10 +985,10 @@ public abstract class GeoGebraExport {
 		double arrowlength = 1.5;
 		double vx, vy, factor, x1, x2, y1, y2;
 		switch (deco) {
-		default:
-			// do nothing
-			break;
-		case GeoElementND.DECORATION_SEGMENT_ONE_TICK:
+		default -> {
+		}
+		// do nothing
+		case GeoElementND.DECORATION_SEGMENT_ONE_TICK -> {
 			factor = tickLength / nLength;
 			nx *= factor / xunit;
 			ny *= factor / yunit;
@@ -1005,8 +997,8 @@ public abstract class GeoGebraExport {
 			x2 = euclidianView.toRealWorldCoordX(midX + nx);
 			y2 = euclidianView.toRealWorldCoordY(midY + ny);
 			drawLine(x1, y1, x2, y2, geo);
-			break;
-		case GeoElementND.DECORATION_SEGMENT_TWO_TICKS:
+		}
+		case GeoElementND.DECORATION_SEGMENT_TWO_TICKS -> {
 			// vector (vx, vy) to get 2 points around midpoint
 			factor = tickSpacing / (2 * nLength);
 			vx = -ny * factor;
@@ -1025,8 +1017,8 @@ public abstract class GeoGebraExport {
 			y1 = euclidianView.toRealWorldCoordY(midY - vy - ny);
 			y2 = euclidianView.toRealWorldCoordY(midY - vy + ny);
 			drawLine(x1, y1, x2, y2, geo);
-			break;
-		case GeoElementND.DECORATION_SEGMENT_THREE_TICKS:
+		}
+		case GeoElementND.DECORATION_SEGMENT_THREE_TICKS -> {
 			// vector (vx, vy) to get 2 points around midpoint
 			factor = tickSpacing / nLength;
 			vx = -ny * factor;
@@ -1050,8 +1042,8 @@ public abstract class GeoGebraExport {
 			y1 = euclidianView.toRealWorldCoordY(midY - vy - ny);
 			y2 = euclidianView.toRealWorldCoordY(midY - vy + ny);
 			drawLine(x1, y1, x2, y2, geo);
-			break;
-		case GeoElementND.DECORATION_SEGMENT_ONE_ARROW:
+		}
+		case GeoElementND.DECORATION_SEGMENT_ONE_ARROW -> {
 			// vector (vx, vy) to get 2 points around midpoint
 			factor = tickSpacing / nLength;
 			vx = -ny * factor;
@@ -1074,8 +1066,8 @@ public abstract class GeoGebraExport {
 			y2 = euclidianView.toRealWorldCoordY(
 					midY - arrowlength * vy + arrowlength * (-ny + vy));
 			drawLine(x1, y1, x2, y2, geo);
-			break;
-		case GeoElementND.DECORATION_SEGMENT_TWO_ARROWS:
+		}
+		case GeoElementND.DECORATION_SEGMENT_TWO_ARROWS -> {
 			// vector (vx, vy) to get 2 points around midpoint
 			factor = tickSpacing / nLength;
 			vx = -ny * factor;
@@ -1098,7 +1090,6 @@ public abstract class GeoGebraExport {
 			y2 = euclidianView.toRealWorldCoordY(
 					midY - 2 * arrowlength * vy + arrowlength * (-ny + vy));
 			drawLine(x1, y1, x2, y2, geo);
-
 			x1 = euclidianView.toRealWorldCoordX(midX);
 			y1 = euclidianView.toRealWorldCoordY(midY);
 			x2 = euclidianView
@@ -1113,8 +1104,8 @@ public abstract class GeoGebraExport {
 			y2 = euclidianView
 					.toRealWorldCoordY(midY + arrowlength * (-ny + vy));
 			drawLine(x1, y1, x2, y2, geo);
-			break;
-		case GeoElementND.DECORATION_SEGMENT_THREE_ARROWS:
+		}
+		case GeoElementND.DECORATION_SEGMENT_THREE_ARROWS -> {
 			// vector (vx, vy) to get 2 points around midpoint
 			factor = tickSpacing / nLength;
 			vx = -ny * factor;
@@ -1137,7 +1128,6 @@ public abstract class GeoGebraExport {
 			y2 = euclidianView.toRealWorldCoordY(
 					midY - arrowlength * vy + arrowlength * (-ny + vy));
 			drawLine(x1, y1, x2, y2, geo);
-
 			x1 = euclidianView.toRealWorldCoordX(midX + arrowlength * vx);
 			y1 = euclidianView.toRealWorldCoordY(midY + arrowlength * vy);
 			x2 = euclidianView.toRealWorldCoordX(
@@ -1152,7 +1142,6 @@ public abstract class GeoGebraExport {
 			y2 = euclidianView.toRealWorldCoordY(
 					midY + arrowlength * vy + arrowlength * (-ny + vy));
 			drawLine(x1, y1, x2, y2, geo);
-
 			x1 = euclidianView.toRealWorldCoordX(midX - 3 * arrowlength * vx);
 			y1 = euclidianView.toRealWorldCoordY(midY - 3 * arrowlength * vy);
 			x2 = euclidianView.toRealWorldCoordX(
@@ -1167,7 +1156,7 @@ public abstract class GeoGebraExport {
 			y2 = euclidianView.toRealWorldCoordY(
 					midY - 3 * arrowlength * vy + arrowlength * (-ny + vy));
 			drawLine(x1, y1, x2, y2, geo);
-			break;
+		}
 		}
 	}
 
@@ -1268,8 +1257,8 @@ public abstract class GeoGebraExport {
 			}
 			GeoElementND[] geos = construction.getConstructionElement(step)
 					.getGeoElements();
-			for (int j = 0; j < geos.length; j++) {
-				GeoElement g = geos[j].toGeoElement();
+			for (GeoElementND geo : geos) {
+				GeoElement g = geo.toGeoElement();
 				drawGeoElement(g, false, false);
 			}
 		}
@@ -1288,8 +1277,8 @@ public abstract class GeoGebraExport {
 			}
 			GeoElementND[] geos = construction.getConstructionElement(step)
 					.getGeoElements();
-			for (int j = 0; j < geos.length; j++) {
-				GeoElement g = geos[j].toGeoElement();
+			for (GeoElementND geo : geos) {
+				GeoElement g = geo.toGeoElement();
 				if (g.isIndependent()) {
 					drawGeoElement(g, false, false);
 				}
@@ -1300,7 +1289,7 @@ public abstract class GeoGebraExport {
 
 	protected void startBeamer(StringBuilder sb) {
 		if (isBeamer) {
-			sb.append("\\onslide<" + beamerSlideNumber + "->{\n  ");
+			sb.append("\\onslide<").append(beamerSlideNumber).append("->{\n  ");
 		}
 	}
 
@@ -1497,7 +1486,7 @@ public abstract class GeoGebraExport {
 		String lowerExp = s.toLowerCase();
 		return !lowerExp.contains("erf(")
 				&& !lowerExp.contains("gamma(")
-				&& !lowerExp.contains("gammaRegularized(")
+				&& !lowerExp.contains("gammaregularized(")
 				&& !lowerExp.contains("cbrt(")
 				&& !lowerExp.contains("csc(")
 				&& !lowerExp.contains("csch(")
@@ -1525,7 +1514,7 @@ public abstract class GeoGebraExport {
 		}
 		if (packages.length() != 0) {
 			packages.delete(packages.length() - 1, packages.length());
-			codePreamble.append("\\usepackage{" + packages.toString() + "}\n");
+			codePreamble.append("\\usepackage{").append(packages.toString()).append("}\n");
 		}
 	}
 
@@ -1630,8 +1619,8 @@ public abstract class GeoGebraExport {
 				}
 				boolean fill = fillSpline(curves);
 				if (!fill) {
-					for (int i = 0; i < curves.length; i++) {
-						drawSingleCurveCartesian(curves[i], true);
+					for (GeoCurveCartesian geoCurveCartesian : curves) {
+						drawSingleCurveCartesian(geoCurveCartesian, true);
 					}
 				}
 			} else {

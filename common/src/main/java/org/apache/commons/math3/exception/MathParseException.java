@@ -40,7 +40,7 @@ public class MathParseException extends MathIllegalStateException
                               int position,
                               Class<?> type) {
         getContext().addMessage(LocalizedFormats.CANNOT_PARSE_AS_TYPE,
-                                wrong, Integer.valueOf(position), type.getName());
+                                wrong, position, type.getName());
     }
 
     /**
@@ -51,6 +51,6 @@ public class MathParseException extends MathIllegalStateException
     public MathParseException(String wrong,
                               int position) {
         getContext().addMessage(LocalizedFormats.CANNOT_PARSE,
-                                wrong, Integer.valueOf(position));
+                                wrong, position);
     }
 }

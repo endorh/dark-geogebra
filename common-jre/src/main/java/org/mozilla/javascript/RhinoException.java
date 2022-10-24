@@ -237,15 +237,9 @@ public abstract class RhinoException extends RuntimeException
 
         for (ScriptStackElement elem : stack) {
             switch (stackStyle) {
-            case MOZILLA:
-                elem.renderMozillaStyle(buffer);
-                break;
-            case V8:
-                elem.renderV8Style(buffer);
-                break;
-            case RHINO:
-                elem.renderJavaStyle(buffer);
-                break;
+            case MOZILLA -> elem.renderMozillaStyle(buffer);
+            case V8 -> elem.renderV8Style(buffer);
+            case RHINO -> elem.renderJavaStyle(buffer);
             }
             buffer.append(lineSeparator);
         }
@@ -293,7 +287,7 @@ public abstract class RhinoException extends RuntimeException
      * @since 1.8.0
      */
     public ScriptStackElement[] getScriptStack(int limit, String hideFunction) {
-        List<ScriptStackElement> list = new ArrayList<ScriptStackElement>();
+        List<ScriptStackElement> list = new ArrayList<>();
         ScriptStackElement[][] interpreterStack = null;
         if (interpreterStackInfo != null) {
             Evaluator interpreter = Context.createInterpreter();
@@ -344,7 +338,7 @@ public abstract class RhinoException extends RuntimeException
                 }
             }
         }
-        return list.toArray(new ScriptStackElement[list.size()]);
+        return list.toArray(new ScriptStackElement[0]);
     }
 
 

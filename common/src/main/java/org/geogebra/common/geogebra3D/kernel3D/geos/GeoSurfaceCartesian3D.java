@@ -236,8 +236,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND
 	@Override
 	public void set(GeoElementND geo) {
 		super.set(geo);
-		if (geo instanceof GeoSurfaceCartesian3D) {
-			GeoSurfaceCartesian3D geoSurface = (GeoSurfaceCartesian3D) geo;
+		if (geo instanceof GeoSurfaceCartesian3D geoSurface) {
 			isSurfaceOfRevolutionAroundOx = geoSurface.isSurfaceOfRevolutionAroundOx;
 		}
 	}

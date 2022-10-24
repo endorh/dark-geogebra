@@ -75,18 +75,15 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 	private FunctionVariable invFV;
 	private ExpressionNode invert;
 
-	private static final Inspecting containsLog = new Inspecting() {
-		@Override
-		public boolean check(ExpressionValue v) {
-			if (v instanceof ExpressionNode) {
-				Operation op = ((ExpressionNode) v).getOperation();
+	private static final Inspecting containsLog = v -> {
+		if (v instanceof ExpressionNode) {
+			Operation op = ((ExpressionNode) v).getOperation();
 
-				return op == Operation.LOG || op == Operation.LOG2
-						|| op == Operation.LOG10 || op == Operation.LOGB;
-			}
-
-			return false;
+			return op == Operation.LOG || op == Operation.LOG2
+					|| op == Operation.LOG10 || op == Operation.LOGB;
 		}
+
+		return false;
 	};
 
 	/**
@@ -374,23 +371,18 @@ public class DrawParametricCurve extends Drawable implements RemoveNeeded {
 	}
 
 	private Inspecting checkPointwise() {
-		return new Inspecting() {
+		return v -> {
+			if (v.isExpressionNode() && ((ExpressionNode) v)
+					.getOperation() == Operation.DATA) {
 
-			@Override
-			public boolean check(ExpressionValue v) {
-				if (v.isExpressionNode() && ((ExpressionNode) v)
-						.getOperation() == Operation.DATA) {
-
-					return updateDataExpression((ExpressionNode) v);
-				}
-				return false;
+				return updateDataExpression((ExpressionNode) v);
 			}
+			return false;
 		};
 	}
 
 	private boolean canInvert(ExpressionValue ev) {
-		if (ev instanceof ExpressionNode) {
-			ExpressionNode en = (ExpressionNode) ev;
+		if (ev instanceof ExpressionNode en) {
 			Operation op = en.getOperation();
 
 			if (op != Operation.LOG && op != Operation.LOG2

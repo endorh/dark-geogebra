@@ -107,14 +107,11 @@ class WindowMenuD extends BaseMenu {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Thread runner = new Thread() {
-					@Override
-					public void run() {
-						app.setWaitCursor();
-						app.createNewWindow();
-						app.setDefaultCursor();
-					}
-				};
+				Thread runner = new Thread(() -> {
+					app.setWaitCursor();
+					app.createNewWindow();
+					app.setDefaultCursor();
+				});
 				runner.start();
 			}
 		};

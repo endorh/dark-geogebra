@@ -689,8 +689,8 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	public double getFreqMax() {
 
 		freqMax = 0.0;
-		for (int k = 0; k < yval.length; ++k) {
-			freqMax = Math.max(yval[k], freqMax);
+		for (double v : yval) {
+			freqMax = Math.max(v, freqMax);
 		}
 		return freqMax;
 	}
@@ -847,25 +847,17 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 		isAreaSum = true;
 
 		switch (type) {
-
-		default:
-			// do nothing
-			break;
-		case TYPE_BARCHART_FREQUENCY_TABLE:
-		case TYPE_BARCHART_FREQUENCY_TABLE_WIDTH:
-			computeWithFrequency();
-			break;
-
-		case TYPE_STICKGRAPH:
-		case TYPE_STEPGRAPH:
-
+		default -> {
+		}
+		// do nothing
+		case TYPE_BARCHART_FREQUENCY_TABLE, TYPE_BARCHART_FREQUENCY_TABLE_WIDTH ->
+				computeWithFrequency();
+		case TYPE_STICKGRAPH, TYPE_STEPGRAPH -> {
 			isAreaSum = false;
-
 			if (list1 == null || !list1.isDefined()) {
 				sum.setUndefined();
 				return;
 			}
-
 			if (list1.getGeoElementForPropertiesDialog().isGeoPoint()) {
 				computeFromPointList(list1);
 			} else {
@@ -876,30 +868,17 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 				barWidth = 0.0;
 				computeFromValueFrequencyLists(list1, list2);
 			}
-			break;
-
-		case TYPE_BARCHART_EXPRESSION:
-			computeWithExp();
-			break;
-
-		case TYPE_BARCHART_RAWDATA:
-			computeWithRawData();
-			break;
-
-		case TYPE_BARCHART_BINOMIAL:
-		case TYPE_BARCHART_POISSON:
-		case TYPE_BARCHART_HYPERGEOMETRIC:
-		case TYPE_BARCHART_PASCAL:
-		case TYPE_BARCHART_ZIPF:
-
+		}
+		case TYPE_BARCHART_EXPRESSION -> computeWithExp();
+		case TYPE_BARCHART_RAWDATA -> computeWithRawData();
+		case TYPE_BARCHART_BINOMIAL, TYPE_BARCHART_POISSON, TYPE_BARCHART_HYPERGEOMETRIC, TYPE_BARCHART_PASCAL, TYPE_BARCHART_ZIPF -> {
 			if (!prepareDistributionLists()) {
 				sum.setUndefined();
 				return;
 			}
 			barWidth = -1;
 			computeWithFrequency();
-			break;
-
+		}
 		}
 	}
 
@@ -1263,28 +1242,25 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency
 	@Override
 	public DrawInformationAlgo copy() {
 		int N1 = this.getIntervals();
-		switch (this.getType()) {
-		case TYPE_BARCHART_EXPRESSION:
-			return new AlgoBarChart(cons,
+		return switch (this.getType()) {
+			case TYPE_BARCHART_EXPRESSION -> new AlgoBarChart(cons,
 					(GeoNumberValue) getA().deepCopy(kernel),
 					(GeoNumberValue) getB().deepCopy(kernel),
 					Cloner.clone(getValues()), Cloner.clone(getLeftBorder()),
 					N1);
-		case TYPE_BARCHART_FREQUENCY_TABLE:
-			return new AlgoBarChart(kernel.getConstruction(),
+			case TYPE_BARCHART_FREQUENCY_TABLE -> new AlgoBarChart(kernel.getConstruction(),
 					Cloner.clone(getValues()), Cloner.clone(getLeftBorder()),
 					N1);
-		case TYPE_BARCHART_FREQUENCY_TABLE_WIDTH:
-			return new AlgoBarChart(cons,
+			case TYPE_BARCHART_FREQUENCY_TABLE_WIDTH -> new AlgoBarChart(cons,
 					(GeoNumberValue) getA().deepCopy(kernel),
 					Cloner.clone(getValues()), Cloner.clone(getLeftBorder()),
 					N1);
-		default: // TYPE_BARCHART_RAWDATA
-			return new AlgoBarChart(cons,
-					(GeoNumberValue) widthGeo.deepCopy(kernel),
-					Cloner.clone(getValues()), Cloner.clone(getLeftBorder()),
-					N1);
-		}
+			default -> // TYPE_BARCHART_RAWDATA
+					new AlgoBarChart(cons,
+							(GeoNumberValue) widthGeo.deepCopy(kernel),
+							Cloner.clone(getValues()), Cloner.clone(getLeftBorder()),
+							N1);
+		};
 	}
 
 	@Override

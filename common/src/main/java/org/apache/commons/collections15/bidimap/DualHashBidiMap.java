@@ -45,7 +45,7 @@ public class DualHashBidiMap<K, V> extends AbstractDualBidiMap<K, V> {
 	 * Creates an empty <code>HashBidiMap</code>.
 	 */
 	public DualHashBidiMap() {
-		super(new HashMap<K, V>(), new HashMap<V, K>());
+		super(new HashMap<>(), new HashMap<>());
 	}
 
 	/**
@@ -56,7 +56,7 @@ public class DualHashBidiMap<K, V> extends AbstractDualBidiMap<K, V> {
 	 *            the map whose mappings are to be placed in this map
 	 */
 	public DualHashBidiMap(Map<K, V> map) {
-		super(new HashMap<K, V>(), new HashMap<V, K>());
+		super(new HashMap<>(), new HashMap<>());
 		putAll(map);
 	}
 
@@ -89,7 +89,7 @@ public class DualHashBidiMap<K, V> extends AbstractDualBidiMap<K, V> {
 	@Override
 	protected BidiMap<V, K> createBidiMap(Map<V, K> normalMap,
 			Map<K, V> reverseMap, BidiMap<K, V> inverseBidiMap) {
-		return new DualHashBidiMap<V, K>(normalMap, reverseMap, inverseBidiMap);
+		return new DualHashBidiMap<>(normalMap, reverseMap, inverseBidiMap);
 	}
 
 }

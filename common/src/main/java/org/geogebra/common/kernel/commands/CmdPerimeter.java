@@ -31,20 +31,20 @@ public class CmdPerimeter extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
+		case 1 -> {
 			// Perimeter[ <GeoPolygon> ]
 			arg = resArgs(c);
 			if (arg[0].isGeoPolygon()) {
 
-				GeoElement[] ret = { getAlgoDispatcher().perimeter(c.getLabel(),
-						(GeoPolygon) arg[0]) };
+				GeoElement[] ret = {getAlgoDispatcher().perimeter(c.getLabel(),
+						(GeoPolygon) arg[0])};
 				return ret;
 
 				// Perimeter[ <Conic> ]
 			} else if (arg[0].isGeoConic()) {
 
-				GeoElement[] ret = { getAlgoDispatcher()
-						.circumference(c.getLabel(), (GeoConicND) arg[0]) };
+				GeoElement[] ret = {getAlgoDispatcher()
+						.circumference(c.getLabel(), (GeoConicND) arg[0])};
 				return ret;
 
 			} else if (arg[0].isGeoLocus()) {
@@ -53,15 +53,14 @@ public class CmdPerimeter extends CommandProcessor {
 				AlgoPerimeterLocus algo = new AlgoPerimeterLocus(cons,
 						(GeoLocusNDInterface) arg[0]);
 				algo.getResult().setLabel(c.getLabel());
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 				return ret;
 
 			} else {
 				throw argErr(c, arg[0]);
 			}
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

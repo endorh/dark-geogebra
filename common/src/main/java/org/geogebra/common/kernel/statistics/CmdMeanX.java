@@ -27,17 +27,16 @@ public class CmdMeanX extends CmdOneOrTwoListsFunction {
 		GeoElement[] arg;
 		arg = resArgs(c);
 		switch (n) {
-		case 1:
+		case 1 -> {
 			arg = resArgs(c);
 			if (arg[0].isGeoList()) {
 				GeoElement[] ret = {
-						doCommand(c.getLabel(), (GeoList) arg[0]) };
+						doCommand(c.getLabel(), (GeoList) arg[0])};
 				return ret;
 			}
 			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

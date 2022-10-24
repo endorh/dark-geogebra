@@ -97,9 +97,7 @@ public class CmdSetCoords extends CmdScripting {
 			return true;
 		}
 
-		if (geo instanceof AbsoluteScreenLocateable) {
-
-			AbsoluteScreenLocateable asl = (AbsoluteScreenLocateable) geo;
+		if (geo instanceof AbsoluteScreenLocateable asl) {
 
 			if (asl.isAbsoluteScreenLocActive()) {
 				asl.setAbsoluteScreenLoc((int) x, (int) y);

@@ -112,7 +112,7 @@ public class XMLWriter implements XMLTagWriter {
 	public void closeDoc() {
 		if (!closed) {
 			if (!openTags.isEmpty()) {
-				StringBuffer sb = new StringBuffer(
+				StringBuilder sb = new StringBuilder(
 						"Not all tags were closed before closing XML document:\n");
 				while (!openTags.isEmpty()) {
 					sb.append("   </");
@@ -131,7 +131,7 @@ public class XMLWriter implements XMLTagWriter {
 	 */
 	@Override
 	public void printComment(String comment) {
-		if (comment.indexOf("--") >= 0) {
+		if (comment.contains("--")) {
 			throw new RuntimeException("'--' sequence not allowed in comment");
 		}
 		writer.print("<!--");
@@ -432,36 +432,35 @@ public class XMLWriter implements XMLTagWriter {
 
 	/** Normalizes the given string for an Attribute value */
 	public static String normalize(String s) {
-		StringBuffer str = new StringBuffer();
+		StringBuilder str = new StringBuilder();
 
 		int len = (s != null) ? s.length() : 0;
 		for (int i = 0; i < len; i++) {
 			char ch = s.charAt(i);
 			switch (ch) {
-			case '<': {
+			case '<' -> {
 				str.append("&lt;");
 				break;
 			}
-			case '>': {
+			case '>' -> {
 				str.append("&gt;");
 				break;
 			}
-			case '&': {
+			case '&' -> {
 				str.append("&amp;");
 				break;
 			}
-			case '"': {
+			case '"' -> {
 				str.append("&quot;");
 				break;
 			}
-			case '\r':
-			case '\n': {
+			case '\r', '\n' -> {
 				str.append("&#");
 				str.append(Integer.toString(ch));
 				str.append(';');
 				break;
 			}
-			default: {
+			default -> {
 				if (ch > 0x00FF) {
 					String hex = "0000" + Integer.toHexString(ch);
 					str.append("&#x");
@@ -480,25 +479,25 @@ public class XMLWriter implements XMLTagWriter {
 
 	/** Normalizes the given string for Text */
 	public static String normalizeText(String s) {
-		StringBuffer str = new StringBuffer();
+		StringBuilder str = new StringBuilder();
 
 		int len = (s != null) ? s.length() : 0;
 		for (int i = 0; i < len; i++) {
 			char ch = s.charAt(i);
 			switch (ch) {
-			case '<': {
+			case '<' -> {
 				str.append("&lt;");
 				break;
 			}
-			case '>': {
+			case '>' -> {
 				str.append("&gt;");
 				break;
 			}
-			case '&': {
+			case '&' -> {
 				str.append("&amp;");
 				break;
 			}
-			default: {
+			default -> {
 				if (ch > 0x007f) {
 					String hex = "0000" + Integer.toHexString(ch);
 					str.append("&#x");

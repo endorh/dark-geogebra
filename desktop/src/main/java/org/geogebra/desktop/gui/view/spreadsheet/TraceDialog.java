@@ -477,19 +477,12 @@ public class TraceDialog extends Dialog
 		sb.setLength(0);
 		sb.append("<html>");
 		switch (traceModes) {
-		default:
-		case ONE_VALUE_OR_COPY:
-		case ONE_VALUE_ONLY:
-			sb.append(app.getLocalization().getPlain("ValueOfA",
-					geo.getTraceDialogAsValues()));
-			break;
-		case SEVERAL_VALUES_OR_COPY:
-		case SEVERAL_VALUES_ONLY:
-		case ONLY_COPY: // button disabled
-			sb.append(app.getLocalization().getPlain("ValuesOfA",
-					geo.getTraceDialogAsValues()));
-			break;
-
+		case ONE_VALUE_OR_COPY, ONE_VALUE_ONLY ->
+				sb.append(app.getLocalization().getPlain("ValueOfA",
+						geo.getTraceDialogAsValues()));
+		case SEVERAL_VALUES_OR_COPY, SEVERAL_VALUES_ONLY, ONLY_COPY -> // button disabled
+				sb.append(app.getLocalization().getPlain("ValuesOfA",
+						geo.getTraceDialogAsValues()));
 		}
 
 		sb.append("</html>");
@@ -530,11 +523,10 @@ public class TraceDialog extends Dialog
 
 		updateTraceGeoList();
 		switch (mode) {
-
-		default:
-			// do nothing
-			break;
-		case MODE_ADD:
+		default -> {
+		}
+		// do nothing
+		case MODE_ADD -> {
 
 			// promptPanel.setVisible(true);
 			btCancel.setVisible(true);
@@ -547,20 +539,15 @@ public class TraceDialog extends Dialog
 
 			// tabbedPane.setEnabled(false);
 			view.getSpreadsheetTable().selectionChanged();
-
 			getContentPane().remove(splitPane);
 			getContentPane().add(promptPanel, BorderLayout.CENTER);
-
 			Dimension size = splitPane.getPreferredSize();
 			size.height = promptPanel.getPreferredSize().height;
 			promptPanel.setPreferredSize(size);
-
 			pack();
 			repaint();
-
-			break;
-
-		case MODE_NORMAL:
+		}
+		case MODE_NORMAL -> {
 
 			// splitPane.setVisible(true);
 			// promptPanel.setVisible(false);
@@ -572,12 +559,10 @@ public class TraceDialog extends Dialog
 			// tabbedPane.setEnabled(true);
 
 			view.getSpreadsheetTable().selectionChanged();
-
 			getContentPane().remove(promptPanel);
 			getContentPane().add(splitPane, BorderLayout.CENTER);
 			pack();
 			repaint();
-
 			if (!traceGeoList.isSelectionEmpty()) {
 
 				// update checkboxes
@@ -623,10 +608,8 @@ public class TraceDialog extends Dialog
 				setTraceModeLabels();
 
 			}
-
 			view.repaintView();
-
-			break;
+		}
 		}
 
 	}
@@ -729,7 +712,7 @@ public class TraceDialog extends Dialog
 	private void doTextFieldActionPerformed(JTextField source) {
 
 		try {
-			Integer value = Integer.parseInt(source.getText());
+			int value = Integer.parseInt(source.getText());
 
 			if (value > 0
 					&& value < app.getMaxSpreadsheetRowsVisible()) {

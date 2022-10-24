@@ -395,8 +395,8 @@ public class GeoImage extends GeoElement implements Locateable,
 	 */
 	private void updateHasAbsoluteLocation() {
 		hasChangeableLocation = true;
-		for (int i = 0; i < corners.length; i++) {
-			if (!(corners[i] == null || corners[i].isAbsoluteStartPoint())) {
+		for (GeoPoint corner : corners) {
+			if (!(corner == null || corner.isAbsoluteStartPoint())) {
 				hasChangeableLocation = false;
 				return;
 			}
@@ -414,10 +414,10 @@ public class GeoImage extends GeoElement implements Locateable,
 		}
 
 		super.doRemove();
-		for (int i = 0; i < corners.length; i++) {
+		for (GeoPoint corner : corners) {
 			// tell corner
-			if (corners[i] != null) {
-				corners[i].getLocateableList().unregisterLocateable(this);
+			if (corner != null) {
+				corner.getLocateableList().unregisterLocateable(this);
 			}
 		}
 	}
@@ -818,31 +818,25 @@ public class GeoImage extends GeoElement implements Locateable,
 		}
 
 		switch (n) {
-		case 1: // get A
-			result.setCoords(getCornerAx(), getCornerAy(), 1);
-			break;
-
-		case 2: // get B
+		case 1 -> // get A
+				result.setCoords(getCornerAx(), getCornerAy(), 1);
+		case 2 -> { // get B
 			getInternalCornerPointCoords(tempCoords, 1);
 			result.setCoords(tempCoords[0], tempCoords[1], 1.0);
-			break;
-
-		case 3: // get C
+		}
+		case 3 -> { // get C
 			double[] b = new double[2];
 			double[] d = new double[2];
 			getInternalCornerPointCoords(b, 1);
 			getInternalCornerPointCoords(d, 2);
 			result.setCoords(d[0] + b[0] - getCornerAx(),
 					d[1] + b[1] - getCornerAy(), 1.0);
-			break;
-
-		case 4: // get D
+		}
+		case 4 -> { // get D
 			getInternalCornerPointCoords(tempCoords, 2);
 			result.setCoords(tempCoords[0], tempCoords[1], 1.0);
-			break;
-
-		default:
-			result.setUndefined();
+		}
+		default -> result.setUndefined();
 		}
 	}
 

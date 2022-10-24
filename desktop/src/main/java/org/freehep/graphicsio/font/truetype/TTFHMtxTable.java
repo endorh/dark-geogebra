@@ -40,23 +40,24 @@ public class TTFHMtxTable extends TTFTable {
 
 	@Override
 	public String toString() {
-		String str = super.toString();
-		str += "\n  hMetrics[" + advanceWidth.length + "] = {";
+		StringBuilder str = new StringBuilder(super.toString());
+		str.append("\n  hMetrics[").append(advanceWidth.length).append("] = {");
 		for (int i = 0; i < advanceWidth.length; i++) {
 			if (i % 8 == 0) {
-				str += "\n    ";
+				str.append("\n    ");
 			}
-			str += "(" + advanceWidth[i] + "," + leftSideBearing[i] + ") ";
+			str.append("(").append(advanceWidth[i]).append(",").append(leftSideBearing[i])
+					.append(") ");
 		}
-		str += "\n  }";
-		str += "\n  lsb[" + leftSideBearing2.length + "] = {";
+		str.append("\n  }");
+		str.append("\n  lsb[").append(leftSideBearing2.length).append("] = {");
 		for (int i = 0; i < leftSideBearing2.length; i++) {
 			if (i % 16 == 0) {
-				str += "\n    ";
+				str.append("\n    ");
 			}
-			str += leftSideBearing2[i] + " ";
+			str.append(leftSideBearing2[i]).append(" ");
 		}
-		str += "\n  }";
-		return str;
+		str.append("\n  }");
+		return str.toString();
 	}
 }

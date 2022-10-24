@@ -211,9 +211,9 @@ public class DrawLocus extends Drawable {
 		 * coordinates is minimal.
 		 */
 		int plSize = pointList.size();
-		for (int i = 0; i < plSize; ++i) {
-			double px = pointList.get(i).x;
-			double py = pointList.get(i).y;
+		for (MyPoint myPoint : pointList) {
+			double px = myPoint.x;
+			double py = myPoint.y;
 			if (px + py < labelPosition[0] + labelPosition[1]) {
 				labelPosition[0] = px;
 				labelPosition[1] = py;

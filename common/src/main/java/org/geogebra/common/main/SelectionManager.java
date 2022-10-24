@@ -142,8 +142,7 @@ public class SelectionManager {
 		}
 		clearSelectedGeos(false);
 		if (geos != null) {
-			for (int i = 0; i < geos.size(); i++) {
-				GeoElement geo = geos.get(i);
+			for (GeoElement geo : geos) {
 				addSelectedGeo(geo, false, false);
 			}
 		}
@@ -367,10 +366,7 @@ public class SelectionManager {
 	final public void selectAll(int layer) {
 		clearSelectedGeos(false);
 
-		Iterator<GeoElement> it = kernel.getConstruction().getGeoSetLabelOrder()
-				.iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
+		for (GeoElement geo : kernel.getConstruction().getGeoSetLabelOrder()) {
 			if ((layer == -1) || (geo.getLayer() == layer)) {
 				addSelectedGeo(geo, false, false);
 			}
@@ -384,10 +380,7 @@ public class SelectionManager {
 	 */
 	final public void invertSelection() {
 
-		Iterator<GeoElement> it = kernel.getConstruction().getGeoSetLabelOrder()
-				.iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
+		for (GeoElement geo : kernel.getConstruction().getGeoSetLabelOrder()) {
 			if (selectedGeos.contains(geo)) {
 				removeSelectedGeo(geo, false, false);
 			} else {
@@ -403,12 +396,10 @@ public class SelectionManager {
 	 */
 	final public void selectAllPredecessors() {
 
-		for (int i = 0; i < selectedGeos.size(); i++) {
-			GeoElement geo = selectedGeos.get(i);
+		for (GeoElement geo : selectedGeos) {
 			TreeSet<GeoElement> tree = geo.getAllPredecessors();
-			Iterator<GeoElement> it2 = tree.iterator();
-			while (it2.hasNext()) {
-				geo = it2.next();
+			for (GeoElement geoElement : tree) {
+				geo = geoElement;
 				if (geo.isLabelSet()) {
 					addSelectedGeo(geo, false, false);
 				}
@@ -423,12 +414,10 @@ public class SelectionManager {
 	 */
 	final public boolean hasPredecessors() {
 
-		for (int i = 0; i < selectedGeos.size(); i++) {
-			GeoElement geo = selectedGeos.get(i);
+		for (GeoElement geo : selectedGeos) {
 			TreeSet<GeoElement> tree = geo.getAllPredecessors();
-			Iterator<GeoElement> it2 = tree.iterator();
-			while (it2.hasNext()) {
-				geo = it2.next();
+			for (GeoElement geoElement : tree) {
+				geo = geoElement;
 				if (geo.isLabelSet()) {
 					return true;
 				}
@@ -442,12 +431,10 @@ public class SelectionManager {
 	 */
 	final public void selectAllDescendants() {
 
-		for (int i = 0; i < selectedGeos.size(); i++) {
-			GeoElement geo = selectedGeos.get(i);
+		for (GeoElement geo : selectedGeos) {
 			TreeSet<GeoElement> tree = geo.getAllChildren();
-			Iterator<GeoElement> it2 = tree.iterator();
-			while (it2.hasNext()) {
-				geo = it2.next();
+			for (GeoElement geoElement : tree) {
+				geo = geoElement;
 				if (geo.isLabelSet()) {
 					addSelectedGeo(geo, false, false);
 				}
@@ -462,12 +449,10 @@ public class SelectionManager {
 	 */
 	final public boolean hasDescendants() {
 
-		for (int i = 0; i < selectedGeos.size(); i++) {
-			GeoElement geo = selectedGeos.get(i);
+		for (GeoElement geo : selectedGeos) {
 			TreeSet<GeoElement> tree = geo.getAllChildren();
-			Iterator<GeoElement> it2 = tree.iterator();
-			while (it2.hasNext()) {
-				geo = it2.next();
+			for (GeoElement geoElement : tree) {
+				geo = geoElement;
 				if (geo.isLabelSet()) {
 					return true;
 				}
@@ -486,8 +471,7 @@ public class SelectionManager {
 		// in order to prevent them being tackled twice, and this way
 		// negating the negative, doing nothing and other complications
 
-		for (int i = 0; i < selectedGeos.size(); i++) {
-			GeoElement geo = selectedGeos.get(i);
+		for (GeoElement geo : selectedGeos) {
 			if (!geo.isGeoPolygon() && !geo.isGeoPolyhedron()
 					&& !geo.isGeoPolyLine()
 					&& geo.getGeoClassType() != GeoClass.QUADRIC_LIMITED
@@ -497,8 +481,7 @@ public class SelectionManager {
 			}
 		}
 
-		for (int i = 0; i < selectedGeos.size(); i++) {
-			GeoElement geo = selectedGeos.get(i);
+		for (GeoElement geo : selectedGeos) {
 			if (geo.isGeoPolygon() || geo.isGeoPolyLine()
 					|| geo.getGeoClassType() == GeoClass.QUADRIC_LIMITED) {
 				geo.setEuclidianVisible(!geo.isEuclidianVisible());
@@ -506,8 +489,7 @@ public class SelectionManager {
 			}
 		}
 
-		for (int i = 0; i < selectedGeos.size(); i++) {
-			GeoElement geo = selectedGeos.get(i);
+		for (GeoElement geo : selectedGeos) {
 			if (geo.isGeoPolyhedron()
 					|| geo.getGeoClassType() == GeoClass.NET) {
 				geo.setEuclidianVisible(!geo.isEuclidianVisible());
@@ -524,8 +506,7 @@ public class SelectionManager {
 	 */
 	final public void showHideSelectionLabels() {
 
-		for (int i = 0; i < selectedGeos.size(); i++) {
-			GeoElement geo = selectedGeos.get(i);
+		for (GeoElement geo : selectedGeos) {
 			geo.setLabelVisible(!geo.isLabelVisible());
 			geo.updateVisualStyle(GProperty.LABEL_STYLE);
 		}
@@ -626,9 +607,9 @@ public class SelectionManager {
 			boolean repaint) {
 
 		selectedGeos.addAll(geos);
-		for (int i = 0; i < geos.size(); i++) {
-			geos.get(i).setSelected(true);
-			dispatchSelected(geos.get(i));
+		for (GeoElement geo : geos) {
+			geo.setSelected(true);
+			dispatchSelected(geo);
 		}
 		if (repaint) {
 			kernel.notifyRepaint();

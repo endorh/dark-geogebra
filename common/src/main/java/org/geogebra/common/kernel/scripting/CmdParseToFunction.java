@@ -36,12 +36,13 @@ public class CmdParseToFunction extends CommandProcessor {
 		boolean ok;
 
 		switch (n) {
-		case 1:
+		case 1 -> {
 			if (arg[0].isGeoText()) {
 				return getParseAlgoResult((GeoText) arg[0], c, null);
 			}
 			throw argErr(arg[0], c);
-		case 2:
+		}
+		case 2 -> {
 			if (arg[0].isGeoText() && arg[1].isGeoList()) {
 				return getParseAlgoResult((GeoText) arg[0], c, (GeoList) arg[1]);
 			}
@@ -63,9 +64,9 @@ public class CmdParseToFunction extends CommandProcessor {
 				try {
 					GeoElement parsed = arg[0].isGeoFunction()
 							? kernel.getAlgebraProcessor()
-									.evaluateToFunction(str, true)
+							.evaluateToFunction(str, true)
 							: kernel.getAlgebraProcessor()
-									.evaluateToFunctionNVar(str, true, false);
+							.evaluateToFunctionNVar(str, true, false);
 					fun.set(parsed);
 					fun.updateCascade();
 				} catch (Exception e) {
@@ -81,9 +82,8 @@ public class CmdParseToFunction extends CommandProcessor {
 			} else {
 				throw argErr(c, arg[1]);
 			}
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

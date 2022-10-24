@@ -28,7 +28,7 @@ public class CmdRadius extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
+		case 1 -> {
 			arg = resArgs(c);
 
 			// asymptotes to conic
@@ -37,13 +37,12 @@ public class CmdRadius extends CommandProcessor {
 				AlgoRadius algo = new AlgoRadius(cons,
 						(GeoQuadricND) arg[0]);
 				algo.getRadius().setLabel(c.getLabel());
-				GeoElement[] ret = { algo.getRadius() };
+				GeoElement[] ret = {algo.getRadius()};
 				return ret;
 			}
 			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

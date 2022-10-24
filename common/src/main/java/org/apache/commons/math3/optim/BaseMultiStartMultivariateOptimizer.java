@@ -187,10 +187,11 @@ public abstract class BaseMultiStartMultivariateOptimizer<PAIR>
                         }
                         s = generator.nextVector();
                         for (int k = 0; s != null && k < s.length; ++k) {
-                            if ((min != null && s[k] < min[k]) || (max != null && s[k] > max[k])) {
-                                // reject the vector
-                                s = null;
-                            }
+	                        if ((min != null && s[k] < min[k]) || (max != null && s[k] > max[k])) {
+		                        // reject the vector
+		                        s = null;
+		                        break;
+	                        }
                         }
                     }
                 }

@@ -67,12 +67,11 @@ public class GeoGebraServer {
 				JSONArray results = new JSONArray();
 				while (i < json.length()) {
 					Object testVal = json.opt(i);
-					if (!(testVal instanceof JSONObject)) {
+					if (!(testVal instanceof JSONObject test)) {
 						Log.debug("Invalid JSON:" + testVal);
 						i++;
 						continue;
 					}
-					JSONObject test = (JSONObject) testVal;
 					String cmd = test.get("cmd").toString();
 					String args = test.get("args").toString();
 					Log.debug("cmd = " + cmd);

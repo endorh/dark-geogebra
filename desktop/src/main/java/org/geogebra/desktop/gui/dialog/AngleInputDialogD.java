@@ -21,7 +21,6 @@ import javax.swing.JRadioButton;
 
 import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.gui.view.algebra.DialogType;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -87,14 +86,7 @@ public class AngleInputDialogD extends InputDialogD {
 				}
 
 				getInputHandler().processInput(inputText, this,
-						new AsyncOperation<Boolean>() {
-
-							@Override
-							public void callback(Boolean ok) {
-								setVisible(!ok);
-
-							}
-						});
+						ok -> setVisible(!ok));
 			} else if (source == btCancel) {
 
 				setVisible(false);

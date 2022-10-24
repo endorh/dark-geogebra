@@ -282,36 +282,30 @@ public class AlgoCircleThreePoints extends AlgoElement
 		else {
 			// intersect two line bisectors according to casenr
 			switch (casenr) {
-			default:
-			case 0: // bisectors of AB, AC
+			case 0 -> { // bisectors of AB, AC
 				s0.x = ABx;
 				s0.y = ABy;
 				s0.z = -((ax + bx) * s0.x + (ay + by) * s0.y) / 2.0;
-
 				s1.x = ACx;
 				s1.y = ACy;
 				s1.z = -((ax + cx) * s1.x + (ay + cy) * s1.y) / 2.0;
-				break;
-
-			case 1: // bisectors of AC, BC
+			}
+			case 1 -> { // bisectors of AC, BC
 				s1.x = ACx;
 				s1.y = ACy;
 				s1.z = -((ax + cx) * s1.x + (ay + cy) * s1.y) / 2.0;
-
 				s0.x = BCx;
 				s0.y = BCy;
 				s0.z = -((bx + cx) * s0.x + (by + cy) * s0.y) / 2.0;
-				break;
-
-			case 2: // bisectors of AB, BC
+			}
+			case 2 -> { // bisectors of AB, BC
 				s0.x = ABx;
 				s0.y = ABy;
 				s0.z = -((ax + bx) * s0.x + (ay + by) * s0.y) / 2.0;
-
 				s1.x = BCx;
 				s1.y = BCy;
 				s1.z = -((bx + cx) * s1.x + (by + cy) * s1.y) / 2.0;
-				break;
+			}
 			}
 
 			// intersect line bisectors to get midpoint

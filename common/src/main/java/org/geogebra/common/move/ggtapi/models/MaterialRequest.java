@@ -177,22 +177,22 @@ public class MaterialRequest implements Request {
 			this.apiJSON.put("-api", MaterialRequest.api);
 			this.taskJSON.put("-type", this.task.toString());
 
-			for (int i = 0; i < this.fields.length; i++) {
+			for (Fields field : this.fields) {
 				JSONObject current = new JSONObject();
-				current.put("-name", this.fields[i].toString());
+				current.put("-name", field.toString());
 				this.fieldJSON.put(current);
 			}
 
 			this.fieldsJSON.put("field", this.fieldJSON);
 
-			for (int i = 0; i < this.filters.length; i++) {
+			for (Filters filter : this.filters) {
 				JSONObject current = new JSONObject();
-				current.put("-name", this.filters[i].toString());
-				if (this.negFilters.contains(filters[i])) {
+				current.put("-name", filter.toString());
+				if (this.negFilters.contains(filter)) {
 					current.put("-comp", "neq");
 				}
-				if (this.filterMap.get(this.filters[i]) != null) {
-					current.put("#text", this.filterMap.get(this.filters[i]));
+				if (this.filterMap.get(filter) != null) {
+					current.put("#text", this.filterMap.get(filter));
 				}
 
 				this.filterJSON.put(current);

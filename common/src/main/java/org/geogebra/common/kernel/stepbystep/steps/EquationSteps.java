@@ -18,7 +18,6 @@ import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.sin;
 import static org.geogebra.common.kernel.stepbystep.steptree.StepNode.subtract;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
@@ -633,12 +632,7 @@ enum EquationSteps implements SolveStepGenerator<StepEquation> {
 				}
 			}
 
-			Collections.sort(roots, new Comparator<StepExpression>() {
-				@Override
-				public int compare(StepExpression s1, StepExpression s2) {
-					return Double.compare(s1.getValue(), s2.getValue());
-				}
-			});
+			roots.sort(Comparator.comparingDouble(StepExpression::getValue));
 
 			roots.add(0, StepConstant.NEG_INF);
 			roots.add(StepConstant.POS_INF);
@@ -842,8 +836,7 @@ enum EquationSteps implements SolveStepGenerator<StepEquation> {
 				}
 			}
 
-			if (solution.getValue() instanceof StepExpression) {
-				StepExpression value = (StepExpression) solution.getValue();
+			if (solution.getValue() instanceof StepExpression value) {
 
 				if (tracker.getUndefinedPoints().contains(value)) {
 

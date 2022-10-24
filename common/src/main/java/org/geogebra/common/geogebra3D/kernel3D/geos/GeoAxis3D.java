@@ -50,24 +50,21 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 		this.type = type;
 
 		switch (type) {
-		default:
-		case X_AXIS_3D:
+		case X_AXIS_3D -> {
 			setCoord(Coords.O, Coords.VX);
 			label = "xAxis3D";
 			coloredColorFor3D = GColor.RED;
-			break;
-
-		case Y_AXIS_3D:
+		}
+		case Y_AXIS_3D -> {
 			setCoord(Coords.O, Coords.VY);
 			label = "yAxis3D";
 			coloredColorFor3D = GColor.DARK_GREEN;
-			break;
-
-		case Z_AXIS_3D:
+		}
+		case Z_AXIS_3D -> {
 			setCoord(Coords.O, Coords.VZ);
 			label = "zAxis";
 			coloredColorFor3D = GColor.BLUE;
-			break;
+		}
 		}
 
 		setLabelSet(true);

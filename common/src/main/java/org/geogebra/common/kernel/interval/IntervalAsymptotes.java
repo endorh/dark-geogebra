@@ -40,9 +40,7 @@ public class IntervalAsymptotes {
 		}
 		List<Interval> list = uniqueElements().collect(Collectors.toList());
 		Interval constValue = list.get(0).isWhole() ? list.get(1) : list.get(0);
-		samples.forEach(t -> {
-			t.set(t.x(), constValue);
-		});
+		samples.forEach(t -> t.set(t.x(), constValue));
 	}
 
 	private void handlePeaks() {
@@ -60,11 +58,11 @@ public class IntervalAsymptotes {
 	}
 
 	private boolean hasWholeValues() {
-		return samples.stream().filter(t -> t.y().isWhole()).count() != 0;
+		return samples.stream().anyMatch(t -> t.y().isWhole());
 	}
 
 	private Stream<Interval> uniqueElements() {
-		return samples.stream().map(t -> t.y()).distinct();
+		return samples.stream().map(IntervalTuple::y).distinct();
 	}
 
 	private boolean isPeak(int index) {

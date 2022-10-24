@@ -102,19 +102,15 @@ public class NativeDataView
         boolean littleEndian =
             (isArg(args, 1) && (bytes > 1) && ScriptRuntime.toBoolean(args[1]));
 
-        switch (bytes) {
-        case 1:
-            return (signed ? ByteIo.readInt8(arrayBuffer.buffer, offset) :
-                             ByteIo.readUint8(arrayBuffer.buffer, offset));
-        case 2:
-            return (signed ? ByteIo.readInt16(arrayBuffer.buffer, offset, littleEndian) :
-                             ByteIo.readUint16(arrayBuffer.buffer, offset, littleEndian));
-        case 4:
-            return (signed ? ByteIo.readInt32(arrayBuffer.buffer, offset, littleEndian) :
-                             ByteIo.readUint32(arrayBuffer.buffer, offset, littleEndian));
-        default:
-            throw new AssertionError();
-        }
+        return switch (bytes) {
+            case 1 -> (signed ? ByteIo.readInt8(arrayBuffer.buffer, offset) :
+                    ByteIo.readUint8(arrayBuffer.buffer, offset));
+            case 2 -> (signed ? ByteIo.readInt16(arrayBuffer.buffer, offset, littleEndian) :
+                    ByteIo.readUint16(arrayBuffer.buffer, offset, littleEndian));
+            case 4 -> (signed ? ByteIo.readInt32(arrayBuffer.buffer, offset, littleEndian) :
+                    ByteIo.readUint32(arrayBuffer.buffer, offset, littleEndian));
+            default -> throw new AssertionError();
+        };
     }
 
     private Object js_getFloat(int bytes, Object[] args)
@@ -127,14 +123,11 @@ public class NativeDataView
         boolean littleEndian =
             (isArg(args, 1) && (bytes > 1) && ScriptRuntime.toBoolean(args[1]));
 
-        switch (bytes) {
-        case 4:
-            return ByteIo.readFloat32(arrayBuffer.buffer, offset, littleEndian);
-        case 8:
-            return ByteIo.readFloat64(arrayBuffer.buffer, offset, littleEndian);
-        default:
-            throw new AssertionError();
-        }
+        return switch (bytes) {
+            case 4 -> ByteIo.readFloat32(arrayBuffer.buffer, offset, littleEndian);
+            case 8 -> ByteIo.readFloat64(arrayBuffer.buffer, offset, littleEndian);
+            default -> throw new AssertionError();
+        };
     }
 
     private void js_setInt(int bytes, boolean signed, Object[] args)
@@ -188,14 +181,9 @@ public class NativeDataView
         double val = ScriptRuntime.toNumber(args[1]);
 
         switch (bytes) {
-        case 4:
-            ByteIo.writeFloat32(arrayBuffer.buffer, offset, val, littleEndian);
-            break;
-        case 8:
-            ByteIo.writeFloat64(arrayBuffer.buffer, offset, val, littleEndian);
-            break;
-        default:
-            throw new AssertionError();
+        case 4 -> ByteIo.writeFloat32(arrayBuffer.buffer, offset, val, littleEndian);
+        case 8 -> ByteIo.writeFloat64(arrayBuffer.buffer, offset, val, littleEndian);
+        default -> throw new AssertionError();
         }
     }
 
@@ -211,9 +199,8 @@ public class NativeDataView
         int id = f.methodId();
         switch (id) {
         case Id_constructor:
-            if (isArg(args, 0) && (args[0] instanceof NativeArrayBuffer)) {
-                NativeArrayBuffer ab = (NativeArrayBuffer)args[0];
-                int off = isArg(args, 1) ? ScriptRuntime.toInt32(args[1]) : 0;
+            if (isArg(args, 0) && (args[0] instanceof NativeArrayBuffer ab)) {
+	            int off = isArg(args, 1) ? ScriptRuntime.toInt32(args[1]) : 0;
                 int len = isArg(args, 2) ? ScriptRuntime.toInt32(args[2]) : ab.getLength() - off;
                 return js_constructor(ab, off, len);
             } else {
@@ -269,24 +256,75 @@ public class NativeDataView
         String s;
         int arity;
         switch (id) {
-        case Id_constructor:    arity = 1; s = "constructor"; break;
-        case Id_getInt8:        arity = 1; s = "getInt8"; break;
-        case Id_getUint8:       arity = 1; s = "getUint8"; break;
-        case Id_getInt16:       arity = 1; s = "getInt16"; break;
-        case Id_getUint16:      arity = 1; s = "getUint16"; break;
-        case Id_getInt32:       arity = 1; s = "getInt32"; break;
-        case Id_getUint32:      arity = 1; s = "getUint32"; break;
-        case Id_getFloat32:     arity = 1; s = "getFloat32"; break;
-        case Id_getFloat64:     arity = 1; s = "getFloat64"; break;
-        case Id_setInt8:        arity = 2; s = "setInt8"; break;
-        case Id_setUint8:       arity = 2; s = "setUint8"; break;
-        case Id_setInt16:       arity = 2; s = "setInt16"; break;
-        case Id_setUint16:      arity = 2; s = "setUint16"; break;
-        case Id_setInt32:       arity = 2; s = "setInt32"; break;
-        case Id_setUint32:      arity = 2; s = "setUint32"; break;
-        case Id_setFloat32:     arity = 2; s = "setFloat32"; break;
-        case Id_setFloat64:     arity = 2; s = "setFloat64"; break;
-        default: throw new IllegalArgumentException(String.valueOf(id));
+        case Id_constructor -> {
+            arity = 1;
+            s = "constructor";
+        }
+        case Id_getInt8 -> {
+            arity = 1;
+            s = "getInt8";
+        }
+        case Id_getUint8 -> {
+            arity = 1;
+            s = "getUint8";
+        }
+        case Id_getInt16 -> {
+            arity = 1;
+            s = "getInt16";
+        }
+        case Id_getUint16 -> {
+            arity = 1;
+            s = "getUint16";
+        }
+        case Id_getInt32 -> {
+            arity = 1;
+            s = "getInt32";
+        }
+        case Id_getUint32 -> {
+            arity = 1;
+            s = "getUint32";
+        }
+        case Id_getFloat32 -> {
+            arity = 1;
+            s = "getFloat32";
+        }
+        case Id_getFloat64 -> {
+            arity = 1;
+            s = "getFloat64";
+        }
+        case Id_setInt8 -> {
+            arity = 2;
+            s = "setInt8";
+        }
+        case Id_setUint8 -> {
+            arity = 2;
+            s = "setUint8";
+        }
+        case Id_setInt16 -> {
+            arity = 2;
+            s = "setInt16";
+        }
+        case Id_setUint16 -> {
+            arity = 2;
+            s = "setUint16";
+        }
+        case Id_setInt32 -> {
+            arity = 2;
+            s = "setInt32";
+        }
+        case Id_setUint32 -> {
+            arity = 2;
+            s = "setUint32";
+        }
+        case Id_setFloat32 -> {
+            arity = 2;
+            s = "setFloat32";
+        }
+        case Id_setFloat64 -> {
+            arity = 2;
+            s = "setFloat64";
+        }
+        default -> throw new IllegalArgumentException(String.valueOf(id));
         }
         initPrototypeMethod(getClassName(), id, s, arity);
     }
@@ -299,53 +337,97 @@ public class NativeDataView
         int id;
 // #generated# Last update: 2014-12-08 17:26:24 PST
         L0: { id = 0; String X = null; int c;
-            L: switch (s.length()) {
-            case 7: c=s.charAt(0);
-                if (c=='g') { X="getInt8";id=Id_getInt8; }
-                else if (c=='s') { X="setInt8";id=Id_setInt8; }
-                break L;
-            case 8: c=s.charAt(6);
-                if (c=='1') {
-                    c=s.charAt(0);
-                    if (c=='g') { X="getInt16";id=Id_getInt16; }
-                    else if (c=='s') { X="setInt16";id=Id_setInt16; }
+            L:
+            switch (s.length()) {
+            case 7 -> {
+                c = s.charAt(0);
+                if (c == 'g') {
+                    X = "getInt8";
+                    id = Id_getInt8;
+                } else if (c == 's') {
+                    X = "setInt8";
+                    id = Id_setInt8;
                 }
-                else if (c=='3') {
-                    c=s.charAt(0);
-                    if (c=='g') { X="getInt32";id=Id_getInt32; }
-                    else if (c=='s') { X="setInt32";id=Id_setInt32; }
+            }
+            case 8 -> {
+                c = s.charAt(6);
+                if (c == '1') {
+                    c = s.charAt(0);
+                    if (c == 'g') {
+                        X = "getInt16";
+                        id = Id_getInt16;
+                    } else if (c == 's') {
+                        X = "setInt16";
+                        id = Id_setInt16;
+                    }
+                } else if (c == '3') {
+                    c = s.charAt(0);
+                    if (c == 'g') {
+                        X = "getInt32";
+                        id = Id_getInt32;
+                    } else if (c == 's') {
+                        X = "setInt32";
+                        id = Id_setInt32;
+                    }
+                } else if (c == 't') {
+                    c = s.charAt(0);
+                    if (c == 'g') {
+                        X = "getUint8";
+                        id = Id_getUint8;
+                    } else if (c == 's') {
+                        X = "setUint8";
+                        id = Id_setUint8;
+                    }
                 }
-                else if (c=='t') {
-                    c=s.charAt(0);
-                    if (c=='g') { X="getUint8";id=Id_getUint8; }
-                    else if (c=='s') { X="setUint8";id=Id_setUint8; }
+            }
+            case 9 -> {
+                c = s.charAt(0);
+                if (c == 'g') {
+                    c = s.charAt(8);
+                    if (c == '2') {
+                        X = "getUint32";
+                        id = Id_getUint32;
+                    } else if (c == '6') {
+                        X = "getUint16";
+                        id = Id_getUint16;
+                    }
+                } else if (c == 's') {
+                    c = s.charAt(8);
+                    if (c == '2') {
+                        X = "setUint32";
+                        id = Id_setUint32;
+                    } else if (c == '6') {
+                        X = "setUint16";
+                        id = Id_setUint16;
+                    }
                 }
-                break L;
-            case 9: c=s.charAt(0);
-                if (c=='g') {
-                    c=s.charAt(8);
-                    if (c=='2') { X="getUint32";id=Id_getUint32; }
-                    else if (c=='6') { X="getUint16";id=Id_getUint16; }
+            }
+            case 10 -> {
+                c = s.charAt(0);
+                if (c == 'g') {
+                    c = s.charAt(9);
+                    if (c == '2') {
+                        X = "getFloat32";
+                        id = Id_getFloat32;
+                    } else if (c == '4') {
+                        X = "getFloat64";
+                        id = Id_getFloat64;
+                    }
+                } else if (c == 's') {
+                    c = s.charAt(9);
+                    if (c == '2') {
+                        X = "setFloat32";
+                        id = Id_setFloat32;
+                    } else if (c == '4') {
+                        X = "setFloat64";
+                        id = Id_setFloat64;
+                    }
                 }
-                else if (c=='s') {
-                    c=s.charAt(8);
-                    if (c=='2') { X="setUint32";id=Id_setUint32; }
-                    else if (c=='6') { X="setUint16";id=Id_setUint16; }
-                }
-                break L;
-            case 10: c=s.charAt(0);
-                if (c=='g') {
-                    c=s.charAt(9);
-                    if (c=='2') { X="getFloat32";id=Id_getFloat32; }
-                    else if (c=='4') { X="getFloat64";id=Id_getFloat64; }
-                }
-                else if (c=='s') {
-                    c=s.charAt(9);
-                    if (c=='2') { X="setFloat32";id=Id_setFloat32; }
-                    else if (c=='4') { X="setFloat64";id=Id_setFloat64; }
-                }
-                break L;
-            case 11: X="constructor";id=Id_constructor; break L;
+            }
+            case 11 -> {
+                X = "constructor";
+                id = Id_constructor;
+            }
             }
             if (X!=null && X!=s && !X.equals(s)) id = 0;
             break L0;

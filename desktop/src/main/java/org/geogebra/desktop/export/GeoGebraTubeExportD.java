@@ -2,8 +2,6 @@ package org.geogebra.desktop.export;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -185,7 +183,7 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 					input = new BufferedReader(new InputStreamReader(
 							urlConn.getInputStream(), Charsets.getUtf8()));
 
-					StringBuffer output = new StringBuffer();
+					StringBuilder output = new StringBuilder();
 
 					String line;
 					while (null != ((line = input.readLine()))) {
@@ -236,7 +234,7 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 					BufferedReader errors = new BufferedReader(
 							new InputStreamReader(urlConn.getErrorStream(),
 									Charsets.getUtf8()));
-					StringBuffer errorBuffer = new StringBuffer();
+					StringBuilder errorBuffer = new StringBuilder();
 
 					String line;
 					while (null != ((line = errors.readLine()))) {
@@ -279,12 +277,7 @@ public class GeoGebraTubeExportD extends GeoGebraTubeExport {
 
 		// setup buttons
 		abortButton = new JButton(getLoc().getMenu("Close"));
-		abortButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				hideDialog();
-			}
-		});
+		abortButton.addActionListener(arg0 -> hideDialog());
 
 		JPanel buttonPanel = new JPanel(
 				new FlowLayout(FlowLayout.RIGHT, 10, 0));

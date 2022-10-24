@@ -167,7 +167,7 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 		list.clear();
 
 		if (!ExtendedBoolean.UNKNOWN.equals(result)) {
-			Boolean unreadable = false;
+			boolean unreadable = false;
 
 			if (proofresult == ProofResult.TRUE_NDG_UNREADABLE || proofresult == ProofResult.TRUE_ON_COMPONENTS) {
 				unreadable = true;
@@ -271,9 +271,8 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 					// For alphabetically ordering, we need a sorted set here:
 				}
 				// Copy the sorted list into the output:
-				Iterator<GeoText> it2 = sortedSet.iterator();
-				while (it2.hasNext()) {
-					ndgConditionsList.add(it2.next());
+				for (GeoText geoText : sortedSet) {
+					ndgConditionsList.add(geoText);
 				}
 
 				if (unreadable) {

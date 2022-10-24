@@ -156,20 +156,17 @@ public class AlgoVertexConic extends AlgoElement {
 	@Override
 	public final void compute() {
 		switch (c.type) {
-		case GeoConicNDConstants.CONIC_CIRCLE:
-		case GeoConicNDConstants.CONIC_ELLIPSE:
+		case GeoConicNDConstants.CONIC_CIRCLE, GeoConicNDConstants.CONIC_ELLIPSE -> {
 			temp1 = c.halfAxes[0] * eigenvec[0].getX();
 			temp2 = c.halfAxes[0] * eigenvec[0].getY();
 			setCoords(0, b.getX() - temp1, b.getY() - temp2);
 			setCoords(1, b.getX() + temp1, b.getY() + temp2);
-
 			temp1 = c.halfAxes[1] * eigenvec[1].getX();
 			temp2 = c.halfAxes[1] * eigenvec[1].getY();
 			setCoords(2, b.getX() - temp1, b.getY() - temp2);
 			setCoords(3, b.getX() + temp1, b.getY() + temp2);
-			break;
-
-		case GeoConicNDConstants.CONIC_HYPERBOLA:
+		}
+		case GeoConicNDConstants.CONIC_HYPERBOLA -> {
 			temp1 = c.halfAxes[0] * eigenvec[0].getX();
 			temp2 = c.halfAxes[0] * eigenvec[0].getY();
 			setCoords(0, b.getX() - temp1, b.getY() - temp2);
@@ -177,25 +174,22 @@ public class AlgoVertexConic extends AlgoElement {
 			// third and fourth vertex undefined
 			vertex[2].setUndefined();
 			vertex[3].setUndefined();
-			break;
-
-		case GeoConicNDConstants.CONIC_PARABOLA:
-		case GeoConicNDConstants.CONIC_PARALLEL_LINES:
-		case GeoConicNDConstants.CONIC_DOUBLE_LINE:
+		}
+		case GeoConicNDConstants.CONIC_PARABOLA, GeoConicNDConstants.CONIC_PARALLEL_LINES, GeoConicNDConstants.CONIC_DOUBLE_LINE -> {
 			setCoords(0, b.getX(), b.getY());
 
 			// other vertex undefined
 			vertex[1].setUndefined();
 			vertex[2].setUndefined();
 			vertex[3].setUndefined();
-			break;
-
-		default:
+		}
+		default -> {
 			// no vertex defined
 			vertex[0].setUndefined();
 			vertex[1].setUndefined();
 			vertex[2].setUndefined();
 			vertex[3].setUndefined();
+		}
 		}
 	}
 

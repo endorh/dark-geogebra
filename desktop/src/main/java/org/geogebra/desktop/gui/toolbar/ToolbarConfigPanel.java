@@ -17,7 +17,6 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.Vector;
 
 import javax.swing.Box;
@@ -274,17 +273,16 @@ public class ToolbarConfigPanel extends JPanel
 			boolean didInsert = false;
 			Integer[] tools = toolList.getSelectedValuesList()
 					.toArray(new Integer[0]);
-			for (int i = 0; i < tools.length; i++) {
+			for (Integer modeInt : tools) {
 				// check if too is already there
-				Integer modeInt = tools[i];
-				if (modeInt.intValue() > -1
-						&& containsTool(root, tools[i])) {
+				if (modeInt > -1
+						&& containsTool(root, modeInt)) {
 					continue;
 				}
 
 				DefaultMutableTreeNode newNode;
 				if (parentNode == root) {
-					if (modeInt.intValue() > -1) {
+					if (modeInt > -1) {
 						// parent is root: create new submenu
 						newNode = new DefaultMutableTreeNode();
 						newNode.add(new DefaultMutableTreeNode(modeInt));
@@ -300,7 +298,7 @@ public class ToolbarConfigPanel extends JPanel
 
 				// remove node from list of unused tools if the node is not a
 				// separator
-				if (modeInt.intValue() > -1) {
+				if (modeInt > -1) {
 					toolListModel.removeElement(modeInt);
 				}
 			}
@@ -349,10 +347,9 @@ public class ToolbarConfigPanel extends JPanel
 	}
 
 	private boolean containsTool(TreeNode node0, Integer mode) {
-		if (!(node0 instanceof DefaultMutableTreeNode)) {
+		if (!(node0 instanceof DefaultMutableTreeNode node)) {
 			return false;
 		}
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode) node0;
 
 		// compare modes
 		Object ob = node.getUserObject();
@@ -406,9 +403,7 @@ public class ToolbarConfigPanel extends JPanel
 														// separator in the
 														// tools list
 
-		for (Iterator<Integer> iter = allTools.iterator(); iter.hasNext();) {
-			Integer next = iter.next();
-
+		for (Integer next : allTools) {
 			if (!usedTools.contains(next)) {
 				toolListModel.addElement(next);
 			}
@@ -464,7 +459,7 @@ public class ToolbarConfigPanel extends JPanel
 			for (int j = 0; j < menu.getChildCount(); j++) {
 				DefaultMutableTreeNode node = (DefaultMutableTreeNode) menu
 						.getChildAt(j);
-				int mode = ((Integer) node.getUserObject()).intValue();
+				int mode = (Integer) node.getUserObject();
 
 				if (mode < 0) {
 					sb.append(", ");
@@ -506,21 +501,18 @@ public class ToolbarConfigPanel extends JPanel
 		} catch (Exception e) {
 			return new Vector<>();
 		}
-		for (int i = 0; i < defTools.size(); i++) {
-			ToolbarItem element = defTools.get(i);
-
+		for (ToolbarItem element : defTools) {
 			if (element.getMenu() != null) {
 				Vector<Integer> menu = element.getMenu();
-				for (int j = 0; j < menu.size(); j++) {
-					Integer modeInt = menu.get(j);
-					int mode = modeInt.intValue();
+				for (Integer modeInt : menu) {
+					int mode = modeInt;
 					if (mode != -1) {
 						vector.add(modeInt);
 					}
 				}
 			} else {
 				Integer modeInt = element.getMode();
-				int mode = modeInt.intValue();
+				int mode = modeInt;
 				if (mode != -1) {
 					vector.add(modeInt);
 				}
@@ -565,13 +557,12 @@ public class ToolbarConfigPanel extends JPanel
 			Vector<ToolbarItem> toolbarModes) {
 		DefaultMutableTreeNode node = new DefaultMutableTreeNode();
 
-		for (int i = 0; i < toolbarModes.size(); i++) {
-			ToolbarItem ob = toolbarModes.get(i);
+		for (ToolbarItem ob : toolbarModes) {
 			if (ob.getMenu() != null) {
 				Vector<Integer> menu = ob.getMenu();
 				DefaultMutableTreeNode sub = new DefaultMutableTreeNode();
-				for (int j = 0; j < menu.size(); j++) {
-					sub.add(new DefaultMutableTreeNode(menu.get(j)));
+				for (Integer integer : menu) {
+					sub.add(new DefaultMutableTreeNode(integer));
 				}
 				node.add(sub);
 			} else {

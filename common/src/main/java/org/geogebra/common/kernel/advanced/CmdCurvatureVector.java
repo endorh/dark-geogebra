@@ -39,7 +39,7 @@ public class CmdCurvatureVector extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2:
+		case 2 -> {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isRealValuedFunction()))) {
@@ -53,7 +53,7 @@ public class CmdCurvatureVector extends CommandProcessor {
 				AlgoCurvatureVectorCurve3D algo = new AlgoCurvatureVectorCurve3D(
 						cons, c.getLabel(), (GeoPointND) arg[0],
 						(GeoCurveCartesian3D) arg[1]);
-				GeoElement[] ret = { algo.getVector() };
+				GeoElement[] ret = {algo.getVector()};
 				return ret;
 			} else if ((ok[0] = (arg[0] instanceof GeoPoint3D))
 					&& (ok[1] = (arg[1] instanceof GeoConic3D))) {
@@ -62,7 +62,7 @@ public class CmdCurvatureVector extends CommandProcessor {
 						cons, (GeoPoint3D) arg[0],
 						(GeoConic3D) arg[1]);
 				algo.getVector().setLabel(c.getLabel());
-				GeoElement[] ret = { algo.getVector() };
+				GeoElement[] ret = {algo.getVector()};
 				return ret;
 			} else if ((ok[0] = (arg[0] instanceof GeoPoint))
 					&& (ok[1] = (arg[1].isGeoCurveCartesian()))) {
@@ -82,9 +82,8 @@ public class CmdCurvatureVector extends CommandProcessor {
 				throw argErr(c, arg[0]);
 			}
 			throw argErr(c, arg[1]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

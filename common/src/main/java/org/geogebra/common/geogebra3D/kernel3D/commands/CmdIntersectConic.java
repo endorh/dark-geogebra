@@ -30,14 +30,14 @@ public class CmdIntersectConic extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2:
+		case 2 -> {
 			arg = resArgs(c);
 
 			// between 2 quadrics
 			if ((ok[0] = (arg[0] instanceof GeoQuadric3D
 					|| arg[0] instanceof GeoQuadric3DLimited))
 					&& (ok[1] = (arg[1] instanceof GeoQuadric3D
-							|| arg[1] instanceof GeoQuadric3DLimited))) {
+					|| arg[1] instanceof GeoQuadric3DLimited))) {
 				GeoElement[] ret = kernel.getManager3D().intersectAsCircle(
 						c.getLabels(), (GeoQuadricND) arg[0],
 						(GeoQuadricND) arg[1]);
@@ -48,13 +48,11 @@ public class CmdIntersectConic extends CommandProcessor {
 			GeoElement ret = CmdIntersectPath3D.processQuadricPlane(kernel, c,
 					arg, ok);
 			if (ret != null) {
-				return new GeoElement[] { ret };
+				return new GeoElement[]{ret};
 			}
-
 			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

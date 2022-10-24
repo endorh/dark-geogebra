@@ -344,8 +344,8 @@ abstract public class ShapeElement extends RenderableElement {
 			layout.layout(shape);
 
 			ArrayList list = layout.getMarkerList();
-			for (int i = 0; i < list.size(); ++i) {
-				MarkerPos pos = (MarkerPos) list.get(i);
+			for (Object o : list) {
+				MarkerPos pos = (MarkerPos) o;
 
 				switch (pos.type) {
 				case Marker.MARKER_START:

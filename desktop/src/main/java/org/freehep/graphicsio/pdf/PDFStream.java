@@ -93,8 +93,8 @@ public class PDFStream extends PDFDictionary implements PDFConstants {
 	}
 
 	private void write(byte[] b) throws IOException {
-		for (int i = 0; i < b.length; i++) {
-			write(b[i]);
+		for (byte value : b) {
+			write(value);
 		}
 	}
 
@@ -119,17 +119,13 @@ public class PDFStream extends PDFDictionary implements PDFConstants {
 			os = new OutputStream[filters.length + 1];
 			os[os.length - 1] = s;
 			for (int i = os.length - 2; i >= 0; i--) {
-				if (filters[i].equals("ASCIIHex")) {
-					os[i] = new ASCIIHexOutputStream(os[i + 1]);
-				} else if (filters[i].equals("ASCII85")) {
-					os[i] = new ASCII85OutputStream(os[i + 1]);
-				} else if (filters[i].equals("Flate")) {
-					os[i] = new FlateOutputStream(os[i + 1]);
-				} else if (filters[i].equals("DCT")) {
-					os[i] = os[i + 1];
-				} else {
-					System.err.println(
-							"PDFWriter: unknown stream filter: " + filters[i]);
+				switch (filters[i]) {
+				case "ASCIIHex" -> os[i] = new ASCIIHexOutputStream(os[i + 1]);
+				case "ASCII85" -> os[i] = new ASCII85OutputStream(os[i + 1]);
+				case "Flate" -> os[i] = new FlateOutputStream(os[i + 1]);
+				case "DCT" -> os[i] = os[i + 1];
+				default -> System.err.println(
+						"PDFWriter: unknown stream filter: " + filters[i]);
 				}
 			}
 		} else {
@@ -152,8 +148,8 @@ public class PDFStream extends PDFDictionary implements PDFConstants {
 
 	private void write(String s) throws IOException {
 		byte[] b = s.getBytes("ISO-8859-1");
-		for (int i = 0; i < b.length; i++) {
-			write(b[i]);
+		for (byte value : b) {
+			write(value);
 		}
 	}
 
@@ -242,16 +238,16 @@ public class PDFStream extends PDFDictionary implements PDFConstants {
 
 	public void dash(int[] dash, double phase) throws IOException {
 		print("[");
-		for (int i = 0; i < dash.length; i++) {
-			print(" " + PDFUtil.fixedPrecision(dash[i]));
+		for (int j : dash) {
+			print(" " + PDFUtil.fixedPrecision(j));
 		}
 		println("] " + PDFUtil.fixedPrecision(phase) + " d");
 	}
 
 	public void dash(float[] dash, double phase) throws IOException {
 		print("[");
-		for (int i = 0; i < dash.length; i++) {
-			print(" " + PDFUtil.fixedPrecision(dash[i]));
+		for (float v : dash) {
+			print(" " + PDFUtil.fixedPrecision(v));
 		}
 		println("] " + PDFUtil.fixedPrecision(phase) + " d");
 	}
@@ -485,14 +481,13 @@ public class PDFStream extends PDFDictionary implements PDFConstants {
 
 	public void show(Object[] array) throws IOException {
 		print("[");
-		for (int i = 0; i < array.length; i++) {
-			Object object = array[i];
+		for (Object object : array) {
 			if (object instanceof String) {
 				print(" (" + PDFUtil.escape(object.toString()) + ")");
 			} else if (object instanceof Integer) {
-				print(" " + ((Integer) object).intValue());
+				print(" " + (Integer) object);
 			} else if (object instanceof Double) {
-				print(" " + ((Double) object).doubleValue());
+				print(" " + (Double) object);
 			} else {
 				System.err.println(
 						"PDFStream: input array of operator TJ may only contain objects of type 'String', 'Integer' or 'Double'");
@@ -530,23 +525,23 @@ public class PDFStream extends PDFDictionary implements PDFConstants {
 	}
 
 	public void colorSpace(double[] color) throws IOException {
-		for (int i = 0; i < color.length; i++) {
-			print(" " + color[i]);
+		for (double v : color) {
+			print(" " + v);
 		}
 		println(" scn");
 	}
 
 	public void colorSpaceStroke(double[] color) throws IOException {
-		for (int i = 0; i < color.length; i++) {
-			print(" " + color[i]);
+		for (double v : color) {
+			print(" " + v);
 		}
 		println(" SCN");
 	}
 
 	public void colorSpace(double[] color, PDFName name) throws IOException {
 		if (color != null) {
-			for (int i = 0; i < color.length; i++) {
-				print(PDFUtil.fixedPrecision(color[i]) + " ");
+			for (double v : color) {
+				print(PDFUtil.fixedPrecision(v) + " ");
 			}
 		}
 		println(name + " scn");
@@ -555,8 +550,8 @@ public class PDFStream extends PDFDictionary implements PDFConstants {
 	public void colorSpaceStroke(double[] color, PDFName name)
 			throws IOException {
 		if (color != null) {
-			for (int i = 0; i < color.length; i++) {
-				print(PDFUtil.fixedPrecision(color[i]) + " ");
+			for (double v : color) {
+				print(PDFUtil.fixedPrecision(v) + " ");
 			}
 		}
 		println(name + " SCN");
@@ -731,8 +726,8 @@ public class PDFStream extends PDFDictionary implements PDFConstants {
 
 	private void imageInfo(String key, Object[] array) throws IOException {
 		print("/" + key + " [");
-		for (int i = 0; i < array.length; i++) {
-			print(" " + array[i]);
+		for (Object o : array) {
+			print(" " + o);
 		}
 		println("]");
 	}

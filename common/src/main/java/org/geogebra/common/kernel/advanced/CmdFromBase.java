@@ -31,7 +31,7 @@ public class CmdFromBase extends CommandProcessor {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
-		case 2:
+		case 2 -> {
 			boolean oldMacroMode = cons.isSuppressLabelsActive();
 			EvalInfo argInfo = new EvalInfo(false);
 			// following part is very similar to normal resArgs,
@@ -41,7 +41,6 @@ public class CmdFromBase extends CommandProcessor {
 			// resolve arguments to get GeoElements
 			ExpressionNode[] argE = c.getArguments();
 			GeoElement[] arg = new GeoElement[2];
-
 			argE[1].resolveVariables(info.withLabels(false));
 			arg[1] = resArg(argE[1], argInfo)[0];
 			if (!(arg[1] instanceof GeoNumberValue)) {
@@ -57,17 +56,13 @@ public class CmdFromBase extends CommandProcessor {
 			if (!(arg[0] instanceof GeoText)) {
 				arg[0] = new GeoText(kernel.getConstruction(), str);
 			}
-
 			cons.setSuppressLabelCreation(oldMacroMode);
-
 			AlgoFromBase fromBase = new AlgoFromBase(cons, c.getLabel(),
 					(GeoText) arg[0], (GeoNumberValue) arg[1]);
-
-			GeoElement[] ret = { fromBase.getResult() };
+			GeoElement[] ret = {fromBase.getResult()};
 			return ret;
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

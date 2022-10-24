@@ -31,8 +31,7 @@ public class CmdRunClickScript extends CmdScripting {
 		GeoElement[] args;
 
 		switch (n) {
-
-		case 1:
+		case 1 -> {
 			args = resArgs(c);
 			if (args[0].getScript(EventType.CLICK) == null) {
 				return args;
@@ -43,9 +42,8 @@ public class CmdRunClickScript extends CmdScripting {
 				args[0].runClickScripts(null);
 			}
 			return args;
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 
 	}

@@ -102,16 +102,16 @@ public class FontUtilities {
 		STANDARD_CHAR_TABLES[0] = latinTable;
 
 		char[] chars = string.toCharArray();
-		String out = "";
+		StringBuilder out = new StringBuilder();
 		int lastTable = 0;
 
-		for (int i = 0; i < chars.length; i++) {
+		for (char aChar : chars) {
 
 			// find out suitable table and encoding of this character
 			// try last table first
 			int table = lastTable;
 			char encoding = (char) STANDARD_CHAR_TABLES[table]
-					.toEncoding(chars[i]);
+					.toEncoding(aChar);
 			// no success -> try all other tables
 			if (encoding == 0) {
 				table = -1;
@@ -119,7 +119,7 @@ public class FontUtilities {
 					table++;
 					if (table != lastTable) { // we already checked that
 						encoding = (char) STANDARD_CHAR_TABLES[table]
-								.toEncoding(chars[i]);
+								.toEncoding(aChar);
 					}
 				} while ((encoding == 0)
 						&& (table < STANDARD_CHAR_TABLES.length - 1));
@@ -128,16 +128,16 @@ public class FontUtilities {
 				table = lastTable;
 			}
 
-			if ((table != lastTable) && (!out.equals(""))) {
+			if ((table != lastTable) && (!out.toString().equals(""))) {
 				// if font changes, write the old font and string so far
-				device.showString(STANDARD_FONT[lastTable], out);
-				out = "";
+				device.showString(STANDARD_FONT[lastTable], out.toString());
+				out = new StringBuilder();
 			}
 			// append character to out
-			out += encoding;
+			out.append(encoding);
 			lastTable = table;
 		}
 
-		device.showString(STANDARD_FONT[lastTable], out);
+		device.showString(STANDARD_FONT[lastTable], out.toString());
 	}
 }

@@ -91,16 +91,11 @@ public class GeoConicPart3D extends GeoConic3D
 
 	@Override
 	public String getTypeString() {
-		switch (parameters.conicPartType) {
-		case CONIC_PART_ARC:
-			return "Arc";
-
-		case CONIC_PART_SECTOR:
-			return "Sector";
-
-		default:
-			return super.getTypeString();
-		}
+		return switch (parameters.conicPartType) {
+			case CONIC_PART_ARC -> "Arc";
+			case CONIC_PART_SECTOR -> "Sector";
+			default -> super.getTypeString();
+		};
 	}
 
 	@Override

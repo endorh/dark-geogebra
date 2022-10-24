@@ -46,7 +46,7 @@ public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 
 		// get the selected point style
 		pointStyle = value == null ? EuclidianStyleConstants.POINT_STYLE_DOT
-				: ((Integer) value).intValue();
+				: (Integer) value;
 
 		if (isSelected) {
 			setBackground(ThemeD.color(ColorKeys.OUTLINE_LIGHT));
@@ -71,54 +71,45 @@ public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 		getPath();
 
 		switch (pointStyle) {
-		case EuclidianStyleConstants.POINT_STYLE_PLUS:
-		case EuclidianStyleConstants.POINT_STYLE_CROSS:
+		case EuclidianStyleConstants.POINT_STYLE_PLUS, EuclidianStyleConstants.POINT_STYLE_CROSS -> {
 			// draw cross like: X or +
 			g2.setStroke(crossStrokes[pointSize]);
 			g2.draw(line1);
 			g2.draw(line2);
-			break;
-
-		case EuclidianStyleConstants.POINT_STYLE_EMPTY_DIAMOND:
+		}
+		case EuclidianStyleConstants.POINT_STYLE_EMPTY_DIAMOND -> {
 			// draw diamond
 			g2.setStroke(crossStrokes[pointSize]);
 			g2.draw(line1);
 			g2.draw(line2);
 			g2.draw(line3);
 			g2.draw(line4);
-			break;
-
-		case EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND:
-		case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH:
-		case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_SOUTH:
-		case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_EAST:
-		case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST:
+		}
+		case EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND, EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH, EuclidianStyleConstants.POINT_STYLE_TRIANGLE_SOUTH, EuclidianStyleConstants.POINT_STYLE_TRIANGLE_EAST, EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST -> {
 			// draw diamond
 			g2.setStroke(crossStrokes[pointSize]);
 			g2.draw(gp);
 			g2.fill(gp);
-			break;
-
-		case EuclidianStyleConstants.POINT_STYLE_CIRCLE:
+		}
+		case EuclidianStyleConstants.POINT_STYLE_CIRCLE -> {
 			// draw a circle
 			g2.setStroke(crossStrokes[pointSize]);
 			g2.draw(circle);
-			break;
-
-		case EuclidianStyleConstants.POINT_STYLE_NO_OUTLINE:
+		}
+		case EuclidianStyleConstants.POINT_STYLE_NO_OUTLINE -> {
 			// filled circle
 			g2.fill(circle);
 			g2.setStroke(borderStroke);
 			g2.draw(circle);
-			break;
-
-		default:
+		}
+		default -> {
 			// circle with gray middle
 			g2.setPaint(ThemeD.color(ColorKeys.OUTLINE_LIGHT));
 			g2.fill(circle);
 			g2.setPaint(ThemeD.color(ColorKeys.FOREGROUND));
 			g2.setStroke(borderStroke);
 			g2.draw(circle);
+		}
 		}
 	}
 

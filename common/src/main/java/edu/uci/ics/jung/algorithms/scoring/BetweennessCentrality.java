@@ -49,7 +49,7 @@ public class BetweennessCentrality<V, E>
 	@SuppressWarnings("unchecked")
 	public BetweennessCentrality(Graph<V, E> graph) {
 		initialize(graph);
-		computeBetweenness(new LinkedList<V>(), new ConstantTransformer(1));
+		computeBetweenness(new LinkedList<>(), new ConstantTransformer(1));
 	}
 
 	/**
@@ -77,15 +77,15 @@ public class BetweennessCentrality<V, E>
 		}
 
 		initialize(graph);
-		computeBetweenness(new MapBinaryHeap<V>(new BetweennessComparator()),
+		computeBetweenness(new MapBinaryHeap<>(new BetweennessComparator()),
 				edge_weights);
 	}
 
 	protected void initialize(Graph<V, E> graph) {
 		this.graph = graph;
-		this.vertex_scores = new HashMap<V, Double>();
-		this.edge_scores = new HashMap<E, Double>();
-		this.vertex_data = new HashMap<V, BetweennessData>();
+		this.vertex_scores = new HashMap<>();
+		this.edge_scores = new HashMap<>();
+		this.vertex_data = new HashMap<>();
 
 		for (V v : graph.getVertices()) {
 			this.vertex_scores.put(v, 0.0);
@@ -110,7 +110,7 @@ public class BetweennessCentrality<V, E>
 			vertex_data.get(v).numSPs = 1;
 			vertex_data.get(v).distance = 0;
 
-			Stack<V> stack = new Stack<V>();
+			Stack<V> stack = new Stack<>();
 			// Buffer<V> queue = new UnboundedFifoBuffer<V>();
 			// queue.add(v);
 			queue.offer(v);
@@ -214,11 +214,11 @@ public class BetweennessCentrality<V, E>
 					// double w_x_score = edge_scores.get(w_x).doubleValue();
 					// w_x_score += partialDependency;
 					// edge_scores.put(w_x, w_x_score);
-					double e_score = edge_scores.get(e).doubleValue();
+					double e_score = edge_scores.get(e);
 					edge_scores.put(e, e_score + partialDependency);
 				}
 				if (!x.equals(v)) {
-					double x_score = vertex_scores.get(x).doubleValue();
+					double x_score = vertex_scores.get(x);
 					x_score += vertex_data.get(x).dependency;
 					vertex_scores.put(x, x_score);
 				}
@@ -227,12 +227,12 @@ public class BetweennessCentrality<V, E>
 
 		if (graph instanceof UndirectedGraph) {
 			for (V v : graph.getVertices()) {
-				double v_score = vertex_scores.get(v).doubleValue();
+				double v_score = vertex_scores.get(v);
 				v_score /= 2.0;
 				vertex_scores.put(v, v_score);
 			}
 			for (E e : graph.getEdges()) {
-				double e_score = edge_scores.get(e).doubleValue();
+				double e_score = edge_scores.get(e);
 				e_score /= 2.0;
 				edge_scores.put(e, e_score);
 			}
@@ -323,7 +323,7 @@ public class BetweennessCentrality<V, E>
 			distance = -1;
 			numSPs = 0;
 			// predecessors = new ArrayList<V>();
-			incomingEdges = new ArrayList<E>();
+			incomingEdges = new ArrayList<>();
 			dependency = 0;
 		}
 

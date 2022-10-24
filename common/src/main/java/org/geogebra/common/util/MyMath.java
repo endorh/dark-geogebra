@@ -539,15 +539,12 @@ public final class MyMath {
 		// rr=BigInteger.valueOf((long)r);
 
 		// need a long-winded conversion in case n>10^18
-		Double nnn = new Double(n);
-		Double rrr = new Double(r);
-		nn = (new BigDecimal(nnn.toString())).toBigInteger();
-		rr = (new BigDecimal(rrr.toString())).toBigInteger();
+		nn = new BigDecimal(Double.toString(n)).toBigInteger();
+		rr = new BigDecimal(Double.toString(r)).toBigInteger();
 
 		while (dd.compareTo(rr) <= 0) {
 			ncr = ncr.multiply(nn);
-			ncr = ncr.divide(dd); // dd is guaranteed to divide exactly into ncr
-									// here
+			ncr = ncr.divide(dd); // dd is guaranteed to divide exactly into ncr here
 			nn = nn.subtract(BigInteger.ONE);
 			dd = dd.add(BigInteger.ONE);
 		}
@@ -570,9 +567,9 @@ public final class MyMath {
 	 */
 	public static double max(double[] data) {
 		double max = data[0];
-		for (int i = 0; i < data.length; i++) {
-			if (data[i] > max) {
-				max = data[i];
+		for (double datum : data) {
+			if (datum > max) {
+				max = datum;
 			}
 		}
 		return max;
@@ -585,9 +582,9 @@ public final class MyMath {
 	 */
 	public static double min(double[] data) {
 		double max = data[0];
-		for (int i = 0; i < data.length; i++) {
-			if (data[i] < max) {
-				max = data[i];
+		for (double datum : data) {
+			if (datum < max) {
+				max = datum;
 			}
 		}
 		return max;

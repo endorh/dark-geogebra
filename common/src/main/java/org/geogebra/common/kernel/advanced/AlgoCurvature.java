@@ -1,5 +1,7 @@
 package org.geogebra.common.kernel.advanced;
 
+import java.util.Objects;
+
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.algos.AlgoElement;
 import org.geogebra.common.kernel.commands.Commands;
@@ -36,12 +38,8 @@ public class AlgoCurvature extends AlgoElement {
 			GeoFunction f) {
 		this(cons, A, f);
 
-		if (label != null) {
-			K.setLabel(label);
-		} else {
-			// if we don't have a label we could try k
-			K.setLabel("k");
-		}
+		// if we don't have a label we could try k
+		K.setLabel(Objects.requireNonNullElse(label, "k"));
 	}
 
 	/**

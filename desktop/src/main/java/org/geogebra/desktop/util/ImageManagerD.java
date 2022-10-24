@@ -394,8 +394,7 @@ public class ImageManagerD extends ImageManager {
 	// This method returns true if the specified image has transparent pixels
 	public static boolean hasAlpha(Image image) {
 		// If buffered image, the color model is readily available
-		if (image instanceof BufferedImage) {
-			BufferedImage bimage = (BufferedImage) image;
+		if (image instanceof BufferedImage bimage) {
 			return bimage.getColorModel().hasAlpha();
 		}
 

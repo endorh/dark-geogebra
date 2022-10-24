@@ -136,7 +136,7 @@ public class DijkstraShortestPath<V, E> extends DijkstraDistance<V, E>
 					+ target + " is not part of graph " + g);
 		}
 
-		Set<V> targets = new HashSet<V>();
+		Set<V> targets = new HashSet<>();
 		targets.add(target);
 		singleSourceShortestPath(source, targets, g.getVertexCount());
 		Map<V, E> incomingEdgeMap = ((SourcePathData) sourceMap
@@ -186,12 +186,12 @@ public class DijkstraShortestPath<V, E> extends DijkstraDistance<V, E>
 					+ target + " is not part of graph " + g);
 		}
 
-		LinkedList<E> path = new LinkedList<E>();
+		LinkedList<E> path = new LinkedList<>();
 
 		// collect path data; must use internal method rather than
 		// calling getIncomingEdge() because getIncomingEdge() may
 		// wipe out results if results are not cached
-		Set<V> targets = new HashSet<V>();
+		Set<V> targets = new HashSet<>();
 		targets.add(target);
 		singleSourceShortestPath(source, targets, g.getVertexCount());
 		Map<V, E> incomingEdges = ((SourcePathData) sourceMap
@@ -263,8 +263,8 @@ public class DijkstraShortestPath<V, E> extends DijkstraDistance<V, E>
 
 		protected SourcePathData(V source) {
 			super(source);
-			incomingEdges = new LinkedHashMap<V, E>();
-			tentativeIncomingEdges = new HashMap<V, E>();
+			incomingEdges = new LinkedHashMap<>();
+			tentativeIncomingEdges = new HashMap<>();
 		}
 
 		@Override

@@ -66,9 +66,9 @@ public class DataImport {
 		}
 
 		int maxLength = 0;
-		for (int i = 0; i < data.length; i++) {
-			if (data[i].length > maxLength) {
-				maxLength = data[i].length;
+		for (String[] datum : data) {
+			if (datum.length > maxLength) {
+				maxLength = datum.length;
 			}
 		}
 

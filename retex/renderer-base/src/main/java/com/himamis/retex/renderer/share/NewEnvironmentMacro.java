@@ -53,7 +53,7 @@ import com.himamis.retex.renderer.share.exception.ParseException;
 
 public class NewEnvironmentMacro {
 
-	private static final Map<String, Env> envs = new HashMap<String, Env>();
+	private static final Map<String, Env> envs = new HashMap<>();
 
 	public NewEnvironmentMacro() {
 	}

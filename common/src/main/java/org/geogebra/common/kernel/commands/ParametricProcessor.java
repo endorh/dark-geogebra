@@ -456,8 +456,8 @@ public class ParametricProcessor {
 	protected GeoElement[] cartesianCurve(Construction cons, String label,
 			ExpressionNode exp, GeoNumeric locVar, ExpressionNode[] c,
 			ExpressionNode condition) {
-		for (int i = 0; i < c.length; i++) {
-			checkNumber(c[i]);
+		for (ExpressionNode expressionNode : c) {
+			checkNumber(expressionNode);
 		}
 		GeoNumberValue[] coords = new GeoNumberValue[c.length];
 		for (int i = 0; i < c.length; i++) {
@@ -721,9 +721,7 @@ public class ParametricProcessor {
 			HashSet<GeoElement> rightVars = en.getRight()
 					.getVariables(SymbolicMode.NONE);
 			if (rightVars != null) {
-				Iterator<GeoElement> it = rightVars.iterator();
-				while (it.hasNext()) {
-					GeoElement var = it.next();
+				for (GeoElement var : rightVars) {
 					if (var.isChildOrEqual(coordNumeric)) {
 						return null;
 					}

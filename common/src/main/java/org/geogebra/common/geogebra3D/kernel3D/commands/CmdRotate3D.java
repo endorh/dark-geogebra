@@ -36,13 +36,12 @@ public class CmdRotate3D extends CmdRotate {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2:
+		case 2 -> {
 			// ROTATE AS IN 2D
 			arg = resArgs(c);
 			return super.process2(c, arg, ok);
-
-		case 3:
-
+		}
+		case 3 -> {
 			arg = resArgs(c);
 
 			// ROTATION AROUND LINE
@@ -57,8 +56,8 @@ public class CmdRotate3D extends CmdRotate {
 			// ROTATION AROUND POINT (AND XOY PLANE)
 
 			return super.process3(c, arg, ok);
-
-		case 4:
+		}
+		case 4 -> {
 			// ROTATION AROUND POINT AND DIRECTION
 			arg = resArgs(c);
 
@@ -71,9 +70,8 @@ public class CmdRotate3D extends CmdRotate {
 						(GeoNumberValue) arg[1], (GeoPointND) arg[2],
 						(GeoDirectionND) arg[3]);
 			}
-
 			throw argErr(c, getBadArg(ok, arg));
-
+		}
 		}
 
 		return super.process(c);

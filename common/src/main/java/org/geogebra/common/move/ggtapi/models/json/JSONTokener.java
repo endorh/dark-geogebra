@@ -388,21 +388,20 @@ public class JSONTokener {
 		boolean hasTrailingSeparator = false;
 		while (true) {
 			switch (nextCleanInternal()) {
-			case -1:
-				throw syntaxError("Unterminated array");
-			case ']':
+			case -1 -> throw syntaxError("Unterminated array");
+			case ']' -> {
 				if (hasTrailingSeparator) {
 					result.put(null);
 				}
 				return result;
-			case ',':
-			case ';':
+			}
+			case ',', ';' -> {
 				/* A separator without a value first means "null". */
 				result.put(null);
 				hasTrailingSeparator = true;
 				continue;
-			default:
-				pos--;
+			}
+			default -> pos--;
 			}
 			result.put(nextValue());
 			switch (nextCleanInternal()) {

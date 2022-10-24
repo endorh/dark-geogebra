@@ -297,20 +297,17 @@ public class MyMath2 {
 	 */
 	final public static double polyGamma(NumberValue order, double x) {
 		int o = (int) order.getDouble();
-		switch (o) {
-		case 0:
-			return Gamma.digamma(x);
-		case 1:
-			return Gamma.trigamma(x);
-		// case 2:
-		// return PolyGamma.tetragamma(x);
-		// case 3:
-		// return PolyGamma.pentagamma(x);
-		// default:
-		// return PolyGamma.psigamma(x, o);
-		default:
-			return Double.NaN;
-		}
+		return switch (o) {
+			case 0 -> Gamma.digamma(x);
+			case 1 -> Gamma.trigamma(x);
+			// case 2:
+			// return PolyGamma.tetragamma(x);
+			// case 3:
+			// return PolyGamma.pentagamma(x);
+			// default:
+			// return PolyGamma.psigamma(x, o);
+			default -> Double.NaN;
+		};
 	}
 
 	private static Complex cisi(double a2) {

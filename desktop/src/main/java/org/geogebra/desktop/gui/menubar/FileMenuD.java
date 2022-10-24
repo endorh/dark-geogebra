@@ -218,14 +218,11 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Thread runner = new Thread() {
-					@Override
-					public void run() {
-						app.setWaitCursor();
-						app.createNewWindow();
-						app.setDefaultCursor();
-					}
-				};
+				Thread runner = new Thread(() -> {
+					app.setWaitCursor();
+					app.createNewWindow();
+					app.setDefaultCursor();
+				});
 				runner.start();
 			}
 		};
@@ -323,15 +320,12 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 				app.getSelectionManager().clearSelectedGeos(true, false);
 				app.updateSelection(false);
 
-				Thread runner = new Thread() {
-					@Override
-					public void run() {
-						app.setWaitCursor();
-						// copy drawing pad to the system clipboard
-						app.copyGraphicsViewToClipboard();
-						app.setDefaultCursor();
-					}
-				};
+				Thread runner = new Thread(() -> {
+					app.setWaitCursor();
+					// copy drawing pad to the system clipboard
+					app.copyGraphicsViewToClipboard();
+					app.setDefaultCursor();
+				});
 				runner.start();
 			}
 		};
@@ -344,23 +338,20 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Thread runner = new Thread() {
-					@Override
-					public void run() {
-						app.setWaitCursor();
-						try {
+				Thread runner = new Thread(() -> {
+					app.setWaitCursor();
+					try {
 
-							app.getGuiManager().showGraphicExport();
+						app.getGuiManager().showGraphicExport();
 
-						} catch (Exception e1) {
-							Log.debug(
-									"GraphicExportDialog not available for 3D view yet");
-							// for 3D View
-							app.copyGraphicsViewToClipboard();
-						}
-						app.setDefaultCursor();
+					} catch (Exception e1) {
+						Log.debug(
+								"GraphicExportDialog not available for 3D view yet");
+						// for 3D View
+						app.copyGraphicsViewToClipboard();
 					}
-				};
+					app.setDefaultCursor();
+				});
 				runner.start();
 			}
 		};
@@ -442,26 +433,23 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				Thread runner = new Thread() {
-					@Override
-					public void run() {
+				Thread runner = new Thread(() -> {
 
-						app.setWaitCursor();
-						try {
-							app.getSelectionManager().clearSelectedGeos(true,
-									false);
-							app.updateSelection(false);
-							WorksheetExportDialog d = new WorksheetExportDialog(
-									app);
+					app.setWaitCursor();
+					try {
+						app.getSelectionManager().clearSelectedGeos(true,
+								false);
+						app.updateSelection(false);
+						WorksheetExportDialog d = new WorksheetExportDialog(
+								app);
 
-							d.setVisible(true);
-						} catch (Exception e1) {
-							Log.debug("WorksheetExportDialog not available");
-							e1.printStackTrace();
-						}
-						app.setDefaultCursor();
+						d.setVisible(true);
+					} catch (Exception e1) {
+						Log.debug("WorksheetExportDialog not available");
+						e1.printStackTrace();
 					}
-				};
+					app.setDefaultCursor();
+				});
 				runner.start();
 
 			}
@@ -475,26 +463,23 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				Thread runner = new Thread() {
-					@Override
-					public void run() {
+				Thread runner = new Thread(() -> {
 
-						app.setWaitCursor();
-						try {
-							app.getSelectionManager().clearSelectedGeos(true,
-									false);
-							app.updateSelection(false);
+					app.setWaitCursor();
+					try {
+						app.getSelectionManager().clearSelectedGeos(true,
+								false);
+						app.updateSelection(false);
 
-							// callback for 3D
-							app.uploadToGeoGebraTubeOnCallback();
+						// callback for 3D
+						app.uploadToGeoGebraTubeOnCallback();
 
-						} catch (Exception e1) {
-							Log.debug("Uploading failed");
-							e1.printStackTrace();
-						}
-						app.setDefaultCursor();
+					} catch (Exception e1) {
+						Log.debug("Uploading failed");
+						e1.printStackTrace();
 					}
-				};
+					app.setDefaultCursor();
+				});
 				runner.start();
 
 			}
@@ -557,8 +542,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 
 	@Override
 	public void renderEvent(BaseEvent event) {
-		if (event instanceof TubeAvailabilityCheckEvent) {
-			TubeAvailabilityCheckEvent checkEvent = (TubeAvailabilityCheckEvent) event;
+		if (event instanceof TubeAvailabilityCheckEvent checkEvent) {
 			if (!checkEvent.isAvailable()) {
 				remove(loadURLMenuItem);
 			} else {

@@ -8,7 +8,6 @@ import org.geogebra.common.gui.InputHandler;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.main.DialogManager;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
 
@@ -53,14 +52,7 @@ public class InputDialogRegularPolygonD extends InputDialogD {
 
 		DialogManager.makeRegularPolygon(app, ec, inputPanel.getText(),
 				geoPoint1, geoPoint2, direction, this,
-				new AsyncOperation<Boolean>() {
-
-					@Override
-					public void callback(Boolean ok) {
-						setVisibleForTools(!ok);
-
-					}
-				});
+				ok -> setVisibleForTools(!ok));
 	}
 
 	@Override

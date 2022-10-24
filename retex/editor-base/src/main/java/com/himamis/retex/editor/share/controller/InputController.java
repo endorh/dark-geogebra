@@ -74,11 +74,10 @@ public class InputController {
 
 	final static private String getLetter(MathComponent component)
 			throws Exception {
-		if (!(component instanceof MathCharacter)) {
+		if (!(component instanceof MathCharacter mathCharacter)) {
 			throw new Exception("Math component is not a character");
 		}
 
-		MathCharacter mathCharacter = (MathCharacter) component;
 		if (!mathCharacter.isCharacter() || !mathCharacter.isLetter()) {
 			throw new Exception("Math component is not a character");
 		}
@@ -137,8 +136,7 @@ public class InputController {
 	private static int findBackwardCutPosition(MathSequence currentField, int currentPosition) {
 		for (int index = currentPosition; index > 0; index --) {
 			MathComponent component = currentField.getArgument(index - 1);
-			if (component instanceof MathCharacter) {
-				MathCharacter character = (MathCharacter) component;
+			if (component instanceof MathCharacter character) {
 				if (character.isUnicode('=') || character.isUnicode(',')) {
 					return index;
 				}
@@ -291,9 +289,7 @@ public class InputController {
 		if ("^".equals(name) && currentOffset > 0
 				&& editorState.getSelectionEnd() == null) {
 			if (currentField
-					.getArgument(currentOffset - 1) instanceof MathFunction) {
-				MathFunction function = (MathFunction) currentField
-						.getArgument(currentOffset - 1);
+					.getArgument(currentOffset - 1) instanceof MathFunction function) {
 				if (Tag.SQRT.equals(function.getName())
 						|| Tag.CBRT.equals(function.getName())
 						|| Tag.NROOT.equals(function.getName())
@@ -429,10 +425,8 @@ public class InputController {
 
 		int offset = currentOffset;
 		while (offset > 0 && currentField
-				.getArgument(offset - 1) instanceof MathFunction) {
+				.getArgument(offset - 1) instanceof MathFunction function) {
 
-			MathFunction function = (MathFunction) currentField
-					.getArgument(offset - 1);
 			if (scriptTag == function.getName()) {
 				editorState.setCurrentField(function.getArgument(0));
 				editorState.setCurrentOffset(function.getArgument(0).size());
@@ -446,10 +440,8 @@ public class InputController {
 		}
 		offset = currentOffset;
 		while (offset < currentField.size()
-				&& currentField.getArgument(offset) instanceof MathFunction) {
+				&& currentField.getArgument(offset) instanceof MathFunction function) {
 
-			MathFunction function = (MathFunction) currentField
-					.getArgument(offset);
 			if (scriptTag == function.getName()) {
 				editorState.setCurrentField(function.getArgument(0));
 				editorState.setCurrentOffset(0);
@@ -462,17 +454,13 @@ public class InputController {
 			offset++;
 		}
 		if (currentOffset > 0 && currentField
-				.getArgument(currentOffset - 1) instanceof MathFunction) {
-			MathFunction function = (MathFunction) currentField
-					.getArgument(currentOffset - 1);
+				.getArgument(currentOffset - 1) instanceof MathFunction function) {
 			if (Tag.SUPERSCRIPT == function.getName() && Tag.SUBSCRIPT == scriptTag) {
 				currentOffset--;
 			}
 		}
 		if (currentOffset < currentField.size() && currentField
-				.getArgument(currentOffset) instanceof MathFunction) {
-			MathFunction function = (MathFunction) currentField
-					.getArgument(currentOffset);
+				.getArgument(currentOffset) instanceof MathFunction function) {
 			if (Tag.SUBSCRIPT == function.getName() && Tag.SUPERSCRIPT == scriptTag) {
 				currentOffset++;
 			}
@@ -833,8 +821,7 @@ public class InputController {
 		if (currentOffset > 0) {
 			MathComponent prev = editorState.getCurrentField()
 					.getArgument(currentOffset - 1);
-			if (prev instanceof MathArray) {
-				MathArray parent = (MathArray) prev;
+			if (prev instanceof MathArray parent) {
 				extendBrackets(parent, editorState);
 			} if (prev instanceof MathFunction) {
 				bkspLastFunctionArg((MathFunction) prev, editorState);
@@ -925,10 +912,8 @@ public class InputController {
 		MathSequence currentField = editorState.getCurrentField();
 		int length = length0;
 		while (length > 0 && currentOffset > 0 && currentField
-				.getArgument(currentOffset - 1) instanceof MathCharacter) {
+				.getArgument(currentOffset - 1) instanceof MathCharacter character) {
 
-			MathCharacter character = (MathCharacter) currentField
-					.getArgument(currentOffset - 1);
 			if (character.isOperator() || (character.isSymbol()
 					&& !character.isLetter())) {
 				break;
@@ -1216,8 +1201,7 @@ public class InputController {
 	private char getNextQuote(MathSequence currentField, int currentOffset) {
 		for (int i = currentOffset - 1; i >= 0; i--) {
 			MathComponent argument = currentField.getArgument(i);
-			if (argument instanceof MathCharacter) {
-				MathCharacter ch = (MathCharacter) argument;
+			if (argument instanceof MathCharacter ch) {
 
 				if (ch.isUnicode('\u201c')) {
 					return '\u201d';

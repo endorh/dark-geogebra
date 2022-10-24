@@ -78,8 +78,7 @@ public class PathPlotterMock implements PathPlotter {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof PathPlotterMock) {
-			PathPlotterMock that = (PathPlotterMock) obj;
+		if (obj instanceof PathPlotterMock that) {
 			return that.result().equals(result());
 		}
 		return super.equals(obj);

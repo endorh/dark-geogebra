@@ -30,9 +30,8 @@ public class CmdFinancialPV extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 3:
+		case 3 -> {
 			arg = resArgs(c);
-
 			if ((ok[0] = arg[0].isGeoNumeric())
 					&& (ok[1] = arg[1].isGeoNumeric())
 					&& (ok[2] = arg[2].isGeoNumeric())) {
@@ -42,21 +41,18 @@ public class CmdFinancialPV extends CommandProcessor {
 						(GeoNumeric) arg[2], null, null, null,
 						AlgoFinancial.CalculationType.PV);
 
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 				return ret;
-			}
-
-			else if (!ok[0]) {
+			} else if (!ok[0]) {
 				throw argErr(c, arg[0]);
 			} else if (!ok[1]) {
 				throw argErr(c, arg[1]);
 			} else {
 				throw argErr(c, arg[3]);
 			}
-
-		case 4:
+		}
+		case 4 -> {
 			arg = resArgs(c);
-
 			if ((ok[0] = arg[0].isGeoNumeric())
 					&& (ok[1] = arg[1].isGeoNumeric())
 					&& (ok[2] = arg[2].isGeoNumeric())
@@ -67,11 +63,9 @@ public class CmdFinancialPV extends CommandProcessor {
 						(GeoNumeric) arg[2], null, (GeoNumeric) arg[3], null,
 						AlgoFinancial.CalculationType.PV);
 
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 				return ret;
-			}
-
-			else if (!ok[0]) {
+			} else if (!ok[0]) {
 				throw argErr(c, arg[0]);
 			} else if (!ok[1]) {
 				throw argErr(c, arg[1]);
@@ -80,10 +74,9 @@ public class CmdFinancialPV extends CommandProcessor {
 			} else {
 				throw argErr(c, arg[3]);
 			}
-
-		case 5:
+		}
+		case 5 -> {
 			arg = resArgs(c);
-
 			if ((ok[0] = arg[0].isGeoNumeric())
 					&& (ok[1] = arg[1].isGeoNumeric())
 					&& (ok[2] = arg[2].isGeoNumeric())
@@ -95,11 +88,9 @@ public class CmdFinancialPV extends CommandProcessor {
 						(GeoNumeric) arg[2], null, (GeoNumeric) arg[3],
 						(GeoNumeric) arg[4], AlgoFinancial.CalculationType.PV);
 
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 				return ret;
-			}
-
-			else if (!ok[0]) {
+			} else if (!ok[0]) {
 				throw argErr(c, arg[0]);
 			} else if (!ok[1]) {
 				throw argErr(c, arg[1]);
@@ -110,9 +101,8 @@ public class CmdFinancialPV extends CommandProcessor {
 			} else {
 				throw argErr(c, arg[4]);
 			}
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

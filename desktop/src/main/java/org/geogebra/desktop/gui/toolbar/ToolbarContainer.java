@@ -7,8 +7,6 @@ import java.awt.FlowLayout;
 import java.awt.FontMetrics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
@@ -130,7 +128,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		this.isMain = isMain;
 
 		// add general toolbar
-		toolbars = new ArrayList<ToolbarD>(1);
+		toolbars = new ArrayList<>(1);
 
 		if (isMain) {
 			addToolbar(new ToolbarD(app));
@@ -310,26 +308,21 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		btnProperties.setBorderPainted(false);
 		btnProperties.setContentAreaFilled(false);
 		btnProperties.setToolTipText(loc.getPlainTooltip("Preferences"));
-		btnProperties.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				PropertiesMenu pm = new PropertiesMenu();
-				if (orientation == SwingConstants.NORTH) {
-					pm.show(btnProperties,
-							-pm.getPreferredSize().width
-									+ btnProperties.getWidth(),
-							btnProperties.getHeight());
-				} else if (orientation == SwingConstants.WEST) {
-					pm.show(btnProperties, 0, -pm.getPreferredSize().height);
-				} else {
-					pm.show(btnProperties,
-							-pm.getPreferredSize().width
-									+ btnProperties.getWidth(),
-							-pm.getPreferredSize().height);
-				}
+		btnProperties.addActionListener(arg0 -> {
+			PropertiesMenu pm = new PropertiesMenu();
+			if (orientation == SwingConstants.NORTH) {
+				pm.show(btnProperties,
+						-pm.getPreferredSize().width
+								+ btnProperties.getWidth(),
+						btnProperties.getHeight());
+			} else if (orientation == SwingConstants.WEST) {
+				pm.show(btnProperties, 0, -pm.getPreferredSize().height);
+			} else {
+				pm.show(btnProperties,
+						-pm.getPreferredSize().width
+								+ btnProperties.getWidth(),
+						-pm.getPreferredSize().height);
 			}
-
 		});
 
 		// help button
@@ -339,13 +332,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		btnHelp.setBorderPainted(false);
 		btnHelp.setContentAreaFilled(false);
 		btnHelp.setToolTipText(loc.getMenuTooltip("Help"));
-		btnHelp.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				new HelpDialog(app).openToolHelp();
-
-			}
-		});
+		btnHelp.addActionListener(arg0 -> new HelpDialog(app).openToolHelp());
 
 		gridButtonPanel = new JPanel(new BorderLayout());
 
@@ -889,12 +876,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 					item.setEnabled(false);
 				}
 
-				item.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						openPropertiesView(type);
-					}
-				});
+				item.addActionListener(arg0 -> openPropertiesView(type));
 				add(item);
 
 				item.setVisible(

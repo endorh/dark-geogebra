@@ -52,8 +52,7 @@ public class MoveGeos {
 		moveObjectsUpdateList.clear();
 		moveObjectsUpdateList.ensureCapacity(size);
 
-		for (int i = 0; i < size; i++) {
-			final GeoElement geo = geos.get(i);
+		for (final GeoElement geo : geos) {
 			if (geo.isGeoList()) {
 				moveObjectsUpdateList.add(geo);
 				continue;
@@ -150,9 +149,7 @@ public class MoveGeos {
 				movedGeo = ((GeoVectorND) in).moveVector(rwTransVec, endPosition);
 				GeoElement.addParentToUpdateList(in, updateGeos,
 						tempMoveObjectList);
-			} else if (in.getParentAlgorithm() instanceof AlgoVectorPoint) {
-				AlgoVectorPoint algoVector = (AlgoVectorPoint) in
-						.getParentAlgorithm();
+			} else if (in.getParentAlgorithm() instanceof AlgoVectorPoint algoVector) {
 				GeoElement p = (GeoElement) algoVector.getP();
 				if (p.isIndependent()) {
 					movedGeo = ((GeoPointND) p).movePoint(rwTransVec, endPosition);

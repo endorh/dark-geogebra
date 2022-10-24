@@ -13,8 +13,9 @@ the Free Software Foundation.
 package org.geogebra.common.kernel;
 
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -203,11 +204,11 @@ public class Macro {
 			throws Exception {
 		// check that every output object depends on an input object
 		// and that all input objects are really needed
-		for (int i = 0; i < output.length; i++) {
+		for (GeoElement element : output) {
 			boolean dependsOnInput = false;
 
-			for (int k = 0; k < input.length; k++) {
-				boolean dependencyFound = output[i].isChildOf(input[k]);
+			for (GeoElement geoElement : input) {
+				boolean dependencyFound = element.isChildOf(geoElement);
 				if (dependencyFound) {
 					dependsOnInput = true;
 				}
@@ -216,7 +217,7 @@ public class Macro {
 			if (!dependsOnInput) {
 				throw new Exception(kernel.getApplication().getLocalization()
 						.getError("Tool.OutputNotDependent") + ": "
-						+ output[i].getNameDescription());
+						+ element.getNameDescription());
 			}
 		}
 
@@ -230,19 +231,18 @@ public class Macro {
 
 		// 1) create the set of all parents of this macro's output objects
 		TreeSet<GeoElement> outputParents = new TreeSet<>();
-		for (int i = 0; i < output.length; i++) {
-			output[i].addPredecessorsToSet(outputParents, false);
+		for (GeoElement geoElement : output) {
+			geoElement.addPredecessorsToSet(outputParents, false);
 
 			// note: Locateables (like Texts, Images, Vectors) may depend on
 			// points,
 			// these points must be part of the macro construction
-			if (output[i] instanceof Locateable) {
-				Locateable loc = (Locateable) output[i];
+			if (geoElement instanceof Locateable loc) {
 				GeoPointND[] points = loc.getStartPoints();
 				if (points != null) {
-					for (int k = 0; k < points.length; k++) {
-						outputParents.add((GeoElement) points[k]);
-						((GeoElement) points[k])
+					for (GeoPointND point : points) {
+						outputParents.add((GeoElement) point);
+						((GeoElement) point)
 								.addPredecessorsToSet(outputParents, false);
 					}
 				}
@@ -251,9 +251,7 @@ public class Macro {
 		// 2) and 3) get intersection of inputChildren and outputParents
 		TreeSet<ConstructionElement> macroConsOrigElements = new TreeSet<>();
 		TreeSet<Long> usedAlgoIds = new TreeSet<>();
-		Iterator<GeoElement> it = outputParents.iterator();
-		while (it.hasNext()) {
-			GeoElement outputParent = it.next();
+		for (GeoElement outputParent : outputParents) {
 			if (outputParent.isLabelSet()) {
 				for (int i = 0; i < input.length; i++) {
 					if (outputParent.isChildOf(input[i])) {
@@ -290,19 +288,12 @@ public class Macro {
 			// we handle some special cases for input types like segment,
 			// polygons, etc.
 			switch (input[i].getGeoClassType()) {
-			case SEGMENT:
-			case RAY:
-			case POLYGON:
-			case FUNCTION:
-			case POLYHEDRON:
-			case CURVE_CARTESIAN:// needed for
+			case SEGMENT, RAY, POLYGON, FUNCTION, POLYHEDRON, CURVE_CARTESIAN ->// needed for
 				// https://help.geogebra.org/topic/tool-creator-confuses-curves-with-conics
 				// add parent algo and its input objects to
 				// macroConsOrigElements
-				addSpecialInputElement(input[i], macroConsOrigElements);
-				break;
-
-			default:
+					addSpecialInputElement(input[i], macroConsOrigElements);
+			default -> {
 				// add input element to macroConsOrigElements
 				macroConsOrigElements.add(input[i]);
 
@@ -312,6 +303,7 @@ public class Macro {
 				if (algo != null) {
 					macroConsOrigElements.remove(algo);
 				}
+			}
 			}
 
 		}
@@ -395,7 +387,7 @@ public class Macro {
 
 		// STANDARD case
 		// add algorithm
-		Long algoID = Long.valueOf(algo.getID());
+		Long algoID = algo.getID();
 		if (!usedAlgoIds.contains(algoID)) {
 			consElementSet.add(algo);
 		}
@@ -403,9 +395,7 @@ public class Macro {
 
 		// add all output elements including geo
 		GeoElement[] algoOutput = algo.getOutput();
-		for (int i = 0; i < algoOutput.length; i++) {
-			consElementSet.add(algoOutput[i]);
-		}
+		consElementSet.addAll(Arrays.asList(algoOutput));
 
 	}
 
@@ -434,9 +424,9 @@ public class Macro {
 
 			// add all output elements including geo
 			GeoElement[] algoInput = algo.getInput();
-			for (int i = 0; i < algoInput.length; i++) {
-				if (algoInput[i].isLabelSet()) {
-					consElementSet.add(algoInput[i]);
+			for (GeoElement geoElement : algoInput) {
+				if (geoElement.isLabelSet()) {
+					consElementSet.add(geoElement);
 				}
 			}
 		}
@@ -462,10 +452,7 @@ public class Macro {
 		macroConsXML
 				.append("<construction author=\"\" title=\"\" date=\"\">\n");
 
-		Iterator<ConstructionElement> it = macroConsElements.iterator();
-		while (it.hasNext()) {
-			ConstructionElement ce = it.next();
-
+		for (ConstructionElement ce : macroConsElements) {
 			if (ce.isGeoElement()) {
 				ce.getXML(false, macroConsXML);
 			} else if (ce.isAlgoElement()) {
@@ -669,11 +656,7 @@ public class Macro {
 	 *            Icon filename, "" or null for empty
 	 */
 	public void setIconFileName(String name) {
-		if (name == null) {
-			this.iconFileName = "";
-		} else {
-			this.iconFileName = name;
-		}
+		this.iconFileName = Objects.requireNonNullElse(name, "");
 	}
 
 	/**
@@ -805,10 +788,7 @@ public class Macro {
 	 */
 	public ArrayList<GeoElement> getDependentGeos() {
 		ArrayList<GeoElement> geos = new ArrayList<>();
-		Iterator<AlgoElement> curr = usingAlgos.iterator();
-		while (curr.hasNext()) {
-			AlgoElement algo = curr.next();
-
+		for (AlgoElement algo : usingAlgos) {
 			// seek for the first visible geo
 			GeoElement geo = algo.getOutput(0);
 			while (!geo.isLabelSet() && geo.getAllChildren().size() > 0) {

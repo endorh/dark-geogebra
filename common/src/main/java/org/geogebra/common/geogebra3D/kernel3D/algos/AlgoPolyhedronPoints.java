@@ -43,16 +43,13 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 	private class OutputPolygonsHandler extends OutputHandler<GeoPolygon3D> {
 
 		public OutputPolygonsHandler() {
-			super(new ElementFactory<GeoPolygon3D>() {
-				@Override
-				public GeoPolygon3D newElement() {
-					GeoPolygon3D p = new GeoPolygon3D(cons);
-					// p.setParentAlgorithm(AlgoPolyhedron.this);
-					if (heightChangeableParent != null) {
-						p.setChangeableParent(heightChangeableParent);
-					}
-					return p;
+			super(() -> {
+				GeoPolygon3D p = new GeoPolygon3D(cons);
+				// p.setParentAlgorithm(AlgoPolyhedron.this);
+				if (heightChangeableParent != null) {
+					p.setChangeableParent(heightChangeableParent);
 				}
+				return p;
 			});
 		}
 
@@ -74,16 +71,13 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 	private class OutputSegmentsHandler extends OutputHandler<GeoSegment3D> {
 
 		public OutputSegmentsHandler() {
-			super(new ElementFactory<GeoSegment3D>() {
-				@Override
-				public GeoSegment3D newElement() {
-					GeoSegment3D s = new GeoSegment3D(cons);
-					if (heightChangeableParent != null) {
-						s.setChangeableParentIfNull(
-								heightChangeableParent);
-					}
-					return s;
+			super(() -> {
+				GeoSegment3D s = new GeoSegment3D(cons);
+				if (heightChangeableParent != null) {
+					s.setChangeableParentIfNull(
+							heightChangeableParent);
 				}
+				return s;
 			});
 		}
 
@@ -155,9 +149,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 		initCoords();
 
 		bottomPoints = new GeoPointND[points.length - 1];
-		for (int i = 0; i < points.length - 1; i++) {
-			bottomPoints[i] = points[i];
-		}
+		System.arraycopy(points, 0, bottomPoints, 0, points.length - 1);
 		setTopPoint(points[points.length - 1]);
 		shift = 1; // output points are shifted of 1 to input points (one less)
 
@@ -310,9 +302,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 
 		if (n > outputSegmentsSide.size()) {
 			if (getBottom()
-					.getParentAlgorithm() instanceof AlgoPolygonRegularND) {
-				AlgoPolygonRegularND algo = (AlgoPolygonRegularND) getBottom()
-						.getParentAlgorithm();
+					.getParentAlgorithm() instanceof AlgoPolygonRegularND algo) {
 				// if no sufficient bottom points, force augment outputs for
 				// AlgoPolygonRegular
 				int nOld = algo.getCurrentPointsLength();
@@ -374,9 +364,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 		if (bottomPoints1 == null) {
 			// force polygon regular to have at least 3 points
 			if (getBottom()
-					.getParentAlgorithm() instanceof AlgoPolygonRegularND) {
-				AlgoPolygonRegularND algo = (AlgoPolygonRegularND) getBottom()
-						.getParentAlgorithm();
+					.getParentAlgorithm() instanceof AlgoPolygonRegularND algo) {
 				algo.compute(3);
 				bottomPoints1 = getBottomPoints();
 				createPolyhedron(bottomPoints1);
@@ -416,8 +404,8 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron {
 			GeoPointND[] bottomPoints1 = getBottomPoints();
 
 			polyhedron.startNewFace();
-			for (int i = 0; i < bottomPoints1.length; i++) {
-				polyhedron.addPointToCurrentFace(bottomPoints1[i]);
+			for (GeoPointND geoPointND : bottomPoints1) {
+				polyhedron.addPointToCurrentFace(geoPointND);
 			}
 			polyhedron.endCurrentFace();
 		}

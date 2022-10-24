@@ -52,17 +52,12 @@ public class CASTableCellController {
 
 		// Enter depends on current mode
 		switch (mode) {
-		default:
+		default ->
 			// switch back to Evaluate
-			app.setMode(EuclidianConstants.MODE_CAS_EVALUATE, ms);
-			break;
-		case EuclidianConstants.MODE_CAS_EVALUATE:
-		case EuclidianConstants.MODE_CAS_NUMERIC:
-		case EuclidianConstants.MODE_CAS_KEEP_INPUT:
+				app.setMode(EuclidianConstants.MODE_CAS_EVALUATE, ms);
+		case EuclidianConstants.MODE_CAS_EVALUATE, EuclidianConstants.MODE_CAS_NUMERIC, EuclidianConstants.MODE_CAS_KEEP_INPUT ->
 			// apply current tool again
-			app.setMode(mode, ms);
-			break;
-
+				app.setMode(mode, ms);
 		}
 	}
 }

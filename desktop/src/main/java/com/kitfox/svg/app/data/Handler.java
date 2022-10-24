@@ -52,7 +52,7 @@ import com.kitfox.svg.SVGConst;
  * @author kitfox
  */
 public class Handler extends URLStreamHandler {
-	class Connection extends URLConnection {
+	static class Connection extends URLConnection {
 		String mime;
 		byte[] buf;
 

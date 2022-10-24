@@ -4,7 +4,6 @@ package org.freehep.graphicsio.pdf;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Vector;
@@ -95,9 +94,8 @@ public class PDFRedundanceTracker {
 	 * several times then each times only the new objects are written.
 	 */
 	public void writeAll() {
-		Iterator i = orderedObjects.iterator();
-		while (i.hasNext()) {
-			Entry entry = (Entry) i.next();
+		for (Object orderedObject : orderedObjects) {
+			Entry entry = (Entry) orderedObject;
 			if (!entry.written) {
 				try {
 					// System.out.println("PDFRT: Writing: " + entry.object);
@@ -114,9 +112,8 @@ public class PDFRedundanceTracker {
 	/** Returns all objects belonging to a particular group. */
 	public Collection getGroup(Object groupID) {
 		Collection result = new LinkedList();
-		Iterator i = orderedObjects.iterator();
-		while (i.hasNext()) {
-			Entry entry = (Entry) i.next();
+		for (Object orderedObject : orderedObjects) {
+			Entry entry = (Entry) orderedObject;
 			if (groupID.equals(entry.groupID)) {
 				result.add(entry.object);
 			}

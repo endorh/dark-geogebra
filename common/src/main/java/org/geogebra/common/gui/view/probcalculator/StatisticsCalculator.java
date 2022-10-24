@@ -201,43 +201,32 @@ public abstract class StatisticsCalculator {
 		}
 
 		switch (sc.getSelectedProcedure()) {
-		default:
-			// do nothing
-			break;
-		case ZMEAN_TEST:
-		case ZMEAN_CI:
-		case TMEAN_TEST:
-		case TMEAN_CI:
+		default -> {
+		}
+		// do nothing
+		case ZMEAN_TEST, ZMEAN_CI, TMEAN_TEST, TMEAN_CI -> {
 			fldSampleStat1[0].setText(format(sc.mean));
 			fldSampleStat1[1].setText(format(sc.sd));
 			fldSampleStat1[2].setText(format(sc.n));
-			break;
-
-		case ZMEAN2_TEST:
-		case ZMEAN2_CI:
-		case TMEAN2_TEST:
-		case TMEAN2_CI:
+		}
+		case ZMEAN2_TEST, ZMEAN2_CI, TMEAN2_TEST, TMEAN2_CI -> {
 			fldSampleStat1[0].setText(format(sc.mean));
 			fldSampleStat1[1].setText(format(sc.sd));
 			fldSampleStat1[2].setText(format(sc.n));
 			fldSampleStat2[0].setText(format(sc.mean2));
 			fldSampleStat2[1].setText(format(sc.sd2));
 			fldSampleStat2[2].setText(format(sc.n2));
-			break;
-
-		case ZPROP_TEST:
-		case ZPROP_CI:
+		}
+		case ZPROP_TEST, ZPROP_CI -> {
 			fldSampleStat1[0].setText(format(sc.count));
 			fldSampleStat1[1].setText(format(sc.n));
-			break;
-
-		case ZPROP2_TEST:
-		case ZPROP2_CI:
+		}
+		case ZPROP2_TEST, ZPROP2_CI -> {
 			fldSampleStat1[0].setText(format(sc.count));
 			fldSampleStat1[1].setText(format(sc.n));
 			fldSampleStat2[0].setText(format(sc.count2));
 			fldSampleStat2[1].setText(format(sc.n2));
-			break;
+		}
 		}
 
 		for (int i = 0; i < 3; i++) {
@@ -361,23 +350,15 @@ public abstract class StatisticsCalculator {
 
 	protected void updateCollectionProcedure() {
 		switch (sc.getSelectedProcedure()) {
-
-		default:
-			// do nothing
-			break;
-		case ZMEAN_TEST:
-		case ZMEAN_CI:
-		case TMEAN_TEST:
-		case TMEAN_CI:
+		default -> {
+		}
+		// do nothing
+		case ZMEAN_TEST, ZMEAN_CI, TMEAN_TEST, TMEAN_CI -> {
 			sc.mean = s1[0];
 			sc.sd = s1[1];
 			sc.n = s1[2];
-			break;
-
-		case ZMEAN2_TEST:
-		case ZMEAN2_CI:
-		case TMEAN2_TEST:
-		case TMEAN2_CI:
+		}
+		case ZMEAN2_TEST, ZMEAN2_CI, TMEAN2_TEST, TMEAN2_CI -> {
 			sc.mean = s1[0];
 			sc.sd = s1[1];
 			sc.n = s1[2];
@@ -388,16 +369,12 @@ public abstract class StatisticsCalculator {
 			// force the null hypothesis to zero
 			// TODO: allow non-zero values
 			sc.nullHyp = 0;
-			break;
-
-		case ZPROP_TEST:
-		case ZPROP_CI:
+		}
+		case ZPROP_TEST, ZPROP_CI -> {
 			sc.count = s1[0];
 			sc.n = s1[1];
-			break;
-
-		case ZPROP2_TEST:
-		case ZPROP2_CI:
+		}
+		case ZPROP2_TEST, ZPROP2_CI -> {
 			sc.count = s1[0];
 			sc.n = s1[1];
 			sc.count2 = s2[0];
@@ -406,7 +383,7 @@ public abstract class StatisticsCalculator {
 			// force the null hypothesis to zero
 			// TODO: allow non-zero values
 			sc.nullHyp = 0;
-			break;
+		}
 		}
 
 		sc.validate();

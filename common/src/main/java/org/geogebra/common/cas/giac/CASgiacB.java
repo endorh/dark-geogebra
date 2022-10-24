@@ -104,9 +104,7 @@ public abstract class CASgiacB extends CASgiac {
 		CustomFunctions[] init = CustomFunctions.values();
 		CustomFunctions.setDependencies();
 
-		for (int i = 0; i < init.length; i++) {
-			CustomFunctions function = init[i];
-
+		for (CustomFunctions function : init) {
 			// send only necessary init commands
 			boolean foundInInput = false;
 			/* This is very hacky here. If the input expression as string
@@ -114,8 +112,7 @@ public abstract class CASgiacB extends CASgiac {
 			 * in Giac. TODO: find a better a way.
 			 */
 			if (function.functionName == null
-					|| (foundInInput = (exp
-					.indexOf(function.functionName) > -1))) {
+					|| (foundInInput = (exp.contains(function.functionName)))) {
 				g = binding.createGen(function.definitionString, context);
 				g.eval(1, context);
 				/* Some commands may require additional commands to load. */
@@ -162,12 +159,7 @@ public abstract class CASgiacB extends CASgiac {
 	@Override
 	protected String evaluate(final String exp, final long timeoutMillis0)
 			throws Throwable {
-		Runnable evalFunction = new Runnable() {
-			@Override
-			public void run() {
-				threadResult = evalRaw(exp, timeoutMillis0);
-			}
-		};
+		Runnable evalFunction = () -> threadResult = evalRaw(exp, timeoutMillis0);
 
 		threadResult = null;
 

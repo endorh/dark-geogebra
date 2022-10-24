@@ -52,7 +52,7 @@ public final class MusicStringParser extends Parser {
 	 * @see JFugueDefinitions
 	 */
 	public MusicStringParser() {
-		dictionaryMap = new HashMap<String, Object>();
+		dictionaryMap = new HashMap<>();
 		JFugueDefinitions.populateDictionary(dictionaryMap);
 	}
 
@@ -89,8 +89,8 @@ public final class MusicStringParser extends Parser {
 		}
 
 		int counter = 0;
-		for (int t = 0; t < tokens.length; t++) {
-			parseToken(tokens[t]);
+		for (String token : tokens) {
+			parseToken(token);
 			counter++;
 			fireProgressReported("Parsing music string...", counter,
 					tokens.length);
@@ -110,7 +110,7 @@ public final class MusicStringParser extends Parser {
 	 */
 	private void parseToken(String s) throws JFugueException {
 		// If there are any spaces, get out
-		if (s.indexOf(" ") != -1) {
+		if (s.contains(" ")) {
 			throw new JFugueException(JFugueException.PARSER_SPACES_EXC, s, s);
 		}
 
@@ -118,55 +118,30 @@ public final class MusicStringParser extends Parser {
 		trace("--------Processing Token: ", s);
 
 		switch (s.charAt(0)) {
-		case 'V':
-			parseVoiceElement(s);
-			break;
-		case 'T':
-			parseTempoElement(s);
-			break;
-		case 'I':
-			parseInstrumentElement(s);
-			break;
-		case 'L':
-			parseLayerElement(s);
-			break; // New in 3.0
-		case 'K':
-			parseKeySignatureElement(s);
-			break; // New in 3.0
-		case 'X':
-			parseControllerElement(s);
-			break; // New in 2.0
-		case '@':
-			parseTimeElement(s);
-			break; // New in 3.0
-		case '*':
-			parsePolyPressureElement(s);
-			break; // New in 3.0, also known as Key Pressure
-		case '+':
-			parseChannelPressureElement(s);
-			break; // New in 3.0
-		case '&':
-			parsePitchBendElement(s);
-			break; // New in 3.0
-		case '|':
-			parseMeasureElement(s);
-			break; // New in 3.0
-		case '$':
-			parseDictionaryElement(s);
-			break; // New in 2.0
-		case 'A':
-		case 'B':
-		case 'C':
-		case 'D':
-		case 'E':
-		case 'F':
-		case 'G':
-		case 'R':
-		case '[':
-			parseNoteElement(s);
-			break;
-		default:
-			break; // Unknown characters are okay
+		case 'V' -> parseVoiceElement(s);
+		case 'T' -> parseTempoElement(s);
+		case 'I' -> parseInstrumentElement(s);
+		case 'L' -> parseLayerElement(s);
+		// New in 3.0
+		case 'K' -> parseKeySignatureElement(s);
+		// New in 3.0
+		case 'X' -> parseControllerElement(s);
+		// New in 2.0
+		case '@' -> parseTimeElement(s);
+		// New in 3.0
+		case '*' -> parsePolyPressureElement(s);
+		// New in 3.0, also known as Key Pressure
+		case '+' -> parseChannelPressureElement(s);
+		// New in 3.0
+		case '&' -> parsePitchBendElement(s);
+		// New in 3.0
+		case '|' -> parseMeasureElement(s);
+		// New in 3.0
+		case '$' -> parseDictionaryElement(s);
+		// New in 2.0
+		case 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'R', '[' -> parseNoteElement(s);
+		default -> {
+		} // Unknown characters are okay
 		}
 	}
 
@@ -309,25 +284,25 @@ public final class MusicStringParser extends Parser {
 			keySig = 0;
 		} else if (rootNote.equalsIgnoreCase("GMAJ")
 				|| rootNote.equalsIgnoreCase("EMIN")) {
-			keySig = +1;
+			keySig = 1;
 		} else if (rootNote.equalsIgnoreCase("DMAJ")
 				|| rootNote.equalsIgnoreCase("BMIN")) {
-			keySig = +2;
+			keySig = 2;
 		} else if (rootNote.equalsIgnoreCase("AMAJ")
 				|| rootNote.equalsIgnoreCase("F#MIN")) {
-			keySig = +3;
+			keySig = 3;
 		} else if (rootNote.equalsIgnoreCase("EMAJ")
 				|| rootNote.equalsIgnoreCase("C#MIN")) {
-			keySig = +4;
+			keySig = 4;
 		} else if (rootNote.equalsIgnoreCase("BMAJ")
 				|| rootNote.equalsIgnoreCase("G#MIN")) {
-			keySig = +5;
+			keySig = 5;
 		} else if (rootNote.equalsIgnoreCase("F#MAJ")
 				|| rootNote.equalsIgnoreCase("D#MIN")) {
-			keySig = +6;
+			keySig = 6;
 		} else if (rootNote.equalsIgnoreCase("C#MAJ")
 				|| rootNote.equalsIgnoreCase("A#MIN")) {
-			keySig = +7;
+			keySig = 7;
 		} else {
 			throw new JFugueException(JFugueException.KEYSIG_EXC, s);
 		}
@@ -519,7 +494,7 @@ public final class MusicStringParser extends Parser {
 		dictionaryMap.put(word, definition);
 	}
 
-	class NoteContext {
+	static class NoteContext {
 		boolean isRest = false;
 		boolean isNumericNote = false;
 		boolean isChord = false;
@@ -602,14 +577,11 @@ public final class MusicStringParser extends Parser {
 	 */
 	private int parseNoteRoot(String s, int slen, int index,
 			NoteContext context) {
-		switch (s.charAt(index)) {
-		case '[':
-			return parseNumericNote(s, slen, index, context);
-		case 'R':
-			return parseRest(s, slen, index, context);
-		default:
-			return parseLetterNote(s, slen, index, context);
-		}
+		return switch (s.charAt(index)) {
+			case '[' -> parseNumericNote(s, slen, index, context);
+			case 'R' -> parseRest(s, slen, index, context);
+			default -> parseLetterNote(s, slen, index, context);
+		};
 	}
 
 	/**
@@ -645,29 +617,14 @@ public final class MusicStringParser extends Parser {
 	private int parseLetterNote(String s, int slen, int index,
 			NoteContext context) {
 		switch (s.charAt(index)) {
-		case 'C':
-			context.noteNumber = 0;
-			break;
-		case 'D':
-			context.noteNumber = 2;
-			break;
-		case 'E':
-			context.noteNumber = 4;
-			break;
-		case 'F':
-			context.noteNumber = 5;
-			break;
-		case 'G':
-			context.noteNumber = 7;
-			break;
-		case 'A':
-			context.noteNumber = 9;
-			break;
-		case 'B':
-			context.noteNumber = 11;
-			break;
-		default:
-			throw new JFugueException(JFugueException.NOTE_EXC, s);
+		case 'C' -> context.noteNumber = 0;
+		case 'D' -> context.noteNumber = 2;
+		case 'E' -> context.noteNumber = 4;
+		case 'F' -> context.noteNumber = 5;
+		case 'G' -> context.noteNumber = 7;
+		case 'A' -> context.noteNumber = 9;
+		case 'B' -> context.noteNumber = 11;
+		default -> throw new JFugueException(JFugueException.NOTE_EXC, s);
 		}
 		index++;
 
@@ -676,22 +633,22 @@ public final class MusicStringParser extends Parser {
 		while (checkForModifiers) {
 			if (index < slen) {
 				switch (s.charAt(index)) {
-				case '#':
+				case '#' -> {
 					index++;
 					context.noteNumber++;
-					/* if (context.noteNumber == 12) context.noteNumber = 0; */ break;
-				case 'B':
+				}
+				/* if (context.noteNumber == 12) context.noteNumber = 0; */
+				case 'B' -> {
 					index++;
 					context.noteNumber--;
-					/* if (context.noteNumber == -1) context.noteNumber = 11; */ break;
-				case 'N':
+				}
+				/* if (context.noteNumber == -1) context.noteNumber = 11; */
+				case 'N' -> {
 					index++;
 					context.isNatural = true;
 					checkForModifiers = false;
-					break;
-				default:
-					checkForModifiers = false;
-					break;
+				}
+				default -> checkForModifiers = false;
 				}
 			} else {
 				checkForModifiers = false;
@@ -790,26 +747,31 @@ public final class MusicStringParser extends Parser {
 		// 'maj' by 'maj7', for example.
 
 		if (possibleChord3 != null) {
-			if (possibleChord3.equals("MAJ")) {
+			switch (possibleChord3) {
+			case "MAJ" -> {
 				lengthOfChordString = 3;
 				context.numHalfsteps = 2;
 				context.halfsteps[0] = 4;
 				context.halfsteps[1] = 7;
-			} else if (possibleChord3.equals("MIN")) {
+			}
+			case "MIN" -> {
 				lengthOfChordString = 3;
 				context.numHalfsteps = 2;
 				context.halfsteps[0] = 3;
 				context.halfsteps[1] = 7;
-			} else if (possibleChord3.equals("AUG")) {
+			}
+			case "AUG" -> {
 				lengthOfChordString = 3;
 				context.numHalfsteps = 2;
 				context.halfsteps[0] = 4;
 				context.halfsteps[1] = 8;
-			} else if (possibleChord3.equals("DIM")) {
+			}
+			case "DIM" -> {
 				lengthOfChordString = 3;
 				context.numHalfsteps = 2;
 				context.halfsteps[0] = 3;
 				context.halfsteps[1] = 6;
+			}
 			}
 		}
 		if (possibleChord4 != null) {
@@ -1065,25 +1027,25 @@ public final class MusicStringParser extends Parser {
 			if ((keySig <= -7) && (context.noteNumber == 5)) {
 				context.noteNumber = 4;
 			}
-			if ((keySig >= +1) && (context.noteNumber == 5)) {
+			if ((keySig >= 1) && (context.noteNumber == 5)) {
 				context.noteNumber = 6;
 			}
-			if ((keySig >= +2) && (context.noteNumber == 0)) {
+			if ((keySig >= 2) && (context.noteNumber == 0)) {
 				context.noteNumber = 1;
 			}
-			if ((keySig >= +3) && (context.noteNumber == 7)) {
+			if ((keySig >= 3) && (context.noteNumber == 7)) {
 				context.noteNumber = 8;
 			}
-			if ((keySig >= +4) && (context.noteNumber == 2)) {
+			if ((keySig >= 4) && (context.noteNumber == 2)) {
 				context.noteNumber = 3;
 			}
-			if ((keySig >= +5) && (context.noteNumber == 9)) {
+			if ((keySig >= 5) && (context.noteNumber == 9)) {
 				context.noteNumber = 10;
 			}
-			if ((keySig >= +6) && (context.noteNumber == 4)) {
+			if ((keySig >= 6) && (context.noteNumber == 4)) {
 				context.noteNumber = 5;
 			}
-			if ((keySig >= +7) && (context.noteNumber == 11)) {
+			if ((keySig >= 7) && (context.noteNumber == 11)) {
 				context.noteNumber = 0;
 				context.octaveNumber++;
 			}
@@ -1122,103 +1084,101 @@ public final class MusicStringParser extends Parser {
 		while (checkForInversion) {
 			if (index < slen) {
 				switch (s.charAt(index)) {
-				case '^':
+				case '^' -> {
 					index++;
 					inversionCount++;
-					break;
-				case 'C':
+				}
+				case 'C' -> {
 					index++;
 					inversionRootNote = 0;
-					break;
-				case 'D':
+				}
+				case 'D' -> {
 					index++;
 					inversionRootNote = 2;
-					break;
-				case 'E':
+				}
+				case 'E' -> {
 					index++;
 					inversionRootNote = 4;
-					break;
-				case 'F':
+				}
+				case 'F' -> {
 					index++;
 					inversionRootNote = 5;
-					break;
-				case 'G':
+				}
+				case 'G' -> {
 					index++;
 					inversionRootNote = 7;
-					break;
-				case 'A':
+				}
+				case 'A' -> {
 					index++;
 					inversionRootNote = 9;
-					break;
+				}
 				// For 'B', need to differentiate between B note and 'b' flat
-				case 'B':
+				case 'B' -> {
 					index++;
 					if (inversionRootNote == -1) {
 						inversionRootNote = 11;
 					} else {
 						inversionRootNote--;
 					}
-					break;
-				case '#':
+				}
+				case '#' -> {
 					index++;
 					inversionRootNote++;
-					break;
+				}
 				// For '0', need to differentiate between initial 0 and 0 as a
 				// second digit (i.e., 10)
-				case '0':
+				case '0' -> {
 					index++;
 					if (inversionOctave == -1) {
 						inversionOctave = 0;
 					} else {
 						inversionOctave = inversionOctave * 10;
 					}
-					break;
-				case '1':
+				}
+				case '1' -> {
 					index++;
 					inversionOctave = 1;
-					break;
-				case '2':
+				}
+				case '2' -> {
 					index++;
 					inversionOctave = 2;
-					break;
-				case '3':
+				}
+				case '3' -> {
 					index++;
 					inversionOctave = 3;
-					break;
-				case '4':
+				}
+				case '4' -> {
 					index++;
 					inversionOctave = 4;
-					break;
-				case '5':
+				}
+				case '5' -> {
 					index++;
 					inversionOctave = 5;
-					break;
-				case '6':
+				}
+				case '6' -> {
 					index++;
 					inversionOctave = 6;
-					break;
-				case '7':
+				}
+				case '7' -> {
 					index++;
 					inversionOctave = 7;
-					break;
-				case '8':
+				}
+				case '8' -> {
 					index++;
 					inversionOctave = 8;
-					break;
-				case '9':
+				}
+				case '9' -> {
 					index++;
 					inversionOctave = 9;
-					break;
+				}
 				// If [, whoo boy, we're checking for a note number
-				case '[':
+				case '[' -> {
 					int indexEndBracket = s.indexOf(']', index);
 					inversionRootNote = Integer.parseInt(
 							s.substring(index + 1, indexEndBracket - 1));
 					index = indexEndBracket + 1;
-					break;
-				default:
-					checkForInversion = false;
-					break;
+				}
+				default -> checkForInversion = false;
 				}
 			} else {
 				checkForInversion = false;
@@ -1288,22 +1248,11 @@ public final class MusicStringParser extends Parser {
 		context.decimalDuration = 0.0;
 		if (index < slen) {
 			switch (s.charAt(index)) {
-			case '/':
-				index = parseNumericDuration(s, slen, index, context);
-				break;
-			case 'W':
-			case 'H':
-			case 'Q':
-			case 'I':
-			case 'S':
-			case 'T':
-			case 'X':
-			case 'O':
-			case '-':
-				index = parseLetterDuration(s, slen, index, context);
-				break;
-			default:
-				break;
+			case '/' -> index = parseNumericDuration(s, slen, index, context);
+			case 'W', 'H', 'Q', 'I', 'S', 'T', 'X', 'O', '-' ->
+					index = parseLetterDuration(s, slen, index, context);
+			default -> {
+			}
 			}
 			index = parseTuplet(s, slen, index, context);
 		} else {
@@ -1569,15 +1518,10 @@ public final class MusicStringParser extends Parser {
 					s.substring(startPoint, endPoint));
 
 			switch (velocityChar) {
-			case 'A':
-				context.attackVelocity = velocityNumber;
-				break;
-			case 'D':
-				context.decayVelocity = velocityNumber;
-				break;
-			default:
-				throw new JFugueException(JFugueException.NOTE_VELOCITY_EXC,
-						s.substring(startPoint, endPoint), s);
+			case 'A' -> context.attackVelocity = velocityNumber;
+			case 'D' -> context.decayVelocity = velocityNumber;
+			default -> throw new JFugueException(JFugueException.NOTE_VELOCITY_EXC,
+					s.substring(startPoint, endPoint), s);
 			}
 			index = endPoint;
 		}
@@ -1763,14 +1707,12 @@ public final class MusicStringParser extends Parser {
 	private byte getByteFromDictionary(String bracketedString)
 			throws JFugueException {
 		String definition = dictionaryLookup(bracketedString);
-		Byte newbyte = null;
 		try {
-			newbyte = new Byte(definition);
+			return Byte.parseByte(definition);
 		} catch (NumberFormatException e) {
 			throw new JFugueException(JFugueException.EXPECTED_BYTE, definition,
 					bracketedString);
 		}
-		return newbyte.byteValue();
 	}
 
 	/**
@@ -1786,14 +1728,12 @@ public final class MusicStringParser extends Parser {
 	private long getLongFromDictionary(String bracketedString)
 			throws JFugueException {
 		String definition = dictionaryLookup(bracketedString);
-		Long newlong = null;
 		try {
-			newlong = new Long(definition);
+			return Long.parseLong(definition);
 		} catch (NumberFormatException e) {
 			throw new JFugueException(JFugueException.EXPECTED_LONG, definition,
 					bracketedString);
 		}
-		return newlong.longValue();
 	}
 
 	/**
@@ -1809,14 +1749,12 @@ public final class MusicStringParser extends Parser {
 	private int getIntFromDictionary(String bracketedString)
 			throws JFugueException {
 		String definition = dictionaryLookup(bracketedString);
-		Integer newint = null;
 		try {
-			newint = Integer.valueOf(definition);
+			return Integer.parseInt(definition);
 		} catch (NumberFormatException e) {
 			throw new JFugueException(JFugueException.EXPECTED_INT, definition,
 					bracketedString);
 		}
-		return newint.intValue();
 	}
 
 	/**
@@ -1832,14 +1770,12 @@ public final class MusicStringParser extends Parser {
 	private double getDoubleFromDictionary(String bracketedString)
 			throws JFugueException {
 		String definition = dictionaryLookup(bracketedString);
-		Double newdouble = null;
 		try {
-			newdouble = new Double(definition);
+			return Double.parseDouble(definition);
 		} catch (NumberFormatException e) {
 			throw new JFugueException(JFugueException.EXPECTED_DOUBLE,
 					definition, bracketedString);
 		}
-		return newdouble.doubleValue();
 	}
 
 	/**

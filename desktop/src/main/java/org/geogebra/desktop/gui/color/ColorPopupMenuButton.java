@@ -55,7 +55,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonD
 		colorSet = getColorArray(colorSetType);
 		defaultColor = colorSet[0];
 
-		lookupMap = new HashMap<GColor, Integer>();
+		lookupMap = new HashMap<>();
 		for (int i = 0; i < colorSet.length; i++) {
 			lookupMap.put((colorSet[i]), i);
 		}

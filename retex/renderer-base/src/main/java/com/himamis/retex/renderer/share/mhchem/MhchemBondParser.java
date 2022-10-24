@@ -62,7 +62,7 @@ public class MhchemBondParser {
 
 	public Atom get() throws ParseException {
 		switch (parseString.length()) {
-		case 1: {
+		case 1 -> {
 			final char c = parseString.charAt(0);
 			if (c == '-' || c == '1') {
 				return new MhchemBondAtom(1, -1);
@@ -75,7 +75,7 @@ public class MhchemBondParser {
 			}
 			break;
 		}
-		case 2: {
+		case 2 -> {
 			final char c1 = parseString.charAt(0);
 			final char c2 = parseString.charAt(1);
 			if (c1 == '~') {
@@ -95,7 +95,7 @@ public class MhchemBondParser {
 			}
 			break;
 		}
-		case 3: {
+		case 3 -> {
 			final char c1 = parseString.charAt(0);
 			final char c2 = parseString.charAt(1);
 			final char c3 = parseString.charAt(2);
@@ -111,7 +111,7 @@ public class MhchemBondParser {
 			}
 			break;
 		}
-		case 4: {
+		case 4 -> {
 			final char c1 = parseString.charAt(0);
 			final char c2 = parseString.charAt(1);
 			final char c3 = parseString.charAt(2);

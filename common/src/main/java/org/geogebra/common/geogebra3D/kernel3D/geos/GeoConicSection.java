@@ -544,29 +544,25 @@ public class GeoConicSection extends GeoConic3D
 						P.setY(y);
 						P.setZ(1);
 						switch (type) {
-						default:
-							pp.t = Double.NaN;
-							break;
-						case GeoConicNDConstants.CONIC_CIRCLE:
-						case GeoConicNDConstants.CONIC_ELLIPSE:
+						default -> pp.t = Double.NaN;
+						case GeoConicNDConstants.CONIC_CIRCLE, GeoConicNDConstants.CONIC_ELLIPSE -> {
 							// we map the [0,1] parameter to edge parameters
 							pp.t = edgeStartParam[i] * (1 - parameter)
 									+ edgeEndParam[i] * parameter;
 							if (pp.t > Math.PI) {
 								pp.t -= Kernel.PI_2;
 							}
-							break;
-						case GeoConicNDConstants.CONIC_PARABOLA:
+						}
+						case GeoConicNDConstants.CONIC_PARABOLA -> {
 							// we add edge parameter to start parameter
 							if (edgeStartParam[0] < edgeEndParam[0]) {
 								parameter = -parameter;
 							}
 							pp.t = edgeStartParam[0] + parameter;
-							break;
-						case GeoConicNDConstants.CONIC_HYPERBOLA:
-							pp.t = edgeEndParam[i] * parameter
-									+ (1 - parameter);
-							break;
+						}
+						case GeoConicNDConstants.CONIC_HYPERBOLA ->
+								pp.t = edgeEndParam[i] * parameter
+										+ (1 - parameter);
 						}
 					}
 				}

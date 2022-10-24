@@ -1642,14 +1642,16 @@ public abstract class EuclidianController3D extends EuclidianController {
 				// create new pyramid or prism
 				view3D.disposePreview();
 				switch (mode) {
-				case EuclidianConstants.MODE_PYRAMID:
+				case EuclidianConstants.MODE_PYRAMID -> {
 					pyramidBasis = null;
-					return new GeoElement[] { getKernel().getManager3D()
-							.pyramid(null, points)[0] };
-				case EuclidianConstants.MODE_PRISM:
+					return new GeoElement[]{getKernel().getManager3D()
+							.pyramid(null, points)[0]};
+				}
+				case EuclidianConstants.MODE_PRISM -> {
 					pyramidBasis = null;
-					return new GeoElement[] {
-							getKernel().getManager3D().prism(null, points)[0] };
+					return new GeoElement[]{
+							getKernel().getManager3D().prism(null, points)[0]};
+				}
 				}
 			}
 
@@ -1750,8 +1752,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			}
 		}
 
-		if (movedGeoPoint instanceof GeoPoint3D) {
-			GeoPoint3D movedGeoPoint3D = (GeoPoint3D) movedGeoPoint;
+		if (movedGeoPoint instanceof GeoPoint3D movedGeoPoint3D) {
 			movedGeoPoint3D.setWillingCoordsUndefined();
 			movedGeoPoint3D.setWillingDirectionUndefined();
 		}
@@ -1883,34 +1884,26 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	@Override
 	protected Previewable switchPreviewableForInitNewMode(int previewMode) {
-		switch (previewMode) {
-		case EuclidianConstants.MODE_SPHERE_TWO_POINTS:
-			return view3D.createPreviewSphere(getSelectedPointList());
-
-		case EuclidianConstants.MODE_EXTRUSION:
-			return view3D.createPreviewExtrusion(
+		return switch (previewMode) {
+			case EuclidianConstants.MODE_SPHERE_TWO_POINTS ->
+					view3D.createPreviewSphere(getSelectedPointList());
+			case EuclidianConstants.MODE_EXTRUSION -> view3D.createPreviewExtrusion(
 					getSelectedPolygonList(), getSelectedConicNDList());
-		case EuclidianConstants.MODE_SURFACE_OF_REVOLUTION:
-			return view3D.createPreviewSurfaceOfRevolution(
-					getSelectedPathList());
-		case EuclidianConstants.MODE_CONIFY:
-			return view3D.createPreviewConify(
+			case EuclidianConstants.MODE_SURFACE_OF_REVOLUTION ->
+					view3D.createPreviewSurfaceOfRevolution(
+							getSelectedPathList());
+			case EuclidianConstants.MODE_CONIFY -> view3D.createPreviewConify(
 					getSelectedPolygonList(), getSelectedConicNDList());
-
-		case EuclidianConstants.MODE_PYRAMID:
-		case EuclidianConstants.MODE_PRISM:
-			return view3D.createPreviewPyramidOrPrism(
-					getSelectedPointList(), getSelectedPolygonList(),
+			case EuclidianConstants.MODE_PYRAMID, EuclidianConstants.MODE_PRISM ->
+					view3D.createPreviewPyramidOrPrism(
+							getSelectedPointList(), getSelectedPolygonList(),
+							previewMode);
+			case EuclidianConstants.MODE_INTERSECTION_CURVE ->
+				// line through two points
+					null;
+			default -> super.switchPreviewableForInitNewMode(
 					previewMode);
-
-		case EuclidianConstants.MODE_INTERSECTION_CURVE:
-			// line through two points
-			return null;
-
-		default:
-			return super.switchPreviewableForInitNewMode(
-					previewMode);
-		}
+		};
 	}
 
 	// not only moveable hits are selected in move mode
@@ -3269,43 +3262,19 @@ public abstract class EuclidianController3D extends EuclidianController {
 	// ///////////////////////////////////////////////////
 
 	private static boolean isModeForMovingPoint(int mode) {
-		switch (mode) {
-		case EuclidianConstants.MODE_MOVE:
-		case EuclidianConstants.MODE_SELECT:
-		case EuclidianConstants.MODE_ATTACH_DETACH:
-			return true;
-		default:
-			return isModeForCreatingPoint(mode);
-		}
+		return switch (mode) {
+			case EuclidianConstants.MODE_MOVE, EuclidianConstants.MODE_SELECT, EuclidianConstants.MODE_ATTACH_DETACH ->
+					true;
+			default -> isModeForCreatingPoint(mode);
+		};
 	}
 
 	private static boolean isModeForCreatingPoint(int mode) {
-		switch (mode) {
-		case EuclidianConstants.MODE_POINT:
-		case EuclidianConstants.MODE_POINT_ON_OBJECT:
-
-		case EuclidianConstants.MODE_JOIN:
-		case EuclidianConstants.MODE_SEGMENT:
-
-		case EuclidianConstants.MODE_RAY:
-		case EuclidianConstants.MODE_VECTOR:
-
-		case EuclidianConstants.MODE_POLYGON:
-		case EuclidianConstants.MODE_POLYLINE:
-		case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
-		case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
-		case EuclidianConstants.MODE_PLANE_THREE_POINTS:
-		case EuclidianConstants.MODE_SPHERE_TWO_POINTS:
-		case EuclidianConstants.MODE_SPHERE_POINT_RADIUS:
-		case EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS:
-		case EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS:
-
-		case EuclidianConstants.MODE_PYRAMID:
-		case EuclidianConstants.MODE_PRISM:
-			return true;
-		default:
-			return false;
-		}
+		return switch (mode) {
+			case EuclidianConstants.MODE_POINT, EuclidianConstants.MODE_POINT_ON_OBJECT, EuclidianConstants.MODE_JOIN, EuclidianConstants.MODE_SEGMENT, EuclidianConstants.MODE_RAY, EuclidianConstants.MODE_VECTOR, EuclidianConstants.MODE_POLYGON, EuclidianConstants.MODE_POLYLINE, EuclidianConstants.MODE_CIRCLE_THREE_POINTS, EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS, EuclidianConstants.MODE_PLANE_THREE_POINTS, EuclidianConstants.MODE_SPHERE_TWO_POINTS, EuclidianConstants.MODE_SPHERE_POINT_RADIUS, EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS, EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS, EuclidianConstants.MODE_PYRAMID, EuclidianConstants.MODE_PRISM ->
+					true;
+			default -> false;
+		};
 	}
 
 	/**
@@ -3335,41 +3304,13 @@ public abstract class EuclidianController3D extends EuclidianController {
 				return false;
 			}
 		} else if (cursorType == EuclidianView3D.PREVIEW_POINT_DEPENDENT) {
-			switch (mode) {
-			// modes in which the result could be a dependent point
-			case EuclidianConstants.MODE_POINT:
-			case EuclidianConstants.MODE_INTERSECT:
-			case EuclidianConstants.MODE_JOIN:
-			case EuclidianConstants.MODE_SEGMENT:
-			case EuclidianConstants.MODE_SEGMENT_FIXED:
-			case EuclidianConstants.MODE_RAY:
-			case EuclidianConstants.MODE_VECTOR:
-			case EuclidianConstants.MODE_POLYGON:
-			case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
-			case EuclidianConstants.MODE_SPHERE_POINT_RADIUS:
-			case EuclidianConstants.MODE_SPHERE_TWO_POINTS:
-			case EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS:
-			case EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS:
-			case EuclidianConstants.MODE_TETRAHEDRON:
-			case EuclidianConstants.MODE_CUBE:
-			case EuclidianConstants.MODE_PYRAMID:
-			case EuclidianConstants.MODE_PRISM:
-			case EuclidianConstants.MODE_PLANE_THREE_POINTS:
-			case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
-			case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS:
-			case EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS:
-			case EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS:
-			case EuclidianConstants.MODE_ELLIPSE_THREE_POINTS:
-			case EuclidianConstants.MODE_CONIC_FIVE_POINTS:
-			case EuclidianConstants.MODE_POLYLINE:
-				return true;
-
-			case EuclidianConstants.MODE_REGULAR_POLYGON:
-				return selPoints() == 0 || selCS2D() == 1;
-
-			default:
-				return false;
-			}
+			return switch (mode) {
+				// modes in which the result could be a dependent point
+				case EuclidianConstants.MODE_POINT, EuclidianConstants.MODE_INTERSECT, EuclidianConstants.MODE_JOIN, EuclidianConstants.MODE_SEGMENT, EuclidianConstants.MODE_SEGMENT_FIXED, EuclidianConstants.MODE_RAY, EuclidianConstants.MODE_VECTOR, EuclidianConstants.MODE_POLYGON, EuclidianConstants.MODE_CIRCLE_THREE_POINTS, EuclidianConstants.MODE_SPHERE_POINT_RADIUS, EuclidianConstants.MODE_SPHERE_TWO_POINTS, EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS, EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS, EuclidianConstants.MODE_TETRAHEDRON, EuclidianConstants.MODE_CUBE, EuclidianConstants.MODE_PYRAMID, EuclidianConstants.MODE_PRISM, EuclidianConstants.MODE_PLANE_THREE_POINTS, EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS, EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS, EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS, EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS, EuclidianConstants.MODE_ELLIPSE_THREE_POINTS, EuclidianConstants.MODE_CONIC_FIVE_POINTS, EuclidianConstants.MODE_POLYLINE ->
+						true;
+				case EuclidianConstants.MODE_REGULAR_POLYGON -> selPoints() == 0 || selCS2D() == 1;
+				default -> false;
+			};
 		} else {
 			switch (mode) {
 				// modes where point can be created on path/region
@@ -3751,9 +3692,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 						moveMode = MOVE_VECTOR_NO_GRID;
 						setTranslateStart(movedGeoElement, movedGeoVector);
 					} else if (in
-							.getParentAlgorithm() instanceof AlgoVectorPoint) {
-						AlgoVectorPoint algoVector = (AlgoVectorPoint) in
-								.getParentAlgorithm();
+							.getParentAlgorithm() instanceof AlgoVectorPoint algoVector) {
 						moveMode = MOVE_POINT_WITH_OFFSET;
 						setMovedGeoPoint(algoVector.getP());
 						setTranslateFromPointStart(movedGeoElement,
@@ -4105,67 +4044,62 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		kernel.getAlgebraProcessor().processAlgebraCommandNoExceptionHandling(
 				inputText, false, eh, true,
-				new AsyncOperation<GeoElementND[]>() {
+				result -> {
+					String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES_STRING;
 
-					@Override
-					public void callback(GeoElementND[] result) {
-						String defaultRotateAngle = Unicode.FORTY_FIVE_DEGREES_STRING;
+					cons.setSuppressLabelCreation(oldVal);
 
-						cons.setSuppressLabelCreation(oldVal);
+					boolean success = result != null && result.length > 0
+							&& result[0] instanceof GeoNumberValue;
 
-						boolean success = result != null && result.length > 0
-								&& result[0] instanceof GeoNumberValue;
+					if (success) {
+						GeoNumberValue num = (GeoNumberValue) result[0];
 
-						if (success) {
-							GeoNumberValue num = (GeoNumberValue) result[0];
+						// keep angle entered if it ends with 'degrees'
+						if (rawInput.endsWith(Unicode.DEGREE_STRING)) {
+							defaultRotateAngle = rawInput;
+						}
 
-							// keep angle entered if it ends with 'degrees'
-							if (rawInput.endsWith(Unicode.DEGREE_STRING)) {
-								defaultRotateAngle = rawInput;
-							}
-
-							if (polys.length == 1) {
-								GeoElement[] geos = ec.rotateAroundLine(
-										polys[0], num, lines[0]);
-								if (geos != null) {
-									app.storeUndoInfoAndStateForModeStarting();
-									ec.memorizeJustCreatedGeos(geos);
-								}
-								if (callback != null) {
-									callback.callback(defaultRotateAngle);
-								}
-								return;
-							}
-
-							ArrayList<GeoElement> ret = new ArrayList<>();
-							for (GeoElement selGeo : selGeos) {
-								if (selGeo != lines[0]) {
-									if (selGeo instanceof Transformable) {
-										ret.addAll(Arrays.asList(
-												ec.rotateAroundLine(selGeo,
-														num, lines[0])));
-									} else if (selGeo.isGeoPolygon()) {
-										ret.addAll(Arrays.asList(
-												ec.rotateAroundLine(selGeo,
-														num, lines[0])));
-									}
-								}
-							}
-							if (!ret.isEmpty()) {
+						if (polys.length == 1) {
+							GeoElement[] geos = ec.rotateAroundLine(
+									polys[0], num, lines[0]);
+							if (geos != null) {
 								app.storeUndoInfoAndStateForModeStarting();
-								ec.memorizeJustCreatedGeos(ret);
+								ec.memorizeJustCreatedGeos(geos);
 							}
-						} else {
-							if (result != null && result.length > 0) {
-								eh.showError(Errors.NumberExpected.getError(app.getLocalization()));
+							if (callback != null) {
+								callback.callback(defaultRotateAngle);
+							}
+							return;
+						}
+
+						ArrayList<GeoElement> ret = new ArrayList<>();
+						for (GeoElement selGeo : selGeos) {
+							if (selGeo != lines[0]) {
+								if (selGeo instanceof Transformable) {
+									ret.addAll(Arrays.asList(
+											ec.rotateAroundLine(selGeo,
+													num, lines[0])));
+								} else if (selGeo.isGeoPolygon()) {
+									ret.addAll(Arrays.asList(
+											ec.rotateAroundLine(selGeo,
+													num, lines[0])));
+								}
 							}
 						}
-						if (callback != null) {
-							callback.callback(
-									success ? defaultRotateAngle : null);
+						if (!ret.isEmpty()) {
+							app.storeUndoInfoAndStateForModeStarting();
+							ec.memorizeJustCreatedGeos(ret);
+						}
+					} else {
+						if (result != null && result.length > 0) {
+							eh.showError(Errors.NumberExpected.getError(app.getLocalization()));
 						}
 					}
-
+					if (callback != null) {
+						callback.callback(
+								success ? defaultRotateAngle : null);
+					}
 				});
 	}
 
@@ -4409,12 +4343,11 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	@Override
 	protected boolean modeTriggersUndoOnDragGeo(int mode2) {
-		switch (mode2) {
-		case EuclidianConstants.MODE_PYRAMID:
-		case EuclidianConstants.MODE_PRISM:
-			return pyramidBasis == null && selPolygons() == 0;
-		}
-		return super.modeTriggersUndoOnDragGeo(mode2);
+		return switch (mode2) {
+			case EuclidianConstants.MODE_PYRAMID, EuclidianConstants.MODE_PRISM ->
+					pyramidBasis == null && selPolygons() == 0;
+			default -> super.modeTriggersUndoOnDragGeo(mode2);
+		};
 	}
 
 	@Override

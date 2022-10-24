@@ -426,22 +426,21 @@ public class CoordMatrix4x4 extends CoordMatrix {
 		ret.setOrigin(origin);
 
 		switch (type) {
-		default:
-		case VX:
+		case VX -> {
 			ret.setVx(direction);
 			ret.setVy(Vn1);
 			ret.setVz(Vn2);
-			break;
-		case VY:
+		}
+		case VY -> {
 			ret.setVx(Vn2);
 			ret.setVy(direction);
 			ret.setVz(Vn1);
-			break;
-		case VZ:
+		}
+		case VZ -> {
 			ret.setVx(Vn1);
 			ret.setVy(Vn2);
 			ret.setVz(direction);
-			break;
+		}
 		}
 	}
 
@@ -472,22 +471,21 @@ public class CoordMatrix4x4 extends CoordMatrix {
 		ret.setOrigin(origin);
 
 		switch (type) {
-		default:
-		case VX:
+		case VX -> {
 			ret.setVx(direction);
 			ret.setVy(Vn1);
 			ret.setVz(Vn2);
-			break;
-		case VY:
+		}
+		case VY -> {
 			ret.setVx(Vn2);
 			ret.setVy(direction);
 			ret.setVz(Vn1);
-			break;
-		case VZ:
+		}
+		case VZ -> {
 			ret.setVx(Vn1);
 			ret.setVy(Vn2);
 			ret.setVz(direction);
-			break;
+		}
 		}
 	}
 

@@ -42,8 +42,8 @@ public class MicrotoneNotation {
 	private Map<String, String> keyToMusicStringDict;
 
 	public MicrotoneNotation() {
-		keyToFreqDict = new HashMap<String, Double>();
-		keyToMusicStringDict = new HashMap<String, String>();
+		keyToFreqDict = new HashMap<>();
+		keyToMusicStringDict = new HashMap<>();
 	}
 
 	public void put(String key, double freq) {
@@ -101,25 +101,25 @@ public class MicrotoneNotation {
 
 		// Go through the Pattern, and replace known microtone keys with
 		// microtone music strings
-		for (int i = 0; i < tokens.length; i++) {
-			if ((tokens[i].length() > 0) && (tokens[i].charAt(0) == '<')) {
-				int end = tokens[i].indexOf('>');
-				String possibleKey = tokens[i].substring(1, end);
+		for (String token : tokens) {
+			if ((token.length() > 0) && (token.charAt(0) == '<')) {
+				int end = token.indexOf('>');
+				String possibleKey = token.substring(1, end);
 				if (keyToMusicStringDict.containsKey(possibleKey)) {
 					buddy.append(keyToMusicStringDict.get(possibleKey));
 					buddy.append(
-							tokens[i].substring(end + 1, tokens[i].length())); // Add
-																				// the
-																				// rest
-																				// of
-																				// the
-																				// token
+							token.substring(end + 1, token.length())); // Add
+					// the
+					// rest
+					// of
+					// the
+					// token
 					buddy.append(getResetPitchWheelString());
 				} else {
-					buddy.append(tokens[i]);
+					buddy.append(token);
 				}
 			} else {
-				buddy.append(tokens[i]);
+				buddy.append(token);
 			}
 			buddy.append(" ");
 		}

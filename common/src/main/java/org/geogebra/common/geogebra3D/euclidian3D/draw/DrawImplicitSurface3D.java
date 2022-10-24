@@ -131,8 +131,7 @@ public class DrawImplicitSurface3D extends Drawable3DSurfaces {
 		if (MyMath.changedSign(v0, v1)) {
 			return true;
 		}
-		for (int i = 0; i < hitTestParams.length; i++) {
-			double p = hitTestParams[i];
+		for (double p : hitTestParams) {
 			double q = 1 - p;
 			v1 = gs.evaluateAt(hitting.x1 * p + hitting.x0 * q,
 					hitting.y1 * p + hitting.y0 * q,

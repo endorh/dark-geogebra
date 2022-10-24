@@ -30,22 +30,20 @@ public class CmdParametricDerivative extends CommandProcessor
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
+		case 1 -> {
 			arg = resArgs(c);
 			// use instanceof (2D only)
-			if (arg[0] instanceof GeoCurveCartesian) {
-				GeoCurveCartesian f = (GeoCurveCartesian) arg[0];
+			if (arg[0] instanceof GeoCurveCartesian f) {
 
 				AlgoParametricDerivative algo = new AlgoParametricDerivative(
 						cons, label, f);
 
-				GeoElement[] ret = { algo.getParametricDerivative() };
+				GeoElement[] ret = {algo.getParametricDerivative()};
 				return ret;
 			}
 			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 
 	}

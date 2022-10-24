@@ -85,10 +85,10 @@ public class AlgoRootsPolynomialInterval extends AlgoRootsPolynomial {
 			return;
 		}
 		// remove points that aren't in the interval
-		for (int i = 0; i < rootPoints.length; i++) {
-			double xCoord = rootPoints[i].getInhomX();
+		for (org.geogebra.common.kernel.geos.GeoPoint rootPoint : rootPoints) {
+			double xCoord = rootPoint.getInhomX();
 			if (interval == null || !interval.evaluateBoolean(xCoord)) {
-				rootPoints[i].setUndefined();
+				rootPoint.setUndefined();
 			}
 		}
 	}

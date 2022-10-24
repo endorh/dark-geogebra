@@ -1,7 +1,6 @@
 // Copyright 2002, FreeHEP.
 package org.freehep.util.io;
 
-import java.io.IOException;
 import java.io.InputStream;
 
 /**
@@ -38,12 +37,6 @@ public class PromptInputStream extends RoutedInputStream {
 	 */
 	public void addPromptListener(String prompt, PromptListener listener) {
 		final PromptListener promptListener = listener;
-		addRoute(prompt, prompt, new RouteListener() {
-			@Override
-			public void routeFound(RoutedInputStream.Route input)
-					throws IOException {
-				promptListener.promptFound(input);
-			}
-		});
+		addRoute(prompt, prompt, promptListener::promptFound);
 	}
 }

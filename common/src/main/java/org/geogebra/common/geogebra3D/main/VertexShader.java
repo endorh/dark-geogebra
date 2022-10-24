@@ -8,58 +8,65 @@ import org.geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
  */
 public class VertexShader {
 
-	final private static String vertexHeaderDesktop = 
-			  "#if __VERSION__ >= 130 "
-			+ "// GLSL 130+ uses in and out\n"
-			+ "  #define attribute in // instead of attribute and varying \n"
-			+ "  #define varying out  // used by OpenGL 3 core and later. \n"
-			+ "#endif\n"
-			+ "#ifdef GL_ES \n"
-			+ "  precision mediump float; // Precision Qualifiers\n"
-			+ "  precision mediump int; // GLSL ES section 4.5.2\n"
-			+ "#endif\n";
+	final private static String vertexHeaderDesktop =
+			"""
+					#if __VERSION__ >= 130 // GLSL 130+ uses in and out
+					  #define attribute in // instead of attribute and varying\s
+					  #define varying out  // used by OpenGL 3 core and later.\s
+					#endif
+					#ifdef GL_ES\s
+					  precision mediump float; // Precision Qualifiers
+					  precision mediump int; // GLSL ES section 4.5.2
+					#endif
+					""";
 
 	final private static String inUniform =
-			"\n" 
-			+ "uniform mat4 matrix;\n"
-			+ "uniform vec3 lightPosition;\n"
-			+ "uniform vec4 eyePosition;\n"
-			+ "uniform vec2 ambiantDiffuse;\n"
-			+ "uniform int enableLight;\n" 
-			+ "uniform int culling;\n"
-			+ "uniform vec4 color;\n" 
-			+ "uniform vec3 normal;\n"
-			+ "uniform int labelRendering;\n"
-			+ "uniform vec3 labelOrigin;\n" 
-			+ "uniform int layer;\n"
-			+ "uniform int opaqueSurfaces;\n";
+			"""
+
+					uniform mat4 matrix;
+					uniform vec3 lightPosition;
+					uniform vec4 eyePosition;
+					uniform vec2 ambiantDiffuse;
+					uniform int enableLight;
+					uniform int culling;
+					uniform vec4 color;
+					uniform vec3 normal;
+					uniform int labelRendering;
+					uniform vec3 labelOrigin;
+					uniform int layer;
+					uniform int opaqueSurfaces;
+					""";
 
 	final private static String light =
-			  "  if (enableLight == 1){// color with light\n"
-			+ "    float factor = dot(n, lightPosition);\n"
-			+ "    factor = float(culling) * factor;\n"
-			+ "    factor = max(0.0, factor);\n"
-			+ "    float ambiant = ambiantDiffuse[0];\n"
-			+ "    float diffuse = ambiantDiffuse[1];\n"
-			+ "    if (eyePosition[3] < 0.5){ // parallel projection\n"
-			+ "      viewDirection = vec3(eyePosition);\n"
-			+ "    }else{ // perspective projection\n"
-			+ "      viewDirection = normalize(attribute_Position - vec3(eyePosition));\n"
-			+ "    }\n"
-			+ "    lightReflect = normalize(reflect(lightPosition, n));\n"
-			+ "    varying_Color.rgb = (ambiant + diffuse * factor) * c.rgb;\n"
-			+ "    varying_Color.a = c.a;\n" 
-			+ "  }else{ //no light\n"
-			+ "    lightReflect = vec3(0.0,0.0,0.0);\n"
-			+ "    varying_Color = c;\n" 
-			+ "  }\n";
+			"""
+					  if (enableLight == 1){// color with light
+					    float factor = dot(n, lightPosition);
+					    factor = float(culling) * factor;
+					    factor = max(0.0, factor);
+					    float ambiant = ambiantDiffuse[0];
+					    float diffuse = ambiantDiffuse[1];
+					    if (eyePosition[3] < 0.5){ // parallel projection
+					      viewDirection = vec3(eyePosition);
+					    }else{ // perspective projection
+					      viewDirection = normalize(attribute_Position - vec3(eyePosition));
+					    }
+					    lightReflect = normalize(reflect(lightPosition, n));
+					    varying_Color.rgb = (ambiant + diffuse * factor) * c.rgb;
+					    varying_Color.a = c.a;
+					  }else{ //no light
+					    lightReflect = vec3(0.0,0.0,0.0);
+					    varying_Color = c;
+					  }
+					""";
 	
 	final private static String depthToColorString =
-			  "  float gray = gl_Position.z + 0.5;\n"
-			+ "  varying_Color.r = gray;\n"
-			+ "  varying_Color.g = gray;\n"
-			+ "  varying_Color.b = gray;\n"
-			+ "  coordTexture = attribute_Texture;\n";
+			"""
+					  float gray = gl_Position.z + 0.5;
+					  varying_Color.r = gray;
+					  varying_Color.g = gray;
+					  varying_Color.b = gray;
+					  coordTexture = attribute_Texture;
+					""";
 
 	final private static String shiny_packed =
 			inUniform

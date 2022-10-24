@@ -29,7 +29,7 @@ public class ShortestPathUtils {
 	 */
 	public static <V, E> List<E> getPath(Graph<V, E> graph,
 			ShortestPath<V, E> sp, V source, V target) {
-		LinkedList<E> path = new LinkedList<E>();
+		LinkedList<E> path = new LinkedList<>();
 
 		Map<V, E> incomingEdges = sp.getIncomingEdgeMap(source);
 

@@ -1,7 +1,6 @@
 package org.geogebra.common.euclidian.smallscreen;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -137,8 +136,7 @@ public class AdjustScreen {
 		Log.debug("[AS] collectWidgets()");
 		for (GeoElement geo : kernel.getConstruction().getGeoTable().values()) {
 			// boolean ensure = false;
-			if (geo instanceof GeoNumeric) {
-				GeoNumeric num = (GeoNumeric) geo;
+			if (geo instanceof GeoNumeric num) {
 				if (num.isSlider()) {
 					if (num.isSliderHorizontal()) {
 						hSliders.add(num);
@@ -204,7 +202,7 @@ public class AdjustScreen {
 	// }
 
 	private void checkOvelappingHSliders() {
-		Collections.sort(hSliders, new HSliderComparator());
+		hSliders.sort(new HSliderComparator());
 		for (int idx = 0; idx < hSliders.size() - 1; idx++) {
 			GeoNumeric slider1 = hSliders.get(idx);
 			GeoNumeric slider2 = hSliders.get(idx + 1);
@@ -228,8 +226,7 @@ public class AdjustScreen {
 		int maxY = view.getViewHeight() - AdjustSlider.MARGIN_Y;
 		if (lastSlider.getSliderY() > maxY) {
 			double dY = lastSlider.getSliderY() - maxY;
-			for (int idx = 0; idx < hSliders.size(); idx++) {
-				GeoNumeric slider = hSliders.get(idx);
+			for (GeoNumeric slider : hSliders) {
 				slider.setSliderLocation(slider.getSliderX(),
 						slider.getSliderY() - dY, true);
 			}
@@ -237,7 +234,7 @@ public class AdjustScreen {
 	}
 
 	private void checkOvelappingVSliders() {
-		Collections.sort(vSliders, new VSliderComparator());
+		vSliders.sort(new VSliderComparator());
 		for (int idx = 0; idx < vSliders.size() - 1; idx++) {
 			GeoNumeric slider1 = vSliders.get(idx);
 			GeoNumeric slider2 = vSliders.get(idx + 1);

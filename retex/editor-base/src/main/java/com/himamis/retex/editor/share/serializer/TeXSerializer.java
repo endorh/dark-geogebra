@@ -195,15 +195,9 @@ public class TeXSerializer extends SerializerAdapter {
 			stringBuilder.append(selection_start);
 		}
 		switch (function.getName()) {
-
-		case SUPERSCRIPT:
-			appendIndex(stringBuilder, function, "^");
-			break;
-		case SUBSCRIPT:
-			appendIndex(stringBuilder, function, "_");
-			break;
-
-		case FRAC:
+		case SUPERSCRIPT -> appendIndex(stringBuilder, function, "^");
+		case SUBSCRIPT -> appendIndex(stringBuilder, function, "_");
+		case FRAC -> {
 			stringBuilder.append("{");
 			stringBuilder.append(function.getTexName());
 			stringBuilder.append("{");
@@ -211,23 +205,22 @@ public class TeXSerializer extends SerializerAdapter {
 			stringBuilder.append("}{");
 			serialize(function.getArgument(1), stringBuilder);
 			stringBuilder.append("}}");
-			break;
-		case SQRT:
-		case CBRT:
+		}
+		case SQRT, CBRT -> {
 			stringBuilder.append(function.getTexName());
 			stringBuilder.append("{");
 			serialize(function.getArgument(0), stringBuilder);
 			stringBuilder.append("}");
-			break;
-		case NROOT:
+		}
+		case NROOT -> {
 			stringBuilder.append(function.getTexName());
 			stringBuilder.append('[');
 			serialize(function.getArgument(0), stringBuilder);
 			stringBuilder.append("]{");
 			serialize(function.getArgument(1), stringBuilder);
 			stringBuilder.append('}');
-			break;
-		case LOG:
+		}
+		case LOG -> {
 			stringBuilder.append(function.getTexName());
 			// only proint log base if nonempty or contains cursor
 			if (function.getArgument(0).size() > 0
@@ -239,57 +232,52 @@ public class TeXSerializer extends SerializerAdapter {
 			stringBuilder.append("\\left(");
 			serialize(function.getArgument(1), stringBuilder);
 			stringBuilder.append("\\right)");
-			break;
-		case SUM_EQ:
-		case PROD_EQ:
-		case DEF_INT:
+		}
+		case SUM_EQ, PROD_EQ, DEF_INT -> {
 			stringBuilder.append(function.getTexName());
 			stringBuilder.append('_');
 			serialize(function.getArgument(0), stringBuilder);
 			stringBuilder.append('^');
 			serialize(function.getArgument(1), stringBuilder);
 			stringBuilder.append("{}");
-			break;
-		case LIM_EQ:
+		}
+		case LIM_EQ -> {
 			stringBuilder.append("\\lim_{");
 			serialize(function.getArgument(0), stringBuilder);
 			stringBuilder.append("} ");
-			break;
-		case ABS:
+		}
+		case ABS -> {
 			stringBuilder.append("\\left|");
 			serialize(function.getArgument(0), stringBuilder);
 			stringBuilder.append("\\right|");
-			break;
-		case FLOOR:
+		}
+		case FLOOR -> {
 			stringBuilder.append("\\left\\lfloor ");
 			serialize(function.getArgument(0), stringBuilder);
 			stringBuilder.append("\\right\\rfloor ");
-			break;
-		case CEIL:
+		}
+		case CEIL -> {
 			stringBuilder.append("\\left\\lceil ");
 			serialize(function.getArgument(0), stringBuilder);
 			stringBuilder.append("\\right\\rceil ");
-			break;
-		case APPLY:
-		case APPLY_SQUARE:
+		}
+		case APPLY, APPLY_SQUARE -> {
 			StringBuilder functionName = new StringBuilder();
 			serialize(function.getArgument(0), functionName);
-
 			stringBuilder.append("{");
 			if (isFunction(functionName.toString())) {
 				stringBuilder.append("{\\mathrm{").append(functionName).append("}}");
 			} else {
 				stringBuilder.append(functionName);
 			}
-
 			serializeArguments(stringBuilder, function, 1);
-			break;
-		case VEC:
+		}
+		case VEC -> {
 			stringBuilder.append("\\overrightarrow{");
 			serialize(function.getArgument(0), stringBuilder);
 			stringBuilder.append("}");
-			break;
-		case ATOMIC_POST:
+		}
+		case ATOMIC_POST -> {
 			stringBuilder.append("{");
 			serialize(function.getArgument(0), stringBuilder);
 			stringBuilder.append("}_{");
@@ -297,8 +285,8 @@ public class TeXSerializer extends SerializerAdapter {
 			stringBuilder.append("}^{");
 			serialize(function.getArgument(2), stringBuilder);
 			stringBuilder.append("}");
-			break;
-		case ATOMIC_PRE:
+		}
+		case ATOMIC_PRE -> {
 			stringBuilder.append("\\ce{^{");
 			serialize(function.getArgument(1), stringBuilder);
 			stringBuilder.append("}_{");
@@ -306,14 +294,13 @@ public class TeXSerializer extends SerializerAdapter {
 			stringBuilder.append("}");
 			serialize(function.getArgument(2), stringBuilder);
 			stringBuilder.append("}");
-			break;
-
-		default:
+		}
+		default -> {
 			stringBuilder.append("{\\mathrm{");
 			stringBuilder.append(function.getTexName());
 			stringBuilder.append("}");
 			serializeArguments(stringBuilder, function, 0);
-
+		}
 		}
 		if (function == currentSelEnd) {
 			stringBuilder.append(selection_end);

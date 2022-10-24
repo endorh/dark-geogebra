@@ -514,16 +514,12 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 
 		char j = getJustification(c);
 
-		switch (j) {
-		case 'r':
-		case 'c':
-		case 'l':
-			return j;
+		return switch (j) {
+			case 'r', 'c', 'l' -> j;
 
-		// for 'a', '.', '%"
-		default:
-			return 'r';
-		}
+			// for 'a', '.', '%"
+			default -> 'r';
+		};
 
 	}
 
@@ -635,41 +631,41 @@ public class AlgoTableText extends AlgoElement implements TableAlgo {
 			) {
 
 				switch (fontStyle) {
-				default:
+				default -> {
 					stylePre = "\\text{";
 					stylePost = "}";
-					break;
-				case GFont.BOLD:
+				}
+				case GFont.BOLD -> {
 					stylePre = "\\textbf{";
 					stylePost = "}";
-					break;
-				case GFont.ITALIC:
+				}
+				case GFont.ITALIC -> {
 					stylePre = "\\textit{";
 					stylePost = "}";
-					break;
-				case GFont.BOLD + GFont.ITALIC:
+				}
+				case GFont.BOLD + GFont.ITALIC -> {
 					stylePre = "\\textit{\\textbf{";
 					stylePost = "}}";
-					break;
+				}
 				}
 
 			} else {
 				switch (fontStyle) {
-				default:
-					// do nothing
-					break;
-				case GFont.BOLD:
+				default -> {
+				}
+				// do nothing
+				case GFont.BOLD -> {
 					stylePre = "\\mathbf{";
 					stylePost = "}";
-					break;
-				case GFont.ITALIC:
+				}
+				case GFont.ITALIC -> {
 					stylePre = "\\mathit{";
 					stylePost = "}";
-					break;
-				case GFont.BOLD + GFont.ITALIC:
+				}
+				case GFont.BOLD + GFont.ITALIC -> {
 					stylePre = "\\mathit{\\mathbf{";
 					stylePost = "}}";
-					break;
+				}
 				}
 			}
 

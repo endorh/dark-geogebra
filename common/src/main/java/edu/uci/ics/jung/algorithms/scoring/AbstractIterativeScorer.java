@@ -173,8 +173,8 @@ public abstract class AbstractIterativeScorer<V, E, T>
 		this.total_iterations = 0;
 		this.max_delta = Double.MIN_VALUE;
 		this.output_reversed = true;
-		this.current_values = new HashMap<V, T>();
-		this.output = new HashMap<V, T>();
+		this.current_values = new HashMap<>();
+		this.output = new HashMap<>();
 	}
 
 	/**
@@ -321,7 +321,7 @@ public abstract class AbstractIterativeScorer<V, E, T>
 	 * @see edu.uci.ics.jung.algorithms.scoring.util.UniformDegreeWeight
 	 */
 	public void setEdgeWeights(Transformer<E, ? extends Number> edge_weights) {
-		this.edge_weights = new DelegateToEdgeTransformer<V, E>(edge_weights);
+		this.edge_weights = new DelegateToEdgeTransformer<>(edge_weights);
 	}
 
 	/**
@@ -337,7 +337,7 @@ public abstract class AbstractIterativeScorer<V, E, T>
 	 *         (incident) vertex <code>v</code>
 	 */
 	protected Number getEdgeWeight(V v, E e) {
-		return edge_weights.transform(new VEPair<V, E>(v, e));
+		return edge_weights.transform(new VEPair<>(v, e));
 	}
 
 	/**

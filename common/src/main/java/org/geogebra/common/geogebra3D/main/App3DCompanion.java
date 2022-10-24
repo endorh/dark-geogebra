@@ -190,11 +190,11 @@ public abstract class App3DCompanion extends AppCompanion {
 		if (geo == null) {
 			return null;
 		}
-		if (!(geo instanceof ViewCreator)) {
+		if (!(geo instanceof ViewCreator vc)) {
 			return null;
 		}
 
-		ViewCreator vc = (ViewCreator) geo; // getViewCreator(id);
+		// getViewCreator(id);
 		vc.setEuclidianViewForPlane(createEuclidianViewForPlane(vc, false));
 		return getPanelForPlane();
 	}

@@ -236,7 +236,7 @@ public class OneWayAnova {
         MathUtils.checkNotNull(categoryData);
 
         final Collection<SummaryStatistics> categoryDataSummaryStatistics =
-                new ArrayList<SummaryStatistics>(categoryData.size());
+		        new ArrayList<>(categoryData.size());
 
         // convert arrays to SummaryStatistics
         for (final double[] data : categoryData) {

@@ -37,8 +37,7 @@ public class AxisChangeListener implements SettingListener {
 
 	@Override
 	public void settingsChanged(AbstractSettings settings) {
-		if (settings instanceof EuclidianSettings) {
-			EuclidianSettings euclidianSettings = (EuclidianSettings) settings;
+		if (settings instanceof EuclidianSettings euclidianSettings) {
 			boolean anyAxisVisible = isAnyAxisVisible(euclidianSettings);
 			if (anyAxisVisible != isAnyAxisVisible) {
 				isAnyAxisVisible = anyAxisVisible;

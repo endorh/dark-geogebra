@@ -295,7 +295,7 @@ public class Geometry implements GeometryForExport {
 	public void bind(int size, TypeElement typeElement) {
 
 		switch (typeElement) {
-		case NONE:
+		case NONE -> {
 			if (hasSharedIndexBuffer) {
 				// need specific index if was sharing one
 				arrayI = null;
@@ -303,9 +303,7 @@ public class Geometry implements GeometryForExport {
 			if (arrayI == null) {
 				arrayI = GLFactory.getPrototype().newBufferIndices();
 			}
-
 			indicesLength = getLength();
-
 			if (!manager.getIndicesDone() || typeElement != manager.getOldType()
 					|| arrayI.capacity() < indicesLength) {
 				arrayI.allocate(indicesLength);
@@ -315,33 +313,28 @@ public class Geometry implements GeometryForExport {
 				arrayI.rewind();
 				manager.setIndicesDone(true);
 			}
-
 			hasSharedIndexBuffer = false;
-			break;
-
-		case CURVE:
+		}
+		case CURVE -> {
 			arrayI = manager.getBufferIndicesForCurve(size);
 			indicesLength = 3 * 2 * size * PlotterBrush.LATITUDES;
 			hasSharedIndexBuffer = true;
-			break;
-
-		case SURFACE:
+		}
+		case SURFACE -> {
 			indicesLength = size;
 			hasSharedIndexBuffer = false;
-			break;
-
-		case FAN_DIRECT:
+		}
+		case FAN_DIRECT -> {
 			arrayI = manager.getBufferIndicesForFanDirect(size);
 			indicesLength = 3 * (size - 2);
 			hasSharedIndexBuffer = true;
-			break;
-		case FAN_INDIRECT:
+		}
+		case FAN_INDIRECT -> {
 			arrayI = manager.getBufferIndicesForFanIndirect(size);
 			indicesLength = 3 * (size - 2);
 			hasSharedIndexBuffer = true;
-			break;
-		default:
-			Log.debug("Missing case: " + typeElement);
+		}
+		default -> Log.debug("Missing case: " + typeElement);
 		}
 
 		manager.setOldType(typeElement);

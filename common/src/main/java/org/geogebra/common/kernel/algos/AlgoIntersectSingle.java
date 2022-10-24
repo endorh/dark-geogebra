@@ -245,9 +245,9 @@ public class AlgoIntersectSingle extends AlgoIntersect implements
 			point.setCoords(parentOutput[idx]);
 
 			if (point.getIncidenceList() != null) {
-				for (int i = 0; i < parentOutput.length; ++i) {
-					if (!parentOutput[idx].contains(parentOutput[i])) {
-						point.getIncidenceList().remove(parentOutput[i]);
+				for (GeoPoint geoPoint : parentOutput) {
+					if (!parentOutput[idx].contains(geoPoint)) {
+						point.getIncidenceList().remove(geoPoint);
 					}
 				}
 			}
@@ -256,8 +256,8 @@ public class AlgoIntersectSingle extends AlgoIntersect implements
 			point.setUndefined();
 			ArrayList<GeoElement> al = point.getIncidenceList();
 			if (al != null) {
-				for (int i = 0; i < parentOutput.length; ++i) {
-					al.remove(parentOutput[i]);
+				for (GeoPoint geoPoint : parentOutput) {
+					al.remove(geoPoint);
 				}
 			}
 		}

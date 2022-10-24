@@ -1261,8 +1261,8 @@ final public class GeoVec2D extends ValidExpression
 		c = MyList.getCell(list, 0, 1).evaluateDouble();
 		d = MyList.getCell(list, 1, 1).evaluateDouble();
 
-		Double x1 = a * v.getX() + b * v.getY();
-		Double y1 = c * v.getX() + d * v.getY();
+		double x1 = a * v.getX() + b * v.getY();
+		double y1 = c * v.getX() + d * v.getY();
 
 		ret.x = x1;
 		ret.y = y1;
@@ -1305,8 +1305,8 @@ final public class GeoVec2D extends ValidExpression
 	 */
 	public void matrixTransform(double a, double b, double c, double d) {
 
-		Double x1 = a * x + b * y;
-		Double y1 = c * x + d * y;
+		double x1 = a * x + b * y;
+		double y1 = c * x + d * y;
 
 		x = x1;
 		y = y1;
@@ -1345,8 +1345,7 @@ final public class GeoVec2D extends ValidExpression
 			zz = 0;
 			vector = true;
 
-		} else if (rt instanceof GeoPointND) { // 3D point
-			GeoPointND p = (GeoPointND) rt;
+		} else if (rt instanceof GeoPointND p) { // 3D point
 			// use inhomogeneous coordinates
 			xx = p.getInhomX();
 			yy = p.getInhomY();

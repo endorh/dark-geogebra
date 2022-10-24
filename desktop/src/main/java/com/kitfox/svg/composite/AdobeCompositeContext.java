@@ -79,23 +79,22 @@ public class AdobeCompositeContext implements CompositeContext {
 				float alpha = rgba_src[3];
 
 				switch (compositeType) {
-				default:
-				case AdobeComposite.CT_NORMAL:
+				case AdobeComposite.CT_NORMAL -> {
 					rgba_dstOut[0] = rgba_src[0] * alpha
 							+ rgba_dstIn[0] * (1f - alpha);
 					rgba_dstOut[1] = rgba_src[1] * alpha
 							+ rgba_dstIn[1] * (1f - alpha);
 					rgba_dstOut[2] = rgba_src[2] * alpha
 							+ rgba_dstIn[2] * (1f - alpha);
-					break;
-				case AdobeComposite.CT_MULTIPLY:
+				}
+				case AdobeComposite.CT_MULTIPLY -> {
 					rgba_dstOut[0] = rgba_src[0] * rgba_dstIn[0] * alpha
 							+ rgba_dstIn[0] * (1f - alpha);
 					rgba_dstOut[1] = rgba_src[1] * rgba_dstIn[1] * alpha
 							+ rgba_dstIn[1] * (1f - alpha);
 					rgba_dstOut[2] = rgba_src[2] * rgba_dstIn[2] * alpha
 							+ rgba_dstIn[2] * (1f - alpha);
-					break;
+				}
 				}
 			}
 		}

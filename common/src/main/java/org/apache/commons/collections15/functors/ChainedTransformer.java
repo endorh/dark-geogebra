@@ -17,7 +17,6 @@
 package org.apache.commons.collections15.functors;
 
 import java.util.Collection;
-import java.util.Iterator;
 
 import org.apache.commons.collections15.Transformer;
 
@@ -61,7 +60,7 @@ public class ChainedTransformer<I, O> implements Transformer<I, O> {
 			return NOPTransformer.INSTANCE;
 		}
 		transformers = FunctorUtils.copy(transformers);
-		return new ChainedTransformer<I, O>(transformers);
+		return new ChainedTransformer<>(transformers);
 	}
 
 	/**
@@ -89,12 +88,11 @@ public class ChainedTransformer<I, O> implements Transformer<I, O> {
 		// convert to array like this to guarantee iterator() ordering
 		Transformer[] cmds = new Transformer[transformers.size()];
 		int i = 0;
-		for (Iterator<Transformer> it = transformers.iterator(); it
-				.hasNext();) {
-			cmds[i++] = it.next();
+		for (Transformer transformer : transformers) {
+			cmds[i++] = transformer;
 		}
 		FunctorUtils.validate(cmds);
-		return new ChainedTransformer<I, O>(cmds);
+		return new ChainedTransformer<>(cmds);
 	}
 
 	/**
@@ -116,7 +114,7 @@ public class ChainedTransformer<I, O> implements Transformer<I, O> {
 		}
 		Transformer[] transformers = new Transformer[] { transformer1,
 				transformer2 };
-		return new ChainedTransformer<I, O>(transformers);
+		return new ChainedTransformer<>(transformers);
 	}
 
 	/**
@@ -141,8 +139,8 @@ public class ChainedTransformer<I, O> implements Transformer<I, O> {
 	@Override
 	public O transform(I object) {
 		Object intermediate = object;
-		for (int i = 0; i < iTransformers.length; i++) {
-			intermediate = iTransformers[i].transform(intermediate);
+		for (Transformer iTransformer : iTransformers) {
+			intermediate = iTransformer.transform(intermediate);
 		}
 		return (O) intermediate;
 	}

@@ -60,17 +60,12 @@ class TokenStream
         if (Token.printTrees) {
             String name = Token.name(token);
 
-            switch (token) {
-            case Token.STRING:
-            case Token.REGEXP:
-            case Token.NAME:
-                return name + " `" + this.string + "'";
+            return switch (token) {
+                case Token.STRING, Token.REGEXP, Token.NAME -> name + " `" + this.string + "'";
+                case Token.NUMBER -> "NUMBER " + this.number;
+                default -> name;
+            };
 
-            case Token.NUMBER:
-                return "NUMBER " + this.number;
-            }
-
-            return name;
         }
         return "";
     }
@@ -960,12 +955,12 @@ class TokenStream
         for (int c = getChar(); c != EOF_CHAR; c = getChar()) {
             if (xmlIsTagContent) {
                 switch (c) {
-                case '>':
+                case '>' -> {
                     addToString(c);
                     xmlIsTagContent = false;
                     xmlIsAttribute = false;
-                    break;
-                case '/':
+                }
+                case '/' -> {
                     addToString(c);
                     if (peekChar() == '>') {
                         c = getChar();
@@ -973,30 +968,25 @@ class TokenStream
                         xmlIsTagContent = false;
                         xmlOpenTagsCount--;
                     }
-                    break;
-                case '{':
+                }
+                case '{' -> {
                     ungetChar(c);
                     this.string = getStringFromBuffer();
                     return Token.XML;
-                case '\'':
-                case '"':
+                }
+                case '\'', '"' -> {
                     addToString(c);
                     if (!readQuotedString(c)) return Token.ERROR;
-                    break;
-                case '=':
+                }
+                case '=' -> {
                     addToString(c);
                     xmlIsAttribute = true;
-                    break;
-                case ' ':
-                case '\t':
-                case '\r':
-                case '\n':
-                    addToString(c);
-                    break;
-                default:
+                }
+                case ' ', '\t', '\r', '\n' -> addToString(c);
+                default -> {
                     addToString(c);
                     xmlIsAttribute = false;
-                    break;
+                }
                 }
 
                 if (!xmlIsTagContent && xmlOpenTagsCount == 0) {
@@ -1005,11 +995,11 @@ class TokenStream
                 }
             } else {
                 switch (c) {
-                case '<':
+                case '<' -> {
                     addToString(c);
                     c = peekChar();
                     switch (c) {
-                    case '!':
+                    case '!' -> {
                         c = getChar(); // Skip !
                         addToString(c);
                         c = peekChar();
@@ -1020,7 +1010,7 @@ class TokenStream
                             c = getChar();
                             if (c == '-') {
                                 addToString(c);
-                                if(!readXmlComment()) return Token.ERROR;
+                                if (!readXmlComment()) return Token.ERROR;
                             } else {
                                 // throw away the string in progress
                                 stringBufferTop = 0;
@@ -1033,12 +1023,11 @@ class TokenStream
                             c = getChar(); // Skip [
                             addToString(c);
                             if (getChar() == 'C' &&
-                                getChar() == 'D' &&
-                                getChar() == 'A' &&
-                                getChar() == 'T' &&
-                                getChar() == 'A' &&
-                                getChar() == '[')
-                            {
+                                    getChar() == 'D' &&
+                                    getChar() == 'A' &&
+                                    getChar() == 'T' &&
+                                    getChar() == 'A' &&
+                                    getChar() == '[') {
                                 addToString('C');
                                 addToString('D');
                                 addToString('A');
@@ -1056,16 +1045,16 @@ class TokenStream
                             }
                             break;
                         default:
-                            if(!readEntity()) return Token.ERROR;
+                            if (!readEntity()) return Token.ERROR;
                             break;
                         }
-                        break;
-                    case '?':
+                    }
+                    case '?' -> {
                         c = getChar(); // Skip ?
                         addToString(c);
                         if (!readPI()) return Token.ERROR;
-                        break;
-                    case '/':
+                    }
+                    case '/' -> {
                         // End tag
                         c = getChar(); // Skip /
                         addToString(c);
@@ -1078,21 +1067,20 @@ class TokenStream
                         }
                         xmlIsTagContent = true;
                         xmlOpenTagsCount--;
-                        break;
-                    default:
+                    }
+                    default -> {
                         // Start tag
                         xmlIsTagContent = true;
                         xmlOpenTagsCount++;
-                        break;
                     }
-                    break;
-                case '{':
+                    }
+                }
+                case '{' -> {
                     ungetChar(c);
                     this.string = getStringFromBuffer();
                     return Token.XML;
-                default:
-                    addToString(c);
-                    break;
+                }
+                default -> addToString(c);
                 }
             }
         }
@@ -1183,13 +1171,11 @@ class TokenStream
         for (int c = getChar(); c != EOF_CHAR; c = getChar()) {
             addToString(c);
             switch (c) {
-            case '<':
-                declTags++;
-                break;
-            case '>':
+            case '<' -> declTags++;
+            case '>' -> {
                 declTags--;
                 if (declTags == 0) return true;
-                break;
+            }
             }
         }
 
@@ -1592,13 +1578,11 @@ class TokenStream
 
     private String convertLastCharToHex(String str) {
       int lastIndex = str.length()-1;
-      StringBuffer buf = new StringBuffer(
+      StringBuilder buf = new StringBuilder(
           str.substring(0, lastIndex));
       buf.append("\\u");
       String hexCode = Integer.toHexString(str.charAt(lastIndex));
-      for (int i = 0; i < 4-hexCode.length(); ++i) {
-        buf.append('0');
-      }
+        buf.append("0".repeat(4 - hexCode.length()));
       buf.append(hexCode);
       return buf.toString();
     }

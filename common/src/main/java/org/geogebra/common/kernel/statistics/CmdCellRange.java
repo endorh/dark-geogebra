@@ -29,8 +29,7 @@ public class CmdCellRange extends CommandProcessor {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
-		case 2:
-
+		case 2 -> {
 			ExpressionNode[] args = c.getArguments();
 
 			// check if we really have two leafs
@@ -43,11 +42,10 @@ public class CmdCellRange extends CommandProcessor {
 			AlgoCellRange algo = app.getSpreadsheetTableModel()
 					.getCellRangeManager()
 					.getAlgoCellRange(cons, c.getLabel(), start, end);
-			GeoElement[] ret = { algo.getList() };
+			GeoElement[] ret = {algo.getList()};
 			return ret;
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

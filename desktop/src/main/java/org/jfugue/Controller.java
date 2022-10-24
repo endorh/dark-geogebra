@@ -120,7 +120,7 @@ public final class Controller implements JFugueElement {
 	 */
 	@Override
 	public String getMusicString() {
-		StringBuffer buffy = new StringBuffer();
+		StringBuilder buffy = new StringBuilder();
 		buffy.append("X");
 		buffy.append(getIndex());
 		buffy.append("=");
@@ -136,7 +136,7 @@ public final class Controller implements JFugueElement {
 	 */
 	@Override
 	public String getVerifyString() {
-		StringBuffer buffy = new StringBuffer();
+		StringBuilder buffy = new StringBuilder();
 		buffy.append("Controller: index=");
 		buffy.append(getIndex());
 		buffy.append(", value=");

@@ -21,4 +21,5 @@ module geogebra.desktop.main {
 	requires java.prefs;
 	requires jdk.httpserver;
 	requires com.ogprover.open_geo_prover;
+	requires com.apple.mac_extensions;
 }

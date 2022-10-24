@@ -42,15 +42,15 @@ public class CmdArcSector extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 3:
+		case 3 -> {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoConic()))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
 
-				GeoElement[] ret = { arcSector(c.getLabel(),
+				GeoElement[] ret = {arcSector(c.getLabel(),
 						(GeoConicND) arg[0], (GeoNumberValue) arg[1],
-						(GeoNumberValue) arg[2]) };
+						(GeoNumberValue) arg[2])};
 
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoConic()))
@@ -59,7 +59,7 @@ public class CmdArcSector extends CommandProcessor {
 
 				GeoElement[] ret = {
 						arcSector(c.getLabel(), (GeoConicND) arg[0],
-								(GeoPointND) arg[1], (GeoPointND) arg[2]) };
+								(GeoPointND) arg[1], (GeoPointND) arg[2])};
 
 				return ret;
 			} else {
@@ -71,9 +71,8 @@ public class CmdArcSector extends CommandProcessor {
 					throw argErr(c, arg[2]);
 				}
 			}
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

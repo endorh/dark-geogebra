@@ -175,6 +175,6 @@ public class UniFontInfo extends FontInfo {
 			unicode.put(c, s);
 			return s;
 		}
-		return ch.charValue();
+		return ch;
 	}
 }

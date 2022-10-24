@@ -50,10 +50,12 @@ public final class TestErrorHandler implements ErrorLogger {
 		e.printStackTrace();
 		Throwable cause = e.getCause() == null ? e : e.getCause();
 		StackTraceElement[] ste = cause.getStackTrace();
-		String out = cause.getClass().getName() + ":" + cause.getMessage();
-		for (int i = 0; i < ste.length; i++) {
-			out += "\n" + ste[i].getClassName() + "." + ste[i].getMethodName()
-					+ ":" + ste[i].getLineNumber();
+		StringBuilder out =
+				new StringBuilder(cause.getClass().getName() + ":" + cause.getMessage());
+		for (StackTraceElement stackTraceElement : ste) {
+			out.append("\n").append(stackTraceElement.getClassName()).append(".")
+					.append(stackTraceElement.getMethodName()).append(":")
+					.append(stackTraceElement.getLineNumber());
 		}
 		Assert.fail(e.getMessage() + "\n" + out);
 	}

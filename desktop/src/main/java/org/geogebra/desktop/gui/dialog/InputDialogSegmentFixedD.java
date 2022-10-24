@@ -8,7 +8,6 @@ import org.geogebra.common.gui.dialog.handler.NumberInputHandler;
 import org.geogebra.common.gui.dialog.handler.SegmentHandler;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
 
@@ -52,13 +51,7 @@ public class InputDialogSegmentFixedD extends InputDialogD {
 	private void processInput() {
 		new SegmentHandler(geoPoint1, kernel).doSegmentFixedAsync(
 				inputPanel.getText(), (NumberInputHandler) getInputHandler(),
-				this, new AsyncOperation<Boolean>() {
-
-					@Override
-					public void callback(Boolean ok) {
-						setVisibleForTools(!ok);
-					}
-				});
+				this, ok -> setVisibleForTools(!ok));
 	}
 
 	@Override

@@ -26,9 +26,8 @@ public class CmdSetLineThickness extends CmdScripting {
 	protected final GeoElement[] perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		switch (n) {
-		case 2:
+		case 2 -> {
 			GeoElement[] arg = resArgs(c);
-
 			if (arg[1].isNumberValue()) {
 
 				int thickness = (int) arg[1].evaluateDouble();
@@ -39,9 +38,8 @@ public class CmdSetLineThickness extends CmdScripting {
 				return arg;
 			}
 			throw argErr(c, arg[1]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

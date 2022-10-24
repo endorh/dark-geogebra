@@ -304,8 +304,7 @@ class ColorPanel extends JPanel
 	}
 
 	private void setChooser(GeoElement geo0) {
-		if (geo0.getParentAlgorithm() instanceof ChartStyleAlgo) {
-			ChartStyleAlgo algo = (ChartStyleAlgo) geo0.getParentAlgorithm();
+		if (geo0.getParentAlgorithm() instanceof ChartStyleAlgo algo) {
 			if (selectedBarButton != 0
 					&& algo.getStyle().getBarColor(selectedBarButton) != null) {
 				GColor color = algo.getStyle().getBarColor(selectedBarButton);
@@ -394,16 +393,11 @@ class ColorPanel extends JPanel
 						this.propertiesPanelD.loc.getPlain(isPie ? "SliceA" : "BarA", i + ""));
 				selectionBarButtons[i].setSelected(false);
 				selectionBarButtons[i].setActionCommand("" + i);
-				selectionBarButtons[i].addActionListener(new ActionListener() {
-
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						selectedBarButton = Integer
-								.parseInt(((JToggleButton) arg0.getSource())
-										.getActionCommand());
-						ColorPanel.this.update();
-					}
-
+				selectionBarButtons[i].addActionListener(arg0 -> {
+					selectedBarButton = Integer
+							.parseInt(((JToggleButton) arg0.getSource())
+									.getActionCommand());
+					ColorPanel.this.update();
 				});
 				barsPanel.add(selectionBarButtons[i]);
 				group.add(selectionBarButtons[i]);

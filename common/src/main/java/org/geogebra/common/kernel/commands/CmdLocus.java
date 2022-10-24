@@ -34,7 +34,7 @@ public class CmdLocus extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2:
+		case 2 -> {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0] instanceof FunctionalNVar)
 					|| arg[0].isGeoLocus()) && (ok[1] = arg[1].isGeoPoint())) {
@@ -42,7 +42,7 @@ public class CmdLocus extends CommandProcessor {
 				AlgoIntegralODE algo = new AlgoIntegralODE(cons, c.getLabel(),
 						arg[0], (GeoPoint) arg[1]);
 
-				GeoElement[] ret = { algo.getResult() }; // var
+				GeoElement[] ret = {algo.getResult()}; // var
 				return ret;
 			}
 
@@ -55,27 +55,26 @@ public class CmdLocus extends CommandProcessor {
 
 				if (p2.isPointOnPath()) {
 
-					GeoElement[] ret = { locus(c.getLabel(), p1, p2) };
+					GeoElement[] ret = {locus(c.getLabel(), p1, p2)};
 					return ret;
 				}
-				GeoElement[] ret = { locus(c.getLabel(), p2, p1) };
+				GeoElement[] ret = {locus(c.getLabel(), p2, p1)};
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = arg[1].isGeoNumeric()
-							&& AlgoDispatcher.locusCheck((GeoPointND) arg[0],
-									(GeoNumeric) arg[1]))) {
+					&& AlgoDispatcher.locusCheck((GeoPointND) arg[0],
+					(GeoNumeric) arg[1]))) {
 				GeoPointND p1 = (GeoPointND) arg[0];
 				GeoNumeric p2 = (GeoNumeric) arg[1];
 
-				GeoElement[] ret = { locus(c.getLabel(), p1, p2) };
+				GeoElement[] ret = {locus(c.getLabel(), p1, p2)};
 				return ret;
 			} else {
 				throw argErr(c, getBadArg(ok, arg));
 
 			}
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

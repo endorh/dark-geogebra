@@ -474,9 +474,7 @@ class BicubicSplineFunction implements BivariateFunction {
     BicubicSplineFunction(double[] coeff, boolean initializeDerivatives) {
         a = new double[N][N];
         for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                a[i][j] = coeff[i * N + j];
-            }
+	        System.arraycopy(coeff, i * 4 + 0, a[i], 0, N);
         }
 
         if (initializeDerivatives) {

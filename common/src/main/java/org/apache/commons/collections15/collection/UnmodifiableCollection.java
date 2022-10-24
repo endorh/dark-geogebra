@@ -54,7 +54,7 @@ public final class UnmodifiableCollection<E> extends
 		if (coll instanceof Unmodifiable) {
 			return coll;
 		}
-		return new UnmodifiableCollection<E>(coll);
+		return new UnmodifiableCollection<>(coll);
 	}
 
 	// -----------------------------------------------------------------------

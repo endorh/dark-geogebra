@@ -2,7 +2,6 @@ package org.geogebra.desktop.gui.layout;
 
 import java.awt.Component;
 import java.util.Arrays;
-import java.util.Comparator;
 
 import javax.swing.JComponent;
 import javax.swing.JSplitPane;
@@ -157,13 +156,10 @@ public class LayoutD extends Layout implements SettingListener {
 		// Sort the dock panels as the entries with the smallest amount of
 		// definition should
 		// be read first by the loading algorithm.
-		Arrays.sort(dockPanelInfo, new Comparator<DockPanelData>() {
-			@Override
-			public int compare(DockPanelData o1, DockPanelData o2) {
-				int diff = o2.getEmbeddedDef().length()
-						- o1.getEmbeddedDef().length();
-				return diff;
-			}
+		Arrays.sort(dockPanelInfo, (o1, o2) -> {
+			int diff = o2.getEmbeddedDef().length()
+					- o1.getEmbeddedDef().length();
+			return diff;
 		});
 
 		perspective.setDockPanelData(dockPanelInfo);
@@ -196,9 +192,9 @@ public class LayoutD extends Layout implements SettingListener {
 	public boolean inExternalWindow(Component component) {
 		DockPanelD[] panels = dockManager.getPanels();
 
-		for (int i = 0; i < panels.length; ++i) {
-			if (panels[i].isOpenInFrame()) {
-				if (component == SwingUtilities.getRootPane(panels[i])) {
+		for (DockPanelD panel : panels) {
+			if (panel.isOpenInFrame()) {
+				if (component == SwingUtilities.getRootPane(panel)) {
 					return true;
 				}
 			}
@@ -216,19 +212,19 @@ public class LayoutD extends Layout implements SettingListener {
 		DockPanelD[] panels = dockManager.getPanels();
 		boolean foundView = false;
 
-		for (int i = 0; i < panels.length; ++i) {
+		for (DockPanelD panel : panels) {
 			// check if the view is visible at all
-			if (panels[i].getViewId() == viewId) {
+			if (panel.getViewId() == viewId) {
 				foundView = true;
 
-				if (!panels[i].isVisible()) {
+				if (!panel.isVisible()) {
 					return false;
 				}
 			}
 
 			// abort if any other view is visible
 			else {
-				if (panels[i].isVisible()) {
+				if (panel.isVisible()) {
 					return false;
 				}
 			}

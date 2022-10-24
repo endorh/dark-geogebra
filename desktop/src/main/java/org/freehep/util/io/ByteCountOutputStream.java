@@ -122,8 +122,8 @@ public class ByteCountOutputStream extends ByteOrderOutputStream {
 	 */
 	public int getLength() {
 		int length = 0;
-		for (int i = 0; i < bufferList.size(); i++) {
-			length += ((Buffer) bufferList.get(i)).getLength();
+		for (Object o : bufferList) {
+			length += ((Buffer) o).getLength();
 		}
 		return (currentBuffer >= 0) ? length : -1;
 	}

@@ -59,7 +59,7 @@ class VerticalBox extends Box {
 
 	private double leftMostPos = Double.MAX_VALUE;
 	private double rightMostPos = -Double.MAX_VALUE;
-	protected final ArrayList<Box> children = new ArrayList<Box>();
+	protected final ArrayList<Box> children = new ArrayList<>();
 
 	public VerticalBox() {
 	}

@@ -17,7 +17,7 @@ public class GeneratorExpression extends Scope {
     
     private AstNode result;
     private List<GeneratorExpressionLoop> loops =
-        new ArrayList<GeneratorExpressionLoop>();
+            new ArrayList<>();
     private AstNode filter;
     private int ifPosition = -1;
     private int lp = -1;

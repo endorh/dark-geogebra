@@ -13,7 +13,6 @@ the Free Software Foundation.
 package org.geogebra.common.euclidian;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 
 import org.geogebra.common.awt.GGraphics2D;
@@ -32,12 +31,7 @@ public class DrawableList extends ArrayList<Drawable> {
 	 * Create a DrawableList with the given GeoPriorityComparator
 	 */
 	public DrawableList(final GeoPriorityComparator comparator) {
-		this.comparator = new Comparator<Drawable>() {
-			@Override
-			public int compare(Drawable a, Drawable b) {
-				return comparator.compare(a.geo, b.geo, false);
-			}
-		};
+		this.comparator = (a, b) -> comparator.compare(a.geo, b.geo, false);
 	}
 
 	@Override
@@ -86,6 +80,6 @@ public class DrawableList extends ArrayList<Drawable> {
 	}
 
 	public void sort() {
-		Collections.sort(this, comparator);
+		this.sort(comparator);
 	}
 }

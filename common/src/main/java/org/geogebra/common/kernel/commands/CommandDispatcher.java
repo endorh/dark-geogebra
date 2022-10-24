@@ -94,51 +94,30 @@ public abstract class CommandDispatcher {
 	 */
 	public String getSubCommandSetName(int index) {
 		Localization loc = app.getLocalization();
-		switch (index) {
-		case CommandsConstants.TABLE_GEOMETRY:
-			return loc.getMenu("Type.Geometry");
-		case CommandsConstants.TABLE_ALGEBRA:
-			return loc.getMenu("Type.Algebra");
-		case CommandsConstants.TABLE_TEXT:
-			return loc.getMenu("Type.Text");
-		case CommandsConstants.TABLE_LOGICAL:
-			return loc.getMenu("Type.Logic");
-		case CommandsConstants.TABLE_FUNCTION:
-			return loc.getMenu("Type.FunctionsAndCalculus");
-		case CommandsConstants.TABLE_CONIC:
-			return loc.getMenu("Type.Conic");
-		case CommandsConstants.TABLE_LIST:
-			return loc.getMenu("Type.List");
-		case CommandsConstants.TABLE_VECTOR:
-			return loc.getMenu("Type.VectorAndMatrix");
-		case CommandsConstants.TABLE_TRANSFORMATION:
-			return loc.getMenu("Type.Transformation");
-		case CommandsConstants.TABLE_CHARTS:
-			return loc.getMenu("Type.Chart");
-		case CommandsConstants.TABLE_STATISTICS:
-			return loc.getMenu("Type.Statistics");
-		case CommandsConstants.TABLE_PROBABILITY:
-			return loc.getMenu("Type.Probability");
-		case CommandsConstants.TABLE_SPREADSHEET:
-			return loc.getMenu("Type.Spreadsheet");
-		case CommandsConstants.TABLE_SCRIPTING:
-			return loc.getMenu("Type.Scripting");
-		case CommandsConstants.TABLE_DISCRETE:
-			return loc.getMenu("Type.DiscreteMath");
-		case CommandsConstants.TABLE_GEOGEBRA:
-			return loc.getMenu("Type.GeoGebra");
-		case CommandsConstants.TABLE_OPTIMIZATION:
-			return loc.getMenu("Type.OptimizationCommands");
-		case CommandsConstants.TABLE_CAS:
-			return loc.getMenu("Type.CAS");
-		case CommandsConstants.TABLE_3D:
-			return loc.getMenu("Type.3D");
-		case CommandsConstants.TABLE_FINANCIAL:
-			return loc.getMenu("Type.Financial");
-		// Commands.TABLE_ENGLISH:
-		default:
-			return null;
-		}
+		return switch (index) {
+			case CommandsConstants.TABLE_GEOMETRY -> loc.getMenu("Type.Geometry");
+			case CommandsConstants.TABLE_ALGEBRA -> loc.getMenu("Type.Algebra");
+			case CommandsConstants.TABLE_TEXT -> loc.getMenu("Type.Text");
+			case CommandsConstants.TABLE_LOGICAL -> loc.getMenu("Type.Logic");
+			case CommandsConstants.TABLE_FUNCTION -> loc.getMenu("Type.FunctionsAndCalculus");
+			case CommandsConstants.TABLE_CONIC -> loc.getMenu("Type.Conic");
+			case CommandsConstants.TABLE_LIST -> loc.getMenu("Type.List");
+			case CommandsConstants.TABLE_VECTOR -> loc.getMenu("Type.VectorAndMatrix");
+			case CommandsConstants.TABLE_TRANSFORMATION -> loc.getMenu("Type.Transformation");
+			case CommandsConstants.TABLE_CHARTS -> loc.getMenu("Type.Chart");
+			case CommandsConstants.TABLE_STATISTICS -> loc.getMenu("Type.Statistics");
+			case CommandsConstants.TABLE_PROBABILITY -> loc.getMenu("Type.Probability");
+			case CommandsConstants.TABLE_SPREADSHEET -> loc.getMenu("Type.Spreadsheet");
+			case CommandsConstants.TABLE_SCRIPTING -> loc.getMenu("Type.Scripting");
+			case CommandsConstants.TABLE_DISCRETE -> loc.getMenu("Type.DiscreteMath");
+			case CommandsConstants.TABLE_GEOGEBRA -> loc.getMenu("Type.GeoGebra");
+			case CommandsConstants.TABLE_OPTIMIZATION -> loc.getMenu("Type.OptimizationCommands");
+			case CommandsConstants.TABLE_CAS -> loc.getMenu("Type.CAS");
+			case CommandsConstants.TABLE_3D -> loc.getMenu("Type.3D");
+			case CommandsConstants.TABLE_FINANCIAL -> loc.getMenu("Type.Financial");
+			// Commands.TABLE_ENGLISH:
+			default -> null;
+		};
 	}
 
 	/**

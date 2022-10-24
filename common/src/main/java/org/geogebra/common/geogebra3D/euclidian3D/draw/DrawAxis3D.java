@@ -371,25 +371,18 @@ public class DrawAxis3D extends DrawLine3D {
 		if (!outsideBox) {
 			// check if outside the box
 			switch (type) {
-			default:
-			case GeoAxisND.X_AXIS:
-				outsideBox = (minMax[GeoAxisND.Y_AXIS][0]
-						* minMax[GeoAxisND.Y_AXIS][1] > 0)
-						|| (minMax[GeoAxisND.Z_AXIS][0]
-								* minMax[GeoAxisND.Z_AXIS][1] > 0);
-				break;
-			case GeoAxisND.Y_AXIS:
-				outsideBox = (minMax[GeoAxisND.Z_AXIS][0]
-						* minMax[GeoAxisND.Z_AXIS][1] > 0)
-						|| (minMax[GeoAxisND.X_AXIS][0]
-								* minMax[GeoAxisND.X_AXIS][1] > 0);
-				break;
-			case GeoAxisND.Z_AXIS:
-				outsideBox = (minMax[GeoAxisND.X_AXIS][0]
-						* minMax[GeoAxisND.X_AXIS][1] > 0)
-						|| (minMax[GeoAxisND.Y_AXIS][0]
-								* minMax[GeoAxisND.Y_AXIS][1] > 0);
-				break;
+			case GeoAxisND.X_AXIS -> outsideBox = (minMax[GeoAxisND.Y_AXIS][0]
+					* minMax[GeoAxisND.Y_AXIS][1] > 0)
+					|| (minMax[GeoAxisND.Z_AXIS][0]
+					* minMax[GeoAxisND.Z_AXIS][1] > 0);
+			case GeoAxisND.Y_AXIS -> outsideBox = (minMax[GeoAxisND.Z_AXIS][0]
+					* minMax[GeoAxisND.Z_AXIS][1] > 0)
+					|| (minMax[GeoAxisND.X_AXIS][0]
+					* minMax[GeoAxisND.X_AXIS][1] > 0);
+			case GeoAxisND.Z_AXIS -> outsideBox = (minMax[GeoAxisND.X_AXIS][0]
+					* minMax[GeoAxisND.X_AXIS][1] > 0)
+					|| (minMax[GeoAxisND.Y_AXIS][0]
+					* minMax[GeoAxisND.Y_AXIS][1] > 0);
 			}
 		}
 

@@ -3,8 +3,6 @@ package org.geogebra.desktop.gui.dialog.options;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Hashtable;
 
 import javax.swing.BorderFactory;
@@ -156,12 +154,7 @@ public class OptionsDefaultsD
 
 		// apply defaults button
 		defaultsButton = new JButton();
-		defaultsButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				applyDefaults();
-			}
-		});
+		defaultsButton.addActionListener(e -> applyDefaults());
 
 		// set the labels of the components
 		setLabels();

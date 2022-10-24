@@ -40,12 +40,7 @@ public class SparseMultigraph<V, E> extends AbstractGraph<V, E>
 	 *            the edge type for the graph factory
 	 */
 	public static <V, E> Factory<Graph<V, E>> getFactory() {
-		return new Factory<Graph<V, E>>() {
-			@Override
-			public Graph<V, E> create() {
-				return new SparseMultigraph<V, E>();
-			}
-		};
+		return SparseMultigraph::new;
 	}
 
 	// TODO: refactor internal representation: right now directed edges each
@@ -61,9 +56,9 @@ public class SparseMultigraph<V, E> extends AbstractGraph<V, E>
 	 * Creates a new instance.
 	 */
 	public SparseMultigraph() {
-		vertices = new HashMap<V, Pair<Set<E>>>();
-		edges = new HashMap<E, Pair<V>>();
-		directedEdges = new HashSet<E>();
+		vertices = new HashMap<>();
+		edges = new HashMap<>();
+		directedEdges = new HashSet<>();
 	}
 
 	@Override
@@ -101,7 +96,7 @@ public class SparseMultigraph<V, E> extends AbstractGraph<V, E>
 		}
 		if (!vertices.containsKey(vertex)) {
 			vertices.put(vertex,
-					new Pair<Set<E>>(new HashSet<E>(), new HashSet<E>()));
+					new Pair<>(new HashSet<>(), new HashSet<>()));
 			return true;
 		}
 		return false;
@@ -114,7 +109,7 @@ public class SparseMultigraph<V, E> extends AbstractGraph<V, E>
 		}
 
 		// copy to avoid concurrent modification in removeEdge
-		Set<E> incident = new HashSet<E>(getIncoming_internal(vertex));
+		Set<E> incident = new HashSet<>(getIncoming_internal(vertex));
 		incident.addAll(getOutgoing_internal(vertex));
 
 		for (E edge : incident) {
@@ -208,7 +203,7 @@ public class SparseMultigraph<V, E> extends AbstractGraph<V, E>
 			return null;
 		}
 
-		Set<V> preds = new HashSet<V>();
+		Set<V> preds = new HashSet<>();
 		for (E edge : getIncoming_internal(vertex)) {
 			if (getEdgeType(edge) == EdgeType.DIRECTED) {
 				preds.add(this.getSource(edge));
@@ -226,7 +221,7 @@ public class SparseMultigraph<V, E> extends AbstractGraph<V, E>
 		if (!containsVertex(vertex)) {
 			return null;
 		}
-		Set<V> succs = new HashSet<V>();
+		Set<V> succs = new HashSet<>();
 		for (E edge : getOutgoing_internal(vertex)) {
 			if (getEdgeType(edge) == EdgeType.DIRECTED) {
 				succs.add(this.getDest(edge));
@@ -242,7 +237,7 @@ public class SparseMultigraph<V, E> extends AbstractGraph<V, E>
 		if (!containsVertex(vertex)) {
 			return null;
 		}
-		Collection<V> out = new HashSet<V>();
+		Collection<V> out = new HashSet<>();
 		out.addAll(this.getPredecessors(vertex));
 		out.addAll(this.getSuccessors(vertex));
 		return out;
@@ -253,7 +248,7 @@ public class SparseMultigraph<V, E> extends AbstractGraph<V, E>
 		if (!containsVertex(vertex)) {
 			return null;
 		}
-		Collection<E> out = new HashSet<E>();
+		Collection<E> out = new HashSet<>();
 		out.addAll(this.getInEdges(vertex));
 		out.addAll(this.getOutEdges(vertex));
 		return out;
@@ -321,11 +316,11 @@ public class SparseMultigraph<V, E> extends AbstractGraph<V, E>
 		if (edgeType == EdgeType.DIRECTED) {
 			return Collections.unmodifiableSet(this.directedEdges);
 		} else if (edgeType == EdgeType.UNDIRECTED) {
-			Collection<E> edges1 = new HashSet<E>(getEdges());
+			Collection<E> edges1 = new HashSet<>(getEdges());
 			edges1.removeAll(directedEdges);
 			return edges1;
 		} else {
-			return Collections.EMPTY_SET;
+			return Collections.emptySet();
 		}
 
 	}
@@ -352,7 +347,7 @@ public class SparseMultigraph<V, E> extends AbstractGraph<V, E>
 
 	@Override
 	public SparseMultigraph<V, E> newInstance() {
-		return new SparseMultigraph<V, E>();
+		return new SparseMultigraph<>();
 	}
 
 }

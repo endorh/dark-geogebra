@@ -33,9 +33,8 @@ public class CmdCubic extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 4:
+		case 4 -> {
 			arg = resArgs(c);
-
 			if ((ok[0] = arg[0] instanceof GeoPoint)
 					&& (ok[1] = arg[1] instanceof GeoPoint)
 					&& (ok[2] = arg[2] instanceof GeoPoint)
@@ -45,15 +44,13 @@ public class CmdCubic extends CommandProcessor {
 						(GeoPoint) arg[0], (GeoPoint) arg[1], (GeoPoint) arg[2],
 						(GeoNumberValue) arg[3]);
 
-				GeoElement[] ret = { algo.getResult().toGeoElement() };
+				GeoElement[] ret = {algo.getResult().toGeoElement()};
 				return ret;
 
 			}
-
 			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

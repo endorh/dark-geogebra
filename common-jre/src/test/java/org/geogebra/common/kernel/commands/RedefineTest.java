@@ -21,7 +21,6 @@ import org.geogebra.common.kernel.geos.GeoPolygon;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
-import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.TestStringUtil;
@@ -112,7 +111,10 @@ public class RedefineTest extends BaseUnitTest {
 	@Test
 	public void testErrorUndefined() {
 		checkError("Rename(f,\"fff\")",
-				"Please check your input :\n" + "Undefined variable \n" + "f ");
+				"""
+						Please check your input :
+						Undefined variable\s
+						f\s""");
 	}
 
 	@Test
@@ -214,8 +216,12 @@ public class RedefineTest extends BaseUnitTest {
 	@Test
 	public void cmdRename() {
 		checkError("Rename[ 6*7, \"$7\" ]",
-				"Command Rename:\nIllegal argument: Text \"$7\"\n\n"
-						+ "Syntax:\nRename( <Object>, <Name> )");
+				"""
+						Command Rename:
+						Illegal argument: Text "$7"
+
+						Syntax:
+						Rename( <Object>, <Name> )""");
 	}
 
 	@Test
@@ -332,11 +338,8 @@ public class RedefineTest extends BaseUnitTest {
 		t("f(x)=x^2", "x^(2)");
 		t("f'(x)=f'", "(2 * x)");
 		ap.changeGeoElement(lookup("f'"), "f'(x)", true, true,
-				TestErrorHandler.INSTANCE, new AsyncOperation<GeoElementND>() {
-					@Override
-					public void callback(GeoElementND obj) {
-						// no callback
-					}
+				TestErrorHandler.INSTANCE, obj -> {
+					// no callback
 				});
 		t("f'(x)", "(2 * x)");
 	}
@@ -381,18 +384,18 @@ public class RedefineTest extends BaseUnitTest {
 	@Test
 	public void functionShouldStayInequality() {
 		// old format: only NaN
-		app.getGgbApi().evalXML("<expression label=\"studans\" "
-				+ "exp=\"studans: NaN\" type=\"inequality\"/>\n"
-				+ "<element type=\"function\" label=\"studans\">\n"
-				+ "\t<show object=\"false\" label=\"false\" ev=\"4\"/>\n"
-				+ "</element>");
+		app.getGgbApi().evalXML("""
+				<expression label="studans" exp="studans: NaN" type="inequality"/>
+				<element type="function" label="studans">
+				\t<show object="false" label="false" ev="4"/>
+				</element>""");
 		assertThat(lookup("studans"), isForceInequality());
 		// new format: includes function variables
-		app.getGgbApi().evalXML("<expression label=\"studans2\" "
-				+ "exp=\"studans2(x) = ?\" type=\"inequality\"/>\n"
-				+ "<element type=\"function\" label=\"studans2\">\n"
-				+ "\t<show object=\"false\" label=\"false\" ev=\"4\"/>\n"
-				+ "</element>");
+		app.getGgbApi().evalXML("""
+				<expression label="studans2" exp="studans2(x) = ?" type="inequality"/>
+				<element type="function" label="studans2">
+				\t<show object="false" label="false" ev="4"/>
+				</element>""");
 		assertThat(lookup("studans2"), isForceInequality());
 	}
 
@@ -479,7 +482,7 @@ public class RedefineTest extends BaseUnitTest {
 	 * @return matcher for inequalities
 	 */
 	public static TypeSafeMatcher<GeoElementND> isForceInequality() {
-		return new TypeSafeMatcher<GeoElementND>() {
+		return new TypeSafeMatcher<>() {
 			@Override
 			protected boolean matchesSafely(GeoElementND item) {
 				return item instanceof GeoFunction && ((GeoFunction) item).isForceInequality();

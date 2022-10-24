@@ -40,18 +40,17 @@ public class CmdRotate extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2:
+		case 2 -> {
 			// ROTATE AROUND CENTER (0,0)
 			arg = resArgs(c);
 			return process2(c, arg, ok);
-
-		case 3:
+		}
+		case 3 -> {
 			// ROTATION AROUND POINT
 			arg = resArgs(c);
 			return process3(c, arg, ok);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 
@@ -69,7 +68,7 @@ public class CmdRotate extends CommandProcessor {
 	final protected GeoElement[] process2(Command c, GeoElement[] arg,
 			boolean[] ok) {
 
-		if (arg[1] instanceof GeoNumberValue) {
+		if (arg[1] instanceof GeoNumberValue phi) {
 			if (arg[0] instanceof GeoText) {
 				// c.setName("RotateText");
 				// return kernelA.getAlgebraProcessor().processCommand(c,
@@ -80,7 +79,6 @@ public class CmdRotate extends CommandProcessor {
 				return new GeoElement[] { algo.getResult() };
 
 			}
-			GeoNumberValue phi = (GeoNumberValue) arg[1];
 
 			return rotate(c.getLabel(), arg[0], phi);
 		}

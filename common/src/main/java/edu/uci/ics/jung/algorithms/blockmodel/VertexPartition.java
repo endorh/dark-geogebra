@@ -98,7 +98,7 @@ public class VertexPartition<V, E> {
 	 */
 	public Map<V, Set<V>> getVertexToPartitionMap() {
 		if (vertex_partition_map == null) {
-			this.vertex_partition_map = new HashMap<V, Set<V>>();
+			this.vertex_partition_map = new HashMap<>();
 			for (Set<V> set : this.vertex_sets) {
 				for (V v : set) {
 					this.vertex_partition_map.put(v, set);
@@ -118,7 +118,7 @@ public class VertexPartition<V, E> {
 	 */
 	public Collection<Set<V>> getVertexPartitions() {
 		if (vertex_sets == null) {
-			this.vertex_sets = new HashSet<Set<V>>();
+			this.vertex_sets = new HashSet<>();
 			this.vertex_sets.addAll(vertex_partition_map.values());
 		}
 		return vertex_sets;

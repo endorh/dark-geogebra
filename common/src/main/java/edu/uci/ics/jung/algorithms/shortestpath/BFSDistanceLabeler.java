@@ -31,7 +31,7 @@ import edu.uci.ics.jung.graph.Hypergraph;
  */
 public class BFSDistanceLabeler<V, E> {
 
-	private Map<V, Number> distanceDecorator = new HashMap<V, Number>();
+	private Map<V, Number> distanceDecorator = new HashMap<>();
 	private List<V> mCurrentList;
 	private Set<V> mUnvisitedVertices;
 	private List<V> mVerticesInOrderVisited;
@@ -43,7 +43,7 @@ public class BFSDistanceLabeler<V, E> {
 	 * MutableInteger
 	 */
 	public BFSDistanceLabeler() {
-		mPredecessorMap = new HashMap<V, HashSet<V>>();
+		mPredecessorMap = new HashMap<>();
 	}
 
 	/**
@@ -93,16 +93,16 @@ public class BFSDistanceLabeler<V, E> {
 	}
 
 	protected void initialize(Hypergraph<V, E> g, Set<V> rootSet) {
-		mVerticesInOrderVisited = new ArrayList<V>();
-		mUnvisitedVertices = new HashSet<V>();
+		mVerticesInOrderVisited = new ArrayList<>();
+		mUnvisitedVertices = new HashSet<>();
 		for (V currentVertex : g.getVertices()) {
 			mUnvisitedVertices.add(currentVertex);
-			mPredecessorMap.put(currentVertex, new HashSet<V>());
+			mPredecessorMap.put(currentVertex, new HashSet<>());
 		}
 
-		mCurrentList = new ArrayList<V>();
+		mCurrentList = new ArrayList<>();
 		for (V v : rootSet) {
-			distanceDecorator.put(v, Integer.valueOf(0));
+			distanceDecorator.put(v, 0);
 			mCurrentList.add(v);
 			mUnvisitedVertices.remove(v);
 			mVerticesInOrderVisited.add(v);
@@ -132,7 +132,7 @@ public class BFSDistanceLabeler<V, E> {
 
 		int distance = 1;
 		while (true) {
-			List<V> newList = new ArrayList<V>();
+			List<V> newList = new ArrayList<>();
 			for (V currentVertex : mCurrentList) {
 				if (graph.containsVertex(currentVertex)) {
 					for (V next : graph.getSuccessors(currentVertex)) {
@@ -148,7 +148,7 @@ public class BFSDistanceLabeler<V, E> {
 		}
 
 		for (V v : mUnvisitedVertices) {
-			distanceDecorator.put(v, Integer.valueOf(-1));
+			distanceDecorator.put(v, -1);
 		}
 	}
 
@@ -169,7 +169,7 @@ public class BFSDistanceLabeler<V, E> {
 	private void visitNewVertex(V predecessor, V neighbor, int distance,
 			List<V> newList) {
 		if (mUnvisitedVertices.contains(neighbor)) {
-			distanceDecorator.put(neighbor, Integer.valueOf(distance));
+			distanceDecorator.put(neighbor, distance);
 			newList.add(neighbor);
 			mVerticesInOrderVisited.add(neighbor);
 			mUnvisitedVertices.remove(neighbor);

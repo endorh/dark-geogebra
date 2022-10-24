@@ -885,9 +885,7 @@ public class Constants {
 			len = 0;
 		}
 		double[] subarray = new double[len];
-		for (int i = 0; i < len; i++) {
-			subarray[i] = array[offs + i];
-		}
+		System.arraycopy(array, offs + 0, subarray, 0, len);
 		return subarray;
 	}
 }

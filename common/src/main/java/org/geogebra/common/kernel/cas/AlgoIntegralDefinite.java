@@ -378,7 +378,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo
 	private void computeConditional(ExpressionNode exp, double lowerLimit, double upperLimit) {
 		double upperLimit0 = upperLimit;
 		double lowerLimit0 = lowerLimit;
-		double sign = +1;
+		double sign = 1;
 
 		if (upperLimit < lowerLimit) {
 			upperLimit0 = lowerLimit;

@@ -7,6 +7,7 @@ package org.mozilla.javascript.commonjs.module.provider;
 import java.io.Reader;
 import java.io.Serializable;
 import java.net.URI;
+import java.util.Objects;
 
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
@@ -75,13 +76,12 @@ implements ModuleScriptProvider, Serializable
         if(moduleSource == null) {
             return null;
         }
-        final Reader reader = moduleSource.getReader();
-        try {
+        try (Reader reader = moduleSource.getReader()) {
             final int idHash = moduleId.hashCode();
-            synchronized(loadLocks[(idHash >>> loadLockShift) & loadLockMask]) {
+            synchronized (loadLocks[(idHash >>> loadLockShift) & loadLockMask]) {
                 final CachedModuleScript cachedModule2 = getLoadedModule(moduleId);
-                if(cachedModule2 != null) {
-                    if(!equal(validator1, getValidator(cachedModule2))) {
+                if (cachedModule2 != null) {
+                    if (!equal(validator1, getValidator(cachedModule2))) {
                         return cachedModule2.getModule();
                     }
                 }
@@ -94,9 +94,6 @@ implements ModuleScriptProvider, Serializable
                         moduleSource.getValidator());
                 return moduleScript;
             }
-        }
-        finally {
-            reader.close();
         }
     }
 
@@ -160,7 +157,7 @@ implements ModuleScriptProvider, Serializable
     }
 
     private static boolean equal(Object o1, Object o2) {
-        return o1 == null ? o2 == null : o1.equals(o2);
+        return Objects.equals(o1, o2);
     }
 
     /**

@@ -10,7 +10,7 @@ public class CommandJlmXML extends Command {
 	public boolean init(TeXParser tp) {
 		final Map<String, String> map = tp.getXMLMap();
 		String str = tp.getArgAsString();
-		final StringBuffer buffer = new StringBuffer();
+		final StringBuilder buffer = new StringBuilder();
 		int start = 0;
 		int pos;
 		while ((pos = str.indexOf("$")) != -1) {

@@ -112,8 +112,7 @@ public class AlgebraInputDropTargetListener implements DropTargetListener {
 				((GuiManagerD) app.getGuiManager()).handleGGBFileDrop(t);
 			}
 
-		} catch (UnsupportedFlavorException ignored) {
-		} catch (IOException ignored) {
+		} catch (UnsupportedFlavorException | IOException ignored) {
 		}
 	}
 

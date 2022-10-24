@@ -40,7 +40,7 @@ public class RegressionResults implements Serializable {
     /** INDEX of Adjusted R Squared */
     private static final int ADJRSQ_IDX = 4;
     /** UID */
-    private static final long serialVersionUID = 1l;
+    private static final long serialVersionUID = 1L;
     /** regression slope parameters */
     private final double[] parameters;
     /** variance covariance matrix of parameters */

@@ -46,6 +46,7 @@
 package com.himamis.retex.renderer.share;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -60,10 +61,8 @@ public class OoalignAtom extends Atom {
 	}
 
 	public OoalignAtom(Atom... atoms) {
-		this.column = new ArrayList<Atom>(atoms.length);
-		for (final Atom a : atoms) {
-			this.column.add(a);
-		}
+		this.column = new ArrayList<>(atoms.length);
+		this.column.addAll(Arrays.asList(atoms));
 	}
 
 	public OoalignAtom(List<Atom> column) {
@@ -76,7 +75,7 @@ public class OoalignAtom extends Atom {
 		if (N == 0) {
 			return StrutBox.getEmpty();
 		}
-		final List<Box> l = new ArrayList<Box>(N);
+		final List<Box> l = new ArrayList<>(N);
 		for (final Atom a : column) {
 			l.add(a.createBox(env));
 		}

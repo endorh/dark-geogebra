@@ -228,7 +228,7 @@ public class FastFourierTransformer implements Serializable {
         if (!ArithmeticUtils.isPowerOfTwo(n)) {
             throw new MathIllegalArgumentException(
                 LocalizedFormats.NOT_POWER_OF_TWO_CONSIDER_PADDING,
-                Integer.valueOf(n));
+		            n);
         }
 
         if (n == 1) {
@@ -526,8 +526,7 @@ public class FastFourierTransformer implements Serializable {
             // count dimensions
             int numOfDimensions = 0;
             for (Object lastDimension = multiDimensionalComplexArray;
-                 lastDimension instanceof Object[];) {
-                final Object[] array = (Object[]) lastDimension;
+                 lastDimension instanceof final Object[] array;) {
                 numOfDimensions++;
                 lastDimension = array[0];
             }
@@ -538,8 +537,7 @@ public class FastFourierTransformer implements Serializable {
             // fill array
             numOfDimensions = 0;
             for (Object lastDimension = multiDimensionalComplexArray;
-                 lastDimension instanceof Object[];) {
-                final Object[] array = (Object[]) lastDimension;
+                 lastDimension instanceof final Object[] array;) {
                 dimensionSize[numOfDimensions++] = array.length;
                 lastDimension = array[0];
             }
@@ -653,9 +651,9 @@ public class FastFourierTransformer implements Serializable {
 
             int[] vector = new int[dimensionSize.length];
             int size = 1;
-            for (int i = 0; i < dimensionSize.length; i++) {
-                size *= dimensionSize[i];
-            }
+			for (int j : dimensionSize) {
+				size *= j;
+			}
             int[][] vectorList = new int[size][dimensionSize.length];
             for (int[] nextVector : vectorList) {
                 System.arraycopy(vector, 0, nextVector, 0,

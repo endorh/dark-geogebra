@@ -71,8 +71,8 @@ public class OptionsEuclidianPhoneStyle extends OptionsEuclidian {
 	 */
 	public boolean getLabelShown() {
 		String[] labels = view.getAxesLabels(true);
-		for (int i = 0; i < labels.length; i++) {
-			if (labels[i] != null && labels[i].length() > 0) {
+		for (String label : labels) {
+			if (label != null && label.length() > 0) {
 				return true;
 			}
 		}
@@ -85,8 +85,8 @@ public class OptionsEuclidianPhoneStyle extends OptionsEuclidian {
 	 */
 	public boolean isAutoDistance() {
 		boolean[] auto = view.isAutomaticAxesNumberingDistance();
-		for (int i = 0; i < auto.length; i++) {
-			if (!auto[i]) {
+		for (boolean b : auto) {
+			if (!b) {
 				return false;
 			}
 		}
@@ -120,8 +120,8 @@ public class OptionsEuclidianPhoneStyle extends OptionsEuclidian {
 	public void updateAxesLabels(String[] labels) {
 		boolean changed = false;
 		if (labels == null) {
-			for (int i = 0; i < mAxisModel.length; i++) {
-				changed = mAxisModel[i].applyAxisLabel("", false) || changed;
+			for (AxisModel axisModel : mAxisModel) {
+				changed = axisModel.applyAxisLabel("", false) || changed;
 			}
 		} else {
 			for (int i = 0; i < mAxisModel.length; i++) {

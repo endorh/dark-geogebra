@@ -425,19 +425,12 @@ public class GeoGebraView extends WrappedPlainView {
 		FontMetrics fm = g.getFontMetrics();
 		int w = Utilities.getTabbedTextWidth(text, fm, x, this, start);
 		switch (tabType) {
-		case TABVERTICAL:
-			g.drawLine(x, y + 4, x, y + 4 - fm.getHeight());
-			break;
-		case TABDOUBLECHEVRONS:
-			g.drawString("\u00BB", x, y);
-			break;
-		case TABHORIZONTAL:
-			g.drawLine(x, y - whiteHeight, x + w - 1, y - whiteHeight);
-			break;
-		case TABCHARACTER:
-			g.drawString(tabCharacter, x, y);
-			break;
-		default:
+		case TABVERTICAL -> g.drawLine(x, y + 4, x, y + 4 - fm.getHeight());
+		case TABDOUBLECHEVRONS -> g.drawString("\u00BB", x, y);
+		case TABHORIZONTAL -> g.drawLine(x, y - whiteHeight, x + w - 1, y - whiteHeight);
+		case TABCHARACTER -> g.drawString(tabCharacter, x, y);
+		default -> {
+		}
 		}
 	}
 

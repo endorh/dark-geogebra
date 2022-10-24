@@ -33,7 +33,7 @@ public class CmdStickGraph extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
+		case 1 -> {
 
 			// StickGraph[ <list of points> ]
 			arg = resArgs(c);
@@ -41,12 +41,12 @@ public class CmdStickGraph extends CommandProcessor {
 
 				AlgoStickGraph algo = new AlgoStickGraph(cons, c.getLabel(),
 						(GeoList) arg[0]);
-				GeoElement[] ret = { algo.getSum() };
+				GeoElement[] ret = {algo.getSum()};
 				return ret;
 			}
 			throw argErr(c, getBadArg(ok, arg));
-
-		case 2:
+		}
+		case 2 -> {
 
 			// StickGraph[ <x List>, <y list> ]
 			arg = resArgs(c);
@@ -55,7 +55,7 @@ public class CmdStickGraph extends CommandProcessor {
 
 				AlgoStickGraph algo = new AlgoStickGraph(cons, c.getLabel(),
 						(GeoList) arg[0], (GeoList) arg[1]);
-				GeoElement[] ret = { algo.getSum() };
+				GeoElement[] ret = {algo.getSum()};
 				return ret;
 
 				// StickGraph[ <list of points>, <isHorizontal> ]
@@ -64,13 +64,12 @@ public class CmdStickGraph extends CommandProcessor {
 
 				AlgoStickGraph algo = new AlgoStickGraph(cons, c.getLabel(),
 						(GeoList) arg[0], (GeoBoolean) arg[1]);
-				GeoElement[] ret = { algo.getSum() };
+				GeoElement[] ret = {algo.getSum()};
 				return ret;
 			}
-
 			throw argErr(c, getBadArg(ok, arg));
-
-		case 3:
+		}
+		case 3 -> {
 
 			// StickGraph[ <x List>, <y list>, <isHorizontal> ]
 			arg = resArgs(c);
@@ -80,13 +79,12 @@ public class CmdStickGraph extends CommandProcessor {
 				AlgoStickGraph algo = new AlgoStickGraph(cons, c.getLabel(),
 						(GeoList) arg[0], (GeoList) arg[1],
 						(GeoBoolean) arg[2]);
-				GeoElement[] ret = { algo.getSum() };
+				GeoElement[] ret = {algo.getSum()};
 				return ret;
 			}
 			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

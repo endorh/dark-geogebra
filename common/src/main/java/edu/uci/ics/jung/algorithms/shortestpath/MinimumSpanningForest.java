@@ -81,7 +81,7 @@ public class MinimumSpanningForest<V, E> {
 		if (weights != null) {
 			this.weights = weights;
 		}
-		Set<E> unfinishedEdges = new HashSet<E>(graph.getEdges());
+		Set<E> unfinishedEdges = new HashSet<>(graph.getEdges());
 		if (graph.getVertices().contains(root)) {
 			this.forest.addVertex(root);
 		}
@@ -114,7 +114,7 @@ public class MinimumSpanningForest<V, E> {
 		this.forest = forest;
 		this.weights = LazyMap.decorate(new HashMap<E, Double>(),
 				new ConstantTransformer(1.0));
-		Set<E> unfinishedEdges = new HashSet<E>(graph.getEdges());
+		Set<E> unfinishedEdges = new HashSet<>(graph.getEdges());
 		if (graph.getVertices().contains(root)) {
 			this.forest.addVertex(root);
 		}
@@ -169,7 +169,7 @@ public class MinimumSpanningForest<V, E> {
 			forest.addEdge(nextEdge, currentVertex, nextVertex);
 			updateForest(forest.getVertices(), unfinishedEdges);
 		}
-		Collection<V> leftovers = new HashSet<V>(graph.getVertices());
+		Collection<V> leftovers = new HashSet<>(graph.getVertices());
 		leftovers.removeAll(forest.getVertices());
 		if (leftovers.size() > 0) {
 			V anotherRoot = leftovers.iterator().next();

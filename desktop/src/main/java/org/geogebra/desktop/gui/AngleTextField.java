@@ -56,15 +56,11 @@ public class AngleTextField extends MyTextFieldD implements KeyListener {
 
 		switch (StringUtil.toLowerCaseUS(KeyEvent.getKeyText(e.getKeyCode()))
 				.charAt(0)) {
-		default:
-			// do nothing
-			break;
-		case 'o':
-			insertString = Unicode.DEGREE_STRING;
-			break;
-		case 'p':
-			insertString = Unicode.PI_STRING;
-			break;
+		default -> {
+		}
+		// do nothing
+		case 'o' -> insertString = Unicode.DEGREE_STRING;
+		case 'p' -> insertString = Unicode.PI_STRING;
 		}
 
 		if (modifierKeyPressed && !"".equals(insertString)) {

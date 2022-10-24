@@ -107,7 +107,7 @@ class ParserFunctionsImpl implements ParserFunctions {
 
 	@Override
 	public ArrayList<String> getCompletions(String prefix) {
-		TreeSet<String> completions = new TreeSet<String>();
+		TreeSet<String> completions = new TreeSet<>();
 		references.getCompletions(prefix, completions);
 		localizedReferences.getCompletions(prefix, completions);
 		return new ArrayList<>(completions);

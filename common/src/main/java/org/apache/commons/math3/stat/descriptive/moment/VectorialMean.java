@@ -92,11 +92,10 @@ public class VectorialMean implements Serializable {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof VectorialMean)) {
+        if (!(obj instanceof VectorialMean other)) {
             return false;
         }
-        VectorialMean other = (VectorialMean) obj;
-        if (!Arrays.equals(means, other.means)) {
+	    if (!Arrays.equals(means, other.means)) {
             return false;
         }
         return true;

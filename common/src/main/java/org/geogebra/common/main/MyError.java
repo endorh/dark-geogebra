@@ -238,9 +238,9 @@ public class MyError extends Error {
 		sb.append(": ");
 		sb.append(getError());
 		if (strs != null) {
-			for (int i = 0; i < strs.length; i++) {
+			for (String str : strs) {
 				sb.append(" : ");
-				sb.append(getError(strs[i]));
+				sb.append(getError(str));
 			}
 		}
 		return sb.toString();

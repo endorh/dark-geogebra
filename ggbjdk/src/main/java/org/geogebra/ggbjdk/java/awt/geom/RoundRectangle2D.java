@@ -474,9 +474,8 @@ public abstract class RoundRectangle2D extends RectangularShape {
         if (obj == this) {
             return true;
         }
-        if (obj instanceof RoundRectangle2D) {
-            RoundRectangle2D rr2d = (RoundRectangle2D) obj;
-            return ((getX() == rr2d.getX()) &&
+        if (obj instanceof RoundRectangle2D rr2d) {
+	        return ((getX() == rr2d.getX()) &&
                     (getY() == rr2d.getY()) &&
                     (getWidth() == rr2d.getWidth()) &&
                     (getHeight() == rr2d.getHeight()) &&

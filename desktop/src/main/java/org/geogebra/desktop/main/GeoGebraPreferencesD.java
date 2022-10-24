@@ -14,13 +14,7 @@ package org.geogebra.desktop.main;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.nio.charset.StandardCharsets;
 import java.util.Locale;
-import java.util.Properties;
 import java.util.prefs.Preferences;
 
 import org.geogebra.common.GeoGebraConstants;

@@ -207,8 +207,8 @@ public class OptionsSpreadsheetD
 				loc.getMenu("Definition"), loc.getMenu("Command") };
 		description.removeAllItems();
 
-		for (int i = 0; i < modes.length; i++) {
-			description.addItem(loc.getMenu(modes[i]));
+		for (String mode : modes) {
+			description.addItem(loc.getMenu(mode));
 		}
 
 		int descMode = app.getKernel().getAlgebraStyleSpreadsheet();

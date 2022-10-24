@@ -141,8 +141,8 @@ public class Bounds {
 		}
 		// If[x==1,2,If[x==3,4,5]]
 		if (b.upper != null && b.lower != null && (b.condition != null)
-				&& DoubleUtil.isEqual(b.upper.doubleValue(),
-						b.lower.doubleValue())) {
+				&& DoubleUtil.isEqual(b.upper,
+				b.lower)) {
 			fv.set(b.upper);
 			ExpressionValue v = b.condition
 					.evaluate(StringTemplate.defaultTemplate);
@@ -183,8 +183,7 @@ public class Bounds {
 
 	private ExpressionNode unfunction(ExpressionNode e) {
 		if (e.getOperation() == Operation.FUNCTION
-				&& e.getLeft() instanceof GeoFunction) {
-			GeoFunction fn = (GeoFunction) e.getLeft();
+				&& e.getLeft() instanceof GeoFunction fn) {
 			ExpressionValue substitution = e.getRightTree().deepCopy(kernel)
 					.replace(fn.getFunctionVariables()[0], fv);
 			return fn.getFunctionExpression().deepCopy(kernel)

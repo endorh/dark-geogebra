@@ -62,17 +62,10 @@ public class CellBox extends Box {
 		this.depth = depth;
 		this.box = box;
 		switch (alignment) {
-		case LEFT:
-			this.left = left;
-			break;
-		case RIGHT:
-			this.left = left + colW - box.width;
-			break;
-		case CENTER:
-			this.left = left + (colW - box.width) / 2.;
-			break;
-		default:
-			this.left = left;
+		case LEFT -> this.left = left;
+		case RIGHT -> this.left = left + colW - box.width;
+		case CENTER -> this.left = left + (colW - box.width) / 2.;
+		default -> this.left = left;
 		}
 	}
 

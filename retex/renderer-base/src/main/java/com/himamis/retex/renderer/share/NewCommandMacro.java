@@ -53,7 +53,7 @@ import com.himamis.retex.renderer.share.exception.ParseException;
 
 public class NewCommandMacro {
 
-	private static final Map<String, Macro> macros = new HashMap<String, Macro>();
+	private static final Map<String, Macro> macros = new HashMap<>();
 
 	public NewCommandMacro() {
 	}

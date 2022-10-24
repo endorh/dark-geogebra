@@ -13,7 +13,6 @@
 package org.geogebra.common.kernel.geos;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -443,9 +442,8 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 		TreeSet<GeoElement> bools = cons.getGeoSetLabelOrder(GeoClass.BOOLEAN);
 
 		if (bools != null) {
-			Iterator<GeoElement> it = bools.iterator();
-			while (it.hasNext()) {
-				GeoBoolean num = (GeoBoolean) it.next();
+			for (GeoElement bool : bools) {
+				GeoBoolean num = (GeoBoolean) bool;
 				if (num.isIndependent() && num.isEuclidianVisible()) {
 					count++;
 				}

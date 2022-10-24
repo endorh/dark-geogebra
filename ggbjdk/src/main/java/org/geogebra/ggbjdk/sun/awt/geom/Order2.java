@@ -143,7 +143,7 @@ final class Order2 extends Curve {
         cy = coords[pos+3];
         x1 = cx + (x1 - cx) * t;
         y1 = cy + (y1 - cy) * t;
-        x0 = coords[pos+0];
+        x0 = coords[pos];
         y0 = coords[pos+1];
         x0 = x0 + (cx - x0) * t;
         y0 = y0 + (cy - y0) * t;
@@ -366,30 +366,22 @@ final class Order2 extends Curve {
 
     @Override
 	public double dXforT(double t, int deriv) {
-        switch (deriv) {
-        case 0:
-            return (xcoeff2 * t + xcoeff1) * t + xcoeff0;
-        case 1:
-            return 2 * xcoeff2 * t + xcoeff1;
-        case 2:
-            return 2 * xcoeff2;
-        default:
-            return 0;
-        }
+	    return switch (deriv) {
+		    case 0 -> (xcoeff2 * t + xcoeff1) * t + xcoeff0;
+		    case 1 -> 2 * xcoeff2 * t + xcoeff1;
+		    case 2 -> 2 * xcoeff2;
+		    default -> 0;
+	    };
     }
 
     @Override
 	public double dYforT(double t, int deriv) {
-        switch (deriv) {
-        case 0:
-            return (ycoeff2 * t + ycoeff1) * t + ycoeff0;
-        case 1:
-            return 2 * ycoeff2 * t + ycoeff1;
-        case 2:
-            return 2 * ycoeff2;
-        default:
-            return 0;
-        }
+	    return switch (deriv) {
+		    case 0 -> (ycoeff2 * t + ycoeff1) * t + ycoeff0;
+		    case 1 -> 2 * ycoeff2 * t + ycoeff1;
+		    case 2 -> 2 * ycoeff2;
+		    default -> 0;
+	    };
     }
 
     @Override
@@ -444,7 +436,7 @@ final class Order2 extends Curve {
             split(eqn, 0, t0 / t1);
             i = 4;
         }
-        return new Order2(eqn[i+0], ystart,
+        return new Order2(eqn[i], ystart,
                           eqn[i+2], eqn[i+3],
                           eqn[i+4], yend,
                           dir);

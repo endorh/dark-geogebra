@@ -153,12 +153,12 @@ class FillingPanelD extends JPanel
 
 		// Create the label table
 		Hashtable<Integer, JLabel> labelHash = new Hashtable<>();
-		labelHash.put(Integer.valueOf(0), new JLabel("0" + Unicode.DEGREE_STRING));
-		labelHash.put(Integer.valueOf(45),
+		labelHash.put(0, new JLabel("0" + Unicode.DEGREE_STRING));
+		labelHash.put(45,
 				new JLabel(Unicode.FORTY_FIVE_DEGREES_STRING));
-		labelHash.put(Integer.valueOf(90), new JLabel("90" + Unicode.DEGREE_STRING));
-		labelHash.put(Integer.valueOf(135), new JLabel("135" + Unicode.DEGREE_STRING));
-		labelHash.put(Integer.valueOf(180), new JLabel("180" + Unicode.DEGREE_STRING));
+		labelHash.put(90, new JLabel("90" + Unicode.DEGREE_STRING));
+		labelHash.put(135, new JLabel("135" + Unicode.DEGREE_STRING));
+		labelHash.put(180, new JLabel("180" + Unicode.DEGREE_STRING));
 		angleSlider.setLabelTable(labelHash);
 
 		distanceSlider = new JSlider(5, 50);
@@ -261,10 +261,10 @@ class FillingPanelD extends JPanel
 	 */
 	public void setAllEnabled(boolean enabled) {
 		Component[] c = this.getComponents();
-		for (int i = 0; i < c.length; i++) {
-			Component[] subc = ((JPanel) c[i]).getComponents();
-			for (int j = 0; j < subc.length; j++) {
-				subc[j].setEnabled(enabled);
+		for (Component value : c) {
+			Component[] subc = ((JPanel) value).getComponents();
+			for (Component component : subc) {
+				component.setEnabled(enabled);
 			}
 		}
 	}
@@ -645,16 +645,11 @@ class FillingPanelD extends JPanel
 						loc.getPlain(isPie ? "SliceA" : "BarA", i + ""));
 				selectionBarButtons[i].setSelected(false);
 				selectionBarButtons[i].setActionCommand("" + i);
-				selectionBarButtons[i].addActionListener(new ActionListener() {
-
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						selectedBarButton = Integer
-								.parseInt(((JToggleButton) arg0.getSource())
-										.getActionCommand());
-						FillingPanelD.this.update(model.getGeos());
-					}
-
+				selectionBarButtons[i].addActionListener(arg0 -> {
+					selectedBarButton = Integer
+							.parseInt(((JToggleButton) arg0.getSource())
+									.getActionCommand());
+					FillingPanelD.this.update(model.getGeos());
 				});
 				group.add(selectionBarButtons[i]);
 				barsPanel.add(selectionBarButtons[i]);

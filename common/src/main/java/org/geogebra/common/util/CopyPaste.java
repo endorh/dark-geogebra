@@ -126,31 +126,31 @@ public abstract class CopyPaste {
 				if (parentAlgorithm instanceof AlgoPolygon) {
 					GeoPointND[] points = ((AlgoPolygon) parentAlgorithm)
 							.getPoints();
-					for (int j = 0; j < points.length; j++) {
-						if (!geos.contains(points[j])) {
-							geos.add((GeoElement) points[j]);
+					for (GeoPointND point : points) {
+						if (!geos.contains(point)) {
+							geos.add((GeoElement) point);
 						}
 					}
 					GeoElement[] ogeos = ((AlgoPolygon) parentAlgorithm)
 							.getOutput();
-					for (int j = 0; j < ogeos.length; j++) {
-						if (!geos.contains(ogeos[j])
-								&& ogeos[j].isGeoSegment()) {
-							geos.add(ogeos[j]);
+					for (GeoElement ogeo : ogeos) {
+						if (!geos.contains(ogeo)
+								&& ogeo.isGeoSegment()) {
+							geos.add(ogeo);
 						}
 					}
 				} else if (parentAlgorithm instanceof AlgoPolygonRegularND) {
 					GeoElement[] pgeos = parentAlgorithm.getInput();
-					for (int j = 0; j < pgeos.length; j++) {
-						if (!geos.contains(pgeos[j]) && pgeos[j].isGeoPoint()) {
-							geos.add(pgeos[j]);
+					for (GeoElement pgeo : pgeos) {
+						if (!geos.contains(pgeo) && pgeo.isGeoPoint()) {
+							geos.add(pgeo);
 						}
 					}
 					GeoElement[] ogeos = parentAlgorithm.getOutput();
-					for (int j = 0; j < ogeos.length; j++) {
-						if (!geos.contains(ogeos[j]) && (ogeos[j].isGeoSegment()
-								|| ogeos[j].isGeoPoint())) {
-							geos.add(ogeos[j]);
+					for (GeoElement ogeo : ogeos) {
+						if (!geos.contains(ogeo) && (ogeo.isGeoSegment()
+								|| ogeo.isGeoPoint())) {
+							geos.add(ogeo);
 						}
 					}
 				}
@@ -158,9 +158,9 @@ public abstract class CopyPaste {
 				if (parentAlgorithm instanceof AlgoPolyLine) {
 					GeoPointND[] pgeos = ((AlgoPolyLine) parentAlgorithm)
 							.getPoints();
-					for (int j = 0; j < pgeos.length; j++) {
-						if (!geos.contains(pgeos[j])) {
-							geos.add((GeoElement) pgeos[j]);
+					for (GeoPointND pgeo : pgeos) {
+						if (!geos.contains(pgeo)) {
+							geos.add((GeoElement) pgeo);
 						}
 					}
 				}
@@ -170,9 +170,9 @@ public abstract class CopyPaste {
 						|| parentAlgorithm instanceof AlgoEllipseHyperbolaFociPointND
 						|| parentAlgorithm instanceof AlgoConicFivePoints) {
 					GeoElement[] pgeos = parentAlgorithm.getInput();
-					for (int j = 0; j < pgeos.length; j++) {
-						if (!geos.contains(pgeos[j])) {
-							geos.add(pgeos[j]);
+					for (GeoElement pgeo : pgeos) {
+						if (!geos.contains(pgeo)) {
+							geos.add(pgeo);
 						}
 					}
 				} else if (parentAlgorithm instanceof AlgoCirclePointRadius) {
@@ -220,17 +220,17 @@ public abstract class CopyPaste {
 					}
 				}
 				GeoCoordSys1D[] segm = ((GeoPolyhedron) geo).getSegments3D();
-				for (int j = 0; j < segm.length; j++) {
-					if (!geos.contains(segm[j])
-							&& predecessorsCovered(segm[j], ancestors)) {
-						geos.add(segm[j]);
-						GeoPointND[] pspoints2 = { segm[j].getStartPoint(),
-								segm[j].getEndPoint() };
-						for (int k = 0; k < pspoints2.length; k++) {
-							if (!geos.contains(pspoints2[k])
-									&& predecessorsCovered(pspoints2[k],
-											ancestors)) {
-								geos.add((GeoElement) (pspoints2[k]));
+				for (GeoCoordSys1D geoCoordSys1D : segm) {
+					if (!geos.contains(geoCoordSys1D)
+							&& predecessorsCovered(geoCoordSys1D, ancestors)) {
+						geos.add(geoCoordSys1D);
+						GeoPointND[] pspoints2 = {geoCoordSys1D.getStartPoint(),
+								geoCoordSys1D.getEndPoint()};
+						for (GeoPointND geoPointND : pspoints2) {
+							if (!geos.contains(geoPointND)
+									&& predecessorsCovered(geoPointND,
+									ancestors)) {
+								geos.add((GeoElement) geoPointND);
 							}
 						}
 					}
@@ -254,17 +254,17 @@ public abstract class CopyPaste {
 					}
 				}
 				GeoCoordSys1D[] segm = ((GeoPolyhedronNet) geo).getSegments3D();
-				for (int j = 0; j < segm.length; j++) {
-					if (!geos.contains(segm[j])
-							&& predecessorsCovered(segm[j], ancestors)) {
-						geos.add(segm[j]);
-						GeoPointND[] pspoints2 = { segm[j].getStartPoint(),
-								segm[j].getEndPoint() };
-						for (int k = 0; k < pspoints2.length; k++) {
-							if (!geos.contains(pspoints2[k])
-									&& predecessorsCovered(pspoints2[k],
-											ancestors)) {
-								geos.add((GeoElement) (pspoints2[k]));
+				for (GeoCoordSys1D geoCoordSys1D : segm) {
+					if (!geos.contains(geoCoordSys1D)
+							&& predecessorsCovered(geoCoordSys1D, ancestors)) {
+						geos.add(geoCoordSys1D);
+						GeoPointND[] pspoints2 = {geoCoordSys1D.getStartPoint(),
+								geoCoordSys1D.getEndPoint()};
+						for (GeoPointND geoPointND : pspoints2) {
+							if (!geos.contains(geoPointND)
+									&& predecessorsCovered(geoPointND,
+									ancestors)) {
+								geos.add((GeoElement) geoPointND);
 							}
 						}
 					}
@@ -278,17 +278,17 @@ public abstract class CopyPaste {
 							geo);
 
 					GeoElement[] pgeos = parentAlgorithm.getInput();
-					for (int j = 0; j < pgeos.length; j++) {
-						if (!geos.contains(pgeos[j])
-								&& predecessorsCovered(pgeos[j], ancestors)) {
-							geos.add(pgeos[j]);
+					for (GeoElement geoElement : pgeos) {
+						if (!geos.contains(geoElement)
+								&& predecessorsCovered(geoElement, ancestors)) {
+							geos.add(geoElement);
 						}
 					}
 					pgeos = parentAlgorithm.getOutput();
-					for (int j = 0; j < pgeos.length; j++) {
-						if (!geos.contains(pgeos[j])
-								&& predecessorsCovered(pgeos[j], ancestors)) {
-							geos.add(pgeos[j]);
+					for (GeoElement pgeo : pgeos) {
+						if (!geos.contains(pgeo)
+								&& predecessorsCovered(pgeo, ancestors)) {
+							geos.add(pgeo);
 						}
 					}
 				}
@@ -384,8 +384,7 @@ public abstract class CopyPaste {
 		Kernel kernel = app.getKernel();
 		GeoElement geo;
 		String oldLabel;
-		for (int i = 0; i < labels.size(); i++) {
-			String ll = labels.get(i);
+		for (String ll : labels) {
 			geo = kernel.lookupLabel(ll);
 			if (geo != null) {
 				if (app.getActiveEuclidianView() == app.getEuclidianView1()) {

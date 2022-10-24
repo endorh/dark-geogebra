@@ -1,7 +1,6 @@
 package org.geogebra.common.gui.view.spreadsheet;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.TreeSet;
 
 import org.geogebra.common.awt.GPoint;
@@ -354,9 +353,7 @@ public class RelativeCopy {
 
 		for (int y = dy1; y <= dy2; ++y) {
 			int iy = y - dy1;
-			Iterator<GeoElement> iterator = tree.iterator();
-			while (iterator.hasNext()) {
-				GeoElement geo = iterator.next();
+			for (GeoElement geo : tree) {
 				if (geo != null) {
 					GPoint p = geo.getSpreadsheetCoords();
 
@@ -408,10 +405,7 @@ public class RelativeCopy {
 		for (int x = dx1; x <= dx2; ++x) {
 			int ix = x - dx1;
 
-			Iterator<GeoElement> iterator = tree.iterator();
-			while (iterator.hasNext()) {
-
-				GeoElement geo = iterator.next();
+			for (GeoElement geo : tree) {
 
 				if (geo != null) {
 					GPoint p = geo.getSpreadsheetCoords();
@@ -606,8 +600,7 @@ public class RelativeCopy {
 		value2.setAuxiliaryObject(true);
 
 		String[] startPoints = null;
-		if (value instanceof Locateable) {
-			Locateable loc = (Locateable) value;
+		if (value instanceof Locateable loc) {
 
 			GeoPointND[] pts = loc.getStartPoints();
 
@@ -924,8 +917,8 @@ public class RelativeCopy {
 				// check for circular definition: if newValue depends on
 				// autoCreateGeo
 				boolean circularDefinition = false;
-				for (int i = 0; i < newValues.length; i++) {
-					if (newValues[i].isChildOf(autoCreateGeo)) {
+				for (GeoElementND newValue : newValues) {
+					if (newValue.isChildOf(autoCreateGeo)) {
 						circularDefinition = true;
 						break;
 					}
@@ -941,10 +934,10 @@ public class RelativeCopy {
 				}
 			}
 
-			for (int i = 0; i < newValues.length; i++) {
-				newValues[i].setAuxiliaryObject(true);
-				if (newValues[i].isGeoText()) {
-					newValues[i].setEuclidianVisible(false);
+			for (GeoElementND newValue : newValues) {
+				newValue.setAuxiliaryObject(true);
+				if (newValue.isGeoText()) {
+					newValue.setEuclidianVisible(false);
 				}
 			}
 
@@ -985,29 +978,25 @@ public class RelativeCopy {
 				!kernel.getConstruction().isSuppressLabelsActive(), true);
 		kernel.getAlgebraProcessor().changeGeoElementNoExceptionHandling(
 				oldValue, text, info, false,
-				new AsyncOperation<GeoElementND>() {
-
-					@Override
-					public void callback(GeoElementND newValue) {
-						Log.debug("REDEFINED" + newValue);
-						// newValue.setConstructionDefaults();
-						newValue.setAllVisualProperties(oldValue.toGeoElement(),
-								true);
-						if (oldValue.isAuxiliaryObject()) {
-							newValue.setAuxiliaryObject(true);
-						}
-
-						// Application.debug("GeoClassType = " +
-						// newValue.getGeoClassType()+" " +
-						// newValue.getGeoClassType());
-						if (newValue.getGeoClassType() == oldValue
-								.getGeoClassType()) {
-							// newValue.setVisualStyle(oldValue);
-						} else {
-							kernel.getApplication().refreshViews();
-						}
-						callback.callback(newValue);
+				newValue -> {
+					Log.debug("REDEFINED" + newValue);
+					// newValue.setConstructionDefaults();
+					newValue.setAllVisualProperties(oldValue.toGeoElement(),
+							true);
+					if (oldValue.isAuxiliaryObject()) {
+						newValue.setAuxiliaryObject(true);
 					}
+
+					// Application.debug("GeoClassType = " +
+					// newValue.getGeoClassType()+" " +
+					// newValue.getGeoClassType());
+					if (newValue.getGeoClassType() == oldValue
+							.getGeoClassType()) {
+						// newValue.setVisualStyle(oldValue);
+					} else {
+						kernel.getApplication().refreshViews();
+					}
+					callback.callback(newValue);
 				}, getErrorHandler(kernel, oldValue, name, text0, callback));
 
 	}
@@ -1176,13 +1165,7 @@ public class RelativeCopy {
 				return ret;
 			}
 			updateOldValue(kernel, oldValue, name, text,
-					new AsyncOperation<GeoElementND>() {
-
-						@Override
-						public void callback(GeoElementND obj) {
-							redefinedElement = obj;
-						}
-					});
+					obj -> redefinedElement = obj);
 			kernel.setUseInternalCommandNames(oldFlag);
 			return redefinedElement;
 
@@ -1241,7 +1224,7 @@ public class RelativeCopy {
 		}
 
 		// test the first char for a digit, sign or decimal point.
-		Character c = s.charAt(0);
+		char c = s.charAt(0);
 		if (!(StringUtil.isDigit(c) || c == '.' || c == '-' || c == '+'
 				|| c == '\u2212')) {
 			return false;

@@ -13,7 +13,6 @@ the Free Software Foundation.
 package org.geogebra.common.kernel.algos;
 
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.LinkedList;
 
 import org.apache.commons.math3.analysis.UnivariateFunction;
@@ -203,24 +202,20 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	@Override
 	protected void setInputOutput() {
 		switch (mode) {
-		default:
-		case MULTIPLE_ROOTS:
-		case ROOTS: // roots of f
+		case MULTIPLE_ROOTS, ROOTS -> { // roots of f
 			input = new GeoElement[1];
 			input[0] = f.toGeoElement();
-			break;
-
-		case INTERSECT_POLYNOMIALS: // intersection of f and g
+		}
+		case INTERSECT_POLYNOMIALS -> { // intersection of f and g
 			input = new GeoElement[2];
 			input[0] = f.toGeoElement();
 			input[1] = g.toGeoElement();
-			break;
-
-		case INTERSECT_POLY_LINE: // intersection of f and line
+		}
+		case INTERSECT_POLY_LINE -> { // intersection of f and line
 			input = new GeoElement[2];
 			input[0] = f.toGeoElement();
 			input[1] = line;
-			break;
+		}
 		}
 
 		super.setOutput(rootPoints);
@@ -437,10 +432,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 		// we got a list of polynomial factors
 		if (factorList != null) {
 			// compute the roots of every single factor
-			Iterator<PolyFunction> it = factorList.iterator();
-			while (it.hasNext()) {
-				PolyFunction polyFun = it.next();
-
+			for (PolyFunction polyFun : factorList) {
 				// update the current coefficients of polyFun
 				// (this is needed for SymbolicPolyFunction objects)
 				if (!polyFun.updateCoeffValues()) {

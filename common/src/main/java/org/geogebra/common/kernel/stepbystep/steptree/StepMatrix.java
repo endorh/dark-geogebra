@@ -27,8 +27,7 @@ public class StepMatrix extends StepTransformable {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof StepMatrix) {
-			StepMatrix sm = (StepMatrix) obj;
+		if (obj instanceof StepMatrix sm) {
 
 			return isAugmented == sm.isAugmented && Arrays.deepEquals(data, sm.data);
 		}

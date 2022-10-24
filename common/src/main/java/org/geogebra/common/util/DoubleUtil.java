@@ -192,8 +192,8 @@ public class DoubleUtil {
 	 * @return whether all given numbers are zero within current precision
 	 */
 	final static boolean isZero(double[] a) {
-		for (int i = 0; i < a.length; i++) {
-			if (!isZero(a[i])) {
+		for (double v : a) {
+			if (!isZero(v)) {
 				return false;
 			}
 		}

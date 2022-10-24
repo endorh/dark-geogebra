@@ -18,7 +18,6 @@ package org.apache.commons.math3.ml.clustering;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.math3.exception.MathIllegalArgumentException;
@@ -278,8 +277,8 @@ public class FuzzyKMeansClusterer<T extends Clusterable> extends Clusterer<T> {
         }
 
         // copy the input collection to an unmodifiable list with indexed access
-        points = Collections.unmodifiableList(new ArrayList<T>(dataPoints));
-        clusters = new ArrayList<CentroidCluster<T>>();
+        points = List.copyOf(dataPoints);
+        clusters = new ArrayList<>();
         membershipMatrix = new double[size][k];
         final double[][] oldMatrix = new double[size][k];
 
@@ -293,7 +292,7 @@ public class FuzzyKMeansClusterer<T extends Clusterable> extends Clusterer<T> {
         // there is at least one point
         final int pointDimension = points.get(0).getPoint().length;
         for (int i = 0; i < k; i++) {
-            clusters.add(new CentroidCluster<T>(new DoublePoint(new double[pointDimension])));
+            clusters.add(new CentroidCluster<>(new DoublePoint(new double[pointDimension])));
         }
 
         int iteration = 0;
@@ -315,7 +314,7 @@ public class FuzzyKMeansClusterer<T extends Clusterable> extends Clusterer<T> {
      */
     private void updateClusterCenters() {
         int j = 0;
-        final List<CentroidCluster<T>> newClusters = new ArrayList<CentroidCluster<T>>(k);
+        final List<CentroidCluster<T>> newClusters = new ArrayList<>(k);
         for (final CentroidCluster<T> cluster : clusters) {
             final Clusterable center = cluster.getCenter();
             int i = 0;
@@ -331,7 +330,7 @@ public class FuzzyKMeansClusterer<T extends Clusterable> extends Clusterer<T> {
                 i++;
             }
             MathArrays.scaleInPlace(1.0 / sum, arr);
-            newClusters.add(new CentroidCluster<T>(new DoublePoint(arr)));
+            newClusters.add(new CentroidCluster<>(new DoublePoint(arr)));
             j++;
         }
         clusters.clear();

@@ -103,19 +103,10 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		} else if (source.equals(btnViewDirection)) {
 			int si = btnViewDirection.getSelectedIndex();
 			switch (si) {
-			default:
-			case 0:
-				getView().setRotAnimation(-90, 90, true);
-				break;
-			case 1:
-				getView().setRotAnimation(-90, 0, true);
-				break;
-			case 2:
-				getView().setRotAnimation(0, 0, true);
-				break;
-			case 3:
-				getView().setDefaultRotAnimation();
-				break;
+			case 0 -> getView().setRotAnimation(-90, 90, true);
+			case 1 -> getView().setRotAnimation(-90, 0, true);
+			case 2 -> getView().setRotAnimation(0, 0, true);
+			case 3 -> getView().setDefaultRotAnimation();
 			}
 		} else if (source.equals(btnViewProjection)) {
 			int si = btnViewProjection.getSelectedIndex();
@@ -311,9 +302,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 	protected PopupMenuButtonD[] newPopupBtnList() {
 		PopupMenuButtonD[] superList = super.newPopupBtnList();
 		PopupMenuButtonD[] ret = new PopupMenuButtonD[superList.length + 4];
-		for (int i = 0; i < superList.length; i++) {
-			ret[i] = superList[i];
-		}
+		System.arraycopy(superList, 0, ret, 0, superList.length);
 
 		int index = superList.length;
 		ret[index] = btnRotateView;
@@ -330,9 +319,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 	protected MyToggleButtonD[] newToggleBtnList() {
 		MyToggleButtonD[] superList = super.newToggleBtnList();
 		MyToggleButtonD[] ret = new MyToggleButtonD[superList.length + 1];
-		for (int i = 0; i < superList.length; i++) {
-			ret[i] = superList[i];
-		}
+		System.arraycopy(superList, 0, ret, 0, superList.length);
 
 		int index = superList.length;
 		ret[index] = btnShowPlane;

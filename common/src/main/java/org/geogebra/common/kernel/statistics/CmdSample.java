@@ -33,31 +33,30 @@ public class CmdSample extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2:
+		case 2 -> {
 			arg = resArgs(c);
 			if ((ok[0] = arg[0].isGeoList())
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
-				GeoElement[] ret = { sample(c.getLabel(), (GeoList) arg[0],
-						(GeoNumberValue) arg[1], null) };
+				GeoElement[] ret = {sample(c.getLabel(), (GeoList) arg[0],
+						(GeoNumberValue) arg[1], null)};
 				return ret;
 
 			}
 			throw argErr(c, getBadArg(ok, arg));
-
-		case 3:
+		}
+		case 3 -> {
 			arg = resArgs(c);
 			if ((ok[0] = arg[0].isGeoList())
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2].isGeoBoolean())) {
-				GeoElement[] ret = { sample(c.getLabel(), (GeoList) arg[0],
-						(GeoNumberValue) arg[1], (GeoBoolean) arg[2]) };
+				GeoElement[] ret = {sample(c.getLabel(), (GeoList) arg[0],
+						(GeoNumberValue) arg[1], (GeoBoolean) arg[2])};
 				return ret;
 
 			}
 			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

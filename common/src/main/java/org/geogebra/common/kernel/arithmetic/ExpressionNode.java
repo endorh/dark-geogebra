@@ -325,8 +325,7 @@ public class ExpressionNode extends ValidExpression
 		} else if (ev.isExpressionNode()) {
 			ExpressionNode en = (ExpressionNode) ev;
 			ret = en.getCopy(kernel);
-		} else if (ev instanceof MyList) {
-			MyList en = (MyList) ev;
+		} else if (ev instanceof MyList en) {
 			ret = en.getCopy(kernel);
 		}
 		// deep copy
@@ -983,8 +982,7 @@ public class ExpressionNode extends ValidExpression
 				rt = new Polynomial(kernel,
 						((FunctionVariable) right).getSetVarString());
 			} else {
-				if (right instanceof MyList) {
-					MyList list = (MyList) right;
+				if (right instanceof MyList list) {
 					for (int i = 0; i < list.size(); i++) {
 						ExpressionValue ev = list.getListElement(i);
 						if (ev instanceof ExpressionNode) {
@@ -1055,20 +1053,11 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	private static boolean polynomialOperation(Operation operation2) {
-		switch (operation2) {
-		case NO_OPERATION:
-		case PLUS:
-		case MINUS:
-		case MULTIPLY:
-		case MULTIPLY_OR_FUNCTION:
-		case DIVIDE:
-		case POWER:
-		case FUNCTION:
-		case FUNCTION_NVAR:
-			return true;
-		default:
-			return false;
-		}
+		return switch (operation2) {
+			case NO_OPERATION, PLUS, MINUS, MULTIPLY, MULTIPLY_OR_FUNCTION, DIVIDE, POWER, FUNCTION, FUNCTION_NVAR ->
+					true;
+			default -> false;
+		};
 	}
 
 	/**
@@ -1776,21 +1765,11 @@ public class ExpressionNode extends ValidExpression
 	 *         eg. x < y <=z
 	 */
 	public static boolean chainedBooleanOp(Operation op) {
-		switch (op) {
-		case EQUAL_BOOLEAN:
-		case NOT_EQUAL:
-		case IS_SUBSET_OF:
-		case IS_SUBSET_OF_STRICT:
-		case LESS:
-		case LESS_EQUAL:
-		case GREATER:
-		case GREATER_EQUAL:
-		case PERPENDICULAR:
-		case PARALLEL:
-			return true;
-		default:
-			return false;
-		}
+		return switch (op) {
+			case EQUAL_BOOLEAN, NOT_EQUAL, IS_SUBSET_OF, IS_SUBSET_OF_STRICT, LESS, LESS_EQUAL, GREATER, GREATER_EQUAL, PERPENDICULAR, PARALLEL ->
+					true;
+			default -> false;
+		};
 	}
 
 	/**
@@ -3230,8 +3209,8 @@ public class ExpressionNode extends ValidExpression
 	 */
 	public static boolean doesNotInclude(FunctionVariable[] vars,
 			ExpressionValue ev) {
-		for (int i = 0; i < vars.length; i++) {
-			if (vars[i] == ev) {
+		for (FunctionVariable var : vars) {
+			if (var == ev) {
 				return false;
 			}
 		}
@@ -3475,14 +3454,14 @@ public class ExpressionNode extends ValidExpression
 		ArrayList<ExpressionNode> factorsWithoutPow = new ArrayList<>(
 				factors.size());
 		if (!factors.isEmpty()) {
-			for (int i = 0; i < factors.size(); i++) {
-				if (factors.get(i).getOperation().equals(Operation.POWER)
-						&& (factors.get(i).getRight() instanceof MyDouble
-								|| factors.get(i)
-										.getRight() instanceof MySpecialDouble)) {
-					factorsWithoutPow.add(factors.get(i).getLeftTree());
+			for (ExpressionNode factor : factors) {
+				if (factor.getOperation().equals(Operation.POWER)
+						&& (factor.getRight() instanceof MyDouble
+						|| factor
+						.getRight() instanceof MySpecialDouble)) {
+					factorsWithoutPow.add(factor.getLeftTree());
 				} else {
-					factorsWithoutPow.add(factors.get(i));
+					factorsWithoutPow.add(factor);
 				}
 			}
 		}

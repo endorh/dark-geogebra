@@ -767,7 +767,7 @@ public final class ArithmeticUtils {
             throw new NotPositiveException(LocalizedFormats.EXPONENT, e);
         }
 
-        long result = 1l;
+        long result = 1L;
         long k2p    = k;
         while (e != 0) {
             if ((e & 0x1) != 0) {

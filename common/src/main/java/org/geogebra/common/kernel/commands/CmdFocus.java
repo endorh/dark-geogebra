@@ -29,7 +29,7 @@ public class CmdFocus extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
+		case 1 -> {
 			arg = resArgs(c);
 			if (arg[0].isGeoConic()) {
 
@@ -39,9 +39,8 @@ public class CmdFocus extends CommandProcessor {
 
 			}
 			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

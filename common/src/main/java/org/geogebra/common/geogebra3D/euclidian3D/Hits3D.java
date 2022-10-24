@@ -214,9 +214,7 @@ public class Hits3D extends Hits {
 	public double sort() {
 		hitSetSet.clear();
 
-		for (int i = 0; i < Drawable3D.DRAW_PICK_ORDER_MAX; i++) {
-			hitSetSet.add(hitSet[i]);
-		}
+		hitSetSet.addAll(Arrays.asList(hitSet).subList(0, Drawable3D.DRAW_PICK_ORDER_MAX));
 
 		// return nearest zNear
 		double zNear = Double.NaN;

@@ -22,7 +22,6 @@
 
 package org.jfugue;
 
-import javax.sound.midi.MidiMessage;
 import javax.sound.midi.Sequence;
 
 /**
@@ -65,19 +64,8 @@ public class Anticipator {
 	}
 
 	protected void play(final Sequence sequence) {
-		final Thread anticipatingThread = new Thread() {
-			@Override
-			public void run() {
-				TimeFactor.sortAndDeliverMidiMessages(sequence,
-						new MidiMessageRecipient() {
-							@Override
-							public void messageReady(MidiMessage message,
-									long timestamp) {
-								parser.parse(message, timestamp);
-							}
-						});
-			}
-		};
+		final Thread anticipatingThread = new Thread(() -> TimeFactor.sortAndDeliverMidiMessages(sequence,
+				(message, timestamp) -> parser.parse(message, timestamp)));
 
 		anticipatingThread.start();
 	}

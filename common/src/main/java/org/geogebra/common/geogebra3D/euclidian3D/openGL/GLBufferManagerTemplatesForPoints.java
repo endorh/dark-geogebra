@@ -47,14 +47,11 @@ public class GLBufferManagerTemplatesForPoints extends GLBufferManager {
 	 * @return sphere size for template index
 	 */
 	static public int getSphereSizeForIndex(int index) {
-		switch (index) {
-		case 0:
-			return 2;
-		case 1:
-			return 4;
-		default:
-			return 7;
-		}
+		return switch (index) {
+			case 0 -> 2;
+			case 1 -> 4;
+			default -> 7;
+		};
 	}
 
 	/**

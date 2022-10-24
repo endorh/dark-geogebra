@@ -32,7 +32,6 @@ import intel.rssdk.PXCMCaptureManager;
 import intel.rssdk.PXCMHandConfiguration;
 import intel.rssdk.PXCMHandConfiguration.AlertHandler;
 import intel.rssdk.PXCMHandData;
-import intel.rssdk.PXCMHandData.AlertData;
 import intel.rssdk.PXCMHandData.AlertType;
 import intel.rssdk.PXCMHandData.BodySideType;
 import intel.rssdk.PXCMHandModule;
@@ -119,7 +118,7 @@ public class Socket {
 	
 	private DataSampler dataSampler;
 	
-	private abstract class DataSampler {
+	private abstract static class DataSampler {
 		
 		protected int samples;
 		protected int index;
@@ -515,10 +514,9 @@ public class Socket {
 					+ registryQueryResult);
 			// get query result -- so we can check version
 			try {
-				BufferedReader reader = new BufferedReader(
-						new InputStreamReader(p.getInputStream()));
-				String line = "";
-				try {
+				try (BufferedReader reader = new BufferedReader(
+						new InputStreamReader(p.getInputStream()))) {
+					String line = "";
 					// get version
 					while ((line = reader.readLine()) != null) {
 						// Log.debug(line);
@@ -543,8 +541,6 @@ public class Socket {
 							}
 						}
 					}
-				} finally {
-					reader.close();
 				}
 			} catch (IOException ioe) {
 				Log.debug(ioe);
@@ -614,61 +610,58 @@ public class Socket {
 			return;
 		}
 
-		Thread t = new Thread(){
-			@Override
-			public void run() {
-				installRuntimes = true;
+		Thread t = new Thread(() -> {
+			installRuntimes = true;
 
-				Log.debug("\n>>>>>>>>>>>>>> install runtimes: " + modules);
-				Localization loc = app.getLocalization();
-				showMessage(loc.getMenu("RealSense.DownloadRuntimes"),
-						loc.getMenu("RealSenseNotUpToDate2"));
+			Log.debug("\n>>>>>>>>>>>>>> install runtimes: " + modules);
+			Localization loc = app.getLocalization();
+			showMessage(loc.getMenu("RealSense.DownloadRuntimes"),
+					loc.getMenu("RealSenseNotUpToDate2"));
 
-				String filenameWebSetup = null;
+			String filenameWebSetup = null;
 
-				File destWebSetup = null;
+			File destWebSetup = null;
 
-				try {
-					String updateDir = System.getenv("APPDATA")
-							+ GeoGebraConstants.GEOGEBRA_THIRD_PARTY_UPDATE_DIR;
-					Log.debug("Creating " + updateDir);
-					new File(updateDir).mkdirs();
+			try {
+				String updateDir = System.getenv("APPDATA")
+						+ GeoGebraConstants.GEOGEBRA_THIRD_PARTY_UPDATE_DIR;
+				Log.debug("Creating " + updateDir);
+				new File(updateDir).mkdirs();
 
-					// Downloading web setup
-					filenameWebSetup = updateDir + File.separator
-							+ REALSENSE_WEBSETUP;
-					destWebSetup = new File(filenameWebSetup);
-					URL url = new URL(REALSENSE_ONLINE_WEBSETUP);
-					Log.debug("Downloading " + REALSENSE_ONLINE_WEBSETUP);
-					DownloadManager.copyURLToFile(url, destWebSetup);
-					Log.debug("=== done");
+				// Downloading web setup
+				filenameWebSetup = updateDir + File.separator
+						+ REALSENSE_WEBSETUP;
+				destWebSetup = new File(filenameWebSetup);
+				URL url = new URL(REALSENSE_ONLINE_WEBSETUP);
+				Log.debug("Downloading " + REALSENSE_ONLINE_WEBSETUP);
+				DownloadManager.copyURLToFile(url, destWebSetup);
+				Log.debug("=== done");
 
 
 
-				} catch (Exception e) {
-					Log.error("Unsuccessful update");
-					installRuntimes = false;
-				}
-
-				boolean installOK = false;
-
-				if (filenameWebSetup != null) {
-					installOK = install(filenameWebSetup, modules);
-				}
-
-				
-				if (installOK) {
-					Log.debug("Successful update");
-					showMessage(loc.getMenu("RealSense.UpdatedRuntimes"),
-							loc.getMenu("RealSenseUpdated2"));
-					if (destWebSetup != null) {
-						destWebSetup.delete();
-					}
-				}
-
+			} catch (Exception e) {
+				Log.error("Unsuccessful update");
 				installRuntimes = false;
 			}
-		};
+
+			boolean installOK = false;
+
+			if (filenameWebSetup != null) {
+				installOK = install(filenameWebSetup, modules);
+			}
+
+
+			if (installOK) {
+				Log.debug("Successful update");
+				showMessage(loc.getMenu("RealSense.UpdatedRuntimes"),
+						loc.getMenu("RealSenseUpdated2"));
+				if (destWebSetup != null) {
+					destWebSetup.delete();
+				}
+			}
+
+			installRuntimes = false;
+		});
 		
 		t.start();
 
@@ -804,13 +797,7 @@ public class Socket {
 
 			handConfig.EnableAllAlerts();
 
-			AlertHandler alertHandler = new AlertHandler() {
-				
-				@Override
-				public void OnFiredAlert(AlertData data) {
-					setAlert(data.handId, data.label);
-				}
-			};
+			AlertHandler alertHandler = data -> setAlert(data.handId, data.label);
 			handConfig.SubscribeAlert(alertHandler);
 			
 			handConfig.ApplyChanges();
@@ -902,7 +889,7 @@ public class Socket {
 			handX = dataSampler.getWorldX();
 			handY = dataSampler.getWorldY();
 			handZ = dataSampler.getWorldZ();
-			
+
 
 			switch (dataSampler.getSide()) {
 			case BODY_SIDE_RIGHT:

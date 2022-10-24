@@ -32,7 +32,7 @@ public class CmdPolyhedronNet extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2:
+		case 2 -> {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoPolyhedron()))
 					&& (ok[1] = (arg[1].isNumberValue()))) {
@@ -40,34 +40,30 @@ public class CmdPolyhedronNet extends CommandProcessor {
 						(GeoPolyhedron) arg[0], (NumberValue) arg[1], null,
 						null);
 			}
-
 			if (!ok[0]) {
 				throw argErr(c, arg[0]);
 			}
 			throw argErr(c, arg[1]);
+		}
 
-			/*
-			 * case 3 : arg = resArgs(c); if ( (ok[0] = (arg[0]
-			 * .isGeoPolyhedron() ) ) && (ok[1] = (arg[1].isNumberValue() )) &&
-			 * (ok[2] = (arg[2].isGeoPolygon() )) ) { return
-			 * kernelA.getManager3D().polyhedronNet( c.getLabels(),
-			 * (GeoPolyhedron) arg[0], (NumberValue) arg[1], (GeoPolygon)
-			 * arg[2], null); }
-			 * 
-			 * 
-			 * if (!ok[0]) throw argErr(app, c, arg[0]); if (!ok[1]) throw
-			 * argErr(app, c, arg[1]); throw argErr(app, c.getName(), arg[2]);
-			 */
+		/*
+		 * case 3 : arg = resArgs(c); if ( (ok[0] = (arg[0]
+		 * .isGeoPolyhedron() ) ) && (ok[1] = (arg[1].isNumberValue() )) &&
+		 * (ok[2] = (arg[2].isGeoPolygon() )) ) { return
+		 * kernelA.getManager3D().polyhedronNet( c.getLabels(),
+		 * (GeoPolyhedron) arg[0], (NumberValue) arg[1], (GeoPolygon)
+		 * arg[2], null); }
+		 *
+		 *
+		 * if (!ok[0]) throw argErr(app, c, arg[0]); if (!ok[1]) throw
+		 * argErr(app, c, arg[1]); throw argErr(app, c.getName(), arg[2]);
+		 */
 
-		case 0:
-		case 1:
-			throw argNumErr(c);
-
-		default:
+		case 0, 1 -> throw argNumErr(c);
+		default -> {
 			// throw argNumErr(c);
 
 			arg = resArgs(c);
-
 			if ((ok[0] = (arg[0].isGeoPolyhedron()))
 					&& (ok[1] = (arg[1].isNumberValue()))
 					&& (ok[2] = (arg[2].isGeoPolygon()))) {
@@ -84,7 +80,6 @@ public class CmdPolyhedronNet extends CommandProcessor {
 						(GeoPolyhedron) arg[0], (NumberValue) arg[1],
 						(GeoPolygon) arg[2], segments);
 			}
-
 			if (!ok[0]) {
 				throw argErr(c, arg[0]);
 			}
@@ -92,7 +87,7 @@ public class CmdPolyhedronNet extends CommandProcessor {
 				throw argErr(c, arg[1]);
 			}
 			throw argErr(c, arg[2]);
-
+		}
 		}
 
 	}

@@ -57,7 +57,7 @@ public class EMFPlusPathConstructor extends QuadToCubicPathConstructor {
 	}
 
 	public PathPoint[] getPath() {
-		return (PathPoint[]) path.toArray(new PathPoint[path.size()]);
+		return (PathPoint[]) path.toArray(new PathPoint[0]);
 	}
 
 }

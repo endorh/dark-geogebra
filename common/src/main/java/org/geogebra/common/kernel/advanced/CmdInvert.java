@@ -36,15 +36,14 @@ public class CmdInvert extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
+		case 1 -> {
 			arg = resArgs(c);
-
 			if (arg[0].isGeoFunction()) {
 
 				AlgoFunctionInvert algo = new AlgoFunctionInvert(cons,
 						(GeoFunction) arg[0], numeric);
 				algo.getResult().setLabel(c.getLabel());
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 				return ret;
 
 			} else if (arg[0].isGeoList() && !"NInvert".equals(c.getName())) {
@@ -52,14 +51,13 @@ public class CmdInvert extends CommandProcessor {
 				AlgoInvert algo = new AlgoInvert(cons, c.getLabel(),
 						(GeoList) arg[0]);
 
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 				return ret;
 
 			}
 			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

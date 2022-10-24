@@ -78,7 +78,7 @@ public class ResourceAvailability {
 				URL url = ResourceAvailability.class.getResource(res
 						.getFilename());
 				if (url == null) {
-					missing.append(modeText + ",");
+					missing.append(modeText).append(",");
 				}
 			}
 

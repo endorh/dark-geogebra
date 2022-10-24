@@ -72,61 +72,32 @@ public class AlgoDrawingPadCorner3D extends AlgoDrawingPadCorner {
 			EuclidianView3DInterface ev = app.getEuclidianView3D();
 
 			switch ((int) number.getDouble()) {
-			case 1:
-				corner.setCoords(ev.getXmin(), ev.getYmin(), ev.getZmin(), 1.0);
-				break;
-			case 2:
-				corner.setCoords(ev.getXmax(), ev.getYmin(), ev.getZmin(), 1.0);
-				break;
-			case 3:
-				corner.setCoords(ev.getXmax(), ev.getYmax(), ev.getZmin(), 1.0);
-				break;
-			case 4:
-				corner.setCoords(ev.getXmin(), ev.getYmax(), ev.getZmin(), 1.0);
-				break;
-
-			case 5:
-				corner.setCoords(ev.getXmin(), ev.getYmin(), ev.getZmax(), 1.0);
-				break;
-			case 6:
-				corner.setCoords(ev.getXmax(), ev.getYmin(), ev.getZmax(), 1.0);
-				break;
-			case 7:
-				corner.setCoords(ev.getXmax(), ev.getYmax(), ev.getZmax(), 1.0);
-				break;
-			case 8:
-				corner.setCoords(ev.getXmin(), ev.getYmax(), ev.getZmax(), 1.0);
-				break;
-
-			case 9: // return size of Graphics View in pixels
-				corner.setCoords(ev.getWidth(), ev.getHeight(), 1.0);
-				break;
-			case 10: // return size of Window in pixels
+			case 1 -> corner.setCoords(ev.getXmin(), ev.getYmin(), ev.getZmin(), 1.0);
+			case 2 -> corner.setCoords(ev.getXmax(), ev.getYmin(), ev.getZmin(), 1.0);
+			case 3 -> corner.setCoords(ev.getXmax(), ev.getYmax(), ev.getZmin(), 1.0);
+			case 4 -> corner.setCoords(ev.getXmin(), ev.getYmax(), ev.getZmin(), 1.0);
+			case 5 -> corner.setCoords(ev.getXmin(), ev.getYmin(), ev.getZmax(), 1.0);
+			case 6 -> corner.setCoords(ev.getXmax(), ev.getYmin(), ev.getZmax(), 1.0);
+			case 7 -> corner.setCoords(ev.getXmax(), ev.getYmax(), ev.getZmax(), 1.0);
+			case 8 -> corner.setCoords(ev.getXmin(), ev.getYmax(), ev.getZmax(), 1.0);
+			case 9 -> // return size of Graphics View in pixels
+					corner.setCoords(ev.getWidth(), ev.getHeight(), 1.0);
+			case 10 -> // return size of Window in pixels
 				// (to help with sizing for export to applet)
 				// doesn't work very well as it receives updates only when
 				// EuclidianView is changed
-				corner.setCoords(app.getWidth(), app.getHeight(), 1.0);
-
-				break;
-
-			case CORNER_VIEW_DIRECTION: // return view direction
+					corner.setCoords(app.getWidth(), app.getHeight(), 1.0);
+			case CORNER_VIEW_DIRECTION -> { // return view direction
 				Coords eye = ev.getEyePosition();
 				corner.setCoords(eye.getX(), eye.getY(), eye.getZ(), 1.0);
-				break;
-
-			case CORNER_SCREEN_RIGHT: // return screen left-to-right direction
+			}
+			case CORNER_SCREEN_RIGHT -> { // return screen left-to-right direction
 				Coords vx = ev.getToSceneMatrix().getVx();
 				corner.setCoords(vx.getX(), vx.getY(), vx.getZ(), 1.0);
-				break;
-
-			case CORNER_AXES_SCALE:
-				corner.setCoords(ev.getXscale(), ev.getYscale(),
-						ev.getZscale(), 1.0);
-				break;
-
-			default:
-				corner.setUndefined();
-				break;
+			}
+			case CORNER_AXES_SCALE -> corner.setCoords(ev.getXscale(), ev.getYscale(),
+					ev.getZscale(), 1.0);
+			default -> corner.setUndefined();
 			}
 
 		} else { // ev1 or ev2

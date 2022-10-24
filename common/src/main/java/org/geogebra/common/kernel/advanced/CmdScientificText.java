@@ -30,27 +30,23 @@ public class CmdScientificText extends CommandProcessor {
 		arg = resArgs(c);
 
 		switch (n) {
-		case 1:
-
+		case 1 -> {
 			if (arg[0].isGeoNumeric()) {
-				GeoElement[] ret = { scientificText(c.getLabel(),
-						(GeoNumeric) arg[0], null) };
+				GeoElement[] ret = {scientificText(c.getLabel(),
+						(GeoNumeric) arg[0], null)};
 				return ret;
 			}
-
 			throw argErr(c, arg[arg[0].isGeoNumeric() ? 1 : 0]);
-		case 2:
-
+		}
+		case 2 -> {
 			if (arg[0].isGeoNumeric() && arg[1].isGeoNumeric()) {
-				GeoElement[] ret = { scientificText(c.getLabel(),
-						(GeoNumeric) arg[0], (GeoNumeric) arg[1]) };
+				GeoElement[] ret = {scientificText(c.getLabel(),
+						(GeoNumeric) arg[0], (GeoNumeric) arg[1])};
 				return ret;
 			}
-
 			throw argErr(c, arg[arg[0].isGeoNumeric() ? 1 : 0]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

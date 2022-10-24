@@ -77,9 +77,9 @@ public class SuggestionRootExtremum extends Suggestion {
 	}
 
 	private void setPointsColorToGray(GeoElementND[] pointLists) {
-		for (int i = 0; i < pointLists.length; i++) {
-			pointLists[i].setObjColor(ConstructionDefaults.colDepPointG);
-			pointLists[i].updateRepaint();
+		for (GeoElementND pointList : pointLists) {
+			pointList.setObjColor(ConstructionDefaults.colDepPointG);
+			pointList.updateRepaint();
 		}
 	}
 
@@ -155,8 +155,8 @@ public class SuggestionRootExtremum extends Suggestion {
 	}
 
 	private boolean containsLabel(GeoElement[] input, String axis) {
-		for (int i = 0; i < input.length; i++) {
-			if (axis.equals(input[i].getLabelSimple())) {
+		for (GeoElement geoElement : input) {
+			if (axis.equals(geoElement.getLabelSimple())) {
 				return true;
 			}
 		}

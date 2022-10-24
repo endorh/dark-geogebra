@@ -140,7 +140,7 @@ public class FastCosineTransformer implements RealTransformer, Serializable {
         if (!ArithmeticUtils.isPowerOfTwo(n)) {
             throw new MathIllegalArgumentException(
                 LocalizedFormats.NOT_POWER_OF_TWO_PLUS_ONE,
-                Integer.valueOf(f.length));
+		            f.length);
         }
         if (n == 1) {       // trivial case
             transformed[0] = 0.5 * (f[0] + f[1]);

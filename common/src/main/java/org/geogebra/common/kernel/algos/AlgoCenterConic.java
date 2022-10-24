@@ -59,18 +59,13 @@ public class AlgoCenterConic extends AlgoCenterQuadricND {
 	public void setCoords() {
 
 		switch (c.type) {
-		case GeoConicNDConstants.CONIC_CIRCLE:
-		case GeoConicNDConstants.CONIC_ELLIPSE:
-		case GeoConicNDConstants.CONIC_HYPERBOLA:
-		case GeoConicNDConstants.CONIC_SINGLE_POINT:
-		case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
+		case GeoConicNDConstants.CONIC_CIRCLE, GeoConicNDConstants.CONIC_ELLIPSE, GeoConicNDConstants.CONIC_HYPERBOLA, GeoConicNDConstants.CONIC_SINGLE_POINT, GeoConicNDConstants.CONIC_INTERSECTING_LINES -> {
 			GeoVec2D b = ((GeoConicND) c).b;
 			setCoords(b.getX(), b.getY());
-			break;
-
-		default:
+		}
+		default ->
 			// midpoint undefined
-			midpoint.setUndefined();
+				midpoint.setUndefined();
 		}
 	}
 

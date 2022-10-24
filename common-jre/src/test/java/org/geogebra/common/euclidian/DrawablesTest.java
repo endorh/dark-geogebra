@@ -93,8 +93,8 @@ public class DrawablesTest {
 		GeoMindMapNode mindMap = new GeoMindMapNode(construction, new GPoint2D());
 		mindMap.setLabel("mindMap");
 		TreeSet<GeoClass> types = new TreeSet<>();
-		for (int i = 0; i < def.length; i++) {
-			GeoElementND geo = ap.processAlgebraCommand(def[i], false)[0];
+		for (String s : def) {
+			GeoElementND geo = ap.processAlgebraCommand(s, false)[0];
 			DrawableND draw = app.getEuclidianView1().newDrawable(geo);
 			Assert.assertEquals(geo.getDefinitionForInputBar(),
 					expectDrawableFor(geo), draw != null);
@@ -124,19 +124,10 @@ public class DrawablesTest {
 	}
 
 	private static boolean expectDrawableFor(GeoElementND type) {
-		switch (type.getGeoClassType()) {
-		case NET:
-		case POLYHEDRON:
-		case PLANE3D:
-		case QUADRIC:
-		case QUADRIC_PART:
-		case QUADRIC_LIMITED:
-		case SURFACECARTESIAN3D:
-		case IMPLICIT_SURFACE_3D:
-		case AXIS:
-		case AXIS3D:
-			return false;
-		}
-		return true;
+		return switch (type.getGeoClassType()) {
+			case NET, POLYHEDRON, PLANE3D, QUADRIC, QUADRIC_PART, QUADRIC_LIMITED, SURFACECARTESIAN3D, IMPLICIT_SURFACE_3D, AXIS, AXIS3D ->
+					false;
+			default -> true;
+		};
 	}
 }

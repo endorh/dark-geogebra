@@ -171,21 +171,18 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 		SortMode[] sortModes = new SortMode[] { SortMode.DEPENDENCY,
 				SortMode.TYPE, SortMode.LAYER, SortMode.ORDER };
 
-		for (int i = 0; i < sortModes.length; i++) {
+		for (SortMode sortMode : sortModes) {
 			JCheckBoxMenuItem mi = new JCheckBoxMenuItem();
 			mi.setFont(app.getPlainFont());
 			mi.setBackground(ThemeD.color(ColorKeys.BACKGROUND));
-			final SortMode sort = sortModes[i];
+			final SortMode sort = sortMode;
 			mi.setText(loc.getMenu(sort.toString()));
 
-			mi.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					algebraView.setTreeMode(sort);
-					buildTreeModeMenu();
-				}
+			mi.addActionListener(e -> {
+				algebraView.setTreeMode(sort);
+				buildTreeModeMenu();
 			});
-			mi.setSelected(algebraView.getTreeMode() == sortModes[i]);
+			mi.setSelected(algebraView.getTreeMode() == sortMode);
 			treeModeMenu.add(mi);
 		}
 
@@ -216,13 +213,10 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 			mi.setBackground(ThemeD.color(ColorKeys.BACKGROUND));
 			mi.setText(modes[i]);
 			final int current = i;
-			mi.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					app.getKernel().setAlgebraStyle(current);
-					app.getKernel().updateConstruction(false);
-					buildDescriptionMenu();
-				}
+			mi.addActionListener(e -> {
+				app.getKernel().setAlgebraStyle(current);
+				app.getKernel().updateConstruction(false);
+				buildDescriptionMenu();
 			});
 			mi.setSelected(algebraView.getTreeMode() == SortMode.DEPENDENCY);
 			descriptionMenu.add(mi);

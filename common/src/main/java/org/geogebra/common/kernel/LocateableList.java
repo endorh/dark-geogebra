@@ -75,8 +75,8 @@ public class LocateableList extends ArrayList<Locateable> {
 		clear();
 
 		// tell all locateables
-		for (int i = 0; i < locs.length; i++) {
-			Locateable loc = (Locateable) locs[i];
+		for (Object o : locs) {
+			Locateable loc = (Locateable) o;
 			loc.removeStartPoint(point);
 			loc.toGeoElement().updateCascade();
 		}

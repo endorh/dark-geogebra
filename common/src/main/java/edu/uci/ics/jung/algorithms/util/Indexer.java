@@ -52,7 +52,7 @@ public class Indexer {
 	 */
 	public static <T> BidiMap<T, Integer> create(Collection<T> collection,
 			int start) {
-		BidiMap<T, Integer> map = new DualHashBidiMap<T, Integer>();
+		BidiMap<T, Integer> map = new DualHashBidiMap<>();
 		int i = start;
 		for (T t : collection) {
 			map.put(t, i++);

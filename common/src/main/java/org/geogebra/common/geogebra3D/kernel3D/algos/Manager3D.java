@@ -1581,14 +1581,13 @@ public class Manager3D implements Manager3DInterface {
 		String pointLabel = null, angleLabel = null;
 		if (labels != null) {
 			switch (labels.length) {
-			case 2:
+			case 2 -> {
 				angleLabel = labels[0];
 				pointLabel = labels[1];
-				break;
-			case 1:
-				angleLabel = labels[0];
-				break;
-			default:
+			}
+			case 1 -> angleLabel = labels[0];
+			default -> {
+			}
 			}
 		}
 
@@ -1649,11 +1648,9 @@ public class Manager3D implements Manager3DInterface {
 		GeoAngle angle = null;
 
 		// did we get two segments?
-		if ((line1 instanceof GeoSegmentND)
-				&& (line2 instanceof GeoSegmentND)) {
+		if ((line1 instanceof GeoSegmentND a)
+				&& (line2 instanceof GeoSegmentND b)) {
 			// check if the segments have one point in common
-			GeoSegmentND a = (GeoSegmentND) line1;
-			GeoSegmentND b = (GeoSegmentND) line2;
 			// get endpoints
 			GeoPointND a1 = a.getStartPoint();
 			GeoPointND a2 = a.getEndPoint();
@@ -1684,11 +1681,9 @@ public class Manager3D implements Manager3DInterface {
 		GeoAngle angle = null;
 
 		// did we get two segments?
-		if ((line1 instanceof GeoSegmentND)
-				&& (line2 instanceof GeoSegmentND)) {
+		if ((line1 instanceof GeoSegmentND a)
+				&& (line2 instanceof GeoSegmentND b)) {
 			// check if the segments have one point in common
-			GeoSegmentND a = (GeoSegmentND) line1;
-			GeoSegmentND b = (GeoSegmentND) line2;
 			// get endpoints
 			GeoPointND a1 = a.getStartPoint();
 			GeoPointND a2 = a.getEndPoint();
@@ -2048,20 +2043,21 @@ public class Manager3D implements Manager3DInterface {
 		 * pyramid and prism
 		 */
 		switch (((GeoPolyhedron) p).getType()) {
-
-		case GeoPolyhedron.TYPE_PYRAMID:
+		case GeoPolyhedron.TYPE_PYRAMID -> {
 			algo = new AlgoPolyhedronNetPyramid(cons, labels, (GeoPolyhedron) p,
 					v);
 			return algo.getOutput();
-
-		case GeoPolyhedron.TYPE_PRISM:
+		}
+		case GeoPolyhedron.TYPE_PRISM -> {
 			algo = new AlgoPolyhedronNetPrism(cons, labels, (GeoPolyhedron) p,
 					v);
 			return algo.getOutput();
-		default:
+		}
+		default -> {
 			algo = new AlgoPolyhedronNetConvex(cons, labels, (GeoPolyhedron) p,
 					v, bottomFace, pivotSegments);
 			return algo.getOutput();
+		}
 		}
 		/**/
 

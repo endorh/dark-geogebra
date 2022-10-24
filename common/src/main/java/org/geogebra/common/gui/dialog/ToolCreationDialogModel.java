@@ -1,7 +1,6 @@
 package org.geogebra.common.gui.dialog;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.TreeSet;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
@@ -104,9 +103,7 @@ public class ToolCreationDialogModel {
 		if (inputAddList.size() == 0 || outputAddList.size() == 0) {
 			TreeSet<GeoElement> sortedSet = app.getKernel().getConstruction()
 					.getGeoSetNameDescriptionOrder();
-			Iterator<GeoElement> it = sortedSet.iterator();
-			while (it.hasNext()) {
-				GeoElement geo = it.next();
+			for (GeoElement geo : sortedSet) {
 				if (geo.hasChildren()) {
 					inputAddList.add(geo);
 				}
@@ -125,10 +122,7 @@ public class ToolCreationDialogModel {
 		if (outputList.size() == 0) {
 			ArrayList<GeoElement> selGeos = app.getSelectionManager()
 					.getSelectedGeos();
-			for (int i = 0; i < selGeos.size(); i++) {
-				GeoElement geo = selGeos.get(i);
-				outputList.add(geo);
-			}
+			outputList.addAll(selGeos);
 		}
 		listener.updateLists();
 	}
@@ -147,14 +141,12 @@ public class ToolCreationDialogModel {
 
 		// determine all free parents of output
 		TreeSet<GeoElement> freeParents = new TreeSet<>();
-		for (int i = 0; i < output.length; i++) {
-			output[i].addPredecessorsToSet(freeParents, true);
+		for (GeoElement geoElement : output) {
+			geoElement.addPredecessorsToSet(freeParents, true);
 		}
 
 		// fill input list with labeled free parents
-		Iterator<GeoElement> it = freeParents.iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
+		for (GeoElement geo : freeParents) {
 			if (geo.isVisibleInputForMacro()) {
 				inputList.add(geo);
 			}

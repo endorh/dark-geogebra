@@ -735,12 +735,11 @@ public abstract class EuclidianView3D extends EuclidianView
 			case FUNCTION_NVAR:
 				GeoFunctionNVar geoFun = (GeoFunctionNVar) geo;
 				switch (geoFun.getVarNumber()) {
-				default:
-					// do nothing
-					break;
-				case 2:
-					d = newDrawSurface3D(geoFun);
-					break;
+				default -> {
+				}
+				// do nothing
+				case 2 -> d = newDrawSurface3D(geoFun);
+
 				/*
 				 * case 3: d = new DrawImplicitFunction3Var(this, geoFun);
 				 * break;
@@ -2435,11 +2434,10 @@ public abstract class EuclidianView3D extends EuclidianView
 				.getMode() == EuclidianConstants.MODE_VIEW_IN_FRONT_OF) {
 
 			switch (getCursor3DType()) {
-
-			default:
-				// do nothing
-				break;
-			case PREVIEW_POINT_REGION:
+			default -> {
+			}
+			// do nothing
+			case PREVIEW_POINT_REGION -> {
 				// use region drawing directions for the cross
 				cursorNormal.set3(getCursor3D().getMoveNormalDirection());
 				flipCursorNormal();
@@ -2450,19 +2448,19 @@ public abstract class EuclidianView3D extends EuclidianView
 						cursorNormal, CoordMatrix4x4.VZ, tmpCoords1, tmpCoords2,
 						cursorMatrix);
 				scaleXYZ(cursorMatrix.getOrigin());
-				break;
-			case PREVIEW_POINT_PATH:
+			}
+			case PREVIEW_POINT_PATH -> {
 				// use path drawing directions for the arrow
 				cursorMatrix.setOrigin(getCursor3D().getDrawingMatrix().getOrigin());
 				scaleXYZ(cursorMatrix.getOrigin());
 				cursorNormal.set3(((GeoElement) getCursor3D().getPath()).getMainDirection());
-                flipCursorNormal();
+				flipCursorNormal();
 				scaleXYZ(cursorNormal);
 				cursorNormal.normalize();
 				CoordMatrix4x4.createOrthoToDirection(getCursor3D().getDrawingMatrix().getOrigin(),
 						cursorNormal, CoordMatrix4x4.VZ, tmpCoords1, tmpCoords2, cursorMatrix);
 				scaleXYZ(cursorMatrix.getOrigin());
-				break;
+			}
 			}
 		} else if (moveCursorIsVisible()) {
 			if (cursor != EuclidianCursor.MOVE) {
@@ -2470,24 +2468,24 @@ public abstract class EuclidianView3D extends EuclidianView
 						getCursor3D().getDrawingMatrix().getOrigin());
 				scaleXYZ(cursorMatrix.getOrigin());
 				switch (cursor) {
-				default:
-					// do nothing
-					break;
-				case RESIZE_X:
+				default -> {
+				}
+				// do nothing
+				case RESIZE_X -> {
 					cursorMatrix.setVx(Coords.VY);
 					cursorMatrix.setVy(Coords.VZ);
 					cursorMatrix.setVz(Coords.VX);
-					break;
-				case RESIZE_Y:
+				}
+				case RESIZE_Y -> {
 					cursorMatrix.setVx(Coords.VZ);
 					cursorMatrix.setVy(Coords.VX);
 					cursorMatrix.setVz(Coords.VY);
-					break;
-				case RESIZE_Z:
+				}
+				case RESIZE_Z -> {
 					cursorMatrix.setVx(Coords.VX);
 					cursorMatrix.setVy(Coords.VY);
 					cursorMatrix.setVz(Coords.VZ);
-					break;
+				}
 				}
 			}
 		} else {
@@ -2495,17 +2493,16 @@ public abstract class EuclidianView3D extends EuclidianView
 				target.updateMatrices(this);
 			}
 			switch (getCursor3DType()) {
-
-			default:
-				// do nothing
-				break;
-			case PREVIEW_POINT_FREE:
+			default -> {
+			}
+			// do nothing
+			case PREVIEW_POINT_FREE -> {
 				// use default directions for the cros
 				cursorMatrix.setDiagonal3(1);
 				cursorMatrix.setOrigin(getCursor3D().getDrawingMatrix().getOrigin());
 				scaleXYZ(cursorMatrix.getOrigin());
-				break;
-			case PREVIEW_POINT_REGION:
+			}
+			case PREVIEW_POINT_REGION -> {
 				// use region drawing directions for the cross
 				cursorNormal.set3(getCursor3D().getMoveNormalDirection());
 				flipCursorNormal();
@@ -2514,9 +2511,8 @@ public abstract class EuclidianView3D extends EuclidianView
 				CoordMatrix4x4.createOrthoToDirection(getCursor3D().getDrawingMatrix().getOrigin(),
 						cursorNormal, CoordMatrix4x4.VZ, tmpCoords1, tmpCoords2, cursorMatrix);
 				scaleXYZ(cursorMatrix.getOrigin());
-				break;
-			case PREVIEW_POINT_PATH:
-			case PREVIEW_POINT_REGION_AS_PATH:
+			}
+			case PREVIEW_POINT_PATH, PREVIEW_POINT_REGION_AS_PATH -> {
 				// use path drawing directions for the cross
 				cursorMatrix.setOrigin(getCursor3D().getDrawingMatrix().getOrigin());
 				scaleXYZ(cursorMatrix.getOrigin());
@@ -2528,8 +2524,8 @@ public abstract class EuclidianView3D extends EuclidianView
 				t = 10 + path.getLineThickness();
 				cursorMatrix.getVy().mulInside3(t);
 				cursorMatrix.getVz().mulInside3(t);
-				break;
-			case PREVIEW_POINT_DEPENDENT:
+			}
+			case PREVIEW_POINT_DEPENDENT -> {
 				// use size of intersection
 				cursorMatrix.setOrigin(
 						getCursor3D().getDrawingMatrix().getOrigin());
@@ -2538,8 +2534,8 @@ public abstract class EuclidianView3D extends EuclidianView
 				cursorMatrix.getVx().setMul(Coords.VX, t);
 				cursorMatrix.getVy().setMul(Coords.VY, t);
 				cursorMatrix.getVz().setMul(Coords.VZ, t);
-				break;
-			case PREVIEW_POINT_ALREADY:
+			}
+			case PREVIEW_POINT_ALREADY -> {
 				if (getCursor3D().isPointOnPath()) {
 					cursorNormal.set3(((GeoElement) getCursor3D().getPath())
 							.getMainDirection());
@@ -2565,18 +2561,16 @@ public abstract class EuclidianView3D extends EuclidianView
 				} else {
 					CoordMatrix4x4.identity(cursorMatrix);
 				}
-
 				cursorMatrix.setOrigin(
 						getCursor3D().getDrawingMatrix().getOrigin());
 				scaleXYZ(cursorMatrix.getOrigin());
-
 				cursorMatrix.getVx().normalize();
 				// use size of point
 				t = Math.max(1, getCursor3D().getPointSize() / 6.0 + 0.5);
 				cursorMatrix.getVx().mulInside3(t);
 				cursorMatrix.getVy().mulInside3(t);
 				cursorMatrix.getVz().mulInside3(t);
-				break;
+			}
 			}
 		}
 		// Application.debug("getCursor3DType()="+getCursor3DType());
@@ -2815,18 +2809,12 @@ public abstract class EuclidianView3D extends EuclidianView
 		}
 
 		switch (pointMoveMode) {
-		case GeoPointND.MOVE_MODE_XY:
-			renderer.drawCursor(PlotterCursor.Type.ALREADY_XY);
-			break;
-		case GeoPointND.MOVE_MODE_Z:
-			renderer.drawCursor(PlotterCursor.Type.ALREADY_Z);
-			break;
-		case GeoPointND.MOVE_MODE_XYZ:
-			renderer.drawCursor(PlotterCursor.Type.ALREADY_XYZ);
-			break;
-		default:
-			// draw nothing
-			break;
+		case GeoPointND.MOVE_MODE_XY -> renderer.drawCursor(PlotterCursor.Type.ALREADY_XY);
+		case GeoPointND.MOVE_MODE_Z -> renderer.drawCursor(PlotterCursor.Type.ALREADY_Z);
+		case GeoPointND.MOVE_MODE_XYZ -> renderer.drawCursor(PlotterCursor.Type.ALREADY_XYZ);
+		default -> {
+		}
+		// draw nothing
 		}
 	}
 
@@ -2902,45 +2890,55 @@ public abstract class EuclidianView3D extends EuclidianView
 	@Override
 	public void setCursor(EuclidianCursor cursor1) {
 		switch (cursor1) {
-		case HIT:
+		case HIT -> {
 			setHitCursor();
 			return;
-		case DRAG:
+		}
+		case DRAG -> {
 			setDragCursor();
 			return;
-		case MOVE:
+		}
+		case MOVE -> {
 			setMoveCursor();
 			return;
-		case DEFAULT:
+		}
+		case DEFAULT -> {
 			setDefaultCursor();
 			return;
-		case RESIZE_X:
+		}
+		case RESIZE_X -> {
 			cursor = EuclidianCursor.RESIZE_X;
 			return;
-		case RESIZE_Y:
+		}
+		case RESIZE_Y -> {
 			cursor = EuclidianCursor.RESIZE_Y;
 			return;
-		case RESIZE_Z:
+		}
+		case RESIZE_Z -> {
 			cursor = EuclidianCursor.RESIZE_Z;
 			return;
-		case RESIZE_NESW:
+		}
+		case RESIZE_NESW -> {
 			cursor = EuclidianCursor.RESIZE_NESW;
 			return;
-		case RESIZE_NWSE:
+		}
+		case RESIZE_NWSE -> {
 			cursor = EuclidianCursor.RESIZE_NWSE;
 			return;
-		case RESIZE_EW:
+		}
+		case RESIZE_EW -> {
 			cursor = EuclidianCursor.RESIZE_EW;
 			return;
-		case RESIZE_NS:
+		}
+		case RESIZE_NS -> {
 			cursor = EuclidianCursor.RESIZE_NS;
 			return;
-		case TRANSPARENT:
+		}
+		case TRANSPARENT -> {
 			setTransparentCursor();
 			return;
-		default:
-			setDefaultCursor();
-			break;
+		}
+		default -> setDefaultCursor();
 		}
 	}
 
@@ -3940,19 +3938,10 @@ public abstract class EuclidianView3D extends EuclidianView
 		}
 
 		switch (projection) {
-		default:
-		case PROJECTION_ORTHOGRAPHIC:
-			setProjectionOrthographic();
-			break;
-		case PROJECTION_PERSPECTIVE:
-			setProjectionPerspective();
-			break;
-		case PROJECTION_GLASSES:
-			setProjectionGlasses();
-			break;
-		case PROJECTION_OBLIQUE:
-			setProjectionOblique();
-			break;
+		case PROJECTION_ORTHOGRAPHIC -> setProjectionOrthographic();
+		case PROJECTION_PERSPECTIVE -> setProjectionPerspective();
+		case PROJECTION_GLASSES -> setProjectionGlasses();
+		case PROJECTION_OBLIQUE -> setProjectionOblique();
 		}
 	}
 
@@ -4168,8 +4157,8 @@ public abstract class EuclidianView3D extends EuclidianView
 
 	@Override
 	public boolean isAxesHidden() {
-		for (int i = 0; i < axis.length; i++) {
-			if (this.axis[i].isEuclidianVisible()) {
+		for (GeoAxisND axi : axis) {
+			if (axi.isEuclidianVisible()) {
 				return false;
 			}
 		}

@@ -44,8 +44,8 @@ class JavaMembers
                 throw Context.reportRuntimeError1("msg.access.prohibited",
                                                   cl.getName());
             }
-            this.members = new HashMap<String,Object>();
-            this.staticMembers = new HashMap<String,Object>();
+            this.members = new HashMap<>();
+            this.staticMembers = new HashMap<>();
             this.cl = cl;
             boolean includePrivate = cx.hasFeature(
                     Context.FEATURE_ENHANCED_JAVA_ACCESS);
@@ -87,8 +87,7 @@ class JavaMembers
         Object rval;
         Class<?> type;
         try {
-            if (member instanceof BeanProperty) {
-                BeanProperty bp = (BeanProperty) member;
+            if (member instanceof BeanProperty bp) {
                 if (bp.getter == null)
                     return Scriptable.NOT_FOUND;
                 rval = bp.getter.invoke(javaObject, Context.emptyArgs);
@@ -123,8 +122,7 @@ class JavaMembers
         }
 
         // Is this a bean property "set"?
-        if (member instanceof BeanProperty) {
-            BeanProperty bp = (BeanProperty)member;
+        if (member instanceof BeanProperty bp) {
             if (bp.setter == null) {
                 throw reportMemberNotFound(name);
             }
@@ -147,12 +145,11 @@ class JavaMembers
             }
         }
         else {
-            if (!(member instanceof Field)) {
+            if (!(member instanceof Field field)) {
                 String str = (member == null) ? "msg.java.internal.private"
                                               : "msg.java.method.assign";
                 throw Context.reportRuntimeError1(str, name);
             }
-            Field field = (Field)member;
             Object javaValue = Context.jsToJava(value, field.getType());
             try {
                 field.set(javaObject, javaValue);
@@ -174,7 +171,7 @@ class JavaMembers
     Object[] getIds(boolean isStatic)
     {
         Map<String,Object> map = isStatic ? staticMembers : members;
-        return map.keySet().toArray(new Object[map.size()]);
+        return map.keySet().toArray(new Object[0]);
     }
 
     static String javaSignature(Class<?> type)
@@ -240,8 +237,7 @@ class JavaMembers
                 // Try to get static member from instance (LC3)
                 obj = staticMembers.get(trueName);
             }
-            if (obj instanceof NativeJavaMethod) {
-                NativeJavaMethod njm = (NativeJavaMethod)obj;
+            if (obj instanceof NativeJavaMethod njm) {
                 methodsOrCtors = njm.methods;
             }
         }
@@ -307,9 +303,9 @@ class JavaMembers
                                                       boolean includeProtected,
                                                       boolean includePrivate)
     {
-        Map<MethodSignature,Method> map = new HashMap<MethodSignature,Method>();
+        Map<MethodSignature,Method> map = new HashMap<>();
         discoverAccessibleMethods(clazz, map, includeProtected, includePrivate);
-        return map.values().toArray(new Method[map.size()]);
+        return map.values().toArray(new Method[0]);
     }
 
     private static void discoverAccessibleMethods(Class<?> clazz,
@@ -402,9 +398,8 @@ class JavaMembers
         @Override
         public boolean equals(Object o)
         {
-            if(o instanceof MethodSignature)
+            if(o instanceof MethodSignature ms)
             {
-                MethodSignature ms = (MethodSignature)o;
                 return ms.name.equals(name) && Arrays.equals(args, ms.args);
             }
             return false;
@@ -491,14 +486,13 @@ class JavaMembers
                 Object member = ht.get(name);
                 if (member == null) {
                     ht.put(name, field);
-                } else if (member instanceof NativeJavaMethod) {
-                    NativeJavaMethod method = (NativeJavaMethod) member;
+                } else if (member instanceof NativeJavaMethod method) {
                     FieldAndMethods fam
                         = new FieldAndMethods(scope, method.methods, field);
                     Map<String,FieldAndMethods> fmht = isStatic ? staticFieldAndMethods
                                               : fieldAndMethods;
                     if (fmht == null) {
-                        fmht = new HashMap<String,FieldAndMethods>();
+                        fmht = new HashMap<>();
                         if (isStatic) {
                             staticFieldAndMethods = fmht;
                         } else {
@@ -507,8 +501,7 @@ class JavaMembers
                     }
                     fmht.put(name, fam);
                     ht.put(name, fam);
-                } else if (member instanceof Field) {
-                    Field oldField = (Field) member;
+                } else if (member instanceof Field oldField) {
                     // If this newly reflected field shadows an inherited field,
                     // then replace it. Otherwise, since access to the field
                     // would be ambiguous from Java, no field should be
@@ -538,7 +531,7 @@ class JavaMembers
             boolean isStatic = (tableCursor == 0);
             Map<String,Object> ht = isStatic ? staticMembers : members;
 
-            Map<String,BeanProperty> toAdd = new HashMap<String,BeanProperty>();
+            Map<String,BeanProperty> toAdd = new HashMap<>();
 
             // Now, For each member, make "bean" properties.
             for (String name: ht.keySet()) {
@@ -601,8 +594,7 @@ class JavaMembers
                     if (ht.containsKey(setterName)) {
                         // Is this value a method?
                         Object member = ht.get(setterName);
-                        if (member instanceof NativeJavaMethod) {
-                            NativeJavaMethod njmSet = (NativeJavaMethod)member;
+                        if (member instanceof NativeJavaMethod njmSet) {
                             if (getter != null) {
                                 // We have a getter. Now, do we have a matching
                                 // setter?
@@ -666,7 +658,7 @@ class JavaMembers
                                         boolean includePrivate) {
         if (includePrivate || includeProtected) {
             try {
-                List<Field> fieldsList = new ArrayList<Field>();
+                List<Field> fieldsList = new ArrayList<>();
                 Class<?> currentClass = cl;
 
                 while (currentClass != null) {
@@ -686,7 +678,7 @@ class JavaMembers
                     currentClass = currentClass.getSuperclass();
                 }
 
-                return fieldsList.toArray(new Field[fieldsList.size()]);
+                return fieldsList.toArray(new Field[0]);
             } catch (SecurityException e) {
                 // fall through to !includePrivate case
             }
@@ -701,8 +693,7 @@ class JavaMembers
         if (ht.containsKey(getterName)) {
             // Check that the getter is a method.
             Object member = ht.get(getterName);
-            if (member instanceof NativeJavaMethod) {
-                NativeJavaMethod njmGet = (NativeJavaMethod) member;
+            if (member instanceof NativeJavaMethod njmGet) {
                 return extractGetMethod(njmGet.methods, isStatic);
             }
         }
@@ -784,7 +775,7 @@ class JavaMembers
         if (ht == null)
             return null;
         int len = ht.size();
-        Map<String,FieldAndMethods> result = new HashMap<String,FieldAndMethods>(len);
+        Map<String,FieldAndMethods> result = new HashMap<>(len);
         for (FieldAndMethods fam: ht.values()) {
             FieldAndMethods famNew = new FieldAndMethods(scope, fam.methods,
                                                          fam.field);

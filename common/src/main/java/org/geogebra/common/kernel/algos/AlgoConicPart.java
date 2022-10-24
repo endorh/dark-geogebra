@@ -42,12 +42,10 @@ public abstract class AlgoConicPart extends AlgoElement {
 
 	@Override
 	public Commands getClassName() {
-		switch (type) {
-		case GeoConicNDConstants.CONIC_PART_ARC:
-			return Commands.Arc;
-		default:
-			return Commands.Sector;
-		}
+		return switch (type) {
+			case GeoConicNDConstants.CONIC_PART_ARC -> Commands.Arc;
+			default -> Commands.Sector;
+		};
 	}
 
 	public GeoConicND getConicPart() {

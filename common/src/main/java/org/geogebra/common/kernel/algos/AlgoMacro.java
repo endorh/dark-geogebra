@@ -214,8 +214,8 @@ public class AlgoMacro extends AlgoElement
 	 * Returns true when macroGeo is part of macroInput.
 	 */
 	private boolean isMacroInputObject(GeoElementND macroGeo) {
-		for (int i = 0; i < macroInput.length; i++) {
-			if (macroGeo == macroInput[i]) {
+		for (GeoElement geoElement : macroInput) {
+			if (macroGeo == geoElement) {
 				return true;
 			}
 		}
@@ -396,44 +396,25 @@ public class AlgoMacro extends AlgoElement
 			GeoElement algoGeo) {
 
 		switch (macroGeo.getGeoClassType()) {
-		case FUNCTION:
-			initFunction(((GeoFunction) algoGeo).getFunction());
-			break;
-
-		case LIST:
-			initList((GeoList) macroGeo, (GeoList) algoGeo);
-			break;
-
-		case LINE:
-			initLine((GeoLine) macroGeo, (GeoLine) algoGeo);
-			break;
-
-		case POLYGON:
-			initPolygon((GeoPolygon) macroGeo, (GeoPolygon) algoGeo);
-			break;
-
-		case CONIC:
-			initConic((GeoConic) macroGeo, (GeoConic) algoGeo);
-			break;
-
-		case TEXT:
-		case VECTOR:
-		case IMAGE:
-			initLocateable((Locateable) macroGeo, (Locateable) algoGeo);
-			break;
-
-		default:
-			// no special treatment necessary at the moment
-			// case ANGLE:
-			// case BOOLEAN:
-			// case CONICPART:
-			// case LOCUS:
-			// case NUMERIC:
-			// case POINT:
-			// case AXIS:
-			// case RAY:
-			// case SEGMENT:
-			// case POLYGON:
+		case FUNCTION -> initFunction(((GeoFunction) algoGeo).getFunction());
+		case LIST -> initList((GeoList) macroGeo, (GeoList) algoGeo);
+		case LINE -> initLine((GeoLine) macroGeo, (GeoLine) algoGeo);
+		case POLYGON -> initPolygon((GeoPolygon) macroGeo, (GeoPolygon) algoGeo);
+		case CONIC -> initConic((GeoConic) macroGeo, (GeoConic) algoGeo);
+		case TEXT, VECTOR, IMAGE -> initLocateable((Locateable) macroGeo, (Locateable) algoGeo);
+		default -> {
+		}
+		// no special treatment necessary at the moment
+		// case ANGLE:
+		// case BOOLEAN:
+		// case CONICPART:
+		// case LOCUS:
+		// case NUMERIC:
+		// case POINT:
+		// case AXIS:
+		// case RAY:
+		// case SEGMENT:
+		// case POLYGON:
 		}
 	}
 
@@ -459,8 +440,8 @@ public class AlgoMacro extends AlgoElement
 
 		int size = macroPoints.size();
 		ArrayList<GeoPointND> points = new ArrayList<>(size);
-		for (int i = 0; i < size; i++) {
-			points.add((GeoPointND) getAlgoGeo(macroPoints.get(i)));
+		for (GeoPointND macroPoint : macroPoints) {
+			points.add((GeoPointND) getAlgoGeo(macroPoint));
 		}
 		conic.setPointsOnConic(points);
 	}
@@ -649,7 +630,7 @@ public class AlgoMacro extends AlgoElement
 		for (int i = 0; i < getOutputLength(); i++) {
 			outputList.add(getOutput(i));
 		}
-		GeoElement.updateCascade(outputList, new TreeSet<AlgoElement>(), true);
+		GeoElement.updateCascade(outputList, new TreeSet<>(), true);
 		kernel.notifyRepaint();
 
 	}

@@ -157,8 +157,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 			return Double.NaN;
 		}
 		freqMax = 0;
-		for (int k = 0; k < yval.length; ++k) {
-			freqMax = Math.max(yval[k], freqMax);
+		for (double v : yval) {
+			freqMax = Math.max(v, freqMax);
 		}
 		return freqMax;
 	}
@@ -587,30 +587,23 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 	protected void setInputOutput() {
 
 		switch (type) {
-		case UPPERSUM:
-		case LOWERSUM:
-		case TRAPEZOIDALSUM:
-		case LEFTSUM: // Ulven: 09.02.11
+		case UPPERSUM, LOWERSUM, TRAPEZOIDALSUM, LEFTSUM -> { // Ulven: 09.02.11
 			input = new GeoElement[4];
 			input[0] = f.toGeoElement();
 			input[1] = ageo;
 			input[2] = bgeo;
 			input[3] = ngeo;
-			break;
-		case RECTANGLESUM: // Ulven: 09.02.11
+		}
+		case RECTANGLESUM -> { // Ulven: 09.02.11
 			input = new GeoElement[5];
 			input[0] = f.toGeoElement();
 			input[1] = ageo;
 			input[2] = bgeo;
 			input[3] = ngeo;
 			input[4] = d.toGeoElement();
-			break;
-
-		case HISTOGRAM:
-		case HISTOGRAM_DENSITY:
-
+		}
+		case HISTOGRAM, HISTOGRAM_DENSITY -> {
 			ArrayList<GeoElement> tempList = new ArrayList<>();
-
 			if (isCumulative != null) {
 				tempList.add(isCumulative);
 			}
@@ -627,20 +620,16 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 			}
 			input = new GeoElement[tempList.size()];
 			input = tempList.toArray(input);
-
-			break;
-
-		case BARCHART_BERNOULLI:
+		}
+		case BARCHART_BERNOULLI -> {
 			ArrayList<GeoElement> inputList = new ArrayList<>();
 			inputList.add(p1geo);
-
 			if (isCumulative != null) {
 				inputList.add(isCumulative);
 			}
-
 			input = new GeoElement[inputList.size()];
 			input = inputList.toArray(input);
-			break;
+		}
 		}
 		setOutputLength(1);
 		setOutput(0, sum);
@@ -1276,12 +1265,10 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 	 * @return true iff this is trapezoidal sums
 	 */
 	public boolean useTrapeziums() {
-		switch (type) {
-		case TRAPEZOIDALSUM:
-			return true;
-		default:
-			return false;
-		}
+		return switch (type) {
+			case TRAPEZOIDALSUM -> true;
+			default -> false;
+		};
 	}
 
 	/**
@@ -1290,13 +1277,10 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 	 * @return true iff this is histogram
 	 */
 	public boolean isHistogram() {
-		switch (type) {
-		case HISTOGRAM:
-		case HISTOGRAM_DENSITY:
-			return true;
-		default:
-			return false;
-		}
+		return switch (type) {
+			case HISTOGRAM, HISTOGRAM_DENSITY -> true;
+			default -> false;
+		};
 	}
 
 	/**

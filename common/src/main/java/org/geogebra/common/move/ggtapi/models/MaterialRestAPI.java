@@ -297,17 +297,12 @@ public class MaterialRestAPI implements BackendAPI {
 	}
 
 	private static String orderStr(Order order) {
-		switch (order) {
-		case timestamp:
-			return "-modified";
-		case created:
-			return "-" + order.name();
-		case title:
-		case privacy:
-			return order.name();
-		default:
-			return "title";
-		}
+		return switch (order) {
+			case timestamp -> "-modified";
+			case created -> "-" + order.name();
+			case title, privacy -> order.name();
+			default -> "title";
+		};
 	}
 
 	private void performRequest(final String method, String endpoint, String json,

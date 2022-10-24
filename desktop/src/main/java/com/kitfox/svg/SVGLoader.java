@@ -134,10 +134,8 @@ public class SVGLoader extends DefaultHandler {
 	}
 
 	private static String printIndent(int indent, String indentStrn) {
-		StringBuffer sb = new StringBuffer();
-		for (int i = 0; i < indent; i++) {
-			sb.append(indentStrn);
-		}
+		StringBuilder sb = new StringBuilder();
+		sb.append(String.valueOf(indentStrn).repeat(Math.max(0, indent)));
 		return sb.toString();
 	}
 

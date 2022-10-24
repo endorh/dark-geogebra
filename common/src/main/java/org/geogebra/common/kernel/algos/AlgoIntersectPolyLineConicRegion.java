@@ -193,7 +193,7 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 		GeoPoint Q;
 
 		switch (numberOfLineParts) {
-		case 1: {
+		case 1 -> {
 
 			P = segment.getStartPoint();
 			Q = segment.getEndPoint();
@@ -214,7 +214,7 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 			Log.debug("case 1");
 			break;
 		}
-		case 2: {
+		case 2 -> {
 
 			P = segment.getStartPoint();
 			Q = segment.getEndPoint();
@@ -267,9 +267,8 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 			Log.debug("case 2");
 			break;
 		}
-
-		case 3: {
-			int[] order = { 0, 1, 2, 3 };
+		case 3 -> {
+			int[] order = {0, 1, 2, 3};
 
 			// select the intersecting points
 			GeoPoint[] pnt = new GeoPoint[4];
@@ -327,8 +326,8 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 			Log.debug("case 3");
 			break;
 		}
-		case 4: {
-			int[] order = { 0, 1, 2, 3, 4 };
+		case 4 -> {
+			int[] order = {0, 1, 2, 3, 4};
 
 			// select the intersecting points
 			GeoPoint[] pnt = new GeoPoint[5];
@@ -408,16 +407,16 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 			Log.debug("case 4");
 			break;
 		}
-		case 5: {
+		case 5 -> {
 
 			double t1, t2, t3, t4, temp;
-			int[] order = { 0, 1, 2, 3, 4 };
+			int[] order = {0, 1, 2, 3, 4};
 			int intTemp;
 
 			// get intersect point on segment
-			GeoPoint[] pnt = { segment.getStartPoint(), intersectPoints[0],
+			GeoPoint[] pnt = {segment.getStartPoint(), intersectPoints[0],
 					intersectPoints[1], closureIntersect[0],
-					closureIntersect[1], segment.getEndPoint() };
+					closureIntersect[1], segment.getEndPoint()};
 
 			// sorting intersection points order on input segment starting from
 			// inputsegment.getStartPoint()
@@ -499,7 +498,7 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 			Log.debug("case 5");
 			break;
 		}
-		default: {
+		default -> {
 			// outputSegments.adjustOutputSize(1, false);
 			// outputSegments.getElement(0).setUndefined();
 			Log.debug("case default-no intersectPaths");
@@ -565,19 +564,16 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 	 * @return output handler
 	 */
 	protected OutputHandler<GeoSegment> createOutputSegments() {
-		return new OutputHandler<>(new ElementFactory<GeoSegment>() {
-			@Override
-			public GeoSegment newElement() {
-				GeoSegment a = new GeoSegment(cons);
-				GeoPoint aS = new GeoPoint(cons);
-				aS.setCoords(0, 0, 1);
-				GeoPoint aE = new GeoPoint(cons);
-				aE.setCoords(0, 0, 1);
-				a.setPoints(aS, aE);
-				a.setParentAlgorithm(AlgoIntersectPolyLineConicRegion.this);
-				setSegmentVisualProperties(a);
-				return a;
-			}
+		return new OutputHandler<>(() -> {
+			GeoSegment a = new GeoSegment(cons);
+			GeoPoint aS = new GeoPoint(cons);
+			aS.setCoords(0, 0, 1);
+			GeoPoint aE = new GeoPoint(cons);
+			aE.setCoords(0, 0, 1);
+			a.setPoints(aS, aE);
+			a.setParentAlgorithm(AlgoIntersectPolyLineConicRegion.this);
+			setSegmentVisualProperties(a);
+			return a;
 		});
 	}
 

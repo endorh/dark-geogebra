@@ -18,18 +18,15 @@ public class XHTMLWriter extends XMLWriter {
 	public XHTMLWriter(Writer w, String indentString, String type) {
 		super(w, indentString, "xhtml");
 		openDoc("1.0", "UTF-8", false);
-		if (type.equals("strict")) {
-			referToDTD("html", "-//W3C//DTD XHTML 1.0 Strict//EN",
-					"http://wwww.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd");
-		} else if (type.equals("transitional")) {
-			referToDTD("html", "-//W3C//DTD XHTML 1.0 Transitional//EN",
-					"http://wwww.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd");
-		} else if (type.equals("frameset")) {
-			referToDTD("html", "-//W3C//DTD XHTML 1.0 Frameset//EN",
-					"http://wwww.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd");
-		} else {
-			Log.debug("XHTMLWriter: unknown type: " + type
-					+ ", allowed are: strict, transitional, frameset");
+		switch (type) {
+		case "strict" -> referToDTD("html", "-//W3C//DTD XHTML 1.0 Strict//EN",
+				"http://wwww.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd");
+		case "transitional" -> referToDTD("html", "-//W3C//DTD XHTML 1.0 Transitional//EN",
+				"http://wwww.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd");
+		case "frameset" -> referToDTD("html", "-//W3C//DTD XHTML 1.0 Frameset//EN",
+				"http://wwww.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd");
+		default -> Log.debug("XHTMLWriter: unknown type: " + type
+				+ ", allowed are: strict, transitional, frameset");
 		}
 		setAttribute("xmlns", "http://www.w3.org/1999/xhtml");
 		if (!type.equals("strict")) {

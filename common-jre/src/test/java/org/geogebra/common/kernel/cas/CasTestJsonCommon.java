@@ -11,7 +11,6 @@ import org.geogebra.common.cas.giac.Ggb2giac;
 import org.geogebra.common.kernel.GeoGebraCasInterface;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
-import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.MyVecNDNode;
 import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.variable.Variable;
@@ -70,11 +69,10 @@ public abstract class CasTestJsonCommon {
 			Object testVal = testsJSON.opt(i);
 
 			i++;
-			if (!(testVal instanceof JSONObject)) {
+			if (!(testVal instanceof JSONObject test)) {
 				Log.error("Invalid JSON:" + testVal);
 				continue;
 			}
-			JSONObject test = (JSONObject) testVal;
 			String cat = "general";
 			if (test.has("cat")) {
 				cat = test.getString("cat");
@@ -250,17 +248,14 @@ public abstract class CasTestJsonCommon {
 	}
 
 	private static Traversing getGGBVectAdder() {
-		return new Traversing() {
-			@Override
-			public ExpressionValue process(ExpressionValue ev) {
-				if (ev.unwrap() instanceof MyVecNDNode
-						&& ((MyVecNDNode) ev.unwrap()).isCASVector()) {
-					return new Variable(kernel, "ggbvect").wrap()
-							.apply(Operation.FUNCTION, ev);
+		return ev -> {
+			if (ev.unwrap() instanceof MyVecNDNode
+					&& ((MyVecNDNode) ev.unwrap()).isCASVector()) {
+				return new Variable(kernel, "ggbvect").wrap()
+						.apply(Operation.FUNCTION, ev);
 
-				}
-				return ev;
 			}
+			return ev;
 		};
 	}
 

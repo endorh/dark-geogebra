@@ -43,22 +43,22 @@ public class CmdDerivative extends CommandProcessor {
 		GeoElement[] arg, arg2;
 
 		switch (n) {
-		case 1:
+		case 1 -> {
 			arg = resArgs(c);
-			if (arg[0] instanceof CasEvaluableFunction) {
-				CasEvaluableFunction f = (CasEvaluableFunction) arg[0];
+			if (arg[0] instanceof CasEvaluableFunction f) {
 				if (label == null) {
 					label = getDerivLabel(f.toGeoElement(), 1);
 				}
-				GeoElement[] ret = { derivative(label, f, null, null, info) };
+				GeoElement[] ret = {derivative(label, f, null, null, info)};
 				return ret;
 			}
 			throw argErr(c, arg[0]);
-
-		case 2:
+		}
+		case 2 -> {
 			boolean suppress = cons.isSuppressLabelsActive(); // we need to
-																// reset this
-																// later #2356
+
+			// reset this
+			// later #2356
 			try {
 				arg = resArgs(c);
 				// Derivative[ f(x), 2]
@@ -86,8 +86,8 @@ public class CmdDerivative extends CommandProcessor {
 						int iorder = (int) Math.round(order);
 						label = getDerivLabel(f.toGeoElement(), iorder);
 					}
-					GeoElement[] ret = { derivative(label, f, null,
-							(GeoNumberValue) arg[1], info) };
+					GeoElement[] ret = {derivative(label, f, null,
+							(GeoNumberValue) arg[1], info)};
 					return ret;
 
 				}
@@ -99,10 +99,9 @@ public class CmdDerivative extends CommandProcessor {
 			try {
 				arg2 = resArgsLocalNumVar(c, 1, 1, -1);
 
-				if (arg2[0] instanceof CasEvaluableFunction
+				if (arg2[0] instanceof CasEvaluableFunction f
 						&& arg2[1].isGeoNumeric()) {
 
-					CasEvaluableFunction f = (CasEvaluableFunction) arg2[0];
 					FunctionVariable[] vars = f.getFunctionVariables();
 
 					String var = arg2[1].getLabelSimple();
@@ -117,9 +116,9 @@ public class CmdDerivative extends CommandProcessor {
 						}
 					}
 					if (ok) {
-						GeoElement[] ret = { derivative(label,
+						GeoElement[] ret = {derivative(label,
 								(CasEvaluableFunction) arg2[0], // function
-								(GeoNumeric) arg2[1], null, info) }; // var
+								(GeoNumeric) arg2[1], null, info)}; // var
 						return ret;
 					} // else fall through
 
@@ -137,14 +136,14 @@ public class CmdDerivative extends CommandProcessor {
 						arg[1].toString(StringTemplate.defaultTemplate));
 				GeoElement[] ret = {
 						derivative(label, (CasEvaluableFunction) arg[0], // function
-								var, null, info) }; // var
+								var, null, info)}; // var
 				return ret;
 			}
 
 			// if we get here, the first argument must have been wrong
 			throw argErr(c, arg[0]);
-
-		case 3:
+		}
+		case 3 -> {
 			// Derivative[ f(a,b), a, 2 ]
 			try {
 				arg = resArgsLocalNumVar(c, 1, 1, -1);
@@ -154,13 +153,12 @@ public class CmdDerivative extends CommandProcessor {
 					GeoElement[] ret = {
 							derivative(label, (CasEvaluableFunction) arg[0], // function
 									(GeoNumeric) arg[1],
-									(GeoNumberValue) arg[2], info) }; // var
+									(GeoNumberValue) arg[2], info)}; // var
 					return ret;
 				}
 			} catch (Throwable t) {
 				Log.debug(t);
 			}
-
 			arg = resArgs(c);
 			// Derivative[ f(x, y), x, 2]
 			if (arg[0] instanceof GeoFunctionNVar && arg[1].isGeoFunction()
@@ -168,15 +166,14 @@ public class CmdDerivative extends CommandProcessor {
 				GeoNumeric var = new GeoNumeric(cons);
 				var.setLocalVariableLabel(
 						arg[1].toString(StringTemplate.defaultTemplate));
-				GeoElement[] ret = { derivative(label, (GeoFunctionNVar) arg[0], // function
-						var, (GeoNumberValue) arg[2], info) }; // var
+				GeoElement[] ret = {derivative(label, (GeoFunctionNVar) arg[0], // function
+						var, (GeoNumberValue) arg[2], info)}; // var
 				return ret;
 			}
 			// if we get here, the first argument must have been wrong
 			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 
 	}
@@ -196,9 +193,7 @@ public class CmdDerivative extends CommandProcessor {
 		if (geo.isLabelSet()) {
 			StringBuilder labelBuilder = new StringBuilder(
 					geo.getLabel(StringTemplate.defaultTemplate));
-			for (int i = 0; i < order; i++) {
-				labelBuilder.append('\'');
-			}
+			labelBuilder.append("'".repeat(Math.max(0, order)));
 			label = labelBuilder.toString();
 		} else {
 			if (geo.getParentAlgorithm() instanceof AlgoDependentGeoCopy) {

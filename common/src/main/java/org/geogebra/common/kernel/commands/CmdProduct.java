@@ -53,16 +53,17 @@ public class CmdProduct extends CommandProcessor {
 		}
 		GeoList list = (GeoList) arg[0];
 		switch (n) {
-		case 1:
+		case 1 -> {
 			if (list.get(0).isMatrix()) {
 				AlgoProductMatrices algo = new AlgoProductMatrices(cons,
 						c.getLabel(), list);
 
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 				return ret;
 			}
 			return productGeneric(arg[0], null, c);
-		case 2:
+		}
+		case 2 -> {
 			// Product[<List of Numbers>, <Number>]
 			if (arg[1].isGeoNumeric()) {
 				return productGeneric(arg[0], (GeoNumeric) arg[1], c);
@@ -76,15 +77,14 @@ public class CmdProduct extends CommandProcessor {
 					AlgoProduct algo = new AlgoProduct(cons, list,
 							(GeoList) arg[1]);
 					algo.getResult().setLabel(c.getLabel());
-					GeoElement[] ret = { algo.getResult() };
+					GeoElement[] ret = {algo.getResult()};
 					return ret;
 				}
 				throw argErr(c, arg[0]);
 			}
 			throw argErr(c, arg[1]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

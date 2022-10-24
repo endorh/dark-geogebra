@@ -29,18 +29,18 @@ public class CmdVector extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
+		case 1 -> {
 			arg = resArgs(c);
 			if (arg[0].isGeoPoint()) {
-				GeoElement[] ret = { (GeoElement) getAlgoDispatcher()
-						.vector(c.getLabel(), (GeoPointND) arg[0]) };
+				GeoElement[] ret = {(GeoElement) getAlgoDispatcher()
+						.vector(c.getLabel(), (GeoPointND) arg[0])};
 				return ret;
 			}
 
 			/*
 			 * wrap a vector as a vector. needed for vectors that are defined
 			 * through points: e.g. v = B - A used in AlgoLinPointVector
-			 * 
+			 *
 			 * @see AlgoLinePointVector.getCmdXML()
 			 */
 			else if (arg[0].isGeoVector()) {
@@ -56,25 +56,23 @@ public class CmdVector extends CommandProcessor {
 								true);
 					}
 				}
-				GeoElement[] ret = { arg[0] };
+				GeoElement[] ret = {arg[0]};
 				return ret;
 			} else {
 				throw argErr(c, arg[0]);
 			}
-
-		case 2:
+		}
+		case 2 -> {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
-				GeoElement[] ret = { vector(c.getLabel(), (GeoPointND) arg[0],
-						(GeoPointND) arg[1]) };
+				GeoElement[] ret = {vector(c.getLabel(), (GeoPointND) arg[0],
+						(GeoPointND) arg[1])};
 				return ret;
 			}
-
 			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

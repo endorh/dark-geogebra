@@ -14,7 +14,6 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.FunctionExpander;
 import org.geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
-import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.traversing.DegreeVariableChecker;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.GeoAngle;
@@ -193,25 +192,20 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 			((MyDouble) rhs).setAngle();
 		}
 		else if (rhs.isExpressionNode()) {
-			return rhs.traverse(new Traversing() {
+			return rhs.traverse(ev -> {
+				if (ev instanceof ExpressionNode) {
+					ExpressionNode en = ev.wrap();
+					if (en.getOperation() == Operation.MULTIPLY
+							&& MyDouble.exactEqual(Math.PI,
+								en.getRight().evaluateDouble())) {
+						MyDouble angle = new MyDouble(kernel,
+								en.getLeft().evaluateDouble() * Math.PI);
+						angle.setAngle();
+						return angle;
 
-				@Override
-				public ExpressionValue process(ExpressionValue ev) {
-					if (ev instanceof ExpressionNode) {
-						ExpressionNode en = ev.wrap();
-						if (en.getOperation() == Operation.MULTIPLY
-								&& MyDouble.exactEqual(Math.PI,
-									en.getRight().evaluateDouble())) {
-							MyDouble angle = new MyDouble(kernel,
-									en.getLeft().evaluateDouble() * Math.PI);
-							angle.setAngle();
-							return angle;
-
-						}
 					}
-					return ev;
 				}
-
+				return ev;
 			});
 		}
 		return rhs;
@@ -277,15 +271,11 @@ public class AlgoSolve extends AlgoElement implements UsesCAS {
 	}
 
 	private static Commands opposite(Commands type2) {
-		switch (type2) {
-		case Solutions:
-			return Commands.NSolutions;
-		case NSolutions:
-			return Commands.Solutions;
-		case NSolve:
-			return Commands.Solve;
-		default:
-			return Commands.NSolve;
-		}
+		return switch (type2) {
+			case Solutions -> Commands.NSolutions;
+			case NSolutions -> Commands.Solutions;
+			case NSolve -> Commands.Solve;
+			default -> Commands.NSolve;
+		};
 	}
 }

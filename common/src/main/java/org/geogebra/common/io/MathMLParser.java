@@ -1251,18 +1251,18 @@ public class MathMLParser {
 
 		// replace braces
 		if (!geogebraSyntax) {
-			for (int i = 0; i < leftBraces.length; i++) {
+			for (char leftBrace : leftBraces) {
 				sbIndex = 0;
-				while ((sbIndex = sb.indexOf(String.valueOf(leftBraces[i]),
+				while ((sbIndex = sb.indexOf(String.valueOf(leftBrace),
 						sbIndex)) > -1) {
 					sb.insert(sbIndex, "\\left");
 					sbIndex = sbIndex + 6;
 				}
 			}
 
-			for (int i = 0; i < rightBraces.length; i++) {
+			for (char rightBrace : rightBraces) {
 				sbIndex = 0;
-				while ((sbIndex = sb.indexOf(String.valueOf(rightBraces[i]),
+				while ((sbIndex = sb.indexOf(String.valueOf(rightBrace),
 						sbIndex)) > -1) {
 					sb.insert(sbIndex, "\\right");
 					sbIndex = sbIndex + 7;
@@ -1271,9 +1271,9 @@ public class MathMLParser {
 		}
 
 		// replace special characters
-		for (int i = 0; i < specialCharacters.length; i++) {
+		for (char specialCharacter : specialCharacters) {
 			sbIndex = 0;
-			while ((sbIndex = sb.indexOf(String.valueOf(specialCharacters[i]),
+			while ((sbIndex = sb.indexOf(String.valueOf(specialCharacter),
 					sbIndex)) > -1) {
 				sb.insert(sbIndex, '\\');
 				sbIndex = sbIndex + 2;
@@ -1341,9 +1341,9 @@ public class MathMLParser {
 					if (isValidUnicode(entityWorkout)) {
 						// assuming our LaTeX parser will know these things
 						int hex = Integer.parseInt(entityWorkout, 16);
-						Character hexChar = (char) hex;
+						char hexChar = (char) hex;
 						sb.replace(sbIndex - entity.length(), sbIndex,
-								hexChar.toString());
+								Character.toString(hexChar));
 						sbIndex -= entity.length() - 1;
 					} else {
 						// old school

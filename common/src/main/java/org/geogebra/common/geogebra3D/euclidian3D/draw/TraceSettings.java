@@ -52,14 +52,8 @@ final public class TraceSettings
 		// compare colors
 		v1 = this.c.hashCode();
 		v2 = settings.c.hashCode();
-		if (v1 < v2) {
-			return -1;
-		}
-		if (v1 > v2) {
-			return 1;
-		}
+		return Integer.compare(v1, v2);
 
-		return 0;
 	}
 
 	@Override

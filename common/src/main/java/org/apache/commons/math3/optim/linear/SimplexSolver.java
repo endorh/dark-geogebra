@@ -244,7 +244,7 @@ public class SimplexSolver extends LinearOptimizer {
      */
     private Integer getPivotRow(SimplexTableau tableau, final int col) {
         // create a list of all the rows that tie for the lowest score in the minimum ratio test
-        List<Integer> minRatioPositions = new ArrayList<Integer>();
+        List<Integer> minRatioPositions = new ArrayList<>();
         double minRatio = Double.MAX_VALUE;
         for (int i = tableau.getNumObjectiveFunctions(); i < tableau.getHeight(); i++) {
             final double rhs = tableau.getEntry(i, tableau.getWidth() - 1);
@@ -395,11 +395,11 @@ public class SimplexSolver extends LinearOptimizer {
         final PointValuePair solution = tableau.getSolution();
         if (isRestrictedToNonNegative()) {
             final double[] coeff = solution.getPoint();
-            for (int i = 0; i < coeff.length; i++) {
-                if (Precision.compareTo(coeff[i], 0, epsilon) < 0) {
-                    throw new NoFeasibleSolutionException();
-                }
-            }
+	        for (double v : coeff) {
+		        if (Precision.compareTo(v, 0, epsilon) < 0) {
+			        throw new NoFeasibleSolutionException();
+		        }
+	        }
         }
         return solution;
     }

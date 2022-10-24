@@ -138,8 +138,8 @@ public class AlgoNormalQuantilePlot extends AlgoElement {
 	private GeoSegment getQQLineSegment() {
 
 		SummaryStatistics stats = new SummaryStatistics();
-		for (int i = 0; i < sortedData.length; i++) {
-			stats.addValue(sortedData[i]);
+		for (double sortedDatum : sortedData) {
+			stats.addValue(sortedDatum);
 		}
 		double sd = stats.getStandardDeviation();
 		double mean = stats.getMean();

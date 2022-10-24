@@ -121,24 +121,22 @@ public class DataVariable {
 	public void setGroupType(GroupType groupType) {
 		this.groupType = groupType;
 		switch (groupType) {
-		case RAWDATA:
+		case RAWDATA -> {
 			frequency = null;
 			classes = null;
 			if (values.size() == 0) {
 				values.add(new DataItem());
 			}
-			break;
-
-		case FREQUENCY:
+		}
+		case FREQUENCY -> {
 			if (frequency == null) {
 				frequency = new DataItem();
 				frequency.setGeoClass(GeoClass.NUMERIC);
 				frequency.setDescription(loc.getMenu("Frequency"));
 			}
 			classes = null;
-			break;
-
-		case CLASS:
+		}
+		case CLASS -> {
 			if (frequency == null) {
 				frequency = new DataItem();
 				frequency.setGeoClass(GeoClass.NUMERIC);
@@ -148,13 +146,11 @@ public class DataVariable {
 				classes = new DataItem(new Double[0]);
 				classes.setDescription(loc.getMenu("Classes"));
 			}
-
 			for (DataItem item : values) {
 				item.clearItem();
 			}
 			values.clear();
-
-			break;
+		}
 		}
 
 	}
@@ -565,17 +561,15 @@ public class DataVariable {
 			default:
 			case DataAnalysisModel.MODE_ONEVAR:
 				switch (groupType) {
-				case RAWDATA:
-					list.add(loc.getMenu("Data"));
-					break;
-				case FREQUENCY:
+				case RAWDATA -> list.add(loc.getMenu("Data"));
+				case FREQUENCY -> {
 					list.add(loc.getMenu("Data"));
 					list.add(loc.getMenu("Frequency"));
-					break;
-				case CLASS:
+				}
+				case CLASS -> {
 					list.add(loc.getMenu("Classes"));
 					list.add(loc.getMenu("Frequency"));
-					break;
+				}
 				}
 
 				break;

@@ -234,19 +234,16 @@ public class EuclidianView3DCompanion extends EuclidianViewCompanion {
 			EuclidianCursor cursor, GeoPoint3D cursorOnXOYPlane,
 			CoordMatrix4x4 cursorMatrix) {
 		switch (cursor) {
-		default:
-		case MOVE:
+		case MOVE -> {
 			renderer1.setMatrix(cursorOnXOYPlane.getDrawingMatrix());
 			getView().drawPointAlready(cursorOnXOYPlane.getRealMoveMode());
 			renderer1.drawCursor(PlotterCursor.Type.CUBE);
-			break;
-		case RESIZE_X:
-		case RESIZE_Y:
-		case RESIZE_Z:
+		}
+		case RESIZE_X, RESIZE_Y, RESIZE_Z -> {
 			renderer1.setMatrix(cursorMatrix);
 			getView().getRenderer().drawCursor(PlotterCursor.Type.ALREADY_Z);
 			renderer1.drawCursor(PlotterCursor.Type.CUBE);
-			break;
+		}
 		}
 	}
 

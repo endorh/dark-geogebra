@@ -97,18 +97,18 @@ public class SubSupCom implements AtomConsumer {
 	@Override
 	public void add(TeXParser tp, Atom a) {
 		switch (state) {
-		case SUB_WAIT:
+		case SUB_WAIT -> {
 			addToSub(a);
 			state = State.OK;
-			break;
-		case SUP_WAIT:
+		}
+		case SUP_WAIT -> {
 			addToSup(a);
 			state = State.OK;
-			break;
-		case OK:
+		}
+		case OK -> {
 			tp.closeConsumer(get());
 			tp.addToConsumer(a);
-			break;
+		}
 		}
 	}
 

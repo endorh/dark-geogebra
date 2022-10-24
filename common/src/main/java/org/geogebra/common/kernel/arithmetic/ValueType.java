@@ -233,11 +233,10 @@ public enum ValueType {
 			break;
 
 		case MATRIXTOVECTOR:
-			if (!(left.unwrap() instanceof MyList)) {
+			if (!(left.unwrap() instanceof MyList list)) {
 				return left.getValueType();
 			}
 
-			MyList list = (MyList) left.unwrap();
 			return list.size() == 3 ? ValueType.VECTOR3D
 					: ValueType.NONCOMPLEX2D;
 		case MULTIPLY_OR_FUNCTION:

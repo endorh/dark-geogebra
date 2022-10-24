@@ -323,151 +323,150 @@ public class SingularValueDecomposition {
             }
             k++;
             // Perform the task indicated by kase.
-            switch (kase) {
-                // Deflate negligible s(p).
-                case 1: {
-                    double f = e[p - 2];
-                    e[p - 2] = 0;
-                    for (int j = p - 2; j >= k; j--) {
-                        double t = Math.hypot(singularValues[j], f);
-                        final double cs = singularValues[j] / t;
-                        final double sn = f / t;
-                        singularValues[j] = t;
-                        if (j != k) {
-                            f = -sn * e[j - 1];
-                            e[j - 1] = cs * e[j - 1];
-                        }
+	        switch (kase) {
+	        // Deflate negligible s(p).
+	        case 1 -> {
+		        double f = e[p - 2];
+		        e[p - 2] = 0;
+		        for (int j = p - 2; j >= k; j--) {
+			        double t = Math.hypot(singularValues[j], f);
+			        final double cs = singularValues[j] / t;
+			        final double sn = f / t;
+			        singularValues[j] = t;
+			        if (j != k) {
+				        f = -sn * e[j - 1];
+				        e[j - 1] = cs * e[j - 1];
+			        }
 
-                        for (int i = 0; i < n; i++) {
-                            t = cs * V[i][j] + sn * V[i][p - 1];
-                            V[i][p - 1] = -sn * V[i][j] + cs * V[i][p - 1];
-                            V[i][j] = t;
-                        }
-                    }
-                }
-                break;
-                // Split at negligible s(k).
-                case 2: {
-                    double f = e[k - 1];
-                    e[k - 1] = 0;
-                    for (int j = k; j < p; j++) {
-                        double t = Math.hypot(singularValues[j], f);
-                        final double cs = singularValues[j] / t;
-                        final double sn = f / t;
-                        singularValues[j] = t;
-                        f = -sn * e[j];
-                        e[j] = cs * e[j];
+			        for (int i = 0; i < n; i++) {
+				        t = cs * V[i][j] + sn * V[i][p - 1];
+				        V[i][p - 1] = -sn * V[i][j] + cs * V[i][p - 1];
+				        V[i][j] = t;
+			        }
+		        }
+	        }
 
-                        for (int i = 0; i < m; i++) {
-                            t = cs * U[i][j] + sn * U[i][k - 1];
-                            U[i][k - 1] = -sn * U[i][j] + cs * U[i][k - 1];
-                            U[i][j] = t;
-                        }
-                    }
-                }
-                break;
-                // Perform one qr step.
-                case 3: {
-                    // Calculate the shift.
-                    final double maxPm1Pm2 = Math.max(Math.abs(singularValues[p - 1]),
-                                                          Math.abs(singularValues[p - 2]));
-                    final double scale = Math.max(Math.max(Math.max(maxPm1Pm2,
-                                                                                Math.abs(e[p - 2])),
-                                                                   Math.abs(singularValues[k])),
-                                                      Math.abs(e[k]));
-                    final double sp = singularValues[p - 1] / scale;
-                    final double spm1 = singularValues[p - 2] / scale;
-                    final double epm1 = e[p - 2] / scale;
-                    final double sk = singularValues[k] / scale;
-                    final double ek = e[k] / scale;
-                    final double b = ((spm1 + sp) * (spm1 - sp) + epm1 * epm1) / 2.0;
-                    final double c = (sp * epm1) * (sp * epm1);
-                    double shift = 0;
-                    if (b != 0 ||
-                        c != 0) {
-                        shift = Math.sqrt(b * b + c);
-                        if (b < 0) {
-                            shift = -shift;
-                        }
-                        shift = c / (b + shift);
-                    }
-                    double f = (sk + sp) * (sk - sp) + shift;
-                    double g = sk * ek;
-                    // Chase zeros.
-                    for (int j = k; j < p - 1; j++) {
-                        double t = Math.hypot(f, g);
-                        double cs = f / t;
-                        double sn = g / t;
-                        if (j != k) {
-                            e[j - 1] = t;
-                        }
-                        f = cs * singularValues[j] + sn * e[j];
-                        e[j] = cs * e[j] - sn * singularValues[j];
-                        g = sn * singularValues[j + 1];
-                        singularValues[j + 1] = cs * singularValues[j + 1];
+	        // Split at negligible s(k).
+	        case 2 -> {
+		        double f = e[k - 1];
+		        e[k - 1] = 0;
+		        for (int j = k; j < p; j++) {
+			        double t = Math.hypot(singularValues[j], f);
+			        final double cs = singularValues[j] / t;
+			        final double sn = f / t;
+			        singularValues[j] = t;
+			        f = -sn * e[j];
+			        e[j] = cs * e[j];
 
-                        for (int i = 0; i < n; i++) {
-                            t = cs * V[i][j] + sn * V[i][j + 1];
-                            V[i][j + 1] = -sn * V[i][j] + cs * V[i][j + 1];
-                            V[i][j] = t;
-                        }
-                        t = Math.hypot(f, g);
-                        cs = f / t;
-                        sn = g / t;
-                        singularValues[j] = t;
-                        f = cs * e[j] + sn * singularValues[j + 1];
-                        singularValues[j + 1] = -sn * e[j] + cs * singularValues[j + 1];
-                        g = sn * e[j + 1];
-                        e[j + 1] = cs * e[j + 1];
-                        if (j < m - 1) {
-                            for (int i = 0; i < m; i++) {
-                                t = cs * U[i][j] + sn * U[i][j + 1];
-                                U[i][j + 1] = -sn * U[i][j] + cs * U[i][j + 1];
-                                U[i][j] = t;
-                            }
-                        }
-                    }
-                    e[p - 2] = f;
-                }
-                break;
-                // Convergence.
-                default: {
-                    // Make the singular values positive.
-                    if (singularValues[k] <= 0) {
-                        singularValues[k] = singularValues[k] < 0 ? -singularValues[k] : 0;
+			        for (int i = 0; i < m; i++) {
+				        t = cs * U[i][j] + sn * U[i][k - 1];
+				        U[i][k - 1] = -sn * U[i][j] + cs * U[i][k - 1];
+				        U[i][j] = t;
+			        }
+		        }
+	        }
 
-                        for (int i = 0; i <= pp; i++) {
-                            V[i][k] = -V[i][k];
-                        }
-                    }
-                    // Order the singular values.
-                    while (k < pp) {
-                        if (singularValues[k] >= singularValues[k + 1]) {
-                            break;
-                        }
-                        double t = singularValues[k];
-                        singularValues[k] = singularValues[k + 1];
-                        singularValues[k + 1] = t;
-                        if (k < n - 1) {
-                            for (int i = 0; i < n; i++) {
-                                t = V[i][k + 1];
-                                V[i][k + 1] = V[i][k];
-                                V[i][k] = t;
-                            }
-                        }
-                        if (k < m - 1) {
-                            for (int i = 0; i < m; i++) {
-                                t = U[i][k + 1];
-                                U[i][k + 1] = U[i][k];
-                                U[i][k] = t;
-                            }
-                        }
-                        k++;
-                    }
-                    p--;
-                }
-                break;
-            }
+	        // Perform one qr step.
+	        case 3 -> {
+		        // Calculate the shift.
+		        final double maxPm1Pm2 = Math.max(Math.abs(singularValues[p - 1]),
+				        Math.abs(singularValues[p - 2]));
+		        final double scale = Math.max(Math.max(Math.max(maxPm1Pm2,
+								        Math.abs(e[p - 2])),
+						        Math.abs(singularValues[k])),
+				        Math.abs(e[k]));
+		        final double sp = singularValues[p - 1] / scale;
+		        final double spm1 = singularValues[p - 2] / scale;
+		        final double epm1 = e[p - 2] / scale;
+		        final double sk = singularValues[k] / scale;
+		        final double ek = e[k] / scale;
+		        final double b = ((spm1 + sp) * (spm1 - sp) + epm1 * epm1) / 2.0;
+		        final double c = (sp * epm1) * (sp * epm1);
+		        double shift = 0;
+		        if (b != 0 ||
+				        c != 0) {
+			        shift = Math.sqrt(b * b + c);
+			        if (b < 0) {
+				        shift = -shift;
+			        }
+			        shift = c / (b + shift);
+		        }
+		        double f = (sk + sp) * (sk - sp) + shift;
+		        double g = sk * ek;
+		        // Chase zeros.
+		        for (int j = k; j < p - 1; j++) {
+			        double t = Math.hypot(f, g);
+			        double cs = f / t;
+			        double sn = g / t;
+			        if (j != k) {
+				        e[j - 1] = t;
+			        }
+			        f = cs * singularValues[j] + sn * e[j];
+			        e[j] = cs * e[j] - sn * singularValues[j];
+			        g = sn * singularValues[j + 1];
+			        singularValues[j + 1] = cs * singularValues[j + 1];
+
+			        for (int i = 0; i < n; i++) {
+				        t = cs * V[i][j] + sn * V[i][j + 1];
+				        V[i][j + 1] = -sn * V[i][j] + cs * V[i][j + 1];
+				        V[i][j] = t;
+			        }
+			        t = Math.hypot(f, g);
+			        cs = f / t;
+			        sn = g / t;
+			        singularValues[j] = t;
+			        f = cs * e[j] + sn * singularValues[j + 1];
+			        singularValues[j + 1] = -sn * e[j] + cs * singularValues[j + 1];
+			        g = sn * e[j + 1];
+			        e[j + 1] = cs * e[j + 1];
+			        if (j < m - 1) {
+				        for (int i = 0; i < m; i++) {
+					        t = cs * U[i][j] + sn * U[i][j + 1];
+					        U[i][j + 1] = -sn * U[i][j] + cs * U[i][j + 1];
+					        U[i][j] = t;
+				        }
+			        }
+		        }
+		        e[p - 2] = f;
+	        }
+
+	        // Convergence.
+	        default -> {
+		        // Make the singular values positive.
+		        if (singularValues[k] <= 0) {
+			        singularValues[k] = singularValues[k] < 0 ? -singularValues[k] : 0;
+
+			        for (int i = 0; i <= pp; i++) {
+				        V[i][k] = -V[i][k];
+			        }
+		        }
+		        // Order the singular values.
+		        while (k < pp) {
+			        if (singularValues[k] >= singularValues[k + 1]) {
+				        break;
+			        }
+			        double t = singularValues[k];
+			        singularValues[k] = singularValues[k + 1];
+			        singularValues[k + 1] = t;
+			        if (k < n - 1) {
+				        for (int i = 0; i < n; i++) {
+					        t = V[i][k + 1];
+					        V[i][k + 1] = V[i][k];
+					        V[i][k] = t;
+				        }
+			        }
+			        if (k < m - 1) {
+				        for (int i = 0; i < m; i++) {
+					        t = U[i][k + 1];
+					        U[i][k + 1] = U[i][k];
+					        U[i][k] = t;
+				        }
+			        }
+			        k++;
+		        }
+		        p--;
+	        }
+	        }
         }
 
         // Set the small value tolerance used to calculate rank and pseudo-inverse
@@ -637,11 +636,11 @@ public class SingularValueDecomposition {
      */
     public int getRank() {
         int r = 0;
-        for (int i = 0; i < singularValues.length; i++) {
-            if (singularValues[i] > tol) {
-                r++;
-            }
-        }
+	    for (double singularValue : singularValues) {
+		    if (singularValue > tol) {
+			    r++;
+		    }
+	    }
         return r;
     }
 

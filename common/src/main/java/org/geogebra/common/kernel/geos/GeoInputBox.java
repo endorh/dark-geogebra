@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.geos;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import javax.annotation.Nonnull;
@@ -71,11 +72,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 	 */
 	public GeoInputBox(Construction cons, GeoElement linkedGeo) {
 		super(cons);
-		if (linkedGeo == null) {
-			this.linkedGeo = new GeoText(cons, "");
-		} else {
-			this.linkedGeo = linkedGeo;
-		}
+		this.linkedGeo = Objects.requireNonNullElseGet(linkedGeo, () -> new GeoText(cons, ""));
 		inputBoxRenderer = new InputBoxRenderer(this);
 		inputBoxProcessor = new InputBoxProcessor(this, this.linkedGeo);
 	}
@@ -266,7 +263,7 @@ public class GeoInputBox extends GeoButton implements HasSymbolicMode, HasAlignm
 
 		if (isSymbolicMode()) {
 			sb.append("\t<symbolic val=\"true\" />\n");
-			sb.append("\t<contentSerif val=\"" + serifContent + "\" />\n");
+			sb.append("\t<contentSerif val=\"").append(serifContent).append("\" />\n");
 		}
 
 		if (getLength() != defaultLength) {

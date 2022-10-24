@@ -56,8 +56,7 @@ public class PackageInfo {
 				in.close();
 
 				info = props.getProperty(property);
-			} catch (IOException ioe) {
-			} catch (NullPointerException npe) {
+			} catch (IOException | NullPointerException ioe) {
 			}
 		}
 		return info;

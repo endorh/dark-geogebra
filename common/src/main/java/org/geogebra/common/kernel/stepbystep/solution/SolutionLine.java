@@ -72,9 +72,8 @@ public class SolutionLine extends SolutionStep {
 			substeps = new ArrayList<>();
 		}
 
-		if (type == SolutionStepType.SUBSTEP_WRAPPER && s instanceof SolutionLine
+		if (type == SolutionStepType.SUBSTEP_WRAPPER && s instanceof SolutionLine line
 				&& ((SolutionLine) s).parameters == null) {
-			SolutionLine line = (SolutionLine) s;
 
 			for (int i = 1; i < substeps.size(); i++) {
 				if (substeps.get(i) instanceof SolutionLine

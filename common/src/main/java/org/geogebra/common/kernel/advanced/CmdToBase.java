@@ -29,7 +29,7 @@ public class CmdToBase extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2:
+		case 2 -> {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0] instanceof GeoNumberValue))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
@@ -37,16 +37,15 @@ public class CmdToBase extends CommandProcessor {
 				AlgoToBase toBase = new AlgoToBase(cons, c.getLabel(),
 						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1]);
 
-				GeoElement[] ret = { toBase.getResult() };
+				GeoElement[] ret = {toBase.getResult()};
 				return ret;
 			}
 			if (!ok[0]) {
 				throw argErr(c, arg[0]);
 			}
 			throw argErr(c, arg[1]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

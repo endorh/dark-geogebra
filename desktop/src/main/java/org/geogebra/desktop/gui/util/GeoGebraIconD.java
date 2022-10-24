@@ -706,46 +706,39 @@ public class GeoGebraIconD {
 			getPath();
 
 			switch (pointStyle) {
-			case EuclidianStyleConstants.POINT_STYLE_PLUS:
-			case EuclidianStyleConstants.POINT_STYLE_CROSS:
+			case EuclidianStyleConstants.POINT_STYLE_PLUS, EuclidianStyleConstants.POINT_STYLE_CROSS -> {
 				// draw cross like: X or +
 				g2.setStroke(crossStrokes[pointSize]);
 				g2.draw(line1);
 				g2.draw(line2);
-				break;
-
-			case EuclidianStyleConstants.POINT_STYLE_EMPTY_DIAMOND:
+			}
+			case EuclidianStyleConstants.POINT_STYLE_EMPTY_DIAMOND -> {
 				// draw diamond
 				g2.setStroke(crossStrokes[pointSize]);
 				g2.draw(line1);
 				g2.draw(line2);
 				g2.draw(line3);
 				g2.draw(line4);
-				break;
-
-			case EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND:
-			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH:
-			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_SOUTH:
-			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_EAST:
-			case EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST:
+			}
+			case EuclidianStyleConstants.POINT_STYLE_FILLED_DIAMOND, EuclidianStyleConstants.POINT_STYLE_TRIANGLE_NORTH, EuclidianStyleConstants.POINT_STYLE_TRIANGLE_SOUTH, EuclidianStyleConstants.POINT_STYLE_TRIANGLE_EAST, EuclidianStyleConstants.POINT_STYLE_TRIANGLE_WEST -> {
 				// draw diamond
 				g2.setStroke(crossStrokes[pointSize]);
 				g2.draw(gp);
 				g2.fill(gp);
-				break;
-
-			case EuclidianStyleConstants.POINT_STYLE_CIRCLE:
+			}
+			case EuclidianStyleConstants.POINT_STYLE_CIRCLE -> {
 				// draw a circle
 				g2.setStroke(crossStrokes[pointSize]);
 				g2.draw(circle);
-				break;
+			}
 
 			// case EuclidianStyleConstants.POINT_STYLE_CIRCLE:
-			default:
+			default -> {
 				// draw a dot
 				g2.fill(circle);
 				g2.setStroke(borderStroke);
 				g2.draw(circle);
+			}
 			}
 		}
 

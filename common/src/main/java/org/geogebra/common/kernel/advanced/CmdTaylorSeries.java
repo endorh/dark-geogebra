@@ -30,7 +30,7 @@ public class CmdTaylorSeries extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 3:
+		case 3 -> {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isRealValuedFunction()))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
@@ -40,13 +40,12 @@ public class CmdTaylorSeries extends CommandProcessor {
 						(GeoFunctionable) arg[0],
 						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2]);
 
-				GeoElement[] ret = { algo.getPolynomial() };
+				GeoElement[] ret = {algo.getPolynomial()};
 				return ret;
 			}
 			throw argErr(c, null);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

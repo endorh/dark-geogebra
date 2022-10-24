@@ -6,14 +6,10 @@ plugins {
 
 project.setDescription('Parts of GeoGebra related to input devices (Leonar3Do, Intel RealSense, zSpace)')
 
-compileJava {
+tasks.withType(JavaCompile) {
     sourceCompatibility = 17
     targetCompatibility = 17
-}
-
-compileTestJava {
-    sourceCompatibility = 17
-    targetCompatibility = 17
+    options.encoding = 'UTF-8'
 }
 
 dependencies {

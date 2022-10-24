@@ -101,12 +101,7 @@ public class TitlePanel extends JPanel {
 		// setBorder(BorderFactory.createTitledBorder(app
 		// .getPlain("Document info")));
 
-		ActionListener lst = new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				fireTextFieldUpdate((JTextField) e.getSource());
-			}
-		};
+		ActionListener lst = e -> fireTextFieldUpdate((JTextField) e.getSource());
 		titleField.addActionListener(lst);
 		addDocListener(titleField);
 		authorField.addActionListener(lst);
@@ -229,8 +224,8 @@ public class TitlePanel extends JPanel {
 
 	private void notifyListeners() {
 		int size = listeners.size();
-		for (int i = 0; i < size; i++) {
-			listeners.get(i).actionPerformed(new ActionEvent(this,
+		for (ActionListener listener : listeners) {
+			listener.actionPerformed(new ActionEvent(this,
 					ActionEvent.ACTION_PERFORMED, "TitleChanged"));
 		}
 	}

@@ -30,18 +30,18 @@ public class CmdDegree extends CommandProcessor implements UsesCAS {
 		arg = resArgs(c);
 
 		switch (n) {
-		case 1:
+		case 1 -> {
 			if (arg[0].isGeoFunction()) {
 				AlgoDegree algo = new AlgoDegree(cons, c.getLabel(),
 						(GeoFunction) arg[0]);
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 				return ret;
 			}
 			throw argErr(c, arg[0]);
+		}
 
-			// more than one argument
-		default:
-			throw argNumErr(c);
+		// more than one argument
+		default -> throw argNumErr(c);
 		}
 	}
 }

@@ -75,7 +75,7 @@ public class CommandDefinecolor extends Command {
 		}
 	}
 
-	private static Map<String, Converter> converters = new HashMap<String, Converter>(
+	private static Map<String, Converter> converters = new HashMap<>(
 			11) {
 		{
 			put("gray", new Converter() {

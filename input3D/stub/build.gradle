@@ -4,8 +4,11 @@ plugins {
 
 project.setDescription('Parts of GeoGebra related to input devices (standard)')
 
-sourceCompatibility = 17
-targetCompatibility = 17
+tasks.withType(JavaCompile) {
+	sourceCompatibility = 17
+	targetCompatibility = 17
+	options.encoding = 'UTF-8'
+}
 
 dependencies {
 	compileOnly project(':common')

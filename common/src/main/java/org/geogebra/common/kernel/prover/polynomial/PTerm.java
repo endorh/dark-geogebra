@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel.prover.polynomial;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -79,9 +78,7 @@ public class PTerm implements Comparable<PTerm> {
 				variables);
 
 		TreeMap<PVariable, Integer> variables2 = term.getTerm();
-		Iterator<PVariable> it = term.getTerm().keySet().iterator();
-		while (it.hasNext()) {
-			PVariable vp = it.next();
+		for (PVariable vp : term.getTerm().keySet()) {
 			if (variables.containsKey(vp)) {
 				productTerm.put(vp, variables.get(vp) + variables2.get(vp));
 			} else {
@@ -175,9 +172,7 @@ public class PTerm implements Comparable<PTerm> {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder("");
-		Iterator<Entry<PVariable, Integer>> it = variables.entrySet().iterator();
-		while (it.hasNext()) {
-			Entry<PVariable, Integer> entry = it.next();
+		for (Entry<PVariable, Integer> entry : variables.entrySet()) {
 			PVariable fv = entry.getKey();
 			sb.append("*");
 			sb.append(fv);
@@ -200,14 +195,12 @@ public class PTerm implements Comparable<PTerm> {
 	 */
 	public String toTeX() {
 		StringBuilder sb = new StringBuilder("");
-		Iterator<Entry<PVariable, Integer>> it = variables.entrySet().iterator();
-		while (it.hasNext()) {
-			Entry<PVariable, Integer> entry = it.next();
+		for (Entry<PVariable, Integer> entry : variables.entrySet()) {
 			PVariable fv = entry.getKey();
 			sb.append(fv.toTeX());
 			int power = entry.getValue();
 			if (power > 1) {
-				sb.append("^{" + power + "}");
+				sb.append("^{").append(power).append("}");
 			}
 		}
 		return sb.toString();
@@ -220,11 +213,7 @@ public class PTerm implements Comparable<PTerm> {
 	 */
 	public HashSet<PVariable> getVars() {
 		HashSet<PVariable> v = new HashSet<>();
-		Iterator<PVariable> it = variables.keySet().iterator();
-		while (it.hasNext()) {
-			PVariable fv = it.next();
-			v.add(fv);
-		}
+		v.addAll(variables.keySet());
 		return v;
 	}
 
@@ -248,12 +237,10 @@ public class PTerm implements Comparable<PTerm> {
 	 */
 	public static boolean divides(final PTerm f, final PTerm g) {
 		TreeMap<PVariable, Integer> termG = g.getTerm();
-		Iterator<Entry<PVariable, Integer>> itG = termG.entrySet().iterator();
-		while (itG.hasNext()) {
-			Entry<PVariable, Integer> entry = itG.next();
+		for (Entry<PVariable, Integer> entry : termG.entrySet()) {
 			PVariable var = entry.getKey();
 			Integer powF = f.getTerm().get(var);
-			if (powF == null || powF.intValue() < entry.getValue().intValue()) {
+			if (powF == null || powF < entry.getValue()) {
 				return false;
 			}
 		}

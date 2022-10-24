@@ -59,27 +59,22 @@ public class TeXAtomSerializer {
 		if (root instanceof FractionAtom) {
 			return serializeFractionAtom((FractionAtom) root);
 		}
-		if (root instanceof NthRoot) {
-			NthRoot nRoot = (NthRoot) root;
+		if (root instanceof NthRoot nRoot) {
 			if (nRoot.getRoot() == null) {
 				return adapter.sqrt(serialize(nRoot.getTrueBase()));
 			}
 			return adapter.nroot(serialize(nRoot.getTrueBase()), serialize(nRoot.getRoot()));
 		}
-		if (root instanceof CharAtom) {
-			CharAtom ch = (CharAtom) root;
+		if (root instanceof CharAtom ch) {
 			return adapter.convertCharacter(ch.getCharacter());
 		}
-		if (root instanceof TypedAtom) {
-			TypedAtom ch = (TypedAtom) root;
+		if (root instanceof TypedAtom ch) {
 			return serialize(ch.getBase());
 		}
-		if (root instanceof ScriptsAtom) {
-			ScriptsAtom ch = (ScriptsAtom) root;
+		if (root instanceof ScriptsAtom ch) {
 			return subSup(ch);
 		}
-		if (root instanceof FencedAtom) {
-			FencedAtom ch = (FencedAtom) root;
+		if (root instanceof FencedAtom ch) {
 			String base = serialize(ch.getTrueBase());
 			if (isBinomial(ch.getTrueBase())) {
 				return base;
@@ -95,9 +90,8 @@ public class TeXAtomSerializer {
 				|| root instanceof PhantomAtom) {
 			return "";
 		}
-		if (root instanceof SymbolAtom) {
+		if (root instanceof SymbolAtom ch) {
 
-			SymbolAtom ch = (SymbolAtom) root;
 			String out = adapter.convertCharacter(ch.getUnicode());
 			if ("\u00b7".equals(out)) {
 				return "*";
@@ -105,8 +99,7 @@ public class TeXAtomSerializer {
 			return out;
 
 		}
-		if (root instanceof RowAtom) {
-			RowAtom row = (RowAtom) root;
+		if (root instanceof RowAtom row) {
 			StringBuilder sb = new StringBuilder();
 			for (int i = 0; row.getElement(i) != null; i++) {
 				sb.append(serialize(row.getElement(i)));
@@ -121,8 +114,7 @@ public class TeXAtomSerializer {
 			}
 			return content + " with " + accent.getUnicode();
 		}
-		if (root instanceof VRowAtom) {
-			VRowAtom row = (VRowAtom) root;
+		if (root instanceof VRowAtom row) {
 			StringBuilder sb = new StringBuilder();
 			for (int i = 0; row.getElement(i) != null; i++) {
 				sb.append(serialize(row.getElement(i)));
@@ -135,8 +127,7 @@ public class TeXAtomSerializer {
 			return "";
 		}
 
-		if (root instanceof ColorAtom) {
-			ColorAtom row = (ColorAtom) root;
+		if (root instanceof ColorAtom row) {
 			StringBuilder sb = new StringBuilder();
 			for (int i = 0; row.getElement(i) != null; i++) {
 				sb.append(serialize(row.getElement(i)));
@@ -149,8 +140,7 @@ public class TeXAtomSerializer {
 		}
 
 		// serialise table to eg {{1,2,3},{3,4,5}}
-		if (root instanceof ArrayAtom) {
-			ArrayAtom atom = (ArrayAtom) root;
+		if (root instanceof ArrayAtom atom) {
 			ArrayOfAtoms matrix = atom.getMatrix();
 			int rows = matrix.getRows();
 			int cols = matrix.getCols();
@@ -202,10 +192,9 @@ public class TeXAtomSerializer {
 	}
 
 	private DegreePlural checkDegrees(Atom trueBase) {
-		if (!(trueBase instanceof RowAtom)) {
+		if (!(trueBase instanceof RowAtom row)) {
 			return DegreePlural.None;
 		}
-		RowAtom row = (RowAtom) trueBase;
 		if (!(row.last() instanceof ScriptsAtom)) {
 			return DegreePlural.None;
 		}

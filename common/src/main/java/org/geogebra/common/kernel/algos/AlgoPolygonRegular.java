@@ -115,8 +115,8 @@ public class AlgoPolygonRegular extends AlgoPolygonRegularND
 		input[1] = (GeoElement) B;
 		input[2] = num.toGeoElement();
 		// set dependencies
-		for (int i = 0; i < input.length; i++) {
-			input[i].addAlgorithm(this);
+		for (GeoElement geoElement : input) {
+			geoElement.addAlgorithm(this);
 		}
 		cons.addToAlgorithmList(this);
 
@@ -224,9 +224,8 @@ public class AlgoPolygonRegular extends AlgoPolygonRegularND
 			PPolynomial botanaMinpoly = new PPolynomial();
 			while (polySet.hasNext()) {
 				Set<PPolynomial> thisPolySet = polySet.next();
-				Iterator<PPolynomial> polyIt = thisPolySet.iterator();
-				while (polyIt.hasNext()) {
-					botanaMinpoly = polyIt.next();
+				for (PPolynomial pPolynomial : thisPolySet) {
+					botanaMinpoly = pPolynomial;
 				}
 			}
 			// End of ugly conversion.

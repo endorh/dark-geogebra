@@ -28,12 +28,7 @@ public class AlgoMinimumSpanningTree extends AlgoDiscrete {
 	/** number of edges */
 	protected int edgeCount;
 
-	private static Transformer<MyLink, Double> wtTransformer = new Transformer<MyLink, Double>() {
-		@Override
-		public Double transform(MyLink link) {
-			return link.weight;
-		}
-	};
+	private static Transformer<MyLink, Double> wtTransformer = link -> link.weight;
 
 	/**
 	 * @param cons
@@ -92,7 +87,7 @@ public class AlgoMinimumSpanningTree extends AlgoDiscrete {
 			}
 
 			MinimumSpanningForest2<MyNode, MyLink> prim = new MinimumSpanningForest2<>(
-					g, new DelegateForest<MyNode, MyLink>(),
+					g, new DelegateForest<>(),
 					DelegateTree.<MyNode, MyLink> getFactory(), wtTransformer);
 
 			Forest<MyNode, MyLink> tree = prim.getForest();

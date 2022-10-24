@@ -42,9 +42,9 @@ public class EditorStateAPITest {
 		MathFieldCommon mathField = new MathFieldCommon(new MetaModel(), null);
 		mathField.insertString("x+x*(x+1)");
 
-		for (int i = 0; i < expectedPaths.length; i++) {
+		for (Integer[] expectedPath : expectedPaths) {
 			ArrayList<Integer> oldCaretPath = mathField.getCaretPath();
-			Assert.assertEquals(StringUtil.join(",", expectedPaths[i]),
+			Assert.assertEquals(StringUtil.join(",", expectedPath),
 					StringUtil.join(",", oldCaretPath));
 			moveLeft(mathField);
 		}
@@ -61,8 +61,7 @@ public class EditorStateAPITest {
 		mathField.insertString("x+x*(x+1)");
 
 		for (int i = 0; i < expectedPaths.length; i++) {
-			ArrayList<Integer> caretPath = new ArrayList<>();
-			caretPath.addAll(Arrays.asList(expectedPaths[i]));
+			ArrayList<Integer> caretPath = new ArrayList<>(Arrays.asList(expectedPaths[i]));
 			CursorController.setPath(caretPath,
 					mathField.getInternal().getEditorState());
 			ArrayList<Integer> oldCaretPath = mathField.getCaretPath();

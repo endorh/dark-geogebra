@@ -61,10 +61,13 @@ public final class NativeContinuation extends IdScriptableObject
     {
         String s;
         int arity;
-        switch (id) {
-          case Id_constructor: arity=0; s="constructor"; break;
-          default: throw new IllegalArgumentException(String.valueOf(id));
-        }
+	    switch (id) {
+	    case Id_constructor -> {
+		    arity = 0;
+		    s = "constructor";
+	    }
+	    default -> throw new IllegalArgumentException(String.valueOf(id));
+	    }
         initPrototypeMethod(FTAG, id, s, arity);
     }
 
@@ -76,10 +79,9 @@ public final class NativeContinuation extends IdScriptableObject
             return super.execIdCall(f, cx, scope, thisObj, args);
         }
         int id = f.methodId();
-        switch (id) {
-          case Id_constructor:
-            throw Context.reportRuntimeError("Direct call is not supported");
-        }
+	    switch (id) {
+	    case Id_constructor -> throw Context.reportRuntimeError("Direct call is not supported");
+	    }
         throw new IllegalArgumentException(String.valueOf(id));
     }
 

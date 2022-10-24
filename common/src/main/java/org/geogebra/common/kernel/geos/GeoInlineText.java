@@ -108,8 +108,7 @@ public class GeoInlineText extends GeoInline implements TextStyle, HasTextFormat
 	@Override
 	public void set(GeoElementND geo) {
 		cons = geo.getConstruction();
-		if (geo instanceof GeoInlineText) {
-			GeoInlineText text = (GeoInlineText) geo;
+		if (geo instanceof GeoInlineText text) {
 			setLocation(text.getLocation());
 			setSize(text.getWidth(), text.getHeight());
 		}

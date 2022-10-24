@@ -81,14 +81,14 @@ public class LinearRegressionPanel extends JPanel
 				loc.getMenu("Slope"), };
 
 		model.setColumnCount(0);
-		for (int i = 0; i < columnLabels.length; i++) {
-			model.addColumn(columnLabels[i]);
+		for (String columnLabel : columnLabels) {
+			model.addColumn(columnLabel);
 		}
 
 		model.setRowCount(rowLabels.length);
 		headerModel.setSize(0);
-		for (int i = 0; i < rowLabels.length; i++) {
-			headerModel.addElement(rowLabels[i]);
+		for (String rowLabel : rowLabels) {
+			headerModel.addElement(rowLabel);
 		}
 
 	}

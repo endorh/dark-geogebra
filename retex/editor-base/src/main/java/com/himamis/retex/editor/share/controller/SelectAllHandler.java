@@ -42,8 +42,7 @@ public class SelectAllHandler {
 		MathComponent first = editorState.getRootComponent().getArgument(0);
 		MathComponent selectionStart = editorState.getCurrentField().getArgument(0);
 		setSelectionStart(selectionStart);
-		if (first instanceof MathArray) {
-			MathArray array = (MathArray) first;
+		if (first instanceof MathArray array) {
 			if (array.isMatrix()) {
 				selectUpToRootComponent();
 			} else {

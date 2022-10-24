@@ -44,16 +44,16 @@ public final class IntelligentDeviceResolver {
 		MidiDevice device = null;
 
 		MidiDevice.Info[] info = MidiSystem.getMidiDeviceInfo();
-		for (int i = 0; i < info.length; i++) {
-			String infoString = info[i].toString().toLowerCase();
+		for (MidiDevice.Info value : info) {
+			String infoString = value.toString().toLowerCase();
 			thisMatch = 0;
-			for (int k = 0; k < keywords.length; k++) {
-				if (infoString.contains(keywords[k])) {
+			for (String keyword : keywords) {
+				if (infoString.contains(keyword)) {
 					thisMatch++;
 				}
 			}
 			if (thisMatch > bestMatch) {
-				device = MidiSystem.getMidiDevice(info[i]);
+				device = MidiSystem.getMidiDevice(value);
 				bestMatch = thisMatch;
 			}
 		}

@@ -37,7 +37,6 @@ package com.kitfox.svg;
 
 import java.awt.Shape;
 import java.awt.geom.Area;
-import java.util.Iterator;
 
 import com.kitfox.svg.xml.StyleAttribute;
 
@@ -97,8 +96,8 @@ public class ClipPath extends SVGElement {
 		}
 
 		Area clipArea = null;
-		for (Iterator it = children.iterator(); it.hasNext();) {
-			ShapeElement se = (ShapeElement) it.next();
+		for (Object child : children) {
+			ShapeElement se = (ShapeElement) child;
 
 			if (clipArea == null) {
 				Shape shape = se.getShape();
@@ -147,8 +146,8 @@ public class ClipPath extends SVGElement {
 			build();
 		}
 
-		for (int i = 0; i < children.size(); ++i) {
-			SVGElement ele = (SVGElement) children.get(i);
+		for (Object child : children) {
+			SVGElement ele = (SVGElement) child;
 			ele.updateTime(curTime);
 		}
 

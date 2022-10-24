@@ -148,10 +148,10 @@ public class AlgoSVD extends AlgoElement {
 	private final GeoList matrix2list(RealMatrix matrix) {
 		double[][] data = matrix.getData();
 		GeoList list = new GeoList(cons);
-		for (int i = 0; i < data.length; i++) {
+		for (double[] datum : data) {
 			GeoList curRow = new GeoList(cons);
-			for (int j = 0; j < data[i].length; j++) {
-				curRow.add(new GeoNumeric(cons, data[i][j]));
+			for (double v : datum) {
+				curRow.add(new GeoNumeric(cons, v));
 			}
 			list.add(curRow);
 		}

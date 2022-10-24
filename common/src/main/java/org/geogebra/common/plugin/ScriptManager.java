@@ -62,35 +62,24 @@ public abstract class ScriptManager implements EventListener {
 		}
 
 		switch (evt.type) {
-		case CLICK:
+		case CLICK -> {
 			callListeners(clickListeners, evt);
 			if (clickListenerMap != null) {
 				callListener(clickListenerMap.get(evt.target), evt);
 			}
-			break;
-		case UPDATE:
+		}
+		case UPDATE -> {
 			callListeners(updateListeners, evt);
 			if (updateListenerMap != null) {
 				callListener(updateListenerMap.get(evt.target), evt);
 			}
-			break;
-		case ADD:
-			callListeners(addListeners, evt);
-			break;
-		case STOREUNDO:
-			callListeners(storeUndoListeners, evt);
-			break;
-		case REMOVE:
-			callListeners(removeListeners, evt);
-			break;
-		case RENAME:
-			callListeners(renameListeners, evt);
-			break;
-		case CLEAR:
-			callListeners(clearListeners, evt);
-			break;
-		default:
-			callClientListeners(clientListeners, evt);
+		}
+		case ADD -> callListeners(addListeners, evt);
+		case STOREUNDO -> callListeners(storeUndoListeners, evt);
+		case REMOVE -> callListeners(removeListeners, evt);
+		case RENAME -> callListeners(renameListeners, evt);
+		case CLEAR -> callListeners(clearListeners, evt);
+		default -> callClientListeners(clientListeners, evt);
 		}
 	}
 

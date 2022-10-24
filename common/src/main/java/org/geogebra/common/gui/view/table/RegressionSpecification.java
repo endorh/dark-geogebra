@@ -29,11 +29,11 @@ public final class RegressionSpecification {
 	}
 
 	private static String getPolynomialLabel(int degree) {
-		switch (degree) {
-		case 2: return "Quadratic";
-		case 3: return "Cubic";
-		default: return "Quartic";
-		}
+		return switch (degree) {
+			case 2 -> "Quadratic";
+			case 3 -> "Cubic";
+			default -> "Quartic";
+		};
 	}
 
 	/**

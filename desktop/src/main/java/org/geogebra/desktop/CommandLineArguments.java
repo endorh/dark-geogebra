@@ -1,7 +1,6 @@
 package org.geogebra.desktop;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map.Entry;
 
 import org.geogebra.common.util.StringUtil;
@@ -171,9 +170,7 @@ public class CommandLineArguments {
 	 */
 	public CommandLineArguments add(String newKey, String newValue) {
 		CommandLineArguments ret = new CommandLineArguments(null);
-		Iterator<Entry<String, String>> it = args.entrySet().iterator();
-		while (it.hasNext()) {
-			Entry<String, String> entry = it.next();
+		for (Entry<String, String> entry : args.entrySet()) {
 			String key = entry.getKey();
 			String value = entry.getValue();
 			ret.args.put(key, value);
@@ -197,9 +194,7 @@ public class CommandLineArguments {
 	 */
 	public CommandLineArguments getGlobalArguments() {
 		CommandLineArguments ret = new CommandLineArguments(null);
-		Iterator<Entry<String, String>> it = args.entrySet().iterator();
-		while (it.hasNext()) {
-			Entry<String, String> entry = it.next();
+		for (Entry<String, String> entry : args.entrySet()) {
 			String key = entry.getKey();
 			if (!key.startsWith("file")) {
 				String value = entry.getValue();

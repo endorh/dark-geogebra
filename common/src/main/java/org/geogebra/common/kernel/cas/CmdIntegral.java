@@ -53,30 +53,30 @@ public class CmdIntegral extends CommandProcessor implements UsesCAS {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
+		case 1 -> {
 			arg = resArgs(c);
 			if (arg[0].isRealValuedFunction()) {
 				GeoElement[] ret = {
 						integral(((GeoFunctionable) arg[0]).getGeoFunction(),
-								null, info) };
+								null, info)};
 				ret[0].setLabel(c.getLabel());
 				return ret;
 			}
 			throw argErr(c, arg[0]);
-
-		case 2:
+		}
+		case 2 -> {
 			// Integral[ f(x,y), x]
 			arg = resArgsLocalNumVar(c, 1, 1, -1);
 			if ((ok[0] = arg[0] instanceof CasEvaluableFunction)
 					&& (ok[1] = arg[1].isGeoNumeric())) {
-				GeoElement[] ret = { integral((CasEvaluableFunction) arg[0], // function
-						(GeoNumeric) arg[1], info) }; // var
+				GeoElement[] ret = {integral((CasEvaluableFunction) arg[0], // function
+						(GeoNumeric) arg[1], info)}; // var
 				ret[0].setLabel(c.getLabel());
 				return ret;
 			}
 			throw argErr(c, getBadArg(ok, arg));
-
-		case 3:
+		}
+		case 3 -> {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isRealValuedFunction()))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
@@ -91,15 +91,15 @@ public class CmdIntegral extends CommandProcessor implements UsesCAS {
 				return algo.getIntegral().asArray();
 			}
 			throw argErr(c, getBadArg(ok, arg));
-
-		case 4:
+		}
+		case 4 -> {
 			arg = resArgs(c);
 			// difference of two functions
 			if ((ok[0] = (arg[0].isRealValuedFunction()))
 					&& (ok[1] = (arg[1].isRealValuedFunction()))
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))
 					&& (ok[3] = (arg[3] instanceof GeoNumberValue
-							&& !(arg[3] instanceof BooleanValue)))
+					&& !(arg[3] instanceof BooleanValue)))
 					&& !"NIntegral".equals(internalCommandName)) {
 
 				AlgoIntegralFunctions algo = new AlgoIntegralFunctions(cons,
@@ -122,19 +122,19 @@ public class CmdIntegral extends CommandProcessor implements UsesCAS {
 						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
 						(GeoBoolean) arg[3]);
 
-				return  algo.getIntegral().asArray();
+				return algo.getIntegral().asArray();
 			} else {
 				throw argErr(c, getBadArg(ok, arg));
 			}
-
-		case 5:
+		}
+		case 5 -> {
 			arg = resArgs(c);
 			// difference of two functions with evaluate option
 			if ((ok[0] = (arg[0].isRealValuedFunction()))
 					&& (ok[1] = (arg[1].isRealValuedFunction()))
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))
 					&& (ok[3] = (arg[3] instanceof GeoNumberValue)
-							&& (ok[4] = (arg[4].isGeoBoolean())))) {
+					&& (ok[4] = (arg[4].isGeoBoolean())))) {
 
 				AlgoIntegralFunctions algo = new AlgoIntegralFunctions(cons,
 						c.getLabel(),
@@ -146,8 +146,8 @@ public class CmdIntegral extends CommandProcessor implements UsesCAS {
 				return algo.getIntegral().asArray();
 			}
 			throw argErr(c, getBadArg(ok, arg));
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

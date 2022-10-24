@@ -67,9 +67,7 @@ public class CurveEvaluableFor3D implements CurveEvaluable {
 		if (Double.isInfinite(z) || Double.isNaN(z) || !DoubleUtil.isZero(z)) {
 			out[0] = Double.NaN;
 		} else {
-			for (int i = 0; i < out.length; i++) {
-				out[i] = parentOut[i];
-			}
+			System.arraycopy(parentOut, 0, out, 0, out.length);
 		}
 
 	}

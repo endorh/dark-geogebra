@@ -74,7 +74,7 @@ public class QDParser {
 
 	private static int popMode(Stack<Integer> st) {
 		if (!st.empty()) {
-			return st.pop().intValue();
+			return st.pop();
 		}
 		return PRE;
 	}
@@ -139,28 +139,27 @@ public class QDParser {
 			// We are between tags collecting text.
 			case TEXT:
 				switch (c) {
-				case '<':
-					stack.push(Integer.valueOf(mode));
+				case '<' -> {
+					stack.push(mode);
 					mode = START_TAG;
 					if (sb.length() > 0) {
 						doc.text(sb.toString());
 						sb.setLength(0);
 					}
-					break;
-				case '&':
-					stack.push(Integer.valueOf(mode));
+				}
+				case '&' -> {
+					stack.push(mode);
 					mode = ENTITY;
 					etag.setLength(0);
-					break;
-				default:
-					sb.append((char) c);
+				}
+				default -> sb.append((char) c);
 				}
 				break;
 
 			// we are processing a closing tag: e.g. </foo>
 			case CLOSE_TAG:
 				switch (c) {
-				case '>':
+				case '>' -> {
 					mode = popMode(stack);
 					tagName = sb.toString();
 					sb.setLength(0);
@@ -169,9 +168,8 @@ public class QDParser {
 						mode = DONE;
 					}
 					doc.endElement(tagName);
-					break;
-				default:
-					sb.append((char) c);
+				}
+				default -> sb.append((char) c);
 				}
 				break;
 
@@ -202,7 +200,7 @@ public class QDParser {
 			case PRE:
 				if (c == '<') {
 					mode = TEXT;
-					stack.push(Integer.valueOf(mode));
+					stack.push(mode);
 					mode = START_TAG;
 				}
 				break;
@@ -224,19 +222,18 @@ public class QDParser {
 			case START_TAG:
 				mode = popMode(stack);
 				switch (c) {
-				case '/':
-					stack.push(Integer.valueOf(mode));
+				case '/' -> {
+					stack.push(mode);
 					mode = CLOSE_TAG;
-					break;
-				case '?':
-					mode = DOCTYPE;
-					break;
-				default:
-					stack.push(Integer.valueOf(mode));
+				}
+				case '?' -> mode = DOCTYPE;
+				default -> {
+					stack.push(mode);
 					mode = OPEN_TAG;
 					tagName = null;
 					// attrs = new LinkedHashMap();
 					sb.append((char) c);
+				}
 				}
 				break;
 
@@ -370,7 +367,7 @@ public class QDParser {
 				// Markus Hohenwarter, end
 
 				else if (c == '&') {
-					stack.push(Integer.valueOf(mode));
+					stack.push(mode);
 					mode = ENTITY;
 					etag.setLength(0);
 				} else {

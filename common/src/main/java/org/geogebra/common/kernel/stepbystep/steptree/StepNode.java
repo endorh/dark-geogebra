@@ -46,8 +46,7 @@ public abstract class StepNode implements HasLaTeX {
 	 * @return ev converted to StepTree
 	 */
 	public static StepTransformable convertExpression(ExpressionValue ev) {
-		if (ev instanceof ExpressionNode) {
-			ExpressionNode en = (ExpressionNode) ev;
+		if (ev instanceof ExpressionNode en) {
 			StepExpression left =
 					(StepExpression) convertExpression(en.getLeft());
 			StepExpression right =
@@ -128,8 +127,7 @@ public abstract class StepNode implements HasLaTeX {
 					(StepExpression) cleanupExpression(((StepSolvable) sn).RHS));
 		}
 
-		if (sn instanceof StepOperation) {
-			StepOperation so = (StepOperation) sn;
+		if (sn instanceof StepOperation so) {
 
 			if (so.getOperation() == Operation.MULTIPLY) {
 				if (so.getOperand(0).isNegative()) {
@@ -507,15 +505,13 @@ public abstract class StepNode implements HasLaTeX {
 			}
 		}
 
-		if (this instanceof StepSolvable) {
-			StepSolvable ss = (StepSolvable) this;
+		if (this instanceof StepSolvable ss) {
 
 			ss.LHS.getSetOfVariables(variableSet);
 			ss.RHS.getSetOfVariables(variableSet);
 		}
 
-		if (this instanceof StepOperation) {
-			StepOperation so = (StepOperation) this;
+		if (this instanceof StepOperation so) {
 			for (StepExpression operand : so) {
 				operand.getSetOfVariables(variableSet);
 			}

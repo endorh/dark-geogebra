@@ -60,8 +60,7 @@ public class InputPanelD extends JPanel
 			boolean showSymbolPopupIcon) {
 		this(initText, app, rows, columns, showSymbolPopupIcon, false, null,
 				DialogType.GeoGebraEditor);
-		if (textComponent instanceof AutoCompleteTextFieldD) {
-			AutoCompleteTextFieldD atf = (AutoCompleteTextFieldD) textComponent;
+		if (textComponent instanceof AutoCompleteTextFieldD atf) {
 			atf.setAutoComplete(false);
 		}
 	}
@@ -84,17 +83,15 @@ public class InputPanelD extends JPanel
 		if (rows > 1) {
 
 			switch (type) {
-			case TextArea:
+			case TextArea -> {
 				textComponent = new JTextArea(rows, columns);
 				setTextAreaLineWrap(true);
-				break;
-			case DynamicText:
-				textComponent = new DynamicTextInputPane(app);
-				break;
-			case GeoGebraEditor:
+			}
+			case DynamicText -> textComponent = new DynamicTextInputPane(app);
+			case GeoGebraEditor -> {
 				textComponent = new GeoGebraEditorPane(app, rows, columns);
 				((GeoGebraEditorPane) textComponent).setEditorKit("geogebra");
-				break;
+			}
 			}
 
 		} else {

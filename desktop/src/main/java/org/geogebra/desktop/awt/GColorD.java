@@ -10,7 +10,6 @@ import java.util.regex.Pattern;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.desktop.factories.AwtFactoryD;
 import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.util.StringUtilD;
 
@@ -63,8 +62,7 @@ public class GColorD {
 	}
 
 	private static GColor getAlgebraColor(GeoElement element) {
-		if (element instanceof GeoCasCell) {
-			final GeoCasCell casCell = (GeoCasCell) element;
+		if (element instanceof final GeoCasCell casCell) {
 			return !casCell.hasTwinGeo() ? GColor.BLACK : casCell.getTwinGeo().getObjectColor();
 		}
 		return element.getObjectColor();
@@ -73,7 +71,7 @@ public class GColorD {
 	public static String patchHTMLFontColors(String html) {
 		if (html != null) {
 			// Patch tooltip color
-			StringBuffer sb = new StringBuffer();
+			StringBuilder sb = new StringBuilder();
 			Matcher m = FONT_COLOR_PATTERN.matcher(html);
 			while (m.find()) {
 				Color color = ThemeD.getTheme().transformColorForText(

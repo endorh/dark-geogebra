@@ -1543,8 +1543,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void testCaching() {
 		CASGenericInterface cas = kernel.getGeoGebraCAS().getCurrentCAS();
 
-		if (cas instanceof CASgiac) {
-			CASgiac casGiac = (CASgiac) cas;
+		if (cas instanceof CASgiac casGiac) {
 			int cacheSize = casGiac.getCasGiacCacheSize();
 
 			// test input is added to the cache

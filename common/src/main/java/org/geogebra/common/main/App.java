@@ -961,8 +961,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		}
 
 		ArrayList<Macro> macros = kernel.getAllMacros();
-		for (int i = 0; i < macros.size(); i++) {
-			String cmdName = macros.get(i).getCommandName();
+		for (Macro value : macros) {
+			String cmdName = value.getCommandName();
 			if (!commandDict.containsValue(cmdName)) {
 				commandDict.addEntry(cmdName);
 			}
@@ -978,8 +978,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		}
 
 		ArrayList<Macro> macros = kernel.getAllMacros();
-		for (int i = 0; i < macros.size(); i++) {
-			String cmdName = macros.get(i).getCommandName();
+		for (Macro value : macros) {
+			String cmdName = value.getCommandName();
 			commandDict.removeEntry(cmdName);
 		}
 	}
@@ -1261,12 +1261,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * Deletes selected objects
 	 */
 	public void deleteSelectedObjects(boolean isCut) {
-		deleteSelectedObjects(isCut, new GPredicate<GeoElement>() {
-			@Override
-			public boolean test(GeoElement geo) {
-				return !geo.isProtected(EventType.REMOVE);
-			}
-		});
+		deleteSelectedObjects(isCut, geo -> !geo.isProtected(EventType.REMOVE));
 	}
 
 	/**
@@ -4182,15 +4177,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		 * @return minus sign for axes description
 		 */
 		public char getAxisMinusSign() {
-			switch (this) {
-			case PDF_HTML5:
-			case PDF_EMBEDFONTS:
-			case PNG_BRAILLE:
-				return '-';
-
-			default:
-				return Unicode.N_DASH;
-			}
+			return switch (this) {
+				case PDF_HTML5, PDF_EMBEDFONTS, PNG_BRAILLE -> '-';
+				default -> Unicode.N_DASH;
+			};
 		}
 	}
 
@@ -4461,20 +4451,14 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * @return localized labeling style
 	 */
 	final public static String getLabelStyleName(App app, int id) {
-		switch (id) {
-		case -1:
-			return app.getLocalization().getMenu("Hidden");
-		case GeoElementND.LABEL_NAME:
-			return app.getLocalization().getMenu("Name");
-		case GeoElementND.LABEL_NAME_VALUE:
-			return app.getLocalization().getMenu("NameAndValue");
-		case GeoElementND.LABEL_VALUE:
-			return app.getLocalization().getMenu("Value");
-		case GeoElementND.LABEL_CAPTION:
-			return app.getLocalization().getMenu("Caption");
-		default:
-			return "";
-		}
+		return switch (id) {
+			case -1 -> app.getLocalization().getMenu("Hidden");
+			case GeoElementND.LABEL_NAME -> app.getLocalization().getMenu("Name");
+			case GeoElementND.LABEL_NAME_VALUE -> app.getLocalization().getMenu("NameAndValue");
+			case GeoElementND.LABEL_VALUE -> app.getLocalization().getMenu("Value");
+			case GeoElementND.LABEL_CAPTION -> app.getLocalization().getMenu("Caption");
+			default -> "";
+		};
 	}
 
 	/**
@@ -4643,30 +4627,16 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	private ToolCollectionFactory createDefaultToolCollectionFactory() {
-		AbstractToolCollectionFactory factory = null;
-		switch (getConfig().getToolbarType()) {
-			case GRAPHING_CALCULATOR:
-				factory = new GraphingToolCollectionFactory();
-				break;
-			case GEOMETRY_CALC:
-				factory = new GeometryToolCollectionFactory();
-				break;
-			case GRAPHER_3D:
-				factory = new Graphing3DToolCollectionFactory();
-				break;
-			case SUITE:
-				factory = new SuiteToolCollectionFactory();
-				break;
-			default:
-				factory = new GraphingToolCollectionFactory();
-		}
+		AbstractToolCollectionFactory factory = switch (getConfig().getToolbarType()) {
+			case GRAPHING_CALCULATOR -> new GraphingToolCollectionFactory();
+			case GEOMETRY_CALC -> new GeometryToolCollectionFactory();
+			case GRAPHER_3D -> new Graphing3DToolCollectionFactory();
+			case SUITE -> new SuiteToolCollectionFactory();
+			default -> new GraphingToolCollectionFactory();
+		};
 		switch (getPlatform()) {
-			case ANDROID:
-			case IOS:
-				factory.setPhoneApp(true);
-				break;
-			default:
-				factory.setPhoneApp(false);
+		case ANDROID, IOS -> factory.setPhoneApp(true);
+		default -> factory.setPhoneApp(false);
 		}
 		return factory;
 	}

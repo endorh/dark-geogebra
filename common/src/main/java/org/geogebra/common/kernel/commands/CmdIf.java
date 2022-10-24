@@ -320,15 +320,15 @@ public class CmdIf extends CommandProcessor {
 						fv[0]);
 			}
 			MyList arg = new MyList(kernel);
-			for (int i = 0; i < fv.length; i++) {
-				arg.addListElement(fv[i]);
+			for (FunctionVariable functionVariable : fv) {
+				arg.addListElement(functionVariable);
 			}
 			return new ExpressionNode(kernel, boolFun, Operation.FUNCTION_NVAR,
 					arg);
 		}
 		ExpressionValue exp = boolFun.getFunctionExpression().deepCopy(kernel);
-		for (int i = 0; i < fv.length; i++) {
-			exp = exp.traverse(VariablePolyReplacer.getReplacer(fv[i]));
+		for (FunctionVariable functionVariable : fv) {
+			exp = exp.traverse(VariablePolyReplacer.getReplacer(functionVariable));
 		}
 		return exp.wrap();
 	}

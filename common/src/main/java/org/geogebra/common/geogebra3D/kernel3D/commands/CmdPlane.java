@@ -33,36 +33,36 @@ public class CmdPlane extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
+		case 1 -> {
 			if (c.getArgument(0).unwrap() instanceof Equation) {
 				((Equation) c.getArgument(0).unwrap()).setForcePlane();
 			}
 			arg = resArgs(c);
 			if (arg[0] instanceof GeoCoordSys2D) {
-				GeoElement[] ret = { (GeoElement) kernel.getManager3D()
-						.plane3D(c.getLabel(), (GeoCoordSys2D) arg[0]) };
+				GeoElement[] ret = {(GeoElement) kernel.getManager3D()
+						.plane3D(c.getLabel(), (GeoCoordSys2D) arg[0])};
 				return ret;
 			}
-
 			throw argErr(c, arg[0]);
-		case 2:
+		}
+		case 2 -> {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1] instanceof GeoLineND))) {
-				GeoElement[] ret = { (GeoElement) kernel.getManager3D()
+				GeoElement[] ret = {(GeoElement) kernel.getManager3D()
 						.plane3D(c.getLabel(), (GeoPointND) arg[0],
-								(GeoLineND) arg[1]) };
+								(GeoLineND) arg[1])};
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1] instanceof GeoCoordSys2D))) {
-				GeoElement[] ret = { (GeoElement) kernel.getManager3D()
+				GeoElement[] ret = {(GeoElement) kernel.getManager3D()
 						.plane3D(c.getLabel(), (GeoPointND) arg[0],
-								(GeoCoordSys2D) arg[1]) };
+								(GeoCoordSys2D) arg[1])};
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoLine()))
 					&& (ok[1] = (arg[1].isGeoLine()))) {
-				GeoElement[] ret = { kernel.getManager3D().plane3D(
-						c.getLabel(), (GeoLineND) arg[0], (GeoLineND) arg[1]) };
+				GeoElement[] ret = {kernel.getManager3D().plane3D(
+						c.getLabel(), (GeoLineND) arg[0], (GeoLineND) arg[1])};
 				return ret;
 
 			} else {
@@ -71,15 +71,15 @@ public class CmdPlane extends CommandProcessor {
 				}
 				throw argErr(c, arg[1]);
 			}
-
-		case 3:
+		}
+		case 3 -> {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
-				GeoElement[] ret = { kernel.getManager3D().plane3D(
+				GeoElement[] ret = {kernel.getManager3D().plane3D(
 						c.getLabel(), (GeoPointND) arg[0], (GeoPointND) arg[1],
-						(GeoPointND) arg[2]) };
+						(GeoPointND) arg[2])};
 				return ret;
 			}
 
@@ -95,11 +95,10 @@ public class CmdPlane extends CommandProcessor {
 				AlgoDependentVector3D algo = new AlgoDependentVector3D(cons,
 						cross);
 
-				return new GeoElement[] { (GeoElement) kernel.getManager3D()
+				return new GeoElement[]{(GeoElement) kernel.getManager3D()
 						.orthogonalPlane3D(c.getLabel(), (GeoPointND) arg[0],
-								algo.getVector3D()) };
+								algo.getVector3D())};
 			}
-
 			if (!ok[0]) {
 				throw argErr(c, arg[0]);
 			} else if (!ok[1]) {
@@ -107,9 +106,8 @@ public class CmdPlane extends CommandProcessor {
 			} else {
 				throw argErr(c, arg[2]);
 			}
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 
 	}

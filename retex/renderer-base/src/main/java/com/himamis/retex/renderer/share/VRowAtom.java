@@ -49,6 +49,7 @@
 package com.himamis.retex.renderer.share;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -76,30 +77,28 @@ public class VRowAtom extends Atom {
 	}
 
 	public VRowAtom() {
-		this.elements = new ArrayList<Atom>();
+		this.elements = new ArrayList<>();
 	}
 
 	public VRowAtom(Atom el) {
 		if (el == null) {
-			this.elements = new ArrayList<Atom>();
+			this.elements = new ArrayList<>();
 		} else {
 			if (el instanceof VRowAtom) {
-				this.elements = new ArrayList<Atom>(
+				this.elements = new ArrayList<>(
 						((VRowAtom) el).elements.size());
 				// no need to make an mrow the only element of an mrow
 				elements.addAll(((VRowAtom) el).elements);
 			} else {
-				this.elements = new ArrayList<Atom>();
+				this.elements = new ArrayList<>();
 				elements.add(el);
 			}
 		}
 	}
 
 	public VRowAtom(Atom... atoms) {
-		this.elements = new ArrayList<Atom>(atoms.length);
-		for (Atom a : atoms) {
-			elements.add(a);
-		}
+		this.elements = new ArrayList<>(atoms.length);
+		elements.addAll(Arrays.asList(atoms));
 	}
 
 	public VRowAtom(ArrayList<Atom> atoms) {
@@ -163,8 +162,8 @@ public class VRowAtom extends Atom {
 		if (halign != TeXConstants.Align.NONE) {
 			double maxWidth = -Double.POSITIVE_INFINITY;
 			ArrayList<Box> boxes = new ArrayList<>();
-			for (ListIterator it = elements.listIterator(); it.hasNext();) {
-				Box b = ((Atom) it.next()).createBox(env);
+			for (Atom element : elements) {
+				Box b = element.createBox(env);
 				boxes.add(b);
 				if (maxWidth < b.getWidth()) {
 					maxWidth = b.getWidth();

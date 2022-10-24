@@ -43,8 +43,7 @@ public class CmdRepeat extends CmdScripting {
 
 				for (int object = 1; object < n; object++) {
 
-					if (arg[object] instanceof GeoScriptAction) {
-						GeoScriptAction script = (GeoScriptAction) arg[object];
+					if (arg[object] instanceof GeoScriptAction script) {
 						script.perform();
 					} else {
 						throw argErr(c, arg[object]);

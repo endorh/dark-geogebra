@@ -21,20 +21,16 @@ public class PDFUtil implements PDFConstants {
 	}
 
 	public static String escape(String string) {
-		StringBuffer escape = new StringBuffer();
+		StringBuilder escape = new StringBuilder();
 
 		for (int i = 0; i < string.length(); i++) {
 			char c = string.charAt(i);
 			switch (c) {
-			case '(':
-			case ')':
-			case '\\':
+			case '(', ')', '\\' -> {
 				escape.append('\\');
 				escape.append(c);
-				break;
-			default:
-				escape.append(c);
-				break;
+			}
+			default -> escape.append(c);
 			}
 		}
 		return escape.toString();

@@ -81,9 +81,9 @@ public class TextW implements EMFConstants {
 
 	@Override
 	public String toString() {
-		StringBuffer widthsS = new StringBuffer();
+		StringBuilder widthsS = new StringBuilder();
 		for (int i = 0; i < string.length(); i++) {
-			widthsS.append("," + widths[i]);
+			widthsS.append(",").append(widths[i]);
 		}
 		widthsS.append(']');
 		widthsS.setCharAt(0, '[');

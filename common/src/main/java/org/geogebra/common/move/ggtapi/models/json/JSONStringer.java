@@ -346,9 +346,7 @@ public class JSONStringer {
 			return;
 		}
 		out.append("\n");
-		for (int i = 0; i < stack.size(); i++) {
-			out.append(indent);
-		}
+		out.append(indent.repeat(stack.size()));
 	}
 
 	/**

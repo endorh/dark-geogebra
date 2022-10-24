@@ -1,6 +1,5 @@
 package org.geogebra.common.kernel.advanced;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 
 import org.geogebra.common.kernel.Construction;
@@ -69,10 +68,7 @@ public class AlgoComplexRootsPolynomial extends AlgoRootsPolynomial {
 		// we got a list of polynomial factors
 		if (factorList != null) {
 			// compute the roots of every single factor
-			Iterator<PolyFunction> it = factorList.iterator();
-			while (it.hasNext()) {
-				PolyFunction polyFun = it.next();
-
+			for (PolyFunction polyFun : factorList) {
 				// update the current coefficients of polyFun
 				// (this is needed for SymbolicPolyFunction objects)
 				if (!polyFun.updateCoeffValues()) {

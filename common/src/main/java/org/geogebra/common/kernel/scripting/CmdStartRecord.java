@@ -29,11 +29,11 @@ public class CmdStartRecord extends CmdScripting {
 		// dummy
 
 		switch (n) {
-		case 0:
+		case 0 -> {
 			app.getTraceManager().pauseAllTraces(false);
 			return new GeoElement[0];
-
-		case 1:
+		}
+		case 1 -> {
 			GeoElement[] arg = resArgs(c);
 			if (arg[0].isGeoBoolean()) {
 
@@ -48,8 +48,8 @@ public class CmdStartRecord extends CmdScripting {
 				return arg;
 			}
 			throw argErr(c, arg[0]);
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

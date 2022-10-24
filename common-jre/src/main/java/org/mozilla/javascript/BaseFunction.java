@@ -99,14 +99,30 @@ public class BaseFunction extends IdScriptableObject implements Function
         int id;
 // #generated# Last update: 2007-05-09 08:15:15 EDT
         L0: { id = 0; String X = null; int c;
-            L: switch (s.length()) {
-            case 4: X="name";id=Id_name; break L;
-            case 5: X="arity";id=Id_arity; break L;
-            case 6: X="length";id=Id_length; break L;
-            case 9: c=s.charAt(0);
-                if (c=='a') { X="arguments";id=Id_arguments; }
-                else if (c=='p') { X="prototype";id=Id_prototype; }
-                break L;
+            L:
+            switch (s.length()) {
+            case 4 -> {
+                X = "name";
+                id = Id_name;
+            }
+            case 5 -> {
+                X = "arity";
+                id = Id_arity;
+            }
+            case 6 -> {
+                X = "length";
+                id = Id_length;
+            }
+            case 9 -> {
+                c = s.charAt(0);
+                if (c == 'a') {
+                    X = "arguments";
+                    id = Id_arguments;
+                } else if (c == 'p') {
+                    X = "prototype";
+                    id = Id_prototype;
+                }
+            }
             }
             if (X!=null && X!=s && !X.equals(s)) id = 0;
             break L0;
@@ -118,22 +134,16 @@ public class BaseFunction extends IdScriptableObject implements Function
 
         int attr;
         switch (id) {
-          case Id_length:
-          case Id_arity:
-          case Id_name:
-            attr = DONTENUM | READONLY | PERMANENT;
-            break;
-          case Id_prototype:
+        case Id_length, Id_arity, Id_name -> attr = DONTENUM | READONLY | PERMANENT;
+        case Id_prototype -> {
             // some functions such as built-ins don't have a prototype property
             if (!hasPrototypeProperty()) {
                 return 0;
             }
             attr = prototypePropertyAttributes;
-            break;
-          case Id_arguments:
-            attr = argumentsAttributes;
-            break;
-          default: throw new IllegalStateException();
+        }
+        case Id_arguments -> attr = argumentsAttributes;
+        default -> throw new IllegalStateException();
         }
         return instanceIdInfo(attr, id);
     }
@@ -141,27 +151,27 @@ public class BaseFunction extends IdScriptableObject implements Function
     @Override
     protected String getInstanceIdName(int id)
     {
-        switch (id) {
-            case Id_length:       return "length";
-            case Id_arity:        return "arity";
-            case Id_name:         return "name";
-            case Id_prototype:    return "prototype";
-            case Id_arguments:    return "arguments";
-        }
-        return super.getInstanceIdName(id);
+        return switch (id) {
+            case Id_length -> "length";
+            case Id_arity -> "arity";
+            case Id_name -> "name";
+            case Id_prototype -> "prototype";
+            case Id_arguments -> "arguments";
+            default -> super.getInstanceIdName(id);
+        };
     }
 
     @Override
     protected Object getInstanceIdValue(int id)
     {
-        switch (id) {
-          case Id_length:    return ScriptRuntime.wrapInt(getLength());
-          case Id_arity:     return ScriptRuntime.wrapInt(getArity());
-          case Id_name:      return getFunctionName();
-          case Id_prototype: return getPrototypeProperty();
-          case Id_arguments: return getArguments();
-        }
-        return super.getInstanceIdValue(id);
+        return switch (id) {
+            case Id_length -> ScriptRuntime.wrapInt(getLength());
+            case Id_arity -> ScriptRuntime.wrapInt(getArity());
+            case Id_name -> getFunctionName();
+            case Id_prototype -> getPrototypeProperty();
+            case Id_arguments -> getArguments();
+            default -> super.getInstanceIdValue(id);
+        };
     }
 
     @Override
@@ -197,12 +207,14 @@ public class BaseFunction extends IdScriptableObject implements Function
     protected void setInstanceIdAttributes(int id, int attr)
     {
         switch (id) {
-            case Id_prototype:
-                prototypePropertyAttributes = attr;
-                return;
-            case Id_arguments:
-                argumentsAttributes = attr;
-                return;
+        case Id_prototype -> {
+            prototypePropertyAttributes = attr;
+            return;
+        }
+        case Id_arguments -> {
+            argumentsAttributes = attr;
+            return;
+        }
         }
         super.setInstanceIdAttributes(id, attr);
     }
@@ -223,13 +235,31 @@ public class BaseFunction extends IdScriptableObject implements Function
         String s;
         int arity;
         switch (id) {
-          case Id_constructor: arity=1; s="constructor"; break;
-          case Id_toString:    arity=0; s="toString";    break;
-          case Id_toSource:    arity=1; s="toSource";    break;
-          case Id_apply:       arity=2; s="apply";       break;
-          case Id_call:        arity=1; s="call";        break;
-          case Id_bind:        arity=1; s="bind";        break;
-          default: throw new IllegalArgumentException(String.valueOf(id));
+        case Id_constructor -> {
+            arity = 1;
+            s = "constructor";
+        }
+        case Id_toString -> {
+            arity = 0;
+            s = "toString";
+        }
+        case Id_toSource -> {
+            arity = 1;
+            s = "toSource";
+        }
+        case Id_apply -> {
+            arity = 2;
+            s = "apply";
+        }
+        case Id_call -> {
+            arity = 1;
+            s = "call";
+        }
+        case Id_bind -> {
+            arity = 1;
+            s = "bind";
+        }
+        default -> throw new IllegalArgumentException(String.valueOf(id));
         }
         initPrototypeMethod(FUNCTION_TAG, id, s, arity);
     }
@@ -288,11 +318,10 @@ public class BaseFunction extends IdScriptableObject implements Function
                                              cx, scope, thisObj, args);
 
           case Id_bind:
-            if ( !(thisObj instanceof Callable) ) {
+            if ( !(thisObj instanceof Callable targetFunction) ) {
               throw ScriptRuntime.notFunctionError(thisObj);
             }
-            Callable targetFunction = (Callable) thisObj;
-            int argc = args.length;
+	          int argc = args.length;
             final Scriptable boundThis;
             final Object[] boundArgs;
             if (argc > 0) {
@@ -566,17 +595,36 @@ public class BaseFunction extends IdScriptableObject implements Function
 // #string_id_map#
 // #generated# Last update: 2009-07-24 16:00:52 EST
         L0: { id = 0; String X = null; int c;
-            L: switch (s.length()) {
-            case 4: c=s.charAt(0);
-                if (c=='b') { X="bind";id=Id_bind; }
-                else if (c=='c') { X="call";id=Id_call; }
-                break L;
-            case 5: X="apply";id=Id_apply; break L;
-            case 8: c=s.charAt(3);
-                if (c=='o') { X="toSource";id=Id_toSource; }
-                else if (c=='t') { X="toString";id=Id_toString; }
-                break L;
-            case 11: X="constructor";id=Id_constructor; break L;
+            L:
+            switch (s.length()) {
+            case 4 -> {
+                c = s.charAt(0);
+                if (c == 'b') {
+                    X = "bind";
+                    id = Id_bind;
+                } else if (c == 'c') {
+                    X = "call";
+                    id = Id_call;
+                }
+            }
+            case 5 -> {
+                X = "apply";
+                id = Id_apply;
+            }
+            case 8 -> {
+                c = s.charAt(3);
+                if (c == 'o') {
+                    X = "toSource";
+                    id = Id_toSource;
+                } else if (c == 't') {
+                    X = "toString";
+                    id = Id_toString;
+                }
+            }
+            case 11 -> {
+                X = "constructor";
+                id = Id_constructor;
+            }
             }
             if (X!=null && X!=s && !X.equals(s)) id = 0;
             break L0;

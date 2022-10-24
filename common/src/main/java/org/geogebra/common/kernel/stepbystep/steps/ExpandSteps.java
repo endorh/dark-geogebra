@@ -101,8 +101,7 @@ enum ExpandSteps implements SimplificationStepGenerator {
 		@Override
 		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
 				RegroupTracker tracker) {
-			if (sn instanceof StepOperation && !sn.isOperation(Operation.ABS)) {
-				StepOperation so = (StepOperation) sn;
+			if (sn instanceof StepOperation so && !sn.isOperation(Operation.ABS)) {
 
 				if (so.isOperation(Operation.POWER) && so.getOperand(0).isSum()
 						&& so.getOperand(1).getValue() > 0 && so.getOperand(1).isInteger()) {

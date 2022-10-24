@@ -38,20 +38,15 @@ public class DirectedOrderedSparseMultigraph<V, E>
 	 *            the edge type for the graph factory
 	 */
 	public static <V, E> Factory<DirectedGraph<V, E>> getFactory() {
-		return new Factory<DirectedGraph<V, E>>() {
-			@Override
-			public DirectedGraph<V, E> create() {
-				return new DirectedOrderedSparseMultigraph<V, E>();
-			}
-		};
+		return DirectedOrderedSparseMultigraph::new;
 	}
 
 	/**
 	 * Creates a new instance.
 	 */
 	public DirectedOrderedSparseMultigraph() {
-		vertices = new LinkedHashMap<V, Pair<Set<E>>>();
-		edges = new LinkedHashMap<E, Pair<V>>();
+		vertices = new LinkedHashMap<>();
+		edges = new LinkedHashMap<>();
 	}
 
 	@Override
@@ -60,8 +55,8 @@ public class DirectedOrderedSparseMultigraph<V, E>
 			throw new IllegalArgumentException("vertex may not be null");
 		}
 		if (!containsVertex(vertex)) {
-			vertices.put(vertex, new Pair<Set<E>>(new LinkedHashSet<E>(),
-					new LinkedHashSet<E>()));
+			vertices.put(vertex, new Pair<>(new LinkedHashSet<>(),
+					new LinkedHashSet<>()));
 			return true;
 		}
 		return false;
@@ -72,7 +67,7 @@ public class DirectedOrderedSparseMultigraph<V, E>
 		if (!containsVertex(vertex)) {
 			return null;
 		}
-		Set<V> preds = new LinkedHashSet<V>();
+		Set<V> preds = new LinkedHashSet<>();
 		for (E edge : getIncoming_internal(vertex)) {
 			preds.add(this.getSource(edge));
 		}
@@ -85,7 +80,7 @@ public class DirectedOrderedSparseMultigraph<V, E>
 		if (!containsVertex(vertex)) {
 			return null;
 		}
-		Set<V> succs = new LinkedHashSet<V>();
+		Set<V> succs = new LinkedHashSet<>();
 		for (E edge : getOutgoing_internal(vertex)) {
 			succs.add(this.getDest(edge));
 		}
@@ -98,7 +93,7 @@ public class DirectedOrderedSparseMultigraph<V, E>
 		if (!containsVertex(vertex)) {
 			return null;
 		}
-		Collection<V> neighbors = new LinkedHashSet<V>();
+		Collection<V> neighbors = new LinkedHashSet<>();
 		for (E edge : getIncoming_internal(vertex)) {
 			neighbors.add(this.getSource(edge));
 		}
@@ -113,7 +108,7 @@ public class DirectedOrderedSparseMultigraph<V, E>
 		if (!containsVertex(vertex)) {
 			return null;
 		}
-		Collection<E> incident = new LinkedHashSet<E>();
+		Collection<E> incident = new LinkedHashSet<>();
 		incident.addAll(getIncoming_internal(vertex));
 		incident.addAll(getOutgoing_internal(vertex));
 		return incident;

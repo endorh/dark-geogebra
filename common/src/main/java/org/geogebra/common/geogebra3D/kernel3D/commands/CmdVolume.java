@@ -28,18 +28,15 @@ public class CmdVolume extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
+		case 1 -> {
 			arg = resArgs(c);
-
 			if (arg[0] instanceof HasVolume) {
-				return new GeoElement[] { kernel.getManager3D()
-						.volume(c.getLabel(), (HasVolume) arg[0]) };
+				return new GeoElement[]{kernel.getManager3D()
+						.volume(c.getLabel(), (HasVolume) arg[0])};
 			}
-
 			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 
 	}

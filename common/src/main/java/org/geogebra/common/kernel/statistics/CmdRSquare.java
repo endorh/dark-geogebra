@@ -42,20 +42,19 @@ public class CmdRSquare extends CommandProcessor {
 		GeoElement[] arg = resArgs(c);
 		boolean[] ok = new boolean[2];
 		switch (n) {
-		case 2:
+		case 2 -> {
 			if ((ok[0] = arg[0].isGeoList())
 					&& (ok[1] = arg[1].isRealValuedFunction())) {
 
 				AlgoRSquare algo = new AlgoRSquare(cons,
 						(GeoList) arg[0], (GeoFunctionable) arg[1]);
 				algo.getRSquare().setLabel(c.getLabel());
-				GeoElement[] ret = { algo.getRSquare() };
+				GeoElement[] ret = {algo.getRSquare()};
 				return ret;
 			}
 			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

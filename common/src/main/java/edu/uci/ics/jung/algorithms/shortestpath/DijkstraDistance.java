@@ -96,7 +96,7 @@ public class DijkstraDistance<V, E> implements Distance<V> {
 			Transformer<E, ? extends Number> nev, boolean cached) {
 		this.g = g;
 		this.nev = nev;
-		this.sourceMap = new HashMap<V, SourceData>();
+		this.sourceMap = new HashMap<>();
 		this.cached = cached;
 		this.max_distance = Double.POSITIVE_INFINITY;
 		this.max_targets = Integer.MAX_VALUE;
@@ -173,7 +173,7 @@ public class DijkstraDistance<V, E> implements Distance<V> {
 			Collection<V> targets, int numDests) {
 		SourceData sd = getSourceData(source);
 
-		Set<V> to_get = new HashSet<V>();
+		Set<V> to_get = new HashSet<>();
 		if (targets != null) {
 			to_get.addAll(targets);
 			Set<V> existing_dists = sd.distances.keySet();
@@ -226,8 +226,8 @@ public class DijkstraDistance<V, E> implements Distance<V> {
 						if (!sd.estimatedDistances.containsKey(w)) {
 							sd.createRecord(w, e, new_dist);
 						} else {
-							double w_dist = ((Double) sd.estimatedDistances
-									.get(w)).doubleValue();
+							double w_dist = (Double) sd.estimatedDistances
+									.get(w);
 							if (new_dist < w_dist) {
 								// & path for w
 								sd.update(w, e, new_dist);
@@ -282,7 +282,7 @@ public class DijkstraDistance<V, E> implements Distance<V> {
 					+ source + " is not part of graph " + g);
 		}
 
-		Set<V> targets = new HashSet<V>();
+		Set<V> targets = new HashSet<>();
 		targets.add(target);
 		Map<V, Number> distanceMap = getDistanceMap(source, targets);
 		return distanceMap.get(target);
@@ -458,7 +458,7 @@ public class DijkstraDistance<V, E> implements Distance<V> {
 	 * @see #reset(Object)
 	 */
 	public void reset() {
-		sourceMap = new HashMap<V, SourceData>();
+		sourceMap = new HashMap<>();
 	}
 
 	/**
@@ -519,17 +519,15 @@ public class DijkstraDistance<V, E> implements Distance<V> {
 		protected double dist_reached = 0;
 
 		protected SourceData(V source) {
-			distances = new LinkedHashMap<V, Number>();
-			estimatedDistances = new HashMap<V, Number>();
-			unknownVertices = new MapBinaryHeap<V>(
-					new VertexComparator<V>(estimatedDistances));
+			distances = new LinkedHashMap<>();
+			estimatedDistances = new HashMap<>();
+			unknownVertices = new MapBinaryHeap<>(
+					new VertexComparator<>(estimatedDistances));
 
 			sourceMap.put(source, this);
 
 			// initialize priority queue
-			estimatedDistances.put(source, new Double(0)); // distance from
-															// source to itself
-															// is 0
+			estimatedDistances.put(source, 0); // distance from source to itself is 0
 			unknownVertices.add(source);
 			reached_max = false;
 			dist_reached = 0;
@@ -539,7 +537,7 @@ public class DijkstraDistance<V, E> implements Distance<V> {
 			V v = unknownVertices.remove();
 			Double dist = (Double) estimatedDistances.remove(v);
 			distances.put(v, dist);
-			return new BasicMapEntry<V, Number>(v, dist);
+			return new BasicMapEntry<>(v, dist);
 		}
 
 		protected void update(V dest, E tentative_edge, double new_dist) {

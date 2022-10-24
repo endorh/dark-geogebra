@@ -400,9 +400,8 @@ public class Polynomial implements HasDebugString {
 	 * @return true iff contains var
 	 */
 	boolean contains(String var) {
-		Iterator<Term> i = terms.iterator();
-		while (i.hasNext()) {
-			if (i.next().contains(var)) {
+		for (Term term : terms) {
+			if (term.contains(var)) {
 				return true;
 			}
 		}
@@ -422,9 +421,8 @@ public class Polynomial implements HasDebugString {
 			return -1;
 		}
 
-		Iterator<Term> i = terms.iterator();
-		while (i.hasNext()) {
-			varLen = i.next().degree();
+		for (Term term : terms) {
+			varLen = term.degree();
 			if (varLen > deg) {
 				deg = varLen;
 			}
@@ -444,9 +442,7 @@ public class Polynomial implements HasDebugString {
 			return true;
 		}
 
-		Iterator<Term> i = terms.iterator();
-		while (i.hasNext()) {
-			Term t = i.next();
+		for (Term t : terms) {
 			if (t.degree(var) > 0) {
 				return false;
 			}
@@ -469,9 +465,7 @@ public class Polynomial implements HasDebugString {
 			return -1;
 		}
 
-		Iterator<Term> i = terms.iterator();
-		while (i.hasNext()) {
-			Term t = i.next();
+		for (Term t : terms) {
 			varLen = t.degree('x');
 			if (varLen > deg) {
 				deg = varLen;
@@ -506,8 +500,8 @@ public class Polynomial implements HasDebugString {
 		String termStr;
 		boolean first = true;
 
-		for (int i = 0; i < size; i++) {
-			termStr = terms.get(i).toString(tpl);
+		for (Term term : terms) {
+			termStr = term.toString(tpl);
 			if (termStr != null && termStr.length() > 0) {
 				if (first) {
 					sb.append(termStr);
@@ -553,9 +547,8 @@ public class Polynomial implements HasDebugString {
 
 	private HashSet<GeoElement> getVariables(SymbolicMode mode) {
 		HashSet<GeoElement> temp, vars = new HashSet<>();
-		Iterator<Term> i = terms.iterator();
-		while (i.hasNext()) {
-			temp = i.next().getCoefficient().getVariables(mode);
+		for (Term term : terms) {
+			temp = term.getCoefficient().getVariables(mode);
 			if (temp != null) {
 				vars.addAll(temp);
 			}
@@ -610,26 +603,19 @@ public class Polynomial implements HasDebugString {
 	Polynomial apply(Operation operation, Polynomial rt, Equation equ,
 			boolean keepFraction) {
 		switch (operation) {
-		case PLUS:
-			this.add(rt, equ, keepFraction);
-			break;
-		case MINUS:
-			this.sub(rt, equ, keepFraction);
-			break;
-		case MULTIPLY_OR_FUNCTION:
-		case MULTIPLY:
-			this.multiply(rt, equ, keepFraction);
-			break;
-		case DIVIDE:
-		case POWER:
+		case PLUS -> this.add(rt, equ, keepFraction);
+		case MINUS -> this.sub(rt, equ, keepFraction);
+		case MULTIPLY_OR_FUNCTION, MULTIPLY -> this.multiply(rt, equ, keepFraction);
+		case DIVIDE, POWER -> {
 			if (rt.degree() != 0) {
 				equ.setIsPolynomial(false);
 				return rt;
 			}
 			return apply(operation, rt.getConstantCoefficient(), equ,
 					keepFraction);
-		default:
-			break;
+		}
+		default -> {
+		}
 		}
 		return this;
 	}
@@ -650,17 +636,10 @@ public class Polynomial implements HasDebugString {
 	Polynomial apply(Operation operation, ExpressionValue rt, Equation equ,
 			boolean keepFraction) {
 		switch (operation) {
-		case PLUS:
-			this.add(rt, equ, keepFraction);
-			break;
-		case MINUS:
-			this.sub(rt, equ, keepFraction);
-			break;
-		case MULTIPLY_OR_FUNCTION:
-		case MULTIPLY:
-			this.multiply(rt, keepFraction);
-			break;
-		case POWER:
+		case PLUS -> this.add(rt, equ, keepFraction);
+		case MINUS -> this.sub(rt, equ, keepFraction);
+		case MULTIPLY_OR_FUNCTION, MULTIPLY -> this.multiply(rt, keepFraction);
+		case POWER -> {
 			double power = rt.evaluateDouble();
 			if (Inspecting.dynamicGeosFinder.check(rt)) {
 				if (!(rt.evaluate(
@@ -679,12 +658,10 @@ public class Polynomial implements HasDebugString {
 			} else {
 				this.power((int) power, equ, keepFraction);
 			}
-			break;
-		case DIVIDE:
-			this.divide(rt, keepFraction);
-			break;
-		default:
-			break;
+		}
+		case DIVIDE -> this.divide(rt, keepFraction);
+		default -> {
+		}
 		}
 		return this;
 	}
@@ -693,9 +670,9 @@ public class Polynomial implements HasDebugString {
 	public String getDebugString() {
 		StringBuilder sb = new StringBuilder();
 		ExpressionValue[][] coeff = getCoeff();
-		for (int i = 0; i < coeff.length; i++) {
-			for (int j = 0; j < coeff[i].length; j++) {
-				sb.append(ValidExpression.debugString(coeff[i][j]));
+		for (ExpressionValue[] expressionValues : coeff) {
+			for (ExpressionValue expressionValue : expressionValues) {
+				sb.append(ValidExpression.debugString(expressionValue));
 				sb.append('\n');
 			}
 		}

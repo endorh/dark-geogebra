@@ -180,7 +180,7 @@ public class Fraction
         double r0 = value;
         long a0 = (long)Math.floor(r0);
         if (Math.abs(a0) > overflow) {
-            throw new FractionConversionException(value, a0, 1l);
+            throw new FractionConversionException(value, a0, 1L);
         }
 
         // check for (almost) integer arguments, which should not go to iterations.
@@ -312,7 +312,7 @@ public class Fraction
     public int compareTo(Fraction object) {
         long nOd = ((long) numerator) * object.denominator;
         long dOn = ((long) denominator) * object.numerator;
-        return (nOd < dOn) ? -1 : ((nOd > dOn) ? +1 : 0);
+        return Long.compare(nOd, dOn);
     }
 
     /**
@@ -339,11 +339,10 @@ public class Fraction
         if (this == other) {
             return true;
         }
-        if (other instanceof Fraction) {
+        if (other instanceof Fraction rhs) {
             // since fractions are always in lowest terms, numerators and
             // denominators can be compared directly for equality.
-            Fraction rhs = (Fraction)other;
-            return (numerator == rhs.numerator) &&
+	        return (numerator == rhs.numerator) &&
                 (denominator == rhs.denominator);
         }
         return false;

@@ -341,22 +341,17 @@ public class CommandDispatcherGiac {
 			case hyperplan:
 
 				switch (args.getLength()) {
-				case 2:
-
+				case 2 -> {
 					ExpressionValue item0 = args.getItem(0).unwrap();
 					ExpressionValue item1 = args.getItem(1).unwrap();
-
-					if (!(item0 instanceof MyList)) {
+					if (!(item0 instanceof MyList list1)) {
 						Log.error("wrong class: " + item0.getClass());
 						return new ExpressionNode(kernel, Double.NaN);
 					}
-
-					MyList list1 = (MyList) item0;
 					double a = list1.getListElement(0).evaluateDouble();
 					double b = list1.getListElement(1).evaluateDouble();
 					double c = list1.getListElement(2).evaluateDouble();
 					double constant;
-
 					if (item1.isGeoElement()
 							&& ((GeoElement) item1).isGeoPoint()) {
 						// hyperplan({3,5,-1},point[0,0,-37/10])
@@ -367,9 +362,7 @@ public class CommandDispatcherGiac {
 						constant = a * coords.get(1) + b * coords.get(2)
 								+ c * coords.get(3);
 
-					} else if (item1 instanceof MyList) {
-
-						MyList list2 = (MyList) item1;
+					} else if (item1 instanceof MyList list2) {
 
 						double d = list2.getListElement(0).evaluateDouble();
 						double e = list2.getListElement(1).evaluateDouble();
@@ -389,27 +382,21 @@ public class CommandDispatcherGiac {
 						Log.error("wrong class: " + item0.getClass());
 						return new ExpressionNode(kernel, Double.NaN);
 					}
-
 					ExpressionNode expX = new ExpressionNode(kernel,
 							new FunctionVariable(kernel, "x")).multiply(a);
 					ExpressionNode expY = new ExpressionNode(kernel,
 							new FunctionVariable(kernel, "y")).multiply(b);
 					ExpressionNode expZ = new ExpressionNode(kernel,
 							new FunctionVariable(kernel, "z")).multiply(c);
-
 					ExpressionNode rhs = new ExpressionNode(kernel,
 							new MyDouble(kernel, constant));
-
 					ExpressionNode sum = expX.plus(expY).plus(expZ);
-
 					Equation eq = new Equation(kernel, sum, rhs);
-
 					return new ExpressionNode(kernel, eq);
-
-				default:
-					throw new CASException(
-							"Giac: bad number of args for hyperplan(): "
-									+ args.getLength());
+				}
+				default -> throw new CASException(
+						"Giac: bad number of args for hyperplan(): "
+								+ args.getLength());
 				}
 
 			case ggbvect:
@@ -417,23 +404,19 @@ public class CommandDispatcherGiac {
 				ValidExpression vec;
 
 				switch (args.getLength()) {
-				case 2:
-
+				case 2 -> {
 					vec = new MyVecNode(kernel, args.getItem(0),
 							args.getItem(1));
 					((MyVecNode) vec).setupCASVector();
-					break;
-				case 3:
+				}
+				case 3 -> {
 					vec = new MyVec3DNode(kernel, args.getItem(0),
 							args.getItem(1), args.getItem(2));
 					((MyVec3DNode) vec).setupCASVector();
-					break;
-
-				default:
-					throw new CASException(
-							"Giac: bad number of args for ggbvect(): "
-									+ args.getLength());
-
+				}
+				default -> throw new CASException(
+						"Giac: bad number of args for ggbvect(): "
+								+ args.getLength());
 				}
 
 				ret = new ExpressionNode(kernel, vec, Operation.NO_OPERATION,

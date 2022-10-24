@@ -53,20 +53,14 @@ public class LineStyleProperty extends AbstractEnumerableProperty
 
 	@Override
 	public int getIndex() {
-		switch (delegate.getElement().getLineType()) {
-			case EuclidianStyleConstants.LINE_TYPE_FULL:
-				return 0;
-			case EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED:
-				return 1;
-			case EuclidianStyleConstants.LINE_TYPE_DASHED_LONG:
-				return 2;
-			case EuclidianStyleConstants.LINE_TYPE_DOTTED:
-				return 3;
-			case EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT:
-				return 4;
-			default:
-				return 0;
-		}
+		return switch (delegate.getElement().getLineType()) {
+			case EuclidianStyleConstants.LINE_TYPE_FULL -> 0;
+			case EuclidianStyleConstants.LINE_TYPE_DASHED_DOTTED -> 1;
+			case EuclidianStyleConstants.LINE_TYPE_DASHED_LONG -> 2;
+			case EuclidianStyleConstants.LINE_TYPE_DOTTED -> 3;
+			case EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT -> 4;
+			default -> 0;
+		};
 	}
 
 	@Override

@@ -636,13 +636,7 @@ public abstract class CopyPasteCut {
 	 */
 	public static Comparator<Record> getComparator() {
 		if (comparator == null) {
-			comparator = new Comparator<Record>() {
-				@Override
-				public int compare(Record a, Record b) {
-					return a.id - b.id;
-				}
-
-			};
+			comparator = Comparator.comparingInt(a -> a.id);
 
 		}
 

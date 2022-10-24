@@ -68,9 +68,9 @@ public abstract class AbstractRandomGenerator implements RandomGenerator {
     /** {@inheritDoc} */
     public void setSeed(int[] seed) {
         // the following number is the largest prime that fits in 32 bits (it is 2^32 - 5)
-        final long prime = 4294967291l;
+        final long prime = 4294967291L;
 
-        long combined = 0l;
+        long combined = 0L;
         for (int s : seed) {
             combined = combined * prime + s;
         }

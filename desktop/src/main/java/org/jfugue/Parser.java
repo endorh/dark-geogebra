@@ -89,8 +89,8 @@ public class Parser {
 	protected void trace(Object... sentenceFragments) {
 		if (TRACING_ON == getTracing()) {
 			StringBuilder buddy = new StringBuilder();
-			for (int i = 0; i < sentenceFragments.length; i++) {
-				buddy.append(sentenceFragments[i]);
+			for (Object sentenceFragment : sentenceFragments) {
+				buddy.append(sentenceFragment);
 			}
 
 			System.out.println(buddy.toString());
@@ -129,9 +129,9 @@ public class Parser {
 		EventListener[] l = progressListenerList
 				.getListeners(ParserProgressListener.class);
 		int numListeners = l.length;
-		for (int i = 0; i < numListeners; i++) {
+		for (EventListener eventListener : l) {
 			progressListenerList.remove(ParserProgressListener.class,
-					(ParserProgressListener) l[i]);
+					(ParserProgressListener) eventListener);
 		}
 	}
 
@@ -180,8 +180,8 @@ public class Parser {
 	protected void clearParserListeners() {
 		EventListener[] l = listenerList.getListeners(ParserListener.class);
 		int numListeners = l.length;
-		for (int i = 0; i < numListeners; i++) {
-			listenerList.remove(ParserListener.class, (ParserListener) l[i]);
+		for (EventListener eventListener : l) {
+			listenerList.remove(ParserListener.class, (ParserListener) eventListener);
 		}
 	}
 

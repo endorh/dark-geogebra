@@ -106,18 +106,18 @@ public class ImporterTopLevel extends TopLevel {
         synchronized (importedPackages) {
             elements = importedPackages.toArray();
         }
-        for (int i=0; i < elements.length; i++) {
-            NativeJavaPackage p = (NativeJavaPackage) elements[i];
-            Object v = p.getPkgProperty(name, start, false);
-            if (v != null && !(v instanceof NativeJavaPackage)) {
-                if (result == NOT_FOUND) {
-                    result = v;
-                } else {
-                    throw Context.reportRuntimeError2(
-                        "msg.ambig.import", result.toString(), v.toString());
-                }
-            }
-        }
+	    for (Object element : elements) {
+		    NativeJavaPackage p = (NativeJavaPackage) element;
+		    Object v = p.getPkgProperty(name, start, false);
+		    if (v != null && !(v instanceof NativeJavaPackage)) {
+			    if (result == NOT_FOUND) {
+				    result = v;
+			    } else {
+				    throw Context.reportRuntimeError2(
+						    "msg.ambig.import", result.toString(), v.toString());
+			    }
+		    }
+	    }
         return result;
     }
 
@@ -214,10 +214,19 @@ public class ImporterTopLevel extends TopLevel {
         String s;
         int arity;
         switch (id) {
-          case Id_constructor:   arity=0; s="constructor";   break;
-          case Id_importClass:   arity=1; s="importClass";   break;
-          case Id_importPackage: arity=1; s="importPackage"; break;
-          default: throw new IllegalArgumentException(String.valueOf(id));
+        case Id_constructor -> {
+            arity = 0;
+            s = "constructor";
+        }
+        case Id_importClass -> {
+            arity = 1;
+            s = "importClass";
+        }
+        case Id_importPackage -> {
+            arity = 1;
+            s = "importPackage";
+        }
+        default -> throw new IllegalArgumentException(String.valueOf(id));
         }
         initPrototypeMethod(IMPORTER_TAG, id, s, arity);
     }

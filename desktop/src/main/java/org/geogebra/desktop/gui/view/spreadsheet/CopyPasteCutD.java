@@ -171,17 +171,13 @@ public class CopyPasteCutD extends CopyPasteCut {
 
 		try {
 			InputStream is = url.openStream();
-			BufferedReader input = new BufferedReader(
-					new InputStreamReader(is, Charsets.getUtf8()));
-			try {
+			try (BufferedReader input = new BufferedReader(
+					new InputStreamReader(is, Charsets.getUtf8()))) {
 				String line = null;
 				while ((line = input.readLine()) != null) {
 					contents.append(line);
 					contents.append(System.getProperty("line.separator"));
 				}
-			} finally {
-				input.close();
-
 			}
 		} catch (IOException ex) {
 			ex.printStackTrace();

@@ -61,22 +61,15 @@ public class StepGuiBuilderGGB implements StepGuiBuilder {
 		if (description.length() > 0) {
 
 			switch (step.getType()) {
-			default:
-				Log.error("omitting " + description);
-				break;
-			case EQUATION:
-			case SOLUTION:
-			case SOLUTIONS:
-
+			default -> Log.error("omitting " + description);
+			case EQUATION, SOLUTION, SOLUTIONS -> {
 				Log.error(description);
 
 				// remove color
 				description = description.replaceAll(
 						"\\\\fgcolor\\{#......\\}\\{(.*?)\\}",
 						"\\{$1\\}");
-
 				Log.error(description);
-
 				if (!removeBraces(description).equals(lastDescrip)) {
 					sb2.append("{\"");
 					sb2.append(description);
@@ -85,9 +78,8 @@ public class StepGuiBuilderGGB implements StepGuiBuilder {
 				} else {
 					Log.debug("duplicate row " + description);
 				}
-
 				lastDescrip = removeBraces(description);
-
+			}
 			}
 		}
 

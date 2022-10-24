@@ -230,7 +230,7 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 		}
 
 		else if (source == btnBold || source == btnItalic) {
-			Integer fontStyle = CellFormat.STYLE_PLAIN;
+			int fontStyle = CellFormat.STYLE_PLAIN;
 			if (btnBold.isSelected()) {
 				fontStyle += CellFormat.STYLE_BOLD;
 			}
@@ -254,11 +254,9 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 			);
 
 			// set color for the actual geos
-			for (int i = 0; i < selectedCells.size(); i++) {
-				CellRange cr = selectedCells.get(i);
+			for (CellRange cr : selectedCells) {
 				ArrayList<GeoElement> ar = cr.toGeoList();
-				for (int j = 0; j < ar.size(); j++) {
-					GeoElement geo = ar.get(j);
+				for (GeoElement geo : ar) {
 					if (bgCol == null) {
 						geo.setBackgroundColor(null);
 					} else {

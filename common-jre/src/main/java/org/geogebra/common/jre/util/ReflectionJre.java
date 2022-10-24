@@ -40,9 +40,9 @@ public class ReflectionJre implements Reflection {
 	}
 
 	private Method findMethod(String methodName) throws Exception {
-		for (int i = 0; i < methods.length; i++) {
-			if (methods[i].getName().equals(methodName)) {
-				return methods[i];
+		for (Method method : methods) {
+			if (method.getName().equals(methodName)) {
+				return method;
 			}
 		}
 		throw new NoSuchMethodException(methodName);

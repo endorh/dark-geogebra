@@ -18,8 +18,6 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
@@ -184,8 +182,7 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 
 		// preferred font not found, check for any that contain "braille"
 		for (Font f : fonts) {
-			if (StringUtil.toLowerCaseUS(f.getFontName())
-					.indexOf("braille") > -1) {
+			if (StringUtil.toLowerCaseUS(f.getFontName()).contains("braille")) {
 				Log.debug("found Braille font: " + f.getFontName());
 				brailleFont = f;
 				braille = true;
@@ -252,12 +249,7 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 		EuclidianView ev = (EuclidianView) getEuclidianView();
 
 		psp = new PrintScalePanel(app, ev);
-		psp.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				updateSizeLabel();
-			}
-		});
+		psp.addActionListener(e -> updateSizeLabel());
 		p.add(psp);
 
 		// dpi combo box
@@ -297,94 +289,66 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 		}
 
 		p.add(dpiPanel);
-		cbDPI.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent ae) {
-				updateSizeLabel();
-			}
-		});
+		cbDPI.addActionListener(ae -> updateSizeLabel());
 
-		cbTransparent.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				transparent = cbTransparent.isSelected();
-			}
-		});
+		cbTransparent.addActionListener(arg0 -> transparent = cbTransparent.isSelected());
 
-		cbBraille.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				braille = cbBraille.isSelected();
-			}
-		});
+		cbBraille.addActionListener(arg0 -> braille = cbBraille.isSelected());
 
-		cbEMFPlus.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				EMFPlus = cbEMFPlus.isSelected();
-			}
-		});
+		cbEMFPlus.addActionListener(arg0 -> EMFPlus = cbEMFPlus.isSelected());
 
-		textAsShapesCB.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				textAsShapes = textAsShapesCB.isSelected();
-			}
-		});
+		textAsShapesCB.addActionListener(arg0 -> textAsShapes = textAsShapesCB.isSelected());
 
-		cbFormat.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				textAsShapesCB.setEnabled(true);
-				switch (selectedFormat()) {
-				case SVG:
-					dpiPanel.remove(resolutionInDPILabel);
-					dpiPanel.remove(cbDPI);
-					dpiPanel.remove(cbEMFPlus);
-					dpiPanel.add(cbTransparent);
-					dpiPanel.add(textAsShapesCB);
-					psp.enableAbsoluteSize(true);
-					break;
-				case EPS:
-					textAsShapesCB.setEnabled(false);
-					//$FALL-THROUGH$
-				case PDF:
-					dpiPanel.remove(resolutionInDPILabel);
-					dpiPanel.remove(cbDPI);
-					dpiPanel.remove(cbEMFPlus);
-					dpiPanel.remove(cbTransparent);
-					dpiPanel.remove(cbBraille);
-					dpiPanel.add(textAsShapesCB);
-					textAsShapesCB.setSelected(true);
-					psp.enableAbsoluteSize(false);
-					break;
-				case EMF:
-					dpiPanel.add(cbEMFPlus);
-					dpiPanel.remove(resolutionInDPILabel);
-					dpiPanel.remove(cbDPI);
-					dpiPanel.remove(cbTransparent);
-					dpiPanel.remove(textAsShapesCB);
-					dpiPanel.remove(cbBraille);
-					psp.enableAbsoluteSize(false);
-					break;
-				default: // PNG
-					dpiPanel.add(resolutionInDPILabel);
-					dpiPanel.add(cbDPI);
-					dpiPanel.remove(cbEMFPlus);
-					dpiPanel.add(cbTransparent);
-					if (braille) {
-						// GGB-766
-						dpiPanel.add(cbBraille);
-					}
-					dpiPanel.remove(textAsShapesCB);
-					cbDPI.setSelectedItem("300");
-					cbDPI.setEnabled(true);
-					psp.enableAbsoluteSize(true);
-					break;
+		cbFormat.addActionListener(arg0 -> {
+			textAsShapesCB.setEnabled(true);
+			switch (selectedFormat()) {
+			case SVG:
+				dpiPanel.remove(resolutionInDPILabel);
+				dpiPanel.remove(cbDPI);
+				dpiPanel.remove(cbEMFPlus);
+				dpiPanel.add(cbTransparent);
+				dpiPanel.add(textAsShapesCB);
+				psp.enableAbsoluteSize(true);
+				break;
+			case EPS:
+				textAsShapesCB.setEnabled(false);
+				//$FALL-THROUGH$
+			case PDF:
+				dpiPanel.remove(resolutionInDPILabel);
+				dpiPanel.remove(cbDPI);
+				dpiPanel.remove(cbEMFPlus);
+				dpiPanel.remove(cbTransparent);
+				dpiPanel.remove(cbBraille);
+				dpiPanel.add(textAsShapesCB);
+				textAsShapesCB.setSelected(true);
+				psp.enableAbsoluteSize(false);
+				break;
+			case EMF:
+				dpiPanel.add(cbEMFPlus);
+				dpiPanel.remove(resolutionInDPILabel);
+				dpiPanel.remove(cbDPI);
+				dpiPanel.remove(cbTransparent);
+				dpiPanel.remove(textAsShapesCB);
+				dpiPanel.remove(cbBraille);
+				psp.enableAbsoluteSize(false);
+				break;
+			default: // PNG
+				dpiPanel.add(resolutionInDPILabel);
+				dpiPanel.add(cbDPI);
+				dpiPanel.remove(cbEMFPlus);
+				dpiPanel.add(cbTransparent);
+				if (braille) {
+					// GGB-766
+					dpiPanel.add(cbBraille);
 				}
-				updateSizeLabel();
-				SwingUtilities.updateComponentTreeUI(p);
+				dpiPanel.remove(textAsShapesCB);
+				cbDPI.setSelectedItem("300");
+				cbDPI.setEnabled(true);
+				psp.enableAbsoluteSize(true);
+				break;
 			}
+			updateSizeLabel();
+			SwingUtilities.updateComponentTreeUI(p);
 		});
 
 		// width and height of picture
@@ -397,42 +361,25 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 
 		// Cancel and Export Button
 		cancelButton = new JButton(loc.getMenu("Cancel"));
-		cancelButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				setVisible(false);
-			}
-		});
+		cancelButton.addActionListener(e -> setVisible(false));
 		JButton exportButton = new JButton(loc.getMenu("Save"));
-		exportButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Thread runner = new Thread() {
-					@Override
-					public void run() {
-						setVisible(false);
+		exportButton.addActionListener(e -> {
+			Thread runner = new Thread(() -> {
+				setVisible(false);
 
-						doExport(false);
-					}
-				};
-				runner.start();
-			}
+				doExport(false);
+			});
+			runner.start();
 		});
 
 		JButton exportClipboardButton = new JButton(loc.getMenu("Clipboard"));
-		exportClipboardButton.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				Thread runner = new Thread() {
-					@Override
-					public void run() {
-						setVisible(false);
+		exportClipboardButton.addActionListener(e -> {
+			Thread runner = new Thread(() -> {
+				setVisible(false);
 
-						doExport(true);
-					}
-				};
-				runner.start();
-			}
+				doExport(true);
+			});
+			runner.start();
 		});
 
 		JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
@@ -473,8 +420,7 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 	void doExport(boolean toClipboard) {
 		Format index = selectedFormat();
 		switch (index) {
-		case PNG:
-
+		case PNG -> {
 			FontManagerD fm = app.getFontManager();
 			int fontSize = fm.getFontSize();
 			File pngDestination = toClipboard ? getTmpPNG()
@@ -499,24 +445,15 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 					getEuclidianView().updateFonts();
 				}
 			}
-			break;
-
-		case EPS: // EPS
-			exportEPS(toClipboard);
-			break;
-
-		case EMF: // EMF
-			exportEMF(toClipboard, EMFPlus);
-			break;
-
-		case PDF: // PDF
-			exportPDF(toClipboard);
-			break;
-
-		case SVG: // SVG
-			exportSVG(toClipboard);
-			break;
-
+		}
+		case EPS -> // EPS
+				exportEPS(toClipboard);
+		case EMF -> // EMF
+				exportEMF(toClipboard, EMFPlus);
+		case PDF -> // PDF
+				exportPDF(toClipboard);
+		case SVG -> // SVG
+				exportSVG(toClipboard);
 		}
 	}
 
@@ -585,17 +522,11 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 				cbDPI.getSelectedItem().toString());
 
 		// format
-		String format;
-		switch (selectedFormat()) {
-		case EPS:
-			format = "eps";
-			break;
-		case SVG:
-			format = "svg";
-			break;
-		default:
-			format = "png";
-		}
+		String format = switch (selectedFormat()) {
+			case EPS -> "eps";
+			case SVG -> "svg";
+			default -> "png";
+		};
 		GeoGebraPreferencesD.getPref()
 				.savePreference(GeoGebraPreferencesD.EXPORT_PIC_FORMAT, format);
 
@@ -617,15 +548,14 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 
 		StringBuilder sb = new StringBuilder();
 		switch (psp.getMode()) {
-		case SIZEINPX:
+		case SIZEINPX -> {
 			pixelWidth = psp.getPixelWidth();
 			pixelHeight = psp.getPixelHeight();
 			cmWidth = (pixelWidth * 2.54) / getDPI();
 			cmHeight = (pixelHeight * 2.54) / getDPI();
 			exportScale = pixelWidth / ((double) ev.getExportWidth());
-			break;
-
-		case FIXED_SIZE:
+		}
+		case FIXED_SIZE -> {
 
 			// what the user typed in the "100 screen pixels = x cm" textfield
 			double screenPixels = DoubleUtil.checkDecimalFraction(
@@ -639,15 +569,11 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 			// eg
 			// https://help.geogebra.org/topic/picture-export-adds-huge-margin-when-axes-ratio-not-1-1
 			cmHeight = ev.getExportHeight() / 100.0 * screenPixels;
-
 			pixelWidth = (int) (cmWidth / 2.54 * getDPI());
 			pixelHeight = (int) (cmHeight / 2.54 * getDPI());
-
 			exportScale = pixelWidth / ((double) ev.getExportWidth());
-
-			break;
-
-		case SIZEINCM:
+		}
+		case SIZEINCM -> {
 			exportScale = (printingScale * getDPI()) / 2.54 / ev.getXscale();
 			// cm size
 			cmWidth = printingScale * (ev.getExportWidth() / ev.getXscale());
@@ -659,10 +585,9 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 			// https://help.geogebra.org/topic/picture-export-adds-huge-margin-when-axes-ratio-not-1-1
 			cmHeight = printingScale * (ev.getExportHeight() / ev.getYscale())
 					* ev.getYscale() / ev.getXscale();
-
 			pixelWidth = (int) Math.floor(ev.getExportWidth() * exportScale);
 			pixelHeight = (int) Math.floor(ev.getExportHeight() * exportScale);
-			break;
+		}
 		}
 
 		sb.append(sizeLabelFormat.format(cmWidth));
@@ -769,11 +694,7 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 			}
 
 			return true;
-		} catch (Exception ex) {
-			app.showError(Errors.SaveFileFailed);
-			Log.debug(ex.toString());
-			return false;
-		} catch (Error ex) {
+		} catch (Exception | Error ex) {
 			app.showError(Errors.SaveFileFailed);
 			Log.debug(ex.toString());
 			return false;
@@ -809,12 +730,7 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 			}
 
 			return true;
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			app.showError(Errors.SaveFileFailed);
-
-			return false;
-		} catch (Error ex) {
+		} catch (Exception | Error ex) {
 			ex.printStackTrace();
 			app.showError(Errors.SaveFileFailed);
 
@@ -901,11 +817,7 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 					exportToClipboard, exportType);
 
 			return true;
-		} catch (Exception ex) {
-			app.showError(Errors.SaveFileFailed);
-			Log.debug(ex.toString());
-			return false;
-		} catch (Error ex) {
+		} catch (Exception | Error ex) {
 			app.showError(Errors.SaveFileFailed);
 			Log.debug(ex.toString());
 			return false;

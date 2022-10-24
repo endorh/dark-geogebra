@@ -32,12 +32,11 @@ public class CmdSetVisibleInView extends CmdScripting {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
-		case 3:
+		case 3 -> {
 			GeoElement[] arg = resArgs(c);
 			if (!(arg[1] instanceof NumberValue)) {
 				throw argErr(c, arg[1]);
 			}
-
 			if (arg[2].isGeoBoolean()) {
 
 				GeoElement geo = arg[0];
@@ -96,9 +95,8 @@ public class CmdSetVisibleInView extends CmdScripting {
 				return arg;
 			}
 			throw argErr(c, arg[2]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

@@ -84,39 +84,38 @@ public class GGraphics2DD implements GGraphics2D {
 
 	private static Key getAwtHintKey(int key) {
 
-		switch (key) {
-		case com.himamis.retex.renderer.share.platform.graphics.RenderingHints.KEY_ANTIALIASING:
-			return RenderingHints.KEY_ANTIALIASING;
-		case com.himamis.retex.renderer.share.platform.graphics.RenderingHints.KEY_RENDERING:
-			return RenderingHints.KEY_RENDERING;
-		case com.himamis.retex.renderer.share.platform.graphics.RenderingHints.KEY_TEXT_ANTIALIASING:
-			return RenderingHints.KEY_TEXT_ANTIALIASING;
-		case com.himamis.retex.renderer.share.platform.graphics.RenderingHints.KEY_INTERPOLATION:
-			return RenderingHints.KEY_INTERPOLATION;
-		}
+		return switch (key) {
+			case com.himamis.retex.renderer.share.platform.graphics.RenderingHints.KEY_ANTIALIASING ->
+					RenderingHints.KEY_ANTIALIASING;
+			case com.himamis.retex.renderer.share.platform.graphics.RenderingHints.KEY_RENDERING ->
+					RenderingHints.KEY_RENDERING;
+			case com.himamis.retex.renderer.share.platform.graphics.RenderingHints.KEY_TEXT_ANTIALIASING ->
+					RenderingHints.KEY_TEXT_ANTIALIASING;
+			case com.himamis.retex.renderer.share.platform.graphics.RenderingHints.KEY_INTERPOLATION ->
+					RenderingHints.KEY_INTERPOLATION;
+			default -> null;
+		};
 
-		return null;
 	}
 
 	private static Object getAwtHintValue(int value) {
 
-		switch (value) {
-		case com.himamis.retex.renderer.share.platform.graphics.RenderingHints.VALUE_ANTIALIAS_ON:
-			return RenderingHints.VALUE_ANTIALIAS_ON;
-		case com.himamis.retex.renderer.share.platform.graphics.RenderingHints.VALUE_RENDER_QUALITY:
-			return RenderingHints.VALUE_RENDER_QUALITY;
-		case com.himamis.retex.renderer.share.platform.graphics.RenderingHints.VALUE_TEXT_ANTIALIAS_ON:
-			return RenderingHints.VALUE_TEXT_ANTIALIAS_ON;
-		case com.himamis.retex.renderer.share.platform.graphics.RenderingHints.VALUE_INTERPOLATION_BILINEAR:
-			return RenderingHints.VALUE_INTERPOLATION_BILINEAR;
-		case com.himamis.retex.renderer.share.platform.graphics.RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR:
-			return RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
-		case com.himamis.retex.renderer.share.platform.graphics.RenderingHints.VALUE_INTERPOLATION_BICUBIC:
-			return RenderingHints.VALUE_INTERPOLATION_BICUBIC;
+		return switch (value) {
+			case com.himamis.retex.renderer.share.platform.graphics.RenderingHints.VALUE_ANTIALIAS_ON ->
+					RenderingHints.VALUE_ANTIALIAS_ON;
+			case com.himamis.retex.renderer.share.platform.graphics.RenderingHints.VALUE_RENDER_QUALITY ->
+					RenderingHints.VALUE_RENDER_QUALITY;
+			case com.himamis.retex.renderer.share.platform.graphics.RenderingHints.VALUE_TEXT_ANTIALIAS_ON ->
+					RenderingHints.VALUE_TEXT_ANTIALIAS_ON;
+			case com.himamis.retex.renderer.share.platform.graphics.RenderingHints.VALUE_INTERPOLATION_BILINEAR ->
+					RenderingHints.VALUE_INTERPOLATION_BILINEAR;
+			case com.himamis.retex.renderer.share.platform.graphics.RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR ->
+					RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR;
+			case com.himamis.retex.renderer.share.platform.graphics.RenderingHints.VALUE_INTERPOLATION_BICUBIC ->
+					RenderingHints.VALUE_INTERPOLATION_BICUBIC;
+			default -> null;
+		};
 
-		}
-
-		return null;
 	}
 
 	@Override

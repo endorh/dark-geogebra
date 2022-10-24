@@ -79,31 +79,21 @@ public final class ArrayOptions {
 
 		@Override
 		public String toString() {
-			String a = "";
-			switch (alignment) {
-			case LEFT:
-				a = "left";
-				break;
-			case RIGHT:
-				a = "right";
-				break;
-			case CENTER:
-				a = "center";
-				break;
-			case NONE:
-				a = "none";
-				break;
-			case INVALID:
-				a = "first";
-				break;
-			}
+			StringBuilder a = new StringBuilder(switch (alignment) {
+				case LEFT -> "left";
+				case RIGHT -> "right";
+				case CENTER -> "center";
+				case NONE -> "none";
+				case INVALID -> "first";
+				default -> "";
+			});
 
-			a += ":";
+			a.append(":");
 			for (Atom separator : separators) {
-				a += separator.toString();
+				a.append(separator.toString());
 			}
 
-			return a;
+			return a.toString();
 		}
 	}
 
@@ -111,11 +101,11 @@ public final class ArrayOptions {
 	private final static ArrayOptions empty = new ArrayOptions(0);
 
 	public ArrayOptions() {
-		options = new ArrayList<Option>();
+		options = new ArrayList<>();
 	}
 
 	public ArrayOptions(final int size) {
-		options = new ArrayList<Option>(size);
+		options = new ArrayList<>(size);
 	}
 
 	public static ArrayOptions getEmpty() {
@@ -206,14 +196,14 @@ public final class ArrayOptions {
 
 	@Override
 	public String toString() {
-		String s = "";
+		StringBuilder s = new StringBuilder();
 		boolean first = true;
 		for (Option o : options) {
 			if (first) {
-				s = o.toString();
+				s = new StringBuilder(o.toString());
 				first = false;
 			} else {
-				s += ", " + o.toString();
+				s.append(", ").append(o.toString());
 			}
 		}
 		return s + " size:" + options.size();

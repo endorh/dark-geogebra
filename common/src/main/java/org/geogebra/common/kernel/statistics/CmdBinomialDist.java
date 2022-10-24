@@ -31,8 +31,7 @@ public class CmdBinomialDist extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-
-		case 2:
+		case 2 -> {
 			arg = resArgs(c);
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
@@ -41,7 +40,7 @@ public class CmdBinomialDist extends CommandProcessor {
 						cons, c.getLabel(), (GeoNumberValue) arg[0],
 						(GeoNumberValue) arg[1]);
 
-				GeoElement[] ret = { algo.getSum() };
+				GeoElement[] ret = {algo.getSum()};
 				return ret;
 
 			} else if (!ok[0]) {
@@ -49,8 +48,8 @@ public class CmdBinomialDist extends CommandProcessor {
 			} else {
 				throw argErr(c, arg[1]);
 			}
-
-		case 3:
+		}
+		case 3 -> {
 			arg = resArgs(c);
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
@@ -59,7 +58,7 @@ public class CmdBinomialDist extends CommandProcessor {
 						cons, c.getLabel(), (GeoNumberValue) arg[0],
 						(GeoNumberValue) arg[1], (GeoBoolean) arg[2]);
 
-				GeoElement[] ret = { algo.getSum() };
+				GeoElement[] ret = {algo.getSum()};
 				return ret;
 
 			} else if ((ok[0] = arg[0] instanceof GeoNumberValue)
@@ -69,7 +68,7 @@ public class CmdBinomialDist extends CommandProcessor {
 						c.getLabel(), (GeoNumberValue) arg[0],
 						(GeoNumberValue) arg[1], (GeoList) arg[2]);
 
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 				return ret;
 
 			} else if (!ok[0]) {
@@ -79,8 +78,8 @@ public class CmdBinomialDist extends CommandProcessor {
 			} else {
 				throw argErr(c, arg[2]);
 			}
-
-		case 4:
+		}
+		case 4 -> {
 			arg = resArgs(c);
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
@@ -91,7 +90,7 @@ public class CmdBinomialDist extends CommandProcessor {
 						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
 						(GeoNumberValue) arg[2], (GeoBoolean) arg[3]);
 
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 				return ret;
 
 			} else if (!ok[0]) {
@@ -103,9 +102,8 @@ public class CmdBinomialDist extends CommandProcessor {
 			} else {
 				throw argErr(c, arg[3]);
 			}
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

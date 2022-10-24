@@ -137,18 +137,17 @@ public class RowHeaderListener extends MouseAdapter
 		boolean undoNeeded = false;
 
 		switch (e.getKeyCode()) {
-		default:
-			// do nothing
-			break;
-		case KeyEvent.VK_DELETE:
-		case KeyEvent.VK_BACK_SPACE:
+		default -> {
+		}
+		// do nothing
+		case KeyEvent.VK_DELETE, KeyEvent.VK_BACK_SPACE -> {
 			int[] selRows = rowHeader.getSelectedIndices();
 			undoNeeded = table.getCASView().deleteCasCells(selRows);
 			if (selRows != null && selRows.length > 0) {
 				int row = selRows[0];
 				rowHeader.setSelectedIndex(row);
 			}
-			break;
+		}
 		}
 
 		if (undoNeeded) {

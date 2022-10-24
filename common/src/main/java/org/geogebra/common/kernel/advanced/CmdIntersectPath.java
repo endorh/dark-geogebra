@@ -39,7 +39,7 @@ public class CmdIntersectPath extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2:
+		case 2 -> {
 			arg = resArgs(c);
 
 			// Line - Polygon(as region) in 2D
@@ -114,11 +114,9 @@ public class CmdIntersectPath extends CommandProcessor {
 						true);
 				return ret;
 			}
-
 			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

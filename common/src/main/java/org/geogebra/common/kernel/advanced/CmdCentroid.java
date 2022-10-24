@@ -29,7 +29,7 @@ public class CmdCentroid extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
+		case 1 -> {
 			arg = resArgs(c);
 			ok[0] = arg[0].isGeoPolygon();
 			if (ok[0]) {
@@ -37,13 +37,12 @@ public class CmdCentroid extends CommandProcessor {
 				AlgoCentroidPolygon algo = new AlgoCentroidPolygon(cons,
 						c.getLabel(), (GeoPolygon) arg[0]);
 
-				GeoElement[] ret = { (GeoElement) algo.getPoint() };
+				GeoElement[] ret = {(GeoElement) algo.getPoint()};
 				return ret;
 			}
 			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

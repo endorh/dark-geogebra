@@ -3,8 +3,6 @@ package org.geogebra.common.main;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.Command;
-import org.geogebra.common.kernel.arithmetic.ExpressionValue;
-import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -257,15 +255,12 @@ public class ScreenReader {
 			public String mathExpression(String serialize) {
 				try {
 					ValidExpression expr = parser.parseGeoGebraCAS(serialize, null);
-					expr.inspect(new Inspecting() {
-						@Override
-						public boolean check(ExpressionValue v) {
-							if (v instanceof Command) {
-								((Command) v).setAllowEvaluationForTypeCheck(false);
-							}
-
-							return false;
+					expr.inspect(v -> {
+						if (v instanceof Command) {
+							((Command) v).setAllowEvaluationForTypeCheck(false);
 						}
+
+						return false;
 					});
 					return expr.toString(StringTemplate.screenReader);
 				} catch (org.geogebra.common.kernel.parser.ParseException | Error e) {

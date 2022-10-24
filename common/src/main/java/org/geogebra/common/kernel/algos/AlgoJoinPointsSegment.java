@@ -156,8 +156,8 @@ public class AlgoJoinPointsSegment extends AlgoElement
 			return;
 		}
 
-		for (int i = 0; i < input.length; i++) {
-			input[i].removeAlgorithm(this);
+		for (GeoElement geoElement : input) {
+			geoElement.removeAlgorithm(this);
 		}
 
 		P = (GeoPoint) A;

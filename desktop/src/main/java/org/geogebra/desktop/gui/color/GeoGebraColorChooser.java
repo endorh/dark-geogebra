@@ -88,8 +88,7 @@ public class GeoGebraColorChooser extends JColorChooser {
 		UIManager.put("ColorChooser.resetText", loc.getMenu("Reset"));
 
 		AbstractColorChooserPanel[] panels = getChooserPanels();
-		for (int i = 0; i < panels.length; i++) {
-			AbstractColorChooserPanel panel = panels[i];
+		for (AbstractColorChooserPanel panel : panels) {
 			if (panel instanceof GeoGebraColorChooserPanel) {
 				((GeoGebraColorChooserPanel) panel).setLabels();
 			}
@@ -98,8 +97,7 @@ public class GeoGebraColorChooser extends JColorChooser {
 
 	public void updateFonts() {
 		AbstractColorChooserPanel[] panels = getChooserPanels();
-		for (int i = 0; i < panels.length; i++) {
-			AbstractColorChooserPanel panel = panels[i];
+		for (AbstractColorChooserPanel panel : panels) {
 			if (panel instanceof GeoGebraColorChooserPanel) {
 				((GeoGebraColorChooserPanel) panel).updateFonts();
 			}

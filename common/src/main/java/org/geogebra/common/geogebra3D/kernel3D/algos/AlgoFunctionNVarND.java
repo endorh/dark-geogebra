@@ -149,8 +149,8 @@ public class AlgoFunctionNVarND extends AlgoElement3D {
 		int index = 0;
 
 		if (coords != null) {
-			for (int i = 0; i < coords.length; i++) {
-				inputElements[index] = (GeoElement) coords[i];
+			for (GeoNumberValue coord : coords) {
+				inputElements[index] = (GeoElement) coord;
 				index++;
 			}
 		} else {

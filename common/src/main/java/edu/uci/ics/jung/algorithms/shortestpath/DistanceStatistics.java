@@ -65,9 +65,9 @@ public class DistanceStatistics {
 	 */
 	public static <V, E> Transformer<V, Double> averageDistances(
 			Hypergraph<V, E> graph, Distance<V> d) {
-		final ClosenessCentrality<V, E> cc = new ClosenessCentrality<V, E>(
+		final ClosenessCentrality<V, E> cc = new ClosenessCentrality<>(
 				graph, d);
-		return new VertexScoreTransformer<V, Double>(cc);
+		return new VertexScoreTransformer<>(cc);
 	}
 
 	/**
@@ -80,9 +80,9 @@ public class DistanceStatistics {
 	 */
 	public static <V, E> Transformer<V, Double> averageDistances(
 			Hypergraph<V, E> g) {
-		final ClosenessCentrality<V, E> cc = new ClosenessCentrality<V, E>(g,
-				new UnweightedShortestPath<V, E>(g));
-		return new VertexScoreTransformer<V, Double>(cc);
+		final ClosenessCentrality<V, E> cc = new ClosenessCentrality<>(g,
+				new UnweightedShortestPath<>(g));
+		return new VertexScoreTransformer<>(cc);
 	}
 
 	/**
@@ -139,7 +139,7 @@ public class DistanceStatistics {
 	 * @see #diameter(Hypergraph, Distance, boolean)
 	 */
 	public static <V, E> double diameter(Hypergraph<V, E> g) {
-		return diameter(g, new UnweightedShortestPath<V, E>(g));
+		return diameter(g, new UnweightedShortestPath<>(g));
 	}
 
 }

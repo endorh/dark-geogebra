@@ -31,7 +31,7 @@ public class CmdIncircle extends CommandProcessor {
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 		switch (n) {
-		case 3:
+		case 3 -> {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
@@ -43,13 +43,12 @@ public class CmdIncircle extends CommandProcessor {
 				circle.setToSpecific();
 				circle.setLabel(c.getLabel());
 
-				GeoElement[] ret = { circle };
+				GeoElement[] ret = {circle};
 				return ret;
 			}
 			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 } // CmdIncircle

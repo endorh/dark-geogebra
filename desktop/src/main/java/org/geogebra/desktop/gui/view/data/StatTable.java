@@ -151,8 +151,8 @@ public class StatTable extends JScrollPane {
 			this.setColumnHeaderView(null);
 		} else {
 			tableModel.setColumnCount(0);
-			for (int i = 0; i < columnNames.length; i++) {
-				tableModel.addColumn(columnNames[i]);
+			for (String columnName : columnNames) {
+				tableModel.addColumn(columnName);
 			}
 		}
 
@@ -535,7 +535,7 @@ public class StatTable extends JScrollPane {
 		int row, column;
 
 		public MyComboBoxEditor(String[] items) {
-			super(new JComboBox(items));
+			super(new JComboBox<>(items));
 			comboBox = (JComboBox) editorComponent;
 			comboBox.addItemListener(this);
 		}

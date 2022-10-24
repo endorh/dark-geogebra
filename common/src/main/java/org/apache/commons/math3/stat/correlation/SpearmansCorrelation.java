@@ -174,7 +174,7 @@ public class SpearmansCorrelation {
             double[] y = yArray;
             if (rankingAlgorithm instanceof NaturalRanking &&
                 NaNStrategy.REMOVED == ((NaturalRanking) rankingAlgorithm).getNanStrategy()) {
-                final Set<Integer> nanPositions = new HashSet<Integer>();
+                final Set<Integer> nanPositions = new HashSet<>();
 
                 nanPositions.addAll(getNaNPositions(xArray));
                 nanPositions.addAll(getNaNPositions(yArray));
@@ -198,7 +198,7 @@ public class SpearmansCorrelation {
 
         if (rankingAlgorithm instanceof NaturalRanking &&
                 ((NaturalRanking) rankingAlgorithm).getNanStrategy() == NaNStrategy.REMOVED) {
-            final Set<Integer> nanPositions = new HashSet<Integer>();
+            final Set<Integer> nanPositions = new HashSet<>();
             for (int i = 0; i < matrix.getColumnDimension(); i++) {
                 nanPositions.addAll(getNaNPositions(matrix.getColumn(i)));
             }
@@ -231,7 +231,7 @@ public class SpearmansCorrelation {
      * @return a list of NaN positions in the input array
      */
     private List<Integer> getNaNPositions(final double[] input) {
-        final List<Integer> positions = new ArrayList<Integer>();
+        final List<Integer> positions = new ArrayList<>();
         for (int i = 0; i < input.length; i++) {
             if (Double.isNaN(input[i])) {
                 positions.add(i);

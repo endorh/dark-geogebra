@@ -44,7 +44,6 @@ import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.net.URI;
-import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -213,8 +212,8 @@ public class PatternSVG extends FillElement {
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
-		for (Iterator it = children.iterator(); it.hasNext();) {
-			SVGElement ele = (SVGElement) it.next();
+		for (Object child : children) {
+			SVGElement ele = (SVGElement) child;
 			if (ele instanceof RenderableElement) {
 				AffineTransform xform = new AffineTransform();
 

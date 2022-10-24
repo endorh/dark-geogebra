@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel.prover;
 
 import java.math.BigInteger;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -86,9 +85,7 @@ public abstract class AbstractProverReciosMethod {
 		} else {
 			List<GeoElement> freePoints = ProverBotanasMethod
 					.getFreePoints(statement);
-			Iterator<GeoElement> it = freePoints.iterator();
-			while (it.hasNext()) {
-				GeoElement geo = it.next();
+			for (GeoElement geo : freePoints) {
 				PVariable[] vars;
 				try {
 					vars = ((SymbolicParametersBotanaAlgo) geo)
@@ -119,31 +116,28 @@ public abstract class AbstractProverReciosMethod {
 		Iterator<PVariable> it = variables.iterator();
 		HashMap<PVariable, BigInteger> values = new HashMap<>();
 		TreeSet<PVariable> fixedVariables = new TreeSet<>(
-				new Comparator<PVariable>() {
-					@Override
-					public int compare(PVariable v1, PVariable v2) {
-						String nameV1, nameV2;
-						if (v1.getParent() == null
-								|| (nameV1 = v1.getParent().getLabel(
-										StringTemplate.defaultTemplate)) == null) {
-							if (v2.getParent() == null
-									|| v1.getParent().getLabel(
-											StringTemplate.defaultTemplate) == null) {
-								return v1.compareTo(v2);
-							}
-							return -1;
-						}
+				(v1, v2) -> {
+					String nameV1, nameV2;
+					if (v1.getParent() == null
+							|| (nameV1 = v1.getParent().getLabel(
+							StringTemplate.defaultTemplate)) == null) {
 						if (v2.getParent() == null
-								|| (nameV2 = v2.getParent().getLabel(
-										StringTemplate.defaultTemplate)) == null) {
-							return 1;
-						}
-						int compareNames = nameV1.compareTo(nameV2);
-						if (compareNames == 0) {
+								|| v1.getParent().getLabel(
+								StringTemplate.defaultTemplate) == null) {
 							return v1.compareTo(v2);
 						}
-						return compareNames;
+						return -1;
 					}
+					if (v2.getParent() == null
+							|| (nameV2 = v2.getParent().getLabel(
+							StringTemplate.defaultTemplate)) == null) {
+						return 1;
+					}
+					int compareNames = nameV1.compareTo(nameV2);
+					if (compareNames == 0) {
+						return v1.compareTo(v2);
+					}
+					return compareNames;
 				});
 		HashSet<PVariable> freeVariables = new HashSet<>();
 		while (it.hasNext()) {
@@ -208,16 +202,12 @@ public abstract class AbstractProverReciosMethod {
 			deg = Math.max(deg, i);
 		}
 
-		switch (nrFreeVariables) {
-		case 0:
-			return compute0d(values, s, as);
-		case 1:
-			return compute1d(freeVariables, values, deg, s, as);
-		case 2:
-			return compute2d(freeVariables, values, deg, s, as);
-		default:
-			return computeNd(freeVariables, values, deg, s, as);
-		}
+		return switch (nrFreeVariables) {
+			case 0 -> compute0d(values, s, as);
+			case 1 -> compute1d(freeVariables, values, deg, s, as);
+			case 2 -> compute2d(freeVariables, values, deg, s, as);
+			default -> computeNd(freeVariables, values, deg, s, as);
+		};
 
 	}
 
@@ -234,7 +224,7 @@ public abstract class AbstractProverReciosMethod {
 			ProverSettings proverSettings = ProverSettings.get();
 			ExtendedBoolean solvable = PPolynomial.solvable(
 					as.getPolynomials().toArray(
-							new PPolynomial[as.getPolynomials().size()]),
+							new PPolynomial[0]),
 					substitutions, as.geoStatement.getKernel(),
 					proverSettings.transcext, as.freeVariables);
 			Log.debug("Recio meets Botana:" + substitutions);
@@ -273,7 +263,7 @@ public abstract class AbstractProverReciosMethod {
 				ProverSettings proverSettings = ProverSettings.get();
 				ExtendedBoolean solvable = PPolynomial.solvable(
 						as.getPolynomials().toArray(
-								new PPolynomial[as.getPolynomials().size()]),
+								new PPolynomial[0]),
 						substitutions, as.geoStatement.getKernel(),
 						proverSettings.transcext, as.freeVariables);
 				Log.debug("Recio meets Botana: #" + i + " " + substitutions);
@@ -313,8 +303,8 @@ public abstract class AbstractProverReciosMethod {
 			for (int j = 1; j <= i; j++) {
 				caseno++;
 				values.put(variables[0],
-						BigInteger.valueOf((deg + 2 - i) * (deg + 2 - j)));
-				values.put(variables[1], BigInteger.valueOf(i * j));
+						BigInteger.valueOf((long) (deg + 2 - i) * (deg + 2 - j)));
+				values.put(variables[1], BigInteger.valueOf((long) i * j));
 
 				if (as != null) {
 					// use Botana's method
@@ -327,8 +317,7 @@ public abstract class AbstractProverReciosMethod {
 					}
 					ExtendedBoolean solvable = PPolynomial.solvable(
 							as.getPolynomials()
-									.toArray(new PPolynomial[as.getPolynomials()
-											.size()]),
+									.toArray(new PPolynomial[0]),
 							substitutions, as.geoStatement.getKernel(),
 							ProverSettings.get().transcext, as.freeVariables);
 					Log.debug("Recio meets Botana: #" + caseno + " "

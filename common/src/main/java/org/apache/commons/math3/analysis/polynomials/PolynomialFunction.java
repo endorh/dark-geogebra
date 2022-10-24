@@ -376,11 +376,10 @@ public class PolynomialFunction implements UnivariateDifferentiableFunction, Dif
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof PolynomialFunction)) {
+        if (!(obj instanceof PolynomialFunction other)) {
             return false;
         }
-        PolynomialFunction other = (PolynomialFunction) obj;
-        if (!Arrays.equals(coefficients, other.coefficients)) {
+	    if (!Arrays.equals(coefficients, other.coefficients)) {
             return false;
         }
         return true;

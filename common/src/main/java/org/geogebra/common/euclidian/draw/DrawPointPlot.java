@@ -120,8 +120,7 @@ public class DrawPointPlot extends Drawable {
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
 
-		for (int i = 0; i < drawPoints.size(); i++) {
-			Drawable d = drawPoints.get(i);
+		for (Drawable d : drawPoints) {
 			if (d.intersectsRectangle(rect)) {
 				return true;
 			}
@@ -133,8 +132,7 @@ public class DrawPointPlot extends Drawable {
 	public boolean isInside(GRectangle rect) {
 
 		int size = drawPoints.size();
-		for (int i = 0; i < size; i++) {
-			Drawable d = drawPoints.get(i);
+		for (Drawable d : drawPoints) {
 			if (!d.isInside(rect)) {
 				return false;
 			}

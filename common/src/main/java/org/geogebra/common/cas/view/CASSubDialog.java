@@ -2,7 +2,6 @@ package org.geogebra.common.cas.view;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Vector;
 
 import org.geogebra.common.kernel.StringTemplate;
@@ -136,10 +135,9 @@ public abstract class CASSubDialog {
 
 		Vector<String> row;
 		data = new Vector<>(vars.size() + 1);
-		Iterator<GeoElement> iter = vars.iterator();
-		while (iter.hasNext()) {
+		for (GeoElement geoElement : vars) {
 			row = new Vector<>(2);
-			GeoElement var = iter.next();
+			GeoElement var = geoElement;
 			String nextVar = var.getLabel(StringTemplate.defaultTemplate);
 			int i = 0;
 			for (i = 0; i < data.size(); i++) {
@@ -153,11 +151,11 @@ public abstract class CASSubDialog {
 				boolean added = false;
 				if (substList != null && !substList.isEmpty()) {
 					// search for nextVar in subst list
-					for (int k = 0; k < substList.size(); k++) {
+					for (Vector<String> strings : substList) {
 						// case we found it
-						if (substList.get(k).get(0).equals(nextVar)) {
+						if (strings.get(0).equals(nextVar)) {
 							// add to substitution data
-							row.add(substList.get(k).get(1));
+							row.add(strings.get(1));
 							added = true;
 							break;
 						}
@@ -200,9 +198,9 @@ public abstract class CASSubDialog {
 		StringBuilder substList = new StringBuilder("{");
 		StringBuilder substComment = new StringBuilder();
 
-		for (int i = 0; i < data.size(); i++) {
-			String fromExpr = data.get(i).get(0).trim();
-			String toExpr = data.get(i).get(1).trim();
+		for (Vector<String> datum : data) {
+			String fromExpr = datum.get(0).trim();
+			String toExpr = datum.get(1).trim();
 			if (!"".equals(fromExpr) && !"".equals(toExpr)) {
 				if (substList.length() > 1) {
 					substList.append(',');

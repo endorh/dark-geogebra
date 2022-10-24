@@ -259,29 +259,21 @@ public class ConstructionDefaults3D extends ConstructionDefaults {
 			return getDefaultType(geo, GeoClass.POLYGON);
 
 		case POLYHEDRON:
-			switch (((GeoPolyhedron) geo).getPolyhedronType()) {
-			case GeoPolyhedron.TYPE_PYRAMID:
-			case GeoPolyhedron.TYPE_TETRAHEDRON:
-				return DEFAULT_PYRAMID_AND_CONE;
-			case GeoPolyhedron.TYPE_PRISM:
-			case GeoPolyhedron.TYPE_CUBE:
-				return DEFAULT_PRISM_AND_CYLINDER;
-			case GeoPolyhedron.TYPE_OCTAHEDRON:
-			case GeoPolyhedron.TYPE_DODECAHEDRON:
-			case GeoPolyhedron.TYPE_ICOSAHEDRON:
-				return DEFAULT_ARCHIMDEAN_SOLID;
-			default:
-				return DEFAULT_POLYHEDRON;
-			}
+			return switch (((GeoPolyhedron) geo).getPolyhedronType()) {
+				case GeoPolyhedron.TYPE_PYRAMID, GeoPolyhedron.TYPE_TETRAHEDRON ->
+						DEFAULT_PYRAMID_AND_CONE;
+				case GeoPolyhedron.TYPE_PRISM, GeoPolyhedron.TYPE_CUBE ->
+						DEFAULT_PRISM_AND_CYLINDER;
+				case GeoPolyhedron.TYPE_OCTAHEDRON, GeoPolyhedron.TYPE_DODECAHEDRON, GeoPolyhedron.TYPE_ICOSAHEDRON ->
+						DEFAULT_ARCHIMDEAN_SOLID;
+				default -> DEFAULT_POLYHEDRON;
+			};
 		case QUADRIC_LIMITED:
-			switch (((GeoQuadricND) geo).getType()) {
-			case GeoQuadricNDConstants.QUADRIC_CONE:
-				return DEFAULT_PYRAMID_AND_CONE;
-			case GeoQuadricNDConstants.QUADRIC_CYLINDER:
-				return DEFAULT_PRISM_AND_CYLINDER;
-			default:
-				return DEFAULT_POLYHEDRON;
-			}
+			return switch (((GeoQuadricND) geo).getType()) {
+				case GeoQuadricNDConstants.QUADRIC_CONE -> DEFAULT_PYRAMID_AND_CONE;
+				case GeoQuadricNDConstants.QUADRIC_CYLINDER -> DEFAULT_PRISM_AND_CYLINDER;
+				default -> DEFAULT_POLYHEDRON;
+			};
 		case NET:
 			return DEFAULT_NET;
 

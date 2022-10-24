@@ -207,9 +207,7 @@ public class DependentBooleanAdapter extends ProverAdapter {
 			if (!setOfGeoNumLabels.isEmpty()) {
 				substNeeded = true;
 			}
-			Iterator<String> it = setOfGeoNumLabels.iterator();
-			while (it.hasNext()) {
-				String varStr = it.next();
+			for (String varStr : setOfGeoNumLabels) {
 				// get GeoNumeric from construction with given label
 				GeoNumeric geo = (GeoNumeric) cons.geoTableVarLookup(varStr);
 				// get substitute formula of GeoNumeric
@@ -373,9 +371,7 @@ public class DependentBooleanAdapter extends ProverAdapter {
 			Set<String> setOfGeoNumLabels = new TreeSet<>();
 			rootCopy.traverse(
 					GeoNumericLabelCollector.getCollector(setOfGeoNumLabels));
-			Iterator<String> it = setOfGeoNumLabels.iterator();
-			while (it.hasNext()) {
-				String varStr = it.next();
+			for (String varStr : setOfGeoNumLabels) {
 				// get GeoNumeric from construction with given label
 				GeoNumeric geo = (GeoNumeric) cons.geoTableVarLookup(varStr);
 				// get substitute formula of GeoNumeric
@@ -442,9 +438,7 @@ public class DependentBooleanAdapter extends ProverAdapter {
 			Set<String> setOfGeoNumLabels = new TreeSet<>();
 			rootCopy.traverse(
 					GeoNumericLabelCollector.getCollector(setOfGeoNumLabels));
-			Iterator<String> it = setOfGeoNumLabels.iterator();
-			while (it.hasNext()) {
-				String varStr = it.next();
+			for (String varStr : setOfGeoNumLabels) {
 				// get GeoNumeric from construction with given label
 				GeoNumeric geo = (GeoNumeric) cons.geoTableVarLookup(varStr);
 				// get substitute formula of GeoNumeric
@@ -478,7 +472,7 @@ public class DependentBooleanAdapter extends ProverAdapter {
 				labelsStr.append(",");
 				labelsStr.append(labels[i]);
 			}
-			strForGiac.append("," + labels[i] + "=" + botanaVars[i]);
+			strForGiac.append(",").append(labels[i]).append("=").append(botanaVars[i]);
 		}
 		strForGiac.append("],[");
 		strForGiac.append(labelsStr);
@@ -503,9 +497,9 @@ public class DependentBooleanAdapter extends ProverAdapter {
 	// get Variable with given name
 	private PVariable getVariable(String varStr) {
 		if (botanaVars != null) {
-			for (int i = 0; i < botanaVars.length; i++) {
-				if (varStr.equals(botanaVars[i].getName())) {
-					return botanaVars[i];
+			for (PVariable botanaVar : botanaVars) {
+				if (varStr.equals(botanaVar.getName())) {
+					return botanaVar;
 				}
 			}
 		}
@@ -541,26 +535,14 @@ public class DependentBooleanAdapter extends ProverAdapter {
 				&& expNode.getRight() instanceof MyDouble) {
 			double d1 = expNode.getLeft().evaluateDouble();
 			double d2 = expNode.getRight().evaluateDouble();
-			Double d;
-			switch (expNode.getOperation()) {
-			case PLUS:
-				d = d1 + d2;
-				break;
-			case MINUS:
-				d = d1 - d2;
-				break;
-			case MULTIPLY:
-				d = d1 * d2;
-				break;
-			case POWER:
-				d = Math.pow(d1, d2);
-				break;
-			case DIVIDE:
-				d = (double) 1;
-				break;
-			default:
-				throw new NoSymbolicParametersException();
-			}
+			double d = switch (expNode.getOperation()) {
+				case PLUS -> d1 + d2;
+				case MINUS -> d1 - d2;
+				case MULTIPLY -> d1 * d2;
+				case POWER -> Math.pow(d1, d2);
+				case DIVIDE -> (double) 1;
+				default -> throw new NoSymbolicParametersException();
+			};
 			BigInteger i;
 			// if in the expression exists rational number with n decimals
 			// (if there's more than one rational number, then n is the max of
@@ -592,7 +574,7 @@ public class DependentBooleanAdapter extends ProverAdapter {
 											StringTemplate.defaultTemplate))));
 				}
 				if (expNode.getLeft() instanceof MySpecialDouble) {
-					Double d = expNode.getLeft().evaluateDouble();
+					double d = expNode.getLeft().evaluateDouble();
 					int i;
 					// if in the expression exists rational number with n
 					// decimals
@@ -602,7 +584,7 @@ public class DependentBooleanAdapter extends ProverAdapter {
 					if (nrOfMaxDecimals != 0) {
 						i = (int) (d * Math.pow(10, nrOfMaxDecimals));
 					} else {
-						i = d.intValue();
+						i = (int) d;
 					}
 					polyNode.getLeft().setPoly(new PPolynomial(i));
 				}
@@ -631,18 +613,13 @@ public class DependentBooleanAdapter extends ProverAdapter {
 					// numbers
 					if (polyNode.getLeft().getPoly() != null
 							&& polyNode.getLeft().getPoly().isConstant()) {
-						switch (polyNode.getOperation()) {
-						case MULTIPLY:
-							i = polyNode.getLeft().getPoly().getConstant()
+						i = switch (polyNode.getOperation()) {
+							case MULTIPLY -> polyNode.getLeft().getPoly().getConstant()
 									.multiply(new BigInteger(
 											Long.toString((long) d)));
-							break;
-						case DIVIDE:
-							i = BigInteger.ONE;
-							break;
-						default:
-							throw new NoSymbolicParametersException();
-						}
+							case DIVIDE -> BigInteger.ONE;
+							default -> throw new NoSymbolicParametersException();
+						};
 						polyNode.setPoly(new PPolynomial(i));
 						return;
 					}
@@ -684,16 +661,10 @@ public class DependentBooleanAdapter extends ProverAdapter {
 			PPolynomial leftPoly = polyNode.getLeft().getPoly();
 			PPolynomial rightPoly = polyNode.getRight().getPoly();
 			switch (polyNode.getOperation()) {
-			case PLUS:
-				polyNode.setPoly(leftPoly.add(rightPoly));
-				break;
-			case MINUS:
-				polyNode.setPoly(leftPoly.subtract(rightPoly));
-				break;
-			case MULTIPLY:
-				polyNode.setPoly(leftPoly.multiply(rightPoly));
-				break;
-			case POWER:
+			case PLUS -> polyNode.setPoly(leftPoly.add(rightPoly));
+			case MINUS -> polyNode.setPoly(leftPoly.subtract(rightPoly));
+			case MULTIPLY -> polyNode.setPoly(leftPoly.multiply(rightPoly));
+			case POWER -> {
 				/* It must fit in Long. If not, it will take forever. */
 				Long pow = polyNode.getRight().evaluateLong();
 				if (pow != null) {
@@ -703,9 +674,8 @@ public class DependentBooleanAdapter extends ProverAdapter {
 					}
 					polyNode.setPoly(poly);
 				}
-				break;
-			default:
-				throw new NoSymbolicParametersException();
+			}
+			default -> throw new NoSymbolicParametersException();
 			}
 		}
 		if (expNode.getLeft().isExpressionNode()
@@ -720,20 +690,17 @@ public class DependentBooleanAdapter extends ProverAdapter {
 		}
 		if (expNode.getLeft() instanceof MyDouble
 				&& polyNode.getLeft().getPoly() == null) {
-			BigInteger coeff = new BigDecimal(
-					expNode.getLeft().evaluateDouble()).toBigInteger();
+			BigInteger coeff = BigDecimal.valueOf(expNode.getLeft().evaluateDouble()).toBigInteger();
 			polyNode.getLeft().setPoly(new PPolynomial(coeff));
 		}
 		if (expNode.getRight() instanceof MyDouble
 				&& polyNode.getRight().getPoly() == null) {
-			BigInteger coeff = new BigDecimal(
-					expNode.getRight().evaluateDouble()).toBigInteger();
+			BigInteger coeff = BigDecimal.valueOf(expNode.getRight().evaluateDouble()).toBigInteger();
 			polyNode.getRight().setPoly(new PPolynomial(coeff));
 		}
 		if (expNode.getLeft() instanceof MyDouble
 				&& expNode.getRight() instanceof GeoDummyVariable) {
-			BigInteger coeff = new BigDecimal(
-					expNode.getLeft().evaluateDouble()).toBigInteger();
+			BigInteger coeff = BigDecimal.valueOf(expNode.getLeft().evaluateDouble()).toBigInteger();
 			PVariable v = getVariable(expNode.getRight()
 					.toString(StringTemplate.defaultTemplate));
 			if (v != null) {

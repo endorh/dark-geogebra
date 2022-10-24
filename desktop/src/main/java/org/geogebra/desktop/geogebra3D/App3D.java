@@ -245,9 +245,7 @@ public class App3D extends AppD {
 						// failed to unset on top
 					}
 					Desktop.getDesktop().browse(new URI(URL));
-				} catch (IOException e1) {
-					// not working
-				} catch (URISyntaxException e1) {
+				} catch (IOException | URISyntaxException e1) {
 					// not working
 				}
 			}

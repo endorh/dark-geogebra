@@ -261,28 +261,13 @@ public class XMLBuilder {
 			int toStringMode, String parameter) {
 		// implicit or specific mode
 		switch (toStringMode) {
-		case GeoConicND.EQUATION_SPECIFIC:
-			XMLBuilder.appendType(sb, "specific");
-			break;
-
-		case GeoConicND.EQUATION_EXPLICIT:
-			XMLBuilder.appendType(sb, "explicit");
-			break;
-		case GeoConicND.EQUATION_USER:
-			XMLBuilder.appendType(sb, "user");
-			break;
-		case GeoConicND.EQUATION_VERTEX:
-			XMLBuilder.appendType(sb, "vertex");
-			break;
-		case GeoConicND.EQUATION_CONICFORM:
-			XMLBuilder.appendType(sb, "conic");
-			break;
-		case GeoConicND.EQUATION_PARAMETRIC:
-			sb.append("\t<eqnStyle style=\"parametric\"/>\n");
-			break;
-
-		default:
-			XMLBuilder.appendType(sb, "implicit");
+		case GeoConicND.EQUATION_SPECIFIC -> XMLBuilder.appendType(sb, "specific");
+		case GeoConicND.EQUATION_EXPLICIT -> XMLBuilder.appendType(sb, "explicit");
+		case GeoConicND.EQUATION_USER -> XMLBuilder.appendType(sb, "user");
+		case GeoConicND.EQUATION_VERTEX -> XMLBuilder.appendType(sb, "vertex");
+		case GeoConicND.EQUATION_CONICFORM -> XMLBuilder.appendType(sb, "conic");
+		case GeoConicND.EQUATION_PARAMETRIC -> sb.append("\t<eqnStyle style=\"parametric\"/>\n");
+		default -> XMLBuilder.appendType(sb, "implicit");
 		}
 	}
 

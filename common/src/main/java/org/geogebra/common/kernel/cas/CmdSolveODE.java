@@ -36,28 +36,30 @@ public class CmdSolveODE extends CommandProcessor implements UsesCAS {
 		arg = resArgs(c);
 
 		switch (n) {
-		case 1:
+		case 1 -> {
 			if (arg[0] instanceof CasEvaluableFunction) {
 
 				AlgoSolveODECas algo = new AlgoSolveODECas(cons, c.getLabel(),
 						(CasEvaluableFunction) arg[0], info);
 
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 				return ret;
 			}
 			throw argErr(c, arg[0]);
-		case 2:
+		}
+		case 2 -> {
 			if ((ok[0] = arg[0] instanceof CasEvaluableFunction)
 					&& (ok[1] = arg[1] instanceof GeoPointND)) {
 
 				AlgoSolveODECas algo = new AlgoSolveODECas(cons, c.getLabel(),
 						(CasEvaluableFunction) arg[0], (GeoPointND) arg[1]);
 
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 				return ret;
 			}
 			throw argErr(c, getBadArg(ok, arg));
-		case 5:
+		}
+		case 5 -> {
 			if ((ok[0] = arg[0] instanceof FunctionalNVar)
 					&& (ok[1] = arg[1].isGeoNumeric())
 					&& (ok[2] = arg[2].isGeoNumeric())
@@ -66,26 +68,27 @@ public class CmdSolveODE extends CommandProcessor implements UsesCAS {
 				GeoElement[] ret = {
 						solveODE(c.getLabel(), (FunctionalNVar) arg[0], null,
 								(GeoNumeric) arg[1], (GeoNumeric) arg[2],
-								(GeoNumeric) arg[3], (GeoNumeric) arg[4]) };
+								(GeoNumeric) arg[3], (GeoNumeric) arg[4])};
 				return ret;
 			}
 			throw argErr(c, getBadArg(ok, arg));
-		case 6:
+		}
+		case 6 -> {
 			if ((ok[0] = arg[0] instanceof FunctionalNVar)
 					&& (ok[1] = arg[1] instanceof FunctionalNVar)
 					&& (ok[2] = arg[2].isGeoNumeric())
 					&& (ok[3] = arg[3].isGeoNumeric())
 					&& (ok[4] = arg[4].isGeoNumeric())
 					&& (ok[5] = arg[5].isGeoNumeric())) {
-				GeoElement[] ret = { solveODE(c.getLabel(),
+				GeoElement[] ret = {solveODE(c.getLabel(),
 						(FunctionalNVar) arg[0], (FunctionalNVar) arg[1],
 						(GeoNumeric) arg[2], (GeoNumeric) arg[3],
-						(GeoNumeric) arg[4], (GeoNumeric) arg[5]) };
+						(GeoNumeric) arg[4], (GeoNumeric) arg[5])};
 				return ret;
 			}
 			throw argErr(c, getBadArg(ok, arg));
-
-		case 8: // second order ODE
+		}
+		case 8 -> { // second order ODE
 			if ((ok[0] = arg[0].isRealValuedFunction())
 					&& (ok[1] = arg[1].isRealValuedFunction())
 					&& (ok[2] = arg[2].isRealValuedFunction())
@@ -101,14 +104,14 @@ public class CmdSolveODE extends CommandProcessor implements UsesCAS {
 						(GeoNumeric) arg[4], (GeoNumeric) arg[5],
 						(GeoNumeric) arg[6], (GeoNumeric) arg[7]);
 
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 				return ret;
 			}
 			throw argErr(c, getBadArg(ok, arg));
+		}
 
-			// more than one argument
-		default:
-			throw argNumErr(c);
+		// more than one argument
+		default -> throw argNumErr(c);
 		}
 	}
 

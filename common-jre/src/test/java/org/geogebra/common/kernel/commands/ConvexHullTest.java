@@ -48,7 +48,7 @@ public final class ConvexHullTest {
 
 	@Test
 	public void testOne() {
-		List<Point2D> points = Arrays.asList(new Point2D(3, 1));
+		List<Point2D> points = List.of(new Point2D(3, 1));
 		List<Point2D> actual = ConvexHull.makeHull(points);
 		List<Point2D> expect = points;
 		assertEquals(expect, actual);
@@ -59,7 +59,7 @@ public final class ConvexHullTest {
 		List<Point2D> points = Arrays.asList(new Point2D(0, 0),
 				new Point2D(0, 0));
 		List<Point2D> actual = ConvexHull.makeHull(points);
-		List<Point2D> expect = Arrays.asList(new Point2D(0, 0));
+		List<Point2D> expect = List.of(new Point2D(0, 0));
 		assertEquals(expect, actual);
 	}
 
@@ -261,7 +261,7 @@ public final class ConvexHullTest {
 	private static boolean isPolygonConvex(List<Point2D> points) {
 		int signum = 0;
 		for (int i = 0; i + 2 < points.size(); i++) {
-			Point2D p = points.get(i + 0);
+			Point2D p = points.get(i);
 			Point2D q = points.get(i + 1);
 			Point2D r = points.get(i + 2);
 			int sign = signum(

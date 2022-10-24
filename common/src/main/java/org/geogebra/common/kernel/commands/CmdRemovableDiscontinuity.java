@@ -21,15 +21,15 @@ public class CmdRemovableDiscontinuity extends CommandProcessor implements UsesC
 	final public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		switch (n) {
-		case 1:
+		case 1 -> {
 			GeoElement[] arg = resArgs(c);
 			GeoElement element = arg[0];
 			if (element.isGeoFunction()) {
 				return removableDiscontinuity((GeoFunction) element, c);
 			}
 			throw argErr(c, element);
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

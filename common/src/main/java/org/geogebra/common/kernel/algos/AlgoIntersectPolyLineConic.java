@@ -324,14 +324,11 @@ public class AlgoIntersectPolyLineConic extends AlgoIntersect {
 	 */
 	protected OutputHandler<GeoElement> createOutputPoints() {
 
-		return new OutputHandler<>(new ElementFactory<GeoElement>() {
-			@Override
-			public GeoPoint newElement() {
-				GeoPoint p = new GeoPoint(getConstruction());
-				p.setCoords(0, 0, 1);
-				p.setParentAlgorithm(AlgoIntersectPolyLineConic.this);
-				return p;
-			}
+		return new OutputHandler<>(() -> {
+			GeoPoint p = new GeoPoint(getConstruction());
+			p.setCoords(0, 0, 1);
+			p.setParentAlgorithm(AlgoIntersectPolyLineConic.this);
+			return p;
 		});
 	}
 }

@@ -98,7 +98,7 @@ public class RowAtom extends Atom implements Row {
 	};
 
 	protected RowAtom() {
-		this.elements = new ArrayList<Atom>();
+		this.elements = new ArrayList<>();
 	}
 
 	public RowAtom(List<Atom> elements) {
@@ -110,20 +110,20 @@ public class RowAtom extends Atom implements Row {
 	}
 
 	public RowAtom(final int size) {
-		this.elements = new ArrayList<Atom>(size);
+		this.elements = new ArrayList<>(size);
 	}
 
 	public RowAtom(Atom el) {
 		if (el == null) {
-			this.elements = new ArrayList<Atom>();
+			this.elements = new ArrayList<>();
 		} else {
 			if (el instanceof RowAtom) {
-				this.elements = new ArrayList<Atom>(
+				this.elements = new ArrayList<>(
 						((RowAtom) el).elements.size());
 				// no need to make an mrow the only element of an mrow
 				elements.addAll(((RowAtom) el).elements);
 			} else {
-				this.elements = new ArrayList<Atom>(1);
+				this.elements = new ArrayList<>(1);
 				elements.add(el);
 			}
 		}
@@ -242,8 +242,7 @@ public class RowAtom extends Atom implements Row {
 		for (int i = 0; i < elementsCopy.size(); ++i) {
 			Atom at = elementsCopy.get(i);
 
-			if (at instanceof SelectionAtom) {
-				SelectionAtom ca = (SelectionAtom) at;
+			if (at instanceof SelectionAtom ca) {
 
 				hBox.push((HorizontalBox) new HorizontalBox(ca.getColor(),
 						ca.getBackground()).setAtom(this));
@@ -412,12 +411,12 @@ public class RowAtom extends Atom implements Row {
 
 	@Override
 	public String toString() {
-		String s = "RowAtom {";
+		StringBuilder s = new StringBuilder("RowAtom {");
 		for (Atom e : elements) {
-			s += e + "; ";
+			s.append(e).append("; ");
 		}
-		s += "}";
-		return s;
+		s.append("}");
+		return s.toString();
 	}
 
 	public Atom getElement(int i) {

@@ -88,8 +88,7 @@ enum FractionSteps implements SimplificationStepGenerator {
 		@Override
 		public StepTransformable apply(StepTransformable sn, SolutionBuilder sb,
 				RegroupTracker tracker) {
-			if (sn instanceof StepExpression) {
-				StepExpression se = (StepExpression) sn;
+			if (sn instanceof StepExpression se) {
 
 				if (se.nonSpecialConstant() && !se.isInteger()) {
 					int decimalLength = Double.toString(se.getValue()).split("\\.")[1].length();

@@ -189,8 +189,7 @@ public class GeoGebraSerializer implements Serializer {
 		if (mathSequence != null && mathFunction.getParentIndex() > 0) {
 			MathComponent mathComponent = mathSequence
 					.getArgument(mathFunction.getParentIndex() - 1);
-			if (mathComponent instanceof MathCharacter) {
-				MathCharacter mathCharacter = (MathCharacter) mathComponent;
+			if (mathComponent instanceof MathCharacter mathCharacter) {
 				if (!mathCharacter.isWordBreak()) {
 					stringBuilder.append(" ");
 				}
@@ -285,8 +284,7 @@ public class GeoGebraSerializer implements Serializer {
 	 */
 	public String[] serializeMatrixEntries(MathFormula formula) {
 		if (formula.getRootComponent().isProtected()
-				&& formula.getRootComponent().getArgument(0) instanceof MathArray) {
-			MathArray root = (MathArray) formula.getRootComponent().getArgument(0);
+				&& formula.getRootComponent().getArgument(0) instanceof MathArray root) {
 			if (root.isMatrix()) {
 				String[] parts = new String[root.size()];
 				for (int i = 0; i < root.size(); i++) {

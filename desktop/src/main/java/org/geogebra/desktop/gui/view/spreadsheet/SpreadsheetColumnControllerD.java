@@ -241,16 +241,17 @@ public class SpreadsheetColumnControllerD
 			int[] selected = table.getSelectedColumns();
 
 			boolean in = false;
-			for (int i = 0; i < selected.length; ++i) {
-				if (column == selected[i]) {
+			for (int k : selected) {
+				if (column == k) {
 					in = true;
+					break;
 				}
 			}
 			if (!in) {
 				return;
 			}
-			for (int i = 0; i < selected.length; ++i) {
-				table.getColumnModel().getColumn(selected[i])
+			for (int j : selected) {
+				table.getColumnModel().getColumn(j)
 						.setPreferredWidth(width);
 			}
 		}

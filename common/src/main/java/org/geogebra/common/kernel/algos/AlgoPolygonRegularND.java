@@ -107,44 +107,38 @@ public abstract class AlgoPolygonRegularND extends AlgoElement
 		rotAngle = new MyDouble(kernel);
 
 		outputPolygon = new OutputHandler<>(
-				new ElementFactory<GeoPolygon>() {
-					@Override
-					public GeoPolygon newElement() {
-						GeoPolygon p = newGeoPolygon(cons);
-						p.setParentAlgorithm(AlgoPolygonRegularND.this);
-						// p.setInitLabelsCalled(true);
-						return p;
-					}
+				() -> {
+					GeoPolygon p = newGeoPolygon(cons);
+					p.setParentAlgorithm(AlgoPolygonRegularND.this);
+					// p.setInitLabelsCalled(true);
+					return p;
 				});
 
 		outputSegments = new OutputHandler<>(
-				new ElementFactory<GeoElement>() {
-					@Override
-					public GeoElement newElement() {
-						int size = outputSegments.size();
-						GeoPolygon polygon =  outputPolygon.getElement(0);
-						GeoElement segment = (GeoElement) (size == 0
-								? polygon.createSegment(cons, A, B, true)
-								: polygon.createSegmentOwnDimension(cons, A, B, true));
-						segment.setAuxiliaryObject(true);
-						boolean segmentsVisible = false;
-						if (size > 0) { // check if at least one segment is
-										// visible
-							for (int i = 0; i < size && !segmentsVisible; i++) {
-								segmentsVisible = segmentsVisible
-										|| outputSegments.getElement(i)
-												.isEuclidianVisible();
-							}
-						} else { // no segment yet
-							segmentsVisible = true;
+				() -> {
+					int size = outputSegments.size();
+					GeoPolygon polygon = outputPolygon.getElement(0);
+					GeoElement segment = (GeoElement) (size == 0
+							? polygon.createSegment(cons, A, B, true)
+							: polygon.createSegmentOwnDimension(cons, A, B, true));
+					segment.setAuxiliaryObject(true);
+					boolean segmentsVisible = false;
+					if (size > 0) { // check if at least one segment is
+						// visible
+						for (int i = 0; i < size && !segmentsVisible; i++) {
+							segmentsVisible = segmentsVisible
+									|| outputSegments.getElement(i)
+									.isEuclidianVisible();
 						}
-						segment.setEuclidianVisible(segmentsVisible);
-						segment.setLabelVisible(showNewSegmentsLabels);
-						segment.setViewFlags(((GeoElement) A).getViewSet());
-						segment.setVisibleInView3D((GeoElement) A);
-						segment.setVisibleInViewForPlane((GeoElement) A);
-						return segment;
+					} else { // no segment yet
+						segmentsVisible = true;
 					}
+					segment.setEuclidianVisible(segmentsVisible);
+					segment.setLabelVisible(showNewSegmentsLabels);
+					segment.setViewFlags(((GeoElement) A).getViewSet());
+					segment.setVisibleInView3D((GeoElement) A);
+					segment.setVisibleInViewForPlane((GeoElement) A);
+					return segment;
 				});
 
 		if (!labelPointsAndSegments) {
@@ -152,36 +146,33 @@ public abstract class AlgoPolygonRegularND extends AlgoElement
 		}
 
 		outputPoints = new OutputHandler<>(
-				new ElementFactory<GeoElement>() {
-					@Override
-					public GeoElement newElement() {
-						GeoElement newPoint = newGeoPoint(cons);
-						newPoint.setParentAlgorithm(AlgoPolygonRegularND.this);
-						newPoint.setAuxiliaryObject(true);
-						((GeoPointND) newPoint).setPointSize(A.getPointSize());
-						newPoint.setEuclidianVisible(A.isEuclidianVisible()
-								|| B.isEuclidianVisible());
-						newPoint.setAuxiliaryObject(true);
-						newPoint.setLabelVisible(showNewPointsLabels);
-						newPoint.setViewFlags(((GeoElement) A).getViewSet());
-						newPoint.setVisibleInView3D((GeoElement) A);
-						newPoint.setVisibleInViewForPlane((GeoElement) A);
-						GeoBoolean conditionToShow = ((GeoElement) A)
+				() -> {
+					GeoElement newPoint = newGeoPoint(cons);
+					newPoint.setParentAlgorithm(AlgoPolygonRegularND.this);
+					newPoint.setAuxiliaryObject(true);
+					((GeoPointND) newPoint).setPointSize(A.getPointSize());
+					newPoint.setEuclidianVisible(A.isEuclidianVisible()
+							|| B.isEuclidianVisible());
+					newPoint.setAuxiliaryObject(true);
+					newPoint.setLabelVisible(showNewPointsLabels);
+					newPoint.setViewFlags(((GeoElement) A).getViewSet());
+					newPoint.setVisibleInView3D((GeoElement) A);
+					newPoint.setVisibleInViewForPlane((GeoElement) A);
+					GeoBoolean conditionToShow = ((GeoElement) A)
+							.getShowObjectCondition();
+					if (conditionToShow == null) {
+						conditionToShow = ((GeoElement) B)
 								.getShowObjectCondition();
-						if (conditionToShow == null) {
-							conditionToShow = ((GeoElement) B)
-									.getShowObjectCondition();
-						}
-						if (conditionToShow != null) {
-							try {
-								newPoint.setShowObjectCondition(
-										conditionToShow);
-							} catch (Exception e) {
-								// circular exception -- do nothing
-							}
-						}
-						return newPoint;
 					}
+					if (conditionToShow != null) {
+						try {
+							newPoint.setShowObjectCondition(
+									conditionToShow);
+						} catch (Exception e) {
+							// circular exception -- do nothing
+						}
+					}
+					return newPoint;
 				});
 
 		if (!labelPointsAndSegments) {
@@ -465,10 +456,9 @@ public abstract class AlgoPolygonRegularND extends AlgoElement
 		// remove dependent algorithms (e.g. segments) from update sets of
 		// objects further up (e.g. polygon) the tree
 		ArrayList<AlgoElement> algoList = oldPoint.getAlgorithmList();
-		for (int k = 0; k < algoList.size(); k++) {
-			AlgoElement algo = algoList.get(k);
-			for (int j = 0; j < input.length; j++) {
-				input[j].removeFromUpdateSets(algo);
+		for (AlgoElement algo : algoList) {
+			for (GeoElement geoElement : input) {
+				geoElement.removeFromUpdateSets(algo);
 			}
 		}
 
@@ -478,12 +468,11 @@ public abstract class AlgoPolygonRegularND extends AlgoElement
 		// remove dependent segment algorithm that are part of this polygon
 		// to make sure we don't remove the polygon as well
 		GeoPolygon poly = getPoly();
-		for (int k = 0; k < algoList.size(); k++) {
-			AlgoElement algo = algoList.get(k);
+		for (AlgoElement algo : algoList) {
 			// make sure we don't remove the polygon as well
 			if (algo instanceof AlgoJoinPointsSegmentInterface
 					&& ((AlgoJoinPointsSegmentInterface) algo)
-							.getPoly() == poly) {
+					.getPoly() == poly) {
 				continue;
 			}
 			algo.remove();

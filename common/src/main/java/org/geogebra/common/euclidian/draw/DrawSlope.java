@@ -122,23 +122,19 @@ public class DrawSlope extends Drawable {
 				if (slopeTriangleSize > 1) {
 					StringBuilder sb = new StringBuilder();
 					switch (slope.getLabelMode()) {
-					case GeoElementND.LABEL_NAME_VALUE:
+					case GeoElementND.LABEL_NAME_VALUE -> {
 						sb.append(slopeTriangleSize);
 						sb.append(' ');
 						sb.append(geo.getLabel(tpl));
 						sb.append(" = ");
 						sb.append(kernel.format(rwHeight, tpl));
-						break;
-
-					case GeoElementND.LABEL_VALUE:
-						sb.append(kernel.format(rwHeight, tpl));
-						break;
-
-					default: // case GeoElement.LABEL_NAME:
+					}
+					case GeoElementND.LABEL_VALUE -> sb.append(kernel.format(rwHeight, tpl));
+					default -> { // case GeoElement.LABEL_NAME:
 						sb.append(slopeTriangleSize);
 						sb.append(' ');
 						sb.append(geo.getLabel(tpl));
-						break;
+					}
 					}
 					labelDesc = sb.toString();
 				} else {

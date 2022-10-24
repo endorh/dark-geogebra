@@ -145,21 +145,14 @@ public class AlgoFinancial extends AlgoElement {
 
 	@Override
 	public Commands getClassName() {
-		switch (calcType) {
-		case RATE:
-			return Commands.Rate;
-		case NPER:
-			return Commands.Periods;
-		case PMT:
-			return Commands.Payment;
-		case PV:
-			return Commands.PresentValue;
-		case FV:
-			return Commands.FutureValue;
-
-		default:
-			return Commands.Rate;
-		}
+		return switch (calcType) {
+			case RATE -> Commands.Rate;
+			case NPER -> Commands.Periods;
+			case PMT -> Commands.Payment;
+			case PV -> Commands.PresentValue;
+			case FV -> Commands.FutureValue;
+			default -> Commands.Rate;
+		};
 
 	}
 
@@ -207,8 +200,7 @@ public class AlgoFinancial extends AlgoElement {
 	@Override
 	public final void compute() {
 		switch (calcType) {
-
-		case RATE:
+		case RATE -> {
 			if (!(setNper() && setPmt() && setPV() && setFV() && setPmtType()
 					&& setGuess())) {
 				result.setUndefined();
@@ -219,9 +211,8 @@ public class AlgoFinancial extends AlgoElement {
 			} else {
 				result.setUndefined();
 			}
-			break;
-
-		case NPER:
+		}
+		case NPER -> {
 			if (!(setRate() && setPmt() && setPV() && setFV()
 					&& setPmtType())) {
 				result.setUndefined();
@@ -235,15 +226,12 @@ public class AlgoFinancial extends AlgoElement {
 						Math.log((pmt2 - rate * fv) / (pmt2 + rate * pv))
 								/ Math.log(1 + rate));
 			}
-
 			if (nper <= 0) {
 				nper = Double.NaN;
 			}
-
 			result.setValue(nper);
-			break;
-
-		case PMT:
+		}
+		case PMT -> {
 			if (!(setRate() && setNper() && setPV() && setFV()
 					&& setPmtType())) {
 				result.setUndefined();
@@ -255,9 +243,8 @@ public class AlgoFinancial extends AlgoElement {
 				pmt = (-fv - pv * Math.pow(1 + rate, nper)) / pmtFactor();
 			}
 			result.setValue(pmt);
-			break;
-
-		case PV:
+		}
+		case PV -> {
 			if (!(setRate() && setNper() && setPmt() && setFV()
 					&& setPmtType())) {
 				result.setUndefined();
@@ -269,9 +256,8 @@ public class AlgoFinancial extends AlgoElement {
 				pv = (-fv - pmt * pmtFactor()) / Math.pow(1 + rate, nper);
 			}
 			result.setValue(pv);
-			break;
-
-		case FV:
+		}
+		case FV -> {
 			if (!(setRate() && setNper() && setPmt() && setPV()
 					&& setPmtType())) {
 				result.setUndefined();
@@ -283,7 +269,7 @@ public class AlgoFinancial extends AlgoElement {
 				fv = -pmt * pmtFactor() - pv * Math.pow(1 + rate, nper);
 			}
 			result.setValue(fv);
-			break;
+		}
 		}
 
 	}

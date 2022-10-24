@@ -52,9 +52,9 @@ public class MixedRandomGraphGenerator {
 			Factory<E> edgeFactory, Map<E, Number> edge_weights,
 			int num_vertices, boolean parallel, Set<V> seedVertices) {
 		int seed = (int) (Math.random() * 10000);
-		BarabasiAlbertGenerator<V, E> bag = new BarabasiAlbertGenerator<V, E>(
+		BarabasiAlbertGenerator<V, E> bag = new BarabasiAlbertGenerator<>(
 				graphFactory, vertexFactory, edgeFactory, 4, 3, // false,
-																// parallel,
+				// parallel,
 				seed, seedVertices);
 		bag.evolveGraph(num_vertices - 4);
 		Graph<V, E> ug = bag.create();

@@ -132,9 +132,7 @@ public class AlgoZip extends AlgoElement {
 	public GeoElement[] getInputForUpdateSetPropagation() {
 		GeoElement[] realInput = new GeoElement[listCount + 1];
 		realInput[0] = expression;
-		for (int i = 0; i < listCount; i++) {
-			realInput[i + 1] = over[i];
-		}
+		if (listCount >= 0) System.arraycopy(over, 0, realInput, 1, listCount);
 		return realInput;
 	}
 
@@ -287,8 +285,7 @@ public class AlgoZip extends AlgoElement {
 		// by their current values
 		if (expIsFunctionOrCurve) {
 			// GeoFunction
-			if (listElement instanceof ReplaceChildrenByValues) {
-				ReplaceChildrenByValues f = (ReplaceChildrenByValues) listElement;
+			if (listElement instanceof ReplaceChildrenByValues f) {
 				for (int i = 0; i < varCount; i++) {
 					f.replaceChildrenByValues(vars[i]);
 				}

@@ -142,30 +142,12 @@ public class ImageUtilities {
 
 				for (int i = 0; i < code.length(); i++) {
 					switch (code.charAt(i)) {
-					case 'a':
-					case 'A':
-						bytes[index] = (byte) a;
-						break;
-
-					case 'r':
-					case 'R':
-						bytes[index] = (byte) r;
-						break;
-
-					case 'g':
-					case 'G':
-						bytes[index] = (byte) g;
-						break;
-
-					case 'b':
-					case 'B':
-						bytes[index] = (byte) b;
-						break;
-
-					default:
-						Log.debug(ImageUtilities.class.getClass()
-								+ ": Invalid code in '" + code + "'");
-						break;
+					case 'a', 'A' -> bytes[index] = (byte) a;
+					case 'r', 'R' -> bytes[index] = (byte) r;
+					case 'g', 'G' -> bytes[index] = (byte) g;
+					case 'b', 'B' -> bytes[index] = (byte) b;
+					default -> Log.debug(ImageUtilities.class.getClass()
+							+ ": Invalid code in '" + code + "'");
 					}
 					index++;
 				}

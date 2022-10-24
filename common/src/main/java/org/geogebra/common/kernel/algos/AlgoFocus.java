@@ -127,31 +127,28 @@ public class AlgoFocus extends AlgoElement {
 		}
 
 		switch (c.type) {
-		case GeoConicNDConstants.CONIC_CIRCLE:
+		case GeoConicNDConstants.CONIC_CIRCLE -> {
 			setCoords(0, b.getX(), b.getY());
 			setCoords(1, b.getX(), b.getY());
-			break;
-
-		case GeoConicNDConstants.CONIC_ELLIPSE:
-		case GeoConicNDConstants.CONIC_HYPERBOLA:
+		}
+		case GeoConicNDConstants.CONIC_ELLIPSE, GeoConicNDConstants.CONIC_HYPERBOLA -> {
 			temp1 = c.linearEccentricity * eigenvec[0].getX();
 			temp2 = c.linearEccentricity * eigenvec[0].getY();
 			setCoords(0, b.getX() - temp1, b.getY() - temp2);
 			setCoords(1, b.getX() + temp1, b.getY() + temp2);
-			break;
-
-		case GeoConicNDConstants.CONIC_PARABOLA:
+		}
+		case GeoConicNDConstants.CONIC_PARABOLA -> {
 			temp1 = c.p / 2;
 			setCoords(0, b.getX() + temp1 * eigenvec[0].getX(),
 					b.getY() + temp1 * eigenvec[0].getY());
 			// second focus undefined
 			focus[1].setUndefined();
-			break;
-
-		default:
+		}
+		default -> {
 			// both focus undefined
 			focus[0].setUndefined();
 			focus[1].setUndefined();
+		}
 		}
 	}
 

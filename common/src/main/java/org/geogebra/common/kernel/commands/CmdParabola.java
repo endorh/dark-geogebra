@@ -29,18 +29,17 @@ public class CmdParabola extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2:
+		case 2 -> {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoLine()))) {
-				GeoElement[] ret = { parabola(c.getLabel(), (GeoPointND) arg[0],
-						(GeoLineND) arg[1]) };
+				GeoElement[] ret = {parabola(c.getLabel(), (GeoPointND) arg[0],
+						(GeoLineND) arg[1])};
 				return ret;
 			}
 			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

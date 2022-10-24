@@ -110,9 +110,9 @@ public class RandomGeneratorFactory {
     public static long convertToLong(int[] seed) {
         // The following number is the largest prime that fits
         // in 32 bits (i.e. 2^32 - 5).
-        final long prime = 4294967291l;
+        final long prime = 4294967291L;
 
-        long combined = 0l;
+        long combined = 0L;
         for (int s : seed) {
             combined = combined * prime + s;
         }

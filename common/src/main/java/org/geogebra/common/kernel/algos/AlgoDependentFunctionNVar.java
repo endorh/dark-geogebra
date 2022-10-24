@@ -84,8 +84,8 @@ public class AlgoDependentFunctionNVar extends AlgoElement
 
 		// check if function is defined
 		boolean isDefined = true;
-		for (int i = 0; i < input.length; i++) {
-			if (!input[i].isDefined()) {
+		for (org.geogebra.common.kernel.geos.GeoElement geoElement : input) {
+			if (!geoElement.isDefined()) {
 				isDefined = false;
 				break;
 			}

@@ -178,19 +178,15 @@ public class AlgoTaylorSeries extends AlgoElement {
 				boolean negativeCoeff = coeff < 0;
 
 				// build the expression (x - a) ^ k
-				ExpressionValue powerExp;
-				switch (k) {
-				case 1:
-					powerExp = diffExp;
-					break;
-				default:
-					powerExp = new ExpressionNode(kernel,
+				ExpressionValue powerExp = switch (k) {
+					case 1 -> diffExp;
+					default -> new ExpressionNode(kernel,
 							new ExpressionNode(kernel, diffExp, Operation.POWER,
 									new MyDouble(kernel, k)),
 							Operation.DIVIDE,
 							new ExpressionNode(kernel, new MyDouble(kernel, k),
 									Operation.FACTORIAL, null));
-				}
+				};
 
 				// build the expression
 				// (k-thDerivative of f at a) * (x - a)^k / k!

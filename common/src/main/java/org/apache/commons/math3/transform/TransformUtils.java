@@ -156,7 +156,7 @@ public class TransformUtils {
         if (index < 0) {
             throw new MathIllegalArgumentException(
                     LocalizedFormats.NOT_POWER_OF_TWO_CONSIDER_PADDING,
-                    Integer.valueOf(n));
+		            n);
         }
         return index;
     }

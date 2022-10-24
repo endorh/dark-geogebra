@@ -46,7 +46,7 @@ public class Cluster<T extends Clusterable<T>> implements Serializable {
      */
     public Cluster(final T center) {
         this.center = center;
-        points = new ArrayList<T>();
+        points = new ArrayList<>();
     }
 
     /**

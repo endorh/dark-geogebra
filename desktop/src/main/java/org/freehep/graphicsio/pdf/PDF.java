@@ -32,7 +32,7 @@ public class PDF {
 		this.out = out;
 		// add dummy element to refsByNumber and xrefsByNumber
 		refsByNumber.addElement(new PDFRef("Dummy", 0, 0));
-		xrefsByNumber.addElement(Integer.valueOf(999999));
+		xrefsByNumber.addElement(999999);
 	}
 
 	public PDFName name(String name) {
@@ -63,7 +63,7 @@ public class PDF {
 	}
 
 	protected void setXRef(int objectNumber, int offset) {
-		xrefsByNumber.set(objectNumber, Integer.valueOf(offset));
+		xrefsByNumber.set(objectNumber, offset);
 	}
 
 	protected void xref() throws IOException {
@@ -83,7 +83,7 @@ public class PDF {
 		for (int i = 1; i < xrefsByNumber.size(); i++) {
 			Integer offsetObject = (Integer) xrefsByNumber.get(i);
 			if (offsetObject != null) {
-				int offset = offsetObject.intValue();
+				int offset = offsetObject;
 				out.printPlain(offsetFormat.format(offset) + " "
 						+ linkFormat.format(0) + " n\r\n");
 			} else {

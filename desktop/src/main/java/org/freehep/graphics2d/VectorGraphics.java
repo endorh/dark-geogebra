@@ -612,38 +612,38 @@ public abstract class VectorGraphics extends Graphics2D
 	private static Hashtable symbols = new Hashtable(15);
 
 	static {
-		symbols.put("vline", Integer.valueOf(SYMBOL_VLINE));
-		symbols.put("hline", Integer.valueOf(SYMBOL_HLINE));
-		symbols.put("plus", Integer.valueOf(SYMBOL_PLUS));
-		symbols.put("cross", Integer.valueOf(SYMBOL_CROSS));
-		symbols.put("star", Integer.valueOf(SYMBOL_STAR));
-		symbols.put("circle", Integer.valueOf(SYMBOL_CIRCLE));
-		symbols.put("box", Integer.valueOf(SYMBOL_BOX));
-		symbols.put("up_triangle", Integer.valueOf(SYMBOL_UP_TRIANGLE));
-		symbols.put("dn_triangle", Integer.valueOf(SYMBOL_DN_TRIANGLE));
-		symbols.put("diamond", Integer.valueOf(SYMBOL_DIAMOND));
+		symbols.put("vline", SYMBOL_VLINE);
+		symbols.put("hline", SYMBOL_HLINE);
+		symbols.put("plus", SYMBOL_PLUS);
+		symbols.put("cross", SYMBOL_CROSS);
+		symbols.put("star", SYMBOL_STAR);
+		symbols.put("circle", SYMBOL_CIRCLE);
+		symbols.put("box", SYMBOL_BOX);
+		symbols.put("up_triangle", SYMBOL_UP_TRIANGLE);
+		symbols.put("dn_triangle", SYMBOL_DN_TRIANGLE);
+		symbols.put("diamond", SYMBOL_DIAMOND);
 	}
 
 	private static Hashtable alignments = new Hashtable(6);
 
 	static {
-		alignments.put("baseline", Integer.valueOf(TEXT_BASELINE));
-		alignments.put("left", Integer.valueOf(TEXT_LEFT));
-		alignments.put("top", Integer.valueOf(TEXT_TOP));
-		alignments.put("middle", Integer.valueOf(TEXT_CENTER));
-		alignments.put("center", Integer.valueOf(TEXT_CENTER));
-		alignments.put("right", Integer.valueOf(TEXT_RIGHT));
-		alignments.put("bottom", Integer.valueOf(TEXT_BOTTOM));
+		alignments.put("baseline", TEXT_BASELINE);
+		alignments.put("left", TEXT_LEFT);
+		alignments.put("top", TEXT_TOP);
+		alignments.put("middle", TEXT_CENTER);
+		alignments.put("center", TEXT_CENTER);
+		alignments.put("right", TEXT_RIGHT);
+		alignments.put("bottom", TEXT_BOTTOM);
 	}
 
 	public static int getTextAlignment(String name) {
 		Integer i = (Integer) alignments.get(name.toLowerCase());
-		return (i != null) ? i.intValue() : TEXT_CENTER;
+		return (i != null) ? i : TEXT_CENTER;
 	}
 
 	public static int getSymbol(String name) {
 		Integer i = (Integer) symbols.get(name.toLowerCase());
-		return (i != null) ? i.intValue() : SYMBOL_PLUS;
+		return (i != null) ? i : SYMBOL_PLUS;
 	}
 
 	public static double getYalignment(double y, double ascent, double descent,

@@ -117,322 +117,283 @@ class Optimizer
 
     private int rewriteForNumberVariables(Node n, int desired)
     {
-        switch (n.getType()) {
-            case Token.EXPR_VOID : {
-                    Node child = n.getFirstChild();
-                    int type = rewriteForNumberVariables(child, NumberType);
-                    if (type == NumberType)
-                        n.putIntProp(Node.ISNUMBER_PROP, Node.BOTH);
-                     return NoType;
-                }
-            case Token.NUMBER :
-                n.putIntProp(Node.ISNUMBER_PROP, Node.BOTH);
-                return NumberType;
+	    switch (n.getType()) {
+	    case Token.EXPR_VOID -> {
+		    Node child = n.getFirstChild();
+		    int type = rewriteForNumberVariables(child, NumberType);
+		    if (type == NumberType)
+			    n.putIntProp(Node.ISNUMBER_PROP, Node.BOTH);
+		    return NoType;
+	    }
+	    case Token.NUMBER -> {
+		    n.putIntProp(Node.ISNUMBER_PROP, Node.BOTH);
+		    return NumberType;
+	    }
+	    case Token.GETVAR -> {
+		    int varIndex = theFunction.getVarIndex(n);
+		    if (inDirectCallFunction
+				    && theFunction.isParameter(varIndex)
+				    && desired == NumberType) {
+			    n.putIntProp(Node.ISNUMBER_PROP, Node.BOTH);
+			    return NumberType;
+		    } else if (theFunction.isNumberVar(varIndex)) {
+			    n.putIntProp(Node.ISNUMBER_PROP, Node.BOTH);
+			    return NumberType;
+		    }
+		    return NoType;
+	    }
+	    case Token.INC, Token.DEC -> {
+		    Node child = n.getFirstChild();
+		    int type = rewriteForNumberVariables(child, NumberType);
+		    if (child.getType() == Token.GETVAR) {
+			    if (type == NumberType && !convertParameter(child)) {
+				    n.putIntProp(Node.ISNUMBER_PROP, Node.BOTH);
+				    markDCPNumberContext(child);
+				    return NumberType;
+			    }
+			    return NoType;
+		    } else if (child.getType() == Token.GETELEM
+				    || child.getType() == Token.GETPROP) {
+			    return type;
+		    }
+		    return NoType;
+	    }
+	    case Token.SETVAR, Token.SETCONSTVAR -> {
+		    Node lChild = n.getFirstChild();
+		    Node rChild = lChild.getNext();
+		    int rType = rewriteForNumberVariables(rChild, NumberType);
+		    int varIndex = theFunction.getVarIndex(n);
+		    if (inDirectCallFunction
+				    && theFunction.isParameter(varIndex)) {
+			    if (rType == NumberType) {
+				    if (!convertParameter(rChild)) {
+					    n.putIntProp(Node.ISNUMBER_PROP, Node.BOTH);
+					    return NumberType;
+				    }
+				    markDCPNumberContext(rChild);
+				    return NoType;
+			    } else
+				    return rType;
+		    } else if (theFunction.isNumberVar(varIndex)) {
+			    if (rType != NumberType) {
+				    n.removeChild(rChild);
+				    n.addChildToBack(
+						    new Node(Token.TO_DOUBLE, rChild));
+			    }
+			    n.putIntProp(Node.ISNUMBER_PROP, Node.BOTH);
+			    markDCPNumberContext(rChild);
+			    return NumberType;
+		    } else {
+			    if (rType == NumberType) {
+				    if (!convertParameter(rChild)) {
+					    n.removeChild(rChild);
+					    n.addChildToBack(
+							    new Node(Token.TO_OBJECT, rChild));
+				    }
+			    }
+			    return NoType;
+		    }
+	    }
+	    case Token.LE, Token.LT, Token.GE, Token.GT -> {
+		    Node lChild = n.getFirstChild();
+		    Node rChild = lChild.getNext();
+		    int lType = rewriteForNumberVariables(lChild, NumberType);
+		    int rType = rewriteForNumberVariables(rChild, NumberType);
+		    markDCPNumberContext(lChild);
+		    markDCPNumberContext(rChild);
 
-            case Token.GETVAR :
-                {
-                    int varIndex = theFunction.getVarIndex(n);
-                    if (inDirectCallFunction
-                        && theFunction.isParameter(varIndex)
-                        && desired == NumberType)
-                    {
-                        n.putIntProp(Node.ISNUMBER_PROP, Node.BOTH);
-                        return NumberType;
-                    }
-                    else if (theFunction.isNumberVar(varIndex)) {
-                        n.putIntProp(Node.ISNUMBER_PROP, Node.BOTH);
-                        return NumberType;
-                    }
-                    return NoType;
-                }
-
-            case Token.INC :
-            case Token.DEC : {
-                    Node child = n.getFirstChild();
-                    int type = rewriteForNumberVariables(child, NumberType);
-                    if (child.getType() == Token.GETVAR) {
-                        if (type == NumberType && !convertParameter(child))
-                        {
-                            n.putIntProp(Node.ISNUMBER_PROP, Node.BOTH);
-                            markDCPNumberContext(child);
-                            return NumberType;
-                        }
-                        return NoType;
-                    }
-                    else if (child.getType() == Token.GETELEM
-                            || child.getType() == Token.GETPROP) {
-                        return type;
-                    }
-                    return NoType;
-                }
-            case Token.SETVAR :
-            case Token.SETCONSTVAR : {
-                    Node lChild = n.getFirstChild();
-                    Node rChild = lChild.getNext();
-                    int rType = rewriteForNumberVariables(rChild, NumberType);
-                    int varIndex = theFunction.getVarIndex(n);
-                    if (inDirectCallFunction
-                        && theFunction.isParameter(varIndex))
-                    {
-                        if (rType == NumberType) {
-                            if (!convertParameter(rChild)) {
-                                n.putIntProp(Node.ISNUMBER_PROP, Node.BOTH);
-                                return NumberType;
-                            }
-                            markDCPNumberContext(rChild);
-                            return NoType;
-                        }
-                        else
-                            return rType;
-                    }
-                    else if (theFunction.isNumberVar(varIndex)) {
-                        if (rType != NumberType) {
-                            n.removeChild(rChild);
-                            n.addChildToBack(
-                                new Node(Token.TO_DOUBLE, rChild));
-                        }
-                        n.putIntProp(Node.ISNUMBER_PROP, Node.BOTH);
-                        markDCPNumberContext(rChild);
-                        return NumberType;
-                    }
-                    else {
-                        if (rType == NumberType) {
-                            if (!convertParameter(rChild)) {
-                                n.removeChild(rChild);
-                                n.addChildToBack(
-                                    new Node(Token.TO_OBJECT, rChild));
-                            }
-                        }
-                        return NoType;
-                    }
-                }
-            case Token.LE :
-            case Token.LT :
-            case Token.GE :
-            case Token.GT : {
-                    Node lChild = n.getFirstChild();
-                    Node rChild = lChild.getNext();
-                    int lType = rewriteForNumberVariables(lChild, NumberType);
-                    int rType = rewriteForNumberVariables(rChild, NumberType);
-                    markDCPNumberContext(lChild);
-                    markDCPNumberContext(rChild);
-
-                    if (convertParameter(lChild)) {
-                        if (convertParameter(rChild)) {
-                            return NoType;
-                        } else if (rType == NumberType) {
-                            n.putIntProp(Node.ISNUMBER_PROP, Node.RIGHT);
-                        }
-                    }
-                    else if (convertParameter(rChild)) {
-                        if (lType == NumberType) {
-                            n.putIntProp(Node.ISNUMBER_PROP, Node.LEFT);
-                        }
-                    }
-                    else {
-                        if (lType == NumberType) {
-                            if (rType == NumberType) {
-                                n.putIntProp(Node.ISNUMBER_PROP, Node.BOTH);
-                            }
-                            else {
-                                n.putIntProp(Node.ISNUMBER_PROP, Node.LEFT);
-                            }
-                        }
-                        else {
-                            if (rType == NumberType) {
-                                n.putIntProp(Node.ISNUMBER_PROP, Node.RIGHT);
-                            }
-                        }
-                    }
-                    // we actually build a boolean value
-                    return NoType;
-                }
-
-            case Token.ADD : {
-                    Node lChild = n.getFirstChild();
-                    Node rChild = lChild.getNext();
-                    int lType = rewriteForNumberVariables(lChild, NumberType);
-                    int rType = rewriteForNumberVariables(rChild, NumberType);
+		    if (convertParameter(lChild)) {
+			    if (convertParameter(rChild)) {
+				    return NoType;
+			    } else if (rType == NumberType) {
+				    n.putIntProp(Node.ISNUMBER_PROP, Node.RIGHT);
+			    }
+		    } else if (convertParameter(rChild)) {
+			    if (lType == NumberType) {
+				    n.putIntProp(Node.ISNUMBER_PROP, Node.LEFT);
+			    }
+		    } else {
+			    if (lType == NumberType) {
+				    if (rType == NumberType) {
+					    n.putIntProp(Node.ISNUMBER_PROP, Node.BOTH);
+				    } else {
+					    n.putIntProp(Node.ISNUMBER_PROP, Node.LEFT);
+				    }
+			    } else {
+				    if (rType == NumberType) {
+					    n.putIntProp(Node.ISNUMBER_PROP, Node.RIGHT);
+				    }
+			    }
+		    }
+		    // we actually build a boolean value
+		    return NoType;
+	    }
+	    case Token.ADD -> {
+		    Node lChild = n.getFirstChild();
+		    Node rChild = lChild.getNext();
+		    int lType = rewriteForNumberVariables(lChild, NumberType);
+		    int rType = rewriteForNumberVariables(rChild, NumberType);
 
 
-                    if (convertParameter(lChild)) {
-                        if (convertParameter(rChild)) {
-                            return NoType;
-                        }
-                        else {
-                            if (rType == NumberType) {
-                                n.putIntProp(Node.ISNUMBER_PROP, Node.RIGHT);
-                            }
-                        }
-                    }
-                    else {
-                        if (convertParameter(rChild)) {
-                            if (lType == NumberType) {
-                                n.putIntProp(Node.ISNUMBER_PROP, Node.LEFT);
-                            }
-                        }
-                        else {
-                            if (lType == NumberType) {
-                                if (rType == NumberType) {
-                                    n.putIntProp(Node.ISNUMBER_PROP, Node.BOTH);
-                                    return NumberType;
-                                }
-                                else {
-                                    n.putIntProp(Node.ISNUMBER_PROP, Node.LEFT);
-                                }
-                            }
-                            else {
-                                if (rType == NumberType) {
-                                    n.putIntProp(Node.ISNUMBER_PROP,
-                                                 Node.RIGHT);
-                                }
-                            }
-                        }
-                    }
-                    return NoType;
-                }
+		    if (convertParameter(lChild)) {
+			    if (convertParameter(rChild)) {
+				    return NoType;
+			    } else {
+				    if (rType == NumberType) {
+					    n.putIntProp(Node.ISNUMBER_PROP, Node.RIGHT);
+				    }
+			    }
+		    } else {
+			    if (convertParameter(rChild)) {
+				    if (lType == NumberType) {
+					    n.putIntProp(Node.ISNUMBER_PROP, Node.LEFT);
+				    }
+			    } else {
+				    if (lType == NumberType) {
+					    if (rType == NumberType) {
+						    n.putIntProp(Node.ISNUMBER_PROP, Node.BOTH);
+						    return NumberType;
+					    } else {
+						    n.putIntProp(Node.ISNUMBER_PROP, Node.LEFT);
+					    }
+				    } else {
+					    if (rType == NumberType) {
+						    n.putIntProp(Node.ISNUMBER_PROP,
+								    Node.RIGHT);
+					    }
+				    }
+			    }
+		    }
+		    return NoType;
+	    }
+	    case Token.BITXOR, Token.BITOR, Token.BITAND, Token.RSH, Token.LSH, Token.SUB, Token.MUL, Token.DIV, Token.MOD -> {
+		    Node lChild = n.getFirstChild();
+		    Node rChild = lChild.getNext();
+		    int lType = rewriteForNumberVariables(lChild, NumberType);
+		    int rType = rewriteForNumberVariables(rChild, NumberType);
+		    markDCPNumberContext(lChild);
+		    markDCPNumberContext(rChild);
+		    if (lType == NumberType) {
+			    if (rType == NumberType) {
+				    n.putIntProp(Node.ISNUMBER_PROP, Node.BOTH);
+				    return NumberType;
+			    } else {
+				    if (!convertParameter(rChild)) {
+					    n.removeChild(rChild);
+					    n.addChildToBack(
+							    new Node(Token.TO_DOUBLE, rChild));
+					    n.putIntProp(Node.ISNUMBER_PROP, Node.BOTH);
+				    }
+				    return NumberType;
+			    }
+		    } else {
+			    if (rType == NumberType) {
+				    if (!convertParameter(lChild)) {
+					    n.removeChild(lChild);
+					    n.addChildToFront(
+							    new Node(Token.TO_DOUBLE, lChild));
+					    n.putIntProp(Node.ISNUMBER_PROP, Node.BOTH);
+				    }
+				    return NumberType;
+			    } else {
+				    if (!convertParameter(lChild)) {
+					    n.removeChild(lChild);
+					    n.addChildToFront(
+							    new Node(Token.TO_DOUBLE, lChild));
+				    }
+				    if (!convertParameter(rChild)) {
+					    n.removeChild(rChild);
+					    n.addChildToBack(
+							    new Node(Token.TO_DOUBLE, rChild));
+				    }
+				    n.putIntProp(Node.ISNUMBER_PROP, Node.BOTH);
+				    return NumberType;
+			    }
+		    }
+	    }
+	    case Token.SETELEM, Token.SETELEM_OP -> {
+		    Node arrayBase = n.getFirstChild();
+		    Node arrayIndex = arrayBase.getNext();
+		    Node rValue = arrayIndex.getNext();
+		    int baseType = rewriteForNumberVariables(arrayBase, NumberType);
+		    if (baseType == NumberType) {
+			    if (!convertParameter(arrayBase)) {
+				    n.removeChild(arrayBase);
+				    n.addChildToFront(
+						    new Node(Token.TO_OBJECT, arrayBase));
+			    }
+		    }
+		    int indexType = rewriteForNumberVariables(arrayIndex, NumberType);
+		    if (indexType == NumberType) {
+			    if (!convertParameter(arrayIndex)) {
+				    // setting the ISNUMBER_PROP signals the codegen
+				    // to use the OptRuntime.setObjectIndex that takes
+				    // a double index
+				    n.putIntProp(Node.ISNUMBER_PROP, Node.LEFT);
+			    }
+		    }
+		    int rValueType = rewriteForNumberVariables(rValue, NumberType);
+		    if (rValueType == NumberType) {
+			    if (!convertParameter(rValue)) {
+				    n.removeChild(rValue);
+				    n.addChildToBack(
+						    new Node(Token.TO_OBJECT, rValue));
+			    }
+		    }
+		    return NoType;
+	    }
+	    case Token.GETELEM -> {
+		    Node arrayBase = n.getFirstChild();
+		    Node arrayIndex = arrayBase.getNext();
+		    int baseType = rewriteForNumberVariables(arrayBase, NumberType);
+		    if (baseType == NumberType) {
+			    if (!convertParameter(arrayBase)) {
+				    n.removeChild(arrayBase);
+				    n.addChildToFront(
+						    new Node(Token.TO_OBJECT, arrayBase));
+			    }
+		    }
+		    int indexType = rewriteForNumberVariables(arrayIndex, NumberType);
+		    if (indexType == NumberType) {
+			    if (!convertParameter(arrayIndex)) {
+				    // setting the ISNUMBER_PROP signals the codegen
+				    // to use the OptRuntime.getObjectIndex that takes
+				    // a double index
+				    n.putIntProp(Node.ISNUMBER_PROP, Node.RIGHT);
+			    }
+		    }
+		    return NoType;
+	    }
+	    case Token.CALL -> {
+		    Node child = n.getFirstChild(); // the function node
+		    // must be an object
+		    rewriteAsObjectChildren(child, child.getFirstChild());
+		    child = child.getNext(); // the first arg
 
-            case Token.BITXOR :
-            case Token.BITOR :
-            case Token.BITAND :
-            case Token.RSH :
-            case Token.LSH :
-            case Token.SUB :
-            case Token.MUL :
-            case Token.DIV :
-            case Token.MOD : {
-                    Node lChild = n.getFirstChild();
-                    Node rChild = lChild.getNext();
-                    int lType = rewriteForNumberVariables(lChild, NumberType);
-                    int rType = rewriteForNumberVariables(rChild, NumberType);
-                    markDCPNumberContext(lChild);
-                    markDCPNumberContext(rChild);
-                    if (lType == NumberType) {
-                        if (rType == NumberType) {
-                            n.putIntProp(Node.ISNUMBER_PROP, Node.BOTH);
-                            return NumberType;
-                        }
-                        else {
-                            if (!convertParameter(rChild)) {
-                                n.removeChild(rChild);
-                                n.addChildToBack(
-                                    new Node(Token.TO_DOUBLE, rChild));
-                                n.putIntProp(Node.ISNUMBER_PROP, Node.BOTH);
-                            }
-                            return NumberType;
-                        }
-                    }
-                    else {
-                        if (rType == NumberType) {
-                            if (!convertParameter(lChild)) {
-                                n.removeChild(lChild);
-                                n.addChildToFront(
-                                    new Node(Token.TO_DOUBLE, lChild));
-                                n.putIntProp(Node.ISNUMBER_PROP, Node.BOTH);
-                            }
-                            return NumberType;
-                        }
-                        else {
-                            if (!convertParameter(lChild)) {
-                                n.removeChild(lChild);
-                                n.addChildToFront(
-                                    new Node(Token.TO_DOUBLE, lChild));
-                            }
-                            if (!convertParameter(rChild)) {
-                                n.removeChild(rChild);
-                                n.addChildToBack(
-                                    new Node(Token.TO_DOUBLE, rChild));
-                            }
-                            n.putIntProp(Node.ISNUMBER_PROP, Node.BOTH);
-                            return NumberType;
-                        }
-                    }
-                }
-            case Token.SETELEM :
-            case Token.SETELEM_OP : {
-                    Node arrayBase = n.getFirstChild();
-                    Node arrayIndex = arrayBase.getNext();
-                    Node rValue = arrayIndex.getNext();
-                    int baseType = rewriteForNumberVariables(arrayBase, NumberType);
-                    if (baseType == NumberType) {
-                        if (!convertParameter(arrayBase)) {
-                            n.removeChild(arrayBase);
-                            n.addChildToFront(
-                                new Node(Token.TO_OBJECT, arrayBase));
-                        }
-                    }
-                    int indexType = rewriteForNumberVariables(arrayIndex, NumberType);
-                    if (indexType == NumberType) {
-                        if (!convertParameter(arrayIndex)) {
-                            // setting the ISNUMBER_PROP signals the codegen
-                            // to use the OptRuntime.setObjectIndex that takes
-                            // a double index
-                            n.putIntProp(Node.ISNUMBER_PROP, Node.LEFT);
-                        }
-                    }
-                    int rValueType = rewriteForNumberVariables(rValue, NumberType);
-                    if (rValueType == NumberType) {
-                        if (!convertParameter(rValue)) {
-                            n.removeChild(rValue);
-                            n.addChildToBack(
-                                new Node(Token.TO_OBJECT, rValue));
-                        }
-                    }
-                    return NoType;
-                }
-            case Token.GETELEM : {
-                    Node arrayBase = n.getFirstChild();
-                    Node arrayIndex = arrayBase.getNext();
-                    int baseType = rewriteForNumberVariables(arrayBase, NumberType);
-                    if (baseType == NumberType) {
-                        if (!convertParameter(arrayBase)) {
-                            n.removeChild(arrayBase);
-                            n.addChildToFront(
-                                new Node(Token.TO_OBJECT, arrayBase));
-                        }
-                    }
-                    int indexType = rewriteForNumberVariables(arrayIndex, NumberType);
-                    if (indexType == NumberType) {
-                        if (!convertParameter(arrayIndex)) {
-                            // setting the ISNUMBER_PROP signals the codegen
-                            // to use the OptRuntime.getObjectIndex that takes
-                            // a double index
-                            n.putIntProp(Node.ISNUMBER_PROP, Node.RIGHT);
-                        }
-                    }
-                    return NoType;
-                }
-            case Token.CALL :
-                {
-                    Node child = n.getFirstChild(); // the function node
-                    // must be an object
-                    rewriteAsObjectChildren(child, child.getFirstChild());
-                    child = child.getNext(); // the first arg
-
-                    OptFunctionNode target
-                            = (OptFunctionNode)n.getProp(Node.DIRECTCALL_PROP);
-                    if (target != null) {
+		    OptFunctionNode target
+				    = (OptFunctionNode) n.getProp(Node.DIRECTCALL_PROP);
+		    if (target != null) {
 /*
     we leave each child as a Number if it can be. The codegen will
     handle moving the pairs of parameters.
 */
-                        while (child != null) {
-                            int type = rewriteForNumberVariables(child, NumberType);
-                            if (type == NumberType) {
-                                markDCPNumberContext(child);
-                            }
-                            child = child.getNext();
-                        }
-                    } else {
-                        rewriteAsObjectChildren(n, child);
-                    }
-                    return NoType;
-                }
-            default : {
-                    rewriteAsObjectChildren(n, n.getFirstChild());
-                    return NoType;
-                }
-        }
+			    while (child != null) {
+				    int type = rewriteForNumberVariables(child, NumberType);
+				    if (type == NumberType) {
+					    markDCPNumberContext(child);
+				    }
+				    child = child.getNext();
+			    }
+		    } else {
+			    rewriteAsObjectChildren(n, child);
+		    }
+		    return NoType;
+	    }
+	    default -> {
+		    rewriteAsObjectChildren(n, n.getFirstChild());
+		    return NoType;
+	    }
+	    }
     }
 
     private void rewriteAsObjectChildren(Node n, Node child)

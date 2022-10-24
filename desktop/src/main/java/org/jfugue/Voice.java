@@ -69,7 +69,7 @@ public final class Voice implements JFugueElement {
 	 */
 	@Override
 	public String getMusicString() {
-		StringBuffer buffy = new StringBuffer();
+		StringBuilder buffy = new StringBuilder();
 		buffy.append("V");
 		buffy.append(getVoice());
 		return buffy.toString();
@@ -82,7 +82,7 @@ public final class Voice implements JFugueElement {
 	 */
 	@Override
 	public String getVerifyString() {
-		StringBuffer buffy = new StringBuffer();
+		StringBuilder buffy = new StringBuilder();
 		buffy.append("Voice: voice=");
 		buffy.append(getVoice());
 		return buffy.toString();

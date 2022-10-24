@@ -88,7 +88,7 @@ public class FilterUtils {
 	 */
 	public static <V, E, G extends Hypergraph<V, E>> Collection<G> createAllInducedSubgraphs(
 			Collection<? extends Collection<V>> vertex_collections, G graph) {
-		Collection<G> subgraphs = new ArrayList<G>();
+		Collection<G> subgraphs = new ArrayList<>();
 
 		for (Collection<V> vertex_set : vertex_collections) {
 			subgraphs.add(createInducedSubgraph(vertex_set, graph));

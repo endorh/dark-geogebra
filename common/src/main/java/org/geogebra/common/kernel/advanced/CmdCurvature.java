@@ -36,14 +36,14 @@ public class CmdCurvature extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2:
+		case 2 -> {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isRealValuedFunction()))) {
 
 				AlgoCurvature algo = new AlgoCurvature(cons, c.getLabel(),
 						(GeoPointND) arg[0], (GeoFunction) arg[1]);
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoPoint()))
@@ -53,7 +53,7 @@ public class CmdCurvature extends CommandProcessor {
 						c.getLabel(), (GeoPointND) arg[0],
 						(GeoCurveCartesianND) arg[1]);
 
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1] instanceof GeoFunctionNVar))) {
@@ -63,23 +63,22 @@ public class CmdCurvature extends CommandProcessor {
 						(GeoPointND) arg[0],
 						(GeoFunctionNVar) arg[1]);
 				algo.getResult().setLabel(c.getLabel());
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 				return ret;
 			}
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoConic()))) {
 				AlgoCurvatureCurve algo = new AlgoCurvatureCurve(cons,
 						c.getLabel(), (GeoPointND) arg[0], (GeoConicND) arg[1]);
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 				return ret;
 			}
-
 			if (!ok[0]) {
 				throw argErr(c, arg[0]);
 			}
 			throw argErr(c, arg[1]);
-
-		case 3:
+		}
+		case 3 -> {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isNumberValue()))
 					&& (ok[1] = (arg[1].isNumberValue()))
@@ -91,10 +90,9 @@ public class CmdCurvature extends CommandProcessor {
 						(GeoNumberValue) arg[1],
 						(GeoSurfaceCartesianND) arg[2]);
 
-				GeoElement[] ret = { algo.getResult() };
+				GeoElement[] ret = {algo.getResult()};
 				return ret;
 			}
-
 			if (!ok[0]) {
 				throw argErr(c, arg[0]);
 			}
@@ -102,9 +100,8 @@ public class CmdCurvature extends CommandProcessor {
 				throw argErr(c, arg[1]);
 			}
 			throw argErr(c, arg[2]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

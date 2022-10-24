@@ -212,21 +212,16 @@ public class BracketingNthOrderBrentSolver
             final double xTol = getAbsoluteAccuracy() +
                                 getRelativeAccuracy() * Math.max(Math.abs(xA), Math.abs(xB));
             if (((xB - xA) <= xTol) || (Math.max(absYA, absYB) < getFunctionValueAccuracy())) {
-                switch (allowed) {
-                case ANY_SIDE :
-                    return absYA < absYB ? xA : xB;
-                case LEFT_SIDE :
-                    return xA;
-                case RIGHT_SIDE :
-                    return xB;
-                case BELOW_SIDE :
-                    return (yA <= 0) ? xA : xB;
-                case ABOVE_SIDE :
-                    return (yA <  0) ? xB : xA;
-                default :
-                    // this should never happen
-                    throw new MathInternalError();
-                }
+	            return switch (allowed) {
+		            case ANY_SIDE -> absYA < absYB ? xA : xB;
+		            case LEFT_SIDE -> xA;
+		            case RIGHT_SIDE -> xB;
+		            case BELOW_SIDE -> (yA <= 0) ? xA : xB;
+		            case ABOVE_SIDE -> (yA < 0) ? xB : xA;
+		            default ->
+			            // this should never happen
+				            throw new MathInternalError();
+	            };
             }
 
             // target for the next evaluation point

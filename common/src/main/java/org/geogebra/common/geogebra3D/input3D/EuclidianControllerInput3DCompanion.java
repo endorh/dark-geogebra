@@ -179,17 +179,8 @@ public class EuclidianControllerInput3DCompanion extends
 			}
 
 			// check construction index
-			if (this.point.getConstructionIndex() < sp.point
-					.getConstructionIndex()) {
-				return -1;
-			}
-
-			if (this.point.getConstructionIndex() > sp.point
-					.getConstructionIndex()) {
-				return 1;
-			}
-
-			return 0;
+			return Integer.compare(this.point.getConstructionIndex(), sp.point
+					.getConstructionIndex());
 
 		}
 
@@ -241,17 +232,8 @@ public class EuclidianControllerInput3DCompanion extends
 			}
 
 			// check construction index
-			if (this.sp.point.getConstructionIndex() < spd.sp.point
-					.getConstructionIndex()) {
-				return -1;
-			}
-
-			if (this.sp.point.getConstructionIndex() > spd.sp.point
-					.getConstructionIndex()) {
-				return 1;
-			}
-
-			return 0;
+			return Integer.compare(this.sp.point.getConstructionIndex(), spd.sp.point
+					.getConstructionIndex());
 
 		}
 		
@@ -381,17 +363,15 @@ public class EuclidianControllerInput3DCompanion extends
 					}
 
 					switch (step) {
-					default:
-						// do nothing
-						break;
-					case 1: // only origin
-						plane.getCoordSys().updateToContainPoint(origin);
-						break;
-					case 2: // origin and second point
-						plane.getCoordSys().updateContinuousPointVx(origin,
-								secondPoint.sub(origin));
-						break;
-					case 3: // origin and two points
+					default -> {
+					}
+					// do nothing
+					case 1 -> // only origin
+							plane.getCoordSys().updateToContainPoint(origin);
+					case 2 -> // origin and second point
+							plane.getCoordSys().updateContinuousPointVx(origin,
+									secondPoint.sub(origin));
+					case 3 -> { // origin and two points
 						CoordSys cs = new CoordSys(2);
 						cs.addPoint(origin);
 						cs.addPoint(secondPoint);
@@ -404,7 +384,7 @@ public class EuclidianControllerInput3DCompanion extends
 							plane.getCoordSys().updateContinuousPointVx(origin,
 									secondPoint.sub(origin));
 						}
-						break;
+					}
 					}
 				}
 			}

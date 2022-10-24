@@ -54,7 +54,7 @@ public final class UnmodifiableIterator<E>
 		if (iterator instanceof Unmodifiable) {
 			return iterator;
 		}
-		return new UnmodifiableIterator<E>(iterator);
+		return new UnmodifiableIterator<>(iterator);
 	}
 
 	// -----------------------------------------------------------------------

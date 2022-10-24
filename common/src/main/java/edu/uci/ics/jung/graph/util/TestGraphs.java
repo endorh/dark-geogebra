@@ -51,13 +51,12 @@ public class TestGraphs {
 	public static Graph<String, Number> createTestGraph(boolean directed) {
 		Graph<String, Number> graph = null;
 		if (directed) {
-			graph = new DirectedSparseMultigraph<String, Number>();
+			graph = new DirectedSparseMultigraph<>();
 		} else {
-			graph = new UndirectedSparseMultigraph<String, Number>();
+			graph = new UndirectedSparseMultigraph<>();
 		}
 
-		for (int i = 0; i < pairs.length; i++) {
-			String[] pair = pairs[i];
+		for (String[] pair : pairs) {
 			graph.addEdge(Integer.parseInt(pair[2]), pair[0], pair[1]);
 		}
 		return graph;
@@ -69,7 +68,7 @@ public class TestGraphs {
 	 */
 	public static Graph<String, Number> createChainPlusIsolates(
 			int chain_length, int isolate_count) {
-		Graph<String, Number> g = new UndirectedSparseMultigraph<String, Number>();
+		Graph<String, Number> g = new UndirectedSparseMultigraph<>();
 		if (chain_length > 0) {
 			String[] v = new String[chain_length];
 			v[0] = "v" + 0;
@@ -77,7 +76,7 @@ public class TestGraphs {
 			for (int i = 1; i < chain_length; i++) {
 				v[i] = "v" + i;
 				g.addVertex(v[i]);
-				g.addEdge(new Double(Math.random()), v[i], v[i - 1]);
+				g.addEdge(Math.random(), v[i], v[i - 1]);
 			}
 		}
 		for (int i = 0; i < isolate_count; i++) {
@@ -98,9 +97,9 @@ public class TestGraphs {
 	public static Graph<String, Number> createDirectedAcyclicGraph(int layers,
 			int maxNodesPerLayer, double linkprob) {
 
-		DirectedGraph<String, Number> dag = new DirectedSparseMultigraph<String, Number>();
-		Set<String> previousLayers = new HashSet<String>();
-		Set<String> inThisLayer = new HashSet<String>();
+		DirectedGraph<String, Number> dag = new DirectedSparseMultigraph<>();
+		Set<String> previousLayers = new HashSet<>();
+		Set<String> inThisLayer = new HashSet<>();
 		for (int i = 0; i < layers; i++) {
 
 			int nodesThisLayer = (int) (Math.random() * maxNodesPerLayer) + 1;
@@ -111,7 +110,7 @@ public class TestGraphs {
 				// for each previous node...
 				for (String v2 : previousLayers) {
 					if (Math.random() < linkprob) {
-						Double de = new Double(Math.random());
+						Double de = Math.random();
 						dag.addEdge(de, v, v2);
 					}
 				}
@@ -125,7 +124,7 @@ public class TestGraphs {
 
 	private static void createEdge(Graph<String, Number> g, String v1Label,
 			String v2Label) {
-		g.addEdge(new Double(Math.random()), v1Label, v2Label);
+		g.addEdge(Math.random(), v1Label, v2Label);
 	}
 
 	/**
@@ -138,7 +137,7 @@ public class TestGraphs {
 	 */
 	public static Graph<String, Number> getOneComponentGraph() {
 
-		UndirectedGraph<String, Number> g = new UndirectedSparseMultigraph<String, Number>();
+		UndirectedGraph<String, Number> g = new UndirectedSparseMultigraph<>();
 		// let's throw in a clique, too
 		for (int i = 1; i <= 10; i++) {
 			for (int j = i + 1; j <= 10; j++) {
@@ -160,11 +159,10 @@ public class TestGraphs {
 			}
 		}
 
-		List<String> index = new ArrayList<String>();
-		index.addAll(g.getVertices());
+		List<String> index = new ArrayList<>(g.getVertices());
 		// and one edge to connect them all
 		for (int i = 0; i < index.size() - 1; i++) {
-			g.addEdge(Integer.valueOf(i), index.get(i), index.get(i + 1));
+			g.addEdge(i, index.get(i), index.get(i + 1));
 		}
 
 		return g;
@@ -178,10 +176,9 @@ public class TestGraphs {
 	 *         with 28 vertices.
 	 */
 	public static Graph<String, Number> getDemoGraph() {
-		UndirectedGraph<String, Number> g = new UndirectedSparseMultigraph<String, Number>();
+		UndirectedGraph<String, Number> g = new UndirectedSparseMultigraph<>();
 
-		for (int i = 0; i < pairs.length; i++) {
-			String[] pair = pairs[i];
+		for (String[] pair : pairs) {
 			createEdge(g, pair[0], pair[1]);
 		}
 
@@ -213,19 +210,19 @@ public class TestGraphs {
 	 * edges.
 	 */
 	public static Graph<String, Number> getSmallGraph() {
-		Graph<String, Number> graph = new SparseMultigraph<String, Number>();
+		Graph<String, Number> graph = new SparseMultigraph<>();
 		String[] v = new String[3];
 		for (int i = 0; i < 3; i++) {
 			v[i] = String.valueOf(i);
 			graph.addVertex(v[i]);
 		}
-		graph.addEdge(new Double(0), v[0], v[1], EdgeType.DIRECTED);
-		graph.addEdge(new Double(.1), v[0], v[1], EdgeType.DIRECTED);
-		graph.addEdge(new Double(.2), v[0], v[1], EdgeType.DIRECTED);
-		graph.addEdge(new Double(.3), v[1], v[0], EdgeType.DIRECTED);
-		graph.addEdge(new Double(.4), v[1], v[0], EdgeType.DIRECTED);
-		graph.addEdge(new Double(.5), v[1], v[2]);
-		graph.addEdge(new Double(.6), v[1], v[2]);
+		graph.addEdge(.0, v[0], v[1], EdgeType.DIRECTED);
+		graph.addEdge(.1, v[0], v[1], EdgeType.DIRECTED);
+		graph.addEdge(.2, v[0], v[1], EdgeType.DIRECTED);
+		graph.addEdge(.3, v[1], v[0], EdgeType.DIRECTED);
+		graph.addEdge(.4, v[1], v[0], EdgeType.DIRECTED);
+		graph.addEdge(.5, v[1], v[2]);
+		graph.addEdge(.6, v[1], v[2]);
 
 		return graph;
 	}

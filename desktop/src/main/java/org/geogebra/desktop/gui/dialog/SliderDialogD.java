@@ -284,17 +284,14 @@ public class SliderDialogD extends Dialog
 	@Override
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
-		default:
-			// do nothing
-			break;
-		case KeyEvent.VK_ENTER:
-			btOK.doClick();
-			break;
-
-		case KeyEvent.VK_ESCAPE:
+		default -> {
+		}
+		// do nothing
+		case KeyEvent.VK_ENTER -> btOK.doClick();
+		case KeyEvent.VK_ESCAPE -> {
 			btCancel.doClick();
 			e.consume();
-			break;
+		}
 		}
 	}
 

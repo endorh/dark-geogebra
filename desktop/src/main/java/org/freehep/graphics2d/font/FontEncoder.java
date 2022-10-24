@@ -20,7 +20,7 @@ public class FontEncoder {
 			return string;
 		}
 
-		StringBuffer s = new StringBuffer();
+		StringBuilder s = new StringBuilder();
 		for (int i = 0; i < string.length(); i++) {
 			int enc = string.charAt(i);
 			String name = charTable.toName(enc);

@@ -144,24 +144,17 @@ public class DrawConicPart extends Drawable implements Previewable {
 			updateStrokes((GeoConicND) conicPart);
 
 			switch (((GeoConicND) conicPart).getType()) {
-			case GeoConicNDConstants.CONIC_CIRCLE:
-			case GeoConicNDConstants.CONIC_ELLIPSE:
-				updateEllipse();
-				break;
-			case GeoConicNDConstants.CONIC_LINE:
-			case GeoConicNDConstants.CONIC_PARALLEL_LINES:
-				updateParallelLines();
-				break;
-
-			case GeoConicNDConstants.CONIC_SINGLE_POINT:
-				isVisible = false;
-				break;
-
-			default:
+			case GeoConicNDConstants.CONIC_CIRCLE, GeoConicNDConstants.CONIC_ELLIPSE ->
+					updateEllipse();
+			case GeoConicNDConstants.CONIC_LINE, GeoConicNDConstants.CONIC_PARALLEL_LINES ->
+					updateParallelLines();
+			case GeoConicNDConstants.CONIC_SINGLE_POINT -> isVisible = false;
+			default -> {
 				// Application.debug("DrawConicPart: unsupported conic type: " +
 				// conicPart.getType());
 				isVisible = false;
 				return;
+			}
 			}
 
 			// shape on screen?
@@ -310,40 +303,35 @@ public class DrawConicPart extends Drawable implements Previewable {
 	final public void draw(GGraphics2D g2) {
 		if (isVisible) {
 			switch (draw_type) {
-			default:
-				// do nothing
-				break;
-			case DRAW_TYPE_ELLIPSE:
+			default -> {
+			}
+			// do nothing
+			case DRAW_TYPE_ELLIPSE -> {
 				fill(g2, shape); // fill using default/hatching/image as
-									// appropriate
+
+				// appropriate
 
 				if (isHighlighted()) {
 					g2.setPaint(geo.getSelColor());
 					g2.setStroke(selStroke);
 					g2.draw(shape);
 				}
-
 				g2.setPaint(getObjectColor());
 				g2.setStroke(objStroke);
 				g2.draw(shape);
-
 				if (labelVisible) {
 					g2.setPaint(geo.getLabelColor());
 					g2.setFont(view.getFontLine());
 					drawLabel(g2);
 				}
-				break;
-
-			case DRAW_TYPE_SEGMENT:
-				drawSegment.draw(g2);
-				break;
-
-			case DRAW_TYPE_RAYS:
+			}
+			case DRAW_TYPE_SEGMENT -> drawSegment.draw(g2);
+			case DRAW_TYPE_RAYS -> {
 				drawRay1.setStroke(objStroke);
 				drawRay2.setStroke(objStroke);
 				drawRay1.draw(g2);
 				drawRay2.draw(g2);
-				break;
+			}
 			}
 		}
 	}
@@ -410,18 +398,16 @@ public class DrawConicPart extends Drawable implements Previewable {
 		Construction cons = previewTempPoints[0].getConstruction();
 		int arcMode;
 		switch (previewMode) {
-		default:
-			// do nothing
-			break;
-		case EuclidianConstants.MODE_SEMICIRCLE:
+		default -> {
+		}
+		// do nothing
+		case EuclidianConstants.MODE_SEMICIRCLE -> {
 			AlgoSemicircle alg = new AlgoSemicircle(cons, previewTempPoints[0],
 					previewTempPoints[1]);
 			cons.removeFromConstructionList(alg);
 			initConicPart(alg.getSemicircle());
-			break;
-
-		case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
-		case EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS:
+		}
+		case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS, EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS -> {
 			arcMode = previewMode == EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS
 					? GeoConicNDConstants.CONIC_PART_ARC
 					: GeoConicNDConstants.CONIC_PART_SECTOR;
@@ -430,11 +416,8 @@ public class DrawConicPart extends Drawable implements Previewable {
 					previewTempPoints[2], arcMode);
 			cons.removeFromConstructionList(algo);
 			initConicPart(algo.getConicPart());
-			break;
-
-		case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS:
-		case EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS:
-
+		}
+		case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS, EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS -> {
 			arcMode = previewMode == EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS
 					? GeoConicNDConstants.CONIC_PART_ARC
 					: GeoConicNDConstants.CONIC_PART_SECTOR;
@@ -443,7 +426,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 					previewTempPoints[2], arcMode);
 			cons.removeFromConstructionList(algo2);
 			initConicPart(algo2.getConicPart());
-			break;
+		}
 		}
 
 		if (conicPart != null) {

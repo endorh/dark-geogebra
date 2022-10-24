@@ -18,8 +18,7 @@ public class GLBufferManagerCurvesClipped extends GLBufferManagerMergeSegments {
 	@Override
 	protected void putIndices(int size, TypeElement type,
 			boolean reuseSegment) {
-		if (currentBufferSegment.bufferPack instanceof BufferPackBigCurve) {
-			BufferPackBigCurve bufferPack = (BufferPackBigCurve) currentBufferSegment.bufferPack;
+		if (currentBufferSegment.bufferPack instanceof BufferPackBigCurve bufferPack) {
 			putToIndicesForCurve(BufferPackBigCurve.CURVE_SIZE_MAX);
 			bufferPack.cloneIndices();
 		} else {

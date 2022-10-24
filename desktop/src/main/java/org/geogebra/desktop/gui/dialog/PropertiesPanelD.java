@@ -27,7 +27,6 @@ import java.awt.event.ItemListener;
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.TreeSet;
 
 import javax.swing.BorderFactory;
@@ -734,8 +733,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		Component selectedTab = tabs.getSelectedComponent();
 
 		tabs.removeAll();
-		for (int i = 0; i < tabPanelList.size(); i++) {
-			TabPanel tp = tabPanelList.get(i);
+		for (TabPanel tp : tabPanelList) {
 			tp.update(geos, tabs);
 		}
 
@@ -761,9 +759,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		// update all panels and their visibility
 		boolean oneVisible = false;
 		int size = tabList.size();
-		for (int i = 0; i < size; i++) {
-			UpdateablePropertiesPanel up = (UpdateablePropertiesPanel) tabList
-					.get(i);
+		for (JPanel jPanel : tabList) {
+			UpdateablePropertiesPanel up = (UpdateablePropertiesPanel) jPanel;
 			boolean show = up.updatePanel(geos) != null;
 			up.setVisible(show);
 			if (show) {
@@ -823,8 +820,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 			panel.setLayout(new FullWidthLayout());
 
-			for (int i = 0; i < pVec.size(); i++) {
-				panel.add(pVec.get(i));
+			for (JPanel jPanel : pVec) {
+				panel.add(jPanel);
 			}
 
 			JScrollPane scrollPane = new JScrollPane(panel);
@@ -1279,14 +1276,12 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 				app.getEuclidianView1().drawListAsComboBox(geo, value);
 				return;
 			}
-			Iterator<Integer> it = geo.getViewSet().iterator();
 
 			// #3929
-			while (it.hasNext()) {
-				Integer view = it.next();
-				if (view.intValue() == App.VIEW_EUCLIDIAN) {
+			for (Integer view : geo.getViewSet()) {
+				if (view == App.VIEW_EUCLIDIAN) {
 					app.getEuclidianView1().drawListAsComboBox(geo, value);
-				} else if (view.intValue() == App.VIEW_EUCLIDIAN2
+				} else if (view == App.VIEW_EUCLIDIAN2
 						&& app.hasEuclidianView2(1)) {
 					app.getEuclidianView2(1).drawListAsComboBox(geo, value);
 				}
@@ -1618,15 +1613,12 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		}
 
 		ImageResourceD cornerIcon(int idx) {
-			switch (idx) {
-			case 0:
-				return GuiResourcesD.CORNER1;
-			case 1:
-				return GuiResourcesD.CORNER2;
-			case 2:
-				return GuiResourcesD.CORNER4;
-			}
-			return null;
+			return switch (idx) {
+				case 0 -> GuiResourcesD.CORNER1;
+				case 1 -> GuiResourcesD.CORNER2;
+				case 2 -> GuiResourcesD.CORNER4;
+				default -> null;
+			};
 		}
 
 		@Override
@@ -1781,14 +1773,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 			add(tabbedPane, BorderLayout.CENTER);
 
-			tabbedPane.addChangeListener(new ChangeListener() {
-
-				@Override
-				public void stateChanged(ChangeEvent e) {
-					applyModifications();
-
-				}
-			});
+			tabbedPane.addChangeListener(e -> applyModifications());
 
 		}
 
@@ -2559,7 +2544,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			Object source = e.getSource();
 			if (source == dashCB) {
 				model.applyLineType(
-						((Integer) dashCB.getSelectedItem()).intValue());
+						(Integer) dashCB.getSelectedItem());
 			}
 		}
 
@@ -2613,7 +2598,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		public void selectCommonLineStyle(boolean equalStyle, int type) {
 			if (equalStyle) {
 				for (int i = 0; i < dashCB.getItemCount(); i++) {
-					if (type == ((Integer) dashCB.getItemAt(i)).intValue()) {
+					if (type == (Integer) dashCB.getItemAt(i)) {
 						dashCB.setSelectedIndex(i);
 						break;
 					}
@@ -2738,8 +2723,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 		private boolean checkGeos(Object[] geos1) {
 			boolean geosOK = true;
-			for (int i = 0; i < geos1.length; i++) {
-				GeoElement geo = (GeoElement) geos1[i];
+			for (Object o : geos1) {
+				GeoElement geo = (GeoElement) o;
 				if (!(geo.showLineProperties())) {
 					geosOK = false;
 					break;
@@ -2760,8 +2745,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			}
 
 			GeoElement geo;
-			for (int i = 0; i < geos.length; i++) {
-				geo = (GeoElement) geos[i];
+			for (Object o : geos) {
+				geo = (GeoElement) o;
 				geo.setLineTypeHidden(type);
 				geo.updateVisualStyleRepaint(GProperty.LINE_STYLE);
 			}
@@ -2833,8 +2818,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 
 		private boolean checkGeos(Object[] selGeos) {
 			boolean geosOK = true;
-			for (int i = 0; i < selGeos.length; i++) {
-				GeoElement geo = (GeoElement) selGeos[i];
+			for (Object selGeo : selGeos) {
+				GeoElement geo = (GeoElement) selGeo;
 				if (!(geo.isGeoPlane())) {
 					geosOK = false;
 					break;
@@ -2851,8 +2836,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 			if (!slider.getValueIsAdjusting()) {
 				int size = slider.getValue();
 				GeoPlaneND plane;
-				for (int i = 0; i < geos.length; i++) {
-					plane = (GeoPlaneND) geos[i];
+				for (Object geo : geos) {
+					plane = (GeoPlaneND) geo;
 					plane.setFading((float) size / 100);
 					((GeoElement) plane).updateRepaint();
 				}
@@ -3033,7 +3018,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		public void actionPerformed(ActionEvent e) {
 			Object source = e.getSource();
 			if (source == decoCombo) {
-				int type = ((Integer) decoCombo.getSelectedItem()).intValue();
+				int type = (Integer) decoCombo.getSelectedItem();
 				model.applyChanges(type);
 			}
 		}
@@ -3288,7 +3273,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 		public void actionPerformed(ActionEvent e) {
 			Object source = e.getSource();
 			if (source == decoCombo) {
-				int type = ((Integer) decoCombo.getSelectedItem()).intValue();
+				int type = (Integer) decoCombo.getSelectedItem();
 				model.applyChanges(type);
 			}
 		}
@@ -3760,12 +3745,7 @@ class ColorFunctionPanel extends JPanel
 		nameLabelA.setLabelFor(inputPanelA);
 
 		btRemove = new JButton("\u2718");
-		btRemove.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				model.removeAll();
-			}
-		});
+		btRemove.addActionListener(e -> model.removeAll());
 
 		cbColorSpace = new JComboBox();
 		cbColorSpace.addActionListener(this);
@@ -3824,8 +3804,7 @@ class ColorFunctionPanel extends JPanel
 		allowSetComboBoxLabels = true;
 
 		switch (colorSpace) {
-		default:
-		case GeoElement.COLORSPACE_RGB:
+		case GeoElement.COLORSPACE_RGB -> {
 			nameLabelR
 					.setText(StringUtil.capitalize(loc.getColor("red")) + ":");
 			nameLabelG
@@ -3833,17 +3812,17 @@ class ColorFunctionPanel extends JPanel
 							StringUtil.capitalize(loc.getColor("green")) + ":");
 			nameLabelB
 					.setText(StringUtil.capitalize(loc.getColor("blue")) + ":");
-			break;
-		case GeoElement.COLORSPACE_HSB:
+		}
+		case GeoElement.COLORSPACE_HSB -> {
 			nameLabelR.setText(loc.getMenu("Hue") + ":");
 			nameLabelG.setText(loc.getMenu("Saturation") + ":");
 			nameLabelB.setText(loc.getMenu("Value") + ":");
-			break;
-		case GeoElement.COLORSPACE_HSL:
+		}
+		case GeoElement.COLORSPACE_HSL -> {
 			nameLabelR.setText(loc.getMenu("Hue") + ":");
 			nameLabelG.setText(loc.getMenu("Saturation") + ":");
 			nameLabelB.setText(loc.getMenu("Lightness") + ":");
-			break;
+		}
 		}
 
 		nameLabelA.setText(loc.getMenu("Opacity") + ":");
@@ -4119,26 +4098,14 @@ class GraphicsViewLocationPanel extends JPanel
 	@Override
 	public void selectView(int index, boolean isSelected) {
 		switch (index) {
-		default:
-			Log.error("missing case");
-			break;
-		case 0:
-			cbGraphicsView.setSelected(isSelected);
-			break;
-		case 1:
-			cbGraphicsView2.setSelected(isSelected);
-			break;
-		case 2:
-			cbGraphicsView3D.setSelected(isSelected);
-			break;
-		case 3:
-			cbGraphicsViewForPlane.setSelected(isSelected);
-			break;
-		case 4:
+		default -> Log.error("missing case");
+		case 0 -> cbGraphicsView.setSelected(isSelected);
+		case 1 -> cbGraphicsView2.setSelected(isSelected);
+		case 2 -> cbGraphicsView3D.setSelected(isSelected);
+		case 3 -> cbGraphicsViewForPlane.setSelected(isSelected);
+		case 4 ->
 			// cbAlgebraView.setValue(isSelected);
-			Log.error("cbAlgebraView not implemented in desktop");
-			break;
-
+				Log.error("cbAlgebraView not implemented in desktop");
 		}
 	}
 

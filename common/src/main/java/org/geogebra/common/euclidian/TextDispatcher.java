@@ -112,9 +112,8 @@ public class TextDispatcher {
 			boolean allLabelsSet = true;
 			for (int i = 0; i < points.length; i++) {
 				if (points[i].isLabelSet()) {
-					descText.append(" + Name["
-							+ points[i].getLabel(StringTemplate.defaultTemplate)
-							+ "]");
+					descText.append(" + Name[")
+							.append(points[i].getLabel(StringTemplate.defaultTemplate)).append("]");
 				} else {
 					allLabelsSet = false;
 					i = points.length;
@@ -123,9 +122,9 @@ public class TextDispatcher {
 
 			if (allLabelsSet) {
 				descText.append(" + \"");
-				for (int i = 0; i < points.length; i++) {
-					points[i].setLabelVisible(true);
-					points[i].updateRepaint();
+				for (GeoPointND point : points) {
+					point.setLabelVisible(true);
+					point.updateRepaint();
 				}
 			} else {
 				return loc.getPlainDefault(type, default0,

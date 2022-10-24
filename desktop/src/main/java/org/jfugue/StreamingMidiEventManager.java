@@ -52,45 +52,42 @@ final public class StreamingMidiEventManager {
 	private boolean isActive;
 
 	public StreamingMidiEventManager() {
-		timerMap = new HashMap<Long, List<NoteOffTimerEvent>>();
+		timerMap = new HashMap<>();
 		isActive = true;
 		currentTime = System.currentTimeMillis();
 
-		Thread timerThread = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				while (isActive) {
-					long checkTime = System.currentTimeMillis();
-					if (checkTime != currentTime) {
-						long tempBackTime = currentTime;
-						currentTime = System.currentTimeMillis(); // Do this
-																	// again to
-																	// get the
-																	// most
-																	// up-to-date
-																	// time
+		Thread timerThread = new Thread(() -> {
+			while (isActive) {
+				long checkTime = System.currentTimeMillis();
+				if (checkTime != currentTime) {
+					long tempBackTime = currentTime;
+					currentTime = System.currentTimeMillis(); // Do this
+																// again to
+																// get the
+																// most
+																// up-to-date
+																// time
 
-						// Get any TimerEvents that may have happened in the
-						// intervening time, and execute them
-						for (long time = tempBackTime; time < currentTime; time++) {
-							List<NoteOffTimerEvent> timerEvents = timerMap
-									.get(time);
-							if (null != timerEvents) {
-								for (NoteOffTimerEvent event : timerEvents) {
-									channels[event.track].noteOff(
-											event.noteValue,
-											event.decayVelocity);
-								}
+					// Get any TimerEvents that may have happened in the
+					// intervening time, and execute them
+					for (long time = tempBackTime; time < currentTime; time++) {
+						List<NoteOffTimerEvent> timerEvents = timerMap
+								.get(time);
+						if (null != timerEvents) {
+							for (NoteOffTimerEvent event : timerEvents) {
+								channels[event.track].noteOff(
+										event.noteValue,
+										event.decayVelocity);
 							}
-							timerMap.put(time, null);
 						}
+						timerMap.put(time, null);
 					}
+				}
 
-					try {
-						Thread.sleep(20); // Don't hog the CPU
-					} catch (InterruptedException e) {
-						throw new JFugueException(JFugueException.ERROR_SLEEP);
-					}
+				try {
+					Thread.sleep(20); // Don't hog the CPU
+				} catch (InterruptedException e) {
+					throw new JFugueException(JFugueException.ERROR_SLEEP);
 				}
 			}
 		});
@@ -208,23 +205,13 @@ final public class StreamingMidiEventManager {
 	 */
 	public void addEvent(int command, int data1, int data2) {
 		switch (command) {
-		case ShortMessage.PROGRAM_CHANGE:
-			channels[currentTrack].programChange(data1);
-			break;
-		case ShortMessage.CONTROL_CHANGE:
-			channels[currentTrack].controlChange(data1, data2);
-			break;
-		case ShortMessage.CHANNEL_PRESSURE:
-			channels[currentTrack].setChannelPressure(data1);
-			break;
-		case ShortMessage.POLY_PRESSURE:
-			channels[currentTrack].setPolyPressure(data1, data2);
-			break;
-		case ShortMessage.PITCH_BEND:
-			channels[currentTrack].setPitchBend(data1);
-			break;
-		default:
-			break;
+		case ShortMessage.PROGRAM_CHANGE -> channels[currentTrack].programChange(data1);
+		case ShortMessage.CONTROL_CHANGE -> channels[currentTrack].controlChange(data1, data2);
+		case ShortMessage.CHANNEL_PRESSURE -> channels[currentTrack].setChannelPressure(data1);
+		case ShortMessage.POLY_PRESSURE -> channels[currentTrack].setPolyPressure(data1, data2);
+		case ShortMessage.PITCH_BEND -> channels[currentTrack].setPitchBend(data1);
+		default -> {
+		}
 		}
 	}
 
@@ -274,13 +261,13 @@ final public class StreamingMidiEventManager {
 			byte theWaxTadpole) {
 		List<NoteOffTimerEvent> timerEvents = timerMap.get(when * 5);
 		if (null == timerEvents) {
-			timerEvents = new ArrayList<NoteOffTimerEvent>();
+			timerEvents = new ArrayList<>();
 		}
 		timerEvents.add(new NoteOffTimerEvent(track, noteValue, theWaxTadpole));
 		timerMap.put(when, timerEvents);
 	}
 
-	class NoteOffTimerEvent {
+	static class NoteOffTimerEvent {
 		public byte track;
 		public byte noteValue;
 		public byte decayVelocity;

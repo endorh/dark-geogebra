@@ -34,36 +34,30 @@ public class AlgoQuadricLimitedConicHeightCylinder
 	}
 
 	private static int getExtrusionType(GeoConicND type) {
-		switch (type.getType()) {
-		case GeoConicNDConstants.CONIC_HYPERBOLA:
-			return GeoQuadricNDConstants.QUADRIC_HYPERBOLIC_CYLINDER;
-		case GeoConicNDConstants.CONIC_PARABOLA:
-			return GeoQuadricNDConstants.QUADRIC_PARABOLIC_CYLINDER;
-		case GeoConicNDConstants.CONIC_DOUBLE_LINE:
-			return GeoQuadricNDConstants.QUADRIC_PLANE;
-		case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
-			return GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES;
-		default:
-			return GeoQuadricNDConstants.QUADRIC_CYLINDER;
-		}
+		return switch (type.getType()) {
+			case GeoConicNDConstants.CONIC_HYPERBOLA ->
+					GeoQuadricNDConstants.QUADRIC_HYPERBOLIC_CYLINDER;
+			case GeoConicNDConstants.CONIC_PARABOLA ->
+					GeoQuadricNDConstants.QUADRIC_PARABOLIC_CYLINDER;
+			case GeoConicNDConstants.CONIC_DOUBLE_LINE -> GeoQuadricNDConstants.QUADRIC_PLANE;
+			case GeoConicNDConstants.CONIC_INTERSECTING_LINES ->
+					GeoQuadricNDConstants.QUADRIC_INTERSECTING_PLANES;
+			default -> GeoQuadricNDConstants.QUADRIC_CYLINDER;
+		};
 	}
 
 	@Override
 	protected void setQuadric(Coords o1, Coords o2, Coords d, Coords eigen,
 			double r, double r2, double min, double max) {
 		switch (getExtrusionType(getBottomFace())) {
-		default:
-			// do nothing
-			break;
-		case GeoQuadricNDConstants.QUADRIC_CYLINDER:
-			getQuadric().setCylinder(o1, d, r, min, max);
-			break;
-		case GeoQuadricNDConstants.QUADRIC_HYPERBOLIC_CYLINDER:
-			getQuadric().setHyperbolicCylinder(o1, d, r, min, max);
-			break;
-		case GeoQuadricNDConstants.QUADRIC_PARABOLIC_CYLINDER:
-			getQuadric().setParabolicCylinder(o1, d, r, min, max);
-			break;
+		default -> {
+		}
+		// do nothing
+		case GeoQuadricNDConstants.QUADRIC_CYLINDER -> getQuadric().setCylinder(o1, d, r, min, max);
+		case GeoQuadricNDConstants.QUADRIC_HYPERBOLIC_CYLINDER ->
+				getQuadric().setHyperbolicCylinder(o1, d, r, min, max);
+		case GeoQuadricNDConstants.QUADRIC_PARABOLIC_CYLINDER ->
+				getQuadric().setParabolicCylinder(o1, d, r, min, max);
 		}
 
 	}

@@ -205,8 +205,7 @@ public class ConicEqnModel extends MultipleOptionsModel {
 	protected void apply(int index, int value) {
 		GeoQuadricND quad = getConicAt(index);
 		Log.debug(value + ":" + parametricIndex);
-		if (quad instanceof GeoConicND) {
-			GeoConicND geo = (GeoConicND) quad;
+		if (quad instanceof GeoConicND geo) {
 			if (value == specificIndex) {
 				geo.setToSpecific();
 			} else if (value == explicitIndex) {

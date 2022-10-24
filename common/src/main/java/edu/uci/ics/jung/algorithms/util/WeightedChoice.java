@@ -88,7 +88,7 @@ public class WeightedChoice<T> {
 		}
 
 		int item_count = item_weights.size();
-		item_pairs = new ArrayList<ItemPair>(item_count);
+		item_pairs = new ArrayList<>(item_count);
 
 		double sum = 0;
 		for (Map.Entry<T, ? extends Number> entry : item_weights.entrySet()) {
@@ -100,8 +100,8 @@ public class WeightedChoice<T> {
 		}
 		double bucket_weight = 1.0 / item_weights.size();
 
-		Queue<ItemPair> light_weights = new LinkedList<ItemPair>();
-		Queue<ItemPair> heavy_weights = new LinkedList<ItemPair>();
+		Queue<ItemPair> light_weights = new LinkedList<>();
+		Queue<ItemPair> heavy_weights = new LinkedList<>();
 		for (Map.Entry<T, ? extends Number> entry : item_weights.entrySet()) {
 			double value = entry.getValue().doubleValue() / sum;
 			enqueueItem(entry.getKey(), value, bucket_weight, light_weights,

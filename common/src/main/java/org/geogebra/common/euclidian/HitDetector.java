@@ -61,14 +61,10 @@ public class HitDetector {
 			}
 		}
 		// labels first
-		for (GeoElement geo : hitLabel) {
-			hits.add(geo);
-		}
+		hits.addAll(hitLabel);
 
 		// then points and paths
-		for (GeoElement geo : hitPointOrBoundary) {
-			hits.add(geo);
-		}
+		hits.addAll(hitPointOrBoundary);
 
 		// then regions
 		for (GeoElement geo : hitFilling) {
@@ -85,8 +81,7 @@ public class HitDetector {
 
 		// keep geoelements only on the top layer
 		int maxlayer = 0;
-		for (int i = 0; i < hits.size(); ++i) {
-			GeoElement geo = hits.get(i);
+		for (GeoElement geo : hits) {
 			if (maxlayer < geo.getLayer()) {
 				maxlayer = geo.getLayer();
 			}

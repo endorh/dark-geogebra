@@ -51,13 +51,7 @@ public class UndirectedSparseMultigraph<V, E> extends AbstractTypedGraph<V, E>
 	 *            the edge type for the graph factory
 	 */
 	public static <V, E> Factory<UndirectedGraph<V, E>> getFactory() {
-		return new Factory<UndirectedGraph<V, E>>() {
-
-			@Override
-			public UndirectedGraph<V, E> create() {
-				return new UndirectedSparseMultigraph<V, E>();
-			}
-		};
+		return UndirectedSparseMultigraph::new;
 	}
 
 	protected Map<V, Set<E>> vertices; // Map of vertices to adjacency sets
@@ -68,8 +62,8 @@ public class UndirectedSparseMultigraph<V, E> extends AbstractTypedGraph<V, E>
 	 */
 	public UndirectedSparseMultigraph() {
 		super(EdgeType.UNDIRECTED);
-		vertices = new HashMap<V, Set<E>>();
-		edges = new HashMap<E, Pair<V>>();
+		vertices = new HashMap<>();
+		edges = new HashMap<>();
 	}
 
 	@Override
@@ -102,7 +96,7 @@ public class UndirectedSparseMultigraph<V, E> extends AbstractTypedGraph<V, E>
 			throw new IllegalArgumentException("vertex may not be null");
 		}
 		if (!containsVertex(vertex)) {
-			vertices.put(vertex, new HashSet<E>());
+			vertices.put(vertex, new HashSet<>());
 			return true;
 		}
 		return false;
@@ -114,7 +108,7 @@ public class UndirectedSparseMultigraph<V, E> extends AbstractTypedGraph<V, E>
 			return false;
 		}
 
-		for (E edge : new ArrayList<E>(getIncident_internal(vertex))) {
+		for (E edge : new ArrayList<>(getIncident_internal(vertex))) {
 			removeEdge(edge);
 		}
 
@@ -124,7 +118,7 @@ public class UndirectedSparseMultigraph<V, E> extends AbstractTypedGraph<V, E>
 
 	@Override
 	public boolean addEdge(E edge, V v1, V v2, EdgeType edgeType) {
-		return addEdge(edge, new Pair<V>(v1, v2), edgeType);
+		return addEdge(edge, new Pair<>(v1, v2), edgeType);
 	}
 
 	@Override
@@ -200,7 +194,7 @@ public class UndirectedSparseMultigraph<V, E> extends AbstractTypedGraph<V, E>
 			return null;
 		}
 
-		Set<V> neighbors = new HashSet<V>();
+		Set<V> neighbors = new HashSet<>();
 		for (E edge : getIncident_internal(vertex)) {
 			Pair<V> endpoints = this.getEndpoints(edge);
 			V e_a = endpoints.getFirst();
@@ -278,7 +272,7 @@ public class UndirectedSparseMultigraph<V, E> extends AbstractTypedGraph<V, E>
 
 	@Override
 	public UndirectedSparseMultigraph<V, E> newInstance() {
-		return new UndirectedSparseMultigraph<V, E>();
+		return new UndirectedSparseMultigraph<>();
 	}
 
 }

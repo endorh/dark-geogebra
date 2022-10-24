@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
@@ -524,8 +525,8 @@ public class Construction {
 	 * @return true if at least one text is nonempty
 	 */
 	protected boolean worksheetTextDefined() {
-		for (int i = 0; i < worksheetText.length; i++) {
-			if (worksheetText[i] != null && worksheetText[i].length() > 0) {
+		for (String s : worksheetText) {
+			if (s != null && s.length() > 0) {
 				return true;
 			}
 		}
@@ -753,15 +754,14 @@ public class Construction {
 	 * @return returns the equation defined by label in CAS
 	 */
 	public ValidExpression geoCeListLookup(String label) {
-		for (int i = 0; i < ceList.size(); i++) {
-			if (ceList.get(i) instanceof GeoCasCell) {
+		for (ConstructionElement constructionElement : ceList) {
+			if (constructionElement instanceof GeoCasCell currCell) {
 				// get current cell
-				GeoCasCell currCell = (GeoCasCell) ceList.get(i);
 				// we found the equation
 				if (currCell.getInput(StringTemplate.defaultTemplate)
 						.startsWith(label + "=")
 						&& ((ExpressionNode) currCell.getInputVE())
-								.getLeft() instanceof Equation) {
+						.getLeft() instanceof Equation) {
 					// return the equation
 					return (ValidExpression) ((ExpressionNode) currCell
 							.getInputVE()).getLeft();
@@ -815,8 +815,7 @@ public class Construction {
 		// update all algorithms
 		int size = algoList.size();
 		ArrayList<AlgoElement> updateAlgos = null;
-		for (int i = 0; i < size; ++i) {
-			AlgoElement algo = algoList.get(i);
+		for (AlgoElement algo : algoList) {
 			if (algo.wantsConstructionProtocolUpdate()) {
 				if (updateAlgos == null) {
 					updateAlgos = new ArrayList<>();
@@ -1073,8 +1072,7 @@ public class Construction {
 		// update all algorithms
 
 		// *** algoList.size() can change during the loop
-		for (int i = 0; i < algoList.size(); ++i) {
-			AlgoElement algo = algoList.get(i);
+		for (AlgoElement algo : algoList) {
 			algo.update();
 			// AbstractApplication.debug("#"+i+" : "+algo);
 		}
@@ -1135,21 +1133,19 @@ public class Construction {
 		}
 		int size = toUpdate.size();
 		AlgorithmSet updateSet = null;
-		for (int i = 0; i < size; i++) {
+		for (EuclidianViewCE viewCE : toUpdate) {
 			didUpdate = true;
 
-			EuclidianViewCE elem = toUpdate.get(i);
+			EuclidianViewCE elem = viewCE;
 
 			boolean needsUpdateCascade = elem.euclidianViewUpdate();
 			if (needsUpdateCascade) {
 				if (updateSet == null) {
 					updateSet = new AlgorithmSet();
 				}
-				if (elem instanceof GeoElement) {
-					GeoElement geo = (GeoElement) elem;
+				if (elem instanceof GeoElement geo) {
 					updateSet.addAllSorted(geo.getAlgoUpdateSet());
-				} else if (elem instanceof AlgoElement) {
-					AlgoElement algo = (AlgoElement) elem;
+				} else if (elem instanceof AlgoElement algo) {
 					GeoElement[] geos = algo.getOutput();
 					for (GeoElement geo : geos) {
 						geo.update();
@@ -1183,9 +1179,7 @@ public class Construction {
 			return;
 		}
 
-		Iterator<GeoElement> it = randomElements.iterator();
-		while (it.hasNext()) {
-			GeoElement num = it.next();
+		for (GeoElement num : randomElements) {
 			num.updateRandomGeo();
 		}
 	}
@@ -1198,9 +1192,7 @@ public class Construction {
 			return;
 		}
 
-		Iterator<GeoElement> it = randomElements.iterator();
-		while (it.hasNext()) {
-			GeoElement num = it.next();
+		for (GeoElement num : randomElements) {
 			if (num.isGeoNumeric() && num.getParentAlgorithm() == null) {
 				GeoNumeric number = (GeoNumeric) num;
 				number.updateRandomNoCascade();
@@ -1316,11 +1308,10 @@ public class Construction {
 		try {
 			// update all independent GeoElements
 			// check the size every time as Delete may change it
-			for (int i = 0; i < ceList.size(); ++i) {
-				ConstructionElement ce = ceList.get(i);
+			for (ConstructionElement ce : ceList) {
 				if ((ce.isGeoElement() && ((GeoElement) ce).isGeoCasCell())
 						|| ((ce instanceof AlgoElement)
-								&& ce instanceof AlgoCasCellInterface)) {
+						&& ce instanceof AlgoCasCellInterface)) {
 					ce.update();
 				}
 			}
@@ -1388,8 +1379,8 @@ public class Construction {
 
 		ConstructionElement ce;
 		int size = ceList.size();
-		for (int i = 0; i < size; ++i) {
-			ce = ceList.get(i);
+		for (ConstructionElement constructionElement : ceList) {
+			ce = constructionElement;
 			ce.getXML(getListenersToo, sb);
 		}
 	}
@@ -1408,8 +1399,8 @@ public class Construction {
 
 		ConstructionElement ce;
 		int size = ceList.size();
-		for (int i = 0; i < size; ++i) {
-			ce = ceList.get(i);
+		for (ConstructionElement constructionElement : ceList) {
+			ce = constructionElement;
 			if (!(ce instanceof AlgoProve)
 					&& !(ce instanceof AlgoProveDetails)) {
 				// Collecting non-Prove* elements:
@@ -1758,9 +1749,7 @@ public class Construction {
 		StringBuilder consXML = getCurrentUndoXML(false);
 		String oldXML = consXML.toString();
 		// replace all oldGeo -> newGeo pairs in XML
-		Iterator<Entry<GeoElement, GeoElement>> it = redefineMap.entrySet().iterator();
-		while (it.hasNext()) {
-			Entry<GeoElement, GeoElement> entry = it.next();
+		for (Entry<GeoElement, GeoElement> entry : redefineMap.entrySet()) {
 			GeoElement oldGeo = entry.getKey();
 			GeoElement newGeo = entry.getValue();
 
@@ -1903,8 +1892,8 @@ public class Construction {
 		int inputEndPos = -1;
 		if (newGeoInputs != null && newGeoInputs.length > 0) {
 			int labelPos = 0;
-			for (int i = 0; i < newGeoInputs.length; i++) {
-				String label = newGeoInputs[i].getLabelSimple();
+			for (GeoElementND newGeoInput : newGeoInputs) {
+				String label = newGeoInput.getLabelSimple();
 				if (label != null) {
 					int labelPos0 = consXML.indexOf("label=\"" + label + "\"");
 					if (labelPos0 > labelPos) {
@@ -2605,11 +2594,7 @@ public class Construction {
 		// in order to let (2) and (3) work
 		if (newGeo.getConstructionIndex() == -1) {
 			int ind = ceList.size();
-			if (newGeoAlgo == null) {
-				newGeo.setConstructionIndex(ind);
-			} else {
-				newGeoAlgo.setConstructionIndex(ind);
-			}
+			Objects.requireNonNullElse(newGeoAlgo, newGeo).setConstructionIndex(ind);
 		}
 
 		// make sure all output objects of newGeoAlgo are labeled, otherwise
@@ -2928,12 +2913,8 @@ public class Construction {
 				new NameDescriptionComparator());
 
 		// get all GeoElements from construction and sort them
-		Iterator<GeoElement> it = geoSetConsOrder.iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
-			// sorted inserting using name description of geo
-			sortedSet.add(geo);
-		}
+		// sorted inserting using name description of geo
+		sortedSet.addAll(geoSetConsOrder);
 		return sortedSet;
 	}
 
@@ -3140,12 +3121,9 @@ public class Construction {
 			kernel.notifyReset();
 			// Update construction is done during parsing XML
 			// kernel.updateConstruction();
-		} catch (Exception e) {
+		} catch (Exception | MyError e) {
 			restoreAfterRedefine(oldXML);
 			throw e;
-		} catch (MyError err) {
-			restoreAfterRedefine(oldXML);
-			throw err;
 		}
 		if (kernel.getConstruction().getXMLio().hasErrors()) {
 			restoreAfterRedefine(oldXML);
@@ -3446,8 +3424,7 @@ public class Construction {
 
 			// update all independent GeoElements
 			int size = ceList.size();
-			for (int i = 0; i < size; ++i) {
-				ConstructionElement ce = ceList.get(i);
+			for (ConstructionElement ce : ceList) {
 				if (ce.isGeoElement()) {
 					if (((GeoElement) ce).isGeoText()
 							&& ((GeoElement) ce).getParentAlgorithm() != null) {
@@ -3468,7 +3445,7 @@ public class Construction {
 		this.kernel.getApplication().setBlockUpdateScripts(true);
 		// TODO we do not need the whole construction update here
 		if (latexGeos != null) {
-			GeoElement.updateCascade(latexGeos, new TreeSet<AlgoElement>(),
+			GeoElement.updateCascade(latexGeos, new TreeSet<>(),
 					true);
 		}
 		this.latexGeos = null;
@@ -3549,14 +3526,12 @@ public class Construction {
 	 */
 	public GeoSegment getSegmentFromAlgoList(GeoPoint A, GeoPoint B) {
 		if (!algoList.isEmpty()) {
-			Iterator<AlgoElement> it = algoList.iterator();
-			while (it.hasNext()) {
-				AlgoElement curr = it.next();
+			for (AlgoElement curr : algoList) {
 				if (curr instanceof AlgoJoinPointsSegment) {
 					if ((curr.getInput(0).equals(A)
 							&& curr.getInput(1).equals(B))
 							|| (curr.getInput(0).equals(B)
-									&& curr.getInput(1).equals(A))) {
+							&& curr.getInput(1).equals(A))) {
 						return ((AlgoJoinPointsSegment) curr).getSegment();
 					}
 				}

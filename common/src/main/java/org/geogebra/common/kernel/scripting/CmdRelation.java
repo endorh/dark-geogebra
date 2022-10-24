@@ -29,7 +29,7 @@ public class CmdRelation extends CmdScripting {
 
 		GeoElement[] arg = resArgs(c);
 		switch (n) {
-		case 2:
+		case 2 -> {
 			ok = new boolean[2];
 			// show relation string in a message dialog
 			if ((ok[0] = (arg[0].isGeoElement()))
@@ -40,8 +40,8 @@ public class CmdRelation extends CmdScripting {
 
 			// syntax error
 			throw argErr(c, getBadArg(ok, arg));
-
-		case 1:
+		}
+		case 1 -> {
 			if (arg[0] instanceof GeoList) {
 				GeoElement list = arg[0];
 				GeoElement[] ge = list.getParentAlgorithm().getInput();
@@ -79,14 +79,12 @@ public class CmdRelation extends CmdScripting {
 					throw argErr(c, getBadArg(ok, ge));
 				}
 			}
-
 			ok = new boolean[1];
 			ok[0] = false;
 			// syntax error
 			throw argErr(c, getBadArg(ok, arg));
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

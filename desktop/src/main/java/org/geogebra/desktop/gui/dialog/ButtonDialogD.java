@@ -105,8 +105,7 @@ public class ButtonDialogD extends Dialog
 		InputPanelD ip = new InputPanelD(model.getInitString(), app, 1, 25,
 				true);
 		tfCaption = ip.getTextComponent();
-		if (tfCaption instanceof AutoCompleteTextFieldD) {
-			AutoCompleteTextFieldD atf = (AutoCompleteTextFieldD) tfCaption;
+		if (tfCaption instanceof AutoCompleteTextFieldD atf) {
 			atf.setAutoComplete(false);
 		}
 
@@ -192,8 +191,7 @@ public class ButtonDialogD extends Dialog
 		// add a small margin
 		tfScript.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
 
-		if (tfScript instanceof AutoCompleteTextFieldD) {
-			AutoCompleteTextFieldD atf = (AutoCompleteTextFieldD) tfScript;
+		if (tfScript instanceof AutoCompleteTextFieldD atf) {
 			atf.setAutoComplete(false);
 		}
 
@@ -272,17 +270,14 @@ public class ButtonDialogD extends Dialog
 	@Override
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {
-		default:
-			// do nothing
-			break;
-		case KeyEvent.VK_ENTER:
-			btOK.doClick();
-			break;
-
-		case KeyEvent.VK_ESCAPE:
+		default -> {
+		}
+		// do nothing
+		case KeyEvent.VK_ENTER -> btOK.doClick();
+		case KeyEvent.VK_ESCAPE -> {
 			btCancel.doClick();
 			e.consume();
-			break;
+		}
 		}
 	}
 

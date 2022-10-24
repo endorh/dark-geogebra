@@ -76,8 +76,7 @@ public interface Inspecting {
 			if (v instanceof Command) {
 				return true;
 			}
-			if (v instanceof ExpressionNode) {
-				ExpressionNode en = (ExpressionNode) v;
+			if (v instanceof ExpressionNode en) {
 				if (en.getOperation().equals(Operation.DERIVATIVE)) {
 					return true;
 				}
@@ -127,8 +126,7 @@ public interface Inspecting {
 						nrOfPoints++;
 					}
 				}
-				if (v instanceof GeoDummyVariable) {
-					GeoDummyVariable gdv = (GeoDummyVariable) v;
+				if (v instanceof GeoDummyVariable gdv) {
 					String varString = gdv
 							.toString(StringTemplate.defaultTemplate);
 					if (!"x".equals(varString) && !"y".equals(varString)
@@ -182,8 +180,7 @@ public interface Inspecting {
 
 			// ExpressionNode
 			case 11:
-				if (v instanceof GeoDummyVariable) {
-					GeoDummyVariable gdv = (GeoDummyVariable) v;
+				if (v instanceof GeoDummyVariable gdv) {
 					if (!gdv.toString(StringTemplate.defaultTemplate)
 							.equals("x")
 							&& !gdv.toString(StringTemplate.defaultTemplate)
@@ -263,49 +260,35 @@ public interface Inspecting {
 	 * that are not labeled, symbolic or dependent ie we don't nned to
 	 * distinguish between MyDouble(1) and GeoNumeric(1)
 	 */
-	public static Inspecting dynamicGeosFinder = new Inspecting() {
-
-		@Override
-		public boolean check(ExpressionValue v) {
-			if (!v.isGeoElement()) {
-				return false;
-			}
-			GeoElement geo = (GeoElement) v;
-			return !geo.isIndependent() || geo.isLabelSet()
-					|| geo.isLocalVariable() || v instanceof GeoDummyVariable
-					|| geo.isGeoCasCell() || geo.isRandomGeo();
+	public static Inspecting dynamicGeosFinder = v -> {
+		if (!v.isGeoElement()) {
+			return false;
 		}
+		GeoElement geo = (GeoElement) v;
+		return !geo.isIndependent() || geo.isLabelSet()
+				|| geo.isLocalVariable() || v instanceof GeoDummyVariable
+				|| geo.isGeoCasCell() || geo.isRandomGeo();
 	};
 
 	/**
 	 * returns true if strings have been found in the expression (MyStringBuffer
 	 * || GeoText)
 	 */
-	public static Inspecting textFinder = new Inspecting() {
-
-		@Override
-		public boolean check(ExpressionValue v) {
-			return v instanceof GeoText || v instanceof MyStringBuffer;
-		}
-	};
+	public static Inspecting textFinder = v -> v instanceof GeoText || v instanceof MyStringBuffer;
 
 	/**
 	 * returns true if Plane have been found in the expression
 	 */
-	public static Inspecting planeFinder = new Inspecting() {
-
-		@Override
-		public boolean check(ExpressionValue v) {
-			if (v instanceof GeoDummyVariable) {
-				String name = ((GeoDummyVariable) v)
-						.toString(StringTemplate.defaultTemplate);
-				GeoElement geo = ((GeoDummyVariable) v).getKernel()
-						.lookupLabel(name);
-				return (geo instanceof GeoPlaneND)
-						|| "z".equals(name);
-			}
-			return v instanceof GeoPlaneND;
+	public static Inspecting planeFinder = v -> {
+		if (v instanceof GeoDummyVariable) {
+			String name = ((GeoDummyVariable) v)
+					.toString(StringTemplate.defaultTemplate);
+			GeoElement geo = ((GeoDummyVariable) v).getKernel()
+					.lookupLabel(name);
+			return (geo instanceof GeoPlaneND)
+					|| "z".equals(name);
 		}
+		return v instanceof GeoPlaneND;
 	};
 
 	/**
@@ -335,8 +318,7 @@ public interface Inspecting {
 			if (v instanceof GeoDummyVariable) {
 				return true;
 			}
-			if (v instanceof ExpressionNode) {
-				ExpressionNode en = (ExpressionNode) v;
+			if (v instanceof ExpressionNode en) {
 				if (en.getOperation().equals(Operation.PLUS)) {
 					return check(en.getLeft()) && check(en.getRight());
 				}
@@ -358,8 +340,7 @@ public interface Inspecting {
 			if (v instanceof GeoDummyVariable) {
 				return true;
 			}
-			if (v instanceof ExpressionNode) {
-				ExpressionNode en = (ExpressionNode) v;
+			if (v instanceof ExpressionNode en) {
 				if (en.getOperation().equals(Operation.MULTIPLY)
 						&& en.getLeft() instanceof MyDouble
 						&& en.getLeft().evaluateDouble() == -1

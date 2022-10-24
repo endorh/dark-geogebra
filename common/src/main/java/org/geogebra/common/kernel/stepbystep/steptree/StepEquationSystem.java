@@ -17,8 +17,7 @@ public class StepEquationSystem extends StepNode {
 
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof StepEquationSystem) {
-			StepEquationSystem ses = (StepEquationSystem) o;
+		if (o instanceof StepEquationSystem ses) {
 			return Arrays.equals(equations, ses.equations);
 		}
 

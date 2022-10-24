@@ -133,17 +133,12 @@ public class MediaBoundingBox extends BoundingBox<GShape> {
 
 		// I'd need a proper number theoretic remainder, but I have to make do with
 		// Computer Science modulo (there is Math.floorMod in java8)
-		switch ((4 + cursorIndex) % 4) {
-		case 0:
-			return EuclidianCursor.RESIZE_NS;
-		case 1:
-			return EuclidianCursor.RESIZE_NWSE;
-		case 2:
-			return EuclidianCursor.RESIZE_EW;
-		case 3:
-			return EuclidianCursor.RESIZE_NESW;
-		default:
-			return EuclidianCursor.DEFAULT;
-		}
+		return switch ((4 + cursorIndex) % 4) {
+			case 0 -> EuclidianCursor.RESIZE_NS;
+			case 1 -> EuclidianCursor.RESIZE_NWSE;
+			case 2 -> EuclidianCursor.RESIZE_EW;
+			case 3 -> EuclidianCursor.RESIZE_NESW;
+			default -> EuclidianCursor.DEFAULT;
+		};
 	}
 }

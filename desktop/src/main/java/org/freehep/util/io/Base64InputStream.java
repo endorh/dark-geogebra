@@ -147,29 +147,25 @@ public class Base64InputStream extends InputStream {
 
 		int data;
 		switch (cIndex) {
-		case 2:
+		case 2 -> {
 			data = (c[0] << 18) | (c[1] << 12);
-
 			b[0] = data >>> 16;
 			return 1;
-
-		case 3:
+		}
+		case 3 -> {
 			data = (c[0] << 18) | (c[1] << 12) | (c[2] << 6);
-
 			b[0] = data >>> 16;
 			b[1] = data >>> 8;
 			return 2;
-
-		case 4:
+		}
+		case 4 -> {
 			data = (c[0] << 18) | (c[1] << 12) | (c[2] << 6) | (c[3]);
-
 			b[0] = data >>> 16;
 			b[1] = data >>> 8;
 			b[2] = data;
 			return 3;
-
-		default:
-			throw new EncodingException("Base64InputStream: internal error.");
+		}
+		default -> throw new EncodingException("Base64InputStream: internal error.");
 		}
 	}
 }

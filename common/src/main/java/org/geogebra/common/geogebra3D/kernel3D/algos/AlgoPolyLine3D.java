@@ -130,9 +130,7 @@ public class AlgoPolyLine3D extends AlgoPolyLine {
 		GeoElement[] efficientInput = createEfficientInput();
 
 		input = new GeoElement[efficientInput.length];
-		for (int i = 0; i < efficientInput.length; i++) {
-			input[i] = efficientInput[i];
-		}
+		System.arraycopy(efficientInput, 0, input, 0, efficientInput.length);
 
 		setEfficientDependencies(input, efficientInput);
 

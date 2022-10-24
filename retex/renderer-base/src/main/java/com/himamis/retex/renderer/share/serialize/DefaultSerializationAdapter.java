@@ -7,9 +7,9 @@ public class DefaultSerializationAdapter implements SerializationAdapter {
 		StringBuilder sb = new StringBuilder(base);
 		if (sub != null) {
 			if (sub.length() > 1) {
-				sb.append("_{" + sub + "}");
+				sb.append("_{").append(sub).append("}");
 			} else {
-				sb.append("_" + sub);
+				sb.append("_").append(sub);
 			}
 		}
 		if (sup != null) {

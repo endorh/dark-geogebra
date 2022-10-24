@@ -38,12 +38,7 @@ public class DirectedSparseGraph<V, E> extends AbstractTypedGraph<V, E>
 	 *            the edge type for the graph factory
 	 */
 	public static final <V, E> Factory<DirectedGraph<V, E>> getFactory() {
-		return new Factory<DirectedGraph<V, E>>() {
-			@Override
-			public DirectedGraph<V, E> create() {
-				return new DirectedSparseGraph<V, E>();
-			}
-		};
+		return DirectedSparseGraph::new;
 	}
 
 	protected Map<V, Pair<Map<V, E>>> vertices; // Map of vertices to Pair of
@@ -58,8 +53,8 @@ public class DirectedSparseGraph<V, E> extends AbstractTypedGraph<V, E>
 	 */
 	public DirectedSparseGraph() {
 		super(EdgeType.DIRECTED);
-		vertices = new HashMap<V, Pair<Map<V, E>>>();
-		edges = new HashMap<E, Pair<V>>();
+		vertices = new HashMap<>();
+		edges = new HashMap<>();
 	}
 
 	@Override
@@ -108,7 +103,7 @@ public class DirectedSparseGraph<V, E> extends AbstractTypedGraph<V, E>
 		if (!containsVertex(v1) || !containsVertex(v2)) {
 			return null;
 		}
-		ArrayList<E> edge_collection = new ArrayList<E>(1);
+		ArrayList<E> edge_collection = new ArrayList<>(1);
 		E e = findEdge(v1, v2);
 		if (e == null) {
 			return edge_collection;
@@ -241,7 +236,7 @@ public class DirectedSparseGraph<V, E> extends AbstractTypedGraph<V, E>
 			return null;
 		}
 
-		Collection<V> neighbors = new HashSet<V>();
+		Collection<V> neighbors = new HashSet<>();
 		neighbors.addAll(getPreds_internal(vertex));
 		neighbors.addAll(getSuccs_internal(vertex));
 		return Collections.unmodifiableCollection(neighbors);
@@ -253,7 +248,7 @@ public class DirectedSparseGraph<V, E> extends AbstractTypedGraph<V, E>
 			return null;
 		}
 
-		Collection<E> incident_edges = new HashSet<E>();
+		Collection<E> incident_edges = new HashSet<>();
 		incident_edges.addAll(getIncoming_internal(vertex));
 		incident_edges.addAll(getOutgoing_internal(vertex));
 		return Collections.unmodifiableCollection(incident_edges);
@@ -265,8 +260,8 @@ public class DirectedSparseGraph<V, E> extends AbstractTypedGraph<V, E>
 			throw new IllegalArgumentException("vertex may not be null");
 		}
 		if (!containsVertex(vertex)) {
-			vertices.put(vertex, new Pair<Map<V, E>>(new HashMap<V, E>(),
-					new HashMap<V, E>()));
+			vertices.put(vertex, new Pair<>(new HashMap<>(),
+					new HashMap<>()));
 			return true;
 		}
 		return false;
@@ -279,7 +274,7 @@ public class DirectedSparseGraph<V, E> extends AbstractTypedGraph<V, E>
 		}
 
 		// copy to avoid concurrent modification in removeEdge
-		ArrayList<E> incident = new ArrayList<E>(getIncoming_internal(vertex));
+		ArrayList<E> incident = new ArrayList<>(getIncoming_internal(vertex));
 		incident.addAll(getOutgoing_internal(vertex));
 
 		for (E edge : incident) {
@@ -311,6 +306,6 @@ public class DirectedSparseGraph<V, E> extends AbstractTypedGraph<V, E>
 
 	@Override
 	public DirectedSparseGraph<V, E> newInstance() {
-		return new DirectedSparseGraph<V, E>();
+		return new DirectedSparseGraph<>();
 	}
 }

@@ -18,6 +18,7 @@ public class AsyncOperationCollection<T> implements AsyncOperation<T> {
 	 *
 	 * @param operations operations
 	 */
+	@SafeVarargs
 	public AsyncOperationCollection(AsyncOperation<T>... operations) {
 		this.operations = Arrays.asList(operations);
 	}

@@ -15,9 +15,8 @@ public class Surds {
 		ExpressionValue left = expr.getLeft();
 		Operation op = expr.getOperation();
 		ExpressionValue evaluated = left.evaluate(StringTemplate.defaultTemplate).unwrap();
-		if (evaluated instanceof NumberValue && op == Operation.SQRT) {
+		if (evaluated instanceof NumberValue number && op == Operation.SQRT) {
 			// Sqrt of number
-			NumberValue number = (NumberValue) evaluated;
 			double value = number.getDouble();
 			if (value % 1 == 0 && value > 0 && value < Integer.MAX_VALUE) {
 				return getSimplifiedSurd(kernel, (int) value);

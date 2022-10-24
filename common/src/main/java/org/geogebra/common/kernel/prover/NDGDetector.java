@@ -106,8 +106,7 @@ public class NDGDetector {
 			// create list of variables -> segments
 			HashMap<PVariable, GeoElement> geos = new HashMap<>();
 			if (varSubstListOfSegs != null) {
-				for (int i = 0; i < varSubstListOfSegs.size(); ++i) {
-					Entry<GeoElement, PVariable> e = varSubstListOfSegs.get(i);
+				for (Entry<GeoElement, PVariable> e : varSubstListOfSegs) {
 					GeoElement g = e.getKey();
 					PVariable v = e.getValue();
 					geos.put(v, g);
@@ -292,10 +291,7 @@ public class NDGDetector {
 		HashMap<PVariable, GeoElement> xvarGeo = new HashMap<>();
 		HashSet<PVariable> freeYvars = new HashSet<>();
 		HashMap<PVariable, GeoElement> yvarGeo = new HashMap<>();
-		Iterator<GeoElement> it = prover.getStatement().getAllPredecessors()
-				.iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
+		for (GeoElement geo : prover.getStatement().getAllPredecessors()) {
 			if (geo.isGeoPoint()
 					&& (geo instanceof SymbolicParametersBotanaAlgo)) {
 				PVariable x, y;

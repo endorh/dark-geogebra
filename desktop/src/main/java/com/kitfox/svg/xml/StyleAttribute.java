@@ -173,20 +173,15 @@ public class StyleAttribute implements Serializable {
 		}
 		final float inchesPerCm = .3936f;
 
-		switch (unitType) {
-		case NumberWithUnits.UT_IN:
-			return value * pixPerInch;
-		case NumberWithUnits.UT_CM:
-			return value * inchesPerCm * pixPerInch;
-		case NumberWithUnits.UT_MM:
-			return value * .1f * inchesPerCm * pixPerInch;
-		case NumberWithUnits.UT_PT:
-			return value * (1f / 72f) * pixPerInch;
-		case NumberWithUnits.UT_PC:
-			return value * (1f / 6f) * pixPerInch;
-		}
+		return switch (unitType) {
+			case NumberWithUnits.UT_IN -> value * pixPerInch;
+			case NumberWithUnits.UT_CM -> value * inchesPerCm * pixPerInch;
+			case NumberWithUnits.UT_MM -> value * .1f * inchesPerCm * pixPerInch;
+			case NumberWithUnits.UT_PT -> value * (1f / 72f) * pixPerInch;
+			case NumberWithUnits.UT_PC -> value * (1f / 6f) * pixPerInch;
+			default -> value;
+		};
 
-		return value;
 	}
 
 	public Color getColorValue() {

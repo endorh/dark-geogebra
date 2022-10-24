@@ -160,8 +160,7 @@ public abstract class AlgoTransformation extends AlgoElement {
 	protected void transformLimitedConic(GeoElement a, GeoElement b) {
 
 		GeoConicPart arc = (GeoConicPart) b;
-		if (a instanceof GeoConicPart) {
-			GeoConicPart source = (GeoConicPart) a;
+		if (a instanceof GeoConicPart source) {
 			arc.setParameters(0, Kernel.PI_2, true);
 			if (transformedPoint == null) {
 				transformedPoint = new GeoPoint(cons);

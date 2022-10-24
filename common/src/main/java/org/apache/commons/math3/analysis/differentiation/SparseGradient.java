@@ -62,7 +62,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
      */
     private SparseGradient(final double value, final Map<Integer, Double> derivatives) {
         this.value = value;
-        this.derivatives = new HashMap<Integer, Double>();
+        this.derivatives = new HashMap<>();
         if (derivatives != null) {
             this.derivatives.putAll(derivatives);
         }
@@ -78,7 +78,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
     private SparseGradient(final double value, final double scale,
                              final Map<Integer, Double> derivatives) {
         this.value = value;
-        this.derivatives = new HashMap<Integer, Double>();
+        this.derivatives = new HashMap<>();
         if (derivatives != null) {
             for (final Map.Entry<Integer, Double> entry : derivatives.entrySet()) {
                 this.derivatives.put(entry.getKey(), scale * entry.getValue());
@@ -140,12 +140,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
         final SparseGradient out = new SparseGradient(value + a.value, derivatives);
         for (Map.Entry<Integer, Double> entry : a.derivatives.entrySet()) {
             final int id = entry.getKey();
-            final Double old = out.derivatives.get(id);
-            if (old == null) {
-                out.derivatives.put(id, entry.getValue());
-            } else {
-                out.derivatives.put(id, old + entry.getValue());
-            }
+	        out.derivatives.merge(id, entry.getValue(), Double::sum);
         }
 
         return out;
@@ -167,12 +162,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
         value += a.value;
         for (final Map.Entry<Integer, Double> entry : a.derivatives.entrySet()) {
             final int id = entry.getKey();
-            final Double old = derivatives.get(id);
-            if (old == null) {
-                derivatives.put(id, entry.getValue());
-            } else {
-                derivatives.put(id, old + entry.getValue());
-            }
+	        derivatives.merge(id, entry.getValue(), Double::sum);
         }
     }
 
@@ -213,12 +203,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
         }
         for (Map.Entry<Integer, Double> entry : a.derivatives.entrySet()) {
             final int id = entry.getKey();
-            final Double old = out.derivatives.get(id);
-            if (old == null) {
-                out.derivatives.put(id, value * entry.getValue());
-            } else {
-                out.derivatives.put(id, old + value * entry.getValue());
-            }
+	        out.derivatives.merge(id, value * entry.getValue(), Double::sum);
         }
         return out;
     }
@@ -237,17 +222,10 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
      */
     public void multiplyInPlace(final SparseGradient a) {
         // Derivatives.
-        for (Map.Entry<Integer, Double> entry : derivatives.entrySet()) {
-            derivatives.put(entry.getKey(), a.value * entry.getValue());
-        }
+	    derivatives.replaceAll((k, v) -> a.value * v);
         for (Map.Entry<Integer, Double> entry : a.derivatives.entrySet()) {
             final int id = entry.getKey();
-            final Double old = derivatives.get(id);
-            if (old == null) {
-                derivatives.put(id, value * entry.getValue());
-            } else {
-                derivatives.put(id, old + value * entry.getValue());
-            }
+	        derivatives.merge(id, value * entry.getValue(), Double::sum);
         }
         value *= a.value;
     }
@@ -294,7 +272,7 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
 
     /** {@inheritDoc} */
     public Field<SparseGradient> getField() {
-        return new Field<SparseGradient>() {
+        return new Field<>() {
 
             /** {@inheritDoc} */
             public SparseGradient getZero() {
@@ -845,9 +823,8 @@ public class SparseGradient implements RealFieldElement<SparseGradient>, Seriali
             return true;
         }
 
-        if (other instanceof SparseGradient) {
-            final SparseGradient rhs = (SparseGradient)other;
-            if (!Precision.equals(value, rhs.value, 1)) {
+        if (other instanceof final SparseGradient rhs) {
+	        if (!Precision.equals(value, rhs.value, 1)) {
                 return false;
             }
             if (derivatives.size() != rhs.derivatives.size()) {

@@ -23,8 +23,7 @@ public class FixCheckboxModel extends BooleanOptionModel {
 	@Override
 	public boolean isValidAt(int index) {
 		Object geo = getObjectAt(index);
-		if (geo instanceof GeoBoolean) {
-			GeoBoolean bool = (GeoBoolean) geo;
+		if (geo instanceof GeoBoolean bool) {
 			if (!bool.isIndependent()) {
 				return false;
 			}

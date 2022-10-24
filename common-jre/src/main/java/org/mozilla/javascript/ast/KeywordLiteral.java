@@ -69,26 +69,15 @@ public class KeywordLiteral extends AstNode {
     public String toSource(int depth) {
         StringBuilder sb = new StringBuilder();
         sb.append(makeIndent(depth));
-        switch (getType()) {
-        case Token.THIS:
-            sb.append("this");
-            break;
-        case Token.NULL:
-            sb.append("null");
-            break;
-        case Token.TRUE:
-            sb.append("true");
-            break;
-        case Token.FALSE:
-            sb.append("false");
-            break;
-        case Token.DEBUGGER:
-            sb.append("debugger;\n");
-            break;
-        default:
-            throw new IllegalStateException("Invalid keyword literal type: "
-                                            + getType());
-        }
+	    switch (getType()) {
+	    case Token.THIS -> sb.append("this");
+	    case Token.NULL -> sb.append("null");
+	    case Token.TRUE -> sb.append("true");
+	    case Token.FALSE -> sb.append("false");
+	    case Token.DEBUGGER -> sb.append("debugger;\n");
+	    default -> throw new IllegalStateException("Invalid keyword literal type: "
+			    + getType());
+	    }
         return sb.toString();
     }
 

@@ -49,9 +49,9 @@ import java.util.regex.Pattern;
  */
 public class ColorTable {
 
-	static final Map colorTable;
+	static final Map<String, Color> colorTable;
 	static {
-		HashMap table = new HashMap();
+		Map<String, Color> table = new HashMap<>();
 
 		// We really should be interpreting the currentColor keyword as
 		// a reference to the referring node's color, but this quick hack
@@ -217,12 +217,7 @@ public class ColorTable {
 	}
 
 	public Color lookupColor(String name) {
-		Object obj = colorTable.get(name.toLowerCase());
-		if (obj == null) {
-			return null;
-		}
-
-		return (Color) obj;
+		return colorTable.get(name.toLowerCase());
 	}
 
 	public static Color parseColor(String val) {

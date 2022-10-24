@@ -31,7 +31,7 @@ public class CmdAxisLength extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1:
+		case 1 -> {
 			arg = resArgs(c);
 
 			// asymptotes to conic
@@ -40,13 +40,12 @@ public class CmdAxisLength extends CommandProcessor {
 				AlgoAxisLength algo = new AlgoAxisLength(cons,
 						c.getLabel(), (GeoConicND) arg[0], axisId);
 
-				GeoElement[] ret = { algo.getLength() };
+				GeoElement[] ret = {algo.getLength()};
 				return ret;
 			}
 			throw argErr(c, arg[0]);
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

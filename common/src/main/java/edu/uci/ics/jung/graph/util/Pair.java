@@ -14,6 +14,7 @@ package edu.uci.ics.jung.graph.util;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Objects;
 
 /**
  * An implementation of <code>Collection</code> that stores exactly 2 non-null
@@ -124,14 +125,11 @@ public final class Pair<T> implements Collection<T>, Serializable {
 			return true;
 		}
 
-		if (o instanceof Pair) {
-			Pair otherPair = (Pair) o;
+		if (o instanceof Pair otherPair) {
 			Object otherFirst = otherPair.getFirst();
 			Object otherSecond = otherPair.getSecond();
-			return (this.first == otherFirst
-					|| (this.first != null && this.first.equals(otherFirst)))
-					&& (this.second == otherSecond || (this.second != null
-							&& this.second.equals(otherSecond)));
+			return (Objects.equals(this.first, otherFirst))
+					&& (Objects.equals(this.second, otherSecond));
 		}
 		return false;
 	}

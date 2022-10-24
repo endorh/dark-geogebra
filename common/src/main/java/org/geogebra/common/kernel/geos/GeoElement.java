@@ -326,7 +326,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	private int ordering = -1;
 
-	private static Comparator<AlgoElement> algoComparator = (o1, o2) -> o1.compareTo(o2);
+	private static Comparator<AlgoElement> algoComparator = Comparator.naturalOrder();
 
 	/**
 	 * Creates new GeoElement for given construction
@@ -449,17 +449,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 		if (isDefaultGeo()) {
 			switch (mode) {
-			case LABEL_NAME:
-			case LABEL_NAME_VALUE:
-			case LABEL_VALUE:
-			case LABEL_CAPTION:
-			case LABEL_CAPTION_VALUE:
+			case LABEL_NAME, LABEL_NAME_VALUE, LABEL_VALUE, LABEL_CAPTION, LABEL_CAPTION_VALUE ->
 				// old values for default geos: set label to default
-				labelMode = LABEL_DEFAULT;
-				break;
-
-			default:
-				labelMode = mode;
+					labelMode = LABEL_DEFAULT;
+			default -> labelMode = mode;
 			}
 
 			if (labelMode != LABEL_DEFAULT) {
@@ -467,29 +460,13 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			}
 		} else {
 			switch (mode) {
-			case LABEL_NAME_VALUE:
-			case LABEL_DEFAULT_NAME_VALUE:
-				labelMode = LABEL_NAME_VALUE;
-				break;
-
-			case LABEL_VALUE:
-			case LABEL_DEFAULT_VALUE:
-				labelMode = LABEL_VALUE;
-				break;
-
-			case LABEL_CAPTION: // Michael Borcherds 2008-02-18
-			case LABEL_DEFAULT_CAPTION:
-				labelMode = LABEL_CAPTION;
-				break;
-			case LABEL_CAPTION_VALUE:
-				labelMode = LABEL_CAPTION_VALUE;
-				break;
-			case LABEL_DEFAULT:
-				setLabelModeDefault();
-				break;
-
-			default:
-				labelMode = LABEL_NAME;
+			case LABEL_NAME_VALUE, LABEL_DEFAULT_NAME_VALUE -> labelMode = LABEL_NAME_VALUE;
+			case LABEL_VALUE, LABEL_DEFAULT_VALUE -> labelMode = LABEL_VALUE;
+			// Michael Borcherds 2008-02-18
+			case LABEL_CAPTION, LABEL_DEFAULT_CAPTION -> labelMode = LABEL_CAPTION;
+			case LABEL_CAPTION_VALUE -> labelMode = LABEL_CAPTION_VALUE;
+			case LABEL_DEFAULT -> setLabelModeDefault();
+			default -> labelMode = LABEL_NAME;
 			}
 		}
 	}
@@ -535,27 +512,12 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			resetLabelSetting();
 		} else {
 			switch (mode) {
-			case LABEL_NAME_VALUE:
-			case LABEL_DEFAULT_NAME_VALUE:
-				labelMode = LABEL_NAME_VALUE;
-				break;
-
-			case LABEL_VALUE:
-			case LABEL_DEFAULT_VALUE:
-				labelMode = LABEL_VALUE;
-				break;
-
-			case LABEL_CAPTION: // Michael Borcherds 2008-02-18
-			case LABEL_DEFAULT_CAPTION:
-				labelMode = LABEL_CAPTION;
-				break;
-
-			case LABEL_DEFAULT:
-				setLabelModeDefault();
-				break;
-
-			default:
-				labelMode = LABEL_NAME;
+			case LABEL_NAME_VALUE, LABEL_DEFAULT_NAME_VALUE -> labelMode = LABEL_NAME_VALUE;
+			case LABEL_VALUE, LABEL_DEFAULT_VALUE -> labelMode = LABEL_VALUE;
+			// Michael Borcherds 2008-02-18
+			case LABEL_CAPTION, LABEL_DEFAULT_CAPTION -> labelMode = LABEL_CAPTION;
+			case LABEL_DEFAULT -> setLabelModeDefault();
+			default -> labelMode = LABEL_NAME;
 			}
 		}
 	}
@@ -843,16 +805,9 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			if (geo.isDefined()) {
 				final double val = geo.evaluateDouble();
 				switch (i) {
-				default:
-				case 0:
-					redD = val;
-					break;
-				case 1:
-					greenD = val;
-					break;
-				case 2:
-					blueD = val;
-					break;
+				case 0 -> redD = val;
+				case 1 -> greenD = val;
+				case 2 -> blueD = val;
 				}
 			}
 		}
@@ -1801,15 +1756,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	public void setTooltipMode(final int mode) {
 		// return isAlgebraVisible();
 		switch (mode) {
-		default:
-			tooltipMode = TOOLTIP_ALGEBRAVIEW_SHOWING;
-			break;
-		case TOOLTIP_OFF:
-		case TOOLTIP_ON:
-		case TOOLTIP_CAPTION:
-		case TOOLTIP_NEXTCELL:
-			tooltipMode = mode;
-			break;
+		default -> tooltipMode = TOOLTIP_ALGEBRAVIEW_SHOWING;
+		case TOOLTIP_OFF, TOOLTIP_ON, TOOLTIP_CAPTION, TOOLTIP_NEXTCELL -> tooltipMode = mode;
 		}
 
 	}
@@ -2061,8 +2009,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			return false;
 		}
 
-		for (int i = 0; i < geos.size(); i++) {
-			final GeoElement geo = (GeoElement) geos.get(i);
+		for (GeoPointND geoPointND : geos) {
+			final GeoElement geo = (GeoElement) geoPointND;
 			if (!geo.isMoveable()) {
 				return false;
 			}
@@ -2207,18 +2155,14 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 */
 	final public void setAnimationType(final int type) {
 		switch (type) {
-		default:
-		case ANIMATION_INCREASING_ONCE:
-		case ANIMATION_INCREASING:
-		case ANIMATION_OSCILLATING:
+		case ANIMATION_INCREASING_ONCE, ANIMATION_INCREASING, ANIMATION_OSCILLATING -> {
 			animationType = type;
 			animationDirection = 1;
-			break;
-
-		case ANIMATION_DECREASING:
+		}
+		case ANIMATION_DECREASING -> {
 			animationType = type;
 			animationDirection = -1;
-			break;
+		}
 		}
 	}
 
@@ -3018,8 +2962,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	public void removeDependentAlgos() {
 		if (algorithmList != null) {
 			final Object[] algos = algorithmList.toArray();
-			for (int i = 0; i < algos.length; i++) {
-				AlgoElement algo = (AlgoElement) algos[i];
+			for (Object o : algos) {
+				AlgoElement algo = (AlgoElement) o;
 				algo.remove(this);
 			}
 		}
@@ -3109,8 +3053,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			if (algoParent != null) {
 				final GeoElementND[] input = algoParent
 						.getInputForUpdateSetPropagation();
-				for (int i = 0; i < input.length; i++) {
-					input[i].addToUpdateSets(algorithm);
+				for (GeoElementND geoElementND : input) {
+					geoElementND.addToUpdateSets(algorithm);
 				}
 			}
 		}
@@ -3128,8 +3072,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			if (algoParent != null) {
 				final GeoElementND[] input = algoParent
 						.getInputForUpdateSetPropagation();
-				for (int i = 0; i < input.length; i++) {
-					input[i].removeFromUpdateSets(algorithm);
+				for (GeoElementND geoElementND : input) {
+					geoElementND.removeFromUpdateSets(algorithm);
 				}
 			}
 		}
@@ -3318,9 +3262,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		tempSet1.clear();
 
 		final int size = geos.size();
-		for (int i = 0; i < size; i++) {
-			final GeoElementND geo = geos.get(i);
-
+		for (final GeoElementND geo : geos) {
 			geo.update();
 
 			if ((geo.isIndependent() || geo.isPointOnPath() || updateCascadeAll)
@@ -3356,9 +3298,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		final TreeSet<AlgoElement> tempSet1 = new TreeSet<>();
 
 		final int size = geos.size();
-		for (int i = 0; i < size; i++) {
-			final Locateable geo = geos.get(i);
-
+		for (final Locateable geo : geos) {
 			geo.updateLocation();
 
 			if ((geo.isIndependent() || geo.isGeoText())
@@ -7101,20 +7041,15 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 * @return whether the locus is visible
 	 */
 	public boolean isVisibleInEV(int i) {
-		switch (i) {
-		case 1:
-			return isVisibleInView(App.VIEW_EUCLIDIAN)
+		return switch (i) {
+			case 1 -> isVisibleInView(App.VIEW_EUCLIDIAN)
 					&& app.showView(App.VIEW_EUCLIDIAN);
-
-		case 2:
-			return isVisibleInView(App.VIEW_EUCLIDIAN2)
+			case 2 -> isVisibleInView(App.VIEW_EUCLIDIAN2)
 					&& app.hasEuclidianView2(1);
-
-		case 3:
-			return isVisibleInView3D()
+			case 3 -> isVisibleInView3D()
 					&& app.isEuclidianView3Dinited();
-		}
-		return false;
+			default -> false;
+		};
 	}
 
 	@Override

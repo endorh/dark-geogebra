@@ -34,7 +34,7 @@ public class Graphs {
 	 * @return a synchronized graph backed by the passed argument graph
 	 */
 	public static <V, E> Graph<V, E> synchronizedGraph(Graph<V, E> graph) {
-		return new SynchronizedGraph<V, E>(graph);
+		return new SynchronizedGraph<>(graph);
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class Graphs {
 	 */
 	public static <V, E> DirectedGraph<V, E> synchronizedDirectedGraph(
 			DirectedGraph<V, E> graph) {
-		return new SynchronizedDirectedGraph<V, E>(graph);
+		return new SynchronizedDirectedGraph<>(graph);
 	}
 
 	/**
@@ -68,7 +68,7 @@ public class Graphs {
 	 */
 	public static <V, E> UndirectedGraph<V, E> synchronizedUndirectedGraph(
 			UndirectedGraph<V, E> graph) {
-		return new SynchronizedUndirectedGraph<V, E>(graph);
+		return new SynchronizedUndirectedGraph<>(graph);
 	}
 
 	/**
@@ -84,7 +84,7 @@ public class Graphs {
 	 */
 	public static <V, E> SynchronizedForest<V, E> synchronizedForest(
 			Forest<V, E> forest) {
-		return new SynchronizedForest<V, E>(forest);
+		return new SynchronizedForest<>(forest);
 	}
 
 	/**
@@ -100,7 +100,7 @@ public class Graphs {
 	 */
 	public static <V, E> SynchronizedTree<V, E> synchronizedTree(
 			Tree<V, E> tree) {
-		return new SynchronizedTree<V, E>(tree);
+		return new SynchronizedTree<>(tree);
 	}
 
 	/**
@@ -115,7 +115,7 @@ public class Graphs {
 	 * @return an unmodifiable Graph backed by the passed Graph
 	 */
 	public static <V, E> Graph<V, E> unmodifiableGraph(Graph<V, E> graph) {
-		return new UnmodifiableGraph<V, E>(graph);
+		return new UnmodifiableGraph<>(graph);
 	}
 
 	/**
@@ -133,7 +133,7 @@ public class Graphs {
 	 */
 	public static <V, E> DirectedGraph<V, E> unmodifiableDirectedGraph(
 			DirectedGraph<V, E> graph) {
-		return new UnmodifiableDirectedGraph<V, E>(graph);
+		return new UnmodifiableDirectedGraph<>(graph);
 	}
 
 	/**
@@ -151,7 +151,7 @@ public class Graphs {
 	 */
 	public static <V, E> UndirectedGraph<V, E> unmodifiableUndirectedGraph(
 			UndirectedGraph<V, E> graph) {
-		return new UnmodifiableUndirectedGraph<V, E>(graph);
+		return new UnmodifiableUndirectedGraph<>(graph);
 	}
 
 	/**
@@ -167,7 +167,7 @@ public class Graphs {
 	 */
 	public static <V, E> UnmodifiableTree<V, E> unmodifiableTree(
 			Tree<V, E> tree) {
-		return new UnmodifiableTree<V, E>(tree);
+		return new UnmodifiableTree<>(tree);
 	}
 
 	/**
@@ -184,7 +184,7 @@ public class Graphs {
 	 */
 	public static <V, E> UnmodifiableForest<V, E> unmodifiableForest(
 			Forest<V, E> forest) {
-		return new UnmodifiableForest<V, E>(forest);
+		return new UnmodifiableForest<>(forest);
 	}
 
 	@SuppressWarnings("serial")

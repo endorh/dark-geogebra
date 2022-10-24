@@ -49,7 +49,7 @@ public class TransformerMap implements NumberTransformer, Serializable {
      * Build a map containing only the default transformer.
      */
     public TransformerMap() {
-        map = new HashMap<Class<?>, NumberTransformer>();
+        map = new HashMap<>();
         defaultTransformer = new DefaultTransformer();
     }
 
@@ -158,9 +158,8 @@ public class TransformerMap implements NumberTransformer, Serializable {
         if (this == other) {
             return true;
         }
-        if (other instanceof TransformerMap) {
-            TransformerMap rhs = (TransformerMap) other;
-            if (! defaultTransformer.equals(rhs.defaultTransformer)) {
+        if (other instanceof TransformerMap rhs) {
+	        if (! defaultTransformer.equals(rhs.defaultTransformer)) {
                 return false;
             }
             if (map.size() != rhs.map.size()) {

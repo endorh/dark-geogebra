@@ -29,7 +29,7 @@ final class Arguments extends IdScriptableObject
         setPrototype(ScriptableObject.getObjectPrototype(parent));
 
         args = activation.originalArgs;
-        lengthObj = Integer.valueOf(args.length);
+        lengthObj = args.length;
 
         NativeFunction f = activation.function;
         calleeObj = f;
@@ -190,19 +190,12 @@ final class Arguments extends IdScriptableObject
 
         if (id == 0) return super.findInstanceIdInfo(s);
 
-        int attr;
-        switch (id) {
-          case Id_callee:
-            attr = calleeAttr;
-            break;
-          case Id_caller:
-            attr = callerAttr;
-            break;
-          case Id_length:
-            attr = lengthAttr;
-            break;
-          default: throw new IllegalStateException();
-        }
+        int attr = switch (id) {
+            case Id_callee -> calleeAttr;
+            case Id_caller -> callerAttr;
+            case Id_length -> lengthAttr;
+            default -> throw new IllegalStateException();
+        };
         return instanceIdInfo(attr, id);
     }
 
@@ -211,12 +204,12 @@ final class Arguments extends IdScriptableObject
     @Override
     protected String getInstanceIdName(int id)
     {
-        switch (id) {
-            case Id_callee: return "callee";
-            case Id_length: return "length";
-            case Id_caller: return "caller";
-        }
-        return null;
+        return switch (id) {
+            case Id_callee -> "callee";
+            case Id_length -> "length";
+            case Id_caller -> "caller";
+            default -> null;
+        };
     }
 
     @Override
@@ -244,11 +237,18 @@ final class Arguments extends IdScriptableObject
     protected void setInstanceIdValue(int id, Object value)
     {
         switch (id) {
-            case Id_callee: calleeObj = value; return;
-            case Id_length: lengthObj = value; return;
-            case Id_caller:
-                callerObj = (value != null) ? value : UniqueTag.NULL_VALUE;
-                return;
+        case Id_callee -> {
+            calleeObj = value;
+            return;
+        }
+        case Id_length -> {
+            lengthObj = value;
+            return;
+        }
+        case Id_caller -> {
+            callerObj = (value != null) ? value : UniqueTag.NULL_VALUE;
+            return;
+        }
         }
         super.setInstanceIdValue(id, value);
     }
@@ -257,9 +257,18 @@ final class Arguments extends IdScriptableObject
     protected void setInstanceIdAttributes(int id, int attr)
     {
         switch (id) {
-            case Id_callee: calleeAttr = attr; return;
-            case Id_length: lengthAttr = attr; return;
-            case Id_caller: callerAttr = attr; return;
+        case Id_callee -> {
+            calleeAttr = attr;
+            return;
+        }
+        case Id_length -> {
+            lengthAttr = attr;
+            return;
+        }
+        case Id_caller -> {
+            callerAttr = attr;
+            return;
+        }
         }
         super.setInstanceIdAttributes(id, attr);
     }
@@ -274,7 +283,7 @@ final class Arguments extends IdScriptableObject
             for (int i = 0; i != ids.length; ++i) {
                 Object id = ids[i];
                 if (id instanceof Integer) {
-                    int index = ((Integer)id).intValue();
+                    int index = (Integer) id;
                     if (0 <= index && index < args.length) {
                         if (!present[index]) {
                             present[index] = true;
@@ -298,7 +307,7 @@ final class Arguments extends IdScriptableObject
                 int offset = 0;
                 for (int i = 0; i != args.length; ++i) {
                     if (present == null || !present[i]) {
-                        ids[offset] = Integer.valueOf(i);
+                        ids[offset] = i;
                         ++offset;
                     }
                 }

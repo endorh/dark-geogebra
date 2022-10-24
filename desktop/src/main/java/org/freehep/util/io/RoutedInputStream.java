@@ -4,7 +4,6 @@ package org.freehep.util.io;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 import org.geogebra.common.util.Charsets;
@@ -118,9 +117,8 @@ public class RoutedInputStream extends InputStream {
 					eob = (eob + 1) % buffer.length;
 
 					// search for a route
-					for (Iterator i = routes.keySet().iterator(); i
-							.hasNext();) {
-						start = (byte[]) i.next();
+					for (Object o : routes.keySet()) {
+						start = (byte[]) o;
 						index = (eob + buffer.length - start.length)
 								% buffer.length;
 						if (equals(start, buffer, index)) {
@@ -246,8 +244,8 @@ public class RoutedInputStream extends InputStream {
 	 *            listener to inform about the route
 	 */
 	public void addRoute(byte[] start, byte[] end, RouteListener listener) {
-		for (Iterator i = routes.keySet().iterator(); i.hasNext();) {
-			String key = new String((byte[]) i.next(), Charsets.getUtf8());
+		for (Object o : routes.keySet()) {
+			String key = new String((byte[]) o, Charsets.getUtf8());
 			String name = new String(start, Charsets.getUtf8());
 			if (key.startsWith(name) || name.startsWith(key)) {
 				throw new IllegalArgumentException("Route '" + name

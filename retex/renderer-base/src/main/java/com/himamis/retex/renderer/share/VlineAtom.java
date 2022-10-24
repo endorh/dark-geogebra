@@ -101,10 +101,10 @@ public class VlineAtom extends Atom {
 		if (n == 0) {
 			return ".";
 		}
-		String s = "";
+		StringBuilder s = new StringBuilder();
 		for (int i = 0; i < n; ++i) {
-			s += "|";
+			s.append("|");
 		}
-		return s;
+		return s.toString();
 	}
 }

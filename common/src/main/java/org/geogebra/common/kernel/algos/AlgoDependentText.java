@@ -83,9 +83,9 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 	@Override
 	protected void setInputOutput() {
 		setInputFrom(text.getDefinition());
-		for (int i = 0; i < input.length; i++) {
-			if (input[i].isGeoText()) {
-				((GeoText) input[i]).addTextDescendant(text);
+		for (GeoElement geoElement : input) {
+			if (geoElement.isGeoText()) {
+				((GeoText) geoElement).addTextDescendant(text);
 			}
 		}
 		setOnlyOutput(text);
@@ -105,11 +105,11 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 		StringTemplate tpl = text.getStringTemplate();
 		if (oldTpl != tpl) {
 			oldTpl = tpl;
-			for (int i = 0; i < input.length; i++) {
-				if (input[i].isGeoText() && !input[i].isLabelSet()
-						&& input[i].getParentAlgorithm() != null) {
-					input[i].setVisualStyle(text);
-					input[i].getParentAlgorithm().update();
+			for (GeoElement geoElement : input) {
+				if (geoElement.isGeoText() && !geoElement.isLabelSet()
+						&& geoElement.getParentAlgorithm() != null) {
+					geoElement.setVisualStyle(text);
+					geoElement.getParentAlgorithm().update();
 				}
 			}
 		}
@@ -216,8 +216,7 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 			// ************
 			setNumToTrace(ev);
 			ret = new MyStringBuffer(kernel, " ... ");
-		} else if (ev instanceof ExpressionNode) {
-			ExpressionNode en = (ExpressionNode) ev;
+		} else if (ev instanceof ExpressionNode en) {
 			ret = getSpecialCopy(en);
 			// } else if (ev instanceof MyList) {
 			// MyList en = (MyList) ev;

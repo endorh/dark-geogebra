@@ -93,9 +93,9 @@ public class VoltageScorer<V, E> extends AbstractIterativeScorer<V, E, Double>
 			Collection<V> sources, Collection<V> sinks) {
 		super(g, edge_weights);
 
-		Map<V, Double> unit_voltages = new HashMap<V, Double>();
+		Map<V, Double> unit_voltages = new HashMap<>();
 		for (V v : sources) {
-			unit_voltages.put(v, new Double(1.0));
+			unit_voltages.put(v, 1.0);
 		}
 		this.source_voltages = unit_voltages;
 		this.sinks = sinks;
@@ -118,9 +118,9 @@ public class VoltageScorer<V, E> extends AbstractIterativeScorer<V, E, Double>
 			Collection<V> sinks) {
 		super(g);
 
-		Map<V, Double> unit_voltages = new HashMap<V, Double>();
+		Map<V, Double> unit_voltages = new HashMap<>();
 		for (V v : sources) {
-			unit_voltages.put(v, new Double(1.0));
+			unit_voltages.put(v, 1.0);
 		}
 		this.source_voltages = unit_voltages;
 		this.sinks = sinks;
@@ -143,7 +143,7 @@ public class VoltageScorer<V, E> extends AbstractIterativeScorer<V, E, Double>
 		super(g);
 		this.source_voltages = source_voltages;
 		this.sinks = sinks;
-		this.edge_weights = new UniformDegreeWeight<V, E>(g);
+		this.edge_weights = new UniformDegreeWeight<>(g);
 		initialize();
 	}
 
@@ -252,7 +252,7 @@ public class VoltageScorer<V, E> extends AbstractIterativeScorer<V, E, Double>
 				if (!w.equals(v) || hyperedges_are_self_loops) {
 					double weight = getEdgeWeight(w, e).doubleValue()
 							/ incident_count;
-					voltage_sum += getCurrentValue(w).doubleValue() * weight;
+					voltage_sum += getCurrentValue(w) * weight;
 					weight_sum += weight;
 				}
 			}
@@ -265,12 +265,12 @@ public class VoltageScorer<V, E> extends AbstractIterativeScorer<V, E, Double>
 		// if either is 0, new value is 0
 		if (voltage_sum == 0 || weight_sum == 0) {
 			setOutputValue(v, 0.0);
-			return getCurrentValue(v).doubleValue();
+			return getCurrentValue(v);
 		}
 
 		setOutputValue(v, voltage_sum / weight_sum);
 		return Math.abs(
-				getCurrentValue(v).doubleValue() - voltage_sum / weight_sum);
+				getCurrentValue(v) - voltage_sum / weight_sum);
 	}
 
 }

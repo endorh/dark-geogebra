@@ -37,9 +37,9 @@ import org.apache.commons.collections15.IteratorUtils;
  */
 public class MapBinaryHeap<T> extends AbstractCollection<T>
 		implements Queue<T> {
-	private Vector<T> heap = new Vector<T>(); // holds the heap as an implicit
+	private Vector<T> heap = new Vector<>(); // holds the heap as an implicit
 												// binary tree
-	private Map<T, Integer> object_indices = new HashMap<T, Integer>(); // maps
+	private Map<T, Integer> object_indices = new HashMap<>(); // maps
 																		// each
 																		// object
 																		// in
@@ -155,7 +155,7 @@ public class MapBinaryHeap<T> extends AbstractCollection<T>
 		// decreased, we just percolate up followed by percolating down;
 		// one of the two will have no effect.
 
-		int cur = object_indices.get(o).intValue(); // current index
+		int cur = object_indices.get(o); // current index
 		int new_idx = percolateUp(cur, o);
 		percolateDown(new_idx);
 	}
@@ -207,14 +207,14 @@ public class MapBinaryHeap<T> extends AbstractCollection<T>
 		while ((i > TOP) && (comp.compare(heap.elementAt(parent(i)), o) > 0)) {
 			T parentElt = heap.elementAt(parent(i));
 			heap.setElementAt(parentElt, i);
-			object_indices.put(parentElt, Integer.valueOf(i)); // reset index to
+			object_indices.put(parentElt, i); // reset index to
 																// i
 															// (new location)
 			i = parent(i);
 		}
 
 		// place object in heap at appropriate place
-		object_indices.put(o, Integer.valueOf(i));
+		object_indices.put(o, i);
 		heap.setElementAt(o, i);
 
 		return i;
@@ -267,10 +267,10 @@ public class MapBinaryHeap<T> extends AbstractCollection<T>
 		T jElt = heap.elementAt(j);
 
 		heap.setElementAt(jElt, i);
-		object_indices.put(jElt, Integer.valueOf(i));
+		object_indices.put(jElt, i);
 
 		heap.setElementAt(iElt, j);
-		object_indices.put(iElt, Integer.valueOf(j));
+		object_indices.put(iElt, j);
 	}
 
 	/**
@@ -347,7 +347,7 @@ public class MapBinaryHeap<T> extends AbstractCollection<T>
 		if (top != null) {
 			T bottom_elt = heap.lastElement();
 			heap.setElementAt(bottom_elt, TOP);
-			object_indices.put(bottom_elt, Integer.valueOf(TOP));
+			object_indices.put(bottom_elt, TOP);
 
 			heap.setSize(heap.size() - 1); // remove the last element
 			if (heap.size() > 1) {

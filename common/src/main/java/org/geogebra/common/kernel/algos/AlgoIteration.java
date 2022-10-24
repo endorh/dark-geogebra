@@ -162,10 +162,7 @@ public class AlgoIteration extends AlgoElement {
 		} else {
 			input = new GeoElement[3 + varCount];
 			input[0] = expression;
-			for (int i = 0; i < varCount; i++) {
-				input[i + 1] = vars[i];
-
-			}
+			if (varCount >= 0) System.arraycopy(vars, 0, input, 1, varCount);
 			input[1 + varCount] = over[0];
 			input[2 + varCount] = nGeo;
 

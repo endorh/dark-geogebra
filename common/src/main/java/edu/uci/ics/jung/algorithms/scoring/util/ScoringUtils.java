@@ -35,14 +35,11 @@ public class ScoringUtils {
 	public static <V> Transformer<V, Double> getUniformRootPrior(
 			Collection<V> roots) {
 		final Collection<V> inner_roots = roots;
-		Transformer<V, Double> distribution = new Transformer<V, Double>() {
-			@Override
-			public Double transform(V input) {
-				if (inner_roots.contains(input)) {
-					return new Double(1.0 / inner_roots.size());
-				}
-				return 0.0;
+		Transformer<V, Double> distribution = input -> {
+			if (inner_roots.contains(input)) {
+				return 1.0 / inner_roots.size();
 			}
+			return 0.0;
 		};
 
 		return distribution;
@@ -62,15 +59,12 @@ public class ScoringUtils {
 	public static <V> Transformer<V, HITS.Scores> getHITSUniformRootPrior(
 			Collection<V> roots) {
 		final Collection<V> inner_roots = roots;
-		Transformer<V, HITS.Scores> distribution = new Transformer<V, HITS.Scores>() {
-			@Override
-			public HITS.Scores transform(V input) {
-				if (inner_roots.contains(input)) {
-					return new HITS.Scores(1.0 / inner_roots.size(),
-							1.0 / inner_roots.size());
-				}
-				return new HITS.Scores(0.0, 0.0);
+		Transformer<V, HITS.Scores> distribution = input -> {
+			if (inner_roots.contains(input)) {
+				return new HITS.Scores(1.0 / inner_roots.size(),
+						1.0 / inner_roots.size());
 			}
+			return new HITS.Scores(0.0, 0.0);
 		};
 		return distribution;
 	}

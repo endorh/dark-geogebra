@@ -35,16 +35,11 @@ public class CmdOrthogonalLine extends CommandProcessor {
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 
-		switch (n) {
-
-		case 3:
-			return process3(c);
-		case 2:
-			return process2(c, resArgs(c));
-
-		default:
-			throw argNumErr(c);
-		}
+		return switch (n) {
+			case 3 -> process3(c);
+			case 2 -> process2(c, resArgs(c));
+			default -> throw argNumErr(c);
+		};
 	}
 
 	/**

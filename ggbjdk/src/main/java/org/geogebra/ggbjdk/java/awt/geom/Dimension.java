@@ -133,9 +133,8 @@ public class Dimension extends GDimension implements java.io.Serializable {
      */
     @Override
 	public boolean equals(Object obj) {
-        if (obj instanceof Dimension) {
-            Dimension d = (Dimension)obj;
-            return (width == d.width) && (height == d.height);
+        if (obj instanceof Dimension d) {
+	        return (width == d.width) && (height == d.height);
         }
         return false;
     }

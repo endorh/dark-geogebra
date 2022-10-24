@@ -3,7 +3,6 @@ package org.geogebra.desktop.gui.menubar;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
-import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 
 import org.geogebra.desktop.gui.layout.DockPanelD;

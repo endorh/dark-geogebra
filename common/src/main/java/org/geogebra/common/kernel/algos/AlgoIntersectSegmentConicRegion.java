@@ -136,7 +136,7 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 
 		numberOfOutputLines = 0;
 		switch (numberOfLineParts) {
-		case 1: {
+		case 1 -> {
 
 			outputSegments.adjustOutputSize(1, false);
 
@@ -156,7 +156,7 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 			Log.debug("case 1");
 			break;
 		}
-		case 2: {
+		case 2 -> {
 
 			outputSegments.adjustOutputSize(1, false);
 
@@ -201,10 +201,9 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 			Log.debug("case 2");
 			break;
 		}
-
-		case 3: {
-			int[] order = { 0, 1, 2, 3 };
-			boolean[] isPartValid = { false, false, false };
+		case 3 -> {
+			int[] order = {0, 1, 2, 3};
+			boolean[] isPartValid = {false, false, false};
 
 			// select the intersecting points
 			GeoPoint[] pnt = new GeoPoint[4];
@@ -270,9 +269,9 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 			Log.debug("case 3");
 			break;
 		}
-		case 4: {
-			int[] order = { 0, 1, 2, 3, 4 };
-			boolean[] isPartValid = { false, false, false, false };
+		case 4 -> {
+			int[] order = {0, 1, 2, 3, 4};
+			boolean[] isPartValid = {false, false, false, false};
 
 			// select the intersecting points
 			GeoPoint[] pnt = new GeoPoint[5];
@@ -359,16 +358,16 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 			Log.debug("case 4");
 			break;
 		}
-		case 5: {
+		case 5 -> {
 
 			double t1, t2, t3, t4, temp;
-			int[] order = { 0, 1, 2, 3, 4 };
-			boolean[] isPartValid = { false, false, false, false, false };
+			int[] order = {0, 1, 2, 3, 4};
+			boolean[] isPartValid = {false, false, false, false, false};
 
 			// get intersect point on segment
-			GeoPoint[] pnt = { getSegment().getStartPoint(), intersectPoints[0],
+			GeoPoint[] pnt = {getSegment().getStartPoint(), intersectPoints[0],
 					intersectPoints[1], closureIntersect[0],
-					closureIntersect[1], getSegment().getEndPoint() };
+					closureIntersect[1], getSegment().getEndPoint()};
 
 			// sorting intersection points order on input segment starting from
 			// inputsegment.getStartPoint()
@@ -456,7 +455,7 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 			Log.debug("case 5");
 			break;
 		}
-		default: {
+		default -> {
 			outputSegments.adjustOutputSize(1, false);
 			outputSegments.getElement(0).setUndefined();
 			Log.debug("case default");
@@ -726,19 +725,16 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 	 * @return output handler
 	 */
 	protected OutputHandler<GeoSegment> createOutputSegments() {
-		return new OutputHandler<>(new ElementFactory<GeoSegment>() {
-			@Override
-			public GeoSegment newElement() {
-				GeoSegment a = new GeoSegment(cons);
-				GeoPoint aS = new GeoPoint(cons);
-				aS.setCoords(0, 0, 1);
-				GeoPoint aE = new GeoPoint(cons);
-				aE.setCoords(0, 0, 1);
-				a.setPoints(aS, aE);
-				a.setParentAlgorithm(AlgoIntersectSegmentConicRegion.this);
-				setSegmentVisualProperties(a);
-				return a;
-			}
+		return new OutputHandler<>(() -> {
+			GeoSegment a = new GeoSegment(cons);
+			GeoPoint aS = new GeoPoint(cons);
+			aS.setCoords(0, 0, 1);
+			GeoPoint aE = new GeoPoint(cons);
+			aE.setCoords(0, 0, 1);
+			a.setPoints(aS, aE);
+			a.setParentAlgorithm(AlgoIntersectSegmentConicRegion.this);
+			setSegmentVisualProperties(a);
+			return a;
 		});
 	}
 

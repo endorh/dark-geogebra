@@ -26,8 +26,7 @@ public class RemoveSlider implements MenuAction<GeoElement>, AsyncOperation<GeoE
 
 	@Override
 	public boolean isAvailable(GeoElement element) {
-		if (element instanceof GeoNumeric) {
-			GeoNumeric numeric = (GeoNumeric) element;
+		if (element instanceof GeoNumeric numeric) {
 			return !numeric.isDependentConst();
 		}
 		return false;

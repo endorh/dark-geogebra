@@ -37,8 +37,6 @@ import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.URL;
 import java.net.UnknownHostException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.util.Comparator;
 
 import javax.swing.JComponent;
@@ -100,9 +98,6 @@ public class UtilD {
 			HttpURLConnection con = (HttpURLConnection) url.openConnection();
 			con.setRequestMethod("HEAD");
 			return (con.getResponseCode() == HttpURLConnection.HTTP_OK);
-		} catch (RuntimeException e) {
-			Log.debug("Exception: existsHttpURL: " + url);
-			return false;
 		} catch (Exception e) {
 			Log.debug("Exception: existsHttpURL: " + url);
 			return false;
@@ -134,11 +129,11 @@ public class UtilD {
 	public static void addKeyListenerToAll(Container cont, KeyListener l) {
 		cont.addKeyListener(l);
 		Component[] comps = cont.getComponents();
-		for (int i = 0; i < comps.length; i++) {
-			if (comps[i] instanceof Container) {
-				addKeyListenerToAll((Container) comps[i], l);
+		for (Component comp : comps) {
+			if (comp instanceof Container) {
+				addKeyListenerToAll((Container) comp, l);
 			} else {
-				comps[i].addKeyListener(l);
+				comp.addKeyListener(l);
 			}
 		}
 	}
@@ -182,8 +177,6 @@ public class UtilD {
 				return null;
 			}
 			return buffer;
-		} catch (RuntimeException e) {
-			Log.error("problem loading " + filename);
 		} catch (Exception e) {
 			Log.error("problem loading " + filename);
 		} finally {
@@ -210,7 +203,7 @@ public class UtilD {
 		String line = null;
 		try {
 			while ((line = reader.readLine()) != null) {
-				sb.append(line + "\n");
+				sb.append(line).append("\n");
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -276,47 +269,30 @@ public class UtilD {
 	 */
 	public static Comparator<File> getFileComparator() {
 		if (comparator == null) {
-			comparator = new Comparator<File>() {
-				@Override
-				public int compare(File itemA, File itemB) {
-
-					return itemA.getName().compareTo(itemB.getName());
-				}
-			};
+			comparator = Comparator.comparing(File::getName);
 		}
 
 		return comparator;
 	}
 
 	public static String getIPAddress() {
-		return (String) AccessController
-				.doPrivileged(new PrivilegedAction<Object>() {
-					@Override
-					public Object run() {
-						try {
-							InetAddress addr = InetAddress.getLocalHost();
-							// Get host name
-							return addr.getHostAddress();
-						} catch (UnknownHostException e) {
-							return "";
-						}
-					}
-				});
+		try {
+			InetAddress addr = InetAddress.getLocalHost();
+			// Get host name
+			return addr.getHostAddress();
+		} catch (UnknownHostException e) {
+			return "";
+		}
 	}
 
 	public static String getHostname() {
-		return AccessController.doPrivileged(new PrivilegedAction<String>() {
-			@Override
-			public String run() {
-				try {
-					InetAddress addr = InetAddress.getLocalHost();
-					// Get host name
-					return addr.getHostName();
-				} catch (UnknownHostException e) {
-					return "";
-				}
-			}
-		});
+		try {
+			InetAddress addr = InetAddress.getLocalHost();
+			// Get host name
+			return addr.getHostName();
+		} catch (UnknownHostException e) {
+			return "";
+		}
 	}
 
 	/**
@@ -388,12 +364,8 @@ public class UtilD {
 	public static void writeByteArrayToFile(byte[] bytes, String filename) {
 		try {
 
-			FileOutputStream out = new FileOutputStream(filename);
-
-			try {
+			try (FileOutputStream out = new FileOutputStream(filename)) {
 				out.write(bytes);
-			} finally {
-				out.close();
 			}
 
 		} catch (Exception e) {

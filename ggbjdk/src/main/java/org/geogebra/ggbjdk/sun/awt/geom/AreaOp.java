@@ -166,7 +166,7 @@ public abstract class AreaOp {
     public abstract int getState();
 
     public Vector<Object> calculate(Vector<?> left, Vector<?> right) {
-        Vector<Object> edges = new Vector<Object>();
+        Vector<Object> edges = new Vector<>();
         addEdges(edges, left, AreaOp.CTAG_LEFT);
         addEdges(edges, right, AreaOp.CTAG_RIGHT);
         edges = pruneEdges(edges);
@@ -183,22 +183,19 @@ public abstract class AreaOp {
         }
     }
 
-    private static Comparator<Object> YXTopComparator = new Comparator<Object>() {
-        @Override
-		public int compare(Object o1, Object o2) {
-            Curve c1 = ((Edge) o1).getCurve();
-            Curve c2 = ((Edge) o2).getCurve();
-            double v1, v2;
-            if ((v1 = c1.getYTop()) == (v2 = c2.getYTop())) {
-                if ((v1 = c1.getXTop()) == (v2 = c2.getXTop())) {
-                    return 0;
-                }
+    private static Comparator<Object> YXTopComparator = (o1, o2) -> {
+        Curve c1 = ((Edge) o1).getCurve();
+        Curve c2 = ((Edge) o2).getCurve();
+        double v1, v2;
+        if ((v1 = c1.getYTop()) == (v2 = c2.getYTop())) {
+            if ((v1 = c1.getXTop()) == (v2 = c2.getXTop())) {
+                return 0;
             }
-            if (v1 < v2) {
-                return -1;
-            }
-            return 1;
         }
+        if (v1 < v2) {
+            return -1;
+        }
+        return 1;
     };
 
     private Vector<Object> pruneEdges(Vector<Object> edges) {
@@ -214,9 +211,9 @@ public abstract class AreaOp {
         int cur = 0;
         int next = 0;
         double yrange[] = new double[2];
-        Vector<CurveLink> subcurves = new Vector<CurveLink>();
-        Vector<ChainEnd> chains = new Vector<ChainEnd>();
-        Vector<CurveLink> links = new Vector<CurveLink>();
+        Vector<CurveLink> subcurves = new Vector<>();
+        Vector<ChainEnd> chains = new Vector<>();
+        Vector<CurveLink> links = new Vector<>();
         // Active edges are between left (inclusive) and right (exclusive)
         while (left < numedges) {
             double y = yrange[0];
@@ -375,7 +372,7 @@ public abstract class AreaOp {
             yrange[0] = yend;
         }
         finalizeSubCurves(subcurves, chains);
-        Vector<Object> ret = new Vector<Object>();
+        Vector<Object> ret = new Vector<>();
         Enumeration<CurveLink> enum_ = subcurves.elements();
         while (enum_.hasMoreElements()) {
             CurveLink link = enum_.nextElement();

@@ -28,9 +28,8 @@ public class CmdSetPointStyle extends CmdScripting {
 		int n = c.getArgumentNumber();
 		boolean ok;
 		switch (n) {
-		case 2:
+		case 2 -> {
 			GeoElement[] arg = resArgs(c);
-
 			if ((ok = arg[0] instanceof PointProperties)
 					&& arg[1] instanceof NumberValue) {
 
@@ -47,9 +46,8 @@ public class CmdSetPointStyle extends CmdScripting {
 			} else {
 				throw argErr(c, arg[1]);
 			}
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 }

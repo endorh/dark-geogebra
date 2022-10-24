@@ -171,22 +171,15 @@ public abstract class StepExpression extends StepTransformable
 	}
 
 	public static Operation getInverse(Operation op) {
-		switch (op) {
-			case SIN:
-				return Operation.ARCSIN;
-			case COS:
-				return Operation.ARCCOS;
-			case TAN:
-				return Operation.ARCTAN;
-			case ARCSIN:
-				return Operation.SIN;
-			case ARCCOS:
-				return Operation.COS;
-			case ARCTAN:
-				return Operation.TAN;
-			default:
-				return Operation.NO_OPERATION;
-		}
+		return switch (op) {
+			case SIN -> Operation.ARCSIN;
+			case COS -> Operation.ARCCOS;
+			case TAN -> Operation.ARCTAN;
+			case ARCSIN -> Operation.SIN;
+			case ARCCOS -> Operation.COS;
+			case ARCTAN -> Operation.TAN;
+			default -> Operation.NO_OPERATION;
+		};
 	}
 
 	@Override
@@ -360,8 +353,7 @@ public abstract class StepExpression extends StepTransformable
 			return this;
 		}
 
-		if (this instanceof StepOperation) {
-			StepOperation so = (StepOperation) this;
+		if (this instanceof StepOperation so) {
 
 			if (so.isOperation(Operation.MULTIPLY)) {
 				for (StepExpression operand : so) {
@@ -395,8 +387,7 @@ public abstract class StepExpression extends StepTransformable
 			return StepConstant.create(1);
 		}
 
-		if (this instanceof StepOperation) {
-			StepOperation so = (StepOperation) this;
+		if (this instanceof StepOperation so) {
 
 			if (so.isOperation(Operation.MULTIPLY)) {
 				StepExpression coeff = null;
@@ -445,8 +436,7 @@ public abstract class StepExpression extends StepTransformable
 			return this;
 		}
 
-		if (this instanceof StepOperation) {
-			StepOperation so = (StepOperation) this;
+		if (this instanceof StepOperation so) {
 
 			if (so.isOperation(Operation.MINUS)) {
 				return minus(so.getOperand(0).findConstantIn(sv));
@@ -471,8 +461,7 @@ public abstract class StepExpression extends StepTransformable
 			return null;
 		}
 
-		if (this instanceof StepOperation) {
-			StepOperation so = (StepOperation) this;
+		if (this instanceof StepOperation so) {
 
 			if (so.isOperation(Operation.MINUS)) {
 				return minus(so.getOperand(0).findVariableIn(sv));
@@ -495,8 +484,7 @@ public abstract class StepExpression extends StepTransformable
 	}
 
 	public int countNonConstOperation(Operation operation, StepVariable variable) {
-		if (this instanceof StepOperation) {
-			StepOperation so = (StepOperation) this;
+		if (this instanceof StepOperation so) {
 
 			if (so.isOperation(operation) && !so.isConstantIn(variable)) {
 				return 1;
@@ -518,8 +506,7 @@ public abstract class StepExpression extends StepTransformable
 	}
 
 	public int countOperation(Operation operation) {
-		if (this instanceof StepOperation) {
-			StepOperation so = (StepOperation) this;
+		if (this instanceof StepOperation so) {
 
 			if (so.isOperation(operation)) {
 				return 1;
@@ -536,8 +523,7 @@ public abstract class StepExpression extends StepTransformable
 	}
 
 	public StepExpression getPower() {
-		if (this instanceof StepOperation) {
-			StepOperation so = (StepOperation) this;
+		if (this instanceof StepOperation so) {
 
 			if (so.isOperation(Operation.POWER)) {
 				return so.getOperand(1);
@@ -559,8 +545,7 @@ public abstract class StepExpression extends StepTransformable
 	}
 
 	public StepExpression getRoot() {
-		if (this instanceof StepOperation) {
-			StepOperation so = (StepOperation) this;
+		if (this instanceof StepOperation so) {
 
 			if (so.isOperation(Operation.NROOT)) {
 				return so.getOperand(1);
@@ -911,8 +896,7 @@ public abstract class StepExpression extends StepTransformable
 			return getValue() < 0 ? -1 : 1;
 		}
 
-		if (this instanceof StepOperation) {
-			StepOperation so = (StepOperation) this;
+		if (this instanceof StepOperation so) {
 
 			switch (so.getOperation()) {
 				case PLUS:
@@ -1089,8 +1073,7 @@ public abstract class StepExpression extends StepTransformable
 		if (equals(from)) {
 			return to.deepCopy();
 		}
-		if (this instanceof StepOperation) {
-			StepOperation so = (StepOperation) this;
+		if (this instanceof StepOperation so) {
 			StepExpression[] operands = new StepExpression[so.noOfOperands()];
 			for (int i = 0; i < operands.length; i++) {
 				operands[i] = so.getOperand(i).replace(from, to);
@@ -1144,8 +1127,7 @@ public abstract class StepExpression extends StepTransformable
 	}
 
 	public void getBasesAndExponents(List<StepExpression> bases, List<StepExpression> exponents) {
-		if (this instanceof StepOperation) {
-			StepOperation so = (StepOperation) this;
+		if (this instanceof StepOperation so) {
 
 			switch (so.getOperation()) {
 				case MULTIPLY:

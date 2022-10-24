@@ -198,16 +198,10 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		}
 
 		switch (sc.getSelectedProcedure()) {
-		default:
-			// do nothing
-			break;
-		case ZMEAN_TEST:
-		case ZMEAN2_TEST:
-		case TMEAN_TEST:
-		case TMEAN2_TEST:
-		case ZPROP_TEST:
-		case ZPROP2_TEST:
-
+		default -> {
+		}
+		// do nothing
+		case ZMEAN_TEST, ZMEAN2_TEST, TMEAN_TEST, TMEAN2_TEST, ZPROP_TEST, ZPROP2_TEST -> {
 			if (app.getLocalization().isRightToLeftReadingOrder()) {
 				// eg 1.1 = mu
 				panelTestAndCI.add(LayoutUtil.flowPanel(4, 2, 0, lblNull,
@@ -222,20 +216,13 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 			panelTestAndCI.add(LayoutUtil.flowPanel(4, 2, 0, lblTailType,
 					btnLeft, btnRight, btnTwo));
 			panelTestAndCI.add(LayoutUtil.flowPanel(4, 2, 0, ckPooled));
-			break;
-
-		case ZMEAN_CI:
-		case ZMEAN2_CI:
-		case TMEAN_CI:
-		case TMEAN2_CI:
-		case ZPROP_CI:
-		case ZPROP2_CI:
-
+		}
+		case ZMEAN_CI, ZMEAN2_CI, TMEAN_CI, TMEAN2_CI, ZPROP_CI, ZPROP2_CI -> {
 			panelTestAndCI.add(
 					LayoutUtil.flowPanel(4, 2, 0, lblConfLevel,
 							(MyTextFieldD) fldConfLevel));
 			panelTestAndCI.add(LayoutUtil.flowPanel(4, 2, 0, ckPooled));
-			break;
+		}
 		}
 
 		if (forceZeroHypothesis()) {
@@ -365,18 +352,9 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		btnCalculate.setText(loc.getMenu("Calculate"));
 
 		switch (sc.getSelectedProcedure()) {
-
-		case ZMEAN2_TEST:
-		case TMEAN2_TEST:
-		case ZMEAN2_CI:
-		case TMEAN2_CI:
-		case ZPROP2_TEST:
-		case ZPROP2_CI:
-			lblSampleHeader1.setText(loc.getMenu("Sample1"));
-			break;
-
-		default:
-			lblSampleHeader1.setText(loc.getMenu("Sample"));
+		case ZMEAN2_TEST, TMEAN2_TEST, ZMEAN2_CI, TMEAN2_CI, ZPROP2_TEST, ZPROP2_CI ->
+				lblSampleHeader1.setText(loc.getMenu("Sample1"));
+		default -> lblSampleHeader1.setText(loc.getMenu("Sample"));
 		}
 
 		lblSampleHeader2.setText(loc.getMenu("Sample2"));
@@ -397,31 +375,15 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 
 	private void setHypParameterLabel() {
 		switch (sc.getSelectedProcedure()) {
-
-		case ZMEAN_TEST:
-		case TMEAN_TEST:
-			lblHypParameter
-					.setText(loc.getMenu("HypothesizedMean.short") + " = ");
-			break;
-
-		case ZMEAN2_TEST:
-		case TMEAN2_TEST:
-			lblHypParameter
-					.setText(loc.getMenu("DifferenceOfMeans.short") + " = ");
-			break;
-
-		case ZPROP_TEST:
-			lblHypParameter.setText(
-					loc.getMenu("HypothesizedProportion.short") + " = ");
-			break;
-
-		case ZPROP2_TEST:
-			lblHypParameter.setText(
-					loc.getMenu("DifferenceOfProportions.short") + " = ");
-			break;
-
-		default:
-			lblHypParameter.setText(loc.getMenu(""));
+		case ZMEAN_TEST, TMEAN_TEST -> lblHypParameter
+				.setText(loc.getMenu("HypothesizedMean.short") + " = ");
+		case ZMEAN2_TEST, TMEAN2_TEST -> lblHypParameter
+				.setText(loc.getMenu("DifferenceOfMeans.short") + " = ");
+		case ZPROP_TEST -> lblHypParameter.setText(
+				loc.getMenu("HypothesizedProportion.short") + " = ");
+		case ZPROP2_TEST -> lblHypParameter.setText(
+				loc.getMenu("DifferenceOfProportions.short") + " = ");
+		default -> lblHypParameter.setText(loc.getMenu(""));
 		}
 	}
 
@@ -467,57 +429,45 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		}
 
 		switch (sc.getSelectedProcedure()) {
-		default:
-			// do nothing
-			break;
-		case ZMEAN_TEST:
-		case ZMEAN_CI:
+		default -> {
+		}
+		// do nothing
+		case ZMEAN_TEST, ZMEAN_CI -> {
 			lblSampleStat1[0].setText(strMean);
 			lblSampleStat1[1].setText(strSigma);
 			lblSampleStat1[2].setText(strN);
-			break;
-
-		case TMEAN_TEST:
-		case TMEAN_CI:
+		}
+		case TMEAN_TEST, TMEAN_CI -> {
 			lblSampleStat1[0].setText(strMean);
 			lblSampleStat1[1].setText(strSD);
 			lblSampleStat1[2].setText(strN);
-			break;
-
-		case ZMEAN2_TEST:
-		case ZMEAN2_CI:
+		}
+		case ZMEAN2_TEST, ZMEAN2_CI -> {
 			lblSampleStat1[0].setText(strMean);
 			lblSampleStat1[1].setText(strSigma);
 			lblSampleStat1[2].setText(strN);
 			lblSampleStat2[0].setText(strMean);
 			lblSampleStat2[1].setText(strSigma);
 			lblSampleStat2[2].setText(strN);
-			break;
-
-		case TMEAN2_TEST:
-		case TMEAN2_CI:
+		}
+		case TMEAN2_TEST, TMEAN2_CI -> {
 			lblSampleStat1[0].setText(strMean);
 			lblSampleStat1[1].setText(strSD);
 			lblSampleStat1[2].setText(strN);
 			lblSampleStat2[0].setText(strMean);
 			lblSampleStat2[1].setText(strSD);
 			lblSampleStat2[2].setText(strN);
-			break;
-
-		case ZPROP_TEST:
-		case ZPROP_CI:
+		}
+		case ZPROP_TEST, ZPROP_CI -> {
 			lblSampleStat1[0].setText(strSuccesses);
 			lblSampleStat1[1].setText(strN);
-			break;
-
-		case ZPROP2_TEST:
-		case ZPROP2_CI:
+		}
+		case ZPROP2_TEST, ZPROP2_CI -> {
 			lblSampleStat1[0].setText(strSuccesses);
 			lblSampleStat1[1].setText(strN);
 			lblSampleStat2[0].setText(strSuccesses);
 			lblSampleStat2[1].setText(strN);
-			break;
-
+		}
 		}
 	}
 
@@ -557,16 +507,14 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 		panelChiSquare.getWrappedPanel().setVisible(false);
 
 		switch (sc.getSelectedProcedure()) {
-
-		case CHISQ_TEST:
-		case GOF_TEST:
+		case CHISQ_TEST, GOF_TEST -> {
 			panelChiSquare.getWrappedPanel().setVisible(true);
 			panelChiSquare.updateGUI();
-			break;
-
-		default:
+		}
+		default -> {
 			setInputPanelLayout();
 			panelBasicProcedures.setVisible(true);
+		}
 		}
 
 	}
@@ -593,12 +541,8 @@ public class StatisticsCalculatorD extends StatisticsCalculator
 			// setLabels();
 
 			// reset the scrollpane to the top
-			javax.swing.SwingUtilities.invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					scroller.getVerticalScrollBar().setValue(0);
-				}
-			});
+			javax.swing.SwingUtilities.invokeLater(
+					() -> scroller.getVerticalScrollBar().setValue(0));
 
 		}
 

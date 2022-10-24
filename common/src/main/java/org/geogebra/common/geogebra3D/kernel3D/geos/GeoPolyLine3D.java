@@ -97,11 +97,10 @@ public class GeoPolyLine3D extends GeoPolyLine implements RotateableND,
 
 	@Override
 	public void set(GeoElementND geo) {
-		if (!(geo instanceof GeoPolyLine)) {
+		if (!(geo instanceof GeoPolyLine poly)) {
 			Log.error("wrong class");
 			return;
 		}
-		GeoPolyLine poly = (GeoPolyLine) geo;
 		length = poly.getLength();
 		defined = poly.isDefined();
 
@@ -336,22 +335,22 @@ public class GeoPolyLine3D extends GeoPolyLine implements RotateableND,
 
 	@Override
 	public void rotate(NumberValue r, GeoPointND S, GeoDirectionND orientation) {
-		for (int i = 0; i < points.length; i++) {
-			((RotateableND) points[i]).rotate(r, S, orientation);
+		for (GeoPointND point : points) {
+			((RotateableND) point).rotate(r, S, orientation);
 		}
 	}
 
 	@Override
 	public void rotate(NumberValue r, GeoLineND line) {
-		for (int i = 0; i < points.length; i++) {
-			((RotateableND) points[i]).rotate(r, line);
+		for (GeoPointND point : points) {
+			((RotateableND) point).rotate(r, line);
 		}
 	}
 
 	@Override
 	public void mirror(GeoCoordSys2D plane) {
-		for (int i = 0; i < points.length; i++) {
-			((MirrorableAtPlane) points[i]).mirror(plane);
+		for (GeoPointND point : points) {
+			((MirrorableAtPlane) point).mirror(plane);
 		}
 	}
 

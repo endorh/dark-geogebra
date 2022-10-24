@@ -442,15 +442,9 @@ public class Derivative {
 		return wrap(kernel0, Double.NaN);
 	}
 
-	private static Inspecting checkCoordOperations = new Inspecting() {
-
-		@Override
-		public boolean check(ExpressionValue v) {
-			return v.isOperation(Operation.XCOORD)
-							|| v.isOperation(Operation.YCOORD)
-							|| v.isOperation(Operation.ZCOORD);
-		}
-	};
+	private static Inspecting checkCoordOperations = v -> v.isOperation(Operation.XCOORD)
+					|| v.isOperation(Operation.YCOORD)
+					|| v.isOperation(Operation.ZCOORD);
 
 	private static ExpressionNode coordDerivative(ExpressionValue left, int i,
 			FunctionVariable fv, Kernel kernel0) {

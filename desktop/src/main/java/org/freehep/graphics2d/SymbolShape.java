@@ -24,7 +24,7 @@ public class SymbolShape implements Shape {
 
 	private static final double SQRT_3 = Math.sqrt(3.);
 
-	private class ArrayPathIterator implements PathIterator {
+	private static class ArrayPathIterator implements PathIterator {
 
 		private int currentPoint = 0;
 
@@ -184,33 +184,15 @@ public class SymbolShape implements Shape {
 		this.y = y;
 		this.size = size;
 		switch (symbol) {
-		case VectorGraphicsConstants.SYMBOL_VLINE:
-			createVLine(x, y, size);
-			break;
-		case VectorGraphicsConstants.SYMBOL_HLINE:
-			createHLine(x, y, size);
-			break;
-		case VectorGraphicsConstants.SYMBOL_PLUS:
-			createPlus(x, y, size);
-			break;
-		case VectorGraphicsConstants.SYMBOL_CROSS:
-			createCross(x, y, size);
-			break;
-		case VectorGraphicsConstants.SYMBOL_STAR:
-			createStar(x, y, size);
-			break;
-		case VectorGraphicsConstants.SYMBOL_BOX:
-			createBox(x, y, size);
-			break;
-		case VectorGraphicsConstants.SYMBOL_UP_TRIANGLE:
-			createUpTriangle(x, y, size);
-			break;
-		case VectorGraphicsConstants.SYMBOL_DN_TRIANGLE:
-			createDownTriangle(x, y, size);
-			break;
-		case VectorGraphicsConstants.SYMBOL_DIAMOND:
-			createDiamond(x, y, size);
-			break;
+		case VectorGraphicsConstants.SYMBOL_VLINE -> createVLine(x, y, size);
+		case VectorGraphicsConstants.SYMBOL_HLINE -> createHLine(x, y, size);
+		case VectorGraphicsConstants.SYMBOL_PLUS -> createPlus(x, y, size);
+		case VectorGraphicsConstants.SYMBOL_CROSS -> createCross(x, y, size);
+		case VectorGraphicsConstants.SYMBOL_STAR -> createStar(x, y, size);
+		case VectorGraphicsConstants.SYMBOL_BOX -> createBox(x, y, size);
+		case VectorGraphicsConstants.SYMBOL_UP_TRIANGLE -> createUpTriangle(x, y, size);
+		case VectorGraphicsConstants.SYMBOL_DN_TRIANGLE -> createDownTriangle(x, y, size);
+		case VectorGraphicsConstants.SYMBOL_DIAMOND -> createDiamond(x, y, size);
 		}
 	}
 

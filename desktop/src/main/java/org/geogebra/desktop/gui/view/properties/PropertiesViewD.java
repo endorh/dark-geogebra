@@ -405,19 +405,19 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 		// AbstractApplication.printStacktrace("type :"+type);
 
 		switch (type) {
-		case DEFAULTS:
+		case DEFAULTS -> {
 			if (defaultsPanel == null) {
 				defaultsPanel = new OptionsDefaultsD((AppD) app);
 			}
 			return defaultsPanel;
-
-		case CAS:
+		}
+		case CAS -> {
 			if (casPanel == null) {
 				casPanel = new OptionsCASD((AppD) app);
 			}
 			return casPanel;
-
-		case EUCLIDIAN:
+		}
+		case EUCLIDIAN -> {
 			if (euclidianPanel == null) {
 				euclidianPanel = new OptionsEuclidianD<>(
 						(AppD) app,
@@ -425,51 +425,51 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 				euclidianPanel.setLabels();
 				// euclidianPanel.setView(((AppD) app).getEuclidianView1());
 			}
-
 			return euclidianPanel;
-
-		case EUCLIDIAN2:
+		}
+		case EUCLIDIAN2 -> {
 			if (euclidianPanel2 == null) {
 				euclidianPanel2 = new OptionsEuclidianD<>((AppD) app,
 						((AppD) app).getEuclidianView2(1));
 				euclidianPanel2.setLabels();
 				// euclidianPanel2.setView(((AppD) app).getEuclidianView2());
 			}
-
 			return euclidianPanel2;
-
-		case SPREADSHEET:
+		}
+		case SPREADSHEET -> {
 			if (spreadsheetPanel == null) {
 				spreadsheetPanel = new OptionsSpreadsheetD((AppD) app,
 						(SpreadsheetViewD) app.getGuiManager()
 								.getSpreadsheetView());
 			}
 			return spreadsheetPanel;
-
-		case GLOBAL:
+		}
+		case GLOBAL -> {
 			if (advancedPanel == null) {
 				advancedPanel = new OptionsAdvancedD((AppD) app);
 			}
 			return advancedPanel;
-
-		case LAYOUT:
+		}
+		case LAYOUT -> {
 			if (layoutPanel == null) {
 				layoutPanel = new OptionsLayoutD((AppD) app);
 			}
 			return layoutPanel;
-
-		case OBJECTS:
+		}
+		case OBJECTS -> {
 			if (getObjectPanel() == null) {
 				setObjectPanel(new OptionsObjectD((AppD) app));
 				((OptionsObjectD) getObjectPanel()).setMinimumSize(
 						((OptionsObjectD) getObjectPanel()).getPreferredSize());
 			}
 			return (OptionPanelD) getObjectPanel();
-		case ALGEBRA:
+		}
+		case ALGEBRA -> {
 			if (algebraPanel == null) {
 				algebraPanel = new OptionsAlgebraD((AppD) app);
 			}
 			return algebraPanel;
+		}
 		}
 		return null;
 	}
@@ -777,15 +777,11 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 	@Override
 	protected void setSelectedTab(OptionType type) {
 		switch (type) {
-		default:
-			// do nothing
-			break;
-		case EUCLIDIAN:
-			euclidianPanel.setSelectedTab(getSelectedTab());
-			break;
-		case EUCLIDIAN2:
-			euclidianPanel2.setSelectedTab(getSelectedTab());
-			break;
+		default -> {
+		}
+		// do nothing
+		case EUCLIDIAN -> euclidianPanel.setSelectedTab(getSelectedTab());
+		case EUCLIDIAN2 -> euclidianPanel2.setSelectedTab(getSelectedTab());
 		}
 	}
 
@@ -841,31 +837,19 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 	 * @return icon
 	 */
 	public static ImageIcon getTypeIcon(AppD app, OptionType type) {
-		switch (type) {
-		case DEFAULTS:
-			return app.getScaledIcon(GuiResourcesD.PROPERTIES_DEFAULTS_3);
-		case SPREADSHEET:
-			return app.getScaledIcon(GuiResourcesD.MENU_VIEW_SPREADSHEET);
-		case ALGEBRA:
-			return app.getScaledIcon(GuiResourcesD.MENU_VIEW_ALGEBRA);
-		case EUCLIDIAN:
-			return app.getScaledIcon(GuiResourcesD.MENU_VIEW_GRAPHICS);
-		case EUCLIDIAN2:
-			return app.getScaledIcon(GuiResourcesD.MENU_VIEW_GRAPHICS2);
-		case CAS:
-			return app.getScaledIcon(GuiResourcesD.MENU_VIEW_CAS);
-		case GLOBAL:
-			return app.getScaledIcon(GuiResourcesD.OPTIONS_ADVANCED_24);
-		case OBJECTS:
-			return app.getScaledIcon(GuiResourcesD.OPTIONS_OBJECTS_24);
-		case LAYOUT:
-			return app.getScaledIcon(GuiResourcesD.OPTIONS_LAYOUT_24);
-		case EUCLIDIAN3D:
-			return app.getScaledIcon(GuiResourcesD.MENU_VIEW_GRAPHICS3D);
-		case EUCLIDIAN_FOR_PLANE:
-			return app.getScaledIcon(GuiResourcesD.MENU_VIEW_GRAPHICS_EXTRA);
-		}
-		return null;
+		return switch (type) {
+			case DEFAULTS -> app.getScaledIcon(GuiResourcesD.PROPERTIES_DEFAULTS_3);
+			case SPREADSHEET -> app.getScaledIcon(GuiResourcesD.MENU_VIEW_SPREADSHEET);
+			case ALGEBRA -> app.getScaledIcon(GuiResourcesD.MENU_VIEW_ALGEBRA);
+			case EUCLIDIAN -> app.getScaledIcon(GuiResourcesD.MENU_VIEW_GRAPHICS);
+			case EUCLIDIAN2 -> app.getScaledIcon(GuiResourcesD.MENU_VIEW_GRAPHICS2);
+			case CAS -> app.getScaledIcon(GuiResourcesD.MENU_VIEW_CAS);
+			case GLOBAL -> app.getScaledIcon(GuiResourcesD.OPTIONS_ADVANCED_24);
+			case OBJECTS -> app.getScaledIcon(GuiResourcesD.OPTIONS_OBJECTS_24);
+			case LAYOUT -> app.getScaledIcon(GuiResourcesD.OPTIONS_LAYOUT_24);
+			case EUCLIDIAN3D -> app.getScaledIcon(GuiResourcesD.MENU_VIEW_GRAPHICS3D);
+			case EUCLIDIAN_FOR_PLANE -> app.getScaledIcon(GuiResourcesD.MENU_VIEW_GRAPHICS_EXTRA);
+		};
 	}
 
 	/**

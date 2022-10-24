@@ -123,21 +123,13 @@ public class DrawSegmentWithEndings {
 		GAffineTransform t = AwtFactory.getPrototype().newAffineTransform();
 		initRotateTrans(getAngle(), posX + lineThickness,
 				posY + lineThickness, t);
-		switch (style) {
-		case LINE:
-			return getLine();
-		case SQUARE:
-		case SQUARE_OUTLINE:
-			return getSolidSquare(t);
-		case CIRCLE:
-		case CIRCLE_OUTLINE:
-			return getSolidCircle();
-		case ARROW:
-		case ARROW_FILLED:
-			return getArrow(style);
-
-		}
-		return null;
+		return switch (style) {
+			case LINE -> getLine();
+			case SQUARE, SQUARE_OUTLINE -> getSolidSquare(t);
+			case CIRCLE, CIRCLE_OUTLINE -> getSolidCircle();
+			case ARROW, ARROW_FILLED -> getArrow(style);
+			default -> null;
+		};
 	}
 
 	private GShape getLine() {
@@ -187,16 +179,11 @@ public class DrawSegmentWithEndings {
 		GAffineTransform t = AwtFactory.getPrototype().newAffineTransform();
 		initRotateTrans(getAngle(), posX + lineThickness,
 				posY + lineThickness, t);
-		switch (style) {
-		case SQUARE:
-		case SQUARE_OUTLINE:
-			return getOutlinedSquare(t);
-		case CIRCLE:
-		case CIRCLE_OUTLINE:
-			return getOutlinedCircle();
-
-		}
-		return null;
+		return switch (style) {
+			case SQUARE, SQUARE_OUTLINE -> getOutlinedSquare(t);
+			case CIRCLE, CIRCLE_OUTLINE -> getOutlinedCircle();
+			default -> null;
+		};
 	}
 
 	private GShape getOutlinedCircle() {

@@ -809,14 +809,11 @@ public class ResizableDoubleArray implements DoubleArray, Serializable {
     @Deprecated
     public int getExpansionMode() {
         synchronized (this) {
-            switch (expansionMode) {
-                case MULTIPLICATIVE:
-                    return MULTIPLICATIVE_MODE;
-                case ADDITIVE:
-                    return ADDITIVE_MODE;
-                default:
-                    throw new MathInternalError(); // Should never happen.
-            }
+	        return switch (expansionMode) {
+		        case MULTIPLICATIVE -> MULTIPLICATIVE_MODE;
+		        case ADDITIVE -> ADDITIVE_MODE;
+		        default -> throw new MathInternalError(); // Should never happen.
+	        };
         }
     }
 

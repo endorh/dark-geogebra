@@ -68,7 +68,7 @@ public class ErdosRenyiGenerator<V, E> implements GraphGenerator<V, E> {
 		for (int i = 0; i < mNumVertices; i++) {
 			g.addVertex(vertexFactory.create());
 		}
-		List<V> list = new ArrayList<V>(g.getVertices());
+		List<V> list = new ArrayList<>(g.getVertices());
 
 		for (int i = 0; i < mNumVertices - 1; i++) {
 			V v_i = list.get(i);

@@ -28,16 +28,13 @@ public class GLBufferManagerCurves extends GLBufferManager {
 
 	@Override
 	protected int calculateIndicesLength(int size, TypeElement type) {
-		switch (type) {
-		case CURVE:
-			return 3 * 2 * size * PlotterBrush.LATITUDES;
-		case TRIANGLES:
-			return 3 * size;
-		case TEMPLATE:
-			return size;
-		default: // should not happen
-			return 0;
-		}
+		return switch (type) {
+			case CURVE -> 3 * 2 * size * PlotterBrush.LATITUDES;
+			case TRIANGLES -> 3 * size;
+			case TEMPLATE -> size;
+			default -> // should not happen
+					0;
+		};
 	}
 
 	@Override

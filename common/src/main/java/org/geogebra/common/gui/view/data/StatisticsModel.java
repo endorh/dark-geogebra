@@ -79,22 +79,17 @@ public class StatisticsModel {
 	public void fillInferenceModes() {
 
 		switch (daModel.getMode()) {
-
-		default:
-		case DataAnalysisModel.MODE_ONEVAR:
+		case DataAnalysisModel.MODE_ONEVAR -> {
 			listener.addInferenceMode(labelMap.get(SUMMARY_STATISTICS));
 			listener.addInferenceMode(labelMap.get(INFER_ZTEST));
 			listener.addInferenceMode(labelMap.get(INFER_TTEST));
 			listener.addInferenceMode(listener.getSeparator());
 			listener.addInferenceMode(labelMap.get(INFER_ZINT));
 			listener.addInferenceMode(labelMap.get(INFER_TINT));
-			break;
-
-		case DataAnalysisModel.MODE_REGRESSION:
-			listener.addInferenceMode(labelMap.get(SUMMARY_STATISTICS));
-			break;
-
-		case DataAnalysisModel.MODE_MULTIVAR:
+		}
+		case DataAnalysisModel.MODE_REGRESSION ->
+				listener.addInferenceMode(labelMap.get(SUMMARY_STATISTICS));
+		case DataAnalysisModel.MODE_MULTIVAR -> {
 			listener.addInferenceMode(labelMap.get(SUMMARY_STATISTICS));
 			listener.addInferenceMode(labelMap.get(INFER_ANOVA));
 			listener.addInferenceMode(labelMap.get(INFER_TTEST_2MEANS));
@@ -102,7 +97,7 @@ public class StatisticsModel {
 			listener.addInferenceMode(listener.getSeparator());
 			listener.addInferenceMode(labelMap.get(INFER_TINT_2MEANS));
 			listener.addInferenceMode(labelMap.get(INFER_TINT_PAIRED));
-			break;
+		}
 		}
 
 		listener.selectInferenceMode(labelMap.get(getSelectedMode()));
@@ -149,25 +144,11 @@ public class StatisticsModel {
 	 */
 	public void update() {
 		switch (getSelectedMode()) {
-
-		default:
-		case INFER_ZTEST:
-		case INFER_TTEST:
-		case INFER_ZINT:
-		case INFER_TINT:
-			listener.updateOneVarInference(selectedMode);
-			break;
-
-		case INFER_TTEST_2MEANS:
-		case INFER_TTEST_PAIRED:
-		case INFER_TINT_2MEANS:
-		case INFER_TINT_PAIRED:
-			listener.updateTwoVarInference(selectedMode);
-			break;
-
-		case INFER_ANOVA:
-			listener.updateAnovaTable();
-			break;
+		case INFER_ZTEST, INFER_TTEST, INFER_ZINT, INFER_TINT ->
+				listener.updateOneVarInference(selectedMode);
+		case INFER_TTEST_2MEANS, INFER_TTEST_PAIRED, INFER_TINT_2MEANS, INFER_TINT_PAIRED ->
+				listener.updateTwoVarInference(selectedMode);
+		case INFER_ANOVA -> listener.updateAnovaTable();
 		}
 
 	}

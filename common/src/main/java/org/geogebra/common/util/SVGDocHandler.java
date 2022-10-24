@@ -20,9 +20,7 @@ public class SVGDocHandler implements DocHandler {
 	public void startElement(String tag, LinkedHashMap<String, String> h)
 			throws Exception {
 		// copy the map: h is emptied after parsing
-		for (Entry<String, String> entry : h.entrySet()) {
-			this.attrs.put(entry.getKey(), entry.getValue());
-		}
+		this.attrs.putAll(h);
 	}
 
 	@Override

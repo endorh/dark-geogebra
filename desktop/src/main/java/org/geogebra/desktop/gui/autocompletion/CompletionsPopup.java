@@ -250,38 +250,38 @@ public class CompletionsPopup {
 		}
 
 		switch (keyEvent.getKeyCode()) {
-		case VK_ESCAPE: // [ESC] cancels the popup
+		case VK_ESCAPE -> { // [ESC] cancels the popup
 			textField.cancelAutoCompletion();
 			hidePopup();
 			keyEvent.consume();
-			break;
-		case VK_ENTER: // [ENTER] validates the completions
+		}
+		case VK_ENTER -> { // [ENTER] validates the completions
 			textField.validateAutoCompletion(list.getSelectedIndex(),
 					textField.getCompletions());
 			hidePopup();
 			keyEvent.consume();
-			break;
-		case VK_DOWN: // [DOWN] next completion
-		case VK_TAB: // [TAB]
+		} // [DOWN] next completion
+		case VK_DOWN, VK_TAB -> { // [TAB]
 			navigateRelative(+1);
 			keyEvent.consume();
-			break;
-		case VK_UP: // [UP] prev. completion
+		}
+		case VK_UP -> { // [UP] prev. completion
 			navigateRelative(-1);
 			keyEvent.consume();
-			break;
-		case VK_PAGE_DOWN: // [PAGE_DOWN]
+		}
+		case VK_PAGE_DOWN -> { // [PAGE_DOWN]
 			navigateRelative(+maxPopupRowCount - 1);
 			keyEvent.consume();
-			break;
-		case VK_PAGE_UP: // [PAGE_UP]
+		}
+		case VK_PAGE_UP -> { // [PAGE_UP]
 			navigateRelative(-maxPopupRowCount + 1);
 			keyEvent.consume();
-			break;
-		default:
+		}
+		default -> {
 			hidePopup();
 			current_length = -1;
 			textField.processKeyEvent(keyEvent);
+		}
 		}
 	}
 

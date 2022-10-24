@@ -13,7 +13,6 @@ the Free Software Foundation.
 package org.geogebra.common.kernel;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -1090,10 +1089,7 @@ public class ConstructionDefaults implements SettingListener {
 
 		this.angleSize = Math.max(angleSize0, 1);
 
-		Iterator<GeoElement> it = defaultGeoElements.values().iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
-
+		for (GeoElement geo : defaultGeoElements.values()) {
 			if (GeoClass.ANGLE.equals(geo.getGeoClassType())) {
 				((GeoAngle) geo).setArcSize(this.angleSize);
 			}
@@ -1111,25 +1107,15 @@ public class ConstructionDefaults implements SettingListener {
 
 		this.pointSize = Math.max(pointSizeDraggable, 1);
 		this.dependentPointSize = Math.max(pointSizeDependent, 1);
-		Iterator<GeoElement> it = defaultGeoElements.values().iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
-
+		for (GeoElement geo : defaultGeoElements.values()) {
 			switch (geo.getGeoClassType()) {
-			default:
-				// do nothing
-				break;
-			case POINT:
-
-				((GeoPointND) geo).setPointSize(geo.isMoveable()
-						? this.pointSize
-						: this.dependentPointSize);
-
-				break;
-
-			case LIST:
-				((GeoList) geo).setPointSize(this.pointSize);
-				break;
+			default -> {
+			}
+			// do nothing
+			case POINT -> ((GeoPointND) geo).setPointSize(geo.isMoveable()
+					? this.pointSize
+					: this.dependentPointSize);
+			case LIST -> ((GeoList) geo).setPointSize(this.pointSize);
 			}
 		}
 	}
@@ -1142,10 +1128,7 @@ public class ConstructionDefaults implements SettingListener {
 
 		this.lineThickness = Math.max(lineThickness0, 1);
 
-		Iterator<GeoElement> it = defaultGeoElements.values().iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
-
+		for (GeoElement geo : defaultGeoElements.values()) {
 			// set line thickness
 			if (!geo.isGeoText() && !geo.isGeoImage()) { // affects bounding box
 				if (geo.isGeoPlane()) {
@@ -1171,10 +1154,7 @@ public class ConstructionDefaults implements SettingListener {
 
 		this.filling = filling0;
 
-		Iterator<GeoElement> it = defaultGeoElements.values().iterator();
-		while (it.hasNext()) {
-			GeoElement geo = it.next();
-
+		for (GeoElement geo : defaultGeoElements.values()) {
 			geo.setAlphaValue(filling0);
 		}
 	}

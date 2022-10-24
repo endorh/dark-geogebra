@@ -53,10 +53,10 @@ public class Header extends EMFPlusTag {
 
 	@Override
 	public String toString() {
-		StringBuffer sb = new StringBuffer(super.toString());
+		StringBuilder sb = new StringBuilder(super.toString());
 		sb.append("\n");
-		sb.append("  hDPI: " + hDpi + "\n");
-		sb.append("  vDPI: " + vDpi);
+		sb.append("  hDPI: ").append(hDpi).append("\n");
+		sb.append("  vDPI: ").append(vDpi);
 		return sb.toString();
 	}
 }

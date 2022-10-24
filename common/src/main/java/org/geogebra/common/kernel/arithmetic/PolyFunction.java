@@ -51,9 +51,7 @@ public class PolyFunction
 	 */
 	public PolyFunction(double[] c) {
 		coeffs = new double[c.length];
-		for (int i = 0; i < c.length; i++) {
-			coeffs[i] = c[i];
-		}
+		System.arraycopy(c, 0, coeffs, 0, c.length);
 		degree = coeffs.length - 1;
 	}
 
@@ -82,9 +80,7 @@ public class PolyFunction
 	 */
 	public double[] getCoeffsCopy() {
 		double[] ret = new double[coeffs.length];
-		for (int i = 0; i < coeffs.length; i++) {
-			ret[i] = coeffs[i];
-		}
+		System.arraycopy(coeffs, 0, ret, 0, coeffs.length);
 		return ret;
 	}
 
@@ -101,9 +97,7 @@ public class PolyFunction
 		}
 		double[] ret = new double[coeffs.length - offset];
 
-		for (int i = offset; i < coeffs.length; i++) {
-			ret[i - offset] = coeffs[i];
-		}
+		System.arraycopy(coeffs, offset, ret, offset - offset, coeffs.length - offset);
 		return ret;
 	}
 

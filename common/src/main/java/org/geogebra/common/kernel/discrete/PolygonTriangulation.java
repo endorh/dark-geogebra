@@ -161,55 +161,50 @@ public class PolygonTriangulation {
 		}
 	}
 
-	final private Comparator<Point> simplePolygonPointComparator = new Comparator<Point>() {
+	final private Comparator<Point> simplePolygonPointComparator = (p1, p2) -> {
 
-		@Override
-		public int compare(Point p1, Point p2) {
-
-			if (p1 == p2) {
-				return 0;
-			}
-
-			if (p1.id == p2.id) {
-				/*
-				 * error("same ids"); debug(p1.debugSegments());
-				 * debug(p2.debugSegments());
-				 */
-
-				// copy segments
-				if (p1.toRight != null) {
-					if (p2.toRight == null) {
-						p2.toRight = new MyTreeSet<>();
-					}
-					for (Segment seg : p1.toRight) {
-						seg.leftPoint = p2;
-						p2.toRight.add(seg);
-					}
-				}
-
-				if (p1.toLeft != null) {
-					if (p2.toLeft == null) {
-						p2.toLeft = new MyTreeSet<>();
-					}
-					for (Segment seg : p1.toLeft) {
-						seg.rightPoint = p2;
-						p2.toLeft.add(seg);
-					}
-				}
-
-				// add diagonal need
-				if (p1.needsDiagonal) {
-					p2.needsDiagonal = true;
-				}
-
-				nextNewPointForNonSelfIntersectingPolygon = p2;
-
-				return 0;
-			}
-
-			return p1.compareToOnly(p2);
+		if (p1 == p2) {
+			return 0;
 		}
 
+		if (p1.id == p2.id) {
+			/*
+			 * error("same ids"); debug(p1.debugSegments());
+			 * debug(p2.debugSegments());
+			 */
+
+			// copy segments
+			if (p1.toRight != null) {
+				if (p2.toRight == null) {
+					p2.toRight = new MyTreeSet<>();
+				}
+				for (Segment seg : p1.toRight) {
+					seg.leftPoint = p2;
+					p2.toRight.add(seg);
+				}
+			}
+
+			if (p1.toLeft != null) {
+				if (p2.toLeft == null) {
+					p2.toLeft = new MyTreeSet<>();
+				}
+				for (Segment seg : p1.toLeft) {
+					seg.rightPoint = p2;
+					p2.toLeft.add(seg);
+				}
+			}
+
+			// add diagonal need
+			if (p1.needsDiagonal) {
+				p2.needsDiagonal = true;
+			}
+
+			nextNewPointForNonSelfIntersectingPolygon = p2;
+
+			return 0;
+		}
+
+		return p1.compareToOnly(p2);
 	};
 
 	private class Point implements Comparable<Point> {
@@ -1445,22 +1440,20 @@ public class PolygonTriangulation {
 
 					// remove this segment from left and right points
 					switch (segment.usable) {
-					case 1:
+					case 1 -> {
 						segment.removeFromPoints();
 						segment.usable--; // ensure to throw an exception if
-											// this segment is used once more
-						break;
-
-					case 0: // should not happen
-						throw new TriangulationException(
-								TriangulationException.Type.DEAD_END);
-
-					default:
+					}
+					// this segment is used once more
+					case 0 -> // should not happen
+							throw new TriangulationException(
+									TriangulationException.Type.DEAD_END);
+					default -> {
 						segment.usable--;
 						Segment clone = segment.duplicate();
 						clone.running = segment.running;
 						segment = clone;
-						break;
+					}
 					}
 
 					// reconfigure segment to new points
@@ -2207,9 +2200,7 @@ public class PolygonTriangulation {
 			completeVertices = new Coords[maxPointIndex];
 		}
 
-		for (int i = 0; i < length; i++) {
-			completeVertices[i] = vertices[i];
-		}
+		if (length >= 0) System.arraycopy(vertices, 0, completeVertices, 0, length);
 
 		for (int i = length; i < maxPointIndex; i++) {
 			GPoint2D point = pointsArray[i];

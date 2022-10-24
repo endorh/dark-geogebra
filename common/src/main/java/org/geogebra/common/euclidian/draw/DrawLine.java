@@ -392,41 +392,38 @@ public class DrawLine extends SetDrawable implements Previewable {
 		// slope for LEFT, RIGHT: k = gx/gy
 		// slope for TOP, BOTTOM: 1/k = gy/gx
 		switch (labelPos) {
-		case LEFT:
+		case LEFT -> {
 			xLabel = 5;
 			if (2 * y < view.getHeight()) {
 				yLabel = y + 16 + (int) (16 * (gx / gy));
 			} else {
 				yLabel = y - 8 + (int) (16 * (gx / gy));
 			}
-			break;
-
-		case RIGHT:
+		}
+		case RIGHT -> {
 			xLabel = view.getWidth() - 15;
 			if (2 * y < view.getHeight()) {
 				yLabel = y + 16 - (int) (16 * (gx / gy));
 			} else {
 				yLabel = y - 8 - (int) (16 * (gx / gy));
 			}
-			break;
-
-		case TOP:
+		}
+		case TOP -> {
 			yLabel = 15;
 			if (2 * x < view.getWidth()) {
 				xLabel = x + 8 + (int) (16 * (gy / gx));
 			} else {
 				xLabel = x - 16 + (int) (16 * (gy / gx));
 			}
-			break;
-
-		case BOTTOM:
+		}
+		case BOTTOM -> {
 			yLabel = view.getHeight() - 5;
 			if (2 * x < view.getWidth()) {
 				xLabel = x + 8 - (int) (16 * (gy / gx));
 			} else {
 				xLabel = x - 16 - (int) (16 * (gy / gx));
 			}
-			break;
+		}
 		}
 	}
 
@@ -486,25 +483,20 @@ public class DrawLine extends SetDrawable implements Previewable {
 	@Override
 	final public void updatePreview() {
 		switch (previewMode) {
-		default:
-		case LINE:
-		case PERPENDICULAR_BISECTOR:
+		case LINE, PERPENDICULAR_BISECTOR -> {
 			isVisible = (points.size() == 1);
 			if (isVisible) {
 				startPoint = points.get(0);
 			}
-			break;
-		case PARALLEL:
-		case PERPENDICULAR:
-			isVisible = lines.size() == 1 || functions.size() == 1;
-			break;
-		case ANGLE_BISECTOR:
+		}
+		case PARALLEL, PERPENDICULAR -> isVisible = lines.size() == 1 || functions.size() == 1;
+		case ANGLE_BISECTOR -> {
 			isVisible = (points.size() == 2);
 			if (isVisible) {
 				startPoint = points.get(0);
 				previewPoint2 = points.get(1);
 			}
-			break;
+		}
 		}
 
 	}

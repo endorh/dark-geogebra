@@ -170,7 +170,7 @@ public class SVGRoot extends Group {
 	}
 
 	private static boolean contains(String text, String find) {
-		return (text.indexOf(find) != -1);
+		return (text.contains(find));
 	}
 
 	@Override

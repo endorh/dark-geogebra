@@ -57,7 +57,7 @@ public class EdgeBetweennessClusterer<V, E>
 	 */
 	public EdgeBetweennessClusterer(int numEdgesToRemove) {
 		mNumEdgesToRemove = numEdgesToRemove;
-		edges_removed = new LinkedHashMap<E, Pair<V>>();
+		edges_removed = new LinkedHashMap<>();
 	}
 
 	/**
@@ -78,7 +78,7 @@ public class EdgeBetweennessClusterer<V, E>
 		edges_removed.clear();
 
 		for (int k = 0; k < mNumEdgesToRemove; k++) {
-			BetweennessCentrality<V, E> bc = new BetweennessCentrality<V, E>(
+			BetweennessCentrality<V, E> bc = new BetweennessCentrality<>(
 					graph);
 			E to_remove = null;
 			double score = 0;
@@ -92,7 +92,7 @@ public class EdgeBetweennessClusterer<V, E>
 			graph.removeEdge(to_remove);
 		}
 
-		WeakComponentClusterer<V, E> wcSearch = new WeakComponentClusterer<V, E>();
+		WeakComponentClusterer<V, E> wcSearch = new WeakComponentClusterer<>();
 		Set<Set<V>> clusterSet = wcSearch.transform(graph);
 
 		for (Map.Entry<E, Pair<V>> entry : edges_removed.entrySet()) {
@@ -111,6 +111,6 @@ public class EdgeBetweennessClusterer<V, E>
 	 * @return the edges in the original graph
 	 */
 	public List<E> getEdgesRemoved() {
-		return new ArrayList<E>(edges_removed.keySet());
+		return new ArrayList<>(edges_removed.keySet());
 	}
 }

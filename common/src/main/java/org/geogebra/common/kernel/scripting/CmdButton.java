@@ -34,8 +34,7 @@ public class CmdButton extends CommandProcessor {
 		// dummy
 
 		switch (n) {
-		case 1:
-
+		case 1 -> {
 			arg = resArgs(c);
 			if (arg[0].isGeoText()) {
 				String caption = ((GeoText) arg[0]).getTextString();
@@ -43,17 +42,17 @@ public class CmdButton extends CommandProcessor {
 				gb.setLabelVisible(true);
 				gb.setCaption(caption);
 				gb.setLabel(c.getLabel());
-				return new GeoElement[] { gb };
+				return new GeoElement[]{gb};
 			}
 			throw argErr(c, arg[0]);
-		case 0:
+		}
+		case 0 -> {
 			GeoButton gb = new GeoButton(cons);
 			gb.setLabelVisible(true);
 			gb.setLabel(c.getLabel());
-			return new GeoElement[] { gb };
-
-		default:
-			throw argNumErr(c);
+			return new GeoElement[]{gb};
+		}
+		default -> throw argNumErr(c);
 		}
 
 	}

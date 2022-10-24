@@ -75,10 +75,7 @@ public class AlgoVoronoi extends AlgoDiscrete {
 		PointDt[] points = new PointDt[pointTree.size()];
 		int indx = 0;
 
-		Iterator<GPoint2D> it3 = pointTree.iterator();
-
-		while (it3.hasNext()) {
-			GPoint2D p = it3.next();
+		for (GPoint2D p : pointTree) {
 			double x = p.getX();
 			double y = p.getY();
 
@@ -148,10 +145,7 @@ public class AlgoVoronoi extends AlgoDiscrete {
 
 		}
 
-		Iterator<MyLine> it2 = tree.iterator();
-
-		while (it2.hasNext()) {
-			MyLine line = it2.next();
+		for (MyLine line : tree) {
 			al.add(new MyPoint(line.p1.getX(), line.p1.getY(),
 					SegmentType.MOVE_TO));
 			al.add(new MyPoint(line.p2.getX(), line.p2.getY(),
@@ -169,28 +163,25 @@ public class AlgoVoronoi extends AlgoDiscrete {
 	 */
 	public static Comparator<GPoint2D> getPointComparator() {
 		if (pointComparator == null) {
-			pointComparator = new Comparator<GPoint2D>() {
-				@Override
-				public int compare(GPoint2D p1, GPoint2D p2) {
+			pointComparator = (p1, p2) -> {
 
-					// double p1A = itemA.getX();
-					// double p1B = itemA.getY();
-					// double p2A = itemB.getX();
-					// double p2B = itemB.getY();
+				// double p1A = itemA.getX();
+				// double p1B = itemA.getY();
+				// double p2A = itemB.getX();
+				// double p2B = itemB.getY();
 
-					// return 0 if endpoints the same
-					// so no duplicates in the TreeMap
-					if (DoubleUtil.isEqual(p1.getX(), p2.getX())
-							&& DoubleUtil.isEqual(p1.getY(), p2.getY())) {
-						// Application.debug("equal2");
-						return 0;
-					}
-
-					// need to return something sensible, otherwise tree doesn't
-					// work
-					return p1.getX() > p2.getX() ? -1 : 1;
-
+				// return 0 if endpoints the same
+				// so no duplicates in the TreeMap
+				if (DoubleUtil.isEqual(p1.getX(), p2.getX())
+						&& DoubleUtil.isEqual(p1.getY(), p2.getY())) {
+					// Application.debug("equal2");
+					return 0;
 				}
+
+				// need to return something sensible, otherwise tree doesn't
+				// work
+				return p1.getX() > p2.getX() ? -1 : 1;
+
 			};
 
 		}

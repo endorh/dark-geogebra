@@ -27,7 +27,7 @@ import org.mozilla.javascript.Token;
 public class TryStatement extends AstNode {
 
     private static final List<CatchClause> NO_CATCHES =
-        Collections.unmodifiableList(new ArrayList<CatchClause>());
+        Collections.unmodifiableList(new ArrayList<>());
 
     private AstNode tryBlock;
     private List<CatchClause> catchClauses;
@@ -96,7 +96,7 @@ public class TryStatement extends AstNode {
     public void addCatchClause(CatchClause clause) {
         assertNotNull(clause);
         if (catchClauses == null) {
-            catchClauses = new ArrayList<CatchClause>();
+            catchClauses = new ArrayList<>();
         }
         catchClauses.add(clause);
         clause.setParent(this);

@@ -47,10 +47,11 @@ public class CmdSetValue extends CmdScripting {
 		boolean ok;
 
 		switch (n) {
-		case 2:
+		case 2 -> {
 			setValue2(arg[0], arg[1]);
 			return arg;
-		case 3:
+		}
+		case 3 -> {
 			if ((ok = (arg[0].isGeoList() && arg[0].isIndependent()))
 					&& arg[1].isNumberValue()) {
 
@@ -64,11 +65,9 @@ public class CmdSetValue extends CmdScripting {
 			} else {
 				throw argErr(c, ok ? arg[1] : arg[0]);
 			}
-
 			return arg;
-
-		default:
-			throw argNumErr(c);
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 

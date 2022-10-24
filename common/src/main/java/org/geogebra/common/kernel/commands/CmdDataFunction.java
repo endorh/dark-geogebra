@@ -34,16 +34,14 @@ public class CmdDataFunction extends CommandProcessor {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
-		case 0:
-		case 2:
-		case 3:
+		case 0, 2, 3 -> {
 			FunctionVariable fv = new FunctionVariable(kernel);
 			ExpressionValue en = simplify(c, fv);
 			GeoFunction geo = new GeoFunction(kernel, en.wrap(), fv);
 			geo.setLabel(c.getLabel());
-			return new GeoElement[] { geo };
-		default:
-			throw argNumErr(c);
+			return new GeoElement[]{geo};
+		}
+		default -> throw argNumErr(c);
 		}
 	}
 
@@ -86,18 +84,15 @@ public class CmdDataFunction extends CommandProcessor {
 	private ExpressionValue simplify(Command c, FunctionVariable fv) {
 		int n = c.getArgumentNumber();
 
-		switch (n) {
-		case 0:
-			return getDataFunction(kernel, c.getLabel(), new MyList(kernel),
+		return switch (n) {
+			case 0 -> getDataFunction(kernel, c.getLabel(), new MyList(kernel),
 					new MyList(kernel), null, fv);
-		case 2:
-			return getDataFunction(kernel, c.getLabel(), toList(c, 0),
+			case 2 -> getDataFunction(kernel, c.getLabel(), toList(c, 0),
 					toList(c, 1), null, fv);
-		case 3:
-			return getDataFunction(kernel, c.getLabel(), toList(c, 0),
+			case 3 -> getDataFunction(kernel, c.getLabel(), toList(c, 0),
 					toList(c, 1), c.getArgument(2), fv);
-		}
-		return null;
+			default -> null;
+		};
 	}
 
 	private ListValue toList(Command c, int argIndex) {

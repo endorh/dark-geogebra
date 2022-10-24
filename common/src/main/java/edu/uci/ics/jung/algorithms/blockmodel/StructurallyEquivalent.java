@@ -49,22 +49,21 @@ public class StructurallyEquivalent<V, E>
 	public VertexPartition<V, E> transform(Graph<V, E> g) {
 		Set<Pair<V>> vertex_pairs = getEquivalentPairs(g);
 
-		Set<Set<V>> rv = new HashSet<Set<V>>();
-		Map<V, Set<V>> intermediate = new HashMap<V, Set<V>>();
+		Map<V, Set<V>> intermediate = new HashMap<>();
 		for (Pair<V> p : vertex_pairs) {
 			Set<V> res = intermediate.get(p.getFirst());
 			if (res == null) {
 				res = intermediate.get(p.getSecond());
 			}
 			if (res == null) {
-				res = new HashSet<V>();
+				res = new HashSet<>();
 			}
 			res.add(p.getFirst());
 			res.add(p.getSecond());
 			intermediate.put(p.getFirst(), res);
 			intermediate.put(p.getSecond(), res);
 		}
-		rv.addAll(intermediate.values());
+		Set<Set<V>> rv = new HashSet<>(intermediate.values());
 
 		// pick up the vertices which don't appear in intermediate; they are
 		// singletons (equivalence classes of size 1)
@@ -76,7 +75,7 @@ public class StructurallyEquivalent<V, E>
 			rv.add(v_set);
 		}
 
-		return new VertexPartition<V, E>(g, intermediate, rv);
+		return new VertexPartition<>(g, intermediate, rv);
 	}
 
 	/**
@@ -91,10 +90,10 @@ public class StructurallyEquivalent<V, E>
 	 */
 	protected Set<Pair<V>> getEquivalentPairs(Graph<V, ?> g) {
 
-		Set<Pair<V>> rv = new HashSet<Pair<V>>();
-		Set<V> alreadyEquivalent = new HashSet<V>();
+		Set<Pair<V>> rv = new HashSet<>();
+		Set<V> alreadyEquivalent = new HashSet<>();
 
-		List<V> l = new ArrayList<V>(g.getVertices());
+		List<V> l = new ArrayList<>(g.getVertices());
 
 		for (V v1 : l) {
 			if (alreadyEquivalent.contains(v1)) {
@@ -114,7 +113,7 @@ public class StructurallyEquivalent<V, E>
 				}
 
 				if (isStructurallyEquivalent(g, v1, v2)) {
-					Pair<V> p = new Pair<V>(v1, v2);
+					Pair<V> p = new Pair<>(v1, v2);
 					alreadyEquivalent.add(v2);
 					rv.add(p);
 				}
@@ -143,15 +142,15 @@ public class StructurallyEquivalent<V, E>
 			return false;
 		}
 
-		Set<V> n1 = new HashSet<V>(g.getPredecessors(v1));
+		Set<V> n1 = new HashSet<>(g.getPredecessors(v1));
 		n1.remove(v2);
 		n1.remove(v1);
-		Set<V> n2 = new HashSet<V>(g.getPredecessors(v2));
+		Set<V> n2 = new HashSet<>(g.getPredecessors(v2));
 		n2.remove(v1);
 		n2.remove(v2);
 
-		Set<V> o1 = new HashSet<V>(g.getSuccessors(v1));
-		Set<V> o2 = new HashSet<V>(g.getSuccessors(v2));
+		Set<V> o1 = new HashSet<>(g.getSuccessors(v1));
+		Set<V> o2 = new HashSet<>(g.getSuccessors(v2));
 		o1.remove(v1);
 		o1.remove(v2);
 		o2.remove(v1);

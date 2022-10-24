@@ -83,9 +83,8 @@ public class NodeTransformer
             if (createScopeObjects &&
                 (type == Token.BLOCK || type == Token.LOOP ||
                  type == Token.ARRAYCOMP) &&
-                (node instanceof Scope))
+                (node instanceof Scope newScope))
             {
-                Scope newScope = (Scope) node;
                 if (newScope.getSymbolTable() != null) {
                     // transform to let statement so we get a with statement
                     // created to contain scoped let variables
@@ -421,7 +420,7 @@ public class NodeTransformer
         if (createWith) {
             result = new Node(isExpression ? Token.WITHEXPR : Token.BLOCK);
             result = replaceCurrent(parent, previous, scopeNode, result);
-            ArrayList<Object> list = new ArrayList<Object>();
+            ArrayList<Object> list = new ArrayList<>();
             Node objectLiteral = new Node(Token.OBJECTLIT);
             for (Node v=vars.getFirstChild(); v != null; v = v.getNext()) {
                 Node current = v;

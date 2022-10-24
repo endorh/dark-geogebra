@@ -50,10 +50,10 @@ public final class TimeEventManager {
 
 		// Iterate through the tracks, and store the events into our time map
 		Track[] tracks = sequence.getTracks();
-		for (int i = 0; i < tracks.length; i++) {
-			for (int e = 0; e < tracks[i].size(); e++) {
+		for (Track track : tracks) {
+			for (int e = 0; e < track.size(); e++) {
 				// Get MIDI message and time data from event
-				MidiEvent event = tracks[i].get(e);
+				MidiEvent event = track.get(e);
 				long timestamp = event.getTick();
 
 				// Put the MIDI message into the time map
@@ -62,7 +62,7 @@ public final class TimeEventManager {
 						.get(timestamp)) == null) {
 					// Add a new list to the map if one doesn't already exist
 					// for the timestamp in question
-					list = new ArrayList<MidiEvent>();
+					list = new ArrayList<>();
 					timeMap.put(timestamp, list);
 				}
 				list.add(event);
@@ -85,15 +85,15 @@ public final class TimeEventManager {
 	 * 
 	 * @return The events from the sequence, in temporal order
 	 */
-	public static final List<MidiEvent> getAllEventsSortedByTimestamp(
+	public static List<MidiEvent> getAllEventsSortedByTimestamp(
 			Sequence sequence) {
-		Map<Long, List<MidiEvent>> timeMap = new HashMap<Long, List<MidiEvent>>();
+		Map<Long, List<MidiEvent>> timeMap = new HashMap<>();
 		long longestTime = sortSequenceByTimestamp(sequence, timeMap);
 
-		List<MidiEvent> totalList = new ArrayList<MidiEvent>();
+		List<MidiEvent> totalList = new ArrayList<>();
 
 		for (long l = 0; l < longestTime; l++) {
-			Long key = new Long(l);
+			Long key = l;
 			if (timeMap.containsKey(key)) {
 				List<MidiEvent> list = timeMap.get(key);
 				totalList.addAll(list);

@@ -29,7 +29,6 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -231,7 +230,7 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 	// extra pointers
 	int alphaIndex;
 
-	Map extGStates;
+	Map<Float, String> extGStates;
 
 	private Dimension pageSize = null;
 
@@ -377,7 +376,7 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 
 		// extra stuff
 		alphaIndex = 1;
-		extGStates = new HashMap();
+		extGStates = new HashMap<>();
 
 		// hide the multipage functionality to the user in case of single page
 		// output by opening the first and only page immediately
@@ -434,13 +433,12 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 		if (extGStates.size() > 0) {
 			PDFDictionary extGState = os.openDictionary("ExtGState");
 
-			for (Iterator i = extGStates.keySet().iterator(); i.hasNext();) {
-				Float alpha = (Float) i.next();
-				String alphaName = (String) extGStates.get(alpha);
+			for (Float alpha : extGStates.keySet()) {
+				String alphaName = extGStates.get(alpha);
 				PDFDictionary alphaDictionary = extGState
 						.openDictionary(alphaName);
-				alphaDictionary.entry("ca", alpha.floatValue());
-				alphaDictionary.entry("CA", alpha.floatValue());
+				alphaDictionary.entry("ca", alpha);
+				alphaDictionary.entry("CA", alpha);
 				alphaDictionary.entry("BM", os.name("Normal"));
 				alphaDictionary.entry("AIS", false);
 				extGState.close(alphaDictionary);
@@ -912,32 +910,18 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 	@Override
 	protected void writeCap(int cap) throws IOException {
 		switch (cap) {
-		default:
-		case BasicStroke.CAP_BUTT:
-			pageStream.cap(0);
-			break;
-		case BasicStroke.CAP_ROUND:
-			pageStream.cap(1);
-			break;
-		case BasicStroke.CAP_SQUARE:
-			pageStream.cap(2);
-			break;
+		case BasicStroke.CAP_BUTT -> pageStream.cap(0);
+		case BasicStroke.CAP_ROUND -> pageStream.cap(1);
+		case BasicStroke.CAP_SQUARE -> pageStream.cap(2);
 		}
 	}
 
 	@Override
 	protected void writeJoin(int join) throws IOException {
 		switch (join) {
-		default:
-		case BasicStroke.JOIN_MITER:
-			pageStream.join(0);
-			break;
-		case BasicStroke.JOIN_ROUND:
-			pageStream.join(1);
-			break;
-		case BasicStroke.JOIN_BEVEL:
-			pageStream.join(2);
-			break;
+		case BasicStroke.JOIN_MITER -> pageStream.join(0);
+		case BasicStroke.JOIN_ROUND -> pageStream.join(1);
+		case BasicStroke.JOIN_BEVEL -> pageStream.join(2);
 		}
 	}
 
@@ -966,8 +950,8 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 	protected void writePaint(Color c) throws IOException {
 		float[] cc = c.getRGBComponents(null);
 		// System.out.println("alpha = "+cc[3]);
-		Float alpha = new Float(cc[3]);
-		String alphaName = (String) extGStates.get(alpha);
+		Float alpha = cc[3];
+		String alphaName = extGStates.get(alpha);
 		if (alphaName == null) {
 			alphaName = "Alpha" + alphaIndex;
 			alphaIndex++;

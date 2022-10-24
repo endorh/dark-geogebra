@@ -72,7 +72,7 @@ public class EppsteinPowerLawGenerator<V, E> implements GraphGenerator<V, E> {
 		for (int i = 0; i < mNumVertices; i++) {
 			graph.addVertex(vertexFactory.create());
 		}
-		List<V> vertices = new ArrayList<V>(graph.getVertices());
+		List<V> vertices = new ArrayList<>(graph.getVertices());
 		while (graph.getEdgeCount() < mNumEdges) {
 			V u = vertices.get((int) (mRandom.nextDouble() * mNumVertices));
 			V v = vertices.get((int) (mRandom.nextDouble() * mNumVertices));
@@ -99,7 +99,7 @@ public class EppsteinPowerLawGenerator<V, E> implements GraphGenerator<V, E> {
 	public Graph<V, E> create() {
 		Graph<V, E> graph = initializeGraph();
 
-		List<V> vertices = new ArrayList<V>(graph.getVertices());
+		List<V> vertices = new ArrayList<>(graph.getVertices());
 		for (int rIdx = 0; rIdx < mNumIterations; rIdx++) {
 
 			V v = null;
@@ -110,7 +110,7 @@ public class EppsteinPowerLawGenerator<V, E> implements GraphGenerator<V, E> {
 
 			} while (degree == 0);
 
-			List<E> edges = new ArrayList<E>(graph.getIncidentEdges(v));
+			List<E> edges = new ArrayList<>(graph.getIncidentEdges(v));
 			E randomExistingEdge = edges
 					.get((int) (mRandom.nextDouble() * degree));
 

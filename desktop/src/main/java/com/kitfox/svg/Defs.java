@@ -35,8 +35,6 @@
  */
 package com.kitfox.svg;
 
-import java.util.Iterator;
-
 /**
  * @author Mark McKay
  * @author <a href="mailto:mark@kitfox.com">Mark McKay</a>
@@ -71,8 +69,8 @@ public class Defs extends TransformableElement {
 	@Override
 	public boolean updateTime(double curTime) throws SVGException {
 		boolean stateChange = false;
-		for (Iterator it = children.iterator(); it.hasNext();) {
-			SVGElement ele = (SVGElement) it.next();
+		for (Object child : children) {
+			SVGElement ele = (SVGElement) child;
 			stateChange = stateChange || ele.updateTime(curTime);
 		}
 

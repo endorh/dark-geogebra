@@ -1,7 +1,6 @@
 package org.geogebra.common.kernel.advanced;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
@@ -77,12 +76,10 @@ public class AlgoDivisorsList extends AlgoElement {
 		}
 		result.setDefined(true);
 		result.clear();
-		Set<Long> sortedSet = new TreeSet<>();
-		sortedSet.addAll(factList);
-		Iterator<Long> iterator = sortedSet.iterator();
+		Set<Long> sortedSet = new TreeSet<>(factList);
 
-		while (iterator.hasNext()) {
-			result.addNumber(iterator.next(), this);
+		for (Long aLong : sortedSet) {
+			result.addNumber(aLong, this);
 		}
 
 	}

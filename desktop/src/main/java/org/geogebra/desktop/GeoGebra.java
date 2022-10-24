@@ -16,6 +16,8 @@ import java.awt.Frame;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.image.ImageProducer;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
 
 import org.geogebra.common.GeoGebraConstants;
@@ -28,8 +30,6 @@ import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
 import org.geogebra.desktop.main.GeoGebraServer;
 import org.geogebra.desktop.util.ImageManagerD;
-
-import sun.awt.image.URLImageSource;
 
 public class GeoGebra {
 
@@ -109,14 +109,18 @@ public class GeoGebra {
 			// Show splash screen
 			URL imageURL = GeoGebra.class.getResource(
 					"/org/geogebra/desktop/" + GeoGebraConstants.SPLASH_STRING);
-			if (imageURL != null) {
-				ImageProducer source = new URLImageSource(imageURL);
-				if (ThemeD.getTheme().isDarkTheme()) {
-					source = ImageManagerD.addInvertFilter(source);
+			try {
+				if (imageURL != null) {
+					ImageProducer source = (ImageProducer) imageURL.getContent();
+					if (ThemeD.getTheme().isDarkTheme()) {
+						source = ImageManagerD.addInvertFilter(source);
+					}
+					Image im = Toolkit.getDefaultToolkit().createImage(source);
+					splashFrame = SplashWindow.splash(im);
+				} else {
+					throw new FileNotFoundException("Could not find splash image");
 				}
-				Image im = Toolkit.getDefaultToolkit().createImage(source);
-				splashFrame = SplashWindow.splash(im);
-			} else {
+			} catch (IOException e) {
 				System.err.println("Splash image not found");
 			}
 		}

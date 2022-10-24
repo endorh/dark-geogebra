@@ -269,7 +269,7 @@ public class ToolCreationDialogD extends Dialog
 	private void overwriteMacro(Macro macro) {
 		Object[] options = { loc.getMenu("Tool.Replace"),
 				loc.getMenu("Tool.DontReplace") };
-		int returnVal = JOptionPane.showOptionDialog(this,
+		int returnVal = GuiManagerD.showOptionDialog(this,
 				app.getLocalization().getPlain("Tool.ReplaceQuestion",
 						macro.getToolName()),
 				loc.getMenu("Question"), JOptionPane.DEFAULT_OPTION,

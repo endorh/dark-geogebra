@@ -1,11 +1,15 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
 plugins {
     id "com.github.spotbugs" version "4.8.0"
-    id 'application'
-    id 'eclipse'
-    id 'checkstyle'
+    id "application"
+    id "eclipse"
+    id "checkstyle"
+    id "org.gradlex.extra-java-module-info"
+    id "org.beryx.jlink" version "2.25.0"
 }
 
-project.setDescription('Parts of GeoGebra related to desktop platforms')
+description "Parts of GeoGebra related to desktop platforms"
 
 sourceSets {
     nonfree
@@ -26,8 +30,10 @@ sourceSets {
 }
 
 configurations {
-    e2eTestCompile.extendsFrom testCompile
-    e2eTestCompile.extendsFrom testRuntime
+    testImplementation.extendsFrom compileClasspath
+    testImplementation.extendsFrom runtimeClasspath
+    e2eTestImplementation.extendsFrom testCompileClasspath
+    e2eTestImplementation.extendsFrom testRuntimeClasspath
 }
 
 eclipse.classpath.sourceSets.removeAll { it.name == 'nonfree' || it.name == 'gpl'}
@@ -40,74 +46,184 @@ eclipse.classpath.file {
 	}
 }
 
-compileJava {
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+tasks.withType(JavaCompile) {
+    sourceCompatibility = 17
+    targetCompatibility = 17
+    options.encoding = 'UTF-8'
 }
 
-compileTestJava {
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://maven.jzy3d.org/releases/'
+    }
 }
+
+def platforms = [
+        "linux-amd64", "linux-i586",
+        "windows-amd64", "windows-i586",
+        "macosx-universal",
+]
 
 dependencies {
-    compile project(':common')
-    compile project(':common-jre')
-    compile project(':editor-desktop')
-    compile project(':jogl2')
-    compile project(':input3D:impl')
-    compile project(':giac-jni')
-    compile 'netscape.javascript:jsobject:1',
-            'com.apple:mac_extensions:20040714',
-            'com.ogprover:OpenGeoProver:20120725',
-            'com.sun:jna:4.1.0'
+    implementation project(":common")
+    implementation project(":common-jre")
+    implementation project(":editor-desktop")
+    implementation project(":jogl2")
+    implementation project(":input3D:impl")
+    implementation project(":giac-jni")
+    implementation project(":renderer-desktop")
 
-    runtime "com.jogamp:jogl-all:$joglVersion:natives-linux-amd64",
-        "com.jogamp:jogl-all:$joglVersion:natives-windows-i586",
-        "com.jogamp:jogl-all:$joglVersion:natives-windows-amd64",
-        "com.jogamp:jogl-all:$joglVersion:natives-macosx-universal",
-        "com.jogamp:jogl-all:$joglVersion:natives-linux-i586"
-    runtime "com.jogamp:gluegen-rt:$joglVersion:natives-linux-amd64",
-        "com.jogamp:gluegen-rt:$joglVersion:natives-windows-i586",
-        "com.jogamp:gluegen-rt:$joglVersion:natives-windows-amd64", 
-        "com.jogamp:gluegen-rt:$joglVersion:natives-macosx-universal",
-        "com.jogamp:gluegen-rt:$joglVersion:natives-linux-i586"
-    runtime "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-linux-amd64",
-        "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-linux-i586",
-        "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-windows-amd64", // 201503271100 should have been used (for some strange reason versions cannot be mixed)
-        "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-windows-i586",
-        "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-macosx-universal"
-    implementation "com.formdev:flatlaf:2.1"
+    implementation "netscape.javascript:jsobject:1",
+        "com.apple:mac_extensions:20040714",
+        "com.ogprover:OpenGeoProver:20120725",
+        "com.sun:jna:4.1.0"
 
-    testCompile project(':keyboard-base')
-    testCompile "junit:junit:$junitVersion"
-    testCompile "org.mockito:mockito-core:$mockitoVersion"
-    testCompile "org.hamcrest:hamcrest:$hamcrestVersion"
-    testCompile project(':ggbjdk')
-    testCompile project(path: ':common-jre', configuration: 'testArtifacts')
+    // Flat Look and Feels
+    implementation "com.formdev:flatlaf:2.5"
+
+    // JavaScript engine
+    implementation "org.graalvm.js:js:22.2.0.1"
+    implementation "org.graalvm.js:js-scriptengine:22.2.0.1"
+
+    // Natives
+    platforms.forEach { platform ->
+        // Cannot be runtimeOnly, as JLink would not include them in the merged jar
+        implementation "com.jogamp:jogl-all:$joglVersion:natives-$platform"
+        implementation "com.jogamp:gluegen-rt:$joglVersion:natives-$platform"
+        implementation "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-$platform"
+    }
+
+    // TODO: Check that tests can run on Java 17
+    testCompileOnly project(":keyboard-base")
+    testCompileOnly "junit:junit:$junitVersion"
+    testCompileOnly "org.mockito:mockito-core:$mockitoVersion"
+    testCompileOnly "org.hamcrest:hamcrest:$hamcrestVersion"
+    // testCompileOnly breaks module-info.java
+    implementation project(":ggbjdk")
+    testCompileOnly project(path: ":common-jre", configuration: "testArtifacts")
+}
+
+extraJavaModuleInfo {
+    failOnMissingModuleInfo.set(false)
+
+    automaticModule("annotations-2.8.jar", "com.google.j2objc")
+    automaticModule("jsr305-3.0.2.jar", "com.google.code.findbugs")
+    automaticModule("libpxcclr-20150901.jar", "com.intel.rssdk")
+    automaticModule("zspace-20180405a.jar", "com.zspace")
+
+    automaticModule("jna-4.1.0.jar", "com.sun.jna")
+    automaticModule("jsobject-1.jar", "netscape.javascript.jsobject")
+    automaticModule("mac_extensions-20040714.jar", "com.apple.mac_extensions")
+    automaticModule("OpenGeoProver-20120725.jar", "com.ogprover.open_geo_prover")
+
+    automaticModule("jogl-all-${joglVersion}.jar", "com.jogamp.jogl")
+    automaticModule("gluegen-rt-${joglVersion}.jar", "com.jogamp.gluegen")
+
+    // Natives
+    platforms.forEach {
+        def platformModule = it.replace('-', '_')
+        automaticModule("jogl-all-$joglVersion-natives-${it}.jar", "com.jogamp.jogl.natives.${platformModule}")
+        automaticModule("gluegen-rt-$joglVersion-natives-${it}.jar", "com.jogamp.gluegen.natives.${platformModule}")
+        automaticModule("javagiac-$javaGiacVersion-natives-${it}.jar", "fr.ujf_grenoble.javagiac.natives.${platformModule}")
+    }
 }
 
 mainClassName = "org.geogebra.desktop.GeoGebra3D"
 
 run {
-    // Copying JOGL related native JARs into the same directory where the non-native JAR takes place.
-    // JOGL is simply dumb, it cannot work neither with java.library.path nor classpath or anything. Arrgh. 
-    def gluegen = project.configurations.compile.find { it.name == "gluegen-rt-${joglVersion}.jar" }
-    def gluegen_natives = project.configurations.runtime.findAll { it.name.startsWith("gluegen-rt-$joglVersion-natives") }
-    def gluegen_dir = gluegen.getParent()
-    for (i in gluegen_natives) {
-        def gluegen_native_path = i.getPath()
-        ant.copy(file:"$gluegen_native_path", todir:"$gluegen_dir")
-    }
-    def jogl = project.configurations.compile.find { it.name == "jogl-all-${joglVersion}.jar" }
-    def jogl_natives = project.configurations.runtime.findAll { it.name.startsWith("jogl-all-$joglVersion-natives") }
-    def jogl_dir = jogl.getParent()
-    for (i in jogl_natives) {
-        def jogl_native_path = i.getPath()
-        ant.copy(file:"$jogl_native_path", todir:"$jogl_dir")
-    }
-
+    jvmArgs(
+            "--add-exports", "java.base/java.lang=com.jogamp.jogl",
+            "--add-exports", "java.desktop/sun.awt=com.jogamp.jogl",
+            "--add-exports", "java.desktop/sun.java2d=com.jogamp.jogl",
+            // D3D causes graphical glitches
+            "-Dsun.java2d.d3d=false",
+            // Java Agent to detect misuse of Swing components outside EDT thread
+            // "-javaagent:edtAgent/build/libs/edtAgent-all.jar",
+    )
 }
+
+def imageName = "DarkGeoGebra"
+def platformName =
+        Os.isFamily(Os.FAMILY_WINDOWS)? "windows" :
+        Os.isFamily(Os.FAMILY_MAC)? "macosx" :
+        Os.isFamily(Os.FAMILY_UNIX) ? "linux" :
+        "unknown"
+tasks.jlink {
+    doLast {
+        // TODO: Strip natives from other platforms before packaging
+        // Copy JOGL and GlueCen natives into the runtime image
+        copy {
+            from "build/jlinkbase/mergedjars/natives"
+            into "build/image/bin/natives"
+        }
+        delete {
+            delete fileTree(
+                    dir: "build/jlinkbase/mergedjars/natives",
+                    exclude: "$platformName*"
+            )
+        }
+        // Copy natives not under /natives/ directory (Javagiac, pxcclr, zspace)
+        copy {
+            from "build/jlinkbase/mergedjars"
+            include "*.dll"
+            include "*.so"
+            include "*.jnilib"
+            into "build/image/bin"
+        }
+    }
+}
+
+tasks.jpackageImage {
+    doLast {
+        // Move JOGL and GlueCen natives again into their required location
+        copy {
+            from "build/jpackage/$imageName/runtime/bin/natives"
+            into "build/jpackage/$imageName/natives"
+        }
+        delete "build/jpackage/$imageName/runtime/bin/natives"
+    }
+}
+
+jlink {
+    options = [
+            "--strip-debug",
+            "--compress", "2",
+            "--no-header-files",
+            "--no-man-pages",
+    ]
+    launcher {
+        name = imageName
+        jvmArgs = [
+                "--add-exports", "java.base/java.lang=geogebra.merged.module",
+                "--add-exports", "java.desktop/sun.awt=geogebra.merged.module",
+                "--add-exports", "java.desktop/sun.java2d=geogebra.merged.module",
+                "-Dsun.java2d.d3d=false",
+        ]
+    }
+    jpackage {
+        // imageOptions = ["--win-console"]
+        icon = "geogebra.ico"
+        jvmArgs = [
+                "-p", ".",
+                "--add-exports", "java.base/java.lang=geogebra.merged.module",
+                "--add-exports", "java.desktop/sun.awt=geogebra.merged.module",
+                "--add-exports", "java.desktop/sun.java2d=geogebra.merged.module",
+                "-Dsun.java2d.d3d=false",
+        ]
+        installerOptions = [
+                "--win-dir-chooser",
+                "--win-menu", "--win-menu-group", "GeoGebra",
+                "--win-shortcut",
+                "--win-upgrade-uuid", "07642c35-fbb2-4347-9c39-836616c6ea99",
+                // "--linux-menu-group", "GeoGebra",
+                // "--linux-shortcut",
+                "--file-associations", "file-associations.properties",
+                // "--license-file", "../LICENSE.txt",
+        ]
+    }
+}
+
 test {
     systemProperty "ggb.prerelease", project.findProperty("prerelease") ?: "true";
 
@@ -117,7 +233,7 @@ test {
 spotbugs {
     ignoreFailures = true
     excludeFilter = file("../config/spotbugs.xml")
-    jvmArgs = ['-Dfindbugs.sf.comment=true']
+    jvmArgs = ["-Dfindbugs.sf.comment=true"]
 }
 
 import org.gradle.plugins.ide.eclipse.model.AccessRule
@@ -125,8 +241,8 @@ eclipse {
     classpath {
         file {
             whenMerged { classpath ->
-                def jre = entries.find { it.path.contains 'org.eclipse.jdt.launching.JRE_CONTAINER' }
-                jre.accessRules.add(new AccessRule('accessible', 'com/**'))
+                def jre = entries.find { it.path.contains "org.eclipse.jdt.launching.JRE_CONTAINER" }
+                jre.accessRules.add(new AccessRule("accessible", "com/**"))
             }
         }
     }
@@ -139,19 +255,20 @@ checkstyle {
 jar {
     manifest {
         attributes(
-                'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
-                'Main-Class': 'org.geogebra.desktop.GeoGebra3D'
+                "Main-Class": "org.geogebra.desktop.GeoGebra3D"
         )
     }
 }
 
-task debugJars(type:Zip, dependsOn: 'jar') {
+// TODO: Test with Java 17 everything below this line
+
+task debugJars(type: Zip, dependsOn: 'jar') {
     description = 'Collect all jar files in a single archive. Fast: no proguard or code signing.'
     archiveBaseName = 'jars'
     destinationDirectory = file('build')
     from 'build/libs'
     doLast {
-        configurations.compile.each { jarFile ->
+        configurations.compileOnly.each { jarFile ->
             copy {
                 from jarFile
                 into 'build/libs'

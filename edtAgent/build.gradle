@@ -1,0 +1,16 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
+}
+
+description 'Java Swing EDT check agent'
+
+dependencies {
+    implementation 'org.ow2.asm:asm:9.4'
+}
+
+shadowJar {
+    manifest {
+        attributes(['Premain-Class': 'SwingEDTCheckAgent'])
+    }
+}

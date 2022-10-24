@@ -6,8 +6,8 @@ plugins {
 	id 'org.wisepersist.gwt' version '1.1.16'
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 17
+targetCompatibility = 17
 
 evaluationDependsOn ':renderer-web'
 evaluationDependsOn ':editor-base'
@@ -32,20 +32,20 @@ gwt {
 }
 
 dependencies {
-	compile project(':renderer-web')
-	compile project(':editor-base')
-	compile files(project(':editor-base').sourceSets.main.java.srcDirs)
-	compile files(project(':renderer-web').sourceSets.main.java.srcDirs)
-	compile "com.google.gwt:gwt-dev:$gwtCompilerVersion"
-	compile "com.google.gwt:gwt-user:$gwtCompilerVersion"
-	testCompile "com.google.gwt:gwt-user:$gwtCompilerVersion"
+	compileOnly project(':renderer-web')
+	compileOnly project(':editor-base')
+	compileOnly files(project(':editor-base').sourceSets.main.java.srcDirs)
+	compileOnly files(project(':renderer-web').sourceSets.main.java.srcDirs)
+	compileOnly "com.google.gwt:gwt-dev:$gwtCompilerVersion"
+	compileOnly "com.google.gwt:gwt-user:$gwtCompilerVersion"
+	testCompileOnly "com.google.gwt:gwt-user:$gwtCompilerVersion"
 }
 
 task runSuperDev(type: JavaExec, dependsOn: 'jar') {
 	description 'Starts a codeserver, and a simple webserver for development'
 	main 'com.google.gwt.dev.DevMode'
 	maxHeapSize '2048m'
-	classpath ((configurations.compile as Set<String>) 
+	classpath ((configurations.compileOnly as Set<String>) 
 		+ (sourceSets.main.allSource.srcDirs as Set<String>) 
 		+ (jar.archivePath as String))
 	workingDir file('war')

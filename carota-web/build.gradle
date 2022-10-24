@@ -5,18 +5,18 @@ plugins {
     id 'org.wisepersist.gwt' version '1.1.18'
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 17
+targetCompatibility = 17
 
 def murokVersion = "1.0.202204010637"
 
 dependencies {
-    compile 'com.google.elemental2:elemental2-core:1.1.0',
-            'com.google.elemental2:elemental2-dom:1.1.0',
-            "org.murok:editor:$murokVersion",
-            "org.murok:editor:$murokVersion:sources",
-            'org.gwtproject.timer:gwt-timer:1.0.0-RC1',
-            project(':gwtutil')
+    compileOnly 'com.google.elemental2:elemental2-core:1.1.0'
+    compileOnly 'com.google.elemental2:elemental2-dom:1.1.0'
+    compileOnly "org.murok:editor:$murokVersion"
+    compileOnly "org.murok:editor:$murokVersion:sources"
+    compileOnly 'org.gwtproject.timer:gwt-timer:1.0.0-RC1'
+    compileOnly project(':gwtutil')
 }
 
 pmd {

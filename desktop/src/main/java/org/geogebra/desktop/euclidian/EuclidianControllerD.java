@@ -12,18 +12,29 @@
 
 package org.geogebra.desktop.euclidian;
 
+import static java.lang.Math.max;
+
+import java.awt.AWTException;
 import java.awt.Component;
+import java.awt.MouseInfo;
+import java.awt.Point;
+import java.awt.PointerInfo;
+import java.awt.Robot;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 
 import javax.swing.ToolTipManager;
 
+import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.euclidian.event.MouseEventD;
 import org.geogebra.desktop.main.AppD;
+
+import edu.umd.cs.findbugs.annotations.Nullable;
 
 /**
  * EuclidianController.java
@@ -35,6 +46,8 @@ public class EuclidianControllerD extends EuclidianController
 
 	private int moveCounter = 0;
 	private int defaultInitialDelay;
+
+	private DragWarpHandler dragWarpHandler = new DragWarpHandler(this);
 
 	/***********************************************
 	 * Creates new EuclidianController
@@ -48,7 +61,6 @@ public class EuclidianControllerD extends EuclidianController
 
 		// for tooltip manager
 		defaultInitialDelay = ToolTipManager.sharedInstance().getInitialDelay();
-
 	}
 
 	@Override
@@ -66,7 +78,7 @@ public class EuclidianControllerD extends EuclidianController
 		AbstractEvent event = MouseEventD.wrapEvent(e);
 		closePopups(event.getX(), event.getY(), null);
 		wrapMousePressed(event);
-		if (!app.isRightClick(event)) {
+		if (!event.isRightClick()) {
 			prepareModeForFreehand();
 		}
 		moveCounter = 0;
@@ -78,6 +90,7 @@ public class EuclidianControllerD extends EuclidianController
 		AbstractEvent event = MouseEventD.wrapEvent(e);
 		// no capture in desktop
 		wrapMouseDragged(event, true);
+		dragWarpHandler.handleDragWarp();
 		moveCounter++;
 		event.release();
 	}

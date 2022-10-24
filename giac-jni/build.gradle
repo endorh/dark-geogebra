@@ -4,8 +4,8 @@ plugins {
 
 description 'Java Native Interface to connect Giac and GeoGebra'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 17
+targetCompatibility = 17
 
 import org.gradle.internal.os.OperatingSystem;
 
@@ -15,7 +15,7 @@ task unzipNatives() {
     outputs.dir nativesDir
     doLast {
     // Copying native Giac DLLs into the same directory where the non-native JAR takes place.
-	def giac_natives = project(":desktop").configurations.runtime.findAll { it.name.contains("giac") && it.name.contains("natives") }
+	def giac_natives = project(":desktop").configurations.runtimeOnly.findAll { it.name.contains("giac") && it.name.contains("natives") }
 	for (i in giac_natives) {
 		def giac_native_path = i.getPath()
 		def myBit = System.getProperty("sun.arch.data.model")

@@ -1,5 +1,7 @@
 package org.geogebra.desktop.gui;
 
+import static java.lang.Character.isUpperCase;
+
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -23,13 +25,21 @@ import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Optional;
+import java.util.Set;
 import java.util.StringTokenizer;
+import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -37,6 +47,8 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.KeyStroke;
 import javax.swing.ListCellRenderer;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileFilter;
@@ -140,6 +152,8 @@ import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.desktop.util.UtilD;
 
 import com.himamis.retex.editor.share.util.Unicode;
+
+import edu.umd.cs.findbugs.annotations.Nullable;
 
 /**
  * Handles all geogebra.gui package related objects and methods for Application.
@@ -1711,6 +1725,52 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	}
 
+	private static final Pattern SPACE = Pattern.compile("\\s++");
+	public static Optional<Character> guessBestMnemonic(String text, Set<Character> usedMnemonics) {
+		String[] words = SPACE.split(text);
+		Optional<Character> opt = Arrays.stream(words)
+				.filter(w -> !w.isEmpty()).map(w -> w.charAt(0)).filter(c -> !usedMnemonics.contains(c) && isUpperCase(c)).findFirst()
+				.or(() -> Arrays.stream(words).filter(w -> !w.isEmpty()).map(w -> w.charAt(0)).filter(c -> !usedMnemonics.contains(c)).findFirst())
+				.or(() -> text.chars().mapToObj(c -> (char) c).filter(c -> !usedMnemonics.contains(c) && isUpperCase(c)).findFirst())
+				.or(() -> text.chars().mapToObj(c -> (char) c).filter(c -> !usedMnemonics.contains(c)).findFirst());
+		opt.ifPresent(usedMnemonics::add);
+		return opt;
+	}
+
+	public static int showOptionDialog(
+			Component parentComponent, Object message, String title,
+			int optionType, int messageType, Icon icon, Object[] options, Object initialValue
+	) {
+		JOptionPane pane = new JOptionPane(message, messageType, optionType, icon, options, initialValue);
+		pane.setInitialValue(initialValue);
+		pane.setComponentOrientation((parentComponent == null ? JOptionPane.getRootFrame() :
+				parentComponent).getComponentOrientation());
+		JDialog dialog = pane.createDialog(parentComponent, title);
+		pane.selectInitialValue();
+		// Add mnemonics to options
+		if (options != null) {
+			Set<Character> mnemonics = new HashSet<>(options.length + 1, 1F);
+			Arrays.stream(pane.getComponents()).flatMap(
+					c -> c instanceof JPanel? Stream.concat(
+							Stream.of(c), Arrays.stream(((JPanel) c).getComponents())
+					) : Stream.of(c))
+					.filter(c -> c instanceof JButton).map(c -> (JButton) c)
+					.forEach(b -> guessBestMnemonic(b.getText(), mnemonics).ifPresent(b::setMnemonic));
+		}
+		dialog.setVisible(true);
+		dialog.dispose();
+		Object selectedValue = pane.getValue();
+		if (selectedValue == null) {
+			return -1;
+		} else if (options == null) {
+			return selectedValue instanceof Integer ? (Integer) selectedValue : -1;
+		} else {
+			for (int i = 0; i < options.length; i++)
+				if (options[i].equals(selectedValue)) return i;
+			return -1;
+		}
+	}
+
 	// returns true for YES or NO and false for CANCEL
 	@Override
 	public boolean saveCurrentFile() {
@@ -1726,13 +1786,14 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			comp = frame != null && !frame.isIconified() ? frame : null;
 		}
 
-		Object[] options = { loc.getMenu("Save"), loc.getMenu("DontSave"),
-				loc.getMenu("Cancel") };
-		int returnVal = JOptionPane.showOptionDialog(comp,
+		String[] options = {
+				loc.getMenu("Save"),
+				loc.getMenu("DontSave"),
+				loc.getMenu("Cancel")};
+		int returnVal = showOptionDialog(comp,
 				loc.getMenu("DoYouWantToSaveYourChanges"),
 				loc.getMenu("CloseFile"), JOptionPane.DEFAULT_OPTION,
 				JOptionPane.WARNING_MESSAGE,
-
 				null, options, options[0]);
 
 		/*
@@ -1974,7 +2035,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 					Object[] options = { getLocalization().getMenu("Overwrite"),
 							loc.getMenu("DontOverwrite") };
-					int n = JOptionPane.showOptionDialog(
+					int n = GuiManagerD.showOptionDialog(
 							getApp().getMainComponent(),
 							getLocalization().getMenu("OverwriteFile") + "\n"
 									+ file.getName(),
@@ -3001,6 +3062,14 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	@Override
+	public void focusAlgebraInput() {
+		if (algebraInput != null) {
+			updateAlgebraInput();
+			algebraInput.requestFocus();
+		}
+	}
+
+	@Override
 	public void updatePropertiesView() {
 		if (propertiesView != null) {
 			propertiesView.updatePropertiesView();
@@ -3245,7 +3314,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 		Object[] options = { loc.getMenu("CreateSliders"),
 				loc.getMenu("Cancel") };
-		int returnVal = JOptionPane.showOptionDialog(comp,
+		int returnVal = GuiManagerD.showOptionDialog(comp,
 				loc.getPlain("CreateSlidersForA", s),
 				loc.getMenu("CreateSliders"), JOptionPane.DEFAULT_OPTION,
 				JOptionPane.WARNING_MESSAGE,

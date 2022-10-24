@@ -1,15 +1,10 @@
-package org.geogebra.desktop.geogebra3D.euclidian3D.opengl;
+package org.geogebra.desktop.geogebra3D.euclidian3D.opengl.desktop;
 
+import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
-
-import javax.media.opengl.GL;
-import javax.media.opengl.GL2ES1;
-import javax.media.opengl.GLAutoDrawable;
-import javax.media.opengl.GLEventListener;
-import javax.media.opengl.fixedfunc.GLLightingFunc;
 
 import org.geogebra.common.awt.GBufferedImage;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
@@ -22,10 +17,20 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GBufferedImageD;
 import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianView3DD;
+import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.Animator;
+import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.Component3D;
+import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererJogl;
 import org.geogebra.desktop.gui.menubar.GeoGebraMenuBar;
 import org.geogebra.desktop.gui.util.ImageSelection;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.FrameCollector;
+
+import com.formdev.flatlaf.util.HiDPIUtils;
+import com.jogamp.opengl.GL;
+import com.jogamp.opengl.GL2ES1;
+import com.jogamp.opengl.GLAutoDrawable;
+import com.jogamp.opengl.GLEventListener;
+import com.jogamp.opengl.fixedfunc.GLLightingFunc;
 
 /**
  * Renderer checking if we can use shaders or not
@@ -236,18 +241,18 @@ public class RendererCheckGLVersionD extends Renderer
 	 * 
 	 * openGL method called when the display is to be computed.
 	 * <p>
-	 * First, it calls {@link #doPick()} if a picking is to be done. Then, for
+	 * First, it calls {@code doPick()} if a picking is to be done. Then, for
 	 * each {@link Drawable3D}, it calls:
 	 * <ul>
-	 * <li>{@link Drawable3D#drawHidden(EuclidianRenderer3D)} to draw hidden
+	 * <li>{@link Drawable3D#drawHidden} to draw hidden
 	 * parts (dashed segments, lines, ...)</li>
-	 * <li>{@link Drawable3D#drawTransp(EuclidianRenderer3D)} to draw
+	 * <li>{@link Drawable3D#drawTransp} to draw
 	 * transparent objects (planes, spheres, ...)</li>
-	 * <li>{@link Drawable3D#drawSurfacesForHiding(EuclidianRenderer3D)} to draw
+	 * <li>{@link Drawable3D#drawNotTransparentSurface} to draw
 	 * in the z-buffer objects that hides others (planes, spheres, ...)</li>
-	 * <li>{@link Drawable3D#drawTransp(EuclidianRenderer3D)} to re-draw
+	 * <li>{@link Drawable3D#drawTransp} to re-draw
 	 * transparent objects for a better alpha-blending</li>
-	 * <li>{@link Drawable3D#drawOutline(EuclidianRenderer3D)} to draw not
+	 * <li>{@link Drawable3D#drawOutline} to draw not
 	 * hidden parts (dash-less segments, lines, ...)</li>
 	 * </ul>
 	 */
@@ -259,6 +264,28 @@ public class RendererCheckGLVersionD extends Renderer
 
 		drawScene();
 
+	}
+
+	@Override
+	public int getWidth() {
+		return super.getWidth();
+	}
+
+	@Override
+	public int getWidthInPixels() {
+		double scale = ((Graphics2D) getCanvas().getParent().getGraphics()).getTransform().getScaleX();
+		return (int) (super.getWidthInPixels() * scale);
+	}
+
+	@Override
+	public int getHeight() {
+		return super.getHeight();
+	}
+
+	@Override
+	public int getHeightInPixels() {
+		double scale = ((Graphics2D) getCanvas().getParent().getGraphics()).getTransform().getScaleX();
+		return (int) (super.getHeightInPixels() * scale);
 	}
 
 	@Override

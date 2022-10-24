@@ -1,19 +1,17 @@
 package org.geogebra.desktop.geogebra3D.euclidian3D.opengl;
 
-
-
+import java.awt.Graphics2D;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
-import javax.media.opengl.GL;
-import javax.media.opengl.GL2;
-import javax.media.opengl.GLAutoDrawable;
-import javax.media.opengl.GLCapabilities;
-import javax.media.opengl.GLCapabilitiesImmutable;
-import javax.media.opengl.GLProfile;
-import javax.media.opengl.awt.GLCanvas;
-import javax.media.opengl.awt.GLJPanel;
-
+import com.jogamp.opengl.GL;
+import com.jogamp.opengl.GL2;
+import com.jogamp.opengl.GLAutoDrawable;
+import com.jogamp.opengl.GLCapabilities;
+import com.jogamp.opengl.GLCapabilitiesImmutable;
+import com.jogamp.opengl.GLProfile;
+import com.jogamp.opengl.awt.GLCanvas;
+import com.jogamp.opengl.awt.GLJPanel;
 import com.jogamp.opengl.util.FPSAnimator;
 import com.jogamp.opengl.util.GLBuffers;
 
@@ -40,10 +38,9 @@ public class RendererJogl {
 	}
 
 	/**
-	 * 
 	 * @return current GL (as GL2ES2)
 	 */
-	public javax.media.opengl.GL2ES2 getGL2ES2() {
+	public com.jogamp.opengl.GL2ES2 getGL2ES2() {
 		return gLDrawable.getGL().getGL2ES2();
 	}
 
@@ -57,14 +54,14 @@ public class RendererJogl {
 
 	public interface GLlocal extends GL2{}
 
-	public interface GL2ES2 extends javax.media.opengl.GL2ES2{}
+	public interface GL2ES2 extends com.jogamp.opengl.GL2ES2{}
 	
 	public static GLCapabilities caps = null;
 	
 	
 	final static public void initSingleton(){
 		try{
-			GLProfile.initSingleton(); 
+			GLProfile.initSingleton();
 		}catch(Exception e){
 			// No GLProfile.initSingleton() working -- maybe not needed
 		}
@@ -178,16 +175,44 @@ public class RendererJogl {
 		public ComponentGLJPanel(){
 			super(caps);
 		}
-		
+
+		@Override
+		public void resize(int width, int height) {
+			GL2 gl = getGL().getGL2();
+			double dpiScalingFactor = ((Graphics2D) getGraphics()).getTransform().getScaleX();
+			width = (int) (width * dpiScalingFactor);
+			height = (int) (height * dpiScalingFactor);
+			gl.glViewport(0, 0, width, height);
+			super.resize(width, height);
+		}
 	}
 	
 	@SuppressWarnings("serial")
-	private static class ComponentGLCanvas extends GLCanvas implements Component3D{ 
+	private static class ComponentGLCanvas extends GLCanvas implements Component3D{
 		
 		public ComponentGLCanvas(){
 			super(caps);
 		}
-		
+
+		@Override
+		public void resize(int width, int height) {
+			GL2 gl = getGL().getGL2();
+			double dpiScalingFactor = ((Graphics2D) getGraphics()).getTransform().getScaleX();
+			width = (int) (width * dpiScalingFactor);
+			height = (int) (height * dpiScalingFactor);
+			gl.glViewport(0, 0, width, height);
+			super.resize(width, height);
+		}
+
+		@Override
+		public void setSize(int width, int height) {
+			GL2 gl = getGL().getGL2();
+			double dpiScalingFactor = ((Graphics2D) getGraphics()).getTransform().getScaleX();
+			width = (int) (width * dpiScalingFactor);
+			height = (int) (height * dpiScalingFactor);
+			gl.glViewport(0, 0, width, height);
+			super.setSize(width, height);
+		}
 	}
 	
 	/////////////////////////
@@ -207,7 +232,7 @@ public class RendererJogl {
 		public AnimatorCanvas(GLCanvas canvas, int i){
 			super(canvas,i);
 		}
-		
+
 	}
 	
 	

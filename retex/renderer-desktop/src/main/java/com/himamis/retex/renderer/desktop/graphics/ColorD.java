@@ -69,14 +69,13 @@ public class ColorD extends Color
 	@Override
 	public boolean equals(Object other) {
 		if (other instanceof ColorD) {
-			ColorD c = ((ColorD) other);
+			ColorD c = (ColorD) other;
 			return c.getRGB() == getRGB() && c.getAlpha() == getAlpha();
 		}
 		return false;
 	}
 
-	public static com.himamis.retex.renderer.share.platform.graphics.Color get(
-			Color bgColor) {
+	public static ColorD get(Color bgColor) {
 		return bgColor == null ? null : new ColorD(bgColor);
 	}
 }

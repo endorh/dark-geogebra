@@ -26,6 +26,7 @@ import org.geogebra.common.euclidian.draw.DrawText;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
+import org.geogebra.common.util.ImageManager;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.awt.GGraphics2DD;
@@ -83,6 +84,9 @@ public class GeoGebraIconD {
 
 	public static ImageIcon createFileImageIcon(ImageResourceD res) {
 		URL url = GeoGebraIconD.class.getResource(res.getFilename());
+		if (url == null && res.getFilename().startsWith("/org/geogebra/common")) {
+			url = ImageManager.class.getResource(res.getFilename());
+		}
 		URI uri = SVGCache.getSVGUniverse().loadSVG(url);
 
 		SVGIcon icon = new SVGIcon();

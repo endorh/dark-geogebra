@@ -2,11 +2,15 @@ plugins {
 	id 'java'
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 17
+targetCompatibility = 17
 
 dependencies {
-	compile project(':renderer-base')
-	testCompile 'junit:junit:4.13'
+	implementation project(':renderer-base')
+	testCompileOnly 'junit:junit:4.13.2'
+}
+
+repositories {
+	mavenCentral()
 }
 

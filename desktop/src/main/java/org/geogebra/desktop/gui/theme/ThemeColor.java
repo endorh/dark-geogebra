@@ -22,9 +22,7 @@ public class ThemeColor extends Color {
 
 	public ThemeColor(int argb, boolean hasAlpha) {
 		super(argb, hasAlpha);
-		if (!hasAlpha) {
-			argb = argb | 0xFF000000;
-		}
+		if (!hasAlpha) argb = argb | 0xFF000000;
 		this.argb = argb;
 	}
 
@@ -34,12 +32,12 @@ public class ThemeColor extends Color {
 
 	@Override
 	public int getRed() {
-		return (argb >> 16) & 0xFF;
+		return argb >> 16 & 0xFF;
 	}
 
 	@Override
 	public int getGreen() {
-		return (argb >> 8) & 0xFF;
+		return argb >> 8 & 0xFF;
 	}
 
 	@Override
@@ -49,7 +47,7 @@ public class ThemeColor extends Color {
 
 	@Override
 	public int getAlpha() {
-		return (argb >> 24) & 0xFF;
+		return argb >> 24 & 0xFF;
 	}
 
 	@Override
@@ -64,7 +62,7 @@ public class ThemeColor extends Color {
 
 	@Override
 	public boolean equals(Object obj) {
-		return (obj instanceof ThemeColor) && ((ThemeColor) obj).getRGB() == getRGB();
+		return obj instanceof ThemeColor && ((ThemeColor) obj).getRGB() == getRGB();
 	}
 
 	@Override

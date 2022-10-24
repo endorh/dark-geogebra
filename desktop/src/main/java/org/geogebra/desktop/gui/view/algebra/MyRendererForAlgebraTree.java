@@ -1,5 +1,6 @@
 package org.geogebra.desktop.gui.view.algebra;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -18,10 +19,12 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeColor;
 import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.theme.ThemeImageIcon;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
+import org.geogebra.desktop.util.ImageManagerD;
 
 /**
  * Algebra view cell renderer
@@ -112,8 +115,8 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 				if (latexStr != null) {
 					latexStr = "\\;" + latexStr; // add a little space for the icon
 					app.getDrawEquation().drawLatexImageIcon(app, latexIcon,
-							latexStr, latexFont, false, getForeground(),
-							this.getBackground());
+							latexStr, latexFont, false,
+							getForeground(), getBackground());
 					setIcon(joinIcons((ImageIcon) getIcon(), latexIcon));
 					setText(" ");
 				}
@@ -150,7 +153,7 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 			setForeground(ThemeD.color(ColorKeys.FOREGROUND));
 			setBackground(getBackgroundNonSelectionColor());
 
-			String str = (view.getTreeMode() == SortMode.LAYER)
+			String str = view.getTreeMode() == SortMode.LAYER
 					? app.getLocalization().getPlain("LayerA", value.toString())
 					: value.toString();
 
@@ -169,8 +172,7 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 	 * @param rightIcon right icon
 	 * @return merged icon
 	 */
-	private static ImageIcon joinIcons(ImageIcon leftIcon,
-			ImageIcon rightIcon) {
+	private static ImageIcon joinIcons(ImageIcon leftIcon, ImageIcon rightIcon) {
 
 		if (leftIcon == null) {
 			return rightIcon;
@@ -186,14 +188,13 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 		int h2 = rightIcon.getIconHeight();
 		int h = Math.max(h1, h2);
 		int mid = h / 2;
-		BufferedImage image = new BufferedImage(w1 + w2, h,
-				BufferedImage.TYPE_INT_ARGB);
+		BufferedImage image = new BufferedImage(w1 + w2, h, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g2 = (Graphics2D) image.getGraphics();
-		g2.drawImage(ThemeImageIcon.getUnfilteredImage(leftIcon), 0, mid - h1 / 2, null);
-		g2.drawImage(ThemeImageIcon.getUnfilteredImage(rightIcon), w1, mid - h2 / 2, null);
+		g2.drawImage(leftIcon.getImage(), 0, mid - h1 / 2, null);
+		g2.drawImage(rightIcon.getImage(), w1, mid - h2 / 2, null);
 		g2.dispose();
 
-		return ThemeD.icon(image);
+		return new ImageIcon(image);
 	}
 
 	public ImageIcon getIconShown() {

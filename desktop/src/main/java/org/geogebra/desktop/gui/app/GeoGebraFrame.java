@@ -102,7 +102,7 @@ public class GeoGebraFrame extends JFrame
 	private static ArrayList<GeoGebraFrame> instances = new ArrayList<>();
 
 	private static GeoGebraFrame activeInstance;
-	private static Object lock = new Object();
+	private static final Object lock = new Object();
 
 	private static FileDropTargetListener dropTargetListener;
 
@@ -312,7 +312,7 @@ public class GeoGebraFrame extends JFrame
 		}
 
 		// set look and feel
-		AppD.setLAF(ThemeD.getTheme().getLookAndFeel());
+		AppD.setLAF(ThemeD.getTheme());
 		// if (args.containsArg("laf")) {
 		// 	AppD.setLAF(args.getStringValue("laf").equals("system"));
 		// } else {
@@ -714,7 +714,7 @@ public class GeoGebraFrame extends JFrame
 			String dl = loc.getMenu("GoToDownloadPage");
 			Object[] options = { loc.getMenu("Cancel"), dl };
 			Component comp = app.getMainComponent();
-			int returnVal = JOptionPane.showOptionDialog(comp, q,
+			int returnVal = GuiManagerD.showOptionDialog(comp, q,
 					dl, JOptionPane.DEFAULT_OPTION,
 					JOptionPane.WARNING_MESSAGE, null, options,
 					options[0]);

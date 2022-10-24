@@ -76,19 +76,19 @@ public class OptionsAdvancedD implements OptionPanelD,
 	private JPanel virtualKeyboardPanel, guiFontsizePanel, tooltipPanel,
 			languagePanel, angleUnitPanel, continuityPanel,
 			usePathAndRegionParametersPanel, rightAnglePanel, coordinatesPanel,
-			themePanel;
+			controlsPanel, themePanel;
 
 	private JLabel keyboardLanguageLabel, guiFontSizeLabel, widthLabel,
 			heightLabel, opacityLabel, tooltipLanguageLabel,
 			tooltipTimeoutLabel, themeLabel, invertStrengthLabel,
-			minBrightnessLabel, maxBrightnessLabel;
+			minBrightnessLabel, maxBrightnessLabel, controlsLabel;
 
 	private JComboBox<String> cbKeyboardLanguage, cbTooltipLanguage,
 			cbTooltipTimeout,
 			cbGUIFont, cbTheme;
 
 	private JCheckBox cbKeyboardShowAutomatic, cbUseLocalDigits,
-			cbUseLocalLabels, cbInvertIcons, cbInvertImages, cbInvertColors;
+			cbUseLocalLabels, cbInvertIcons, cbInvertImages, cbInvertColors, cbWarpTranslate;
 
 	private JRadioButton angleUnitRadioDegree, angleUnitRadioRadian,
 			angleUnitRadioDegreesMinutesSeconds,
@@ -151,6 +151,7 @@ public class OptionsAdvancedD implements OptionPanelD,
 		initUsePathAndRegionParametersPanel();
 		initRightAnglePanel();
 		initCoordinatesPanel();
+		initControlsPanel();
 		initThemePanel();
 
 		JPanel panel = new JPanel();
@@ -167,6 +168,7 @@ public class OptionsAdvancedD implements OptionPanelD,
 		panel.add(tooltipPanel);
 		panel.add(languagePanel);
 		// panel.add(perspectivesPanel);
+		panel.add(controlsPanel);
 		panel.add(themePanel);
 
 		panel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
@@ -424,6 +426,18 @@ public class OptionsAdvancedD implements OptionPanelD,
 		coordinatesButtonGroup.add(coordinatesRadio3);
 	}
 
+	private void initControlsPanel() {
+		controlsPanel = new JPanel();
+		controlsPanel.setLayout(new BoxLayout(controlsPanel, BoxLayout.Y_AXIS));
+
+		controlsLabel = new JLabel();
+		controlsPanel.add(LayoutUtil.flowPanel(controlsLabel));
+
+		cbWarpTranslate = new JCheckBox();
+		cbWarpTranslate.addActionListener(this);
+		controlsPanel.add(LayoutUtil.flowPanel(cbWarpTranslate));
+	}
+
 	private void initThemePanel() {
 		themePanel = new JPanel();
 		themePanel.setLayout(new BoxLayout(themePanel, BoxLayout.Y_AXIS));
@@ -547,6 +561,8 @@ public class OptionsAdvancedD implements OptionPanelD,
 		cbTooltipTimeout.addActionListener(this);
 
 		updateTooltipLanguages();
+
+		cbWarpTranslate.setSelected(app.getSettings().getControlsSettings().isEnableWarpTranslate());
 
 		ThemeD theme = ThemeD.getTheme();
 		InversionPreferences inversionPreferences = theme.getInversionPreferences();
@@ -726,6 +742,8 @@ public class OptionsAdvancedD implements OptionPanelD,
 					cbKeyboardShowAutomatic.isSelected());
 		} else if (source == tfKeyboardWidth || source == tfKeyboardHeight) {
 			changeWidthOrHeight(source);
+		} else if (source == cbWarpTranslate) {
+			app.getSettings().getControlsSettings().setEnableWarpTranslate(cbWarpTranslate.isSelected());
 		} else if (source == cbTheme) {
 			app.setTheme(ThemeD.getTheme((String) cbTheme.getSelectedItem()));
 			// Load theme settings
@@ -926,6 +944,9 @@ public class OptionsAdvancedD implements OptionPanelD,
 		coordinatesRadio1.setText(loc.getMenu("A = (x, y)"));
 		coordinatesRadio2.setText(loc.getMenu("A(x | y)"));
 		coordinatesRadio3.setText(loc.getMenu("A: (x, y)"));
+
+		controlsPanel.setBorder(LayoutUtil.titleBorder(loc.getMenu("Controls")));
+		cbWarpTranslate.setText(loc.getMenu("EnableMouseWarpOnTranslate"));
 
 		themePanel.setBorder(LayoutUtil.titleBorder(loc.getMenu("Theme")));
 		cbInvertColors.setText(loc.getMenu("InvertColors"));

@@ -15,7 +15,7 @@ import com.formdev.flatlaf.FlatLightLaf;
 
 public class BuiltInThemeD extends ThemeD {
 	public static final ThemeD LEGACY = Builder.of(
-					"Legacy", getLookAndFeel(UIManager.getSystemLookAndFeelClassName()),
+					"Legacy", UIManager.getSystemLookAndFeelClassName(),
 					false, new Color(0xFFFFFF), new Color(0x000000))
 			.set(ColorKeys.BACKGROUND_SELECTED, new Color(210, 210, 225))
 			.set(ColorKeys.SELECTION, new Color(0x4080FF))
@@ -34,7 +34,7 @@ public class BuiltInThemeD extends ThemeD {
 			.build();
 	public static final ThemeD CROSS_PLATFORM_LEGACY = Builder.of(
 			"Cross Platform Legacy",
-			getLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName()),
+			UIManager.getCrossPlatformLookAndFeelClassName(),
 			false, new Color(0xFFFFFF), new Color(0x000000))
 			.set(ColorKeys.BACKGROUND_SELECTED, new Color(210, 210, 225))
 			.set(ColorKeys.SELECTION, new Color(0x4080FF))
@@ -159,6 +159,12 @@ public class BuiltInThemeD extends ThemeD {
 		this.isDark = isDark;
 	}
 
+	public BuiltInThemeD(String name, String lookAndFeel, Map<Key, Color> colors, boolean isDark) {
+		super(name, lookAndFeel);
+		this.colors = colors;
+		this.isDark = isDark;
+	}
+
 	@Override
 	public int getColor(Key key) {
 		Color color = colors.get(key);
@@ -182,6 +188,7 @@ public class BuiltInThemeD extends ThemeD {
 	public static class Builder {
 		private final String name;
 		private final LookAndFeel lnf;
+		private final String lnfName;
 		private final Map<Key, Color> colors = new HashMap<>();
 		private final boolean isDark;
 		private Consumer<InversionPreferences> configureInversion = null;
@@ -192,9 +199,23 @@ public class BuiltInThemeD extends ThemeD {
 				.set(ColorKeys.FOREGROUND, fg);
 		}
 
+		public static Builder of(String name, String lnf, boolean isDark, Color bg, Color fg) {
+			return new Builder(name, lnf, isDark)
+					.set(ColorKeys.BACKGROUND, bg)
+					.set(ColorKeys.FOREGROUND, fg);
+		}
+
 		private Builder(String name, LookAndFeel lnf, boolean dark) {
 			this.name = name;
 			this.lnf = lnf;
+			this.lnfName = null;
+			this.isDark = dark;
+		}
+
+		private Builder(String name, String lnfName, boolean dark) {
+			this.name = name;
+			this.lnf = null;
+			this.lnfName = lnfName;
 			this.isDark = dark;
 		}
 
@@ -212,7 +233,9 @@ public class BuiltInThemeD extends ThemeD {
 		}
 
 		public BuiltInThemeD build() {
-			final BuiltInThemeD theme = new BuiltInThemeD(name, lnf, colors, isDark);
+			final BuiltInThemeD theme = lnf != null
+					? new BuiltInThemeD(name, lnf, colors, isDark)
+					: new BuiltInThemeD(name, lnfName, colors, isDark);
 			if (configureInversion != null) {
 				configureInversion.accept(theme.getInversionPreferences());
 			}

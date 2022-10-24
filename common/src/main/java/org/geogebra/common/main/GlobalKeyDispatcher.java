@@ -428,6 +428,12 @@ public abstract class GlobalKeyDispatcher {
 			app.getDialogManager().openToolHelp();
 			return true;
 
+		// Focus Algebra Input
+		case F5:
+			app.getGuiManager().focusAlgebraInput();
+			consumed = true;
+			break;
+
 		// F9 updates construction
 		// cmd-f9 on Mac OS
 		case F9:

@@ -42,6 +42,7 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.util.FileExtensions;
 import org.geogebra.desktop.export.GeoGebraTubeExportD;
+import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.MyImageD;
 import org.geogebra.desktop.gui.ToolNameIconPanelD;
 import org.geogebra.desktop.gui.app.GeoGebraFrame;
@@ -108,7 +109,7 @@ public class ToolManagerDialogD extends Dialog
 		// ARE YOU SURE ?
 		Object[] options = { loc.getMenu("DeleteTool"),
 				loc.getMenu("DontDeleteTool") };
-		int returnVal = JOptionPane.showOptionDialog(this,
+		int returnVal = GuiManagerD.showOptionDialog(this,
 				loc.getMenu("Tool.DeleteQuestion"), loc.getMenu("Question"),
 				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null,
 				options, options[1]);

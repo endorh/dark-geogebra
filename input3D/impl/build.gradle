@@ -1,29 +1,37 @@
 plugins {
-    id 'java'
+    id 'java-library'
     id 'eclipse'
+    id 'org.gradlex.extra-java-module-info'
 }
 
 project.setDescription('Parts of GeoGebra related to input devices (Leonar3Do, Intel RealSense, zSpace)')
 
 compileJava {
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+    sourceCompatibility = 17
+    targetCompatibility = 17
 }
 
 compileTestJava {
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+    sourceCompatibility = 17
+    targetCompatibility = 17
 }
 
 dependencies {
-    compile project(':common'),
+    api project(':common'),
         project(':common-jre'),
         'intel.rssdk:libpxcclr:20150901',
         'com.zspace:zspace:20180405a'
-    runtime 'intel.rssdk:libpxcclr:20150901:natives-windows-amd64',
+    runtimeOnly 'intel.rssdk:libpxcclr:20150901:natives-windows-amd64',
         'intel.rssdk:libpxcclr:20150901:natives-windows-i586',
         'com.zspace:zspace:20180405a:natives-windows-i586',
         'com.zspace:zspace:20180405a:natives-windows-amd64'
+}
+
+extraJavaModuleInfo {
+    automaticModule('annotations-2.8.jar', 'com.google.j2objc')
+    automaticModule('jsr305-3.0.2.jar', 'com.google.code.findbugs')
+    automaticModule('libpxcclr-20150901.jar', 'com.intel.rssdk')
+    automaticModule('zspace-20180405a.jar', 'com.zspace')
 }
 
 eclipse.classpath.file.whenMerged { classpath ->
@@ -35,8 +43,8 @@ eclipse.classpath.file.whenMerged { classpath ->
     }
 
     // Unzip the native .jar files (which contain a .dll file):
-    def realsense_java = project.configurations.compile.find { it.name.startsWith("libpxcclr") } 
-    def realsense_natives = project.configurations.runtime.findAll { it.name.startsWith("libpxcclr") && \
+    def realsense_java = sourceSets.main.compileClasspath.find { it.name.startsWith("libpxcclr") } 
+    def realsense_natives = sourceSets.main.runtimeClasspath.findAll { it.name.startsWith("libpxcclr") && \
         it.name.contains('-natives-')} 
     def realsense_dir = realsense_java.getParent() 
     for (i in realsense_natives) {
@@ -59,8 +67,8 @@ eclipse.classpath.file.whenMerged { classpath ->
     }
 
     // Unzip the native .jar files (which contain a .dll file):
-    def zspace_java = project.configurations.compile.find { it.name.startsWith("zspace") } 
-    def zspace_natives = project.configurations.runtime.findAll { it.name.startsWith("zspace") && \
+    def zspace_java = sourceSets.main.compileClasspath.find { it.name.startsWith("zspace") } 
+    def zspace_natives = sourceSets.main.runtimeClasspath.findAll { it.name.startsWith("zspace") && \
         it.name.contains('-natives-')} 
     def zspace_dir = zspace_java.getParent() 
     for (i in zspace_natives) {

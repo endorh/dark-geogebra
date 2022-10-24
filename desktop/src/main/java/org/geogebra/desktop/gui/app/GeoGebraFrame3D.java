@@ -1,6 +1,7 @@
 package org.geogebra.desktop.gui.app;
 
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 import org.geogebra.desktop.CommandLineArguments;
 import org.geogebra.desktop.geogebra3D.App3D;
@@ -17,7 +18,7 @@ public class GeoGebraFrame3D extends GeoGebraFrame {
 	private static final long serialVersionUID = 1L;
 
 	public static synchronized void main(CommandLineArguments args) {
-		GeoGebraFrame.init(args, new GeoGebraFrame3D());
+		SwingUtilities.invokeLater(() -> GeoGebraFrame.init(args, new GeoGebraFrame3D()));
 	}
 
 	@Override

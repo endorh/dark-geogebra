@@ -6,8 +6,8 @@ plugins {
 
 ext.gwtCompilerVersion = '2.9.0'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 17
+targetCompatibility = 17
 
 gwt {
 	maxHeapSize = '2000M'
@@ -31,14 +31,14 @@ evaluationDependsOn ':renderer-base'
 evaluationDependsOn ':gwtutil'
 
 dependencies {
-	compile project(':renderer-base'),
+	compileOnly project(':renderer-base'),
 			project(':gwtutil'),
 			files(project(':renderer-base').sourceSets.main.java.srcDirs),
 			files(project(':gwtutil').sourceSets.main.java.srcDirs),
 			files(file("build/generated/sources/annotationProcessor/java/main/")),
 			"com.google.gwt:gwt-dev:$gwtCompilerVersion",
 			"com.google.gwt:gwt-user:$gwtCompilerVersion"
-	testCompile "com.google.gwt:gwt-user:$gwtCompilerVersion"
+	testCompileOnly "com.google.gwt:gwt-user:$gwtCompilerVersion"
 
 	annotationProcessor project(":gwtutil"),
 			'org.gwtproject.resources:gwt-resources-processor:HEAD-SNAPSHOT'
@@ -50,9 +50,9 @@ task runSuperDev(type: JavaExec, dependsOn: 'jar') {
 	description 'Starts a codeserver, and a simple webserver for development'
 	main 'com.google.gwt.dev.DevMode'
 	maxHeapSize '2048m'
-	classpath ((configurations.compile as Set<String>) 
-		+ (sourceSets.main.allSource.srcDirs as Set<String>) 
-		+ (jar.archivePath as String))
+	classpath (sourceSets.main.compileClasspath.collect { it.getName() }.join(' ') + ' '
+		+ sourceSets.main.allSource.srcDirs.collect { it.getName() }.join(' ') + ' '
+		+ jar.path)
 	workingDir file('war')
 	args '-logLevel', 'INFO',
 		'-codeServerPort', '9997',

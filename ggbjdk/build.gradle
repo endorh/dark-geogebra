@@ -1,15 +1,21 @@
 plugins {
     id 'java-library'
     id "com.github.spotbugs" version "4.8.0"
+    id 'org.gradlex.extra-java-module-info'
 }
-description 'Platform independent supplementary files for graphics support'
+project.setDescription('Platform independent supplementary files for graphics support')
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 17
+targetCompatibility = 17
 
 dependencies {
     implementation project(':common')
-    implementation "com.github.spotbugs:spotbugs-annotations:4.6.0"
+    implementation 'com.github.spotbugs:spotbugs-annotations:4.7.2'
+}
+
+extraJavaModuleInfo {
+    automaticModule('annotations-2.8.jar', 'com.google.j2objc')
+    automaticModule('jsr305-3.0.2.jar', 'com.google.code.findbugs')
 }
 
 spotbugs {

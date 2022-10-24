@@ -72,14 +72,14 @@ project(':common') {
 	}
 }
 
-project(':web') {
-	// exclude from the eclipse classpath the java files in the resources dir
-	eclipse.classpath.file { 
-		whenMerged { classpath ->
-			classpath.entries.find { entry -> entry.kind == 'src' && entry.path == 'src/main/resources' }.excludes = ['**/*.java']
-		}
-	}
-}
+//project(':web') {
+//	// exclude from the eclipse classpath the java files in the resources dir
+//	eclipse.classpath.file {
+//		whenMerged { classpath ->
+//			classpath.entries.find { entry -> entry.kind == 'src' && entry.path == 'src/main/resources' }.excludes = ['**/*.java']
+//		}
+//	}
+//}
 
 // https://gist.github.com/mashimom/891a55878eda510d316e
 if (JavaVersion.current().isJava8Compatible()) {

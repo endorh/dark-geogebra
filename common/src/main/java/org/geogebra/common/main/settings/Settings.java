@@ -51,6 +51,8 @@ public class Settings {
 
 	private StyleSettings styleSettings;
 
+	private ControlsSettings controlsSettings;
+
 	/**
 	 * Initialize settings using the constructors of the setting container
 	 * classes.
@@ -131,6 +133,12 @@ public class Settings {
 			keyboardSettings = app.getKeyboardSettings(keyboardSettings);
 		}
 
+		if (controlsSettings == null) {
+			controlsSettings = new ControlsSettings();
+		} else {
+			controlsSettings = new ControlsSettings(controlsSettings.getListeners());
+		}
+
 		if (casSettings == null) {
 			casSettings = new CASSettings();
 		} else {
@@ -179,6 +187,7 @@ public class Settings {
 		casSettings.beginBatch();
 		probCalcSettings.beginBatch();
 		tableSettings.beginBatch();
+		controlsSettings.beginBatch();
 	}
 
 	/**
@@ -205,6 +214,7 @@ public class Settings {
 		casSettings.endBatch();
 		probCalcSettings.endBatch();
 		tableSettings.endBatch();
+		controlsSettings.endBatch();
 	}
 
 	/**
@@ -347,6 +357,10 @@ public class Settings {
 	 */
 	public final CASSettings getCasSettings() {
 		return casSettings;
+	}
+
+	public ControlsSettings getControlsSettings() {
+		return controlsSettings;
 	}
 
 	/**

@@ -20,6 +20,7 @@ import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
+import org.geogebra.common.jre.main.LocalizationJre;
 import org.geogebra.common.util.debug.Log;
 
 /**
@@ -129,8 +130,14 @@ public class MyResourceBundle extends PropertyResourceBundle {
 		String resourceName = control.toResourceName(name, "properties");
 
 		try {
-			InputStream in = MyResourceBundle.class
-					.getResourceAsStream("/" + resourceName);
+			InputStream in = MyResourceBundle.class.getResourceAsStream("/" + resourceName);
+			if (in == null && resourceName.startsWith("org/geogebra/common/jre")) {
+				in = LocalizationJre.class.getResourceAsStream("/" + resourceName);
+			}
+			if (in == null) {
+				Log.error("Warning: could not load bundle: " + resourceName);
+				return null;
+			}
 			MyResourceBundle ret = new MyResourceBundle(in);
 			in.close();
 			return ret;

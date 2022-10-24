@@ -25,6 +25,7 @@ import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.euclidian.event.PointerEventType;
 import org.geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.desktop.euclidian.DragWarpHandler;
 import org.geogebra.desktop.euclidian.EuclidianControllerListeners;
 import org.geogebra.desktop.euclidian.event.MouseEventD;
 import org.geogebra.desktop.main.AppD;
@@ -39,6 +40,7 @@ public class EuclidianController3DD extends EuclidianController3D
 
 
 	private int defaultInitialDelay;
+	public DragWarpHandler dragWarpHandler = new DragWarpHandler(this);
 
 	/***********************************************
 	 * Creates new EuclidianController
@@ -83,6 +85,7 @@ public class EuclidianController3DD extends EuclidianController3D
 		AbstractEvent event = MouseEventD.wrapEvent(e);
 		// no capture in desktop
 		wrapMouseDragged(event, false);
+		dragWarpHandler.handleDragWarp();
 		event.release();
 	}
 

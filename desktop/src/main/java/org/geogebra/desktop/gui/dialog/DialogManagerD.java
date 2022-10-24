@@ -441,7 +441,7 @@ public class DialogManagerD extends DialogManagerMinimal {
 	public void showLogOutDialog() {
 		Object[] options = { getLocalization().getMenu("SignOut"),
 				getLocalization().getMenu("Cancel") };
-		int n = JOptionPane.showOptionDialog(((AppD) app).getMainComponent(),
+		int n = GuiManagerD.showOptionDialog(((AppD) app).getMainComponent(),
 				getLocalization().getMenu("ReallySignOut"),
 				getLocalization().getMenu("Question"),
 				JOptionPane.DEFAULT_OPTION, JOptionPane.QUESTION_MESSAGE, null,
@@ -465,25 +465,27 @@ public class DialogManagerD extends DialogManagerMinimal {
 
 	public synchronized void initFileChooser() {
 		if (fileChooser == null) {
-			try {
-				setFileChooser(new GeoGebraFileChooser(((AppD) app),
-						((AppD) app).getCurrentImagePath())); // non-restricted
-				fileChooser.addPropertyChangeListener(
-						JFileChooser.FILE_FILTER_CHANGED_PROPERTY,
-						new FileFilterChangedListener());
-			} catch (Exception e) {
-				// fix for java.io.IOException: Could not get shell folder ID
-				// list
-				// Java bug
-				// http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6544857
-				Log.debug(
-						"Error creating GeoGebraFileChooser - using fallback option");
-				setFileChooser(new GeoGebraFileChooser(((AppD) app),
-						((AppD) app).getCurrentImagePath(), true)); // restricted
-																	// version
-			}
+			SwingUtilities.invokeLater(() -> {
+				try {
+					setFileChooser(new GeoGebraFileChooser(((AppD) app),
+							((AppD) app).getCurrentImagePath())); // non-restricted
+					fileChooser.addPropertyChangeListener(
+							JFileChooser.FILE_FILTER_CHANGED_PROPERTY,
+							new FileFilterChangedListener());
+				} catch (Exception e) {
+					// fix for java.io.IOException: Could not get shell folder ID
+					// list
+					// Java bug
+					// http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6544857
+					Log.debug(
+							"Error creating GeoGebraFileChooser - using fallback option");
+					setFileChooser(new GeoGebraFileChooser(((AppD) app),
+							((AppD) app).getCurrentImagePath(), true)); // restricted
+					// version
+				}
 
-			updateJavaUILanguage();
+				updateJavaUILanguage();
+			});
 		}
 	}
 

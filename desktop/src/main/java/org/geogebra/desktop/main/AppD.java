@@ -207,10 +207,8 @@ import org.geogebra.desktop.gui.layout.DockPanelD;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.gui.menubar.OptionsMenuController;
 import org.geogebra.desktop.gui.theme.ColorKeys;
-import org.geogebra.desktop.gui.theme.InversionPreferences;
 import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.theme.ThemeImageIcon;
-import org.geogebra.desktop.gui.theme.ThemeInvertOptions;
 import org.geogebra.desktop.gui.toolbar.ToolbarContainer;
 import org.geogebra.desktop.gui.toolbar.ToolbarD;
 import org.geogebra.desktop.gui.util.ImageSelection;
@@ -630,42 +628,19 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 	}
 
-	/**
-	 * Sets the look and feel.
-	 * 
-	 * @param isSystemLAF
-	 *            true &rarr; set system LAF, false &rarr; set cross-platform
-	 *            LAF
-	 */
-	public static void setLAF(boolean isSystemLAF) {
+	public static void setLAF(ThemeD theme) {
 		try {
-			if (isSystemLAF) {
-				UIManager.setLookAndFeel(
-						UIManager.getSystemLookAndFeelClassName());
-			} else {
-				UIManager.setLookAndFeel(
-						UIManager.getCrossPlatformLookAndFeelClassName());
-			}
-		} catch (ReflectiveOperationException | UnsupportedLookAndFeelException
-				| ClassCastException e) {
-			Log.debug(e + "");
+			LookAndFeel lnf = theme.getLookAndFeel();
+			if (lnf != null) {
+				UIManager.setLookAndFeel(lnf);
+			} else UIManager.setLookAndFeel(theme.getLookAndFeelName());
+		} catch (
+				UnsupportedLookAndFeelException | ClassNotFoundException |
+				InstantiationException | IllegalAccessException e
+		) {
+			Log.error("Cannot set look and feel:\n" + e.getMessage());
 		}
 	}
-
-	public static void setLAF(LookAndFeel laf) {
-		try {
-			UIManager.setLookAndFeel(laf);
-		} catch (UnsupportedLookAndFeelException e) {
-			Log.debug(e + "");
-		}
-	}
-
-	// /**
-	//  * Toggles between the system LAF and the cross-platform LAF
-	//  */
-	// public static void toggleCrossPlatformLAF() {
-	// 	setLAF(!UIManager.getLookAndFeel().isNativeLookAndFeel());
-	// }
 
 	/**
 	 * init factories
@@ -3775,11 +3750,10 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		}
 
 		boolean ret =
-				// e.isPopupTrigger() ||
-				(MAC_OS && e.isControlDown()) // Mac: ctrl click = right click
-						|| (!MAC_OS && e.isMetaDown()); // non-Mac: right click
-														// = meta
-		// click
+				e.isPopupTrigger() ||
+				// Mac: ctrl click = right click
+				// non-Mac: right click = meta click
+				(MAC_OS ? e.isControlDown() : e.isMetaDown());
 
 		// debug("ret = " + ret);
 		return ret;
@@ -3907,7 +3881,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 					Object[] options = { getLocalization().getMenu("OK"),
 							getLocalization().getMenu("ShowOnlineHelp") };
-					int n = JOptionPane.showOptionDialog(mainComp, message,
+					int n = GuiManagerD.showOptionDialog(mainComp, message,
 							GeoGebraConstants.APPLICATION_NAME + " - "
 									+ getLocalization().getError("Error"),
 							JOptionPane.YES_NO_OPTION,
@@ -5183,6 +5157,17 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		sb.append("\"/>");
 	}
 
+	/**
+	 * Append XML describing the controls to given string builder
+	 * @param sb string builder
+	 */
+	public void getControlsXML(StringBuilder sb) {
+		sb.append("\t<controls ");
+		sb.append("enableWarpMouse=\"");
+		sb.append(getSettings().getControlsSettings().isEnableWarpTranslate());
+		sb.append("\"/>\n");
+	}
+
 	@Override
 	public AbstractSettings getKeyboardSettings(
 			AbstractSettings keyboardSettings) {
@@ -5209,6 +5194,17 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		} catch (RuntimeException e) {
 			e.printStackTrace();
 			Log.error("error in element <keyboard>");
+		}
+	}
+
+	@Override
+	public void updateControlsSettings(LinkedHashMap<String, String> attrs) {
+		try {
+			boolean enableWarpTranslate = !"false".equals(attrs.get("enableWarpTranslate"));
+			getSettings().getControlsSettings().setEnableWarpTranslate(enableWarpTranslate);
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+			Log.error("error in element <controls>");
 		}
 	}
 

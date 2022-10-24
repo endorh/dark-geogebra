@@ -126,8 +126,14 @@ public class ThemeD {
 		activeTheme = theme;
 
 		try {
-			UIManager.setLookAndFeel(theme.getLookAndFeel());
-		} catch (UnsupportedLookAndFeelException ignored) {}
+			LookAndFeel lnf = theme.getLookAndFeel();
+			if (lnf != null) {
+				UIManager.setLookAndFeel(lnf);
+			} else UIManager.setLookAndFeel(theme.getLookAndFeelName());
+		} catch (
+				UnsupportedLookAndFeelException | ClassNotFoundException |
+				InstantiationException | IllegalAccessException ignored
+		) {}
 
 		// Update ThemeColor instances of each kind
 		themeColors.forEach((key, value) ->
@@ -153,7 +159,8 @@ public class ThemeD {
 
 	protected final String name;
 	protected ThemeD parentTheme = DEFAULT;
-	protected LookAndFeel lookAndFeel = getLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+	protected LookAndFeel lookAndFeel = null;
+	protected String lookAndFeelName = null;
 	protected InversionPreferences inversionPreferences = new InversionPreferences();
 
 	public ThemeD(String name) {
@@ -162,12 +169,17 @@ public class ThemeD {
 
 	public ThemeD(String name, ThemeD parent) {
 		this(name);
-		this.parentTheme = parent;
+		parentTheme = parent;
 	}
 
 	public ThemeD(String name, LookAndFeel lookAndFeel) {
 		this(name);
 		this.lookAndFeel = lookAndFeel;
+	}
+
+	public ThemeD(String name, String lookAndFeel) {
+		this(name);
+		lookAndFeelName = lookAndFeel;
 	}
 
 	public final String getName() {
@@ -181,22 +193,17 @@ public class ThemeD {
 		return parentTheme;
 	}
 
-	/**
-	 * Get look and feel by name
-	 */
-	protected static LookAndFeel getLookAndFeel(String name) {
-		try {
-			final Class<?> lnfClass = Class.forName(
-					name, true, Thread.currentThread().getContextClassLoader());
-			return (LookAndFeel) lnfClass.getDeclaredConstructor().newInstance();
-		} catch (ClassCastException | ReflectiveOperationException e) {
-			return null;
-		}
+	public @Nullable LookAndFeel getLookAndFeel() {
+		ThemeD parent = getParent();
+		return lookAndFeel != null? lookAndFeel : parent != null? parent.getLookAndFeel() : null;
 	}
 
-	public LookAndFeel getLookAndFeel() {
-		final LookAndFeel lnf = this.lookAndFeel;
-		return (lnf != null) ? lnf : getParent().getLookAndFeel();
+	public String getLookAndFeelName() {
+		LookAndFeel lnf = getLookAndFeel();
+		if (lnf != null) return lnf.getClass().getCanonicalName();
+		ThemeD parent = getParent();
+		return lookAndFeelName != null? lookAndFeelName : parent != null
+				? parent.getLookAndFeelName() : UIManager.getSystemLookAndFeelClassName();
 	}
 
 	/**
@@ -298,8 +305,9 @@ public class ThemeD {
 	public final Color transformColorForText(GColor color) {
 		ThemeColor ret = textColors.get(color);
 		if (ret == null && color != null) {
-			ret = new ThemeColor(updateForBackground(transformColor(color),
-					getAwtColor(ColorKeys.BACKGROUND_ALGEBRA)), false);
+			int textColor = updateForBackground(
+					transformColor(color), getAwtColor(ColorKeys.BACKGROUND_ALGEBRA));
+			ret = new ThemeColor(textColor, false);
 			textColors.put(color, ret);
 		}
 		return ret;

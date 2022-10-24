@@ -1,5 +1,7 @@
 package org.geogebra.desktop.gui.theme;
 
+import java.awt.Component;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.image.ImageProducer;
@@ -35,6 +37,14 @@ public class ThemeImageIcon extends ImageIcon {
 
 	public void themeUpdate() {
 		super.setImage(toolKit.createImage(ImageManagerD.addIconFilter(source)));
+	}
+
+	@Override
+	public synchronized void paintIcon(Component c, Graphics g, int x, int y) {
+		// Do not pass a JLabel component to drawImage to prevent NPE
+		// See https://bugs.java.com/bugdatabase/view_bug.do?bug_id=4399407
+		c.prepareImage(getImage(), null);
+		g.drawImage(getImage(), x, y, null);
 	}
 
 	public static ImageProducer getSource(ImageIcon icon) {

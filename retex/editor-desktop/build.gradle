@@ -3,12 +3,12 @@ plugins {
 	id 'application'
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 17
+targetCompatibility = 17
 
 dependencies {
-	compile project(':renderer-desktop')
-	compile project(':editor-base')
+	compileOnly project(':renderer-desktop')
+	compileOnly project(':editor-base')
 }
 
 mainClassName = 'com.himamis.retex.editor.desktop.Test'

@@ -2,7 +2,10 @@ package org.geogebra.desktop.gui.menubar;
 
 import java.awt.Event;
 import java.awt.Toolkit;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.swing.Action;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
@@ -10,6 +13,7 @@ import javax.swing.UIManager;
 import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
+import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 
@@ -25,6 +29,7 @@ abstract class BaseMenu extends JMenu implements MenuListener {
 	 * An instance of the application.
 	 */
 	protected AppD app;
+	protected Set<Character> usedMnemonics = new HashSet<>();
 
 	protected boolean initialized = false;
 	/** localization */
@@ -42,6 +47,8 @@ abstract class BaseMenu extends JMenu implements MenuListener {
 
 		this.app = app;
 		this.loc = app.getLocalization();
+
+		GuiManagerD.guessBestMnemonic(getText(), usedMnemonics).ifPresent(this::setMnemonic);
 
 		// don't add any menu items until menu is opened
 		// makes GeoGebra load faster
@@ -116,6 +123,16 @@ abstract class BaseMenu extends JMenu implements MenuListener {
 			update();
 			GeoGebraMenuBar.setMenuFontRecursive(this, app.getPlainFont());
 		}
+	}
+
+	@Override
+	public JMenuItem add(JMenuItem menuItem) {
+		JMenuItem added = super.add(menuItem);
+		if (added.getMnemonic() == 0) {
+			GuiManagerD.guessBestMnemonic(added.getText(), usedMnemonics)
+					.ifPresent(added::setMnemonic);
+		}
+		return added;
 	}
 
 	protected abstract void initActions();

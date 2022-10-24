@@ -33,7 +33,8 @@ public class FileTheme extends ThemeD {
 			parentTheme = BuiltInThemeD.DEFAULT;
 		}
 		if (properties.containsKey("lookAndFeel")) {
-			lookAndFeel = getLookAndFeel(properties.getProperty("lookAndFeel"));
+			lookAndFeel = null;
+			lookAndFeelName = properties.getProperty("lookAndFeel");
 		}
 		if (properties.containsKey("font")) {
 			// TODO

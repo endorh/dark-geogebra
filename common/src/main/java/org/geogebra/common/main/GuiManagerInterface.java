@@ -141,6 +141,8 @@ public interface GuiManagerInterface extends SettingListener {
 
 	void updateAlgebraInput();
 
+	void focusAlgebraInput();
+
 	void setShowAuxiliaryObjects(boolean flag);
 
 	void updatePropertiesView();

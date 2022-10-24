@@ -56,7 +56,12 @@ public class LocalizationCommon extends LocalizationJre {
 
 	@Override
 	protected ResourceBundle createBundle(String key, Locale locale) {
-		return ResourceBundle.getBundle(key, locale, control);
+		try {
+			return ResourceBundle.getBundle(key, locale, control);
+		} catch (UnsupportedOperationException e) {
+			// ResourceBundle.Control is not supported in named modules
+			return ResourceBundle.getBundle(key, locale);
+		}
 	}
 
 	@Override

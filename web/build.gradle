@@ -18,8 +18,8 @@ evaluationDependsOn(':editor-web')
 evaluationDependsOn(':web:dev')
 evaluationDependsOn(':keyboard-web')
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 17
+targetCompatibility = 17
 
 sourceSets {
     nonfree
@@ -51,7 +51,7 @@ task extractJs() {
 }
 
 dependencies {
-    compile project(path: ':carota-web'),
+    compileOnly project(path: ':carota-web'),
         project(':web:dev'),
         project(':web-common'),
         project(':editor-web'),
@@ -65,7 +65,7 @@ dependencies {
         files(file("build/generated/sources/annotationProcessor/java/main/")),
         files(file("build/generated/sources/webjars/java/main/"))
 
-    testCompile "junit:junit:$junitVersion",
+    testCompileOnly "junit:junit:$junitVersion",
         'com.google.gwt.gwtmockito:gwtmockito:1.1.10-SNAPSHOT',
         "com.google.gwt:gwt-user:$gwtCompilerVersion"
 
@@ -325,7 +325,7 @@ task run(type: JavaExec, dependsOn: ['jar', 'copyDevHtml', 'createSolverHtml']) 
     }
     main 'com.google.gwt.dev.DevMode'
     maxHeapSize '4096m'
-    classpath ((configurations.compile as Set<String>) 
+    classpath ((configurations.compileOnly as Set<String>) 
         + (sourceSets.main.allSource.srcDirs as Set<String>) 
         + (jar.archivePath as String))
     workingDir file(warDirRel)

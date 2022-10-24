@@ -66,8 +66,7 @@ public class MouseEventD extends AbstractEvent implements MouseEventND {
 
 	@Override
 	public boolean isRightClick() {
-		return (event.getModifiers()
-				& InputEvent.BUTTON3_MASK) == InputEvent.BUTTON3_MASK;
+		return (event.getModifiers() & InputEvent.BUTTON3_MASK) == InputEvent.BUTTON3_MASK;
 	}
 
 	@Override

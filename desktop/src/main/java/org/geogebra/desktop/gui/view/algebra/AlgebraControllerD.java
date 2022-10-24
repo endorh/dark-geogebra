@@ -103,6 +103,18 @@ public class AlgebraControllerD extends AlgebraTreeController
 	}
 
 	@Override
+	public void mouseReleased(MouseEvent e) {
+		// Fix right click on Windows
+		boolean rightClick = app.isRightClickEnabled() && AppD.isRightClick(e);
+		if (rightClick) {// RIGHT CLICK
+			GPoint mouseCoords = new GPoint(e.getPoint().x, e.getPoint().y);
+			rightPress(e, mouseCoords);
+			return;
+		}
+		super.mouseReleased(e);
+	}
+
+	@Override
 	public void setTree(AlgebraTree tree) {
 		super.setTree(tree);
 		if (tree instanceof AlgebraViewD) {

@@ -1325,6 +1325,14 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
+	 * Append XML describing the keyboard to given string builder
+	 * @param sb string builder
+	 */
+	public void getControlsXML(StringBuilder sb) {
+		// desktop only
+	}
+
+	/**
 	 * set right angle style
 	 *
 	 * @param style
@@ -1862,6 +1870,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 		if (asPreference) {
 			getKeyboardXML(sb);
+			getControlsXML(sb);
 		}
 		// coord style, decimal places settings etc
 		kernel.getKernelXML(sb, asPreference);
@@ -4904,6 +4913,10 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            XML attributes
 	 */
 	public void updateKeyboardSettings(LinkedHashMap<String, String> attrs) {
+		// only desktop
+	}
+
+	public void updateControlsSettings(LinkedHashMap<String, String> attrs) {
 		// only desktop
 	}
 

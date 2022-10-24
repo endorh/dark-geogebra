@@ -36,6 +36,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GBufferedImageD;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.GraphicExportDialog;
+import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.util.ImageSelection;
 import org.geogebra.desktop.io.MyImageIO;
 import org.geogebra.desktop.main.AppD;
@@ -196,40 +197,39 @@ public class GgbAPID extends GgbAPIJre {
 			return false;
 		}
 		final File file = file1;
-		return (Boolean) AccessController
-				.doPrivileged(new PrivilegedAction<Object>() {
-					@Override
-					public Boolean run() {
+		return (Boolean) AccessController.doPrivileged(new PrivilegedAction<Object>() {
+			@Override
+			public Boolean run() {
 
-						try {
-							// draw graphics view into image
-							GBufferedImage img = ((AppD) getApplication())
-									.getActiveEuclidianView()
-									.getExportImage(exportScale, transparent,
-											ExportType.PNG);
+				try {
+					// draw graphics view into image
+					GBufferedImage img = ((AppD) getApplication())
+							.getActiveEuclidianView()
+							.getExportImage(exportScale, transparent,
+									ExportType.PNG);
 
-							if (greyscale) {
-								((GBufferedImageD) img).convertToGrayscale();
-							}
-
-							// write image to file
-							MyImageIO.write(
-									GBufferedImageD.getAwtBufferedImage(img),
-									"png", (float) DPI, file);
-
-							return true;
-						} catch (Exception ex) {
-							ex.printStackTrace();
-							Log.debug(ex.toString());
-							return false;
-						} catch (Error ex) {
-							ex.printStackTrace();
-							Log.debug(ex.toString());
-							return false;
-						}
-
+					if (greyscale) {
+						((GBufferedImageD) img).convertToGrayscale();
 					}
-				});
+
+					// write image to file
+					MyImageIO.write(
+							GBufferedImageD.getAwtBufferedImage(img),
+							"png", (float) DPI, file);
+
+					return true;
+				} catch (Exception ex) {
+					ex.printStackTrace();
+					Log.debug(ex.toString());
+					return false;
+				} catch (Error ex) {
+					ex.printStackTrace();
+					Log.debug(ex.toString());
+					return false;
+				}
+
+			}
+		});
 
 	}
 
@@ -334,7 +334,7 @@ public class GgbAPID extends GgbAPIJre {
 	public void alert(String message) {
 		Localization loc = app.getLocalization();
 		Object[] options = { loc.getMenu("StopScript"), loc.getMenu("OK") };
-		int n = JOptionPane.showOptionDialog(((AppD) app).getFrame(), message,
+		int n = GuiManagerD.showOptionDialog(((AppD) app).getFrame(), message,
 				GeoGebraConstants.APPLICATION_NAME, JOptionPane.YES_NO_OPTION,
 				JOptionPane.QUESTION_MESSAGE, null, // do not use a custom Icon
 				options, // the titles of buttons

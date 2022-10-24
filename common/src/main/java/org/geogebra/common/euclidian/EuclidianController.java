@@ -317,7 +317,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	// ==============================================
 	// Delete tool
 
-	protected GPoint startLoc;
+	public GPoint startLoc;
 	protected GPoint lastMouseLoc;
 	protected GPoint oldLoc = new GPoint();
 	protected GPoint2D lineEndPoint = null;
@@ -8543,13 +8543,11 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					|| (moveMode == MOVE_MULTIPLE_OBJECTS);
 
 			if (app.isSelectionRectangleAllowed()
-					&& ((app.isRightClick(event)
+					&& ((event.isRightClick()
 							|| app.getMode() == EuclidianConstants.MODE_SELECT)
 							|| allowSelectionRectangle())
 					&& !temporaryMode
-					&& ((!app.isRightClick(event) && app
-							.getMode() == EuclidianConstants.MODE_SELECT_MOW)
-							|| app.getMode() != EuclidianConstants.MODE_SELECT_MOW)
+					&& (!(app.getMode() == EuclidianConstants.MODE_SELECT_MOW && event.isRightClick()))
 					&& !boundingBoxHit) {
 				// Michael Borcherds 2007-10-07
 				// set zoom rectangle's size
@@ -9346,17 +9344,21 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	private boolean shallMoveView(AbstractEvent event) {
 		return app.isShiftDragZoomEnabled()
-				&& (!doubleClickStarted && (mode == EuclidianConstants.MODE_MOVE
-						|| specialMoveEvent(event)));
+				&& !doubleClickStarted
+				// fix: double right click required to open context menu
+				&& !event.isRightClick()
+				&& (mode == EuclidianConstants.MODE_MOVE || specialMoveEvent(event));
 	}
 
 	private boolean specialMoveEvent(AbstractEvent event) {
 		return app.isShiftDragZoomEnabled() && (
-		// MacOS: shift-cmd-drag is zoom
-		(event.isShiftDown() && !app.isControlDown(event)) // All Platforms: Shift key
-				|| (event.isControlDown() && app.isWindows()
+				// All Platforms: Shift key
+				// MacOS: shift-cmd-drag is zoom
+				event.isShiftDown() && !app.isControlDown(event)
 				// old Windows key: Ctrl key
-				) || app.isMiddleClick(event));
+				|| event.isControlDown() && app.isWindows()
+				// All Platforms: Middle click
+				|| app.isMiddleClick(event));
 	}
 
 	protected void runScriptsIfNeeded(GeoElement geo1) {

@@ -5,12 +5,12 @@ plugins {
 description 'Developer tools required to compile web platforms'
 
 dependencies {
-	compile project(":gwtutil")
-	compile files(project(':gwtutil').sourceSets.main.java.srcDirs)
+	compileOnly project(":gwtutil")
+	compileOnly files(project(':gwtutil').sourceSets.main.java.srcDirs)
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 17
+targetCompatibility = 17
 
 javadoc {
 	options.addStringOption("sourcepath", "")

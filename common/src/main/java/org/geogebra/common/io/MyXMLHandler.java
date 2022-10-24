@@ -677,6 +677,9 @@ public class MyXMLHandler implements DocHandler {
 		case "keyboard":
 			handleKeyboard(attrs);
 			break;
+		case "controls":
+			handleControls(attrs);
+			break;
 		case "defaults":
 			mode = MODE_DEFAULTS;
 			constMode = MODE_DEFAULTS;
@@ -705,6 +708,10 @@ public class MyXMLHandler implements DocHandler {
 
 	private void handleKeyboard(LinkedHashMap<String, String> attrs) {
 		app.updateKeyboardSettings(attrs);
+	}
+
+	private void handleControls(LinkedHashMap<String, String> attrs) {
+		app.updateControlsSettings(attrs);
 	}
 
 	private void startMacroElement(String eName,

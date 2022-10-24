@@ -40,7 +40,7 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 	private DnDState dndState;
 	private Rectangle previewRect = new Rectangle();
 
-	private Color color;
+	private Color color = COLOR_DEFAULT;
 
 	private static final Color COLOR_DEFAULT = ThemeD.color(ColorKeys.OUTLINE);
 	private static final Color COLOR_NOT_ENOUGH_SPACE = ThemeD.color(ColorKeys.TEXT_ERROR);

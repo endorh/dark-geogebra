@@ -4,18 +4,19 @@ plugins {
     id 'checkstyle'
     id 'jacoco'
     id 'com.github.spotbugs' version '4.8.0'
+    id 'org.gradlex.extra-java-module-info'
 }
 
 description 'Common parts of GeoGebra that depends on JRE support.'
 
 compileJava {
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+    sourceCompatibility = 17
+    targetCompatibility = 17
 }
 
 compileTestJava {
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
+    sourceCompatibility = 17
+    targetCompatibility = 17
 }
 
 dependencies {
@@ -27,6 +28,11 @@ dependencies {
     testImplementation "junit:junit:$junitVersion"
     testImplementation "org.hamcrest:hamcrest:$hamcrestVersion"
     testImplementation "org.mockito:mockito-core:$mockitoVersion"
+}
+
+extraJavaModuleInfo {
+    automaticModule('annotations-2.8.jar', 'com.google.j2objc')
+    automaticModule('jsr305-3.0.2.jar', 'com.google.code.findbugs')
 }
 
 sourceSets {

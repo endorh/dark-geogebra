@@ -14,8 +14,8 @@ publishing {
         }
     }
 }
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 17
+targetCompatibility = 17
 
 dependencies {
     implementation 'com.google.j2objc:annotations:2.8'

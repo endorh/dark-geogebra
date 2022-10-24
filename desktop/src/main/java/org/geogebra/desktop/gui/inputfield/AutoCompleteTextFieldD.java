@@ -46,6 +46,7 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.euclidian.event.FocusListenerD;
 import org.geogebra.desktop.euclidian.event.KeyListenerD;
+import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.autocompletion.CommandCompletionListCellRenderer;
 import org.geogebra.desktop.gui.autocompletion.CompletionsPopup;
 import org.geogebra.desktop.gui.theme.ThemeD;
@@ -470,7 +471,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 				if (!commandFound) {
 					Object[] options = { loc.getMenu("OK"),
 							loc.getMenu("ShowOnlineHelp") };
-					int n = JOptionPane.showOptionDialog(app.getMainComponent(),
+					int n = GuiManagerD.showOptionDialog(app.getMainComponent(),
 							loc.getMenu(isCASInput ? "CASFieldHelp"
 									: "InputFieldHelp"),
 							GeoGebraConstants.APPLICATION_NAME + " - "

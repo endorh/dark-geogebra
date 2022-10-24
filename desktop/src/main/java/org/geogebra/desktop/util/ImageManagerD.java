@@ -34,6 +34,7 @@ import java.awt.image.RGBImageFilter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.Hashtable;
 
 import javax.imageio.ImageIO;
@@ -277,6 +278,10 @@ public class ImageManagerD extends ImageManager {
 			img = getImageResource(
 					"/org/geogebra/desktop" + name.getFilename());
 		}
+		if (img == null) {
+			img = getImageResource(
+					"/org/geogebra/common" + name.getFilename());
+		}
 
 		if (img == null) {
 			Log.error("Image " + name.getFilename() + " not found");
@@ -303,7 +308,10 @@ public class ImageManagerD extends ImageManager {
 		Image img = null;
 
 		try {
-			java.net.URL url = ImageManagerD.class.getResource(path);
+			URL url = ImageManagerD.class.getResource(path);
+			if (url == null && name.startsWith("/org/geogebra/common")) {
+				url = ImageManager.class.getResource(path);
+			}
 			if (url != null) {
 				img = toolKit.getImage(url);
 				tracker.addImage(img, 0);
@@ -541,7 +549,7 @@ public class ImageManagerD extends ImageManager {
 			e.printStackTrace();
 			app.showError(Errors.LoadFileFailed);
 			return null;
-		} catch (java.lang.OutOfMemoryError t) {
+		} catch (OutOfMemoryError t) {
 			Log.debug("Out of memory");
 			System.gc();
 			app.setDefaultCursor();

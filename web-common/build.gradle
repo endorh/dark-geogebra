@@ -8,8 +8,8 @@ plugins {
 
 description 'Web platform code which does not use the GWT Widgets library'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 17
+targetCompatibility = 17
 
 evaluationDependsOn(':common')
 evaluationDependsOn(':ggbjdk')
@@ -17,7 +17,7 @@ evaluationDependsOn(':editor-web')
 evaluationDependsOn(':keyboard-web')
 
 dependencies {
-    compile project(':common'),
+    compileOnly project(':common'),
             project(':gwtutil'),
             project(':renderer-base'),
             project(':editor-base'),

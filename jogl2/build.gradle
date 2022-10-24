@@ -1,13 +1,19 @@
 plugins {
-	id 'java'
+	id 'java-library'
+	id("org.gradlex.extra-java-module-info")
 }
 
 project.setDescription('Parts of GeoGebra related to Java OpenGL')
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 17
+targetCompatibility = 17
 
 dependencies {
-	compile "com.jogamp:gluegen-rt:$joglVersion"
-	compile "com.jogamp:jogl-all:$joglVersion"
+	api "com.jogamp:gluegen-rt:$joglVersion"
+	api "com.jogamp:jogl-all:$joglVersion"
+}
+
+extraJavaModuleInfo {
+	automaticModule("jogl-all-${joglVersion}.jar", "com.jogamp.jogl")
+	automaticModule("gluegen-rt-${joglVersion}.jar", "com.jogamp.gluegen")
 }

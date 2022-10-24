@@ -5,8 +5,8 @@ plugins {
     id 'checkstyle'
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 17
+targetCompatibility = 17
 
 evaluationDependsOn(':keyboard-base')
 evaluationDependsOn(':keyboard-scientific')
@@ -15,7 +15,7 @@ evaluationDependsOn(':web:dev')
 evaluationDependsOn(':renderer-web')
 
 dependencies{
-	compile project(':keyboard-base'),
+	compileOnly project(':keyboard-base'),
 	files(project(':keyboard-base').sourceSets.main.allSource.srcDirs),
 	project(':keyboard-scientific'),
 	files(project(':keyboard-scientific').sourceSets.main.allSource.srcDirs),

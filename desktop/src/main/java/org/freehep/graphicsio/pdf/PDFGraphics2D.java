@@ -45,6 +45,8 @@ import org.freehep.graphicsio.MultiPageDocument;
 import org.freehep.graphicsio.PageConstants;
 import org.freehep.graphicsio.font.FontUtilities;
 import org.freehep.util.UserProperties;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 
 /**
  * Implementation of <tt>VectorGraphics</tt> that writes the output to a PDF
@@ -393,7 +395,7 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO
 			clearRect(0.0, 0.0, getSize().width, getSize().height);
 		} else {
 			setBackground(getComponent() != null
-					? getComponent().getBackground() : Color.WHITE);
+					? getComponent().getBackground() : ThemeD.color(ColorKeys.BACKGROUND));
 			clearRect(0.0, 0.0, getSize().width, getSize().height);
 		}
 	}

@@ -17,7 +17,6 @@ the Free Software Foundation.
  */
 package org.geogebra.desktop.geogebra3D;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Cursor;
@@ -78,6 +77,8 @@ import org.geogebra.desktop.geogebra3D.util.ImageManager3D;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.app.GeoGebraFrame3D;
 import org.geogebra.desktop.gui.layout.DockManagerD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
 import org.geogebra.desktop.main.LocalizationD;
@@ -221,12 +222,12 @@ public class App3D extends AppD {
 		c.add(panel);
 
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-		panel.setBackground(Color.WHITE);
-		panel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		panel.setBackground(ThemeD.color(ColorKeys.BACKGROUND));
+		panel.setBorder(BorderFactory.createLineBorder(ThemeD.color(ColorKeys.FOREGROUND)));
 
 		JLabel label = new JLabel(message);
 		JPanel labelPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		labelPanel.setBackground(Color.WHITE);
+		labelPanel.setBackground(ThemeD.color(ColorKeys.BACKGROUND));
 		labelPanel.add(label);
 		panel.add(labelPanel);
 
@@ -252,7 +253,7 @@ public class App3D extends AppD {
 			}
 		});
 		JPanel websitePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		websitePanel.setBackground(Color.WHITE);
+		websitePanel.setBackground(ThemeD.color(ColorKeys.BACKGROUND));
 		websitePanel.add(website);
 		panel.add(websitePanel);
 
@@ -272,7 +273,7 @@ public class App3D extends AppD {
 			}
 		});
 		JPanel closePanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-		closePanel.setBackground(Color.WHITE);
+		closePanel.setBackground(ThemeD.color(ColorKeys.BACKGROUND));
 		closePanel.add(closeLabel);
 		panel.add(closePanel);
 

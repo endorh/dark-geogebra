@@ -3,7 +3,6 @@ package org.geogebra.desktop.gui.dialog.options;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Hashtable;
@@ -29,6 +28,8 @@ import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.Localization;
 import org.geogebra.desktop.gui.color.GeoGebraColorChooser;
 import org.geogebra.desktop.gui.dialog.PropertiesPanelD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.main.AppD;
 
@@ -175,7 +176,7 @@ public class OptionsDefaultsD
 		treeScroller.setMinimumSize(new Dimension(120, 200));
 		treeScroller.setBackground(tree.getBackground());
 		treeScroller.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,
-				SystemColor.controlShadow));
+				ThemeD.color(ColorKeys.CONTROL_SHADOW)));
 
 		// split pane
 		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,

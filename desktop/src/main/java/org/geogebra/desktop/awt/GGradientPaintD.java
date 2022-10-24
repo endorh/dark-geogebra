@@ -5,6 +5,7 @@ import java.awt.GradientPaint;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GGradientPaint;
+import org.geogebra.desktop.gui.theme.ThemeD;
 
 public class GGradientPaintD implements GGradientPaint {
 	private GradientPaint impl;
@@ -27,8 +28,8 @@ public class GGradientPaintD implements GGradientPaint {
 	public GGradientPaintD(double x1, double y1, GColor color1, double x2,
 			double y2, GColor color2) {
 		impl = new GradientPaint((float) x1, (float) y1,
-				GColorD.getAwtColor(color1), (float) x2, (float) y2,
-				GColorD.getAwtColor(color2));
+				ThemeD.awtColor(color1), (float) x2, (float) y2,
+				ThemeD.awtColor(color2));
 	}
 
 	public GradientPaint getPaint() {

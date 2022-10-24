@@ -1,6 +1,5 @@
 package org.geogebra.desktop.euclidian;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -39,8 +38,9 @@ import org.geogebra.common.kernel.geos.TextProperties;
 import org.geogebra.common.main.SelectionManager;
 import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.color.ColorPopupMenuButton;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.gui.util.MyToggleButtonD;
 import org.geogebra.desktop.gui.util.PopupMenuButtonD;
@@ -566,7 +566,7 @@ public class EuclidianStyleBarD extends JToolBar
 		for (int i = 0; i < EuclidianView.getLineTypeLength(); i++) {
 			lineStyleIcons[i] = GeoGebraIconD.createLineStyleIcon(
 					EuclidianView.getLineType(i), 2, lineStyleIconSize,
-					Color.BLACK, null);
+					ThemeD.color(ColorKeys.FOREGROUND), null);
 		}
 
 		// create button
@@ -595,7 +595,7 @@ public class EuclidianStyleBarD extends JToolBar
 
 				if (geosOK) {
 					removeThisActionListenerTo(this);
-					setFgColor(GColor.BLACK);
+					setFgColor(ThemeD.filterColor(GColor.BLACK));
 					getMySlider().setMinimum(maxMinimumThickness);
 					setSliderValue(
 							((GeoElement) geos.get(0)).getLineThickness());
@@ -613,7 +613,7 @@ public class EuclidianStyleBarD extends JToolBar
 					return GeoGebraIconD.createLineStyleIcon(
 							EuclidianView.getLineType(this.getSelectedIndex()),
 							this.getSliderValue(), lineStyleIconSize,
-							Color.BLACK, null);
+							ThemeD.color(ColorKeys.FOREGROUND), null);
 				}
 				return GeoGebraIconD.createEmptyIcon(lineStyleIconSize.width,
 						lineStyleIconSize.height);
@@ -645,7 +645,7 @@ public class EuclidianStyleBarD extends JToolBar
 		for (int i = 0; i < EuclidianView.getPointStyleLength(); i++) {
 			pointStyleIcons[i] = GeoGebraIconD.createPointStyleIcon(
 					EuclidianView.getPointStyle(i), 4, pointStyleIconSize,
-					Color.BLACK, null);
+					ThemeD.color(ColorKeys.FOREGROUND), null);
 		}
 
 		// create button
@@ -672,7 +672,7 @@ public class EuclidianStyleBarD extends JToolBar
 
 				if (geosOK) {
 					// setFgColor(((GeoElement)geos[0]).getObjectColor());
-					setFgColor(GColor.BLACK);
+					setFgColor(ThemeD.filterColor(GColor.BLACK));
 
 					// if geo is a matrix, this will return a GeoNumeric...
 					geo = ((GeoElement) geos.get(0))
@@ -699,7 +699,7 @@ public class EuclidianStyleBarD extends JToolBar
 							EuclidianView
 									.getPointStyle(this.getSelectedIndex()),
 							this.getSliderValue(), pointStyleIconSize,
-							Color.BLACK, null);
+							ThemeD.color(ColorKeys.FOREGROUND), null);
 				}
 				return GeoGebraIconD.createEmptyIcon(pointStyleIconSize.width,
 						pointStyleIconSize.height);
@@ -1061,7 +1061,7 @@ public class EuclidianStyleBarD extends JToolBar
 					// non-standard color
 					if (index == -1) {
 						this.setIcon(GeoGebraIconD.createColorSwatchIcon(alpha,
-								bgColorIconSize, GColorD.getAwtColor(geoColor),
+								bgColorIconSize, ThemeD.awtColor(geoColor),
 								null));
 					}
 				}
@@ -1139,7 +1139,7 @@ public class EuclidianStyleBarD extends JToolBar
 			public ImageIcon getButtonIcon() {
 				return GeoGebraIconD.createTextSymbolIcon("A",
 						app.getPlainFont(), textColorIconSize,
-						GColorD.getAwtColor(getSelectedColor()), null);
+						ThemeD.awtColor(getSelectedColor()), null);
 			}
 
 			/*
@@ -1156,7 +1156,7 @@ public class EuclidianStyleBarD extends JToolBar
 		// bold text button
 		ImageIcon boldIcon = GeoGebraIconD.createStringIcon(
 				loc.getMenu("Bold").substring(0, 1), app.getPlainFont(), true,
-				false, true, iconDimension, Color.black, null);
+				false, true, iconDimension, ThemeD.color(ColorKeys.FOREGROUND), null);
 		btnBold = new MyToggleButtonD(boldIcon, iconHeight) {
 
 			private static final long serialVersionUID = 1L;
@@ -1187,7 +1187,7 @@ public class EuclidianStyleBarD extends JToolBar
 		// italic text button
 		ImageIcon italicIcon = GeoGebraIconD.createStringIcon(
 				loc.getMenu("Italic").substring(0, 1), app.getPlainFont(),
-				false, true, true, iconDimension, Color.black, null);
+				false, true, true, iconDimension, ThemeD.color(ColorKeys.FOREGROUND), null);
 		btnItalic = new MyToggleButtonD(italicIcon, iconHeight) {
 
 			private static final long serialVersionUID = 1L;
@@ -1320,7 +1320,7 @@ public class EuclidianStyleBarD extends JToolBar
 					EuclidianStyleBarStatic.bracketArray[i], app.getPlainFont(),
 					true, false, true,
 					new Dimension(getIconWidth(30) + 4, iconHeight + 4),
-					Color.BLACK, null);
+					ThemeD.color(ColorKeys.FOREGROUND), null);
 		}
 
 		btnTableTextBracket = new PopupMenuButtonD((AppD) ev.getApplication(),

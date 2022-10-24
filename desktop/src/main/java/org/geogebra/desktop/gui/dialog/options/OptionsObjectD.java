@@ -13,7 +13,6 @@ the Free Software Foundation.
 package org.geogebra.desktop.gui.dialog.options;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
 
@@ -29,6 +28,8 @@ import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.desktop.gui.color.GeoGebraColorChooser;
 import org.geogebra.desktop.gui.dialog.PropertiesPanelD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.view.algebra.AlgebraTree;
 import org.geogebra.desktop.gui.view.algebra.AlgebraTreeController;
 import org.geogebra.desktop.main.AppD;
@@ -77,7 +78,7 @@ public class OptionsObjectD extends OptionsObject
 		tree = new AlgebraTree(new AlgebraTreeController(kernel), false);
 		listScroller = new JScrollPane(tree);
 		listScroller.setMinimumSize(new Dimension(MIN_LIST_WIDTH, 200));
-		listScroller.setBackground(Color.white);
+		listScroller.setBackground(ThemeD.color(ColorKeys.BACKGROUND));
 
 		// PROPERTIES PANEL
 		if (colChooser == null) {

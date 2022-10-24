@@ -77,6 +77,7 @@ dependencies {
         "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-windows-amd64", // 201503271100 should have been used (for some strange reason versions cannot be mixed)
         "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-windows-i586",
         "fr.ujf-grenoble:javagiac:$javaGiacVersion:natives-macosx-universal"
+    implementation "com.formdev:flatlaf:2.1"
 
     testCompile project(':keyboard-base')
     testCompile "junit:junit:$junitVersion"

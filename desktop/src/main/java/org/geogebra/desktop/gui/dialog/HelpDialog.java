@@ -11,6 +11,8 @@ import org.geogebra.common.main.GuiManagerInterface.Help;
 import org.geogebra.common.main.Localization;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.MyImageD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.ImageManagerD;
 
@@ -38,21 +40,20 @@ public class HelpDialog {
 
 			String iconName = macro.getIconFileName();
 			MyImageD img = app.getExternalImage(iconName);
-			Color border = Color.lightGray;
+			Color border = ThemeD.color(ColorKeys.OUTLINE_LIGHT);
 
 			if (img == null || img.isSVG()) {
 				// default icon
 				icon = app.getToolIcon(border);
 			} else {
 				// use image as icon
-				icon = new ImageIcon(
-						ImageManagerD.addBorder(img.getImage(), border, null));
+				icon = ImageManagerD.createIcon(ImageManagerD.addBorder(img.getImage(), border, null));
 			}
 
 		} else {
 
 			modeTextInternal = EuclidianConstants.getModeTextSimple(mode);
-			icon = app.getToolBarImage(modeTextInternal, Color.BLACK);
+			icon = app.getToolBarImage(modeTextInternal, ThemeD.color(ColorKeys.FOREGROUND));
 		}
 		Localization loc = app.getLocalization();
 		Object[] options = { loc.getMenu("ShowOnlineHelp"),

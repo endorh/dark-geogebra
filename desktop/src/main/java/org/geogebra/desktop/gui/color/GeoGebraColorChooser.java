@@ -8,7 +8,9 @@ import javax.swing.UIManager;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.colorchooser.DefaultColorSelectionModel;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.Localization;
+import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -38,6 +40,14 @@ public class GeoGebraColorChooser extends JColorChooser {
 		setPreviewPanel(new JLabel());
 
 		setLabels();
+	}
+
+	public void setColor(GColor color) {
+		super.setColor(GColorD.getRawAwtColor(color));
+	}
+
+	public GColor getGColor() {
+		return GColorD.newColor(super.getColor());
 	}
 
 	private boolean isNullSelection = false;

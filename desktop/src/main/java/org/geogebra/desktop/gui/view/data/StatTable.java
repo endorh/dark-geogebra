@@ -7,7 +7,6 @@ import java.awt.Container;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Point;
-import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -34,7 +33,10 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.text.JTextComponent;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 
@@ -46,11 +48,10 @@ public class StatTable extends JScrollPane {
 	boolean isRowHeaderPainted = true;
 
 	// layout
-	private static final Color TABLE_GRID_COLOR = DataAnalysisViewD.TABLE_GRID_COLOR;
-	private static final Color TABLE_HEADER_COLOR = DataAnalysisViewD.TABLE_HEADER_COLOR;
-	private static final Color SELECTED_BACKGROUND_COLOR = org.geogebra.desktop.awt.GColorD
-			.getAwtColor(
-					GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR);
+	private static final Color TABLE_GRID_COLOR = ThemeD.awtColor(GeoGebraColorConstants.TABLE_GRID_COLOR);
+	private static final Color TABLE_HEADER_COLOR = ThemeD.awtColor(GColor.newColor(240, 240, 240));
+	private static final Color SELECTED_BACKGROUND_COLOR = ThemeD.awtColor(
+			GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR);
 
 	protected DefaultTableModel tableModel;
 	private HashMap<Point, MyComboBoxEditor> comboBoxEditorMap;
@@ -63,6 +64,7 @@ public class StatTable extends JScrollPane {
 
 		this.app = app;
 		this.loc = app.getLocalization();
+
 		// create and initialize the table
 		initTable();
 
@@ -71,7 +73,7 @@ public class StatTable extends JScrollPane {
 		myTable.setBorder(BorderFactory.createEmptyBorder());
 		// setBorder(BorderFactory.createEmptyBorder());
 		myTable.setBorder(
-				BorderFactory.createLineBorder(SystemColor.controlShadow));
+				BorderFactory.createLineBorder(ThemeD.color(ColorKeys.CONTROL_SHADOW)));
 
 		// set the corners
 		setCorner(ScrollPaneConstants.UPPER_RIGHT_CORNER, new Corner());
@@ -105,7 +107,7 @@ public class StatTable extends JScrollPane {
 		myTable.setShowGrid(true);
 		myTable.setGridColor(TABLE_GRID_COLOR);
 		myTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-		myTable.setBackground(Color.white);
+		myTable.setBackground(ThemeD.color(ColorKeys.BACKGROUND));
 
 	}
 
@@ -422,7 +424,7 @@ public class StatTable extends JScrollPane {
 			if (isSelected) {
 				setBackground(SELECTED_BACKGROUND_COLOR);
 			} else {
-				setBackground(Color.white);
+				setBackground(ThemeD.color(ColorKeys.BACKGROUND));
 			}
 
 			return this;

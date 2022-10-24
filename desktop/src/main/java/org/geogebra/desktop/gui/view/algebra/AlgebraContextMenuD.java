@@ -1,6 +1,5 @@
 package org.geogebra.desktop.gui.view.algebra;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -12,6 +11,8 @@ import javax.swing.JLabel;
 import javax.swing.JPopupMenu;
 
 import org.geogebra.common.main.Localization;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
 
@@ -57,8 +58,8 @@ public class AlgebraContextMenuD extends JPopupMenu {
 		// title for menu
 		JLabel title = new JLabel(loc.getMenu("AlgebraWindow"));
 		title.setFont(app.getBoldFont());
-		title.setBackground(Color.white);
-		title.setForeground(Color.black);
+		title.setBackground(ThemeD.color(ColorKeys.BACKGROUND));
+		title.setForeground(ThemeD.color(ColorKeys.FOREGROUND));
 
 		title.setIcon(app.getEmptyIcon());
 		title.setBorder(BorderFactory.createEmptyBorder(5, 15, 2, 5));

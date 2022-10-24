@@ -1,6 +1,5 @@
 package org.geogebra.desktop.gui.dialog;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 
@@ -10,6 +9,8 @@ import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 
 /**
  * @author Le Coq Loic 30/10/2006 This class defines the renderer for the
@@ -32,7 +33,7 @@ public class DecorationListRenderer extends JPanel implements ListCellRenderer {
 		int selectedIndex = ((Integer) value).intValue();
 		this.id = selectedIndex;
 		if (isSelected) {
-			setBackground(Color.LIGHT_GRAY);
+			setBackground(ThemeD.color(ColorKeys.OUTLINE_LIGHT));
 		} else {
 			setBackground(list.getBackground());
 		}
@@ -45,14 +46,10 @@ public class DecorationListRenderer extends JPanel implements ListCellRenderer {
 	public void paint(Graphics g) {
 		super.paint(g);
 
-		if (getBackground() == Color.LIGHT_GRAY) {
-			g.setColor(Color.LIGHT_GRAY);
-		} else {
-			g.setColor(Color.WHITE);
-		}
+		g.setColor(getBackground());
 
 		g.fillRect(0, 0, getWidth(), getHeight());
-		g.setColor(Color.BLACK);
+		g.setColor(getForeground());
 		int mid = getHeight() / 2;
 		g.drawLine(0, mid, getWidth(), mid);
 

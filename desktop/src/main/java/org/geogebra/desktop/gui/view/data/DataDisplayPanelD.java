@@ -8,7 +8,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Insets;
-import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -51,6 +50,8 @@ import org.geogebra.common.util.Validation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
@@ -225,8 +226,7 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 
 		plotPanelNorth = new JPanel();
 		plotPanelSouth = new JPanel();
-		Color bgColor = org.geogebra.desktop.awt.GColorD
-				.getAwtColor(plotPanel.getBackgroundCommon());
+		Color bgColor = ThemeD.awtColor(plotPanel.getBackgroundCommon());
 		plotPanelNorth.setBackground(bgColor);
 		plotPanelSouth.setBackground(bgColor);
 		lblTitleX = new JLabel();
@@ -237,8 +237,8 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 		fldTitleX.setBorder(BorderFactory.createEmptyBorder());
 		fldTitleY.setEditable(false);
 		fldTitleY.setBorder(BorderFactory.createEmptyBorder());
-		fldTitleX.setBackground(Color.white);
-		fldTitleY.setBackground(Color.white);
+		fldTitleX.setBackground(ThemeD.color(ColorKeys.BACKGROUND));
+		fldTitleY.setBackground(ThemeD.color(ColorKeys.BACKGROUND));
 
 		metaPlotPanel = new JPanel(new BorderLayout());
 		metaPlotPanel.add(plotPanel.getJPanel(), BorderLayout.CENTER);
@@ -282,7 +282,7 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 		this.add(mainPanel, BorderLayout.CENTER);
 		this.setBorder(BorderFactory.createEmptyBorder(5, 0, 0, 0));
 		controlPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0,
-				SystemColor.controlShadow));
+				ThemeD.color(ColorKeys.CONTROL_SHADOW)));
 
 	}
 
@@ -337,7 +337,7 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 
 		imagePanel = new JPanel(new BorderLayout());
 		imagePanel.setBorder(BorderFactory.createEmptyBorder());
-		imagePanel.setBackground(Color.WHITE);
+		imagePanel.setBackground(ThemeD.color(ColorKeys.BACKGROUND));
 		imageContainer = new JLabel();
 		imagePanel.setAlignmentX(SwingConstants.CENTER);
 		imagePanel.setAlignmentY(SwingConstants.CENTER);
@@ -765,7 +765,7 @@ public class DataDisplayPanelD extends JPanel implements ActionListener,
 	@Override
 	public void updateStemPlot(String latex) {
 		imageContainer.setIcon(GeoGebraIconD.createLatexIcon(app, latex,
-				app.getPlainFont(), Color.BLACK, null));
+				app.getPlainFont(), ThemeD.color(ColorKeys.FOREGROUND), null));
 		btnOptions.setVisible(false);
 		if (hasControlPanel) {
 			showCardPanel(controlCards, "stemAdjustPanel");

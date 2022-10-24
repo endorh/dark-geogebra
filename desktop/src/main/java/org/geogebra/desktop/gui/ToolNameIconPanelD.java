@@ -38,6 +38,7 @@ import org.geogebra.common.util.Util;
 import org.geogebra.desktop.gui.dialog.ToolManagerDialogD;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.util.ImageManagerD;
 
 /**
  * Panel of Tool Creation Dialog. Contains tool name, command name, help and
@@ -406,7 +407,7 @@ public class ToolNameIconPanelD extends JPanel {
 				app.addExternalImage(fileName, image);
 			}
 			iconFileName = Util.checkImageExtension(fileName);
-			labelIcon.setIcon(new ImageIcon(image.getImage()));
+			labelIcon.setIcon(ImageManagerD.createIcon(image.getImage()));
 		} else {
 			labelIcon.setIcon(app.getToolIcon(null));
 			iconFileName = null;

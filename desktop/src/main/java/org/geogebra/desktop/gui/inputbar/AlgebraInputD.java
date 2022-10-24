@@ -13,9 +13,7 @@ the Free Software Foundation.
 package org.geogebra.desktop.gui.inputbar;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Point;
-import java.awt.SystemColor;
 import java.awt.dnd.DropTarget;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,7 +28,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
-import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -46,6 +43,9 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
+import org.geogebra.desktop.gui.theme.BuiltInThemeD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.view.algebra.AlgebraInputDropTargetListener;
 import org.geogebra.desktop.gui.view.algebra.InputPanelD;
 import org.geogebra.desktop.main.AppD;
@@ -111,7 +111,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 							return;
 						}
 						setAutoInput(null);
-						inputField.setBackground(Color.WHITE);
+						inputField.setBackground(ThemeD.color(ColorKeys.BACKGROUND));
 						app.getKernel().getInputPreviewHelper()
 								.updatePreviewFromInputBar(inputField.getText(),
 										new ErrorLogger() {
@@ -235,7 +235,7 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 		add(eastPanel, loc.borderEast());
 
 		setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0,
-				SystemColor.controlShadow));
+				ThemeD.color(ColorKeys.CONTROL_SHADOW)));
 		setLabels();
 	}
 
@@ -371,9 +371,14 @@ public class AlgebraInputD extends JPanel implements ActionListener,
 			// ==========================================
 			// hidden switch to toggle native/crossPlatform LAF
 			if (app.getControlDown() && app.getShiftDown()) {
-				AppD.toggleCrossPlatformLAF();
-				SwingUtilities.updateComponentTreeUI(app.getFrame());
-				app.getFrame().pack();
+			// 	AppD.toggleCrossPlatformLAF();
+			// 	SwingUtilities.updateComponentTreeUI(app.getFrame());
+			// 	app.getFrame().pack();
+			// 	return;
+				app.setTheme(app.getTheme() == BuiltInThemeD.DARCULA ? BuiltInThemeD.INTELLI_J_LIGHT : BuiltInThemeD.DARCULA);
+				return;
+			} else if (app.getControlDown()) {
+				app.setTheme(app.getTheme() == BuiltInThemeD.LEGACY? BuiltInThemeD.INTELLI_J_LIGHT : BuiltInThemeD.LEGACY);
 				return;
 			}
 			// =========================================

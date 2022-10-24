@@ -14,7 +14,6 @@ package org.geogebra.desktop.gui.toolbar;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Enumeration;
@@ -46,6 +45,8 @@ import org.geogebra.common.gui.toolbar.ToolBar;
 import org.geogebra.common.gui.toolbar.ToolbarItem;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.layout.DockPanelD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 
@@ -169,7 +170,7 @@ public class ToolbarConfigPanel extends JPanel
 
 		ListSelectionModel lsm = toolList.getSelectionModel();
 		lsm.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		toolList.setBackground(SystemColor.text);
+		toolList.setBackground(ThemeD.color(ColorKeys.TEXT));
 		modeScrollPane = new JScrollPane(toolList);
 		modeScrollPane.setHorizontalScrollBarPolicy(
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);

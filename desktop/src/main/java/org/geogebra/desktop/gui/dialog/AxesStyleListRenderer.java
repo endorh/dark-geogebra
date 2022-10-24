@@ -1,7 +1,6 @@
 package org.geogebra.desktop.gui.dialog;
 
 import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -16,6 +15,8 @@ import javax.swing.ListCellRenderer;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.factories.AwtFactoryD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 
 /**
  * adapted from PointStyleListRenderer
@@ -57,11 +58,8 @@ public class AxesStyleListRenderer extends JPanel implements ListCellRenderer {
 		style = value == null ? EuclidianStyleConstants.AXES_LINE_TYPE_FULL
 				: ((Integer) value).intValue();
 
-		if (isSelected) {
-			setBackground(Color.LIGHT_GRAY);
-		} else {
-			setBackground(Color.WHITE);
-		}
+		setBackground(ThemeD.color(
+				isSelected ? ColorKeys.BACKGROUND_SELECTED : ColorKeys.BACKGROUND));
 		return this;
 	}
 
@@ -73,14 +71,10 @@ public class AxesStyleListRenderer extends JPanel implements ListCellRenderer {
 		GGraphics2DD.setAntialiasing(g2);
 
 		// paint cell background
-		if (getBackground() == Color.LIGHT_GRAY) {
-			g2.setPaint(Color.LIGHT_GRAY);
-		} else {
-			g2.setPaint(Color.WHITE);
-		}
+		g2.setPaint(getBackground());
 		g2.fillRect(0, 0, getWidth(), getHeight());
 
-		g2.setPaint(Color.BLACK);
+		g2.setPaint(ThemeD.color(ColorKeys.FOREGROUND));
 
 		g2.setStroke(borderStroke);
 

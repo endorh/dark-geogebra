@@ -16,8 +16,9 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.TableColumn;
 
 import org.geogebra.common.main.GeoGebraColorConstants;
-import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.main.AppD;
 
 public class InspectorTable extends JTable {
@@ -45,10 +46,10 @@ public class InspectorTable extends JTable {
 		// set visual appearance
 		setShowGrid(true);
 		setGridColor(
-				GColorD.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
+				ThemeD.awtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
 		// setSelectionBackground(new Color(255, 130, 171));
 		setSelectionBackground(
-				GColorD.getAwtColor(GeoGebraColorConstants.PINK));
+				ThemeD.awtColor(GeoGebraColorConstants.PINK));
 		setBorder(BorderFactory.createEmptyBorder());
 
 		// set resizing fields
@@ -191,19 +192,19 @@ public class InspectorTable extends JTable {
 			if (isSelected && !table.isCellEditable(row, column)) {
 				setBackground(table.getSelectionBackground());
 				// setForeground(table.getSelectionForeground());
-				setForeground(Color.RED);
+				setForeground(ThemeD.color(ColorKeys.TEXT_ERROR));
 			} else {
 				setBackground(rowColor(row));
 				setForeground(getForeground());
 			}
 
-			setForeground(Color.black);
+			setForeground(ThemeD.color(ColorKeys.FOREGROUND));
 
 			if (value != null) {
 				try {
 					double val = Double.parseDouble((String) value);
 					if (val < 0 && doRedNegative) {
-						setForeground(Color.red);
+						setForeground(ThemeD.color(ColorKeys.TEXT_ERROR));
 					}
 				} catch (NumberFormatException e) {
 					// TODO Auto-generated catch block
@@ -246,7 +247,7 @@ public class InspectorTable extends JTable {
 				boolean isSelected, int row, int column) {
 			JTextField editor = (JTextField) super.getTableCellEditorComponent(
 					table, value, isSelected, row, column);
-			editor.setForeground(Color.RED);
+			editor.setForeground(ThemeD.color(ColorKeys.TEXT_ERROR));
 			editor.setFont(app.getPlainFont());
 			return editor;
 		}

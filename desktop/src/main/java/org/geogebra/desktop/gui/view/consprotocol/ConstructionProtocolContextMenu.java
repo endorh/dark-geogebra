@@ -11,7 +11,6 @@ the Free Software Foundation.
 */
 package org.geogebra.desktop.gui.view.consprotocol;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -27,6 +26,8 @@ import javax.swing.table.TableColumn;
 
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.main.Localization;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolViewD.ColumnKeeper;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -71,8 +72,8 @@ public class ConstructionProtocolContextMenu extends JPopupMenu {
 		JMenu optionsMenu = new JMenu(loc.getMenu("Options"));
 
 		title.setFont(app.getBoldFont());
-		title.setBackground(Color.white);
-		title.setForeground(Color.black);
+		title.setBackground(ThemeD.color(ColorKeys.BACKGROUND));
+		title.setForeground(ThemeD.color(ColorKeys.FOREGROUND));
 
 		title.setIcon(app.getEmptyIcon());
 		title.setBorder(BorderFactory.createEmptyBorder(5, 15, 2, 5));

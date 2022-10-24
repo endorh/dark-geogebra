@@ -80,10 +80,10 @@ import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.DynamicTextInputPane;
 import org.geogebra.desktop.gui.DynamicTextInputPane.DynamicTextField;
 import org.geogebra.desktop.gui.GuiManagerD;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.gui.util.LatexTable;
 import org.geogebra.desktop.gui.util.PopupMenuButtonD;
@@ -597,7 +597,7 @@ public class TextInputDialogD extends InputDialogD
 		// this.setUseColorSwatchBorder(true);
 		recentSymbolTable.setShowGrid(true);
 		recentSymbolTable.setGridColor(
-				GColorD.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
+				ThemeD.awtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
 		recentSymbolTable.setBorder(BorderFactory.createLoweredBevelBorder());
 		recentSymbolTable.setShowSelection(false);
 

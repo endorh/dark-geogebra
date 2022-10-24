@@ -16,6 +16,7 @@ import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.awt.GGenericRectangle2DD;
 import org.geogebra.desktop.awt.GLine2DD;
 import org.geogebra.desktop.factories.AwtFactoryD;
+import org.geogebra.desktop.gui.theme.ThemeD;
 
 import com.himamis.retex.renderer.desktop.font.FontD;
 import com.himamis.retex.renderer.desktop.graphics.ColorD;
@@ -77,7 +78,7 @@ public class EpsGraphicsWrapper implements Graphics2DInterface {
 
 	@Override
 	public Color getColor() {
-		return new ColorD(GColorD.getAwtColor(impl.getColor()));
+		return new ColorD(ThemeD.awtColor(impl.getColor()));
 	}
 
 	@Override

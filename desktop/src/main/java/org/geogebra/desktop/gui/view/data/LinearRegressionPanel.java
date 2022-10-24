@@ -1,7 +1,6 @@
 package org.geogebra.desktop.gui.view.data;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 
@@ -19,7 +18,8 @@ import javax.swing.table.JTableHeader;
 
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
-import org.geogebra.desktop.awt.GColorD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.main.AppD;
 
 public class LinearRegressionPanel extends JPanel
@@ -34,7 +34,7 @@ public class LinearRegressionPanel extends JPanel
 		this.app = app;
 
 		this.setOpaque(true);
-		this.setBackground(Color.WHITE);
+		this.setBackground(ThemeD.color(ColorKeys.BACKGROUND)); // FIXME: Theme update
 		this.setLayout(new BorderLayout());
 
 		// north panel with regression equation
@@ -53,7 +53,7 @@ public class LinearRegressionPanel extends JPanel
 		JTable table = new JTable(model);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		table.setGridColor(
-				GColorD.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
+				ThemeD.awtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
 		table.setShowGrid(true);
 
 		// table row header
@@ -99,7 +99,7 @@ public class LinearRegressionPanel extends JPanel
 		RowHeaderRenderer(JTable table) {
 			JTableHeader header = table.getTableHeader();
 			setOpaque(true);
-			setBorder(BorderFactory.createLineBorder(Color.black));
+			setBorder(BorderFactory.createLineBorder(ThemeD.color(ColorKeys.FOREGROUND)));
 			setHorizontalAlignment(LEFT);
 			setForeground(header.getForeground());
 			setBackground(header.getBackground());

@@ -18,7 +18,6 @@ the Free Software Foundation.
 
 package org.geogebra.desktop.gui.view.algebra;
 
-import java.awt.Color;
 import java.awt.Point;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -42,6 +41,8 @@ import org.geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import org.geogebra.common.euclidian.event.AbstractEvent;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.main.AppD;
 
@@ -165,7 +166,7 @@ public class AlgebraControllerD extends AlgebraTreeController
 		}
 
 		ImageIcon ic = GeoGebraIconD.createLatexIcon((AppD) app, latex,
-				((AppD) app).getPlainFont(), Color.DARK_GRAY, null);
+				((AppD) app).getPlainFont(), ThemeD.color(ColorKeys.OUTLINE_DARK), null);
 
 		// start drag
 		ds.startDrag(dge, DragSource.DefaultCopyDrop, ic.getImage(),

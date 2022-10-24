@@ -1,6 +1,5 @@
 package org.geogebra.desktop.gui.view.spreadsheet;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,6 +15,8 @@ import javax.swing.JTable;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoList;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 
 /**
  * Cell editor for GeoBoolean.
@@ -92,7 +93,7 @@ public class MyCellEditorList extends DefaultCellEditor
 		public Component getListCellRendererComponent(JList list, Object value,
 				int index, boolean isSelected, boolean hasFocus) {
 
-			setBackground(Color.WHITE);
+			setBackground(ThemeD.color(ColorKeys.BACKGROUND));
 			JLabel lbl = (JLabel) super.getListCellRendererComponent(list,
 					value, index, isSelected, hasFocus);
 			lbl.setHorizontalAlignment(LEFT);

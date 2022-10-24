@@ -1,9 +1,7 @@
 package org.geogebra.desktop.gui.layout;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.SystemColor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -13,6 +11,8 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
 import org.geogebra.common.gui.SetLabels;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.DockBarInterface;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -59,7 +59,7 @@ public class DockBar extends JPanel implements SetLabels, DockBarInterface {
 		// buildButtonPanel();
 		buildSlimSidebarPanel();
 		slimSidebarPanel.setBorder(BorderFactory.createMatteBorder(1, 1, 0, 0,
-				SystemColor.controlShadow));
+				ThemeD.color(ColorKeys.CONTROL_SHADOW)));
 		// buttonPanel.setBorder(BorderFactory.createMatteBorder(1, 1, 0, 1,
 		// SystemColor.controlShadow));
 
@@ -227,7 +227,7 @@ public class DockBar extends JPanel implements SetLabels, DockBarInterface {
 		@Override
 		public void mouseEntered(MouseEvent e) {
 			if (e.getSource() == slimSidebarPanel) {
-				slimSidebarPanel.setBackground(Color.LIGHT_GRAY);
+				slimSidebarPanel.setBackground(ThemeD.color(ColorKeys.OUTLINE_LIGHT));
 				setSideBarHasMouse(true);
 			}
 		}
@@ -278,7 +278,7 @@ public class DockBar extends JPanel implements SetLabels, DockBarInterface {
 		public MyPopup() {
 			super();
 			setOpaque(true);
-			setBackground(SystemColor.control);
+			setBackground(ThemeD.color(ColorKeys.BACKGROUND_CONTROL));
 			setFocusable(false);
 			setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 8));
 

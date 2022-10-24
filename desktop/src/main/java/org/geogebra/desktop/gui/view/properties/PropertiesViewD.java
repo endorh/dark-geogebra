@@ -22,6 +22,8 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
@@ -310,8 +312,8 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 		updateStyleBar();
 		updateTitleBar();
 
-		wrappedPanel.revalidate();
-		wrappedPanel.repaint();
+		// Update correct look and feel for the added panel
+		SwingUtilities.updateComponentTreeUI(wrappedPanel);
 	}
 
 	/**

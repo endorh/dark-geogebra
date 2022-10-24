@@ -48,6 +48,8 @@ import org.geogebra.common.main.settings.SettingListener;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.desktop.gui.GuiManagerD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.KeyboardSettings;
 import org.geogebra.desktop.main.LocalizationD;
@@ -444,7 +446,7 @@ public class VirtualKeyboardD extends JFrame
 
 	private static void setColor(JToggleButton tb) {
 		if (tb.isSelected()) {
-			tb.setBackground(Color.cyan);
+			tb.setBackground(ThemeD.color(ColorKeys.SELECTION));
 		} else {
 			tb.setBackground(null);
 		}

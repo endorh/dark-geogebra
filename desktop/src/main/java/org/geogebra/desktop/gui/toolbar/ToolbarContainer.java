@@ -7,7 +7,6 @@ import java.awt.FlowLayout;
 import java.awt.FontMetrics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
@@ -40,6 +39,8 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.dialog.HelpDialog;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.view.properties.PropertiesViewD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
@@ -153,13 +154,13 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 			if (orientation == SwingConstants.NORTH
 					|| orientation == SwingConstants.SOUTH) {
 				outsideBorder = BorderFactory.createMatteBorder(1, 0, 0, 0,
-						SystemColor.controlShadow);
+						ThemeD.color(ColorKeys.CONTROL_SHADOW));
 			} else if (orientation == SwingConstants.EAST) {
 				outsideBorder = BorderFactory.createMatteBorder(0, 1, 0, 0,
-						SystemColor.controlShadow);
+						ThemeD.color(ColorKeys.CONTROL_SHADOW));
 			} else if (orientation == SwingConstants.WEST) {
 				outsideBorder = BorderFactory.createMatteBorder(0, 0, 0, 1,
-						SystemColor.controlShadow);
+						ThemeD.color(ColorKeys.CONTROL_SHADOW));
 			}
 
 			setBorder(BorderFactory.createCompoundBorder(outsideBorder,
@@ -247,7 +248,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 		Border insideBorder = BorderFactory.createEmptyBorder(2, 10, 2, 0);
 		Border outsideBorder = BorderFactory.createMatteBorder(0, 0, 0, 0,
-				SystemColor.controlShadow);
+				ThemeD.color(ColorKeys.CONTROL_SHADOW));
 		toolbarHelpPanel.setBorder(BorderFactory
 				.createCompoundBorder(outsideBorder, insideBorder));
 

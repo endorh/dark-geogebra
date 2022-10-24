@@ -2,6 +2,7 @@ package org.geogebra.desktop.geogebra3D.euclidian3D;
 
 import java.awt.AWTEvent;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
@@ -51,6 +52,8 @@ import org.geogebra.desktop.export.GraphicExportDialog;
 import org.geogebra.desktop.geogebra3D.App3D;
 import org.geogebra.desktop.geogebra3D.euclidian3D.opengl.RendererCheckGLVersionD;
 import org.geogebra.desktop.geogebra3D.euclidianInput3D.Mouse3DEventD;
+import org.geogebra.desktop.gui.theme.InvertKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.io.MyImageIO;
 import org.geogebra.desktop.main.AppD;
 
@@ -131,6 +134,7 @@ public class EuclidianView3DD extends EuclidianView3D
 
 	}
 
+
 	private boolean canUseCanvas() {
 		// TODO remove that (quick fix for jogl 2.3.2)
 		if (AppD.MAC_OS) {
@@ -143,8 +147,10 @@ public class EuclidianView3DD extends EuclidianView3D
 
 	@Override
 	public void setBackground(GColor updatedColor, GColor applyedColor) {
+		final Color appliedBgColor = ThemeD.awtColor(applyedColor);
+		applyedColor = GColorD.newColor(appliedBgColor);
 		super.setBackground(updatedColor, applyedColor);
-		evjpanel.setBackground(GColorD.getAwtColor(bgApplyedColor));
+		evjpanel.setBackground(appliedBgColor);
 	}
 
 	@Override
@@ -380,7 +386,7 @@ public class EuclidianView3DD extends EuclidianView3D
 	public void setToolTipText(String plain) {
 		if ((tooltipsInThisView == EuclidianStyleConstants.TOOLTIPS_ON)
 				|| (tooltipsInThisView == EuclidianStyleConstants.TOOLTIPS_AUTOMATIC)) {
-			evjpanel.setToolTipText(plain);
+			evjpanel.setToolTipText(GColorD.patchHTMLFontColors(plain));
 		}
 	}
 
@@ -438,6 +444,16 @@ public class EuclidianView3DD extends EuclidianView3D
 	@Override
 	protected void setDefault2DCursor() {
 		setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+	}
+
+	@Override
+	public boolean isColorFiltered() {
+		return ThemeD.inversionPreferences().isInvertColors();
+	}
+
+	@Override
+	public GColor filterColor(GColor color) {
+		return ThemeD.filterColor(color);
 	}
 
 	@Override

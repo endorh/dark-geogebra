@@ -11,6 +11,8 @@ import java.util.Map.Entry;
 import javax.swing.text.Element;
 import javax.swing.text.View;
 
+import org.geogebra.common.awt.GColor;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.main.AppD;
 
 public class LaTeXContext extends ViewContext {
@@ -39,16 +41,16 @@ public class LaTeXContext extends ViewContext {
 
 	private static final Map<String, Color> colorMap = new HashMap<>();
 	static {
-		colorMap.put("Default", Color.decode("#000000"));
-		colorMap.put("Ampersand", Color.decode("#fb24f8"));
-		colorMap.put("SubSup", Color.decode("#01a801"));
-		colorMap.put("Dollar", Color.decode("#ffaa00"));
-		colorMap.put("Number", Color.decode("#0b873d"));
-		colorMap.put("OpenClose", Color.decode("#4a55db"));
-		colorMap.put("Command", Color.decode("#099ec3"));
-		colorMap.put("Comments", Color.decode("#c34209"));
-		colorMap.put("White", Color.decode("#dcdcdc"));
-		colorMap.put("Tabulation", Color.decode("#dcdcdc"));
+		colorMap.put("Default", ThemeD.awtColor(GColor.newColorRGB(0x000000)));
+		colorMap.put("Ampersand", ThemeD.awtColor(GColor.newColorRGB(0xfb24f8)));
+		colorMap.put("SubSup", ThemeD.awtColor(GColor.newColorRGB(0x01a801)));
+		colorMap.put("Dollar", ThemeD.awtColor(GColor.newColorRGB(0xffaa00)));
+		colorMap.put("Number", ThemeD.awtColor(GColor.newColorRGB(0x0b873d)));
+		colorMap.put("OpenClose", ThemeD.awtColor(GColor.newColorRGB(0x4a55db)));
+		colorMap.put("Command", ThemeD.awtColor(GColor.newColorRGB(0x099ec3)));
+		colorMap.put("Comments", ThemeD.awtColor(GColor.newColorRGB(0xc34209)));
+		colorMap.put("White", ThemeD.awtColor(GColor.newColorRGB(0xdcdcdc)));
+		colorMap.put("Tabulation", ThemeD.awtColor(GColor.newColorRGB(0xdcdcdc)));
 	}
 
 	private static final Map<String, Integer> attribMap = new HashMap<>();

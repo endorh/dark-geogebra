@@ -69,6 +69,7 @@ import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.export.GraphicExportDialog;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.io.MyImageIO;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -102,6 +103,11 @@ public class EuclidianViewD extends EuclidianView
 
 	/** Java component for this view */
 	protected EuclidianViewJPanelD evjpanel;
+
+	/**
+	 * Background color
+	 */
+	protected GColor bgColor;
 
 	// set EuclidianView no - 2 for 2nd EulidianView, 1 for 1st EuclidianView
 	// and Applet
@@ -776,7 +782,7 @@ public class EuclidianViewD extends EuclidianView
 	public void setToolTipText(String plain) {
 		if ((tooltipsInThisView == EuclidianStyleConstants.TOOLTIPS_ON)
 				|| (tooltipsInThisView == EuclidianStyleConstants.TOOLTIPS_AUTOMATIC)) {
-			evjpanel.setToolTipText(plain);
+			evjpanel.setToolTipText(GColorD.patchHTMLFontColors(plain));
 		}
 	}
 
@@ -845,12 +851,13 @@ public class EuclidianViewD extends EuclidianView
 
 	@Override
 	public GColor getBackgroundCommon() {
-		return GColorD.newColor(evjpanel.getBackground());
+		return bgColor;
 	}
 
 	@Override
 	public void setBackground(GColor bgColor) {
-		evjpanel.setBackground(GColorD.getAwtColor(bgColor));
+		this.bgColor = bgColor;
+		evjpanel.setBackground(ThemeD.awtColor(bgColor));
 	}
 
 	// temp image

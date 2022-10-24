@@ -1,6 +1,5 @@
 package org.geogebra.desktop.export;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -16,6 +15,8 @@ import javax.swing.border.MatteBorder;
 import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.main.AppD;
 
 class PagePreview extends JPanel {
@@ -44,8 +45,8 @@ class PagePreview extends JPanel {
 		m_w = (int) format.getWidth();
 		m_h = (int) format.getHeight();
 
-		setBackground(Color.white);
-		setBorder(new MatteBorder(1, 1, 2, 2, Color.black));
+		setBackground(ThemeD.color(ColorKeys.BACKGROUND));
+		setBorder(new MatteBorder(1, 1, 2, 2, ThemeD.color(ColorKeys.FOREGROUND)));
 		// update();
 	}
 

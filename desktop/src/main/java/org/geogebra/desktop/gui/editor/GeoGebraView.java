@@ -13,7 +13,6 @@ the Free Software Foundation.
 
 package org.geogebra.desktop.gui.editor;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -34,6 +33,9 @@ import javax.swing.text.Position;
 import javax.swing.text.Segment;
 import javax.swing.text.Utilities;
 import javax.swing.text.WrappedPlainView;
+
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 
 /**
  *
@@ -287,7 +289,7 @@ public class GeoGebraView extends WrappedPlainView {
 					if (unselected) {
 						g.setColor(context.tokenColors[tok]);
 					} else {
-						g.setColor(Color.WHITE);
+						g.setColor(ThemeD.color(ColorKeys.BACKGROUND));
 					}
 					prevTok = tok;
 				}

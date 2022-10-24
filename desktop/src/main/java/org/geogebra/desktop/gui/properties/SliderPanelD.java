@@ -34,11 +34,12 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.AngleTextField;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.dialog.PropertiesPanelD;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.main.AppD;
 
@@ -191,7 +192,7 @@ public class SliderPanelD extends JPanel
 		lblLineColor.setLabelFor(btnLineColor);
 		btnLineColor.addActionListener(this);
 		btnLineColor.setForeground(
-				GColorD.getAwtColor(getColorWithOpacity(model.getLineColor())));
+				ThemeD.awtColor(getColorWithOpacity(model.getLineColor())));
 		pointSliderStylePanel
 				.add(LayoutUtil.flowPanel(lblBlobColor, btnBlobColor));
 		lineSliderStylePanel
@@ -315,9 +316,8 @@ public class SliderPanelD extends JPanel
 	}
 
 	private void doBlobColorActionPerformed() {
-		model.applyBlobColor(
-				GColorD.newColor(((GuiManagerD) app.getGuiManager())
-						.showColorChooser(model.getBlobColor())));
+		model.applyBlobColor(((GuiManagerD) app.getGuiManager())
+			.showColorChooser(model.getBlobColor()));
 	}
 
 	/**
@@ -326,15 +326,14 @@ public class SliderPanelD extends JPanel
 	 * @return basic color with opacity
 	 */
 	public GColor getColorWithOpacity(GColor color) {
-		GColor lineCol = color == null ? GColor.BLACK : color;
+		GColor lineCol = color == null ? ThemeD.gColor(ColorKeys.FOREGROUND) : color;
 		return GColor.newColor(lineCol.getRed(), lineCol.getGreen(),
 				lineCol.getBlue(), sliderLineOpacity.getValue() * 255 / 100);
 	}
 
 	private void doLineColorActionPerformed() {
-		model.applyLineColor(
-				GColorD.newColor(((GuiManagerD) app.getGuiManager())
-						.showColorChooser(model.getLineColor())));
+		model.applyLineColor(((GuiManagerD) app.getGuiManager())
+			.showColorChooser(model.getLineColor()));
 	}
 
 	/**
@@ -493,13 +492,13 @@ public class SliderPanelD extends JPanel
 
 	@Override
 	public void setBlobColor(GColor color) {
-		btnBlobColor.setForeground(GColorD.getAwtColor(color));
+		btnBlobColor.setForeground(ThemeD.awtColor(color));
 		btnBlobColor.repaint();
 	}
 
 	@Override
 	public void setLineColor(GColor color) {
-		btnLineColor.setForeground(GColorD.getAwtColor(color));
+		btnLineColor.setForeground(ThemeD.awtColor(color));
 		btnLineColor.repaint();
 	}
 
@@ -517,7 +516,7 @@ public class SliderPanelD extends JPanel
 			if (!sliderLineOpacity.getValueIsAdjusting()) {
 				model.applyTransparency(sliderLineOpacity.getValue());
 				btnLineColor.setForeground(
-						GColorD.getAwtColor(
+						ThemeD.awtColor(
 								getColorWithOpacity(model.getLineColor())));
 			}
 		}

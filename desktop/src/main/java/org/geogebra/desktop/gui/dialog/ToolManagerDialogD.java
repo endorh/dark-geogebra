@@ -47,6 +47,7 @@ import org.geogebra.desktop.gui.ToolNameIconPanelD;
 import org.geogebra.desktop.gui.app.GeoGebraFrame;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
+import org.geogebra.desktop.util.ImageManagerD;
 
 /**
  * Dialog to manage existing user defined tools (macros).
@@ -353,7 +354,7 @@ public class ToolManagerDialogD extends Dialog
 
 				MyImageD img = app.getExternalImage(macro.getIconFileName());
 				if (img != null) {
-					setIcon(new ImageIcon(img.getImage()));
+					setIcon(ImageManagerD.createIcon(img.getImage()));
 					Dimension dim = getPreferredSize();
 					dim.height = img.getHeight();
 					setPreferredSize(dim);

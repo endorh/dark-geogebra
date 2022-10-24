@@ -1,6 +1,5 @@
 package org.geogebra.desktop.gui.view.algebra;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,6 +11,8 @@ import javax.swing.JPopupMenu;
 import javax.swing.JToolBar;
 
 import org.geogebra.common.gui.view.algebra.AlgebraView.SortMode;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.util.PopupMenuButtonD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
@@ -173,7 +174,7 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 		for (int i = 0; i < sortModes.length; i++) {
 			JCheckBoxMenuItem mi = new JCheckBoxMenuItem();
 			mi.setFont(app.getPlainFont());
-			mi.setBackground(Color.white);
+			mi.setBackground(ThemeD.color(ColorKeys.BACKGROUND));
 			final SortMode sort = sortModes[i];
 			mi.setText(loc.getMenu(sort.toString()));
 
@@ -212,7 +213,7 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 		for (int i = 0; i < modes.length; i++) {
 			JCheckBoxMenuItem mi = new JCheckBoxMenuItem();
 			mi.setFont(app.getPlainFont());
-			mi.setBackground(Color.white);
+			mi.setBackground(ThemeD.color(ColorKeys.BACKGROUND));
 			mi.setText(modes[i]);
 			final int current = i;
 			mi.addActionListener(new ActionListener() {

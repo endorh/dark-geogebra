@@ -1,12 +1,10 @@
 package org.geogebra.desktop.gui.view.spreadsheet;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
@@ -48,6 +46,8 @@ import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.desktop.awt.GDimensionD;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
 import org.geogebra.desktop.gui.layout.LayoutD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.view.Gridable;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.SpreadsheetTableModelD;
@@ -515,7 +515,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 			formulaBar = new FormulaBar(app, this);
 			formulaBar.setBorder(BorderFactory.createCompoundBorder(
 					BorderFactory.createMatteBorder(0, 0, 1, 0,
-							SystemColor.controlShadow),
+							ThemeD.color(ColorKeys.CONTROL_SHADOW)),
 					BorderFactory.createEmptyBorder(4, 4, 4, 4)));
 		}
 		return formulaBar;
@@ -554,7 +554,7 @@ public class SpreadsheetViewD implements SpreadsheetViewInterface,
 
 	public void setTraceDialogMode(boolean enableMode) {
 		if (enableMode) {
-			table.setSelectionRectangleColor(Color.GRAY);
+			table.setSelectionRectangleColor(ThemeD.color(ColorKeys.OUTLINE));
 			// table.setFocusable(false);
 		} else {
 			table.setSelectionRectangleColor(MyTableD.SELECTED_RECTANGLE_COLOR);

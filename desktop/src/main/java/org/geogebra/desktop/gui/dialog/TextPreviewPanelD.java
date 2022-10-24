@@ -1,6 +1,5 @@
 package org.geogebra.desktop.gui.dialog;
 
-import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.ImageIcon;
@@ -20,6 +19,8 @@ import org.geogebra.common.main.settings.EuclidianSettings;
 import org.geogebra.desktop.euclidian.EuclidianControllerD;
 import org.geogebra.desktop.euclidian.EuclidianControllerListeners;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.main.AppD;
 
@@ -76,7 +77,7 @@ public class TextPreviewPanelD extends TextPreviewer {
 
 			GeoGebraIconD.drawLatexImageIcon((AppD) getApp(), testIcon,
 					previewGeo.getTextString(), ((AppD) getApp()).getPlainFont(),
-					true, Color.black, null);
+					true, ThemeD.color(ColorKeys.FOREGROUND), null);
 			// System.out.println("=============> " + testIcon.getIconHeight() +
 			// " : " + testIcon.getIconWidth());
 

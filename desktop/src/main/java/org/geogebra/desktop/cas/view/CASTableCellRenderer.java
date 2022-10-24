@@ -7,7 +7,7 @@ import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
 import org.geogebra.common.kernel.geos.GeoCasCell;
-import org.geogebra.desktop.awt.GColorD;
+import org.geogebra.desktop.gui.theme.ThemeD;
 
 /**
  * CAS cell renderer
@@ -40,11 +40,11 @@ public class CASTableCellRenderer extends CASTableCell
 						(float) (casFont.getSize()
 								* (cell.getFontSizeMultiplier()))));
 
-				setForeground(GColorD.getAwtColor(cell.getFontColor()));
+				setForeground(ThemeD.awtColor(cell.getFontColor()));
 				dummyField.setForeground(
-						GColorD.getAwtColor(cell.getFontColor()));
+						ThemeD.awtColor(cell.getFontColor()));
 				this.getInputArea().setForeground(
-						GColorD.getAwtColor(cell.getFontColor()));
+						ThemeD.awtColor(cell.getFontColor()));
 			} else {
 				setFont(casFont);
 			}

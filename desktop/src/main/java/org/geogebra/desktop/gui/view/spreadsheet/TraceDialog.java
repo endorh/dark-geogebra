@@ -18,7 +18,6 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -57,6 +56,8 @@ import org.geogebra.common.main.SpreadsheetTraceManager;
 import org.geogebra.common.util.SpreadsheetTraceSettings;
 import org.geogebra.desktop.gui.dialog.Dialog;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -276,7 +277,7 @@ public class TraceDialog extends Dialog
 		listPanel = new JPanel();
 		listPanel.setLayout(new BorderLayout());
 		listPanel.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 1,
-				SystemColor.controlShadow));
+				ThemeD.color(ColorKeys.CONTROL_SHADOW)));
 
 		traceGeoListModel = new DefaultListModel();
 		traceGeoList = new JList(traceGeoListModel);

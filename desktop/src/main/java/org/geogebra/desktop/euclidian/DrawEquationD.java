@@ -15,11 +15,11 @@ import org.geogebra.common.euclidian.DrawEquation;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
-import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.export.epsgraphics.EpsGraphicsD;
 import org.geogebra.desktop.export.epsgraphics.EpsGraphicsWrapper;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.main.AppD;
 
 import com.himamis.retex.renderer.desktop.FactoryProviderDesktop;
@@ -82,8 +82,8 @@ public class DrawEquationD extends DrawEquation {
 			g = new Graphics2DD(GGraphics2DD.getAwtGraphics(g2));
 		}
 		GDimension d = drawEquation(app, geo, g, x, y, text, font, serif,
-				ColorD.get(GColorD.getAwtColor(fgColor)),
-				ColorD.get(GColorD.getAwtColor(bgColor)), useCache, null, null);
+				ColorD.get(ThemeD.awtColor(fgColor)),
+				ColorD.get(ThemeD.awtColor(bgColor)), useCache, null, null);
 		if (callback != null) {
 			callback.run();
 		}
@@ -154,7 +154,7 @@ public class DrawEquationD extends DrawEquation {
 	@Override
 	public com.himamis.retex.renderer.share.platform.graphics.Color convertColor(
 			GColor color) {
-		return ColorD.get(GColorD.getAwtColor(color));
+		return ColorD.get(ThemeD.awtColor(color));
 	}
 
 	@Override

@@ -24,6 +24,8 @@ import java.util.Map.Entry;
 import javax.swing.text.Element;
 import javax.swing.text.View;
 
+import org.geogebra.common.awt.GColor;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -66,24 +68,24 @@ public class JavascriptContext extends ViewContext {
 
 	private static final Map<String, Color> colorMap = new HashMap<>();
 	static {
-		colorMap.put("Default", Color.decode("#000000"));
-		colorMap.put("Operator", Color.decode("#000000"));
-		colorMap.put("Constante", Color.decode("#aa38f2"));
-		colorMap.put("Number", Color.decode("#781d00"));
-		colorMap.put("OpenClose", Color.decode("#af38ae"));
-		colorMap.put("String", Color.decode("#ae6c4d"));
-		colorMap.put("Built-in Object", Color.decode("#cf7454"));
-		colorMap.put("Keyword", Color.decode("#aa38f2"));
-		colorMap.put("Identifier", Color.decode("#000000"));
-		colorMap.put("Field Definition", Color.decode("#848484"));
-		colorMap.put("Field", Color.decode("#848484"));
-		colorMap.put("GeoGebra Special", Color.decode("#ffaa00"));
-		colorMap.put("Object Name", Color.decode("#68baba"));
-		colorMap.put("Line Comments", Color.decode("#00b700"));
-		colorMap.put("Multi Line Comments", Color.decode("#00b700"));
-		colorMap.put("Function", Color.decode("#0303ff"));
-		colorMap.put("White", Color.decode("#dcdcdc"));
-		colorMap.put("Tabulation", Color.decode("#dcdcdc"));
+		colorMap.put("Default", ThemeD.awtColor(GColor.newColorRGB(0x000000)));
+		colorMap.put("Operator", ThemeD.awtColor(GColor.newColorRGB(0x000000)));
+		colorMap.put("Constante", ThemeD.awtColor(GColor.newColorRGB(0xaa38f2)));
+		colorMap.put("Number", ThemeD.awtColor(GColor.newColorRGB(0x781d00)));
+		colorMap.put("OpenClose", ThemeD.awtColor(GColor.newColorRGB(0xaf38ae)));
+		colorMap.put("String", ThemeD.awtColor(GColor.newColorRGB(0xae6c4d)));
+		colorMap.put("Built-in Object", ThemeD.awtColor(GColor.newColorRGB(0xcf7454)));
+		colorMap.put("Keyword", ThemeD.awtColor(GColor.newColorRGB(0xaa38f2)));
+		colorMap.put("Identifier", ThemeD.awtColor(GColor.newColorRGB(0x000000)));
+		colorMap.put("Field Definition", ThemeD.awtColor(GColor.newColorRGB(0x848484)));
+		colorMap.put("Field", ThemeD.awtColor(GColor.newColorRGB(0x848484)));
+		colorMap.put("GeoGebra Special", ThemeD.awtColor(GColor.newColorRGB(0xffaa00)));
+		colorMap.put("Object Name", ThemeD.awtColor(GColor.newColorRGB(0x68baba)));
+		colorMap.put("Line Comments", ThemeD.awtColor(GColor.newColorRGB(0x00b700)));
+		colorMap.put("Multi Line Comments", ThemeD.awtColor(GColor.newColorRGB(0x00b700)));
+		colorMap.put("Function", ThemeD.awtColor(GColor.newColorRGB(0x0303ff)));
+		colorMap.put("White", ThemeD.awtColor(GColor.newColorRGB(0xdcdcdc)));
+		colorMap.put("Tabulation", ThemeD.awtColor(GColor.newColorRGB(0xdcdcdc)));
 	}
 
 	private static final Map<String, Integer> attribMap = new HashMap<>();

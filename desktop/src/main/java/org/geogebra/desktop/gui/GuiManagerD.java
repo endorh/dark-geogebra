@@ -1,6 +1,5 @@
 package org.geogebra.desktop.gui;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -81,7 +80,6 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.CommandLineArguments;
-import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.cas.view.CASViewD;
 import org.geogebra.desktop.euclidian.EuclidianControllerD;
 import org.geogebra.desktop.euclidian.EuclidianViewD;
@@ -114,6 +112,8 @@ import org.geogebra.desktop.gui.layout.panels.PropertiesDockPanel;
 import org.geogebra.desktop.gui.layout.panels.SpreadsheetDockPanel;
 import org.geogebra.desktop.gui.menubar.GeoGebraMenuBar;
 import org.geogebra.desktop.gui.nssavepanel.NSSavePanel;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.toolbar.ToolbarContainer;
 import org.geogebra.desktop.gui.toolbar.ToolbarD;
 import org.geogebra.desktop.gui.util.BrowserLauncher;
@@ -358,6 +358,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			// allow drag & drop of files on algebraView
 			algebraView.setDropTarget(new DropTarget(algebraView,
 					new FileDropTargetListener(getApp())));
+			algebraView.setBackground(ThemeD.color(ColorKeys.BACKGROUND_ALGEBRA));
 		}
 
 		return algebraView;
@@ -1244,18 +1245,18 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		return ret;
 	}
 
-	public Color showColorChooser(GColor currentColor) {
+	public GColor showColorChooser(GColor currentColor) {
 
 		try {
 			GeoGebraColorChooser chooser = new GeoGebraColorChooser(getApp());
-			chooser.setColor(GColorD.getAwtColor(currentColor));
+			chooser.setColor(currentColor);
 			JDialog dialog = JColorChooser.createDialog(
 					getApp().getMainComponent(),
 					getApp().getLocalization().getMenu("ChooseColor"), true, chooser,
 					null, null);
 			dialog.setVisible(true);
 
-			return chooser.getColor();
+			return chooser.getGColor();
 
 		} catch (RuntimeException e) {
 			return null;

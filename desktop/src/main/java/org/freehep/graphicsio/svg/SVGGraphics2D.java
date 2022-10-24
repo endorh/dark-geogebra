@@ -52,6 +52,8 @@ import org.freehep.util.io.WriterOutputStream;
 import org.freehep.xml.util.XMLWriter;
 import org.geogebra.common.jre.util.ScientificFormat;
 import org.geogebra.common.util.Charsets;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 
 /**
  * This class implements the Scalable Vector Graphics output. SVG specifications
@@ -367,7 +369,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 			clearRect(0.0, 0.0, getSize().width, getSize().height);
 		} else {
 			setBackground(getComponent() != null
-					? getComponent().getBackground() : Color.WHITE);
+					? getComponent().getBackground() : ThemeD.color(ColorKeys.BACKGROUND));
 			clearRect(0.0, 0.0, getSize().width, getSize().height);
 		}
 	}

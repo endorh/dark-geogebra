@@ -21,7 +21,7 @@ import javax.swing.ImageIcon;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.main.GeoGebraColorConstants;
-import org.geogebra.desktop.awt.GColorD;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.gui.util.PopupMenuButtonD;
 import org.geogebra.desktop.main.AppD;
@@ -94,7 +94,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonD
 		ImageIcon icon = super.getButtonIcon();
 		if (icon == null && this.hasSlider) {
 			icon = GeoGebraIconD.createColorSwatchIcon(getSliderValue() / 100f,
-					iconSize, GColorD.getAwtColor(defaultColor), null);
+					iconSize, ThemeD.awtColor(defaultColor), null);
 		}
 		return icon;
 	}
@@ -134,7 +134,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonD
 		defaultColor = gc;
 		if (gc != null) {
 			this.setIcon(GeoGebraIconD.createColorSwatchIcon(alpha, iconSize,
-					GColorD.getAwtColor(gc), null));
+					ThemeD.awtColor(gc), null));
 		} else {
 			this.setIcon(GeoGebraIconD.createNullSymbolIcon(iconSize.width,
 					iconSize.height));
@@ -160,7 +160,7 @@ public class ColorPopupMenuButton extends PopupMenuButtonD
 		for (int i = 0; i < colorArray.length; i++) {
 			if (colorArray[i] != null) {
 				a[i] = GeoGebraIconD.createColorSwatchIcon(alpha, iconSize,
-						GColorD.getAwtColor(colorArray[i]), null);
+						ThemeD.awtColor(colorArray[i]), null);
 			} else {
 				a[i] = GeoGebraIconD.createNullSymbolIcon(iconSize.width,
 						iconSize.height);

@@ -35,6 +35,8 @@ import org.geogebra.common.util.Charsets;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.gui.MyImageD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.io.MyXMLioD;
 import org.geogebra.desktop.main.AppD;
 
@@ -572,7 +574,7 @@ public class GeoGebraFileChooser extends JFileChooser
 				Graphics2D g2 = (Graphics2D) g;
 
 				// fill background
-				g2.setColor(Color.white);
+				g2.setColor(ThemeD.color(ColorKeys.BACKGROUND));
 				g2.fillRect(0, 0, getWidth(), getHeight());
 
 				GGraphics2DD.setAntialiasing(g2);

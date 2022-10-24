@@ -32,6 +32,9 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.plaf.basic.BasicButtonUI;
 
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
+
 /**
  * Button with popup component for choosing colors. A mouse click on the left
  * side of the button sets the selected color. A mouse click on the right side
@@ -311,9 +314,9 @@ public class ColorChooserButton extends JButton {
 
 					// highlight border
 					if (b.getModel().isPressed()) {
-						g.setColor(Color.darkGray);
+						g.setColor(ThemeD.color(ColorKeys.OUTLINE_DARK));
 					} else {
-						g.setColor(Color.gray);
+						g.setColor(ThemeD.color(ColorKeys.OUTLINE));
 					}
 					g.drawLine(0, 0, 0, 15);
 					g.drawLine(0, 0, 15, 0);

@@ -59,6 +59,8 @@ import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.dialog.Dialog;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.gui.util.PopupMenuButtonD;
 import org.geogebra.desktop.gui.util.SpecialNumberFormat;
@@ -84,11 +86,11 @@ public class FunctionInspectorD extends FunctionInspector
 	private JDialog wrappedDialog;
 
 	// color constants
-	private static final Color DISPLAY_GEO_COLOR = Color.RED;
-	private static final Color DISPLAY_GEO2_COLOR = Color.RED;
-	private static final Color EVEN_ROW_COLOR = new Color(241, 245, 250);
-	private static final Color TABLE_GRID_COLOR = GColorD
-			.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR);
+	private static final Color DISPLAY_GEO_COLOR = ThemeD.awtColor(GColor.RED);
+	private static final Color DISPLAY_GEO2_COLOR = ThemeD.awtColor(GColor.RED);
+	private static final Color EVEN_ROW_COLOR = ThemeD.awtColor(GColor.newColor(241, 245, 250));
+	private static final Color TABLE_GRID_COLOR = ThemeD.awtColor(
+			GeoGebraColorConstants.TABLE_GRID_COLOR);
 	// table fields
 	private InspectorTable tableXY, tableInterval;
 	private DefaultTableModel modelXY, modelInterval;
@@ -117,6 +119,7 @@ public class FunctionInspectorD extends FunctionInspector
 	public FunctionInspectorD(AppD app, GeoFunction selectedGeo) {
 		super(app, selectedGeo);
 		this.app = app;
+
 	}
 
 	private AppD getAppD() {
@@ -783,7 +786,7 @@ public class FunctionInspectorD extends FunctionInspector
 			color = TABLE_GRID_COLOR;
 			break;
 		default:
-			color = Color.black;
+			color = ThemeD.color(ColorKeys.FOREGROUND);
 			break;
 
 		}

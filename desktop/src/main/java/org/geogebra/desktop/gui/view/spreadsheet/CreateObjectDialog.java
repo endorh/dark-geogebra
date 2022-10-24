@@ -2,7 +2,6 @@ package org.geogebra.desktop.gui.view.spreadsheet;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -35,6 +34,8 @@ import org.geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.desktop.gui.dialog.InputDialogD;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -305,7 +306,7 @@ public class CreateObjectDialog extends InputDialogD
 
 		if (latexStr != null && isLatexDrawable) {
 			app.getDrawEquation().drawLatexImageIcon(app, latexIcon, latexStr,
-					latexFont, false, Color.black, null);
+					latexFont, false, ThemeD.color(ColorKeys.FOREGROUND), null);
 			lblPreview.setText(" ");
 		} else {
 			lblPreview.setText(

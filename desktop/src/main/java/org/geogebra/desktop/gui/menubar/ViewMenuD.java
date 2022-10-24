@@ -9,6 +9,7 @@ import javax.swing.JMenuItem;
 import org.geogebra.desktop.gui.layout.DockPanelD;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.util.ImageManagerD;
 
 /**
  * The "View" menu for the applet. For application use ViewMenuApplication class
@@ -65,7 +66,7 @@ public class ViewMenuD extends BaseMenu {
 	protected void initActions() {
 
 		refreshAction = new AbstractAction(loc.getMenu("Refresh"),
-				new ImageIcon(app.getRefreshViewImage())) {
+				ImageManagerD.createIcon(app.getRefreshViewImage())) {
 			private static final long serialVersionUID = 1L;
 
 			@Override

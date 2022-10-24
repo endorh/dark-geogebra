@@ -34,6 +34,8 @@ import org.geogebra.common.util.IndexHTMLBuilder;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.MyImageD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.main.AppD;
 
 public class MyCellRendererD extends DefaultTableCellRenderer {
@@ -121,7 +123,7 @@ public class MyCellRendererD extends DefaultTableCellRenderer {
 
 		if (c instanceof GColor) {
 			GColor col = (GColor) c;
-			bgColor = GColorD.getAwtColor(col);
+			bgColor = ThemeD.awtColor(col);
 		} else {
 			bgColor = null;
 			// Log.error("problem " + ((c == null) ? "null" : "" +
@@ -170,7 +172,7 @@ public class MyCellRendererD extends DefaultTableCellRenderer {
 				// button.setBackground(table.getBackground());
 				button.setHorizontalAlignment(CENTER);
 				button.setText(geo.getCaption(StringTemplate.defaultTemplate));
-				button.setForeground(GColorD.getAwtColor(geo.getObjectColor()));
+				button.setForeground(ThemeD.awtColor(geo.getObjectColor()));
 				return button;
 			}
 
@@ -243,7 +245,7 @@ public class MyCellRendererD extends DefaultTableCellRenderer {
 
 		// use geo bgColor if there is no format bgColor
 		if (geo.getBackgroundColor() != null && !isCustomBGColor) {
-			bgColor = GColorD.getAwtColor(geo.getBackgroundColor());
+			bgColor = ThemeD.awtColor(geo.getBackgroundColor());
 			isCustomBGColor = true;
 		}
 
@@ -262,7 +264,7 @@ public class MyCellRendererD extends DefaultTableCellRenderer {
 		// }
 
 		setBackground(bgColor);
-		setForeground(GColorD.getAwtColor(geo.getLabelColor()));
+		setForeground(ThemeD.awtColor(geo.getLabelColor()));
 
 		// Set horizontal alignment
 		// ===============================================
@@ -310,7 +312,7 @@ public class MyCellRendererD extends DefaultTableCellRenderer {
 						// System.out.println(latexStr);
 						app.getDrawEquation().drawLatexImageIcon(app, latexIcon,
 								latexStr, getFont(), isSerif,
-								GColorD.getAwtColor(geo.getAlgebraColor()),
+								GColorD.getAwtAlgebraColor(geo),
 								bgColor);
 						setIcon(latexIcon);
 						setText("");
@@ -340,7 +342,7 @@ public class MyCellRendererD extends DefaultTableCellRenderer {
 		public Component getListCellRendererComponent(JList list, Object value,
 				int index, boolean isSelected, boolean hasFocus) {
 
-			setBackground(Color.WHITE);
+			setBackground(ThemeD.color(ColorKeys.BACKGROUND));
 			JLabel lbl = (JLabel) super.getListCellRendererComponent(list,
 					value, index, isSelected, hasFocus);
 			lbl.setHorizontalAlignment(LEFT);

@@ -29,7 +29,7 @@ import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
 import org.geogebra.common.main.GeoGebraColorConstants;
-import org.geogebra.desktop.awt.GColorD;
+import org.geogebra.desktop.gui.theme.ThemeD;
 
 /**
  * Prepares and shows a JPopupMenu containing the history list for an
@@ -66,6 +66,11 @@ public class HistoryPopupD implements ListSelectionListener {
 		popup.setFocusable(false);
 
 		registerListeners();
+	}
+
+	public void updateUI() {
+		popup.updateUI();
+		historyList.updateUI();
 	}
 
 	/**
@@ -320,7 +325,7 @@ public class HistoryPopupD implements ListSelectionListener {
 		// create grid lines with this border
 		private Border gridBorder = BorderFactory.createCompoundBorder(
 				BorderFactory.createMatteBorder(0, 0, 1, 0,
-						GColorD.getAwtColor(
+						ThemeD.awtColor(
 								GeoGebraColorConstants.TABLE_GRID_COLOR)),
 				BorderFactory.createEmptyBorder(2, 5, 2, 5));
 

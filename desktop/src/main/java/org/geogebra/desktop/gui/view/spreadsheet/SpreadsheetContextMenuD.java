@@ -16,6 +16,8 @@ import javax.swing.JPopupMenu;
 
 import org.geogebra.common.gui.view.spreadsheet.MyTable;
 import org.geogebra.common.gui.view.spreadsheet.SpreadsheetContextMenu;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
 import org.geogebra.desktop.util.ImageResourceD;
@@ -32,8 +34,8 @@ public class SpreadsheetContextMenuD extends SpreadsheetContextMenu<JMenu> {
 	/** Desktop popUp panel */
 	protected JPopupMenu popup;
 
-	private static final Color bgColor = Color.white;
-	private static final Color fgColor = Color.black;
+	private static final Color bgColor = ThemeD.color(ColorKeys.BACKGROUND);
+	private static final Color fgColor = ThemeD.color(ColorKeys.FOREGROUND);
 
 	/**
 	 * Constructor

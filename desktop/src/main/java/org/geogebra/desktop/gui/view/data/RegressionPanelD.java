@@ -1,7 +1,6 @@
 package org.geogebra.desktop.gui.view.data;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -24,6 +23,8 @@ import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.geos.GeoFunctionable;
 import org.geogebra.common.kernel.statistics.Regression;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.main.AppD;
@@ -261,7 +262,7 @@ public class RegressionPanelD extends JPanel
 
 		// create an icon with the LaTeX string
 		ImageIcon icon = GeoGebraIconD.createLatexIcon(app, eqn,
-				this.getFont(), Color.RED, null);
+				this.getFont(), ThemeD.color(ColorKeys.TEXT_ERROR), null);
 
 		// set the label icon with our equation string
 		lblRegEquation.setIcon(icon);

@@ -20,6 +20,8 @@ import javax.swing.table.TableCellRenderer;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.main.GeoGebraColorConstants;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -202,7 +204,7 @@ public class SelectionTableD extends JTable {
 		ImageIcon[] iconArray = new ImageIcon[symbols.length];
 		for (int i = 0; i < symbols.length; i++) {
 			iconArray[i] = GeoGebraIconD.createLatexIcon(app, symbols[i],
-					app.getPlainFont(), Color.BLACK, null);
+					app.getPlainFont(), ThemeD.color(ColorKeys.FOREGROUND), null);
 		}
 		return iconArray;
 	}
@@ -367,9 +369,9 @@ public class SelectionTableD extends JTable {
 			// TODO --- selection color should be centralized, not from
 			// spreadsheet
 
-			selectionColor = org.geogebra.desktop.awt.GColorD.getAwtColor(
+			selectionColor = ThemeD.awtColor(
 					GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR);
-			rollOverColor = Color.LIGHT_GRAY;
+			rollOverColor = ThemeD.color(ColorKeys.OUTLINE_LIGHT);
 
 			paddingBorder = BorderFactory.createEmptyBorder(0, 5, 0, 5);
 
@@ -378,7 +380,7 @@ public class SelectionTableD extends JTable {
 			if (mode == SelectionTable.MODE_LATEX) {
 				selectedBorder = rollOverBorder;
 			} else {
-				selectedBorder = BorderFactory.createLineBorder(Color.BLACK, 3);
+				selectedBorder = BorderFactory.createLineBorder(ThemeD.color(ColorKeys.FOREGROUND), 3);
 			}
 
 			setOpaque(true);

@@ -13,7 +13,6 @@ the Free Software Foundation.
 package org.geogebra.desktop.gui.dialog;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -44,6 +43,8 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.util.HelpAction;
 import org.geogebra.desktop.gui.view.algebra.InputPanelD;
 import org.geogebra.desktop.gui.virtualkeyboard.VirtualKeyboardD;
@@ -581,7 +582,7 @@ public class InputDialogD extends InputDialog
 			showingError = true;
 			errorPanel.removeAll();
 			JLabel errorLabel = new JLabel(msg);
-			errorLabel.setForeground(Color.RED);
+			errorLabel.setForeground(ThemeD.color(ColorKeys.TEXT_ERROR));
 			errorPanel.add(errorLabel);
 		}
 		SwingUtilities.updateComponentTreeUI(wrappedDialog);

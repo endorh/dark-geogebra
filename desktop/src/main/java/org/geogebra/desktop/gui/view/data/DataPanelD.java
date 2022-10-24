@@ -34,6 +34,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableModel;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.draw.DrawBoolean.CheckBoxIcon;
 import org.geogebra.common.gui.view.data.DataAnalysisModel;
 import org.geogebra.common.kernel.StringTemplate;
@@ -44,6 +45,7 @@ import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GGraphics2DD;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 
@@ -68,9 +70,9 @@ public class DataPanelD extends JPanel
 
 	private LocalizationD loc;
 
-	private static final Color DISABLED_BACKGROUND_COLOR = Color.LIGHT_GRAY;
-	private static final Color TABLE_GRID_COLOR = DataAnalysisViewD.TABLE_GRID_COLOR;
-	private static final Color TABLE_HEADER_COLOR = DataAnalysisViewD.TABLE_HEADER_COLOR;
+	private static final Color DISABLED_BACKGROUND_COLOR = ThemeD.awtColor(GColor.LIGHT_GRAY);
+	private static final Color TABLE_GRID_COLOR = ThemeD.awtColor(GeoGebraColorConstants.TABLE_GRID_COLOR);
+	private static final Color TABLE_HEADER_COLOR = ThemeD.awtColor(GColorD.newColor(DataAnalysisViewD.TABLE_HEADER_COLOR));
 
 	/*************************************************
 	 * Construct a DataPanel
@@ -150,7 +152,7 @@ public class DataPanelD extends JPanel
 		btnEnableAll.setDisabledIcon(iconChecked);
 		btnEnableAll.setEnabled(false);
 		btnEnableAll.setBorderPainted(false);
-		btnEnableAll.setBackground(GColorD.getAwtColor(
+		btnEnableAll.setBackground(ThemeD.awtColor(
 				GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));
 		btnEnableAll.setContentAreaFilled(false);
 		btnEnableAll.setHorizontalAlignment(SwingConstants.LEFT);
@@ -508,7 +510,7 @@ public class DataPanelD extends JPanel
 
 				setBorder(BorderFactory.createCompoundBorder(
 						BorderFactory.createMatteBorder(0, 0, 1, 1,
-								GColorD.getAwtColor(
+								ThemeD.awtColor(
 										GeoGebraColorConstants.TABLE_GRID_COLOR)),
 						BorderFactory.createEmptyBorder(0, 5, 0, 2)));
 
@@ -619,7 +621,7 @@ public class DataPanelD extends JPanel
 			DataCheckBoxIcon cbIcon = new DataCheckBoxIcon(13);
 			BufferedImage image = new BufferedImage(13, 13,
 					(BufferedImage.TYPE_INT_ARGB));
-			ImageIcon icon = new ImageIcon(image);
+			ImageIcon icon = ThemeD.icon(image);
 			Graphics2D g2d = image.createGraphics();
 
 			CheckBoxIcon.paintIcon(checked, highlighted, new GGraphics2DD(g2d),

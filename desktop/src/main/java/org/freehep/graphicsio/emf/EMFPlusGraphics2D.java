@@ -46,6 +46,8 @@ import org.freehep.graphicsio.emf.gdiplus.SetClipPath;
 import org.freehep.graphicsio.emf.gdiplus.SetWorldTransform;
 import org.freehep.util.UserProperties;
 import org.freehep.util.Value;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 
 /**
  * Converts calls to Graphics2D to EMF+ Format.
@@ -193,7 +195,7 @@ public class EMFPlusGraphics2D extends AbstractVectorGraphicsIO {
 			os.writeTag(new Clear(getBackground()));
 		} else {
 			setBackground(getComponent() != null
-					? getComponent().getBackground() : Color.WHITE);
+					? getComponent().getBackground() : ThemeD.color(ColorKeys.BACKGROUND));
 			os.writeTag(new Clear(getBackground()));
 		}
 	}

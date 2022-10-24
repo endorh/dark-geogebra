@@ -12,7 +12,6 @@ the Free Software Foundation.
 
 package org.geogebra.desktop.gui.toolbar;
 
-import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.JList;
@@ -21,6 +20,8 @@ import javax.swing.ListCellRenderer;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -42,7 +43,7 @@ public class ModeCellRenderer extends DefaultTreeCellRenderer
 	 */
 	public ModeCellRenderer(AppD app) {
 		setOpaque(true);
-		setBackgroundNonSelectionColor(Color.white);
+		setBackgroundNonSelectionColor(ThemeD.color(ColorKeys.BACKGROUND));
 		this.app = app;
 	}
 
@@ -113,7 +114,7 @@ public class ModeCellRenderer extends DefaultTreeCellRenderer
 
 	private void handleSelection(boolean select) {
 		if (select) {
-			setBackground(AppD.COLOR_SELECTION);
+			setBackground(ThemeD.color(ColorKeys.BACKGROUND_SELECTED));
 		} else {
 			setBackground(getBackgroundNonSelectionColor());
 		}

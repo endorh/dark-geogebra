@@ -20,6 +20,8 @@ import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.color.ColorPopupMenuButton;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.gui.util.MyToggleButtonD;
 import org.geogebra.desktop.gui.util.PopupMenuButtonD;
@@ -197,7 +199,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 
 	private void applyTextColor(ArrayList<GeoElement> geos) {
 
-		Color color = GColorD.getAwtColor(btnTextColor.getSelectedColor());
+		Color color = ThemeD.awtColor(btnTextColor.getSelectedColor());
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
 			if (geo instanceof GeoCasCell) {
@@ -377,7 +379,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 			public ImageIcon getButtonIcon() {
 				return GeoGebraIconD.createTextSymbolIcon("A",
 						app.getPlainFont(), textColoriconHeight,
-						GColorD.getAwtColor(getSelectedColor()), null);
+						ThemeD.awtColor(getSelectedColor()), null);
 			}
 
 		};
@@ -388,7 +390,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 		// use as text button
 		ImageIcon useAsTextIcon = GeoGebraIconD.createStringIcon(
 				loc.getMenu("Text").substring(0, 1), app.getPlainFont(), true,
-				false, true, iconDimension, Color.black, null);
+				false, true, iconDimension, ThemeD.color(ColorKeys.FOREGROUND), null);
 		btnUseAsText = new MyToggleButtonD(useAsTextIcon, iconHeight) {
 
 			private static final long serialVersionUID = 1L;
@@ -407,7 +409,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 		// bold text button
 		ImageIcon boldIcon = GeoGebraIconD.createStringIcon(
 				loc.getMenu("Bold").substring(0, 1), app.getPlainFont(), true,
-				false, true, iconDimension, Color.black, null);
+				false, true, iconDimension, ThemeD.color(ColorKeys.FOREGROUND), null);
 		btnBold = new MyToggleButtonD(boldIcon, iconHeight) {
 
 			private static final long serialVersionUID = 1L;
@@ -432,7 +434,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 		// italic text button
 		ImageIcon italicIcon = GeoGebraIconD.createStringIcon(
 				loc.getMenu("Italic").substring(0, 1), app.getPlainFont(),
-				false, true, true, iconDimension, Color.black, null);
+				false, true, true, iconDimension, ThemeD.color(ColorKeys.FOREGROUND), null);
 		btnItalic = new MyToggleButtonD(italicIcon, iconHeight) {
 
 			private static final long serialVersionUID = 1L;

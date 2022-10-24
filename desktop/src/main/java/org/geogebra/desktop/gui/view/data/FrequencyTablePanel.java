@@ -3,13 +3,14 @@ package org.geogebra.desktop.gui.view.data;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.SystemColor;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
 
 import org.geogebra.common.kernel.statistics.AlgoFrequencyTable;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.main.AppD;
 
 public class FrequencyTablePanel extends JPanel implements StatPanelInterface {
@@ -31,7 +32,7 @@ public class FrequencyTablePanel extends JPanel implements StatPanelInterface {
 		this.add(statTable, BorderLayout.CENTER);
 
 		statTable.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0,
-				SystemColor.controlShadow));
+				ThemeD.color(ColorKeys.CONTROL_SHADOW)));
 		setBorder(BorderFactory.createEmptyBorder());
 
 	}

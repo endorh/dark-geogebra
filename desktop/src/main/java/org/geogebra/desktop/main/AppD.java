@@ -32,7 +32,6 @@ import java.awt.KeyboardFocusManager;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
-import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
@@ -98,10 +97,12 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.ListCellRenderer;
+import javax.swing.LookAndFeel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 
 import org.geogebra.common.GeoGebraConstants;
@@ -191,6 +192,7 @@ import org.geogebra.desktop.factories.CASFactoryD;
 import org.geogebra.desktop.factories.FactoryD;
 import org.geogebra.desktop.factories.LaTeXFactoryD;
 import org.geogebra.desktop.factories.UtilFactoryD;
+import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianView3DD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.MyImageD;
 import org.geogebra.desktop.gui.app.GeoGebraFrame;
@@ -204,6 +206,11 @@ import org.geogebra.desktop.gui.layout.DockBar;
 import org.geogebra.desktop.gui.layout.DockPanelD;
 import org.geogebra.desktop.gui.layout.LayoutD;
 import org.geogebra.desktop.gui.menubar.OptionsMenuController;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.InversionPreferences;
+import org.geogebra.desktop.gui.theme.ThemeD;
+import org.geogebra.desktop.gui.theme.ThemeImageIcon;
+import org.geogebra.desktop.gui.theme.ThemeInvertOptions;
 import org.geogebra.desktop.gui.toolbar.ToolbarContainer;
 import org.geogebra.desktop.gui.toolbar.ToolbarD;
 import org.geogebra.desktop.gui.util.ImageSelection;
@@ -330,11 +337,6 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 	/** Default icon size */
 	public static final int DEFAULT_ICON_SIZE = 32;
-
-	/**
-	 * made a little darker in ggb40 (problem showing on some projectors)
-	 */
-	public static final Color COLOR_SELECTION = new Color(210, 210, 225);
 
 	// ==============================================================
 	// MODEL & MANAGER fields
@@ -644,17 +646,26 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 				UIManager.setLookAndFeel(
 						UIManager.getCrossPlatformLookAndFeelClassName());
 			}
-		} catch (Exception e) {
+		} catch (ReflectiveOperationException | UnsupportedLookAndFeelException
+				| ClassCastException e) {
 			Log.debug(e + "");
 		}
 	}
 
-	/**
-	 * Toggles between the system LAF and the cross-platform LAF
-	 */
-	public static void toggleCrossPlatformLAF() {
-		setLAF(!UIManager.getLookAndFeel().isNativeLookAndFeel());
+	public static void setLAF(LookAndFeel laf) {
+		try {
+			UIManager.setLookAndFeel(laf);
+		} catch (UnsupportedLookAndFeelException e) {
+			Log.debug(e + "");
+		}
 	}
+
+	// /**
+	//  * Toggles between the system LAF and the cross-platform LAF
+	//  */
+	// public static void toggleCrossPlatformLAF() {
+	// 	setLAF(!UIManager.getLookAndFeel().isNativeLookAndFeel());
+	// }
 
 	/**
 	 * init factories
@@ -1776,6 +1787,26 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	// **************************************************************************
+	// THEME
+	// **************************************************************************
+
+	public ThemeD getTheme() {
+		return ThemeD.getTheme();
+	}
+
+	public void setTheme(ThemeD theme) {
+		ThemeD.setTheme(theme);
+		// Update everything
+		updateUI();
+		if (isEuclidianView3Dinited()) {
+			EuclidianView3DD view = ((EuclidianView3DD) getEuclidianView3D());
+			// Update applied background color
+			view.setBackground(view.getBackground());
+		}
+		repaintEuclidianViews(frame);
+	}
+
+	// **************************************************************************
 	// ICONS & IMAGES
 	// **************************************************************************
 
@@ -1865,28 +1896,15 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	public ImageIcon getScaledIcon(ImageResourceD res, Color borderColor) {
-		ImageIcon icon = imageManager.getImageIcon(res, borderColor);
-		return scaleIcon(icon, getScaledIconSize());
+		return imageManager.getImageIcon(res, borderColor, null, getScaledIconSize());
 	}
 
 	public ImageIcon getScaledIconCommon(ImageResourceD res) {
-		ImageIcon icon = imageManager.getImageIcon(res, null);
-		return scaleIcon(icon, getScaledIconSize());
+		return imageManager.getImageIcon(res, null, null, getScaledIconSize());
 	}
 
 	public ImageIcon getScaledIcon(ImageResourceD res, int iconSize) {
-		ImageIcon icon = imageManager.getImageIcon(res, null);
-		return scaleIcon(icon, iconSize);
-	}
-
-	private static ImageIcon scaleIcon(ImageIcon icon, int iconSize) {
-		if (icon == null || iconSize == 0) {
-			return null;
-		}
-		Image img = icon.getImage().getScaledInstance(iconSize, iconSize,
-				Image.SCALE_SMOOTH);
-		return new ImageIcon(img);
-
+		return imageManager.getImageIcon(res, null, null, iconSize);
 	}
 
 	public Image getScaledInternalImage(ImageResourceD fileName) {
@@ -1899,7 +1917,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 
 		ImageIcon icon = imageManager.getImageIcon(
 				imageManager.getToolImageResource(modeText), borderColor,
-				Color.WHITE);
+				ThemeD.color(ColorKeys.BACKGROUND));
 
 		/*
 		 * mathieu 2010-04-10 see ImageManager3D.getImageResourceGeoGebra() if
@@ -2007,7 +2025,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	public ImageIcon getModeIcon(int mode) {
 		ImageIcon icon;
 
-		Color border = Color.lightGray;
+		Color border = ThemeD.color(ColorKeys.OUTLINE_LIGHT);
 
 		// macro
 		if (mode >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
@@ -2022,7 +2040,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 				} else {
 					// use image as icon
 					int size = imageManager.getMaxIconSize();
-					icon = new ImageIcon(ImageManagerD.addBorder(img.getImage()
+					icon = ImageManagerD.createIcon(ImageManagerD.addBorder(img.getImage()
 							.getScaledInstance(size, -1, Image.SCALE_SMOOTH),
 							border, null));
 				}
@@ -2481,7 +2499,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			centerPanel = new JPanel(new BorderLayout());
 		}
 		centerPanel.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0,
-				SystemColor.controlShadow));
+				ThemeD.color(ColorKeys.CONTROL_SHADOW)));
 		updateCenterPanel(true);
 
 		// full GUI => use layout manager, add other GUI elements as requested
@@ -3009,7 +3027,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			Graphics2D g = image.createGraphics();
 			Graphics2D g2 = image2.createGraphics();
 
-			g.setColor(Color.white);
+			g.setColor(ThemeD.color(ColorKeys.BACKGROUND));
 			g.fillRect(0, 0, size, size);
 
 			// turn on anti-aliasing.
@@ -3020,7 +3038,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 			g.setColor(new Color(0.5f, 0f, 0f));
 			g.drawOval(3, 3, size - 7, size - 7);
 
-			g2.drawImage(image, 0, 0, Color.white, null);
+			g2.drawImage(image, 0, 0, ThemeD.color(ColorKeys.BACKGROUND), null);
 
 			for (int y = 0; y < size; y++) {
 				for (int x = 0; x < size; x++) {
@@ -4368,7 +4386,11 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 				ComponentEvent.COMPONENT_RESIZED);
 		getEuclidianView1().dispatchEvent(event);
 		getEuclidianView2(1).dispatchEvent(event);
-
+		if (guiManager.hasProbabilityCalculator()) {
+			// Also an EuclideanView
+			((GuiManagerD) guiManager).getProbabilityCalculator()
+					.getPlotPanel().dispatchEvent(event);
+		}
 	}
 
 	/**
@@ -5129,7 +5151,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	@Override
 	public String getModeIconBase64(int m) {
 		ImageIcon icon = getModeIcon(m);
-		Image img1 = icon.getImage();
+		Image img1 = ThemeImageIcon.getUnfilteredImage(icon);
 
 		BufferedImage img2 = ImageManagerD.toBufferedImage(img1);
 		return StringUtil.pngMarker + GgbAPID.base64encode(img2, 72);

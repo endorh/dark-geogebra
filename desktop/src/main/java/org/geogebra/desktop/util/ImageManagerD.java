@@ -27,7 +27,10 @@ import java.awt.Toolkit;
 import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
+import java.awt.image.FilteredImageSource;
+import java.awt.image.ImageProducer;
 import java.awt.image.PixelGrabber;
+import java.awt.image.RGBImageFilter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -45,6 +48,9 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.MyImageD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
+import org.geogebra.desktop.gui.theme.ThemeImageIcon;
 
 import com.himamis.retex.renderer.desktop.graphics.Base64;
 
@@ -60,7 +66,33 @@ public class ImageManagerD extends ImageManager {
 	private Hashtable<String, MyImageD> internalImageTable = new Hashtable<>();
 	private static Hashtable<String, MyImageD> externalImageTable = new Hashtable<>();
 
-	private Toolkit toolKit;
+	private static final RGBImageFilter INVERT_FILTER = new RGBImageFilter() {
+		@Override public int filterRGB(int x, int y, int argb) {
+			int r = (argb >> 16) & 0xFF;
+			int g = (argb >> 8) & 0xFF;
+			int b = argb & 0xFF;
+			float div = 2 * 1.24F;
+			int rr = 0xFF - (int) ((g + b) / div);
+			int gg = 0xFF - (int) ((r + b) / div);
+			int bb = 0xFF - (int) ((r + g) / div);
+			return argb & 0xFF_00_00_00 | rr << 16 | gg << 8 | bb;
+		}
+	};
+
+	private static final RGBImageFilter ICON_FILTER = new RGBImageFilter() {
+		@Override public int filterRGB(int x, int y, int argb) {
+			return ThemeD.getTheme().transformIconColor(argb);
+		}
+	};
+
+	private static final RGBImageFilter IMAGE_FILTER = new RGBImageFilter() {
+		@Override
+		public int filterRGB(int x, int y, int argb) {
+			return ThemeD.getTheme().transformImageColor(argb);
+		}
+	};
+
+	private static Toolkit toolKit = Toolkit.getDefaultToolkit();
 	private MediaTracker tracker;
 
 	private int maxIconSize = 64;// DEFAULT_ICON_SIZE;
@@ -69,12 +101,10 @@ public class ImageManagerD extends ImageManager {
 	 * Creates a new ImageManager for the given JFrame.
 	 */
 	public ImageManagerD(Component comp) {
-		toolKit = Toolkit.getDefaultToolkit();
 		tracker = new MediaTracker(comp);
 	}
 
 	public ImageManagerD() {
-		toolKit = Toolkit.getDefaultToolkit();
 		// for test code only
 	}
 
@@ -107,13 +137,23 @@ public class ImageManagerD extends ImageManager {
 
 	public ImageIcon getImageIcon(ImageResourceD fileName, Color borderColor,
 			Color background) {
-		ImageIcon icon = iconTable.get(fileName.getFilename());
+		return getImageIcon(fileName, borderColor, background, null);
+	}
+
+	public ImageIcon getImageIcon(ImageResourceD fileName, Color borderColor,
+			Color background, Integer size) {
+		String key = size + ":" + fileName.getFilename();
+		ImageIcon icon = iconTable.get(key);
 		if (icon == null) {
 			// load the icon
 			Image im = getImageResourceGeoGebra(fileName);
 			if (im != null) {
-				icon = new ImageIcon(addBorder(im, borderColor, background));
-				iconTable.put(fileName.getFilename(), icon);
+				if (size != null) {
+					im = im.getScaledInstance(size, size, Image.SCALE_SMOOTH);
+				}
+				im = addBorder(im, borderColor, background);
+				icon = ThemeD.icon(im);
+				iconTable.put(key, icon);
 			}
 		}
 		return icon;
@@ -129,13 +169,29 @@ public class ImageManagerD extends ImageManager {
 		BufferedImage bim = toBufferedImage(im);
 		Graphics g = bim.getGraphics();
 		if (background != null) {
-			g.setColor(Color.WHITE);
+			g.setColor(ThemeD.color(ColorKeys.BACKGROUND));
 			g.fillRect(0, 0, bim.getWidth() - 1, bim.getHeight() - 1);
 			g.drawImage(im, 0, 0, null);
 		}
 		g.setColor(borderColor);
 		g.drawRect(0, 0, bim.getWidth() - 1, bim.getHeight() - 1);
 		return bim;
+	}
+
+	public static ImageIcon createIcon(Image image) {
+		return ThemeD.icon(image);
+	}
+
+	public static ImageProducer addIconFilter(ImageProducer producer) {
+		return new FilteredImageSource(producer, ICON_FILTER);
+	}
+
+	public static Image addIconFilter(Image im) {
+		return toolKit.createImage(new FilteredImageSource(im.getSource(), ICON_FILTER));
+	}
+
+	public static ImageProducer addInvertFilter(ImageProducer source) {
+		return new FilteredImageSource(source, INVERT_FILTER);
 	}
 
 	/**
@@ -189,6 +245,14 @@ public class ImageManagerD extends ImageManager {
 		// Log.debug("retrieving filename = " + fileName);
 		MyImageD ret = externalImageTable.get(fileName);
 		// Log.debug("(ret == null)" + (ret == null));
+		return ret;
+	}
+
+	public static Image wrapImage(Image image) {
+		if (image == null) return null;
+		Image ret = toolKit.createImage(
+				new FilteredImageSource(image.getSource(), IMAGE_FILTER));
+		ret = new ImageIcon(ret).getImage();
 		return ret;
 	}
 
@@ -350,8 +414,9 @@ public class ImageManagerD extends ImageManager {
 		if (icon.getIconWidth() == width && icon.getIconHeight() == height) {
 			return icon;
 		}
-		Image scaledImage = getScaledImage(icon.getImage(), width, height);
-		return new ImageIcon(scaledImage);
+		Image scaledImage = getScaledImage(
+				ThemeImageIcon.getUnfilteredImage(icon), width, height);
+		return ThemeD.icon(scaledImage);
 	}
 
 	public static Image getScaledImage(Image img, int width, int height) {

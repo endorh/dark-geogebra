@@ -5,7 +5,6 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.Rectangle;
-import java.awt.SystemColor;
 
 import javax.swing.Icon;
 import javax.swing.JTabbedPane;
@@ -14,6 +13,9 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.plaf.TabbedPaneUI;
 import javax.swing.plaf.basic.BasicTabbedPaneUI;
+
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 
 /**
  * Tabbed pane with icons and a minimalistic appearance.
@@ -92,7 +94,7 @@ public class IconTabbedPane extends JTabbedPane {
 			tabInsets = new Insets(10, 10, 10, 10);
 			selectedTabPadInsets = new Insets(0, 0, 0, 0);
 
-			bgColor = Color.white;
+			bgColor = ThemeD.color(ColorKeys.BACKGROUND);
 			bgActiveColor = new Color(193, 210, 238);
 			bgHoverColor = new Color(224, 232, 246);
 		}
@@ -123,7 +125,7 @@ public class IconTabbedPane extends JTabbedPane {
 		@Override
 		protected void paintTabBorder(Graphics g, int tabPlacement,
 				int tabIndex, int x, int y, int w, int h, boolean isSelected) {
-			g.setColor(SystemColor.controlShadow);
+			g.setColor(ThemeD.color(ColorKeys.CONTROL_SHADOW));
 			g.drawLine(x, y, x, y + h - 1);
 			g.drawLine(x + w, y, x + w, y + h - 1);
 		}
@@ -156,7 +158,7 @@ public class IconTabbedPane extends JTabbedPane {
 		@Override
 		protected void paintTabArea(Graphics g, int tabPlacement,
 				int selectedIndex) {
-			g.setColor(Color.white);
+			g.setColor(ThemeD.color(ColorKeys.BACKGROUND));
 
 			g.fillRect(0, 0, tabPane.getBounds().width, calculateTabAreaHeight(
 					tabPlacement, runCount, maxTabHeight));
@@ -243,9 +245,9 @@ public class IconTabbedPane extends JTabbedPane {
 		@Override
 		protected void paintContentBorderTopEdge(Graphics g, int tabPlacement,
 				int selectedIndex, int x, int y, int w, int h) {
-			g.setColor(SystemColor.controlDkShadow);
+			g.setColor(ThemeD.color(ColorKeys.CONTROL_SHADOW));
 			g.drawLine(x, y, x + w, y);
-			g.setColor(SystemColor.controlLtHighlight);
+			g.setColor(ThemeD.color(ColorKeys.CONTROL_HIGHLIGHT));
 			g.drawLine(x, y + 1, x + w, y + 1);
 		}
 

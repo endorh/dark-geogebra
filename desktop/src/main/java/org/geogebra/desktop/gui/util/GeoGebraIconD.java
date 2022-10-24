@@ -31,6 +31,9 @@ import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.awt.GRectangleD;
 import org.geogebra.desktop.factories.AwtFactoryD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
+import org.geogebra.desktop.gui.theme.ThemeImageIcon;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.ImageResourceD;
 
@@ -57,7 +60,7 @@ public class GeoGebraIconD {
 
 		BufferedImage image = new BufferedImage(width, height,
 				BufferedImage.TYPE_INT_ARGB);
-		ImageIcon ic = new ImageIcon(image);
+		ImageIcon ic = ThemeD.icon(image);
 		return ic;
 	}
 
@@ -68,13 +71,13 @@ public class GeoGebraIconD {
 
 		Graphics2D g2 = createGraphics(image);
 
-		g2.setPaint(Color.GRAY);
+		g2.setPaint(ThemeD.color(ColorKeys.OUTLINE));
 		// draw a rectangle with an x inside
 		g2.drawRect(3, 3, width - 6, height - 6);
 		int k = 7;
 		g2.drawLine(k, k, width - k, height - k);
 		g2.drawLine(k, height - k, width - k, k);
-		ImageIcon ic = new ImageIcon(image);
+		ImageIcon ic = ThemeD.icon(image);
 		return ic;
 	}
 
@@ -91,7 +94,7 @@ public class GeoGebraIconD {
 				icon.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
 		icon.paintIcon(null, bufferedImage.createGraphics(), 0, 0);
 
-		return new ImageIcon(bufferedImage);
+		return ThemeD.icon(bufferedImage);
 	}
 
 	public static ImageIcon createHGridIcon(Dimension iconSize) {
@@ -104,7 +107,7 @@ public class GeoGebraIconD {
 		Graphics2D g2 = createGraphics(image);
 
 		// draw 3 horizontal lines
-		g2.setPaint(Color.GRAY);
+		g2.setPaint(ThemeD.color(ColorKeys.OUTLINE));
 		int gap = h / 4;
 		int margin = (h - 2 * gap) / 2;
 
@@ -114,7 +117,7 @@ public class GeoGebraIconD {
 			g2.drawLine(HGRID_MARGIN, y, h - HGRID_MARGIN, y);
 		}
 
-		ImageIcon ic = new ImageIcon(image);
+		ImageIcon ic = ThemeD.icon(image);
 		// ensureIconSize(ic, iconSize);
 
 		return ic;
@@ -130,7 +133,7 @@ public class GeoGebraIconD {
 		Graphics2D g2 = createGraphics(image);
 
 		// draw 3 horizontal lines
-		g2.setPaint(Color.GRAY);
+		g2.setPaint(ThemeD.color(ColorKeys.OUTLINE));
 		int gap = w / 4;
 		int margin = (w - 2 * gap) / 2;
 		for (int i = 0; i < 3; i++) {
@@ -139,7 +142,7 @@ public class GeoGebraIconD {
 			g2.drawLine(x, VGRID_MARGIN, x, h - VGRID_MARGIN);
 		}
 
-		ImageIcon ic = new ImageIcon(image);
+		ImageIcon ic = ThemeD.icon(image);
 		// ensureIconSize(ic, iconSize);
 
 		return ic;
@@ -163,7 +166,7 @@ public class GeoGebraIconD {
 
 		Graphics2D g2 = createGraphics(image);
 
-		g2.setPaint(Color.DARK_GRAY);
+		g2.setPaint(ThemeD.color(ColorKeys.OUTLINE_DARK));
 
 		for (int i = 3; i < 12; i = i + 2) {
 			g2.drawLine(6, i, 12, i);
@@ -174,7 +177,7 @@ public class GeoGebraIconD {
 			}
 		}
 
-		ImageIcon ic = new ImageIcon(image);
+		ImageIcon ic = ThemeD.icon(image);
 		// ensureIconSize(ic, iconSize);
 
 		return ic;
@@ -191,13 +194,13 @@ public class GeoGebraIconD {
 
 		Graphics2D g2 = createGraphics(image);
 
-		g2.setPaint(Color.DARK_GRAY);
+		g2.setPaint(ThemeD.color(ColorKeys.OUTLINE_DARK));
 
 		for (int i = 3; i <= 12; i = i + 2) {
 			g2.drawLine(1, i, 6, i);
 		}
 
-		g2.setPaint(Color.GRAY);
+		g2.setPaint(ThemeD.color(ColorKeys.OUTLINE));
 		g2.drawLine(10, 5, 10, 9);
 		g2.drawLine(9, 5, 9, 9);
 		g2.drawLine(8, 5, 8, 9);
@@ -206,7 +209,7 @@ public class GeoGebraIconD {
 			g2.drawLine(11 + i, 3 + i, 11 + i, 11 - i);
 		}
 
-		ImageIcon ic = new ImageIcon(image);
+		ImageIcon ic = ThemeD.icon(image);
 
 		return ic;
 	}
@@ -222,13 +225,13 @@ public class GeoGebraIconD {
 
 		Graphics2D g2 = createGraphics(image);
 
-		g2.setPaint(Color.DARK_GRAY);
+		g2.setPaint(ThemeD.color(ColorKeys.OUTLINE_DARK));
 
 		for (int i = 3; i <= 12; i = i + 2) {
 			g2.drawLine(10, i, 15, i);
 		}
 
-		g2.setPaint(Color.GRAY);
+		g2.setPaint(ThemeD.color(ColorKeys.OUTLINE));
 		g2.drawLine(8, 5, 8, 9);
 		g2.drawLine(7, 5, 7, 9);
 		g2.drawLine(6, 5, 6, 9);
@@ -237,7 +240,7 @@ public class GeoGebraIconD {
 			g2.drawLine(5 - i, 11 - i, 5 - i, 3 + i);
 		}
 
-		ImageIcon ic = new ImageIcon(image);
+		ImageIcon ic = ThemeD.icon(image);
 
 		return ic;
 	}
@@ -249,7 +252,7 @@ public class GeoGebraIconD {
 
 		Graphics2D g2 = createGraphics(image);
 
-		g2.setColor(Color.BLACK);
+		g2.setColor(ThemeD.color(ColorKeys.FOREGROUND));
 		int x = 1;
 		int y = height / 2 - 1;
 		g2.drawLine(x, y, x + 6, y);
@@ -257,7 +260,7 @@ public class GeoGebraIconD {
 		g2.drawLine(x + 2, y + 2, x + 4, y + 2);
 		g2.drawLine(x + 3, y + 3, x + 3, y + 3);
 
-		ImageIcon ic = new ImageIcon(image);
+		ImageIcon ic = ThemeD.icon(image);
 		return ic;
 	}
 
@@ -268,10 +271,10 @@ public class GeoGebraIconD {
 
 		Graphics2D g2 = createGraphics(image);
 
-		g2.setColor(Color.LIGHT_GRAY);
+		g2.setColor(ThemeD.color(ColorKeys.OUTLINE_LIGHT));
 		g2.fillOval(0, 0, width, height);
 
-		g2.setColor(Color.BLACK);
+		g2.setColor(ThemeD.color(ColorKeys.FOREGROUND));
 		int x = 1;
 		int y = height / 2 - 1;
 		g2.drawLine(x, y, x + 6, y);
@@ -279,7 +282,7 @@ public class GeoGebraIconD {
 		g2.drawLine(x + 2, y + 2, x + 4, y + 2);
 		g2.drawLine(x + 3, y + 3, x + 3, y + 3);
 
-		ImageIcon ic = new ImageIcon(image);
+		ImageIcon ic = ThemeD.icon(image);
 		return ic;
 	}
 
@@ -293,19 +296,19 @@ public class GeoGebraIconD {
 
 		Graphics2D g2 = createGraphics(image);
 
-		g2.setPaint(Color.DARK_GRAY);
+		g2.setPaint(ThemeD.color(ColorKeys.OUTLINE_DARK));
 
 		Font font = font0.deriveFont(Font.BOLD, s);
 		g2.setFont(font);
-		g2.setColor(Color.DARK_GRAY);
+		g2.setColor(ThemeD.color(ColorKeys.OUTLINE_DARK));
 		drawCenteredText(g2, alpha, s / 2 - 1, s / 2);
 
-		g2.setColor(Color.GRAY);
+		g2.setColor(ThemeD.color(ColorKeys.OUTLINE));
 		g2.drawRect(0, 0, s - 2, s - 2);
-		g2.setColor(Color.LIGHT_GRAY);
+		g2.setColor(ThemeD.color(ColorKeys.OUTLINE_LIGHT));
 		g2.drawLine(s - 1, 1, s - 1, s - 1);
 		g2.drawLine(1, s - 1, s - 1, s - 1);
-		ImageIcon ic = new ImageIcon(image);
+		ImageIcon ic = ThemeD.icon(image);
 		return ic;
 	}
 
@@ -357,15 +360,15 @@ public class GeoGebraIconD {
 
 		if (!isEnabled) {
 
-			ImageIcon ic = new ImageIcon(image);
+			ImageIcon ic = ThemeD.icon(image);
 			return ic;
 		}
 		if (isRollOver) {
-			g2.setColor(Color.LIGHT_GRAY);
+			g2.setColor(ThemeD.color(ColorKeys.OUTLINE_LIGHT));
 			g2.fillRect(0, 0, w - 1, h - 1);
 		}
 
-		g2.setColor(Color.GRAY);
+		g2.setColor(ThemeD.color(ColorKeys.OUTLINE));
 		// g2.drawRect(0, 0, w-1, h-1);
 
 		// g2.setColor(Color.LIGHT_GRAY);
@@ -373,9 +376,9 @@ public class GeoGebraIconD {
 		// g2.drawLine(1,h-1, w-1, h-1);
 
 		if (isRollOver) {
-			g2.setColor(Color.BLACK);
+			g2.setColor(ThemeD.color(ColorKeys.FOREGROUND));
 		} else {
-			g2.setColor(Color.DARK_GRAY);
+			g2.setColor(ThemeD.color(ColorKeys.OUTLINE_DARK));
 		}
 
 		int midx = w / 2;
@@ -402,7 +405,7 @@ public class GeoGebraIconD {
 		 * g2.drawLine(x+2, y+2, x+4, y+2); g2.drawLine(x+3, y+3, x+3, y+3);
 		 */
 
-		ImageIcon ic = new ImageIcon(image);
+		ImageIcon ic = ThemeD.icon(image);
 		return ic;
 	}
 
@@ -445,7 +448,7 @@ public class GeoGebraIconD {
 		g2.setStroke(new BasicStroke((float) thickness));
 		g2.drawRect(offset, offset, w - 2 * offset, h - 2 * offset);
 
-		ImageIcon ic = new ImageIcon(image);
+		ImageIcon ic = ThemeD.icon(image);
 		// ensureIconSize(ic, iconSize);
 
 		return ic;
@@ -474,7 +477,7 @@ public class GeoGebraIconD {
 		int mid = h / 2;
 		g2.drawLine(4, mid, w - 4, mid);
 
-		ImageIcon ic = new ImageIcon(image);
+		ImageIcon ic = ThemeD.icon(image);
 		// ensureIconSize(ic, iconSize);
 
 		return ic;
@@ -508,7 +511,7 @@ public class GeoGebraIconD {
 		g2.drawString(symbol, msg_x, msg_y - 2);
 		g2.fillRect(1, h - 5, w - 1, 3);
 
-		ImageIcon ic = new ImageIcon(image);
+		ImageIcon ic = ThemeD.icon(image);
 		// ensureIconSize(ic, iconSize);
 
 		return ic;
@@ -535,7 +538,7 @@ public class GeoGebraIconD {
 		g2.setColor(fgColor);
 		g2.drawRect(0, 3, 15, 9);
 
-		ImageIcon ic = new ImageIcon(image);
+		ImageIcon ic = ThemeD.icon(image);
 		// ensureIconSize(ic, iconSize);
 		return ic;
 	}
@@ -543,7 +546,7 @@ public class GeoGebraIconD {
 	public static ImageIcon createStringIcon(String str, Font font,
 			Dimension iconSize) {
 		return createStringIcon(str, font, false, false, true, iconSize,
-				Color.BLACK, null);
+				ThemeD.color(ColorKeys.FOREGROUND), null);
 	}
 
 	public static ImageIcon createStringIcon(String str, Font font0,
@@ -582,7 +585,7 @@ public class GeoGebraIconD {
 
 		g2.drawString(str, x, mid_y);
 
-		return new ImageIcon(image);
+		return ThemeD.icon(image);
 	}
 
 	public static ImageIcon createBracketIcon(String[] brackets, Font font0,
@@ -621,7 +624,7 @@ public class GeoGebraIconD {
 		int x = 2;
 		g2.drawString(brackets[0] + "::" + brackets[1], x, mid_y);
 
-		return new ImageIcon(image);
+		return ThemeD.icon(image);
 	}
 
 	/**
@@ -630,7 +633,7 @@ public class GeoGebraIconD {
 	public static ImageIcon createLatexIcon(AppD app, String latex, Font font,
 			Color fgColor, Color bgColor) {
 		app.getDrawEquation().checkFirstCall(app);
-		return new ImageIcon((BufferedImage) TeXFormula.createBufferedImage(
+		return ThemeD.icon((BufferedImage) TeXFormula.createBufferedImage(
 				latex, TeXConstants.STYLE_DISPLAY, font.getSize() + 3,
 				ColorD.get(fgColor), ColorD.get(bgColor)));
 	}
@@ -638,8 +641,7 @@ public class GeoGebraIconD {
 	public static ImageIcon createLatexIcon(AppD app, String latex,
 			Color fgColor, Color bgColor, int height) {
 		app.getDrawEquation().checkFirstCall(app);
-		ImageIcon ic = new ImageIcon(
-				(BufferedImage) TeXFormula.createBufferedImage(latex,
+		ImageIcon ic = ThemeD.icon((BufferedImage) TeXFormula.createBufferedImage(latex,
 						TeXConstants.STYLE_DISPLAY, height - 6,
 						ColorD.get(fgColor), ColorD.get(bgColor)));
 		ensureIconSize(ic, new Dimension(ic.getIconWidth(), height));
@@ -653,7 +655,7 @@ public class GeoGebraIconD {
 		PointStyleImage image = new PointStyleImage(iconSize, pointStyle,
 				pointSize, fgColor, bgColor);
 
-		ImageIcon ic = new ImageIcon(image);
+		ImageIcon ic = ThemeD.icon(image);
 		// ensureIconSize(ic, iconSize);
 
 		return ic;
@@ -922,7 +924,7 @@ public class GeoGebraIconD {
 		Graphics2D g2 = createGraphics(newImage);
 
 		try {
-			Image currentImage = icon.getImage();
+			Image currentImage = ThemeImageIcon.getUnfilteredImage(icon);
 			if (currentImage != null) {
 				g2.drawImage(currentImage, wInset, hInset, null);
 				icon.setImage(newImage);
@@ -988,11 +990,11 @@ public class GeoGebraIconD {
 		BufferedImage image = new BufferedImage(w1 + w2, h,
 				BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g2 = (Graphics2D) image.getGraphics();
-		g2.drawImage(leftIcon.getImage(), 0, mid - h1 / 2, null);
-		g2.drawImage(rightIcon.getImage(), w1, mid - h2 / 2, null);
+		g2.drawImage(ThemeImageIcon.getUnfilteredImage(leftIcon), 0, mid - h1 / 2, null);
+		g2.drawImage(ThemeImageIcon.getUnfilteredImage(rightIcon), w1, mid - h2 / 2, null);
 		g2.dispose();
 
-		ImageIcon ic = new ImageIcon(image);
+		ImageIcon ic = ThemeD.icon(image);
 		return ic;
 	}
 

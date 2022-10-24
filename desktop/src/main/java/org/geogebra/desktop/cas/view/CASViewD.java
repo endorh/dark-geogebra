@@ -1,7 +1,6 @@
 package org.geogebra.desktop.cas.view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -27,8 +26,9 @@ import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.GuiManagerD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.view.Gridable;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.CASDragGestureListener;
@@ -85,20 +85,20 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		scrollPane.setRowHeaderView(rowHeader);
 		scrollPane.setViewportView(consoleTable);
-		scrollPane.setBackground(Color.white);
+		 scrollPane.setBackground(ThemeD.color(ColorKeys.BACKGROUND));
 		scrollPane.setBorder(BorderFactory.createEmptyBorder());
 		// set the lower left corner so that the horizontal scroller looks good
 		JPanel p = new JPanel();
 		p.setBorder(BorderFactory.createMatteBorder(1, 0, 0, 1,
-				GColorD.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)));
-		p.setBackground(Color.white);
+				ThemeD.awtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)));
+		p.setBackground(ThemeD.color(ColorKeys.BACKGROUND));
 		scrollPane.setCorner(ScrollPaneConstants.LOWER_LEFT_CORNER, p);
 
 		// put the scrollpanel in
 		component.setLayout(new BorderLayout());
 		component.add(scrollPane, BorderLayout.CENTER);
 
-		component.setBackground(Color.white);
+		component.setBackground(ThemeD.color(ColorKeys.BACKGROUND));
 
 		getConsoleTable().getSelectionModel()
 				.addListSelectionListener(selectionListener());

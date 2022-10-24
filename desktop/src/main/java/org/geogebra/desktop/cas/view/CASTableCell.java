@@ -9,12 +9,13 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 
-import org.geogebra.common.awt.GColor;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -44,7 +45,7 @@ public abstract class CASTableCell extends JPanel {
 
 		setLayout(new BorderLayout(5, 5));
 		setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 5));
-		setBackground(Color.white);
+		setBackground(ThemeD.color(ColorKeys.BACKGROUND));
 
 		inputPanel = new CASInputPanel(app);
 		inputPanel.getInputArea().setColoringLabels(true);
@@ -141,10 +142,9 @@ public abstract class CASTableCell extends JPanel {
 		String input = cellValue.getInput(StringTemplate.numericDefault);
 		inputPanel.setInput(input);
 		if (cellValue.isUseAsText()) {
-			inputPanel.setCommentColor(
-					GColorD.getAwtColor(cellValue.getObjectColor()));
+			inputPanel.setCommentColor(GColorD.getAwtAlgebraColor(cellValue));
 		} else {
-			inputPanel.setCommentColor(GColorD.getAwtColor(GColor.BLACK));
+			inputPanel.setCommentColor(ThemeD.color(ColorKeys.TEXT));
 		}
 		outputPanel.setForeground(cellValue.getAlgebraColor());
 		dummyField.setText(inputPanel.getInput());

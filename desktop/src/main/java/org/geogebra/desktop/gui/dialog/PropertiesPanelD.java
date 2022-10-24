@@ -129,7 +129,6 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.color.GeoGebraColorChooser;
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 import org.geogebra.desktop.gui.inputfield.GeoGebraComboBoxEditor;
@@ -138,6 +137,7 @@ import org.geogebra.desktop.gui.properties.AnimationSpeedPanel;
 import org.geogebra.desktop.gui.properties.AnimationStepPanel;
 import org.geogebra.desktop.gui.properties.SliderPanelD;
 import org.geogebra.desktop.gui.properties.UpdateablePropertiesPanel;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.util.FullWidthLayout;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.gui.util.PopupMenuButtonD;
@@ -3975,7 +3975,7 @@ class ColorFunctionPanel extends JPanel
 
 	@Override
 	public void setDefaultValues(GeoElement geo) {
-		Color col = GColorD.getAwtColor(geo.getObjectColor());
+		Color col = ThemeD.awtColor(geo.getObjectColor());
 		defaultR = "" + col.getRed() / 255.0;
 		defaultG = "" + col.getGreen() / 255.0;
 		defaultB = "" + col.getBlue() / 255.0;

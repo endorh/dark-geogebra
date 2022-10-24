@@ -45,6 +45,8 @@ import org.geogebra.common.main.Localization;
 import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.color.GeoGebraColorChooser;
 import org.geogebra.desktop.gui.properties.UpdateablePropertiesPanel;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.util.GuiResourcesD;
 
 /**
@@ -212,7 +214,7 @@ class ColorPanel extends JPanel
 			int w = this.getWidth() - insets.left - insets.right;
 			int h = this.getHeight() - insets.top - insets.bottom;
 
-			g2.setPaint(Color.WHITE);
+			g2.setPaint(getBackground());
 			g.fillRect(insets.left, insets.top, w, h);
 
 			g2.setPaint(alphaFillColor);
@@ -222,7 +224,7 @@ class ColorPanel extends JPanel
 			g2.setStroke(new BasicStroke(3));
 			g.drawRect(insets.left + 3, insets.top + 3, w - 7, h - 7);
 
-			g2.setPaint(Color.LIGHT_GRAY);
+			g2.setPaint(ThemeD.color(ColorKeys.OUTLINE_LIGHT));
 			g2.setStroke(new BasicStroke(1));
 			g.drawRect(insets.left, insets.top, w - 1, h - 1);
 
@@ -420,8 +422,7 @@ class ColorPanel extends JPanel
 	public void stateChanged(ChangeEvent e) {
 
 		float alpha = opacitySlider.getValue() / 100.0f;
-		GColor color = GColorD
-				.newColor(this.propertiesPanelD.colChooser.getColor());
+		GColor color = this.propertiesPanelD.colChooser.getGColor();
 		if (e.getSource() == opacitySlider) {
 			model.applyChanges(color, alpha, true);
 		} else {
@@ -489,7 +490,7 @@ class ColorPanel extends JPanel
 
 		GeoElement geo0 = model.getGeoAt(0);
 		if (equalObjColorBackground) {
-			selectedBGColor = GColorD.getAwtColor(geo0.getBackgroundColor());
+			selectedBGColor = ThemeD.awtColor(geo0.getBackgroundColor());
 		}
 
 		if (isBackgroundColorSelected()) {
@@ -498,9 +499,9 @@ class ColorPanel extends JPanel
 			// set selectedColor if all selected geos have the same color
 			if (equalObjColor) {
 				if (allFillable) {
-					selectedColor = GColorD.getAwtColor(geo0.getFillColor());
+					selectedColor = ThemeD.awtColor(geo0.getFillColor());
 				} else {
-					selectedColor = GColorD.getAwtColor(geo0.getObjectColor());
+					selectedColor = ThemeD.awtColor(geo0.getObjectColor());
 				}
 			}
 		}
@@ -560,7 +561,7 @@ class ColorPanel extends JPanel
 	@Override
 	public void updatePreview(GColor col, double alpha) {
 		// update preview panel
-		Color color = GColorD.getAwtColor(col);
+		Color color = ThemeD.awtColor(col);
 		previewPanel.setPreview(color, alpha);
 		previewPanel
 				.setToolTipText(getToolTipText(propertiesPanelD.app, color));
@@ -577,7 +578,7 @@ class ColorPanel extends JPanel
 	public void updateNoBackground(GeoElement geo, GColor col, double alpha,
 			boolean updateAlphaOnly, boolean allFillable) {
 
-		Color color = GColorD.getAwtColor(col);
+		Color color = ThemeD.awtColor(col);
 		if (!updateAlphaOnly) {
 			if (isBarChart) {
 				updateBarsColorAndAlpha(geo, color, alpha, false);

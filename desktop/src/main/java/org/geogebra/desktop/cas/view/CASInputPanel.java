@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 
 import org.geogebra.desktop.gui.inputfield.AutoCompleteTextFieldD;
 import org.geogebra.desktop.gui.inputfield.KeyNavigation;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -29,7 +31,7 @@ public class CASInputPanel extends JPanel {
 	public CASInputPanel(AppD app) {
 		this.app = app;
 
-		setBackground(Color.white);
+		setBackground(ThemeD.color(ColorKeys.BACKGROUND));
 
 		setLayout(new BorderLayout(0, 0));
 

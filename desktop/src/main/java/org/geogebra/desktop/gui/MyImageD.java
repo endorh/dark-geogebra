@@ -27,6 +27,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.util.ImageManagerD;
 import org.geogebra.desktop.util.UtilD;
 
 import com.kitfox.svg.SVGCache;
@@ -155,7 +156,8 @@ public class MyImageD implements MyImageJre {
 	}
 
 	public Image getImage() {
-		return img;
+		// return img;
+		return ImageManagerD.wrapImage(img);
 	}
 
 	@Override

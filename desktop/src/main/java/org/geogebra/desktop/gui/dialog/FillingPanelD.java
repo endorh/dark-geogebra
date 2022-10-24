@@ -48,9 +48,9 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.properties.UpdateablePropertiesPanel;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.gui.util.PopupMenuButtonD;
 import org.geogebra.desktop.gui.util.SelectionTableD;
@@ -749,8 +749,8 @@ class FillingPanelD extends JPanel
 			setHorizontalAlignment(SwingConstants.CENTER);
 			super.setSelectedIndex(0);
 			this.setShowGrid(true);
-			this.setGridColor(GColorD
-					.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
+			this.setGridColor(ThemeD.awtColor(
+					GeoGebraColorConstants.TABLE_GRID_COLOR));
 			this.setBorder(
 					BorderFactory.createLineBorder(MyTableD.TABLE_GRID_COLOR));
 			this.setShowSelection(false);

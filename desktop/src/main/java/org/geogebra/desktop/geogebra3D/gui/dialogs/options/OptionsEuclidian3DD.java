@@ -24,7 +24,6 @@ import org.geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import org.geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.main.settings.EuclidianSettings;
-import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.geogebra3D.gui.GuiResources3D;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.dialog.options.AxisPanel;
@@ -659,8 +658,7 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD<EuclidianView3D> {
 		EuclidianSettings settings = view.getSettings();
 		GColor old = settings == null ? view.getBackground()
 				: settings.getBackground();
-		GColor color = GColorD.newColor(
-				((GuiManagerD) (app.getGuiManager())).showColorChooser(old));
+		GColor color = ((GuiManagerD) app.getGuiManager()).showColorChooser(old);
 
 		if (settings == null) {
 			view.setBackground(color);

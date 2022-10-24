@@ -33,6 +33,8 @@ import java.awt.Window;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import org.geogebra.desktop.gui.theme.ThemeD;
+
 /**
  * Splash Window to show an image during startup of an application.
  * <p>
@@ -101,6 +103,9 @@ public class SplashWindow extends Window {
 	public SplashWindow(Frame owner, Image splashImage, boolean canDispose) {
 		super(owner);
 		this.splashImage = splashImage;
+		if (ThemeD.getTheme().isDarkTheme()) {
+			setBackground(Color.DARK_GRAY);
+		}
 
 		// Load the image
 		MediaTracker mt = new MediaTracker(this);
@@ -160,7 +165,7 @@ public class SplashWindow extends Window {
 		g.drawImage(splashImage, 0, 0, this);
 
 		// Markus Hohenwarter (14. 4. 2006): add border to splashImage
-		g.setColor(Color.darkGray);
+		g.setColor(ThemeD.getTheme().isDarkTheme() ? Color.GRAY : Color.DARK_GRAY);
 		g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
 
 		// Notify method splash that the window

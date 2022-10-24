@@ -43,12 +43,12 @@ import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.util.AutoCompleteDictionary;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GFontD;
 import org.geogebra.desktop.euclidian.event.FocusListenerD;
 import org.geogebra.desktop.euclidian.event.KeyListenerD;
 import org.geogebra.desktop.gui.autocompletion.CommandCompletionListCellRenderer;
 import org.geogebra.desktop.gui.autocompletion.CompletionsPopup;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.main.AppD;
 
@@ -194,6 +194,19 @@ public class AutoCompleteTextFieldD extends MathTextField
 		setBorderButton(1, GeoGebraIconD.createUpDownTriangleIcon(false, true),
 				al);
 		this.setBorderButtonVisible(1, false);
+	}
+
+	@Override
+	public void updateUI() {
+		super.updateUI();
+
+		// Update popups too
+		if (completionsPopup != null) {
+			completionsPopup.updateUI();
+		}
+		if (historyPopup != null) {
+			historyPopup.updateUI();
+		}
 	}
 
 	@Override
@@ -965,13 +978,12 @@ public class AutoCompleteTextFieldD extends MathTextField
 
 	@Override
 	public void setForeground(GColor color) {
-		super.setForeground(GColorD.getAwtColor(color));
-
+		super.setForeground(ThemeD.awtColor(color));
 	}
 
 	@Override
 	public void setBackground(GColor color) {
-		super.setBackground(GColorD.getAwtColor(color));
+		super.setBackground(ThemeD.awtColor(color));
 	}
 
 	@Override
@@ -1003,8 +1015,10 @@ public class AutoCompleteTextFieldD extends MathTextField
 	public void requestFocus() {
 		super.requestFocus();
 		if (getDrawTextField() != null && getDrawTextField().hasError()) {
-			setBorder(BorderFactory.createDashedBorder(GColorD.getAwtColor(GColor.ERROR_RED),
+			setBorder(BorderFactory.createDashedBorder(ThemeD.awtColor(GColor.ERROR_RED),
 					4, 1, 1, true));
+		} else if (isCASInput) {
+			setBorder(BorderFactory.createEmptyBorder());
 		} else {
 			setDefaultBorder();
 		}
@@ -1045,16 +1059,16 @@ public class AutoCompleteTextFieldD extends MathTextField
 	@Override
 	public void drawBounds(GGraphics2D g2, GColor bgColor, int left, int top,
 			int width, int height) {
-		g2.setPaint(bgColor);
+		g2.setPaint(ThemeD.filterColor(bgColor));
 		g2.fillRect(left, top, width, height);
 
 		// TF Rectangle
 		if (drawTextField != null && drawTextField.hasError()) {
-			g2.setPaint(GColor.ERROR_RED);
+			g2.setPaint(ThemeD.filterColor(GColor.ERROR_RED));
 			g2.setStroke(EuclidianStatic.getStroke(2,
 					EuclidianStyleConstants.LINE_TYPE_DOTTED, GBasicStroke.JOIN_ROUND));
 		} else {
-			g2.setPaint(GColor.TEXT_PRIMARY);
+			g2.setPaint(ThemeD.filterColor(GColor.TEXT_PRIMARY));
 		}
 		g2.drawRect(left, top, width, height);
 	}

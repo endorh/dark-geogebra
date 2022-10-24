@@ -52,6 +52,8 @@ import org.geogebra.common.kernel.kernelND.ViewCreator;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.plugin.EventType;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -64,9 +66,9 @@ import org.geogebra.desktop.util.GuiResourcesD;
 public class ContextMenuGeoElementD extends ContextMenuGeoElement {
 
 	/** background color */
-	protected final static Color bgColor = Color.white;
+	protected final static Color bgColor = ThemeD.color(ColorKeys.BACKGROUND);
 	/** foreground color */
-	protected final static Color fgColor = Color.black;
+	protected final static Color fgColor = ThemeD.color(ColorKeys.FOREGROUND);
 	/** the actual menu */
 	protected JPopupMenu wrappedPopup;
 	/** localization */

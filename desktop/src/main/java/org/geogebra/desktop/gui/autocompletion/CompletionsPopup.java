@@ -85,6 +85,11 @@ public class CompletionsPopup {
 		registerListeners();
 	}
 
+	public void updateUI() {
+		popup.updateUI();
+		list.updateUI();
+	}
+
 	/**
 	 * Set the font to display the completions
 	 * 

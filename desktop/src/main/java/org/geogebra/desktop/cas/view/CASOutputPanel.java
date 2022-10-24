@@ -11,6 +11,8 @@ import javax.swing.JPanel;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.awt.GColorD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -25,8 +27,9 @@ public class CASOutputPanel extends JPanel {
 	/**
 	 * The text color of the output
 	 */
-	private static Color ERROR_COLOR = Color.red;
-	private static Color OUTPUT_PREFIX_COLOR = Color.gray;
+
+	private static Color ERROR_COLOR = ThemeD.color(ColorKeys.TEXT_ERROR);
+	private static Color OUTPUT_PREFIX_COLOR = ThemeD.color(ColorKeys.OUTLINE);
 
 	private JLabel outputSign;
 	private JLabel outputArea;
@@ -40,7 +43,7 @@ public class CASOutputPanel extends JPanel {
 	 */
 	public CASOutputPanel(AppD app) {
 		this.app = app;
-		setBackground(Color.white);
+		setBackground(ThemeD.color(ColorKeys.BACKGROUND));
 		setLayout(new BorderLayout(5, 0));
 
 		outputSign = new JLabel();
@@ -49,12 +52,12 @@ public class CASOutputPanel extends JPanel {
 		outputArea = new JLabel();
 		latexPanel = new LaTeXPanel(app);
 		// will be overwritten later
-		latexPanel.setForeground(Color.black);
-		latexPanel.setBackground(Color.white);
+		latexPanel.setForeground(ThemeD.color(ColorKeys.FOREGROUND));
+		latexPanel.setBackground(ThemeD.color(ColorKeys.BACKGROUND));
 
 		add(outputSign, app.getLocalization().borderWest());
 		centerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		centerPanel.setBackground(Color.white);
+		centerPanel.setBackground(ThemeD.color(ColorKeys.BACKGROUND));
 		centerPanel.add(outputArea);
 		centerPanel.add(latexPanel);
 		add(centerPanel, BorderLayout.CENTER);
@@ -65,8 +68,8 @@ public class CASOutputPanel extends JPanel {
 	 *            foreground color
 	 */
 	public void setForeground(GColor c) {
-		outputArea.setForeground(GColorD.getAwtColor(c));
-		latexPanel.setForeground(GColorD.getAwtColor(c));
+		outputArea.setForeground(GColorD.getAwtAlgebraColor(c));
+		latexPanel.setForeground(GColorD.getRawAwtColor(c));
 	}
 
 	/**

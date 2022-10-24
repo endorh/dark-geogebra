@@ -14,7 +14,13 @@ package org.geogebra.desktop.main;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.StringReader;
+import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import java.util.Locale;
+import java.util.Properties;
 import java.util.prefs.Preferences;
 
 import org.geogebra.common.GeoGebraConstants;
@@ -23,6 +29,7 @@ import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraPreferences;
 import org.geogebra.common.main.GeoGebraPreferencesXML;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.util.UtilD;
 
 /**
@@ -51,6 +58,7 @@ public class GeoGebraPreferencesD {
 			: (System.getProperty("user.home") + "/.GeoGebra"
 					+ GeoGebraConstants.SHORT_VERSION_STRING + "/prefs/");
 
+	public static final String WINDOWS_THEME_PREFS = PREFS_PATH + "theme.properties";
 	public static final String WINDOWS_USERS_PREFS = PREFS_PATH + "prefs.xml";
 	public static final String WINDOWS_OBJECTS_PREFS = PREFS_PATH
 			+ "defaults.xml";
@@ -603,6 +611,22 @@ public class GeoGebraPreferencesD {
 			ggbPrefs.flush();
 		} catch (Exception e) {
 			Log.debug(e + "");
+		}
+	}
+
+	public static void loadThemePreferences() {
+		String themeProperties = UtilD.loadFileIntoString(WINDOWS_THEME_PREFS);
+		if (themeProperties != null) {
+			ThemeD.loadThemeProperties(themeProperties);
+			Log.debug("Theme preferences loaded from " + WINDOWS_THEME_PREFS);
+		}
+	}
+
+	public static void saveThemePreferences() {
+		String themeProperties = ThemeD.saveThemeProperties();
+		if (themeProperties != null) {
+			UtilD.writeStringToFile(themeProperties, WINDOWS_THEME_PREFS);
+			Log.debug("Theme preferences saved to " + WINDOWS_THEME_PREFS);
 		}
 	}
 

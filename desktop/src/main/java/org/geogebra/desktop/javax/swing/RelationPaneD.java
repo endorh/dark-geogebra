@@ -1,7 +1,6 @@
 package org.geogebra.desktop.javax.swing;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -26,6 +25,8 @@ import org.geogebra.common.javax.swing.RelationPane;
 import org.geogebra.common.kernel.Relation;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -305,7 +306,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 		@Override
 		public Component getTableCellRendererComponent(JTable t, Object value,
 				boolean isSelected, boolean hasFocus, int row, int column) {
-			setForeground(Color.black);
+			setForeground(ThemeD.color(ColorKeys.FOREGROUND));
 			setBackground(UIManager.getColor("Label.background"));
 			setOpaque(true);
 			setText((value == null) ? "" : value.toString());
@@ -329,7 +330,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 		@Override
 		public Component getTableCellRendererComponent(JTable t, Object value,
 				boolean isSelected, boolean hasFocus, int row, int column) {
-			setForeground(Color.black);
+			setForeground(ThemeD.color(ColorKeys.FOREGROUND));
 			setBackground(UIManager.getColor("Label.background"));
 			setHorizontalAlignment(CENTER);
 			setOpaque(true);
@@ -365,7 +366,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 			this.row = r;
 			this.col = column;
 
-			button.setForeground(Color.black);
+			button.setForeground(ThemeD.color(ColorKeys.FOREGROUND));
 			button.setBackground(UIManager.getColor("Button.background"));
 
 			label = (value == null) ? "" : value.toString();

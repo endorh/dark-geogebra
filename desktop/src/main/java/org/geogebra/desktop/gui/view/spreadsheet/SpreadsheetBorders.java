@@ -9,7 +9,7 @@ import java.util.Set;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.view.spreadsheet.CellFormat;
-import org.geogebra.desktop.awt.GColorD;
+import org.geogebra.desktop.gui.theme.ThemeD;
 
 /**
  * Methods for drawing custom spreadsheet borders
@@ -28,7 +28,7 @@ public class SpreadsheetBorders {
 	 */
 	public static void drawFormatBorders(Graphics2D g2, MyTableD table) {
 
-		g2.setColor(GColorD.getAwtColor(GColor.BLACK));
+		g2.setColor(ThemeD.awtColor(GColor.BLACK));
 		g2.setStroke(new BasicStroke(1));
 
 		HashMap<GPoint, Object> map = table.getCellFormatHandler()

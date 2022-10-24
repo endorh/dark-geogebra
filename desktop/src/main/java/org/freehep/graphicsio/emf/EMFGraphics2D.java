@@ -68,6 +68,8 @@ import org.freehep.graphicsio.emf.gdi.TextW;
 import org.freehep.graphicsio.font.FontTable;
 import org.freehep.graphicsio.font.FontUtilities;
 import org.freehep.util.UserProperties;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 
 /**
  * Enhanced Metafile Format Graphics 2D driver.
@@ -275,7 +277,7 @@ public class EMFGraphics2D extends AbstractVectorGraphicsIO
 		} else {
 			os.writeTag(new SetBkMode(BKG_OPAQUE));
 			setBackground(getComponent() != null
-					? getComponent().getBackground() : Color.WHITE);
+					? getComponent().getBackground() : ThemeD.color(ColorKeys.BACKGROUND));
 			clearRect(0.0, 0.0, getSize().width, getSize().height);
 		}
 	}

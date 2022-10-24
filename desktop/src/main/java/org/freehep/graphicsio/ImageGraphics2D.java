@@ -38,6 +38,8 @@ import javax.imageio.stream.ImageOutputStream;
 import org.freehep.graphics2d.PixelGraphics2D;
 import org.freehep.util.UserProperties;
 import org.freehep.util.images.ImageUtilities;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 
 /**
  * Generic class for generating bitmap outputs from an image.
@@ -207,7 +209,7 @@ public class ImageGraphics2D extends PixelGraphics2D {
 			setBackground(getPropertyColor(formatKey + BACKGROUND_COLOR));
 		} else {
 			setBackground(component != null ? component.getBackground()
-					: Color.WHITE);
+					: ThemeD.color(ColorKeys.BACKGROUND));
 		}
 	}
 

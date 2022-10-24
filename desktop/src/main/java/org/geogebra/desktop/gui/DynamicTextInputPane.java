@@ -1,6 +1,5 @@
 package org.geogebra.desktop.gui;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -37,6 +36,8 @@ import org.geogebra.common.kernel.geos.GeoText;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.desktop.gui.dialog.TextInputDialogD;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.main.AppD;
 
 import com.himamis.retex.editor.share.util.Unicode;
@@ -69,7 +70,7 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 		super();
 		this.app = app;
 		thisPane = this;
-		setBackground(Color.white);
+		setBackground(ThemeD.color(ColorKeys.BACKGROUND_CONTROL));
 		doc = (DefaultStyledDocument) this.getDocument();
 		this.addKeyListener(new GeoGebraKeys());
 		this.addFocusListener(this);

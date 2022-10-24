@@ -24,6 +24,9 @@ import java.util.Map.Entry;
 import javax.swing.text.Element;
 import javax.swing.text.View;
 
+import org.geogebra.common.awt.GColor;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -63,19 +66,20 @@ public class GeoGebraContext extends ViewContext {
 
 	/* Tokens color */
 	static {
-		colorMap.put("Default", Color.black);
-		colorMap.put("Operator", Color.black);
-		colorMap.put("Constante", Color.black);
-		colorMap.put("Number", Color.black);
-		colorMap.put("OpenClose", Color.black);
-		colorMap.put("String", Color.black);
-		colorMap.put("Built-in function", Color.black);
-		colorMap.put("Function", Color.black);
-		colorMap.put("Unknown", Color.red);
-		colorMap.put("Command", Color.black);
-		colorMap.put("Variable", Color.black);
-		colorMap.put("White", Color.decode("#dcdcdc"));
-		colorMap.put("Tabulation", Color.decode("#dcdcdc"));
+		// FIXME: Add colors from theme
+		colorMap.put("Default", ThemeD.color(ColorKeys.TEXT));
+		colorMap.put("Operator", ThemeD.color(ColorKeys.TEXT));
+		colorMap.put("Constante", ThemeD.color(ColorKeys.TEXT));
+		colorMap.put("Number", ThemeD.color(ColorKeys.TEXT));
+		colorMap.put("OpenClose", ThemeD.color(ColorKeys.TEXT));
+		colorMap.put("String", ThemeD.color(ColorKeys.TEXT));
+		colorMap.put("Built-in function", ThemeD.color(ColorKeys.TEXT));
+		colorMap.put("Function", ThemeD.color(ColorKeys.TEXT));
+		colorMap.put("Unknown", ThemeD.color(ColorKeys.TEXT_ERROR));
+		colorMap.put("Command", ThemeD.color(ColorKeys.TEXT));
+		colorMap.put("Variable", ThemeD.color(ColorKeys.TEXT));
+		colorMap.put("White", ThemeD.awtColor(GColor.newColorRGB(0xdcdcdc)));
+		colorMap.put("Tabulation", ThemeD.awtColor(GColor.newColorRGB(0xdcdcdc)));
 	}
 
 	private static final Map<String, Integer> attribMap = new HashMap<>();

@@ -54,12 +54,12 @@ import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.NumberComboBox;
 import org.geogebra.desktop.gui.dialog.AxesStyleListRenderer;
 import org.geogebra.desktop.gui.dialog.DashListRenderer;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.util.FullWidthLayout;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolNavigationD;
@@ -602,7 +602,8 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 
 	@Override
 	public void updateAxes(GColor color, boolean isShown, boolean isBold) {
-		btAxesColor.setForeground(GColorD.getAwtColor(color));
+		btAxesColor.setForeground(
+				ThemeD.awtColor(color));
 		cbShowAxes.removeActionListener(this);
 		cbShowAxes.setSelected(isShown);
 		cbShowAxes.addActionListener(this);
@@ -615,7 +616,7 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 	@Override
 	public void updateGrid(GColor color, boolean isShown, boolean isBold,
 			int gridType) {
-		btGridColor.setForeground(GColorD.getAwtColor(color));
+		btGridColor.setForeground(ThemeD.awtColor(color));
 
 		cbShowGrid.removeActionListener(this);
 		cbShowGrid.setSelected(isShown);
@@ -633,7 +634,7 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 	@Override
 	public void updateGUI() {
 		btBackgroundColor
-				.setForeground(GColorD.getAwtColor(view.getBackgroundCommon()));
+				.setForeground(ThemeD.awtColor(view.getBackgroundCommon()));
 		cbTooltips.removeActionListener(this);
 		cbAxesStyle.removeActionListener(this);
 		cbGridStyle.removeActionListener(this);
@@ -777,14 +778,12 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 		if (source == btBackgroundColor) {
 			actionBtBackgroundColor();
 		} else if (source == btAxesColor) {
-			model.applyAxesColor(
-					GColorD.newColor(((GuiManagerD) app.getGuiManager())
-							.showColorChooser(view.getAxesColor())));
+			model.applyAxesColor(((GuiManagerD) app.getGuiManager())
+					.showColorChooser(view.getAxesColor()));
 
 		} else if (source == btGridColor) {
-			model.applyGridColor(
-					GColorD.newColor(((GuiManagerD) (app.getGuiManager()))
-							.showColorChooser(view.getGridColor())));
+			model.applyGridColor(((GuiManagerD) app.getGuiManager())
+					.showColorChooser(view.getGridColor()));
 
 		} else if (source == cbTooltips) {
 			model.applyTooltipMode(cbTooltips.getSelectedIndex());
@@ -1139,9 +1138,8 @@ public class OptionsEuclidianD<T extends EuclidianView> extends OptionsEuclidian
 
 	@Override
 	public GColor getEuclidianBackground(int viewNumber) {
-		return GColorD.newColor(((GuiManagerD) (app.getGuiManager()))
-				.showColorChooser(app.getSettings().getEuclidian(viewNumber)
-						.getBackground()));
+		return ((GuiManagerD) app.getGuiManager())
+				.showColorChooser(app.getSettings().getEuclidian(viewNumber).getBackground());
 	}
 
 	@Override

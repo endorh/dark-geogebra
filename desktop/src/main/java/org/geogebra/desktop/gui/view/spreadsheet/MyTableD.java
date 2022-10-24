@@ -53,8 +53,9 @@ import org.geogebra.common.main.OptionType;
 import org.geogebra.common.main.settings.SpreadsheetSettings;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.GuiManagerD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.virtualkeyboard.VirtualKeyboardD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -67,18 +68,12 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	public static final int DOT_SIZE = 7;
 	public static final int LINE_THICKNESS1 = 3;
 	public static final int LINE_THICKNESS2 = 2;
-	public static final Color SELECTED_BACKGROUND_COLOR = GColorD.getAwtColor(
-			GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR);
-	public static final Color SELECTED_BACKGROUND_COLOR_HEADER = GColorD
-			.getAwtColor(
-					GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR_HEADER);
-	public static final Color BACKGROUND_COLOR_HEADER = GColorD
-			.getAwtColor(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER);
-	public static final Color TABLE_GRID_COLOR = GColorD
-			.getAwtColor(GeoGebraColorConstants.GRAY2);
-	public static final Color HEADER_GRID_COLOR = GColorD
-			.getAwtColor(GeoGebraColorConstants.GRAY4);
-	public static final Color SELECTED_RECTANGLE_COLOR = Color.BLUE;
+	public static final Color SELECTED_BACKGROUND_COLOR = ThemeD.awtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR);
+	public static final Color SELECTED_BACKGROUND_COLOR_HEADER = ThemeD.awtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR_HEADER);
+	public static final Color BACKGROUND_COLOR_HEADER = ThemeD.awtColor(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER);
+	public static final Color TABLE_GRID_COLOR = ThemeD.awtColor(GeoGebraColorConstants.GRAY2);
+	public static final Color HEADER_GRID_COLOR = ThemeD.awtColor(GeoGebraColorConstants.GRAY4);
+	public static final Color SELECTED_RECTANGLE_COLOR = ThemeD.color(ColorKeys.SELECTION);
 
 	protected Kernel kernel;
 	protected AppD app;
@@ -231,7 +226,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 		setShowGrid(true);
 		setGridColor(TABLE_GRID_COLOR);
 		setSelectionBackground(SELECTED_BACKGROUND_COLOR);
-		setSelectionForeground(Color.BLACK);
+		setSelectionForeground(ThemeD.color(ColorKeys.TEXT_SELECTED));
 
 		// add cell renderer & editors
 		setDefaultRenderer(Object.class, new MyCellRendererD(this));
@@ -1170,7 +1165,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 		// draw special target cell frame
 		if (targetcellFrame != null) {
-			g2.setColor(GColorD.getAwtColor(GeoGebraColorConstants.DARKBLUE));
+			g2.setColor(ThemeD.awtColor(GeoGebraColorConstants.DARKBLUE));
 			g2.setStroke(dashed);
 			g2.draw(targetcellFrame);
 		}
@@ -1192,7 +1187,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 			int y1 = point1.getY();
 			int x2 = point2.getX();
 			int y2 = point2.getY();
-			graphics.setColor(Color.GRAY);
+			graphics.setColor(ThemeD.color(ColorKeys.OUTLINE));
 			// Application.debug(x1 + "," + y1 + "," + x2 + "," + y2);
 			graphics.fillRect(x1, y1, x2 - x1, LINE_THICKNESS1);
 			graphics.fillRect(x1, y1, LINE_THICKNESS1, y2 - y1);
@@ -1215,7 +1210,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 			// -|1|-
 			// 2|-|3
 			// -|4|-
-			graphics.setColor(Color.gray);
+			graphics.setColor(ThemeD.color(ColorKeys.OUTLINE));
 			if (dragingToColumn < minSelectionColumn) { // 2
 				GPoint point1 = getPixel(dragingToColumn, minSelectionRow,
 						true);
@@ -1280,7 +1275,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 			if (showCanDragBlueDot()) {
 				// Highlight the dragging dot if mouseover
 				if (isOverDot) {
-					graphics.setColor(Color.gray);
+					graphics.setColor(ThemeD.color(ColorKeys.OUTLINE));
 				} else
 				// {graphics.setColor(Color.BLUE);}
 				{
@@ -1762,7 +1757,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 			// Clear the targetcellFrame and ensure the selection rectangle
 			// color is standard
 			targetcellFrame = null;
-			this.setSelectionRectangleColor(Color.BLUE);
+			this.setSelectionRectangleColor(ThemeD.color(ColorKeys.SELECTION));
 		}
 
 		this.tableMode = tableMode;
@@ -1810,7 +1805,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 
 			// Change the selection frame color to gray
 			// and clear the current selection
-			setSelectionRectangleColor(Color.GRAY);
+			setSelectionRectangleColor(ThemeD.color(ColorKeys.OUTLINE));
 			minSelectionColumn = -1;
 			maxSelectionColumn = -1;
 			minSelectionRow = -1;

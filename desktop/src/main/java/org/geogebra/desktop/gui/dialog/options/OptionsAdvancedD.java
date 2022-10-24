@@ -1,6 +1,7 @@
 package org.geogebra.desktop.gui.dialog.options;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -9,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import javax.swing.BorderFactory;
@@ -24,6 +26,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
@@ -40,11 +43,17 @@ import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.desktop.gui.GuiManagerD;
+import org.geogebra.desktop.gui.theme.InversionPreferences;
+import org.geogebra.desktop.gui.theme.ThemeD;
+import org.geogebra.desktop.gui.theme.ThemeInvertOptions;
 import org.geogebra.desktop.gui.util.FullWidthLayout;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.GeoGebraPreferencesD;
 import org.geogebra.desktop.main.KeyboardSettings;
 import org.geogebra.desktop.main.LocalizationD;
+
+import com.formdev.flatlaf.util.SwingUtils;
 
 /**
  * Advanced options for the options dialog.
@@ -66,18 +75,20 @@ public class OptionsAdvancedD implements OptionPanelD,
 
 	private JPanel virtualKeyboardPanel, guiFontsizePanel, tooltipPanel,
 			languagePanel, angleUnitPanel, continuityPanel,
-			usePathAndRegionParametersPanel, rightAnglePanel, coordinatesPanel;
+			usePathAndRegionParametersPanel, rightAnglePanel, coordinatesPanel,
+			themePanel;
 
 	private JLabel keyboardLanguageLabel, guiFontSizeLabel, widthLabel,
 			heightLabel, opacityLabel, tooltipLanguageLabel,
-			tooltipTimeoutLabel;
+			tooltipTimeoutLabel, themeLabel, invertStrengthLabel,
+			minBrightnessLabel, maxBrightnessLabel;
 
 	private JComboBox<String> cbKeyboardLanguage, cbTooltipLanguage,
 			cbTooltipTimeout,
-			cbGUIFont;
+			cbGUIFont, cbTheme;
 
 	private JCheckBox cbKeyboardShowAutomatic, cbUseLocalDigits,
-			cbUseLocalLabels;
+			cbUseLocalLabels, cbInvertIcons, cbInvertImages, cbInvertColors;
 
 	private JRadioButton angleUnitRadioDegree, angleUnitRadioRadian,
 			angleUnitRadioDegreesMinutesSeconds,
@@ -91,7 +102,8 @@ public class OptionsAdvancedD implements OptionPanelD,
 			usePathAndRegionParametersButtonGroup, rightAngleButtonGroup,
 			coordinatesButtonGroup;
 
-	private JTextField tfKeyboardWidth, tfKeyboardHeight;
+	private JTextField tfKeyboardWidth, tfKeyboardHeight,
+			tfInvertStrength, tfMinBrightness, tfMaxBrightness;
 
 	private JSlider slOpacity;
 
@@ -139,6 +151,7 @@ public class OptionsAdvancedD implements OptionPanelD,
 		initUsePathAndRegionParametersPanel();
 		initRightAnglePanel();
 		initCoordinatesPanel();
+		initThemePanel();
 
 		JPanel panel = new JPanel();
 		panel.setLayout(new FullWidthLayout());
@@ -154,6 +167,7 @@ public class OptionsAdvancedD implements OptionPanelD,
 		panel.add(tooltipPanel);
 		panel.add(languagePanel);
 		// panel.add(perspectivesPanel);
+		panel.add(themePanel);
 
 		panel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
 		JScrollPane scrollPane = new JScrollPane(panel);
@@ -410,6 +424,51 @@ public class OptionsAdvancedD implements OptionPanelD,
 		coordinatesButtonGroup.add(coordinatesRadio3);
 	}
 
+	private void initThemePanel() {
+		themePanel = new JPanel();
+		themePanel.setLayout(new BoxLayout(themePanel, BoxLayout.Y_AXIS));
+
+		themeLabel = new JLabel();
+		themePanel.add(LayoutUtil.flowPanel(themeLabel));
+		List<ThemeD> themes = ThemeD.getAvailableThemes();
+		String[] names = themes.stream().map(ThemeD::getName).toArray(String[]::new);
+		cbTheme = new JComboBox<>(names);
+		cbTheme.addActionListener(this);
+		themePanel.add(LayoutUtil.flowPanel(cbTheme));
+
+		cbInvertColors = new JCheckBox();
+		cbInvertColors.addActionListener(this);
+		cbInvertIcons = new JCheckBox();
+		cbInvertIcons.addActionListener(this);
+		cbInvertImages = new JCheckBox();
+		cbInvertImages.addActionListener(this);
+		themePanel.add(LayoutUtil.flowPanel(hStrut(20), cbInvertColors));
+		themePanel.add(LayoutUtil.flowPanel(hStrut(20), cbInvertIcons));
+		themePanel.add(LayoutUtil.flowPanel(hStrut(20), cbInvertImages));
+
+		invertStrengthLabel = new JLabel();
+		tfInvertStrength = new JTextField(4);
+		tfInvertStrength.addFocusListener(this);
+		themePanel.add(LayoutUtil.flowPanel(
+				invertStrengthLabel, hStrut(20), tfInvertStrength));
+
+		minBrightnessLabel = new JLabel();
+		tfMinBrightness = new JTextField(4);
+		tfMinBrightness.addFocusListener(this);
+		themePanel.add(LayoutUtil.flowPanel(
+				minBrightnessLabel, hStrut(20), tfMinBrightness));
+
+		maxBrightnessLabel = new JLabel();
+		tfMaxBrightness = new JTextField(4);
+		tfMaxBrightness.addFocusListener(this);
+		themePanel.add(LayoutUtil.flowPanel(
+				maxBrightnessLabel, hStrut(20), tfMaxBrightness));
+	}
+
+	private static Component hStrut(int width) {
+		return Box.createHorizontalStrut(width);
+	}
+
 	/**
 	 * Update the user interface, ie change selected values.
 	 * 
@@ -488,6 +547,17 @@ public class OptionsAdvancedD implements OptionPanelD,
 		cbTooltipTimeout.addActionListener(this);
 
 		updateTooltipLanguages();
+
+		ThemeD theme = ThemeD.getTheme();
+		InversionPreferences inversionPreferences = theme.getInversionPreferences();
+		ThemeInvertOptions invertOptions = inversionPreferences.getOptions();
+		cbTheme.setSelectedItem(theme.getName());
+		cbInvertColors.setSelected(inversionPreferences.isInvertColors());
+		cbInvertIcons.setSelected(inversionPreferences.isInvertIcons());
+		cbInvertImages.setSelected(inversionPreferences.isInvertImages());
+		tfInvertStrength.setText(String.valueOf(invertOptions.getInvertStrength()));
+		tfMinBrightness.setText(String.valueOf(invertOptions.getMinBrightness()));
+		tfMaxBrightness.setText(String.valueOf(invertOptions.getMaxBrightness()));
 	}
 
 	// needed updating things on the reset defaults button
@@ -656,6 +726,26 @@ public class OptionsAdvancedD implements OptionPanelD,
 					cbKeyboardShowAutomatic.isSelected());
 		} else if (source == tfKeyboardWidth || source == tfKeyboardHeight) {
 			changeWidthOrHeight(source);
+		} else if (source == cbTheme) {
+			app.setTheme(ThemeD.getTheme((String) cbTheme.getSelectedItem()));
+			// Load theme settings
+			updateGUI();
+			GeoGebraPreferencesD.saveThemePreferences();
+		} else if (source == cbInvertColors) {
+			ThemeD theme = ThemeD.getTheme();
+			theme.getInversionPreferences().setInvertColors(cbInvertColors.isSelected());
+			app.setTheme(theme);
+			GeoGebraPreferencesD.saveThemePreferences();
+		} else if (source == cbInvertIcons) {
+			ThemeD theme = ThemeD.getTheme();
+			theme.getInversionPreferences().setInvertIcons(cbInvertIcons.isSelected());
+			app.setTheme(theme);
+			GeoGebraPreferencesD.saveThemePreferences();
+		} else if (source == cbInvertImages) {
+			ThemeD theme = ThemeD.getTheme();
+			theme.getInversionPreferences().setInvertImages(cbInvertImages.isSelected());
+			app.setTheme(theme);
+			GeoGebraPreferencesD.saveThemePreferences();
 		} else {
 			handleEVOption(source);
 			app.getEuclidianView1().updateAllDrawables(true);
@@ -709,6 +799,7 @@ public class OptionsAdvancedD implements OptionPanelD,
 	public void focusLost(FocusEvent e) {
 
 		changeWidthOrHeight(e.getSource());
+		changeThemeSettings(e.getSource());
 	}
 
 	private void changeWidthOrHeight(Object source) {
@@ -733,6 +824,48 @@ public class OptionsAdvancedD implements OptionPanelD,
 			}
 		}
 
+	}
+
+	private void changeThemeSettings(Object source) {
+		ThemeD theme = ThemeD.getTheme();
+		ThemeInvertOptions options = theme.getInversionPreferences().getOptions();
+		if (source == tfInvertStrength) {
+			try {
+				float strength = Float.parseFloat(tfInvertStrength.getText());
+				if (Float.compare(strength, options.getInvertStrength()) != 0) {
+					options.setInvertStrength(strength);
+					app.setTheme(theme);
+					GeoGebraPreferencesD.saveThemePreferences();
+				}
+			} catch (NumberFormatException ignored) {
+				app.showError(Errors.InvalidInput, tfInvertStrength.getText());
+				tfInvertStrength.setText(String.valueOf(options.getInvertStrength()));
+			}
+		} else if (source == tfMinBrightness) {
+			try {
+				float minBrightness = Float.parseFloat(tfMinBrightness.getText());
+				if (Float.compare(minBrightness, options.getMinBrightness()) != 0) {
+					options.setMinBrightness(minBrightness);
+					app.setTheme(theme);
+					GeoGebraPreferencesD.saveThemePreferences();
+				}
+			} catch (NumberFormatException ignored) {
+				app.showError(Errors.InvalidInput, tfMinBrightness.getText());
+				tfMinBrightness.setText(String.valueOf(options.getMinBrightness()));
+			}
+		} else if (source == tfMaxBrightness) {
+			try {
+				float maxBrightness = Float.parseFloat(tfMaxBrightness.getText());
+				if (Float.compare(maxBrightness, options.getMaxBrightness()) != 0) {
+					options.setMaxBrightness(maxBrightness);
+					app.setTheme(theme);
+					GeoGebraPreferencesD.saveThemePreferences();
+				}
+			} catch (NumberFormatException ignored) {
+				app.showError(Errors.InvalidInput, tfMaxBrightness.getText());
+				tfMaxBrightness.setText(String.valueOf(options.getMaxBrightness()));
+			}
+		}
 	}
 
 	/**
@@ -793,6 +926,14 @@ public class OptionsAdvancedD implements OptionPanelD,
 		coordinatesRadio1.setText(loc.getMenu("A = (x, y)"));
 		coordinatesRadio2.setText(loc.getMenu("A(x | y)"));
 		coordinatesRadio3.setText(loc.getMenu("A: (x, y)"));
+
+		themePanel.setBorder(LayoutUtil.titleBorder(loc.getMenu("Theme")));
+		cbInvertColors.setText(loc.getMenu("InvertColors"));
+		cbInvertIcons.setText(loc.getMenu("InvertIcons"));
+		cbInvertImages.setText(loc.getMenu("InvertImages"));
+		invertStrengthLabel.setText(loc.getMenu("InvertStrength"));
+		minBrightnessLabel.setText(loc.getMenu("MinBrightness"));
+		maxBrightnessLabel.setText(loc.getMenu("MaxBrightness"));
 
 		// perspectivesPanel.setBorder(LayoutUtil.titleBorder(app
 		// .getMenu("Perspectives")));

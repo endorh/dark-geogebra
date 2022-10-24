@@ -46,6 +46,7 @@ import org.geogebra.desktop.gui.menubar.GeoGebraMenuBar;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
 import org.geogebra.desktop.util.GuiResourcesD;
+import org.geogebra.desktop.util.ImageManagerD;
 
 /**
  * Navigation buttons for the construction protocol
@@ -173,7 +174,7 @@ public class ConstructionProtocolNavigationD
 		playPanel.setVisible(showPlayButton);
 		playPanel.add(Box.createRigidArea(new Dimension(20, 10)));
 		btPlay = new JButton();
-		btPlay.setIcon(new ImageIcon(appD.getPlayImage()));
+		btPlay.setIcon(ImageManagerD.createIcon(appD.getPlayImage()));
 		btPlay.addActionListener(this);
 
 		spDelay.addChangeListener(new ChangeListener() {
@@ -308,13 +309,13 @@ public class ConstructionProtocolNavigationD
 
 	@Override
 	public void setButtonPlay() {
-		btPlay.setIcon(new ImageIcon(((AppD) app).getPlayImage()));
+		btPlay.setIcon(ImageManagerD.createIcon(((AppD) app).getPlayImage()));
 		btPlay.setText(loc.getMenu("Play"));
 	}
 
 	@Override
 	public void setButtonPause() {
-		btPlay.setIcon(new ImageIcon(((AppD) app).getPauseImage()));
+		btPlay.setIcon(ImageManagerD.createIcon(((AppD) app).getPauseImage()));
 		btPlay.setText(loc.getMenu("Pause"));
 	}
 

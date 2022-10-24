@@ -18,6 +18,8 @@ import javax.swing.JSplitPane;
 import javax.swing.SwingUtilities;
 
 import org.geogebra.common.gui.layout.DockComponent;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 
 /**
  * Glass pane is used to draw the drag-preview area on the panels if the user
@@ -40,9 +42,9 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 
 	private Color color;
 
-	private static final Color COLOR_DEFAULT = Color.gray;
-	private static final Color COLOR_NOT_ENOUGH_SPACE = COLOR_DEFAULT;// Color.red;
-	private static final Color COLOR_SAME_PLACE = Color.white;
+	private static final Color COLOR_DEFAULT = ThemeD.color(ColorKeys.OUTLINE);
+	private static final Color COLOR_NOT_ENOUGH_SPACE = ThemeD.color(ColorKeys.TEXT_ERROR);
+	private static final Color COLOR_SAME_PLACE = ThemeD.color(ColorKeys.BACKGROUND);
 
 	public DockGlassPane(DockManagerD dockManager) {
 		this.dockManager = dockManager;
@@ -137,10 +139,10 @@ public class DockGlassPane extends JPanel implements AWTEventListener {
 		Graphics2D g2d = (Graphics2D) g;
 
 		g2d.setStroke(stroke);
-		g2d.setColor(color);
+		g2d.setColor(new Color(color.getRed(), color.getGreen(), color.getBlue(), 128));
 
 		// draw the preview rectangle
-		g2d.drawRect(previewRect.x, previewRect.y, previewRect.width,
+		g2d.fillRect(previewRect.x, previewRect.y, previewRect.width,
 				previewRect.height);
 	}
 

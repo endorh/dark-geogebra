@@ -38,6 +38,8 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.desktop.export.PrintPreviewD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.util.FullWidthLayout;
 import org.geogebra.desktop.main.AppD;
 
@@ -60,28 +62,21 @@ public class DataAnalysisViewD extends JPanel
 	private DataAnalysisStyleBar stylebar;
 
 	// colors
-	public static final Color TABLE_GRID_COLOR = org.geogebra.desktop.awt.GColorD
-			.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR);
-	public static final Color TABLE_HEADER_COLOR = new Color(240, 240, 240);
-	public static final Color HISTOGRAM_COLOR = org.geogebra.desktop.awt.GColorD
-			.getAwtColor(GColor.BLUE);
-	public static final Color BOXPLOT_COLOR = org.geogebra.desktop.awt.GColorD
-			.getAwtColor(GeoGebraColorConstants.GGB_RED);
-	public static final Color BARCHART_COLOR = org.geogebra.desktop.awt.GColorD
-			.getAwtColor(GeoGebraColorConstants.GGB_GREEN);
+	public static final Color TABLE_GRID_COLOR = ThemeD.awtColor(GeoGebraColorConstants.TABLE_GRID_COLOR);
+	public static final Color TABLE_HEADER_COLOR = ThemeD.awtColor(GColor.newColor(240, 240, 240));
+	public static final Color HISTOGRAM_COLOR = ThemeD.awtColor(GColor.BLUE);
+	public static final Color BOXPLOT_COLOR = ThemeD.awtColor(GeoGebraColorConstants.GGB_RED);
+	public static final Color BARCHART_COLOR = ThemeD.awtColor(GeoGebraColorConstants.GGB_GREEN);
 
-	public static final Color DOTPLOT_COLOR = org.geogebra.desktop.awt.GColorD
-			.getAwtColor(GeoGebraColorConstants.GRAY5);
-	public static final Color NQPLOT_COLOR = org.geogebra.desktop.awt.GColorD
-			.getAwtColor(GeoGebraColorConstants.GRAY5);
-	public static final Color REGRESSION_COLOR = Color.RED;
-	public static final Color OVERLAY_COLOR = org.geogebra.desktop.awt.GColorD
-			.getAwtColor(GeoGebraColorConstants.DARKBLUE);
+	public static final Color DOTPLOT_COLOR = ThemeD.awtColor(GeoGebraColorConstants.GRAY5);
+	public static final Color NQPLOT_COLOR = ThemeD.awtColor(GeoGebraColorConstants.GRAY5);
+	public static final Color REGRESSION_COLOR = ThemeD.awtColor(GColor.RED);
+	public static final Color OVERLAY_COLOR = ThemeD.awtColor(GeoGebraColorConstants.DARKBLUE);
 
 	private Color[] colors = { TABLE_GRID_COLOR, TABLE_HEADER_COLOR,
 			HISTOGRAM_COLOR, BOXPLOT_COLOR, BARCHART_COLOR, DOTPLOT_COLOR,
-			NQPLOT_COLOR, REGRESSION_COLOR, OVERLAY_COLOR, Color.BLACK,
-			Color.WHITE };
+			NQPLOT_COLOR, REGRESSION_COLOR, OVERLAY_COLOR,
+			ThemeD.color(ColorKeys.FOREGROUND), ThemeD.color(ColorKeys.BACKGROUND) };
 
 	// main GUI panels
 	private DataPanelD dataPanel;
@@ -115,7 +110,6 @@ public class DataAnalysisViewD extends JPanel
 
 		setView(null, mode, false);
 		model.setIniting(false);
-
 	}
 
 	/*************************************************

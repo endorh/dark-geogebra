@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -54,8 +53,9 @@ import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.util.LowerCaseDictionary;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.GuiManagerD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.gui.util.SelectionTableD;
 import org.geogebra.desktop.main.AppD;
@@ -69,7 +69,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 	/** application */
 	AppD app;
 	private InputBarHelpPanelD thisPanel;
-	private Color bgColor = Color.WHITE;
+	private Color bgColor = ThemeD.color(ColorKeys.BACKGROUND);
 
 	private MyJTree cmdTree;
 	private DefaultMutableTreeNode functionTitleNode, rootSubCommands,
@@ -125,7 +125,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		JPanel titlePanel = new JPanel();
 		titlePanel.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createMatteBorder(1, 0, 0, 0,
-						SystemColor.controlShadow),
+						ThemeD.color(ColorKeys.CONTROL_SHADOW)),
 				BorderFactory.createEmptyBorder(0, 2, 0, 2)));
 		titlePanel.setLayout(new BorderLayout());
 
@@ -179,10 +179,10 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		JPanel titlePanel = new JPanel(new BorderLayout());
 		titlePanel.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createMatteBorder(1, 0, 1, 0,
-						SystemColor.controlShadow),
+						ThemeD.color(ColorKeys.CONTROL_SHADOW)),
 				BorderFactory.createEmptyBorder(0, 2, 0, 2)));
 		syntaxLabel = new JLabel();
-		syntaxLabel.setForeground(Color.darkGray);
+		syntaxLabel.setForeground(ThemeD.color(ColorKeys.OUTLINE_DARK));
 		titlePanel.add(syntaxLabel, loc.borderWest());
 
 		syntaxHelpPanel = new JPanel(new BorderLayout());
@@ -237,7 +237,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 		buttonPanel.add(rightPanel, loc.borderEast());
 		buttonPanel.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createMatteBorder(1, 0, 0, 0,
-						SystemColor.controlShadow),
+						ThemeD.color(ColorKeys.CONTROL_SHADOW)),
 				BorderFactory.createEmptyBorder(0, 2, 0, 2)));
 		// errorLabel = new JLabel();
 		// errorLabel.setForeground(Color.RED);
@@ -672,13 +672,13 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 
 		public MyRenderer() {
 			update();
-			selectionColor = GColorD.getAwtColor(
+			selectionColor = ThemeD.awtColor(
 					GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR);
 			// this.getBackgroundSelectionColor()
-			rollOverColor = Color.LIGHT_GRAY;
+			rollOverColor = ThemeD.color(ColorKeys.OUTLINE_LIGHT);
 
-			this.setTextSelectionColor(Color.black);
-			this.setTextNonSelectionColor(Color.black);
+			this.setTextSelectionColor(ThemeD.color(ColorKeys.TEXT_SELECTED));
+			this.setTextNonSelectionColor(ThemeD.color(ColorKeys.TEXT));
 			this.setBorderSelectionColor(null);
 			this.setBackground(bgColor);
 

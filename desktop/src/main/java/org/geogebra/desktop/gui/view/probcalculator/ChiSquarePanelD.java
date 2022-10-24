@@ -1,7 +1,6 @@
 package org.geogebra.desktop.gui.view.probcalculator;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,8 +23,9 @@ import org.geogebra.common.gui.view.probcalculator.StatisticsCalculator;
 import org.geogebra.common.gui.view.probcalculator.StatisticsCollection;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
-import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.main.AppD;
 
@@ -371,14 +371,14 @@ public class ChiSquarePanelD extends ChiSquarePanel
 				wrappedCellPanel
 						.setBorder(BorderFactory.createEmptyBorder(1, 1, 1, 1));
 				fldInput.setVisible(true);
-				fldInput.setBackground(GColorD.getAwtColor(
+				fldInput.setBackground(ThemeD.awtColor(
 						GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));
 
 			} else {
 				fldInput.setVisible(true);
 				wrappedCellPanel.setBorder(
-						BorderFactory.createLineBorder(Color.GRAY, 1));
-				fldInput.setBackground(GColorD.getAwtColor(GColor.WHITE));
+						BorderFactory.createLineBorder(ThemeD.color(ColorKeys.OUTLINE), 1));
+				fldInput.setBackground(ThemeD.awtColor(GColor.WHITE));
 			}
 
 		}

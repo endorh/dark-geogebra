@@ -13,7 +13,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.SystemColor;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
@@ -40,10 +39,11 @@ import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.GeoGebraColorConstants;
-import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.layout.DockManagerD;
 import org.geogebra.desktop.gui.layout.DockPanelD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -91,8 +91,8 @@ public class CASTableD extends JTable implements CASTable {
 
 		setShowGrid(true);
 		setGridColor(
-				GColorD.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
-		setBackground(Color.white);
+				ThemeD.awtColor(GeoGebraColorConstants.TABLE_GRID_COLOR));
+		setBackground(ThemeD.color(ColorKeys.BACKGROUND));
 
 		tableModel = new CASTableModel();
 		this.setModel(tableModel);
@@ -860,7 +860,7 @@ public class CASTableD extends JTable implements CASTable {
 		Graphics2D g2 = (Graphics2D) graphics;
 		if (this.getSelectedRow() >= 0) {
 			Rectangle r = getCellRect(getSelectedRow(), 0, true);
-			g2.setColor(SystemColor.controlHighlight);
+			g2.setColor(ThemeD.color(ColorKeys.CONTROL_HIGHLIGHT));
 			g2.drawRect(r.x, r.y, r.width - 2, r.height - 2);
 
 			if (isEditing()) {
@@ -870,7 +870,7 @@ public class CASTableD extends JTable implements CASTable {
 				int offset = panel.outputPanel.getY();
 				r.height = r.height - offset;
 				// g2.drawRect(r.x+1,r.y+1,r.width-4,r.height-4);
-				g2.setColor(Color.red);
+				g2.setColor(ThemeD.color(ColorKeys.TEXT_ERROR));
 				// g2.drawRect(r.x+2,r.y+2,r.width-6,r.height-6);;
 			}
 
@@ -901,7 +901,7 @@ public class CASTableD extends JTable implements CASTable {
 
 				g2.setColor(new Color(0, 0, 200, 40));
 				g2.fillRect(r.x + 2, r.y + 2, r.width - 6, r.height - 6);
-				g2.setColor(Color.GRAY);
+				g2.setColor(ThemeD.color(ColorKeys.OUTLINE));
 				g2.setStroke(dashed);
 				g2.drawRect(r.x + 1, r.y + 1, r.width - 4, r.height - 4);
 			}

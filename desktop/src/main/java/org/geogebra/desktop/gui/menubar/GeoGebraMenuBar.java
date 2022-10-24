@@ -2,7 +2,6 @@ package org.geogebra.desktop.gui.menubar;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
-import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
@@ -41,6 +40,8 @@ import org.geogebra.desktop.export.PrintPreviewD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.layout.DockManagerD;
 import org.geogebra.desktop.gui.layout.LayoutD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
 import org.geogebra.desktop.main.LocalizationD;
@@ -77,7 +78,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		 */
 		setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createMatteBorder(0, 0, 1, 0,
-						SystemColor.control),
+						ThemeD.color(ColorKeys.BACKGROUND_CONTROL)),
 				BorderFactory.createEmptyBorder(1, 1, 0, 1)));
 
 		this.app = app;

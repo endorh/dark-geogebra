@@ -32,7 +32,7 @@ import javax.swing.text.Utilities;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.awt.GColorD;
+import org.geogebra.desktop.gui.theme.ThemeD;
 
 /**
  * This class will display line numbers for a related text component. The text
@@ -54,6 +54,7 @@ public class TextLineNumber extends JPanel
 	public final static float CENTER = 0.5f;
 	public final static float RIGHT = 1.0f;
 
+	// FIXME: Caching
 	private final static Border OUTER = new MatteBorder(0, 0, 0, 1, Color.GRAY);
 
 	private final static int HEIGHT = Integer.MAX_VALUE - 1000000;
@@ -107,9 +108,9 @@ public class TextLineNumber extends JPanel
 		setDigitAlignment(RIGHT);
 		setMinimumDisplayDigits(minimumDisplayDigits);
 
-		setCurrentLineForeground(GColorD.getAwtColor(GColor.BLACK));
-		this.setForeground(GColorD.getAwtColor(GeoGebraColorConstants.GRAY6));
-		this.setBackground(GColorD.getAwtColor(GeoGebraColorConstants.GRAY1));
+		setCurrentLineForeground(ThemeD.awtColor(GColor.BLACK));
+		this.setForeground(ThemeD.awtColor(GeoGebraColorConstants.GRAY6));
+		this.setBackground(ThemeD.awtColor(GeoGebraColorConstants.GRAY1));
 
 		component.getDocument().addDocumentListener(this);
 		component.addCaretListener(this);

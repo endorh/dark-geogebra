@@ -1,7 +1,6 @@
 package org.geogebra.desktop.gui.layout.panels;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
@@ -14,6 +13,8 @@ import org.geogebra.common.euclidian.GetViewId;
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.gui.layout.DockPanelD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolNavigationD;
 
 /**
@@ -128,7 +129,7 @@ public abstract class EuclidianDockPanelAbstract extends DockPanelD
 						app.showConsProtNavigation(id), id);
 			}
 			consProtNav.getImpl().setBorder(BorderFactory.createMatteBorder(1,
-					0, 0, 0, Color.lightGray));
+					0, 0, 0, ThemeD.color(ColorKeys.OUTLINE_LIGHT)));
 			consProtNav.getImpl().setVisible(app.showConsProtNavigation(id));
 
 			panel.add(consProtNav.getImpl(), BorderLayout.SOUTH); // may be

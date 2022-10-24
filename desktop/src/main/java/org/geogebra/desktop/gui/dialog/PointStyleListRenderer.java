@@ -1,7 +1,6 @@
 package org.geogebra.desktop.gui.dialog;
 
 import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -16,6 +15,8 @@ import javax.swing.ListCellRenderer;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.factories.AwtFactoryD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 
 /**
  * @author George Sturr 2009-9-19 This class defines the ComboBox renderer where
@@ -48,9 +49,9 @@ public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 				: ((Integer) value).intValue();
 
 		if (isSelected) {
-			setBackground(Color.LIGHT_GRAY);
+			setBackground(ThemeD.color(ColorKeys.OUTLINE_LIGHT));
 		} else {
-			setBackground(Color.WHITE);
+			setBackground(ThemeD.color(ColorKeys.BACKGROUND));
 		}
 		return this;
 	}
@@ -62,15 +63,11 @@ public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 		GGraphics2DD.setAntialiasing(g2);
 
 		// paint cell background
-		if (getBackground() == Color.LIGHT_GRAY) {
-			g2.setPaint(Color.LIGHT_GRAY);
-		} else {
-			g2.setPaint(Color.WHITE);
-		}
+		g2.setPaint(getBackground());
 		g2.fillRect(0, 0, getWidth(), getHeight());
 
 		// draw point using routine from euclidian.DrawPoint
-		g2.setPaint(Color.BLACK);
+		g2.setPaint(ThemeD.color(ColorKeys.FOREGROUND));
 		getPath();
 
 		switch (pointStyle) {
@@ -117,9 +114,9 @@ public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 
 		default:
 			// circle with gray middle
-			g2.setPaint(Color.LIGHT_GRAY);
+			g2.setPaint(ThemeD.color(ColorKeys.OUTLINE_LIGHT));
 			g2.fill(circle);
-			g2.setPaint(Color.BLACK);
+			g2.setPaint(ThemeD.color(ColorKeys.FOREGROUND));
 			g2.setStroke(borderStroke);
 			g2.draw(circle);
 		}

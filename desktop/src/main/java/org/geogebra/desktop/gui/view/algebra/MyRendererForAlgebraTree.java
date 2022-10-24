@@ -1,6 +1,5 @@
 package org.geogebra.desktop.gui.view.algebra;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -18,6 +17,9 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.desktop.awt.GColorD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
+import org.geogebra.desktop.gui.theme.ThemeImageIcon;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
 
@@ -77,7 +79,7 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 
 		if (value instanceof GeoMutableTreeNode) {
 			GeoElement geo = ((GeoMutableTreeNode) value).getGeo();
-			setForeground(GColorD.getAwtColor(geo.getAlgebraColor()));
+			setForeground(GColorD.getAwtAlgebraColor(geo));
 
 			String text = getDescription(geo, (GeoMutableTreeNode) value);
 
@@ -86,7 +88,7 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 			setText(text);
 
 			if (geo.doHighlighting()) {
-				setBackground(AppD.COLOR_SELECTION);
+				setBackground(ThemeD.color(ColorKeys.BACKGROUND_SELECTED));
 			} else {
 				setBackground(getBackgroundNonSelectionColor());
 			}
@@ -145,7 +147,7 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 				setIcon(null);
 			}
 
-			setForeground(Color.black);
+			setForeground(ThemeD.color(ColorKeys.FOREGROUND));
 			setBackground(getBackgroundNonSelectionColor());
 
 			String str = (view.getTreeMode() == SortMode.LAYER)
@@ -187,11 +189,11 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 		BufferedImage image = new BufferedImage(w1 + w2, h,
 				BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g2 = (Graphics2D) image.getGraphics();
-		g2.drawImage(leftIcon.getImage(), 0, mid - h1 / 2, null);
-		g2.drawImage(rightIcon.getImage(), w1, mid - h2 / 2, null);
+		g2.drawImage(ThemeImageIcon.getUnfilteredImage(leftIcon), 0, mid - h1 / 2, null);
+		g2.drawImage(ThemeImageIcon.getUnfilteredImage(rightIcon), w1, mid - h2 / 2, null);
 		g2.dispose();
 
-		return new ImageIcon(image);
+		return ThemeD.icon(image);
 	}
 
 	public ImageIcon getIconShown() {

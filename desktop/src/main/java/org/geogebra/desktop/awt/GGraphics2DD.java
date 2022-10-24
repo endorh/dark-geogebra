@@ -27,6 +27,7 @@ import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.factories.AwtFactoryD;
 import org.geogebra.desktop.gui.MyImageD;
+import org.geogebra.desktop.gui.theme.ThemeD;
 
 import com.kitfox.svg.SVGException;
 
@@ -69,7 +70,7 @@ public class GGraphics2DD implements GGraphics2D {
 	@Override
 	public void setPaint(GPaint paint) {
 		if (paint instanceof GColor) {
-			impl.setPaint(GColorD.getAwtColor((GColor) paint));
+			impl.setPaint(ThemeD.awtColor((GColor) paint));
 		} else if (paint instanceof GGradientPaintD) {
 			impl.setPaint(((GGradientPaintD) paint).getPaint());
 			return;
@@ -199,7 +200,7 @@ public class GGraphics2DD implements GGraphics2D {
 
 	@Override
 	public void setColor(GColor selColor) {
-		impl.setColor(GColorD.getAwtColor(selColor));
+		impl.setColor(ThemeD.awtColor(selColor));
 	}
 
 	@Override

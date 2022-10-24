@@ -1,6 +1,5 @@
 package org.geogebra.desktop.gui.dialog;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -15,6 +14,8 @@ import javax.swing.ListCellRenderer;
 
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.desktop.awt.GGraphics2DD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 
 /**
  * @author Loic Le Coq date 31/10/2006 This class defines the renderer for the
@@ -45,7 +46,7 @@ public class DecorationAngleListRenderer extends JPanel
 		int selectedIndex = ((Integer) value).intValue();
 		this.id = selectedIndex;
 		if (isSelected) {
-			setBackground(Color.LIGHT_GRAY);
+			setBackground(ThemeD.color(ColorKeys.OUTLINE_LIGHT));
 			// setForeground(list.getSelectionForeground());
 		} else {
 			setBackground(list.getBackground());
@@ -66,15 +67,10 @@ public class DecorationAngleListRenderer extends JPanel
 		Graphics2D g2 = (Graphics2D) g;
 		GGraphics2DD.setAntialiasing(g2);
 
-		// g2.setColor(getBackground());
-		if (getBackground() == Color.LIGHT_GRAY) {
-			g2.setColor(Color.LIGHT_GRAY);
-		} else {
-			g2.setColor(Color.WHITE);
-		}
+		g2.setColor(getBackground());
 
 		g2.fillRect(0, 0, getWidth(), getHeight());
-		g2.setColor(Color.BLACK);
+		g2.setColor(ThemeD.color(ColorKeys.FOREGROUND));
 		g2.drawLine(13, 27, 67, 27);
 		g2.drawLine(13, 27, 67, 3);
 		arc.setArcByCenter(13, 27, 40, 0, 24, Arc2D.OPEN);

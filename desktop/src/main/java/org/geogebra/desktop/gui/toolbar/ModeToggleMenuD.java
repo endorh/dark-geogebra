@@ -41,10 +41,13 @@ import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.ToolTipManager;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.kernel.ModeSetter;
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.awt.GGraphics2DD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.javax.swing.GPopupMenuD;
 import org.geogebra.desktop.main.AppD;
 
@@ -65,7 +68,7 @@ public class ModeToggleMenuD extends JPanel {
 
 	private ToolbarD toolbar;
 
-	final static Color bgColor = Color.white;
+	final static Color bgColor = ThemeD.color(ColorKeys.BACKGROUND);
 
 	public ModeToggleMenuD(AppD app, ToolbarD toolbar,
 			ModeToggleButtonGroup bg) {
@@ -291,10 +294,10 @@ class MyJToggleButton extends JToggleButton
 	boolean popupTriangleClicked = false;
 	ModeToggleMenuD menu;
 
-	private static final Color arrowColor = new Color(0, 0, 0, 130);
+	private static final Color arrowColor = ThemeD.awtColor(GColor.newColor(0, 0, 0, 130));
 	// private static final Color selColor = new Color(166, 11, 30,150);
 	// private static final Color selColor = new Color(17, 26, 100, 200);
-	private static final Color selColor = new Color(0, 0, 153, 200);
+	private static final Color selColor = ThemeD.awtColor(GColor.newColor(0, 0, 153, 200));
 	private static final BasicStroke selStroke = new BasicStroke(3f);
 
 	private Timer showMenuTimer;
@@ -376,7 +379,7 @@ class MyJToggleButton extends JToggleButton
 				int y = BORDER + iconHeight + 1;
 
 				// background glow circle
-				g2.setColor(Color.LIGHT_GRAY);
+				g2.setColor(ThemeD.color(ColorKeys.OUTLINE_LIGHT));
 				if (iconWidth <= 32) {
 					g2.fillOval(x - 9, y - 9, 12, 12);
 				} else if (iconWidth <= 40) {
@@ -386,12 +389,12 @@ class MyJToggleButton extends JToggleButton
 				} else {
 					g2.fillOval(x - 12, y - 12, 15, 15);
 				}
-				g2.setColor(Color.red);
+				g2.setColor(ThemeD.color(ColorKeys.ERROR));
 				g2.fill(gp);
-				g2.setColor(Color.black);
+				g2.setColor(ThemeD.color(ColorKeys.FOREGROUND));
 				g2.draw(gp);
 			} else {
-				g2.setColor(Color.white);
+				g2.setColor(ThemeD.color(ColorKeys.BACKGROUND));
 				g2.fill(gp);
 				g2.setColor(arrowColor);
 				g2.draw(gp);

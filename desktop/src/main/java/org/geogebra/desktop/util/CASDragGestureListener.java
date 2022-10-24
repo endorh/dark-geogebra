@@ -1,6 +1,5 @@
 package org.geogebra.desktop.util;
 
-import java.awt.Color;
 import java.awt.Point;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -23,6 +22,8 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.cas.view.CASTableD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.main.AppD;
 
@@ -81,7 +82,7 @@ public class CASDragGestureListener
 		latex = cell.getLaTeXAlgebraDescription(true,
 				StringTemplate.latexTemplate);
 		ImageIcon ic = GeoGebraIconD.createLatexIcon((AppD) app, latex,
-				((AppD) app).getPlainFont(), Color.DARK_GRAY, null);
+				((AppD) app).getPlainFont(), ThemeD.color(ColorKeys.OUTLINE_DARK), null);
 
 		TransferableCAS transferable = new TransferableCAS(geoLabelList,
 				cellnumber);

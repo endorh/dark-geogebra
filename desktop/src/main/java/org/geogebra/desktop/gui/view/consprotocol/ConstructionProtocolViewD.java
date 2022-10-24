@@ -58,6 +58,7 @@ import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
 
+import org.geogebra.common.awt.GColor;
 import org.geogebra.common.awt.GPoint;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
@@ -78,6 +79,8 @@ import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.export.ConstructionProtocolExportDialogD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.TitlePanel;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.view.algebra.InputPanelD;
 import org.geogebra.desktop.javax.swing.GImageIconD;
 import org.geogebra.desktop.javax.swing.table.GAbstractTableModelD;
@@ -90,9 +93,9 @@ import com.himamis.retex.editor.share.util.Unicode;
 public class ConstructionProtocolViewD extends ConstructionProtocolView
 		implements Printable, SettingListener, SetLabels {
 
-	static Color COLOR_STEP_HIGHLIGHT = AppD.COLOR_SELECTION;
-	private static Color COLOR_DRAG_HIGHLIGHT = new Color(250, 250, 200);
-	private static Color COLOR_DROP_HIGHLIGHT = Color.lightGray;
+	static Color COLOR_STEP_HIGHLIGHT = ThemeD.color(ColorKeys.BACKGROUND_SELECTED);
+	private static Color COLOR_DRAG_HIGHLIGHT = ThemeD.awtColor(GColor.newColor(250, 250, 200));
+	private static Color COLOR_DROP_HIGHLIGHT = ThemeD.awtColor(GColor.LIGHT_GRAY);
 
 	public JTable table;
 	// public JPanel cpPanel;
@@ -119,6 +122,8 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 
 		this.app = app;
 		this.loc = app.getLocalization();
+
+
 		kernel = app.getKernel();
 		data = new ConstructionTableDataD(this);
 		useColors = true;
@@ -128,7 +133,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		table.setAutoCreateColumnsFromModel(false);
 		table.setModel(((ConstructionTableDataD) data).getImpl().getImpl());
 		table.setRowSelectionAllowed(true);
-		table.setGridColor(Color.lightGray);
+		table.setGridColor(ThemeD.color(ColorKeys.OUTLINE_LIGHT));
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 
 		// header
@@ -163,7 +168,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 				((ConstructionTableDataD) data).new ColumnMovementListener());
 
 		scrollPane = new JScrollPane(table);
-		scrollPane.getViewport().setBackground(Color.white);
+		scrollPane.getViewport().setBackground(ThemeD.color(ColorKeys.BACKGROUND));
 		// cpPanel.add(scrollPane, BorderLayout.CENTER);
 
 		// clicking
@@ -773,19 +778,18 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			RowData rd = data.getRow(row);
 			int index = rd.getGeo().getConstructionIndex();
 			if (useColors) {
-				comp.setForeground(
-						GColorD.getAwtColor(rd.getGeo().getAlgebraColor()));
+				comp.setForeground(GColorD.getAwtAlgebraColor(rd.getGeo()));
 			} else {
-				comp.setForeground(Color.black);
+				comp.setForeground(ThemeD.color(ColorKeys.FOREGROUND));
 			}
 
 			if (index == step) { // current construction step background color
 				comp.setBackground(COLOR_STEP_HIGHLIGHT);
 			} else if (index < step) {
-				comp.setBackground(Color.white);
+				comp.setBackground(ThemeD.color(ColorKeys.BACKGROUND));
 			} else {
-				comp.setForeground(Color.gray);
-				comp.setBackground(Color.white);
+				comp.setForeground(ThemeD.color(ColorKeys.TEXT_DISABLED));
+				comp.setBackground(ThemeD.color(ColorKeys.BACKGROUND));
 			}
 
 			// set background color
@@ -835,12 +839,12 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			// setBackground(UIManager.getColor("TableHeader.background"));
 			// setBorder(UIManager.getBorder("TableHeader.cellBorder"));
 			// better for Macs?
-			setForeground(Color.black);
-			setBackground(GColorD.getAwtColor(
+			setForeground(ThemeD.color(ColorKeys.FOREGROUND));
+			setBackground(ThemeD.awtColor(
 					GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));
 			// setBorder(BorderFactory.createBevelBorder(0));
-			setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, GColorD
-					.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)));
+			setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, ThemeD.awtColor(
+					GeoGebraColorConstants.TABLE_GRID_COLOR)));
 
 		}
 
@@ -921,12 +925,11 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		private Color getColorAt(int nRow, int nCol) {
 			try {
 				if (useColors) {
-					return GColorD.getAwtColor(
-							rowList.get(nRow).getGeo().getAlgebraColor());
+					return GColorD.getAwtAlgebraColor(rowList.get(nRow).getGeo());
 				}
-				return Color.black;
+				return ThemeD.color(ColorKeys.FOREGROUND);
 			} catch (Exception e) {
-				return Color.black;
+				return ThemeD.color(ColorKeys.FOREGROUND);
 			}
 		}
 

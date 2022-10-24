@@ -1,6 +1,5 @@
 package org.geogebra.desktop.gui.inputfield;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
@@ -30,9 +29,10 @@ import org.geogebra.common.gui.inputfield.ColorProvider;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.TextObject;
-import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.gui.GuiManagerD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.util.GeoGebraIconD;
 import org.geogebra.desktop.gui.virtualkeyboard.VirtualKeyboardD;
 import org.geogebra.desktop.main.AppD;
@@ -431,7 +431,7 @@ public class MyTextFieldD extends JTextField
 		// g2.setClip(insets.left, insets.top, width, height);
 
 		// hide previously drawn text with a white rectangle
-		g2.setColor(Color.WHITE);
+		g2.setColor(getBackground());
 		g2.fillRect(insets.left, insets.top, width, height);
 
 		// set the text for checking labels
@@ -472,7 +472,7 @@ public class MyTextFieldD extends JTextField
 				}
 			}
 			if (fg != null) {
-				g2.setColor(GColorD.getAwtColor(fg));
+				g2.setColor(ThemeD.awtColor(fg));
 			}
 			// now draw the text
 			drawText(text.charAt(i) + "", i >= selStart && i < selEnd);
@@ -491,7 +491,7 @@ public class MyTextFieldD extends JTextField
 		caretUpdated = false;
 
 		if (caretShowing && caretPos > -1 && hasFocus()) {
-			g2.setColor(Color.black);
+			g2.setColor(ThemeD.color(ColorKeys.TEXT));
 			g2.fillRect((int) caretPos - scrollOffset + insets.left,
 					textBottom - fontHeight + 4, 1, fontHeight);
 			g2.setPaintMode();

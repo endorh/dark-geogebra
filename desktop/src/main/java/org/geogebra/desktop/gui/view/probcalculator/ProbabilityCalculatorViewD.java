@@ -1,11 +1,9 @@
 package org.geogebra.desktop.gui.view.probcalculator;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Insets;
-import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -41,6 +39,8 @@ import org.geogebra.common.main.settings.ProbabilityCalculatorSettings.Dist;
 import org.geogebra.desktop.euclidianND.EuclidianViewInterfaceD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.gui.util.ListSeparatorRenderer;
 import org.geogebra.desktop.gui.view.data.PlotPanelEuclidianViewD;
@@ -189,7 +189,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 					lblMeanSigma, Box.createHorizontalStrut(10));
 			plotLabelPanel
 					.setBorder(BorderFactory.createEmptyBorder(4, 0, 4, 0));
-			plotLabelPanel.setBackground(Color.white);
+			plotLabelPanel.setBackground(ThemeD.color(ColorKeys.BACKGROUND));
 			// plot panel with label field below
 			plotPanelPlus = new JPanel(new BorderLayout());
 			plotPanelPlus.add(((EuclidianViewInterfaceD) getPlotPanel()).getJPanel(),
@@ -200,7 +200,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 			setTable(new ProbabilityTableD((AppD) app, this));
 			((ProbabilityTableD) getTable()).getWrappedPanel()
 					.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0,
-							SystemColor.controlShadow));
+							ThemeD.color(ColorKeys.CONTROL_SHADOW)));
 			tablePanel = new JPanel(new BorderLayout());
 			tablePanel.add(((ProbabilityTableD) getTable()).getWrappedPanel(),
 					BorderLayout.CENTER);

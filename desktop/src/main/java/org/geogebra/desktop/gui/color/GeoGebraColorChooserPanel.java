@@ -31,6 +31,8 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.Localization;
 import org.geogebra.desktop.awt.GColorD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -176,8 +178,8 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 
 		// add borders to the swatch panels
 		Border border = BorderFactory.createCompoundBorder(
-				BorderFactory.createLineBorder(Color.gray, 1),
-				BorderFactory.createLineBorder(Color.white, 1));
+				BorderFactory.createLineBorder(ThemeD.color(ColorKeys.OUTLINE), 1),
+				BorderFactory.createLineBorder(ThemeD.color(ColorKeys.BACKGROUND), 1));
 		for (SwatchPanel sp : swatchPanelList) {
 			sp.setBorder(border);
 		}
@@ -224,7 +226,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 
 	@Override
 	public void updateChooser() {
-		setSwatchPanelSelection(getColorSelectionModel().getSelectedColor());
+		setSwatchPanelSelection(GColorD.newColor(getColorSelectionModel().getSelectedColor()));
 
 	}
 
@@ -235,7 +237,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 	 * @param color
 	 * @return
 	 */
-	public boolean setSwatchPanelSelection(Color color) {
+	public boolean setSwatchPanelSelection(GColor color) {
 
 		// clear visual feedback for swatch selection in the swatch panels
 		for (SwatchPanel panel : swatchPanelList) {
@@ -296,9 +298,8 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 
 				// set the color selection to the color of the cell the mouse is
 				// above
-				Color color = mySwatchPanel.getColorForLocation(e.getX(),
-						e.getY());
-				getColorSelectionModel().setSelectedColor(color);
+				GColor color = mySwatchPanel.getColorForLocation(e.getX(), e.getY());
+				getColorSelectionModel().setSelectedColor(GColorD.getRawAwtColor(color));
 
 				// update the the recent swatch panel
 				if (mySwatchPanel != recentSwatchPanel) {
@@ -338,7 +339,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 		ActionListener okActionListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent actionEvent) {
-				customSwatchPanel.addCustomColor(chooser.getColor());
+				customSwatchPanel.addCustomColor(GColorD.newColor(chooser.getColor()));
 			}
 		};
 
@@ -372,7 +373,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 			initSwatchCount();
 			setToolTipText(""); // register for events
 			setOpaque(true);
-			setBackground(Color.white);
+			setBackground(ThemeD.color(ColorKeys.BACKGROUND));
 			setRequestFocusEnabled(false);
 			addMouseListener(new SwatchMouseListener());
 			addMouseMotionListener(new SwatchMouseMotionListener());
@@ -432,7 +433,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 			for (int row = 0; row < numSwatches.height; row++) {
 				for (int column = 0; column < numSwatches.width; column++) {
 
-					g2d.setColor(getColorForCell(column, row));
+					g2d.setColor(ThemeD.awtColor(getColorForCell(column, row)));
 					int x;
 					if ((!this.getComponentOrientation().isLeftToRight())
 							&& (this instanceof RecentSwatchPanel)) {
@@ -452,7 +453,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 						if (selectedSwatch != null
 								&& row == selectedSwatch.height
 								&& column == selectedSwatch.width) {
-							g2d.setColor(Color.DARK_GRAY);
+							g2d.setColor(ThemeD.color(ColorKeys.OUTLINE_DARK));
 							g2d.drawRect(x, y, swatchSize.width,
 									swatchSize.height);
 
@@ -467,7 +468,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 
 						if (hoverSwatch != null && row == hoverSwatch.height
 								&& column == hoverSwatch.width) {
-							g2d.setColor(Color.DARK_GRAY);
+							g2d.setColor(ThemeD.color(ColorKeys.OUTLINE_DARK));
 							g2d.drawRect(x, y, swatchSize.width,
 									swatchSize.height);
 						}
@@ -494,19 +495,16 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 				return "";
 			}
 
-			Color color = getColorForLocation(e.getX(), e.getY());
-			String name = GeoGebraColorConstants.getGeogebraColorName(app,
-					GColor.newColor(color.getRed(), color.getGreen(),
-							color.getBlue(), color.getAlpha()));
-			String rgbStr = color.getRed() + ", " + color.getGreen() + ", "
-					+ color.getBlue();
+			GColor color = getColorForLocation(e.getX(), e.getY());
+			String name = GeoGebraColorConstants.getGeogebraColorName(app, color);
+			String rgbStr = color.getRed() + ", " + color.getGreen() + ", " + color.getBlue();
 			if (name != null) {
 				return name + "  " + rgbStr;
 			}
 			return rgbStr;
 		}
 
-		public Color getColorForLocation(int x, int y) {
+		public GColor getColorForLocation(int x, int y) {
 			int column;
 			if ((!this.getComponentOrientation().isLeftToRight())
 					&& (this instanceof RecentSwatchPanel)) {
@@ -540,15 +538,15 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 			p.height = row;
 		}
 
-		private Color getColorForCell(int column, int row) {
+		// FIXME
+		private GColor getColorForCell(int column, int row) {
 			if ((row * numSwatches.width) + column < colors.length) {
-				return GColorD.getAwtColor(
-						colors[(row * numSwatches.width) + column]);
+				return colors[(row * numSwatches.width) + column];
 			}
-			return Color.WHITE;
+			return ThemeD.gColor(ColorKeys.BACKGROUND);
 		}
 
-		private boolean getCellForColor(Color color, Dimension cell) {
+		private boolean getCellForColor(GColor color, Dimension cell) {
 
 			for (int i = 0; i < colors.length; i++) {
 				if (color.getRed() == colors[i].getRed()
@@ -565,7 +563,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 			return false;
 		}
 
-		protected boolean setSelectionFromColor(Color color) {
+		protected boolean setSelectionFromColor(GColor color) {
 			if (selectedSwatch == null) {
 				selectedSwatch = new Dimension();
 			}
@@ -639,10 +637,10 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 			swatchCount = 0;
 		}
 
-		public void setMostRecentColor(Color c) {
+		public void setMostRecentColor(GColor c) {
 
 			System.arraycopy(colors, 0, colors, 1, colors.length - 1);
-			colors[0] = GColorD.newColor(c);
+			colors[0] = c;
 			if (swatchCount < swatchSize.width * swatchSize.height) {
 				swatchCount++;
 			}
@@ -683,7 +681,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 			}
 		}
 
-		public void addCustomColor(Color color) {
+		public void addCustomColor(GColor color) {
 
 			if (color == null) {
 				selectedSwatch.width = -1;
@@ -691,7 +689,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 				repaint();
 			} else {
 				System.arraycopy(colors, 0, colors, 1, colors.length - 1);
-				colors[0] = GColorD.newColor(color);
+				colors[0] = color;
 				myChooser.setSwatchPanelSelection(color);
 				repaint();
 
@@ -699,7 +697,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 					swatchCount++;
 				}
 
-				getColorSelectionModel().setSelectedColor(color);
+				getColorSelectionModel().setSelectedColor(ThemeD.awtColor(color));
 				primarySwatchPanel.setSelectionFromLocation(-1, -1);
 				mainSwatchPanel.setSelectionFromLocation(-1, -1);
 				recentSwatchPanel.setMostRecentColor(color);
@@ -709,7 +707,7 @@ public class GeoGebraColorChooserPanel extends AbstractColorChooserPanel {
 		}
 
 		@Override
-		protected boolean setSelectionFromColor(Color color) {
+		protected boolean setSelectionFromColor(GColor color) {
 			if (!super.setSelectionFromColor(color)) {
 				addCustomColor(color);
 			}

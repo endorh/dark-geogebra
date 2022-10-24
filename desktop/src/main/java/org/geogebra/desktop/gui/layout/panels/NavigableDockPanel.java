@@ -1,7 +1,6 @@
 package org.geogebra.desktop.gui.layout.panels;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.BorderFactory;
@@ -10,6 +9,8 @@ import javax.swing.JPanel;
 
 import org.geogebra.common.main.settings.ConstructionProtocolSettings;
 import org.geogebra.desktop.gui.layout.DockPanelD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.view.consprotocol.ConstructionProtocolNavigationD;
 
 @SuppressWarnings("serial")
@@ -47,7 +48,7 @@ public abstract class NavigableDockPanel extends DockPanelD {
 						app.showConsProtNavigation(id), id);
 			}
 			consProtNav.getImpl().setBorder(BorderFactory.createMatteBorder(1,
-					0, 0, 0, Color.lightGray));
+					0, 0, 0, ThemeD.color(ColorKeys.OUTLINE_LIGHT)));
 			consProtNav.getImpl().setVisible(app.showConsProtNavigation(id));
 
 			panel.add(consProtNav.getImpl(), BorderLayout.SOUTH); // may be

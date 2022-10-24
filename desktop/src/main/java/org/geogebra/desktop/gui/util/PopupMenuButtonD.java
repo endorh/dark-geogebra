@@ -1,6 +1,5 @@
 package org.geogebra.desktop.gui.util;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -22,6 +21,8 @@ import javax.swing.event.ChangeListener;
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.kernel.geos.GeoElement;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
 
@@ -145,9 +146,9 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 		// create the popup
 		myPopup = new JPopupMenu();
 		myPopup.setFocusable(false);
-		myPopup.setBackground(Color.WHITE);
+		myPopup.setBackground(ThemeD.color(ColorKeys.BACKGROUND));
 		myPopup.setBorder(BorderFactory.createCompoundBorder(
-				BorderFactory.createLineBorder(Color.GRAY),
+				BorderFactory.createLineBorder(ThemeD.color(ColorKeys.OUTLINE)),
 				BorderFactory.createEmptyBorder(3, 3, 3, 3)));
 
 		// add a mouse listener to our button that triggers the popup
@@ -456,7 +457,8 @@ public class PopupMenuButtonD extends JButton implements ChangeListener {
 				// regardless of the layout manager.
 				icon = GeoGebraIconD.createStringIcon(
 						(String) data[getSelectedIndex()], app.getPlainFont(),
-						false, false, true, iconSize, Color.BLACK, null);
+						false, false, true, iconSize,
+						ThemeD.color(ColorKeys.FOREGROUND), null);
 
 				break;
 

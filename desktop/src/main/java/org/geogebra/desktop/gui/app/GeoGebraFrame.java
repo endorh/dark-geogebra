@@ -75,6 +75,8 @@ import org.geogebra.desktop.geogebra3D.euclidian3D.EuclidianView3DD;
 import org.geogebra.desktop.gui.FileDropTargetListener;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.dialog.DialogManagerD;
+import org.geogebra.desktop.gui.theme.BuiltInThemeD;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.util.AnimatedGifEncoder;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.GeoGebraPreferencesD;
@@ -310,12 +312,14 @@ public class GeoGebraFrame extends JFrame
 		}
 
 		// set look and feel
-		if (args.containsArg("laf")) {
-			AppD.setLAF(args.getStringValue("laf").equals("system"));
-		} else {
-			// system LAF for Windows and Mac; cross-platform for LINUX, others
-			AppD.setLAF(AppD.MAC_OS || AppD.WINDOWS);
-		}
+		AppD.setLAF(ThemeD.getTheme().getLookAndFeel());
+		// if (args.containsArg("laf")) {
+		// 	AppD.setLAF(args.getStringValue("laf").equals("system"));
+		// } else {
+		// 	// system LAF for Windows and Mac; cross-platform for LINUX, others
+		// 	// AppD.setThemeLAF(true);
+		// 	AppD.setLAF(AppD.MAC_OS || AppD.WINDOWS);
+		// }
 
 		if (args.containsArg("resetSettings")) {
 			GeoGebraPreferencesD.getPref().clearPreferences(wnd.app);

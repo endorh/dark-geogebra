@@ -3,7 +3,6 @@ package org.geogebra.desktop.gui.util;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
-import java.awt.SystemColor;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -13,6 +12,8 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
 import org.geogebra.common.main.App;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 
 public class LayoutUtil {
 
@@ -99,9 +100,9 @@ public class LayoutUtil {
 	public static Border titleBorder(String title) {
 		Border lineBorder = BorderFactory.createCompoundBorder(
 				BorderFactory.createMatteBorder(0, 0, 1, 0,
-						SystemColor.controlLtHighlight),
+						ThemeD.color(ColorKeys.CONTROL_HIGHLIGHT)),
 				BorderFactory.createMatteBorder(0, 0, 1, 0,
-						SystemColor.controlShadow));
+						ThemeD.color(ColorKeys.CONTROL_SHADOW)));
 
 		Border outsideBorder = BorderFactory.createTitledBorder(lineBorder,
 				title, TitledBorder.LEADING, TitledBorder.TOP); // ,f,SystemColor.DARK_GRAY);

@@ -13,7 +13,9 @@ the Free Software Foundation.
 package org.geogebra.desktop;
 
 import java.awt.Frame;
+import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.image.ImageProducer;
 import java.net.URL;
 
 import org.geogebra.common.GeoGebraConstants;
@@ -21,8 +23,13 @@ import org.geogebra.common.main.GeoGebraPreferencesXML;
 import org.geogebra.common.util.Util;
 import org.geogebra.common.util.debug.Log;
 import org.geogebra.desktop.gui.app.GeoGebraFrame;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.main.AppD;
+import org.geogebra.desktop.main.GeoGebraPreferencesD;
 import org.geogebra.desktop.main.GeoGebraServer;
+import org.geogebra.desktop.util.ImageManagerD;
+
+import sun.awt.image.URLImageSource;
 
 public class GeoGebra {
 
@@ -89,13 +96,26 @@ public class GeoGebra {
 			showSplash = false;
 		}
 
+		// Theme settings must be loaded before the splash
+		GeoGebraPreferencesD.loadThemePreferences();
+		if (args.containsArg("theme")) {
+			String name = args.getStringValue("theme");
+			try {
+				ThemeD.setTheme(name);
+			} catch (IllegalArgumentException ignored) {}
+		}
+
 		if (showSplash) {
 			// Show splash screen
 			URL imageURL = GeoGebra.class.getResource(
 					"/org/geogebra/desktop/" + GeoGebraConstants.SPLASH_STRING);
 			if (imageURL != null) {
-				splashFrame = SplashWindow.splash(
-						Toolkit.getDefaultToolkit().createImage(imageURL));
+				ImageProducer source = new URLImageSource(imageURL);
+				if (ThemeD.getTheme().isDarkTheme()) {
+					source = ImageManagerD.addInvertFilter(source);
+				}
+				Image im = Toolkit.getDefaultToolkit().createImage(source);
+				splashFrame = SplashWindow.splash(im);
 			} else {
 				System.err.println("Splash image not found");
 			}

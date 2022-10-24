@@ -8,7 +8,7 @@ import org.geogebra.desktop.main.AppD;
 
 /**
  * Frame for geogebra 3D.
- * 
+ *
  * @author Mathieu
  *
  */
@@ -27,7 +27,7 @@ public class GeoGebraFrame3D extends GeoGebraFrame {
 
 	/**
 	 * Create a new 3D geogebra window
-	 * 
+	 *
 	 * @param args
 	 *            command line arguments
 	 * @return new geogebra window

@@ -1319,6 +1319,10 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 			color[0] = c;
 		}
 
+		if (getView3D().isColorFiltered()) {
+			color[0] = getView3D().filterColor(color[0]);
+		}
+
 		// creates corresponding color for highlighting
 
 		int r = color[0].getRed();

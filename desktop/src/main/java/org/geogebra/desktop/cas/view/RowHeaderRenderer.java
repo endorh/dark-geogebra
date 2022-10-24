@@ -19,7 +19,7 @@ import org.geogebra.common.cas.view.MarbleRenderer;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.desktop.awt.GColorD;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
 
@@ -66,7 +66,7 @@ public class RowHeaderRenderer extends JPanel
 
 		setOpaque(true);
 		setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0,
-				GColorD.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)));
+				ThemeD.awtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)));
 	}
 
 	public void updateIcons() {
@@ -88,10 +88,10 @@ public class RowHeaderRenderer extends JPanel
 		CASInputHandler.handleMarble(ctr, this);
 
 		if (isSelected) {
-			setBackground(GColorD.getAwtColor(
+			setBackground(ThemeD.awtColor(
 					GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR_HEADER));
 		} else {
-			setBackground(GColorD.getAwtColor(
+			setBackground(ThemeD.awtColor(
 					GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));
 		}
 

@@ -1,6 +1,5 @@
 package org.geogebra.desktop.gui.layout.panels;
 
-import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.BorderFactory;
@@ -10,6 +9,8 @@ import javax.swing.JScrollPane;
 
 import org.geogebra.common.main.App;
 import org.geogebra.desktop.gui.GuiManagerD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.view.algebra.AlgebraViewD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.util.GuiResourcesD;
@@ -47,7 +48,7 @@ public class AlgebraDockPanel extends NavigableDockPanel {
 		JScrollPane scrollPane = new JScrollPane(
 				(Component) app.getGuiManager().getAlgebraView());
 		scrollPane.setBorder(BorderFactory.createEmptyBorder());
-		scrollPane.setBackground(Color.white);
+		scrollPane.setBackground(ThemeD.color(ColorKeys.BACKGROUND_ALGEBRA));
 
 		return scrollPane;
 	}

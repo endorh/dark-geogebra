@@ -1,7 +1,6 @@
 package org.geogebra.desktop.gui.view.data;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -50,9 +49,10 @@ import org.geogebra.common.gui.view.data.DataVariable.GroupType;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.Validation;
-import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.gui.inputfield.MathTextField;
 import org.geogebra.desktop.gui.inputfield.MyTextFieldD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.util.LayoutUtil;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
@@ -713,22 +713,22 @@ public class DataSourcePanel extends JPanel
 			setBorder(headerBorder);
 
 			lblDataDescription = new JLabel("", SwingConstants.CENTER);
-			lblDataDescription.setForeground(Color.WHITE);
-			lblDataDescription.setBackground(Color.LIGHT_GRAY);
+			lblDataDescription.setForeground(ThemeD.color(ColorKeys.TEXT_SURFACE));
+			lblDataDescription.setBackground(ThemeD.color(ColorKeys.BACKGROUND_SURFACE));
 			lblDataDescription.setOpaque(true);
 			lblDataDescription
 					.setBorder(BorderFactory.createEmptyBorder(2, 0, 2, 2));
 
 			lblImportBtn = new JLabel("", SwingConstants.LEFT);
-			lblImportBtn.setForeground(Color.WHITE);
-			lblImportBtn.setBackground(Color.LIGHT_GRAY);
+			lblImportBtn.setForeground(ThemeD.color(ColorKeys.TEXT_SURFACE));
+			lblImportBtn.setBackground(ThemeD.color(ColorKeys.BACKGROUND_SURFACE));
 			lblImportBtn.setOpaque(true);
 			lblImportBtn
 					.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 10));
 			lblImportBtn.setPreferredSize(new Dimension(20, 20));
 
 			lblDataTitle = new JLabel("", SwingConstants.CENTER);
-			lblDataTitle.setForeground(Color.BLACK);
+			lblDataTitle.setForeground(ThemeD.color(ColorKeys.FOREGROUND));
 			lblDataTitle.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
 
 			importIcon = app.getScaledIcon(GuiResourcesD.ARROW_CURSOR_GRABBING);
@@ -781,10 +781,10 @@ public class DataSourcePanel extends JPanel
 			add(headerPanel, BorderLayout.CENTER);
 
 			if (vColIndex == table.getSelectedColumn()) {
-				setBackground(GColorD.getAwtColor(
+				setBackground(ThemeD.awtColor(
 						GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR_HEADER));
 			} else {
-				setBackground(GColorD.getAwtColor(
+				setBackground(ThemeD.awtColor(
 						GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER));
 			}
 

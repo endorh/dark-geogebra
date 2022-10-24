@@ -18,6 +18,7 @@ import org.geogebra.common.kernel.cas.AlgoDependentCasCell;
 import org.geogebra.common.kernel.geos.GProperty;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.main.AppD;
 
 /**
@@ -187,7 +188,7 @@ public class AlgebraTree extends JTree {
 
 	@Override
 	public void setToolTipText(String text) {
-		renderer.setToolTipText(text);
+		renderer.setToolTipText(GColorD.patchHTMLFontColors(text));
 	}
 
 	/**

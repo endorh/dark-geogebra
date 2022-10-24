@@ -6,7 +6,6 @@ import static java.awt.event.KeyEvent.VK_ESCAPE;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.SystemColor;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -23,6 +22,8 @@ import javax.swing.text.BadLocationException;
 
 import org.geogebra.common.gui.util.SelectionTable;
 import org.geogebra.common.gui.util.TableSymbols;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.util.SelectionTableD;
 import org.geogebra.desktop.main.AppD;
 import org.geogebra.desktop.main.LocalizationD;
@@ -60,7 +61,7 @@ public class SymbolTablePopupD {
 		popup = new JPopupMenu();
 		popup.setFocusable(false);
 		popup.setBorder(
-				BorderFactory.createLineBorder(SystemColor.controlShadow));
+				BorderFactory.createLineBorder(ThemeD.color(ColorKeys.CONTROL_SHADOW)));
 
 		// created in setLabels(), not needed here
 		// createSymbolTable();

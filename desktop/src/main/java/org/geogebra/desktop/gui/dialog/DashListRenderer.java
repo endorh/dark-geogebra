@@ -13,7 +13,6 @@ the Free Software Foundation.
 package org.geogebra.desktop.gui.dialog;
 
 import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -27,6 +26,8 @@ import org.geogebra.common.euclidian.EuclidianStatic;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.factories.AwtFactory;
 import org.geogebra.desktop.factories.AwtFactoryD;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 
 /**
  * used by LineStylePanel for rendering a combobox with different line styles
@@ -61,7 +62,7 @@ public class DashListRenderer extends JPanel implements ListCellRenderer {
 			int index, boolean isSelected, boolean cellHasFocus) {
 		if (isSelected) {
 			// setBackground(list.getSelectionBackground());
-			setBackground(Color.LIGHT_GRAY);
+			setBackground(ThemeD.color(ColorKeys.OUTLINE_LIGHT));
 		} else {
 			setBackground(list.getBackground());
 		}
@@ -82,12 +83,8 @@ public class DashListRenderer extends JPanel implements ListCellRenderer {
 	public void paint(Graphics g) {
 		Graphics2D g2 = (Graphics2D) g;
 		// clear background
-		// g2.setColor(getBackground());
-		if (getBackground() == Color.LIGHT_GRAY) {
-			g2.setColor(Color.LIGHT_GRAY);
-		} else {
-			g2.setColor(Color.WHITE);
-		}
+		g2.setColor(getBackground());
+
 		// g2.clearRect(0, 0, getWidth(), getHeight());
 		g.fillRect(0, 0, getWidth(), getHeight());
 		if (nullValue) {
@@ -95,7 +92,7 @@ public class DashListRenderer extends JPanel implements ListCellRenderer {
 		}
 
 		// draw dashed line
-		g2.setPaint(Color.black);
+		g2.setPaint(ThemeD.color(ColorKeys.FOREGROUND));
 		g2.setStroke(dashStroke);
 		int mid = getHeight() / 2;
 		g2.drawLine(0, mid, getWidth(), mid);

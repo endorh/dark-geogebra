@@ -1,10 +1,8 @@
 package org.geogebra.desktop.gui.view.properties;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
-import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -29,6 +27,8 @@ import org.geogebra.common.gui.view.properties.PropertiesView;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.OptionType;
 import org.geogebra.common.util.debug.Log;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.util.PopupMenuButtonD;
 import org.geogebra.desktop.main.AppD;
 
@@ -123,9 +123,9 @@ public class PropertiesStyleBarD extends PropertiesStyleBar {
 		// this.add(titlePanel, BorderLayout.SOUTH);
 		this.wrappedPanel.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createMatteBorder(0, 0, 0, 0,
-						SystemColor.controlShadow),
+						ThemeD.color(ColorKeys.CONTROL_SHADOW)),
 				BorderFactory.createMatteBorder(0, 0, 1, 0,
-						SystemColor.controlLtHighlight)));
+						ThemeD.color(ColorKeys.CONTROL_HIGHLIGHT))));
 		// this.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED));
 	}
 
@@ -208,7 +208,7 @@ public class PropertiesStyleBarD extends PropertiesStyleBar {
 			final JMenuItem mi = newJMenuItem(type);
 			if (mi != null) {
 				mi.setFont(app.getPlainFont());
-				mi.setBackground(Color.white);
+				mi.setBackground(ThemeD.color(ColorKeys.BACKGROUND));
 				mi.setText(propertiesView.getTypeString(type));
 				mi.setIcon(PropertiesViewD.getTypeIcon(app, type));
 				mi.addActionListener(new ActionListener() {

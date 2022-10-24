@@ -4051,6 +4051,14 @@ public abstract class EuclidianView3D extends EuclidianView
 				&& isGlassesGrayScaled();
 	}
 
+	public boolean isColorFiltered() {
+		return false;
+	}
+
+	public GColor filterColor(GColor color) {
+		return color;
+	}
+
 	/**
 	 * @return true if the display is additive (e.g. holographic display).
 	 */

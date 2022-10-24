@@ -17,9 +17,9 @@ import org.geogebra.common.euclidian.draw.DrawInputBox;
 import org.geogebra.common.kernel.geos.GeoInputBox;
 import org.geogebra.common.main.App;
 import org.geogebra.common.util.SyntaxAdapterImpl;
-import org.geogebra.desktop.awt.GColorD;
 import org.geogebra.desktop.awt.GGraphics2DD;
 import org.geogebra.desktop.awt.GRectangleD;
+import org.geogebra.desktop.gui.theme.ThemeD;
 
 import com.himamis.retex.editor.desktop.MathFieldD;
 import com.himamis.retex.editor.share.editor.MathFieldInternal;
@@ -125,7 +125,7 @@ public class SymbolicEditorD extends SymbolicEditor {
 		int boxX = box.getX();
 		view.getTextField().drawBounds(g, bgColor, boxX, boxY, box.getWidth(), box.getHeight());
 
-		mathField.setForeground(GColorD.getAwtColor(getGeoInputBox().getObjectColor()));
+		mathField.setForeground(ThemeD.awtColor(getGeoInputBox().getObjectColor()));
 		box.setBorder(null);
 		g.setClip(boxX, boxY, box.getWidth(), box.getHeight());
 		mathField.scrollHorizontally(box.getWidth());

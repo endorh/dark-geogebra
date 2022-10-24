@@ -1,14 +1,12 @@
 package org.geogebra.desktop.gui.layout;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
-import java.awt.SystemColor;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -44,6 +42,8 @@ import org.geogebra.desktop.awt.GRectangleD;
 import org.geogebra.desktop.gui.GuiManagerD;
 import org.geogebra.desktop.gui.app.GeoGebraFrame;
 import org.geogebra.desktop.gui.layout.panels.EuclidianDockPanelAbstract;
+import org.geogebra.desktop.gui.theme.ColorKeys;
+import org.geogebra.desktop.gui.theme.ThemeD;
 import org.geogebra.desktop.gui.toolbar.ToolbarContainer;
 import org.geogebra.desktop.gui.toolbar.ToolbarD;
 import org.geogebra.desktop.gui.util.LayoutUtil;
@@ -419,7 +419,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 	protected JComponent createFocusPanel() {
 		titleLabel = new JLabel(loc.getMenu(title));
 		titleLabel.setFont(app.getPlainFont());
-		titleLabel.setForeground(Color.darkGray);
+		titleLabel.setForeground(ThemeD.color(ColorKeys.OUTLINE_DARK));
 
 		JPanel p = new JPanel(new FlowLayout(app.flowLeft(), 2, 1));
 
@@ -474,7 +474,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 		// Custom border for the major panels (title, stylebar and toolbar)
 		Border panelBorder = BorderFactory.createCompoundBorder(
 				BorderFactory.createMatteBorder(0, 0, 1, 0,
-						SystemColor.controlShadow),
+						ThemeD.color(ColorKeys.CONTROL_SHADOW)),
 				BorderFactory.createEmptyBorder(0, 2, 0, 2));
 
 		// create style bar panel

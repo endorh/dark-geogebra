@@ -1,0 +1,37 @@
+The use of this project shall be governed by the
+GeoGebra License (https://www.geogebra.org/license) above anything else, as permitted
+by applicable laws.
+
+The terms of this license and how it affects this project are summarized below,
+but the GeoGebra License has the final say in case of any conflict.
+
+
+This project itself falls under the category of Non-commercial Use of GeoGebra.
+All copyrighted materials, graphics and other resources included in this repository
+belong to the GeoGebra GmbH ("GeoGebra"), and are used only for non-commercial purposes.
+
+Any installers provided in this repository are not official nor endorsed by GeoGebra
+in any way, and are provided merely for the convenience of people without the means
+or ability to build them themselves. You may use, copy, distribute, modify and transmit
+them at your own risk, without ANY warranty and for non-commercial purposes only.
+
+The code itself is licensed under the GNU General Public License (version 3 or later),
+as published by the Free Software Foundation, the current text of which can be found
+via this link: https://www.gnu.org/licenses/gpl.html, as expressed by the GeoGebra License.
+
+The GeoGebra language files, all GeoGebra documentation and all other documentation files
+potentially found in this repository, and all GeoGebra user interface image and style
+files are used and licensed under the terms of the Creative Commons
+Attribution-NonCommercial-ShareAlike license (version 3.0 or later), the current text of
+which can be found via this link: https://creativecommons.org/licenses/by-nc-sa/3.0/legalcode,
+as expressed by the GeoGebra License.
+
+The Software (and all related materials and resources) are licensed to you without ANY
+warranty nor promise of support or future development by the GeoGebra GmbH, the developer
+of this fork or any third party.
+
+
+If you wish to use this project for commercial purposes, you'll have to contact GeoGebra
+and get a special license from them (office@geogebra.org). The author of this fork grants
+total freedom exclusively to GeoGebra GmbH to grant/license commercial use of this project
+at their own will, without any prior communication or notice to him.

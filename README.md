@@ -1,5 +1,7 @@
 # Dark GeoGebra
 
+![Dark GeoGebra - Flat Dark Theme](https://raw.githubusercontent.com/endorh/dark-geogebra/images/flat-dark-demo.png)
+
 This is a fork from [GeoGebra](https://www.geogebra.org/) (https://www.geogebra.org/). The original code from this
 project can be found at the official
 [GeoGebra mirror repository](https://github.com/geogebra/geogebra) on GitHub.
@@ -119,3 +121,14 @@ The generated installers will be located within the `desktop/build/jpackage` dir
 
 If you're using IntelliJ (which you should), you may also pick the `desktop/build/jpackage`
 task from the Gradle Tool Window.
+
+## Light Theme
+If you despise your eye health so much, yes, you can still use the light theme.
+Dark GeoGebra provides a flat version of the light theme, as well as the classic
+themes from GeoGebra.
+
+<details>
+  <summary>Flat Light Theme</summary>
+
+  ![Dark GeoGebra - Flat Light Theme](https://raw.githubusercontent.com/endorh/dark-geogebra/images/flat-light-demo.png)
+</details>

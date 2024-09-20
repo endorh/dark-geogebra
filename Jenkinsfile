@@ -147,6 +147,7 @@ pipeline {
                     s3uploadDefault("web/war", "geogebra-live.js", "")
                     s3uploadDefault("web/war", "platform.js", "")
                     s3uploadDefault("web/war", "css/**", "")
+                    s3uploadDefault("web/war", "fa/**", "")
                 }
             }
         }

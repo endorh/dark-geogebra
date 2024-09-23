@@ -15,6 +15,8 @@ import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButtonWithMenu;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButtonWithPopup;
+import org.geogebra.web.full.gui.toolbar.mow.toolbox.icons.DefaultToolboxIconProvider;
+import org.geogebra.web.full.gui.toolbar.mow.toolbox.icons.MebisToolboxIconProvider;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.pen.PenIconButton;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.ruler.RulerIconButton;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.text.TextIconButton;
@@ -32,6 +34,7 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 	private final ToolboxController controller;
 	private @CheckForNull IconButton spotlightButton;
 	private final List<IconButton> buttons = new ArrayList<>();
+	private ToolboxIconResource toolboxIconResource;
 
 	/**
 	 * MOW toolbox
@@ -42,6 +45,8 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 		this.appW = appW;
 		decorator = new ToolboxDecorator(this, isTopBarAttached);
 		controller = new ToolboxController(appW, this);
+		toolboxIconResource = new ToolboxIconResource(appW.isMebis()
+				? new MebisToolboxIconProvider() : new DefaultToolboxIconProvider());
 		buildGui();
 	}
 

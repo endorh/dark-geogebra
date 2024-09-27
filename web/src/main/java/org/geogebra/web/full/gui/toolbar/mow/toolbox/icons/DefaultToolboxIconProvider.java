@@ -28,6 +28,12 @@ public class DefaultToolboxIconProvider implements ToolboxIconProvider {
 			return res.upload();
 		case LINK:
 			return res.link();
+		case SPOTLIGHT:
+			return res.target();
+		case DRAG:
+			return res.drag();
+		case RULER:
+			return res.mode_ruler();
 		default:
 			return null;
 		}

@@ -22,6 +22,10 @@ public class MebisToolboxIconProvider extends DefaultToolboxIconProvider {
 			return new FaIconSpec("fa-light fa-arrow-up-from-line");
 		case LINK:
 			return new FaIconSpec("fa-light fa-link");
+		case SPOTLIGHT:
+			return new FaIconSpec("fa-light fa-location-crosshairs");
+		case RULER:
+			return new FaIconSpec("fa-light fa-ruler-horizontal");
 		}
 		return super.matchIconWithResource(icon);
 	}
@@ -39,6 +43,11 @@ public class MebisToolboxIconProvider extends DefaultToolboxIconProvider {
 			icon.setClassName(name);
 			icon.addClassName("fa-regular");
 			return icon;
+		}
+
+		@Override
+		public IconSpec withFill(String color) {
+			return this;
 		}
 	}
 }

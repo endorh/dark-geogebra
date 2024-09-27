@@ -4,4 +4,6 @@ import org.gwtproject.dom.client.Element;
 
 public interface IconSpec {
 	Element toElement();
+
+	IconSpec withFill(String color);
 }

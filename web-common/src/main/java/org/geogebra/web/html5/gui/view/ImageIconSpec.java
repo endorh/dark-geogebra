@@ -1,22 +1,28 @@
 package org.geogebra.web.html5.gui.view;
 
 import org.geogebra.web.html5.gui.util.NoDragImage;
+import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.dom.client.Element;
-import org.gwtproject.resources.client.ResourcePrototype;
 
 public class ImageIconSpec implements IconSpec {
-	private final ResourcePrototype image;
+	private final SVGResource image;
 
-	public ImageIconSpec(ResourcePrototype image) {
+	public ImageIconSpec(SVGResource image) {
 		this.image = image;
 	}
 
-	public ResourcePrototype getImage() {
+	public SVGResource getImage() {
 		return image;
 	}
 
 	@Override
 	public Element toElement() {
 		return new NoDragImage(getImage(), 24).getElement();
+	}
+
+	@Override
+	public IconSpec withFill(String color) {
+		image.withFill(color);
+		return this;
 	}
 }

@@ -26,4 +26,13 @@ public interface DefaultToolboxIconResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/openFileView/link_black_24dp.svg")
 	SVGResource link();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/target.svg")
+	SVGResource target();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/drag_pad.svg")
+	SVGResource drag();
+
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_ruler.svg")
+	SVGResource mode_ruler();
 }

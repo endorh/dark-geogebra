@@ -10,6 +10,7 @@ import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
+import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.resources.SVGResourcePrototype;
@@ -45,7 +46,7 @@ public class TextCategoryPopup extends GPopupMenuW implements SetLabels {
 			item.setResource(image);
 			item.setScheduledCommand(() -> {
 				updateMode(mode);
-				updateButton((SVGResource) image, mode);
+				updateButton((IconSpec) image, mode);
 				updateSelection(item);
 			});
 		});
@@ -57,7 +58,7 @@ public class TextCategoryPopup extends GPopupMenuW implements SetLabels {
 		lastSelectedMode = mode;
 	}
 
-	private void updateButton(SVGResource image, int mode) {
+	private void updateButton(IconSpec image, int mode) {
 		String fillColor = textButton.isActive()
 				? getApp().getGeoGebraElement().getDarkColor(getApp().getFrameElement())
 				: GColor.BLACK.toString();

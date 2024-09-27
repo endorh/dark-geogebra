@@ -100,6 +100,14 @@ public class StandardButton extends Widget implements HasResource {
 	}
 
 	/**
+	 * @param icon - img of button
+	 * @param width - width
+	 */
+	public StandardButton(final IconSpec icon, int width) {
+		this(icon, null, width, -1);
+	}
+
+	/**
 	 * constructor for IconButton like colored button,
 	 * context menu buttons and dyn stylebar buttons
 	 * @param width - width
@@ -225,6 +233,12 @@ public class StandardButton extends Widget implements HasResource {
 			btnImage.setUrl(NoDragImage.safeURI(icon));
 		} else {
 			setIconAndLabel(icon, this.label, this.width, this.height);
+		}
+	}
+
+	public void setIcon(final IconSpec icon) {
+		if (icon instanceof ImageIconSpec) {
+			setIconAndLabel(((ImageIconSpec) icon).getImage(), label, width, height);
 		}
 	}
 

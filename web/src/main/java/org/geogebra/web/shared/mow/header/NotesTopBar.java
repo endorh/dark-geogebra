@@ -16,6 +16,7 @@ import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.css.ZoomPanelResources;
+import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
 import org.geogebra.web.html5.main.AppW;
@@ -106,8 +107,8 @@ public class NotesTopBar extends FlowPanel implements SetLabels, CoordSystemList
 	}
 
 	private void addDragButton() {
-		dragBtn = new IconButton(controller.getApp(), MaterialDesignResources
-				.INSTANCE.move_canvas(), "PanView", "PanView", "", null);
+		dragBtn = new IconButton(controller.getApp(), new ImageIconSpec(MaterialDesignResources
+				.INSTANCE.move_canvas()), "PanView", "PanView", "", null);
 		dragBtn.addFastClickHandler((event) -> controller.onDrag(dragBtn.isActive()));
 
 		registerFocusable(dragBtn, AccessibilityGroup.ZOOM_NOTES_DRAG_VIEW);
@@ -164,7 +165,8 @@ public class NotesTopBar extends FlowPanel implements SetLabels, CoordSystemList
 
 	private IconButton addSmallPressButton(SVGResource image, String ariaLabel,
 			Runnable clickHandler, AccessibilityGroup group) {
-		IconButton button = new IconButton(controller.getApp(), clickHandler, image, ariaLabel);
+		IconButton button = new IconButton(controller.getApp(), clickHandler,
+				new ImageIconSpec(image), ariaLabel);
 		add(button);
 		buttons.add(button);
 

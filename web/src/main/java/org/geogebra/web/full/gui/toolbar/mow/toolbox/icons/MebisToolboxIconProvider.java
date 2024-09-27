@@ -11,21 +11,21 @@ public class MebisToolboxIconProvider extends DefaultToolboxIconProvider {
 	public IconSpec matchIconWithResource(ToolboxIcon icon) {
 		switch (icon) {
 		case MOUSE_CURSOR:
-			return new FaIconSpec("fa-light fa-arrow-pointer");
+			return new FaIconSpec("fa-arrow-pointer");
 		case SHAPES:
-			return new FaIconSpec("fa-light fa-shapes");
+			return new FaIconSpec("fa-shapes");
 		case APPS:
-			return new FaIconSpec("fa-light fa-square-plus");
+			return new FaIconSpec("fa-square-plus");
 		case TEXTS:
-			return new FaIconSpec("fa-light fa-text-size");
+			return new FaIconSpec("fa-text-size");
 		case UPLOAD:
-			return new FaIconSpec("fa-light fa-arrow-up-from-line");
+			return new FaIconSpec("fa-arrow-up-from-line");
 		case LINK:
-			return new FaIconSpec("fa-light fa-link");
+			return new FaIconSpec("fa-link");
 		case SPOTLIGHT:
-			return new FaIconSpec("fa-light fa-location-crosshairs");
+			return new FaIconSpec("fa-location-crosshairs");
 		case RULER:
-			return new FaIconSpec("fa-light fa-ruler-horizontal");
+			return new FaIconSpec("fa-ruler-horizontal");
 		}
 		return super.matchIconWithResource(icon);
 	}

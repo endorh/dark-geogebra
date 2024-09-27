@@ -117,8 +117,8 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 			return;
 		}
 
-		spotlightButton = addToggleButton(toolboxIconResource.getImageResource
-				(ToolboxIcon.SPOTLIGHT), "Spotlight.Tool", "Spotlight.Tool", "spotlightTool",
+		spotlightButton = addToggleButton(toolboxIconResource.getImageResource(
+				ToolboxIcon.SPOTLIGHT), "Spotlight.Tool", "Spotlight.Tool", "spotlightTool",
 				controller.getSpotlightOnHandler(), () -> {});
 	}
 

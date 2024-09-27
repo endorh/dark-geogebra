@@ -236,6 +236,10 @@ public class StandardButton extends Widget implements HasResource {
 		}
 	}
 
+	/**
+	 * set icon
+	 * @param icon - icon
+	 */
 	public void setIcon(final IconSpec icon) {
 		if (icon instanceof ImageIconSpec) {
 			setIconAndLabel(((ImageIconSpec) icon).getImage(), label, width, height);

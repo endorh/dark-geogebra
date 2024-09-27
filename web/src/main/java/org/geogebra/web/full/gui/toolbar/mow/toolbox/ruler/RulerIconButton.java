@@ -5,7 +5,6 @@ import org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolboxPopupPositioner;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.resources.SVGResource;
 
 public class RulerIconButton extends IconButton {
 	private final EuclidianController ec;

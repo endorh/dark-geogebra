@@ -21,16 +21,23 @@ public interface DefaultToolboxIconResources extends ClientBundle {
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_eraser.svg")
 	SVGResource mode_eraser_32();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/plusMenu/add.svg")
+	SVGResource add_black();
 
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/toolbox/text_fields.svg")
+	SVGResource texts();
+
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_media_text.svg")
+	SVGResource mode_media_text();
+
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_equation.svg")
+	SVGResource mode_equation();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/toolbox/tool_shapes.svg")
 	SVGResource shapes();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/toolbox/add_box.svg")
 	SVGResource apps();
-
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/toolbox/text_fields.svg")
-	SVGResource texts();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dialog/upload_black_24dp.svg")
 	SVGResource upload();

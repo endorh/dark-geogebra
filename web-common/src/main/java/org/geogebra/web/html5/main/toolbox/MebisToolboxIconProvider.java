@@ -19,13 +19,17 @@ public class MebisToolboxIconProvider extends DefaultToolboxIconProvider {
 			return new FaIconSpec("fa-eraser");
 		case PLUS:
 			return new FaIconSpec("fa-plus");
-
 		case SHAPES:
 			return new FaIconSpec("fa-shapes");
-		case APPS:
-			return new FaIconSpec("fa-square-plus");
 		case TEXTS:
 			return new FaIconSpec("fa-text-size");
+		case TEXT:
+			return new FaIconSpec("fa-square-t");
+		case EQUATION:
+			return new FaIconSpec("fa-calculator-simple");
+
+		case APPS:
+			return new FaIconSpec("fa-square-plus");
 		case UPLOAD:
 			return new FaIconSpec("fa-arrow-up-from-line");
 		case LINK:

@@ -8,14 +8,14 @@ import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.app.GGWToolBar;
-import org.geogebra.web.html5.main.toolbox.ToolboxIcon;
-import org.geogebra.web.html5.main.toolbox.ToolboxIconResource;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.toolbox.ToolboxIcon;
+import org.geogebra.web.html5.main.toolbox.ToolboxIconResource;
 import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.resources.SVGResourcePrototype;
@@ -243,6 +243,11 @@ public class IconButton extends StandardButton implements SetLabels {
 		return appW.getGeoGebraElement().getDarkColor(appW.getFrameElement());
 	}
 
+	/**
+	 * @param mode - tool mode
+	 * @param toolboxIconResource - icon resource
+	 * @return icon
+	 */
 	public IconSpec getIconFromMode(Integer mode, ToolboxIconResource toolboxIconResource) {
 		switch (mode) {
 		case MODE_PEN:

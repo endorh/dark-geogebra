@@ -24,14 +24,17 @@ public class DefaultToolboxIconProvider implements ToolboxIconProvider {
 		case ERASER:
 			return res.mode_eraser_32();
 		case PLUS:
-
-
+			return res.add_black();
 		case SHAPES:
 			return res.shapes();
-		case APPS:
-			return res.apps();
 		case TEXTS:
 			return res.texts();
+		case TEXT:
+			return res.mode_media_text();
+		case EQUATION:
+			return res.mode_equation();
+		case APPS:
+			return res.apps();
 		case UPLOAD:
 			return res.upload();
 		case LINK:

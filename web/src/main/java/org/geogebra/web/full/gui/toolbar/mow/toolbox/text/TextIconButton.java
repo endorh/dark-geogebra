@@ -2,13 +2,13 @@ package org.geogebra.web.full.gui.toolbar.mow.toolbox.text;
 
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MEDIA_TEXT;
 
-import org.geogebra.web.html5.main.toolbox.ToolboxIcon;
-import org.geogebra.web.html5.main.toolbox.ToolboxIconResource;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolboxPopupPositioner;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.toolbox.ToolboxIcon;
+import org.geogebra.web.html5.main.toolbox.ToolboxIconResource;
 
 public class TextIconButton extends IconButton {
 	private final AppW appW;

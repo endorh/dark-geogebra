@@ -3557,6 +3557,9 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		return tools.contains(category) || tools.isEmpty();
 	}
 
+	/**
+	 * @return toolbox icon resource provider
+	 */
 	public ToolboxIconResource getToolboxIconResource() {
 		if (toolboxIconResource == null) {
 			toolboxIconResource = new ToolboxIconResource(isMebis()

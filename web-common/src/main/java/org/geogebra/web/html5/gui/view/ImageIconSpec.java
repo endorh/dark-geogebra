@@ -5,7 +5,7 @@ import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.dom.client.Element;
 
 public class ImageIconSpec implements IconSpec {
-	private final SVGResource image;
+	private SVGResource image;
 
 	public ImageIconSpec(SVGResource image) {
 		this.image = image;
@@ -22,7 +22,7 @@ public class ImageIconSpec implements IconSpec {
 
 	@Override
 	public IconSpec withFill(String color) {
-		image.withFill(color);
+		image = image.withFill(color);
 		return this;
 	}
 }

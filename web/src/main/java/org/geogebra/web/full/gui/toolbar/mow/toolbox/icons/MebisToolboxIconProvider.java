@@ -47,6 +47,7 @@ public class MebisToolboxIconProvider extends DefaultToolboxIconProvider {
 
 		@Override
 		public IconSpec withFill(String color) {
+			// not needed, solved through css
 			return this;
 		}
 	}

@@ -1,9 +1,15 @@
 package org.geogebra.web.full.gui.toolbar.mow.toolbox.components;
 
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_ERASER;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_HIGHLIGHTER;
+import static org.geogebra.common.euclidian.EuclidianConstants.MODE_PEN;
+
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.full.gui.app.GGWToolBar;
+import org.geogebra.web.html5.main.toolbox.ToolboxIcon;
+import org.geogebra.web.html5.main.toolbox.ToolboxIconResource;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.IconSpec;
@@ -36,10 +42,8 @@ public class IconButton extends StandardButton implements SetLabels {
 		this.appW = appW;
 		selectionColor = getSelectionColor(appW);
 		AriaHelper.setDataTitle(this, appW.getToolName(mode));
-		GGWToolBar.getImageResource(mode, appW, image -> {
-			this.image = new ImageIconSpec((SVGResource) image);
-			setActive(getElement().hasClassName("active"));
-		});
+		image = getIconFromMode(mode, appW.getToolboxIconResource());
+		setActive(getElement().hasClassName("active"));
 		addStyleName("iconButton");
 	}
 
@@ -237,5 +241,22 @@ public class IconButton extends StandardButton implements SetLabels {
 
 	private String getSelectionColor(AppW appW) {
 		return appW.getGeoGebraElement().getDarkColor(appW.getFrameElement());
+	}
+
+	public IconSpec getIconFromMode(Integer mode, ToolboxIconResource toolboxIconResource) {
+		switch (mode) {
+		case MODE_PEN:
+			return toolboxIconResource.getImageResource(ToolboxIcon.PEN);
+		case MODE_HIGHLIGHTER:
+			return toolboxIconResource.getImageResource(ToolboxIcon.HIGHLIGHTER);
+		case MODE_ERASER:
+			return toolboxIconResource.getImageResource(ToolboxIcon.ERASER);
+		default:
+			GGWToolBar.getImageResource(mode, appW, toolImg -> {
+				image = new ImageIconSpec((SVGResource) toolImg);
+				setIcon(image);
+			});
+			return image;
+		}
 	}
 }

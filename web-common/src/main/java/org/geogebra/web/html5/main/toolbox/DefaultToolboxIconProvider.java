@@ -1,6 +1,5 @@
-package org.geogebra.web.full.gui.toolbar.mow.toolbox.icons;
+package org.geogebra.web.html5.main.toolbox;
 
-import org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolboxIcon;
 import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.resources.SVGResource;
@@ -18,6 +17,15 @@ public class DefaultToolboxIconProvider implements ToolboxIconProvider {
 		switch (icon) {
 		case MOUSE_CURSOR:
 			return res.mouse_cursor();
+		case PEN:
+			return res.mode_pen();
+		case HIGHLIGHTER:
+			return res.mode_highlighter_32();
+		case ERASER:
+			return res.mode_eraser_32();
+		case PLUS:
+
+
 		case SHAPES:
 			return res.shapes();
 		case APPS:

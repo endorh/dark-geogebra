@@ -1,4 +1,4 @@
-package org.geogebra.web.full.gui.toolbar.mow.toolbox.icons;
+package org.geogebra.web.html5.main.toolbox;
 
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.resources.client.ClientBundle;
@@ -11,6 +11,17 @@ public interface DefaultToolboxIconResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/toolbox/mouse_cursor.svg")
 	SVGResource mouse_cursor();
+
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_pen.svg")
+	SVGResource mode_pen();
+
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_highlighter.svg")
+	SVGResource mode_highlighter_32();
+
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_eraser.svg")
+	SVGResource mode_eraser_32();
+
+
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/toolbox/tool_shapes.svg")
 	SVGResource shapes();

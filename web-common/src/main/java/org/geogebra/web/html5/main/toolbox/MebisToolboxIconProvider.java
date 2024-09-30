@@ -1,6 +1,5 @@
-package org.geogebra.web.full.gui.toolbar.mow.toolbox.icons;
+package org.geogebra.web.html5.main.toolbox;
 
-import org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolboxIcon;
 import org.geogebra.web.html5.gui.view.IconSpec;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.DOM;
@@ -12,6 +11,15 @@ public class MebisToolboxIconProvider extends DefaultToolboxIconProvider {
 		switch (icon) {
 		case MOUSE_CURSOR:
 			return new FaIconSpec("fa-arrow-pointer");
+		case PEN:
+			return new FaIconSpec("fa-pen");
+		case HIGHLIGHTER:
+			return new FaIconSpec("fa-highlighter");
+		case ERASER:
+			return new FaIconSpec("fa-eraser");
+		case PLUS:
+			return new FaIconSpec("fa-plus");
+
 		case SHAPES:
 			return new FaIconSpec("fa-shapes");
 		case APPS:

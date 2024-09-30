@@ -13,14 +13,14 @@ import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButtonWithMenu;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButtonWithPopup;
-import org.geogebra.web.full.gui.toolbar.mow.toolbox.icons.DefaultToolboxIconProvider;
-import org.geogebra.web.full.gui.toolbar.mow.toolbox.icons.MebisToolboxIconProvider;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.pen.PenIconButton;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.ruler.RulerIconButton;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.text.TextIconButton;
 import org.geogebra.web.html5.Browser;
 import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.toolbox.ToolboxIcon;
+import org.geogebra.web.html5.main.toolbox.ToolboxIconResource;
 import org.geogebra.web.shared.mow.header.NotesTopBar;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.SimplePanel;
@@ -42,8 +42,7 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 		this.appW = appW;
 		decorator = new ToolboxDecorator(this, isTopBarAttached);
 		controller = new ToolboxController(appW, this);
-		toolboxIconResource = new ToolboxIconResource(appW.isMebis()
-				? new MebisToolboxIconProvider() : new DefaultToolboxIconProvider());
+		toolboxIconResource = appW.getToolboxIconResource();
 		buildGui();
 	}
 

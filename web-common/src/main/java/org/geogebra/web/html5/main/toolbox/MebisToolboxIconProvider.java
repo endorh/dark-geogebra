@@ -53,7 +53,7 @@ public class MebisToolboxIconProvider extends DefaultToolboxIconProvider {
 		public Element toElement() {
 			Element icon = DOM.createElement("I");
 			icon.setClassName(name);
-			icon.addClassName("fa-regular");
+			icon.addClassName("fa-light");
 			return icon;
 		}
 

@@ -1155,11 +1155,11 @@
 			opacity: 0.54;
 		}
 
-		.fa-regular {
+		.fa-light {
+			display: flex;
+			opacity: .54;
 			font-size: 23px;
-			font-weight: 300;
-			padding: 0 2px;
-			opacity: 0.54;
+			justify-content: center;
 		}
 
 		&:hover {
@@ -1169,11 +1169,11 @@
 		&.active {
 			background-color: var(--ggb-light-color);
 
-			img, .fa-regular {
+			img, .fa-light {
 				opacity: 1;
 			}
 
-			.fa-regular {
+			.fa-light {
 				color: var(--ggb-dark-color);
 			}
 		}

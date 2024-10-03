@@ -97,10 +97,11 @@
 				opacity: 0.54;
 			}
 
-			.fa-regular {
-				font-size: 18px;
+			.fa-light {
+				font-size: 17px;
+				display: flex;
 				width: 18px;
-				height: 18px;
+				justify-content: center;
 			}
 
 			&:hover {

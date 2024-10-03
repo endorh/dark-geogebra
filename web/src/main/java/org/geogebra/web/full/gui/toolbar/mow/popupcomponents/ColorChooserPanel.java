@@ -13,7 +13,6 @@ import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.html5.main.toolbox.MebisToolboxIconProvider;
 import org.geogebra.web.html5.main.toolbox.ToolboxIcon;
 import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -85,12 +84,10 @@ public class ColorChooserPanel extends FlowPanel {
 		SimplePanel imageHolder = new SimplePanel();
 		imageHolder.addStyleName("imageHolder");
 		IconSpec iconPlus = appW.getToolboxIconResource().getImageResource(ToolboxIcon.PLUS);
-		//plus.addStyleName("plus");
-
 
 		if (iconPlus instanceof ImageIconSpec) {
 			customColorButton.add(imageHolder);
-			NoDragImage img = new NoDragImage(((ImageIconSpec) iconPlus).getImage(),18);
+			NoDragImage img = new NoDragImage(((ImageIconSpec) iconPlus).getImage(), 18);
 			img.addStyleName("plus");
 			customColorButton.add(img);
 		} else {

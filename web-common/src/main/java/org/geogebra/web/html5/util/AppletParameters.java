@@ -791,4 +791,11 @@ public class AppletParameters {
 		return Arrays.stream(getStringDataParam("customToolbox", "").split(","))
 				.map(String::trim).filter(s -> !s.isEmpty()).collect(Collectors.toList());
 	}
+
+	/**
+	 * @return relative path of font awesome files
+	 */
+	public String getDataParamFontAwesome() {
+		return getStringDataParam("fontAwesome", "");
+	}
 }

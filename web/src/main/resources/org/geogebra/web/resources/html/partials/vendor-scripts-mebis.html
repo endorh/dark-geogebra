@@ -15,6 +15,16 @@
         document.head.appendChild(app);
     }
 
+    function loadFontAwesome(basePath) {
+        var fontAwesomeCss = document.createElement("link");
+        fontAwesomeCss.setAttribute("href", basePath + "/fa/css/fontawesome.min.css");
+        document.head.appendChild(fontAwesomeCss);
+
+        var lightCss = document.createElement("link");
+        lightCss.setAttribute("href", basePath + "/fa/css/regular.min.css");
+        document.head.appendChild(lightCss);
+    }
+
     function loadUnsavedWork(ggw) {
         var storage = window.sessionStorage;
         var unsavedWork = storage.getItem('tafelUnsaved');
@@ -115,5 +125,3 @@ body {
   --ggb-selection-color: rgba(151, 95, 168, 0.2);
 }
 </style>
-<link href="./fa/css/fontawesome.min.css" rel="stylesheet">
-<link href="./fa/css/light.min.css" rel="stylesheet">

@@ -5,8 +5,6 @@
 	<title><!--APP NAME--> - <!--VENDOR--></title>
 	<link rel="shortcut icon" href="<!--ICON-->" type="image/x-icon">
 	<link rel="icon" href="<!--ICON-->" type="image/x-icon">
-	<link rel="stylesheet" href="<!--FONTAWESOME-->" data-mode="default">
-	<link rel="stylesheet" href="<!--LIGHT-->" data-mode="default">
 	<meta property="og:title" content="<!--APP NAME--> - <!--VENDOR-->" />
 	<!--APPSTORE BANNER-->
 	<!--PRECONNECT-->
@@ -314,7 +312,7 @@ var codebase = "<!--CODEBASE-->";
 			window.loadFontScript(codebase + module);
 		}
 		if (window.loadFontAwesome) {
-			window.loadFontScript(codebase + module);
+			window.loadFontAwesome();
 		}
 		app = document.createElement("script");
 		app.setAttribute("src",codebase+module+"/"+module+".nocache.js");

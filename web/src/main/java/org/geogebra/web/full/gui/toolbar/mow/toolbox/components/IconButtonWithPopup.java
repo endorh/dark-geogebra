@@ -6,6 +6,8 @@ import java.util.function.Consumer;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolboxPopupPositioner;
 import org.geogebra.web.html5.gui.util.AriaHelper;
+import org.geogebra.web.html5.gui.view.IconSpec;
+import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
@@ -22,7 +24,7 @@ public class IconButtonWithPopup extends IconButton {
 	 * @param tools - list of tools
 	 * @param deselectButtons - deselect button callback
 	 */
-	public IconButtonWithPopup(AppW appW, SVGResource icon, String ariaLabel, List<Integer> tools,
+	public IconButtonWithPopup(AppW appW, IconSpec icon, String ariaLabel, List<Integer> tools,
 			Runnable deselectButtons) {
 		super(appW, icon, ariaLabel, ariaLabel, () -> {}, null);
 		this.appW = appW;
@@ -63,7 +65,7 @@ public class IconButtonWithPopup extends IconButton {
 
 	private Consumer<Integer> getUpdateButtonCallback() {
 		return mode -> GGWToolBar.getImageResource(mode, appW, image -> {
-			updateImgAndTxt((SVGResource) image, mode, appW);
+			updateImgAndTxt(new ImageIconSpec((SVGResource) image), mode, appW);
 			setActive(true);
 		});
 	}

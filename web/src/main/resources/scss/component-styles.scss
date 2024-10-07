@@ -1155,6 +1155,13 @@
 			opacity: 0.54;
 		}
 
+		.fa-light {
+			display: flex;
+			opacity: .54;
+			font-size: 20px;
+			justify-content: center;
+		}
+
 		&:hover {
 			background-color: neutral(200);
 		}
@@ -1162,8 +1169,12 @@
 		&.active {
 			background-color: var(--ggb-light-color);
 
-			img {
+			img, .fa-light {
 				opacity: 1;
+			}
+
+			.fa-light {
+				color: var(--ggb-dark-color);
 			}
 		}
 

@@ -11,6 +11,7 @@ import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.Dom;
+import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 
@@ -53,7 +54,8 @@ public class RulerPopup extends GPopupMenuW implements SetLabels {
 			String fillColor = rulerButton.isActive()
 					? getApp().getGeoGebraElement().getDarkColor(getApp().getFrameElement())
 					: GColor.BLACK.toString();
-			rulerButton.updateImgAndTxt(image.withFill(fillColor), mode, getApp());
+			rulerButton.updateImgAndTxt(new ImageIconSpec(image.withFill(fillColor)), mode,
+					getApp());
 			rulerButton.handleRuler();
 			setHighlight(item);
 		});

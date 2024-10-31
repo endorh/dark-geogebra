@@ -159,8 +159,7 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 			return;
 		}
 
-		List<Integer> linkTools = ToolboxConstants.getLinkCategory(
-				appW.getVendorSettings().isH5PEnabled());
+		List<Integer> linkTools = ToolboxConstants.linkCategory;
 		addToggleButtonWithMenuPopup(toolboxIconResource.getImageResource(ToolboxIcon.LINK),
 				"Link", linkTools);
 	}
@@ -173,9 +172,9 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 		IconButton selectButton = new IconButton(MODE_SELECT_MOW, appW,
 				toolboxIconResource.getImageResource(ToolboxIcon.MOUSE_CURSOR),
 				() -> {
-			appW.setMode(MODE_SELECT_MOW);
-			appW.closePopups();
-		});
+					appW.setMode(MODE_SELECT_MOW);
+					appW.closePopups();
+				});
 		add(selectButton);
 		buttons.add(selectButton);
 	}

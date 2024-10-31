@@ -1747,7 +1747,6 @@ public class Construction {
 		int pos = consXML.indexOf(oldXML);
 		if (pos < 0) {
 			Log.debug("replace failed: oldXML string not found:\n" + oldXML);
-			// Application.debug("consXML=\n" + consXML);
 			return false;
 		}
 
@@ -2467,7 +2466,9 @@ public class Construction {
 		}
 
 		// set result as empty cell geo
-		result.setUndefined();
+		if (!kernel.getApplication().isUnbundled()) {
+			result.setUndefined();
+		}
 		result.setEmptySpreadsheetCell(true);
 
 		// make sure that label creation is turned on

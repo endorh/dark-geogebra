@@ -425,8 +425,7 @@ public class ExpressionNode extends ValidExpression
 	private void doResolveVariables(EvalInfo info) {
 		// resolve left wing
 		if (left.isVariable()) {
-			left = ((Variable) left).resolveAsExpressionValue(info.getSymbolicMode(),
-					info.isMultipleUnassignedAllowed(), info.isMultiLetterVariablesAllowed());
+			left = ((Variable) left).resolveAsExpressionValue(info);
 			if (operation == Operation.POWER
 					|| operation == Operation.FACTORIAL) {
 				fixPowerFactorial(Operation.MULTIPLY);
@@ -444,8 +443,7 @@ public class ExpressionNode extends ValidExpression
 		// resolve right wing
 		if (right != null) {
 			if (right.isVariable()) {
-				right = ((Variable) right).resolveAsExpressionValue(info.getSymbolicMode(),
-						info.isMultipleUnassignedAllowed(), info.isMultiLetterVariablesAllowed());
+				right = ((Variable) right).resolveAsExpressionValue(info);
 				right = groupPowers(right);
 			} else {
 				right.resolveVariables(info);
@@ -3451,7 +3449,7 @@ public class ExpressionNode extends ValidExpression
 	 * @return this as fraction
 	 */
 	public String toFractionString(StringTemplate tpl) {
-		initFraction();
+		initFraction(tpl.allowPiHack());
 		return ((ExpressionNode) resolve).toFractionStringFlat(tpl,
 				kernel.getLocalization());
 	}
@@ -3460,7 +3458,7 @@ public class ExpressionNode extends ValidExpression
 	 * @return Whether this is a fraction (also true for 1/2+1/3)
 	 */
 	public boolean isFraction() {
-		initFraction();
+		initFraction(true);
 		return resolve.isOperation(Operation.DIVIDE);
 	}
 	
@@ -3471,9 +3469,9 @@ public class ExpressionNode extends ValidExpression
 		return isFraction() && !resolve.inspect(Inspecting.SpecialDouble.INSTANCE);
 	}
 
-	private void initFraction() {
+	private void initFraction(boolean allowPi) {
 		if (resolve == null || !resolve.isExpressionNode()) {
-			resolve = Fractions.getResolution(this, kernel, true);
+			resolve = Fractions.getResolution(this, kernel, allowPi);
 		}
 	}
 
@@ -3492,7 +3490,7 @@ public class ExpressionNode extends ValidExpression
 	 * @return simplified fraction if this is one; null otherwise
 	 */
 	public ExpressionNode asFraction() {
-		initFraction();
+		initFraction(true);
 		if (resolve.isExpressionNode()) {
 			return resolve.wrap();
 		}

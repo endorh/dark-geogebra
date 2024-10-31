@@ -3,12 +3,13 @@ package org.geogebra.web.full.gui.toolbar.mow.toolbox.components;
 import java.util.List;
 
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.menubar.MainMenu;
+import org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolModeIconSpecAdapter;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
+import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.resources.SVGResourcePrototype;
+import org.geogebra.web.html5.main.toolbox.ToolboxIcon;
 
 public class CategoryMenuPopup extends GPopupMenuW implements SetLabels {
 	private final List<Integer> tools;
@@ -35,19 +36,11 @@ public class CategoryMenuPopup extends GPopupMenuW implements SetLabels {
 
 	private void addItem(int mode) {
 		String text = getTextForMode(mode);
+		ToolboxIcon toolboxIcon = ToolModeIconSpecAdapter.getToolboxIcon(mode);
+		IconSpec iconSpec = getApp().getToolboxIconResource().getImageResource(toolboxIcon);
 
-		AriaMenuItem item = MainMenu.getMenuBarItem(
-				SVGResourcePrototype.EMPTY, text, () -> getApp().setMode(mode));
-		getImageForMode(mode, item);
+		AriaMenuItem item = MainMenu.getMenuBarItem(iconSpec, text, () -> getApp().setMode(mode));
 		addItem(item);
-	}
-
-	/**
-	 * @param mode - tool mode
-	 * @param item popup item
-	 */
-	public void getImageForMode(int mode, AriaMenuItem item) {
-		GGWToolBar.getImageResource(mode, getApp(), item);
 	}
 
 	/**

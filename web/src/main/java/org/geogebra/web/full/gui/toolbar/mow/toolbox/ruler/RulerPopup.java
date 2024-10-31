@@ -14,10 +14,11 @@ import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.resources.SVGResourcePrototype;
 
 public class RulerPopup extends GPopupMenuW implements SetLabels {
-	private RulerIconButton rulerButton;
+	private final RulerIconButton rulerButton;
 	private int activeRulerMode = MODE_RULER;
 
 	/**
@@ -58,7 +59,8 @@ public class RulerPopup extends GPopupMenuW implements SetLabels {
 					? getApp().getGeoGebraElement().getDarkColor(getApp().getFrameElement())
 					: GColor.BLACK.toString();
 			rulerButton.removeTool();
-			rulerButton.updateImgAndTxt(new ImageIconSpec(image.withFill(fillColor)), mode, getApp());
+			rulerButton.updateImgAndTxt(new ImageIconSpec(((SVGResource) image)
+					.withFill(fillColor)), mode, getApp());
 			rulerButton.handleRuler();
 		});
 	}

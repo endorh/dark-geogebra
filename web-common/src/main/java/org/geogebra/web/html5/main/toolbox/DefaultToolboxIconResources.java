@@ -13,44 +13,78 @@ public interface DefaultToolboxIconResources extends ClientBundle {
 	SVGResource mouse_cursor();
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_pen.svg")
-	SVGResource mode_pen();
+	SVGResource pen();
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_highlighter.svg")
-	SVGResource mode_highlighter_32();
+	SVGResource highlighter();
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_eraser.svg")
-	SVGResource mode_eraser_32();
+	SVGResource eraser();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/plusMenu/add.svg")
 	SVGResource add_black();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/toolbox/tool_shapes.svg")
+	SVGResource shapes();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/toolbox/text_fields.svg")
 	SVGResource texts();
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_media_text.svg")
-	SVGResource mode_media_text();
+	SVGResource text();
 
 	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_equation.svg")
-	SVGResource mode_equation();
-
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/toolbox/tool_shapes.svg")
-	SVGResource shapes();
-
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/toolbox/add_box.svg")
-	SVGResource apps();
+	SVGResource equation();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dialog/upload_black_24dp.svg")
 	SVGResource upload();
 
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_image.svg")
+	SVGResource image();
+
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_camera.svg")
+	SVGResource camera();
+
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_pdf.svg")
+	SVGResource pdf();
+
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/openFileView/link_black_24dp.svg")
 	SVGResource link();
+
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_web.svg")
+	SVGResource web();
+
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_video.svg")
+	SVGResource video();
+
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_audio.svg")
+	SVGResource audio();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/toolbox/add_box.svg")
+	SVGResource apps();
+
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_geogebra.svg")
+	SVGResource geogebra();
+
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_mindmap.svg")
+	SVGResource mindmap();
+
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_table.svg")
+	SVGResource table();
+
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_graspablemath.svg")
+	SVGResource grasphmath();
+
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_ruler.svg")
+	SVGResource ruler();
+
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_protractor.svg")
+	SVGResource ruler_protractor();
+
+	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_triangleprotractor.svg")
+	SVGResource ruler_triangle();
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/target.svg")
 	SVGResource target();
 
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/drag_pad.svg")
-	SVGResource drag();
-
-	@Source("org/geogebra/common/icons/svg/web/toolIcons/mode_ruler.svg")
-	SVGResource mode_ruler();
 }

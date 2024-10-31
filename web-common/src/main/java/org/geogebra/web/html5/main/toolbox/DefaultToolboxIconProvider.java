@@ -18,11 +18,11 @@ public class DefaultToolboxIconProvider implements ToolboxIconProvider {
 		case MOUSE_CURSOR:
 			return res.mouse_cursor();
 		case PEN:
-			return res.mode_pen();
+			return res.pen();
 		case HIGHLIGHTER:
-			return res.mode_highlighter_32();
+			return res.highlighter();
 		case ERASER:
-			return res.mode_eraser_32();
+			return res.eraser();
 		case PLUS:
 			return res.add_black();
 		case SHAPES:
@@ -30,21 +30,43 @@ public class DefaultToolboxIconProvider implements ToolboxIconProvider {
 		case TEXTS:
 			return res.texts();
 		case TEXT:
-			return res.mode_media_text();
+			return res.text();
 		case EQUATION:
-			return res.mode_equation();
-		case APPS:
-			return res.apps();
+			return res.equation();
 		case UPLOAD:
 			return res.upload();
+		case IMAGE:
+			return res.image();
+		case CAMERA:
+			return res.camera();
+		case PDF:
+			return res.pdf();
 		case LINK:
 			return res.link();
+		case WEB:
+			return res.web();
+		case VIDEO:
+			return res.video();
+		case AUDIO:
+			return res.audio();
+		case APPS:
+			return res.apps();
+		case GEOGEBRA:
+			return res.geogebra();
+		case MINDMAP:
+			return res.mindmap();
+		case TABLE:
+			return res.table();
+		case GRASPMATH:
+			return res.grasphmath();
+		case RULER:
+			return res.ruler();
+		case PROTRACTOR:
+			return res.ruler_protractor();
+		case TRIANGLE:
+			return res.ruler_triangle();
 		case SPOTLIGHT:
 			return res.target();
-		case DRAG:
-			return res.drag();
-		case RULER:
-			return res.mode_ruler();
 		default:
 			return null;
 		}

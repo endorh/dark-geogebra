@@ -25,17 +25,34 @@ public class MebisToolboxIconProvider extends DefaultToolboxIconProvider {
 			return new FaIconSpec("fa-square-t");
 		case EQUATION:
 			return new FaIconSpec("fa-calculator-simple");
-
-		case APPS:
-			return new FaIconSpec("fa-square-plus");
 		case UPLOAD:
 			return new FaIconSpec("fa-arrow-up-from-line");
+		case IMAGE:
+			return new FaIconSpec("fa-image");
+		case CAMERA:
+			return new FaIconSpec("fa-camera");
+		case PDF:
+			return new FaIconSpec("fa-file-pdf");
 		case LINK:
 			return new FaIconSpec("fa-link");
-		case SPOTLIGHT:
-			return new FaIconSpec("fa-location-crosshairs");
+		case WEB:
+			return new FaIconSpec("fa-globe");
+		case VIDEO:
+			return new FaIconSpec("fa-video");
+		case AUDIO:
+			return new FaIconSpec("fa-microphone");
+		case APPS:
+			return new FaIconSpec("fa-square-plus");
+		case MINDMAP:
+			return new FaIconSpec("fa-sitemap");
+		case TABLE:
+			return new FaIconSpec("fa-table");
 		case RULER:
 			return new FaIconSpec("fa-ruler-horizontal");
+		case TRIANGLE:
+			return new FaIconSpec("fa-ruler-triangle");
+		case SPOTLIGHT:
+			return new FaIconSpec("fa-location-crosshairs");
 		}
 		return super.matchIconWithResource(icon);
 	}

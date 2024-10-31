@@ -6,7 +6,6 @@ import org.geogebra.web.html5.gui.util.HasResource;
 import org.geogebra.web.html5.gui.util.NoDragImage;
 import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.gui.view.ImageIconSpec;
-import org.geogebra.web.html5.main.toolbox.ToolboxIcon;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.resources.client.ResourcePrototype;
@@ -128,13 +127,15 @@ public class AriaMenuItem extends SimplePanel implements HasResource {
 			if (icon != null) {
 				img = Js.uncheckedCast(DomGlobal.document.createElement("img"));
 				if (icon instanceof ImageIconSpec) {
-					img.setAttribute("src",NoDragImage.safeURI(((ImageIconSpec) icon).getImage()));
+					img.setAttribute("src", NoDragImage.safeURI(((ImageIconSpec) icon).getImage()));
+					img.setAttribute("draggable", "false");
+					img.classList.add("menuImg");
+					el.appendChild(img);
 				} else {
-					img.setAttribute("src", icon.toElement().getInnerText());
+					elemental2.dom.Element iconElem = Js.uncheckedCast(icon.toElement());
+					el.insertAdjacentElement("afterbegin", iconElem);
 				}
-				img.setAttribute("draggable", "false");
-				img.classList.add("menuImg");
-				el.appendChild(img);
+
 			}
 			el.appendChild(textNode);
 		} catch (ClassCastException ex) {

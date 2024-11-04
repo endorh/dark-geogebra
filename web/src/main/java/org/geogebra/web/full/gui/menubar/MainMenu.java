@@ -17,6 +17,7 @@ import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.menu.AriaMenuBar;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.NoDragImage;
+import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.util.TestHarness;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.core.client.Scheduler;
@@ -550,6 +551,18 @@ public class MainMenu extends FlowPanel
 	public static AriaMenuItem getMenuBarItem(final ResourcePrototype imgRes,
 			String name, Scheduler.ScheduledCommand cmd) {
 		return new AriaMenuItem(name, imgRes, cmd);
+	}
+
+	/**
+	 * @param imgRes
+	 *            image, can be null (in that case no icon HTML is included)
+	 * @param name
+	 *            localized text
+	 * @return HTML
+	 */
+	public static AriaMenuItem getMenuBarItem(final IconSpec imgRes,
+			String name, Scheduler.ScheduledCommand cmd) {
+		return new AriaMenuItem(name, cmd, imgRes);
 	}
 
 	/**

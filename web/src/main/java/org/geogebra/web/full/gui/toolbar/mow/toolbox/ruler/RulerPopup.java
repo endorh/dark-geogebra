@@ -18,7 +18,7 @@ import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.resources.SVGResourcePrototype;
 
 public class RulerPopup extends GPopupMenuW implements SetLabels {
-	private RulerIconButton rulerButton;
+	private final RulerIconButton rulerButton;
 	private int activeRulerMode = MODE_RULER;
 
 	/**

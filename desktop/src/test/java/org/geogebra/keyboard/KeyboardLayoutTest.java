@@ -24,7 +24,7 @@ import org.junit.Test;
 public class KeyboardLayoutTest {
 	@Test
 	public void testSpecialTab() {
-		KeyboardFactory kbf = new DefaultKeyboardFactory(false);
+		KeyboardFactory kbf = new DefaultKeyboardFactory();
 		KeyboardModel kb = kbf.createSpecialSymbolsKeyboard().getModel();
 		StringBuilder actions = new StringBuilder();
 		StringBuilder resources = new StringBuilder();
@@ -61,7 +61,7 @@ public class KeyboardLayoutTest {
 						+ "POINT_TEMPLATE,VECTOR_TEMPLATE,MATRIX_TEMPLATE,\\,&,@,#,"
 						+ "Translate.currency,BACKSPACE_DELETE,;,:,',\",′,"
 						+ "″,LEFT_ARROW,RIGHT_ARROW,RETURN_ENTER,",
-				resources.toString());// TODO fix test
+				resources.toString()); // TODO fix test
 		assertEquals("∞,≟,≠,∧,∨,¬,⊗,[,],∥,⟂,∈,⊂,⊆,∠,→,⌈,⌊,"
 						+ "⌈,⌈,⌈,\\,&,@,#,"
 						+ "Translate.currency,BACKSPACE_DELETE,;,:,',\",′,"

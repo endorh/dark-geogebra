@@ -42,16 +42,26 @@ public class DefaultKeyboardFactory implements KeyboardFactory {
 	/**
 	 * Creates a CommonKeyboardFactory with default implementations
 	 * for keyboard model factories.
+	 */
+	public DefaultKeyboardFactory() {
+		this(new DefaultCharProvider(), false);
+	}
+
+	/**
+	 * Creates a CommonKeyboardFactory with default implementations
+	 * for keyboard model factories.
 	 * @param characterProvider character provider
 	 * @param hasRealschuleTemplateFeature realschule templates feature
 	 */
-	public DefaultKeyboardFactory(CharacterProvider characterProvider, boolean hasRealschuleTemplateFeature) {
+	public DefaultKeyboardFactory(CharacterProvider characterProvider,
+			boolean hasRealschuleTemplateFeature) {
 		defaultKeyboardModelFactory = new DefaultKeyboardModelFactory(characterProvider);
 		mathKeyboardFactory = new MathKeyboardFactory(characterProvider);
 		functionKeyboardFactory = new FunctionKeyboardFactory();
 		letterKeyboardFactory = new LetterKeyboardFactory();
 		greekKeyboardFactory = new GreekKeyboardFactory();
-		specialSymbolsKeyboardFactory = new SpecialSymbolsKeyboardFactory(hasRealschuleTemplateFeature);
+		specialSymbolsKeyboardFactory = new SpecialSymbolsKeyboardFactory(
+				hasRealschuleTemplateFeature);
 	}
 
 	/**

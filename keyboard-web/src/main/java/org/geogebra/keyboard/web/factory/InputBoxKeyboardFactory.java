@@ -27,7 +27,6 @@ public class InputBoxKeyboardFactory extends DefaultKeyboardFactory {
 	 * @param functionVars function vars in case of a function
 	 */
 	public InputBoxKeyboardFactory(InputBoxType inputBoxType, List<String> functionVars) {
-		super(false);
 		this.inputBoxType = inputBoxType;
 		this.functionVars = functionVars;
 		init();

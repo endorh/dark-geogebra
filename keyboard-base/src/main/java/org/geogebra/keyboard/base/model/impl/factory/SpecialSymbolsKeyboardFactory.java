@@ -43,8 +43,10 @@ import org.geogebra.keyboard.base.model.impl.RowImpl;
 public class SpecialSymbolsKeyboardFactory implements KeyboardModelFactory {
 	private final boolean hasRealschuleTemplateFeature;
 
+	/**
+	 * @param hasRealschuleTemplateFeature whether it should include the template button
+	 */
 	public SpecialSymbolsKeyboardFactory(boolean hasRealschuleTemplateFeature) {
-		super();
 		this.hasRealschuleTemplateFeature = hasRealschuleTemplateFeature;
 	}
 

@@ -12,6 +12,7 @@ public final class ScientificKeyboardFactory extends DefaultKeyboardFactory {
 	 * for keyboard model factories.
 	 */
 	public ScientificKeyboardFactory() {
+		super(false);
 		mathKeyboardFactory = new ScientificDefaultKeyboardFactory(true);
 		defaultKeyboardModelFactory = new ScientificDefaultKeyboardFactory(false);
 		functionKeyboardFactory = new ScientificFunctionKeyboardFactory();

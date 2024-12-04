@@ -18,8 +18,8 @@ import org.geogebra.keyboard.web.factory.model.inputbox.math.VectorMatrixMathKey
 
 public class InputBoxKeyboardFactory extends DefaultKeyboardFactory {
 
-	private InputBoxType inputBoxType;
-	private List<String> functionVars;
+	private final InputBoxType inputBoxType;
+	private final List<String> functionVars;
 
 	/**
 	 * inputbox keyboard constructor
@@ -27,6 +27,7 @@ public class InputBoxKeyboardFactory extends DefaultKeyboardFactory {
 	 * @param functionVars function vars in case of a function
 	 */
 	public InputBoxKeyboardFactory(InputBoxType inputBoxType, List<String> functionVars) {
+		super(false);
 		this.inputBoxType = inputBoxType;
 		this.functionVars = functionVars;
 		init();

@@ -22,7 +22,7 @@ import org.geogebra.keyboard.base.model.impl.factory.MathKeyboardFactory;
 import org.geogebra.keyboard.base.model.impl.factory.SpecialSymbolsKeyboardFactory;
 
 public class DefaultKeyboardFactory implements KeyboardFactory {
-	private ButtonFactory defaultButtonFactory = new ButtonFactory(null);
+	private final ButtonFactory defaultButtonFactory = new ButtonFactory(null);
 	protected KeyboardModelFactory mathKeyboardFactory;
 	protected KeyboardModelFactory defaultKeyboardModelFactory;
 	protected KeyboardModelFactory greekKeyboardFactory;
@@ -33,23 +33,25 @@ public class DefaultKeyboardFactory implements KeyboardFactory {
 	/**
 	 * Creates a CommonKeyboardFactory with default implementations
 	 * for keyboard model factories.
+	 * @param hasRealschuleTemplateFeature - see PreviewFeature.REALSCHULE_TEMPLATES
 	 */
-	public DefaultKeyboardFactory() {
-		this(new DefaultCharProvider());
+	public DefaultKeyboardFactory(boolean hasRealschuleTemplateFeature) {
+		this(new DefaultCharProvider(), hasRealschuleTemplateFeature);
 	}
 
 	/**
 	 * Creates a CommonKeyboardFactory with default implementations
 	 * for keyboard model factories.
 	 * @param characterProvider character provider
+	 * @param hasRealschuleTemplateFeature realschule templates feature
 	 */
-	public DefaultKeyboardFactory(CharacterProvider characterProvider) {
+	public DefaultKeyboardFactory(CharacterProvider characterProvider, boolean hasRealschuleTemplateFeature) {
 		defaultKeyboardModelFactory = new DefaultKeyboardModelFactory(characterProvider);
 		mathKeyboardFactory = new MathKeyboardFactory(characterProvider);
 		functionKeyboardFactory = new FunctionKeyboardFactory();
 		letterKeyboardFactory = new LetterKeyboardFactory();
 		greekKeyboardFactory = new GreekKeyboardFactory();
-		specialSymbolsKeyboardFactory = new SpecialSymbolsKeyboardFactory();
+		specialSymbolsKeyboardFactory = new SpecialSymbolsKeyboardFactory(hasRealschuleTemplateFeature);
 	}
 
 	/**

@@ -123,4 +123,14 @@ public interface KeyboardResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/svg/web/keyboard/recurring_decimal.svg")
 	SVGResource recurring_decimal();
+
+	@Source("org/geogebra/common/icons/svg/web/keyboard/point_template.svg")
+	SVGResource point_template();
+
+	@Source("org/geogebra/common/icons/svg/web/keyboard/vector_template.svg")
+	SVGResource vector_template();
+
+	@Source("org/geogebra/common/icons/svg/web/keyboard/matrix_template.svg")
+	SVGResource matrix_template();
+
 }

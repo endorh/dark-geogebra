@@ -15,7 +15,7 @@ public class DefaultKeyboardFactoryTests {
 
     @Before
     public void setup() {
-        keyboardFactory = new DefaultKeyboardFactory();
+        keyboardFactory = new DefaultKeyboardFactory(false);
     }
 
     @Test

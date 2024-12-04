@@ -22,7 +22,7 @@ import org.geogebra.keyboard.base.model.impl.factory.MathKeyboardFactory;
 import org.geogebra.keyboard.base.model.impl.factory.SpecialSymbolsKeyboardFactory;
 
 public class DefaultKeyboardFactory implements KeyboardFactory {
-	private final ButtonFactory defaultButtonFactory = new ButtonFactory(null);
+	private ButtonFactory defaultButtonFactory = new ButtonFactory(null);
 	protected KeyboardModelFactory mathKeyboardFactory;
 	protected KeyboardModelFactory defaultKeyboardModelFactory;
 	protected KeyboardModelFactory greekKeyboardFactory;

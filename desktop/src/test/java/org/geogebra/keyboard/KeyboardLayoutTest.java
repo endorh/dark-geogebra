@@ -63,7 +63,7 @@ public class KeyboardLayoutTest {
 						+ "″,LEFT_ARROW,RIGHT_ARROW,RETURN_ENTER,",
 				resources.toString()); // TODO fix test
 		assertEquals("∞,≟,≠,∧,∨,¬,⊗,[,],∥,⟂,∈,⊂,⊆,∠,→,⌈,⌊,"
-						+ "⌈,⌈,⌈,\\,&,@,#,"
+						+ "point,vector,matrix,\\,&,@,#,"
 						+ "Translate.currency,BACKSPACE_DELETE,;,:,',\",′,"
 						+ "″,LEFT_CURSOR,RIGHT_CURSOR,RETURN_ENTER,",
 				actions.toString());

@@ -51,6 +51,15 @@ public class DefaultKeyboardFactory implements KeyboardFactory {
 	 * Creates a CommonKeyboardFactory with default implementations
 	 * for keyboard model factories.
 	 * @param characterProvider character provider
+	 */
+	public DefaultKeyboardFactory(CharacterProvider characterProvider) {
+		this(characterProvider, false);
+	}
+
+	/**
+	 * Creates a CommonKeyboardFactory with default implementations
+	 * for keyboard model factories.
+	 * @param characterProvider character provider
 	 * @param hasRealschuleTemplateFeature realschule templates feature
 	 */
 	public DefaultKeyboardFactory(CharacterProvider characterProvider,

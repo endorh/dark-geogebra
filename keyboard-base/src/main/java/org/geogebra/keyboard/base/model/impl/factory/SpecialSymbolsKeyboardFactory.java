@@ -81,11 +81,11 @@ public class SpecialSymbolsKeyboardFactory implements KeyboardModelFactory {
 
 			row = mathKeyboard.nextRow();
 			addConstantInputCommandButton(row, buttonFactory, Resource.POINT_TEMPLATE,
-					LEFT_CEILING + "", 1.0f);
+					"point", 1.0f);
 			addConstantInputCommandButton(row, buttonFactory, Resource.VECTOR_TEMPLATE,
-					LEFT_CEILING + "", 1.0f);
+					"vector", 1.0f);
 			addConstantInputCommandButton(row, buttonFactory, Resource.MATRIX_TEMPLATE,
-					LEFT_CEILING + "", 1.0f);
+					"matrix", 1.0f);
 			addInputButton(row, buttonFactory, BACKSLASH);
 			addInputButton(row, buttonFactory, AMPERSAND);
 			addInputButton(row, buttonFactory, AT);

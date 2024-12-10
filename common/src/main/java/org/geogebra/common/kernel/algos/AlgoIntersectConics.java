@@ -13,7 +13,7 @@ the Free Software Foundation.
 /*
  * AlgoIntersectConics.java
  *
- * Created on 1. Dezember 2001
+ * Created on 1. December 2001
  */
 
 package org.geogebra.common.kernel.algos;

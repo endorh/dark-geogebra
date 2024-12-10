@@ -52,22 +52,22 @@ public class ServiceWorkerBuilder {
 	 * @return service worker content
 	 */
 	public String getWorkerCode(String version) {
-		StringBuilder allResoucesSb = new StringBuilder();
+		StringBuilder allResourcesSb = new StringBuilder();
 		if (artifacts != null) {
 			StringBuilder publicSourcesSb = getAllCacheableArtifactsAsPartialJSON(
 					artifacts, getModuleUrl(version));
 
 			String[] cacheExtraFiles = AppCacheLinkerSettings
 					.otherCachedFiles();
-			allResoucesSb.append(publicSourcesSb);
+			allResourcesSb.append(publicSourcesSb);
 			for (String staticFile : cacheExtraFiles) {
-				allResoucesSb.append(",\n    \"");
-				allResoucesSb.append(staticFile);
-				allResoucesSb.append("\"");
+				allResourcesSb.append(",\n    \"");
+				allResourcesSb.append(staticFile);
+				allResourcesSb.append("\"");
 			}
 		}
 
-		return buildManifest(allResoucesSb, logger);
+		return buildManifest(allResourcesSb, logger);
 	}
 
 	private static StringBuilder getAllCacheableArtifactsAsPartialJSON(
@@ -105,7 +105,7 @@ public class ServiceWorkerBuilder {
 				+ context.getModuleName() + "/";
 	}
 
-	private static String buildManifest(StringBuilder allResoucesSb,
+	private static String buildManifest(StringBuilder allResourcesSb,
 			TreeLogger logger) {
 		// we have to generate this unique id because the resources can change
 		// but the hashed cache.html files can remain the same. build cache list
@@ -113,7 +113,7 @@ public class ServiceWorkerBuilder {
 				+ System.currentTimeMillis();
 		String template = readTemplateAsString(logger);
 		String sworkerContent = template
-				.replace("%URLS%", allResoucesSb.toString())
+				.replace("%URLS%", allResourcesSb.toString())
 				.replace("%ID%", id);
 		return sworkerContent;
 	}

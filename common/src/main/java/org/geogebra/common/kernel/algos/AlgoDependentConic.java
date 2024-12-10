@@ -13,7 +13,7 @@ the Free Software Foundation.
 /*
  * AlgoDependentConic.java
  *
- * Created on 29. Oktober 2001
+ * Created on 29. October 2001
  */
 
 package org.geogebra.common.kernel.algos;

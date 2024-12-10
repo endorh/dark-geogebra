@@ -28,7 +28,7 @@ import org.geogebra.common.kernel.geos.MoveGeos;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
-import org.geogebra.test.EventAcumulator;
+import org.geogebra.test.EventAccumulator;
 import org.geogebra.test.annotation.Issue;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -121,7 +121,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 		GeoList list  = add("{(1, -1), (1, 1)}");
 		list.setEuclidianVisible(true);
 		list.updateRepaint();
-		EventAcumulator acumulator = new EventAcumulator();
+		EventAccumulator acumulator = new EventAccumulator();
 		getApp().getEventDispatcher().addEventListener(acumulator);
 		dragStart(50, 50);
 		dragEnd(100, 50);
@@ -623,7 +623,7 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 		int offY = geo.isGeoImage() ? -10 : 10;
 		add("SetCoords(" + geo.getLabelSimple() + ", 100, 100)");
 		dragStart(100 + offX, 100 + offY, rightClick);
-		EventAcumulator listener = new EventAcumulator();
+		EventAccumulator listener = new EventAccumulator();
 		getApp().getEventDispatcher().addEventListener(listener);
 		dragEnd(200 + offX, 150 + offY, rightClick);
 		return new DragResult(((AbsoluteScreenLocateable) geo).getAbsoluteScreenLocX() - 100,

@@ -13,7 +13,7 @@ the Free Software Foundation.
 /*
  * DrawPoint.java
  *
- * Created on 11. Oktober 2001, 23:59
+ * Created on 11. October 2001, 23:59
  */
 
 package org.geogebra.common.euclidian.draw;

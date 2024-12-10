@@ -80,7 +80,7 @@ public class APITest {
 	}
 
 	@Test
-	public void casCellAsignmentCommandCAS() {
+	public void casCellAssignmentCommandCAS() {
 		api.evalCommand("$1:=7");
 		assertEquals("7", casInput(0));
 		String evalEquation = api.evalCommandCAS("$1=8", null);

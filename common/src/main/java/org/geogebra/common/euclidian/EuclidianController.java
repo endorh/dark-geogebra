@@ -10365,7 +10365,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 
 		// allow drag with right mouse button or ctrl
-		// make sure Ctrl still works for selection (when no dragging occured)
+		// make sure Ctrl still works for selection (when no dragging occurred)
 		if (event.isRightClick() || (control && isDraggingOccuredBeyondThreshold())) {
 			if (!temporaryMode) {
 				processRightReleased(event, type);

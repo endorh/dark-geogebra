@@ -13,7 +13,7 @@ the Free Software Foundation.
 /*
  * DrawVector.java
  *
- * Created on 16. Oktober 2001, 15:13
+ * Created on 16. October 2001, 15:13
  */
 
 package org.geogebra.common.euclidian.draw;

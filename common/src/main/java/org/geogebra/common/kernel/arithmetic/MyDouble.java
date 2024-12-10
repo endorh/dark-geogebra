@@ -13,7 +13,7 @@ the Free Software Foundation.
 /*
  * MyDouble.java
  *
- * Created on 07. Oktober 2001, 12:23
+ * Created on 07. October 2001, 12:23
  */
 
 package org.geogebra.common.kernel.arithmetic;

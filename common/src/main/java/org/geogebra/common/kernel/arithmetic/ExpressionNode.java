@@ -15,7 +15,7 @@ the Free Software Foundation.
  *
  * binary tree node for ExpressionValues (NumberValues, VectorValues)
  *
- * Created on 03. Oktober 2001, 09:37
+ * Created on 03. October 2001, 09:37
  */
 
 package org.geogebra.common.kernel.arithmetic;

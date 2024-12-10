@@ -17,7 +17,7 @@ import org.geogebra.common.kernel.geos.GeoButton;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoNumeric;
 import org.geogebra.common.plugin.script.GgbScript;
-import org.geogebra.test.EventAcumulator;
+import org.geogebra.test.EventAccumulator;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -60,7 +60,7 @@ public class GlobalKeyDispatcherTest extends BaseUnitTest {
 		List<String> oldVals = geos.stream()
 				.map(g -> g.toValueString(StringTemplate.defaultTemplate))
 				.collect(Collectors.toList());
-		EventAcumulator listener = new EventAcumulator();
+		EventAccumulator listener = new EventAccumulator();
 		getApp().getEventDispatcher().addEventListener(listener);
 		handleKey(KeyCodes.LEFT, geos);
 		// each update fired exactly once

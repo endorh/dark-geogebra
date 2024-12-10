@@ -13,7 +13,7 @@ the Free Software Foundation.
 /*
  * NumberValue.java
  *
- * Created on 03. Oktober 2001, 10:09
+ * Created on 03. October 2001, 10:09
  */
 
 package org.geogebra.common.kernel.arithmetic;

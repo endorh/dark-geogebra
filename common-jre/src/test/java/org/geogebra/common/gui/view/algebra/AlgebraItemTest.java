@@ -18,7 +18,7 @@ import org.geogebra.common.kernel.geos.GeoVector;
 import org.geogebra.common.main.settings.AlgebraStyle;
 import org.geogebra.common.main.settings.CoordinatesFormat;
 import org.geogebra.common.scientific.LabelController;
-import org.geogebra.test.EventAcumulator;
+import org.geogebra.test.EventAccumulator;
 import org.junit.Test;
 
 public class AlgebraItemTest extends BaseUnitTest {
@@ -112,12 +112,12 @@ public class AlgebraItemTest extends BaseUnitTest {
 
     @Test
     public void addingToAVShouldNotCallUpdate() {
-        EventAcumulator eventAcumulator = new EventAcumulator();
-        getApp().getEventDispatcher().addEventListener(eventAcumulator);
+        EventAccumulator eventAccumulator = new EventAccumulator();
+        getApp().getEventDispatcher().addEventListener(eventAccumulator);
         GeoElement geo = addAvInput("a=1+3");
         InputHelper.updateProperties(new GeoElement[]{geo}, getApp().getActiveEuclidianView(),
                 getKernel().getConstructionStep());
-        assertThat(Collections.singletonList("ADD a"), is(eventAcumulator.getEvents()));
+        assertThat(Collections.singletonList("ADD a"), is(eventAccumulator.getEvents()));
     }
 
     @Test

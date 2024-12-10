@@ -288,7 +288,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			final ArrayList<ExpressionNode> args, boolean symbolic,
 			StringTemplate tpl, SymbolicMode symbolicMode) {
 		// check if completion of variable list is needed
-		boolean paramEquExists = checkForParamEquExistance(args, name);
+		boolean paramEquExists = checkForParamEquExistence(args, name);
 		// check if list of vars needs completion
 		boolean varComplNeeded = false;
 		StringBuilder complOfVarsStr = new StringBuilder();
@@ -998,7 +998,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	}
 
 	// method to check if we should make completion of variable list
-	private static boolean checkForParamEquExistance(
+	private static boolean checkForParamEquExistence(
 			ArrayList<ExpressionNode> args, String name) {
 		// case we have command Solve[<Equation list>, <Variable list>]
 		if ("Solve".equals(name) && args.size() == 2) {
@@ -1208,7 +1208,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	@Override
 	public Set<String> getAvailableCommandNames() {
 		Set<String> cmdSet = new HashSet<>();
-		for (String signature : casParser.getTranslationRessourceBundle()
+		for (String signature : casParser.getTranslationResourceBundle()
 				.keySet()) {
 			String cmd = signature.substring(0, signature.indexOf('.'));
 			if (!"Evaluate".equals(cmd)) {

@@ -13,7 +13,7 @@ the Free Software Foundation.
 /*
  * Drawable.java
  *
- * Created on 13. Oktober 2001, 17:40
+ * Created on 13. October 2001, 17:40
  */
 
 package org.geogebra.common.euclidian;

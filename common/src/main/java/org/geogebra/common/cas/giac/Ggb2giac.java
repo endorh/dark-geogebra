@@ -39,7 +39,7 @@ public class Ggb2giac {
 
 	/**
 	 * @param app
-	 *            application,might be needed for featur
+	 *            application, unused
 	 * @return map signature =&gt; syntax
 	 */
 	public static Map<String, String> getMap(App app) {

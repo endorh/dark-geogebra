@@ -105,7 +105,7 @@ import org.geogebra.common.awt.GRectangle2D;
  * moved to store it into its pair of 32-bit fields then the dimensions
  * will be adjusted relative to the "best representation" of the location.
  * If the true result had a negative dimension and was therefore
- * non-existant along one or both axes, the stored dimensions will be
+ * non-existent along one or both axes, the stored dimensions will be
  * negative numbers in those axes.
  * If the true result had a location that could be represented within
  * the range of 32-bit integers, but zero dimension along one or both
@@ -372,7 +372,7 @@ public class Rectangle extends Rectangle2D implements GRectangle
             // We cannot even reach the left side of the specified
             // rectangle even with both x & width set to MAX_VALUE.
             // The intersection with the "maximal integer rectangle"
-            // is non-existant so we should use a width < 0.
+            // is non-existent so we should use a width < 0.
             // REMIND: Should we try to determine a more "meaningful"
             // adjusted value for neww than just "-1"?
             newx = Integer.MAX_VALUE;
@@ -865,7 +865,7 @@ public class Rectangle extends Rectangle2D implements GRectangle
      * represents the union of the two rectangles.
      * <p>
      * If either {@code Rectangle} has any dimension less than zero
-     * the rules for <a href=#NonExistant>non-existant</a> rectangles
+     * the rules for <a href=#NonExistent>non-existent</a> rectangles
      * apply.
      * If only one has a dimension less than zero, then the result
      * will be a copy of the other {@code Rectangle}.
@@ -888,8 +888,8 @@ public class Rectangle extends Rectangle2D implements GRectangle
         if ((tx2 | ty2) < 0) {
             // This rectangle has negative dimensions...
             // If r has non-negative dimensions then it is the answer.
-            // If r is non-existant (has a negative dimension), then both
-            // are non-existant and we can return any non-existant rectangle
+            // If r is non-existent (has a negative dimension), then both
+            // are non-existent and we can return any non-existent rectangle
             // as an answer.  Thus, returning r meets that criterion.
             // Either way, r is our answer.
             return new Rectangle(r);
@@ -938,7 +938,7 @@ public class Rectangle extends Rectangle2D implements GRectangle
      * to the bounds of this {@code Rectangle}.
      * <p>
      * If this {@code Rectangle} has any dimension less than zero,
-     * the rules for <a href=#NonExistant>non-existant</a>
+     * the rules for <a href=#NonExistent>non-existent</a>
      * rectangles apply.
      * In that case, the new bounds of this {@code Rectangle} will
      * have a location equal to the specified coordinates and
@@ -1001,7 +1001,7 @@ public class Rectangle extends Rectangle2D implements GRectangle
      * {@code Rectangle}.
      * <p>
      * If this {@code Rectangle} has any dimension less than zero,
-     * the rules for <a href=#NonExistant>non-existant</a>
+     * the rules for <a href=#NonExistent>non-existent</a>
      * rectangles apply.
      * In that case, the new bounds of this {@code Rectangle} will
      * have a location equal to the coordinates of the specified
@@ -1133,7 +1133,7 @@ public class Rectangle extends Rectangle2D implements GRectangle
         y1 += v;
 
         if (x1 < x0) {
-            // Non-existant in X direction
+            // Non-existent in X direction
             // Final width must remain negative so subtract x0 before
             // it is clipped so that we avoid the risk that the clipping
             // of x0 will reverse the ordering of x0 and x1.
@@ -1167,7 +1167,7 @@ public class Rectangle extends Rectangle2D implements GRectangle
         }
 
         if (y1 < y0) {
-            // Non-existant in Y direction
+            // Non-existent in Y direction
             y1 -= y0;
             if (y1 < Integer.MIN_VALUE) {
 				y1 = Integer.MIN_VALUE;

@@ -13,7 +13,7 @@ the Free Software Foundation.
 /*
  * MyError.java
  *
- * Created on 04. Oktober 2001, 09:29
+ * Created on 04. October 2001, 09:29
  */
 
 package org.geogebra.common.main;

@@ -36,7 +36,7 @@ import org.geogebra.common.plugin.GgbAPI;
 import org.geogebra.common.plugin.JsObjectWrapper;
 import org.geogebra.common.plugin.ScriptManager;
 import org.geogebra.common.util.debug.Log;
-import org.geogebra.test.EventAcumulator;
+import org.geogebra.test.EventAccumulator;
 import org.geogebra.test.TestEvent;
 import org.junit.Before;
 import org.junit.Test;
@@ -80,11 +80,11 @@ public class GgbApiTest {
 
 	@Test
 	public void evalCommandShouldFireAddEventOncePerCall() {
-		EventAcumulator eventAcumulator = new EventAcumulator();
-		app.getEventDispatcher().addEventListener(eventAcumulator);
+		EventAccumulator eventAccumulator = new EventAccumulator();
+		app.getEventDispatcher().addEventListener(eventAccumulator);
 		api.evalCommand("a: r=cos(3" + Unicode.theta + ")");
 		api.evalCommand("a: r=cos(2" + Unicode.theta + ")");
-		assertEquals(Arrays.asList("ADD a", "REMOVE a", "ADD a"), eventAcumulator.getEvents());
+		assertEquals(Arrays.asList("ADD a", "REMOVE a", "ADD a"), eventAccumulator.getEvents());
 	}
 
 	@Test
@@ -298,7 +298,7 @@ public class GgbApiTest {
 		api.evalCommand("correct = ans == 2*C");
 		GeoInputBox input = (GeoInputBox) lookup("input");
 		app.getScriptManager().registerObjectUpdateListener("correct", "onUpdate");
-		EventAcumulator listener = new EventAcumulator();
+		EventAccumulator listener = new EventAccumulator();
 		app.getEventDispatcher().addEventListener(listener);
 
 		input.updateLinkedGeo("2");
@@ -486,7 +486,7 @@ public class GgbApiTest {
 	@Test
 	public void setFixedShouldNotTriggerSelection() {
 		api.evalCommand("a=42");
-		EventAcumulator acc = new EventAcumulator();
+		EventAccumulator acc = new EventAccumulator();
 		app.getEventDispatcher().addEventListener(acc);
 		api.setFixed("a", false, false);
 		assertEquals(List.of("UPDATE_STYLE a"), acc.getEvents());

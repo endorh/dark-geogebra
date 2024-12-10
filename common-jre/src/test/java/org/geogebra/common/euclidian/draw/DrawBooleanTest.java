@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import org.geogebra.common.euclidian.BaseEuclidianControllerTest;
 import org.geogebra.common.kernel.geos.GeoBoolean;
 import org.geogebra.common.kernel.geos.GeoText;
-import org.geogebra.test.EventAcumulator;
+import org.geogebra.test.EventAccumulator;
 import org.junit.Test;
 
 public class DrawBooleanTest extends BaseEuclidianControllerTest {
@@ -21,7 +21,7 @@ public class DrawBooleanTest extends BaseEuclidianControllerTest {
 		check.setEuclidianVisible(true);
 		check.setAbsoluteScreenLoc(100, 100);
 		check.updateRepaint();
-		EventAcumulator listener = new EventAcumulator();
+		EventAccumulator listener = new EventAccumulator();
 		getApp().getEventDispatcher().addEventListener(listener);
 		click(101, 101);
 		assertEquals(Collections.singletonList("UPDATE a"), listener.getEvents().stream()

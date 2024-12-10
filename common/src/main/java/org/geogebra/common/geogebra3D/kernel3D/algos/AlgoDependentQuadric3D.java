@@ -13,7 +13,7 @@ the Free Software Foundation.
 /*
  * AlgoDependentLine.java
  *
- * Created on 29. Oktober 2001
+ * Created on 29. October 2001
  */
 
 package org.geogebra.common.geogebra3D.kernel3D.algos;

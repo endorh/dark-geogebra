@@ -7,7 +7,7 @@ import java.util.Collections;
 
 import org.geogebra.common.BaseUnitTest;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.test.EventAcumulator;
+import org.geogebra.test.EventAccumulator;
 import org.junit.Test;
 
 public class InternalClipboardTest extends BaseUnitTest {
@@ -22,7 +22,7 @@ public class InternalClipboardTest extends BaseUnitTest {
 		String labels = clipboard.split("\n")[0];
 		assertEquals("CLIPBOARDmagicSTRINGA CLIPBOARDmagicSTRINGB CLIPBOARDmagicSTRINGs",
 				labels.trim());
-		EventAcumulator acu = new EventAcumulator();
+		EventAccumulator acu = new EventAccumulator();
 		getApp().getEventDispatcher().addEventListener(acu);
 		InternalClipboard.pasteGeoGebraXMLInternal(getApp(), Arrays.asList(labels.split(" ")),
 				clipboard.substring(clipboard.indexOf("\n")));

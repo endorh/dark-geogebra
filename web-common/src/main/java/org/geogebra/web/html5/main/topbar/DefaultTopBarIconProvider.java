@@ -39,6 +39,8 @@ public class DefaultTopBarIconProvider implements TopBarIconProvider {
 			return res.ruling();
 		case COLOR:
 			return res.color();
+		case PAGE_OVERVIEW:
+			return res.page_overview();
 		default:
 			return null;
 		}

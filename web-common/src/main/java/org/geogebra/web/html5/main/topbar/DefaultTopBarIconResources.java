@@ -44,4 +44,7 @@ public interface DefaultTopBarIconResources extends ClientBundle {
 
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/dynStylebar/color_black.svg")
 	SVGResource color();
+
+	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/ic_view_module_24px.svg")
+	SVGResource page_overview();
 }

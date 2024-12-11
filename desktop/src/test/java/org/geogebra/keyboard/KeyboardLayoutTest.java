@@ -45,6 +45,31 @@ public class KeyboardLayoutTest {
 	}
 
 	@Test
+	public void testSpecialTabWithTemplateButtons() {
+		KeyboardFactory kbf = new DefaultKeyboardFactory(true);
+		KeyboardModel kb = kbf.createSpecialSymbolsKeyboard().getModel();
+		StringBuilder actions = new StringBuilder();
+		StringBuilder resources = new StringBuilder();
+		for (Row row : kb.getRows()) {
+			for (WeightedButton button : row.getButtons()) {
+				resources.append(button.getResourceName()).append(",");
+				actions.append(button.getPrimaryActionName()).append(",");
+			}
+		}
+
+		assertEquals("∞,≟,≠,∧,∨,¬,⊗,[,],∥,⟂,∈,⊂,⊆,∠,→,CEIL,FLOOR,"
+						+ "POINT_TEMPLATE,VECTOR_TEMPLATE,MATRIX_TEMPLATE,\\,&,@,#,"
+						+ "Translate.currency,BACKSPACE_DELETE,;,:,',\",′,"
+						+ "″,LEFT_ARROW,RIGHT_ARROW,RETURN_ENTER,",
+				resources.toString()); // TODO fix test
+		assertEquals("∞,≟,≠,∧,∨,¬,⊗,[,],∥,⟂,∈,⊂,⊆,∠,→,⌈,⌊,"
+						+ "point,vector,matrix,\\,&,@,#,"
+						+ "Translate.currency,BACKSPACE_DELETE,;,:,',\",′,"
+						+ "″,LEFT_CURSOR,RIGHT_CURSOR,RETURN_ENTER,",
+				actions.toString());
+	}
+
+	@Test
 	public void letterTabTest() {
 		LocalizationCommon localization =
 				(LocalizationCommon) AppCommonFactory.create().getLocalization();

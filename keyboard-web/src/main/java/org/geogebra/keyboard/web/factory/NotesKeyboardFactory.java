@@ -9,7 +9,6 @@ public final class NotesKeyboardFactory extends DefaultKeyboardFactory {
 	 * Keyboard layout for MOW
 	 */
 	public NotesKeyboardFactory() {
-		super();
 		specialSymbolsKeyboardFactory = new MowSpecialSymbolsKeyboardFactory();
 	}
 }

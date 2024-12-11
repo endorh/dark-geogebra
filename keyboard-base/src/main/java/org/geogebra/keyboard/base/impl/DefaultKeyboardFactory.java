@@ -33,9 +33,18 @@ public class DefaultKeyboardFactory implements KeyboardFactory {
 	/**
 	 * Creates a CommonKeyboardFactory with default implementations
 	 * for keyboard model factories.
+	 * @param hasRealschuleTemplateFeature - see PreviewFeature.REALSCHULE_TEMPLATES
+	 */
+	public DefaultKeyboardFactory(boolean hasRealschuleTemplateFeature) {
+		this(new DefaultCharProvider(), hasRealschuleTemplateFeature);
+	}
+
+	/**
+	 * Creates a CommonKeyboardFactory with default implementations
+	 * for keyboard model factories.
 	 */
 	public DefaultKeyboardFactory() {
-		this(new DefaultCharProvider());
+		this(new DefaultCharProvider(), false);
 	}
 
 	/**
@@ -44,12 +53,24 @@ public class DefaultKeyboardFactory implements KeyboardFactory {
 	 * @param characterProvider character provider
 	 */
 	public DefaultKeyboardFactory(CharacterProvider characterProvider) {
+		this(characterProvider, false);
+	}
+
+	/**
+	 * Creates a CommonKeyboardFactory with default implementations
+	 * for keyboard model factories.
+	 * @param characterProvider character provider
+	 * @param hasRealschuleTemplateFeature realschule templates feature
+	 */
+	public DefaultKeyboardFactory(CharacterProvider characterProvider,
+			boolean hasRealschuleTemplateFeature) {
 		defaultKeyboardModelFactory = new DefaultKeyboardModelFactory(characterProvider);
 		mathKeyboardFactory = new MathKeyboardFactory(characterProvider);
 		functionKeyboardFactory = new FunctionKeyboardFactory();
 		letterKeyboardFactory = new LetterKeyboardFactory();
 		greekKeyboardFactory = new GreekKeyboardFactory();
-		specialSymbolsKeyboardFactory = new SpecialSymbolsKeyboardFactory();
+		specialSymbolsKeyboardFactory = new SpecialSymbolsKeyboardFactory(
+				hasRealschuleTemplateFeature);
 	}
 
 	/**

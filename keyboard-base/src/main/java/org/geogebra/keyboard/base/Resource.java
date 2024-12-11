@@ -72,7 +72,13 @@ public enum Resource {
 
     MIXED_NUMBER("altText.MixedNumber"),
 
-    RECURRING_DECIMAL("altText.RecurringDecimal");
+    RECURRING_DECIMAL("altText.RecurringDecimal"),
+
+    POINT_TEMPLATE("Point"),
+
+    VECTOR_TEMPLATE("altText.Vector"),
+
+    MATRIX_TEMPLATE("Matrix");
 
     public final String altText;
 

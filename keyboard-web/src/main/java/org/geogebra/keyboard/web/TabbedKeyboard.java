@@ -11,6 +11,7 @@ import org.geogebra.common.keyboard.KeyboardRowDefinitionProvider;
 import org.geogebra.common.main.AppKeyboardType;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.main.LocalizationI;
+import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.util.lang.Language;
 import org.geogebra.keyboard.base.Accents;
 import org.geogebra.keyboard.base.Action;
@@ -137,7 +138,8 @@ public class TabbedKeyboard extends FlowPanel
 			case SOLVER:
 				return new SolverKeyboardFactory();
 			default:
-				return new DefaultKeyboardFactory();
+				return new DefaultKeyboardFactory(PreviewFeature.isAvailable(
+						PreviewFeature.REALSCHULE_TEMPLATES));
 			}
 		}
 	}
@@ -549,6 +551,12 @@ public class TabbedKeyboard extends FlowPanel
 			return KeyboardResources.INSTANCE.mixed_number();
 		case RECURRING_DECIMAL:
 			return KeyboardResources.INSTANCE.recurring_decimal();
+		case POINT_TEMPLATE:
+			return KeyboardResources.INSTANCE.point_template();
+		case VECTOR_TEMPLATE:
+			return KeyboardResources.INSTANCE.vector_template();
+		case MATRIX_TEMPLATE:
+			return KeyboardResources.INSTANCE.matrix_template();
 		default: return null;
 		}
 	}

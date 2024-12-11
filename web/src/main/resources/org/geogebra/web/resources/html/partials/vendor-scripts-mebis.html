@@ -15,6 +15,23 @@
         document.head.appendChild(app);
     }
 
+    function loadFontAwesome() {
+        if (document.URL) {
+            var baseLink = document.URL;
+            const splitLink = baseLink.split("frame");
+
+            addCssLinkToHead(splitLink[0] + "public/assets/css/fontawesome.min.css");
+            addCssLinkToHead(splitLink[0] + "public/assets/css/light.min.css");
+        }
+    }
+
+    function addCssLinkToHead(link) {
+         var cssLink = document.createElement("link");
+         cssLink.rel = "stylesheet";
+         cssLink.setAttribute("href", link);
+         document.head.appendChild(cssLink);
+    }
+
     function loadUnsavedWork(ggw) {
         var storage = window.sessionStorage;
         var unsavedWork = storage.getItem('tafelUnsaved');

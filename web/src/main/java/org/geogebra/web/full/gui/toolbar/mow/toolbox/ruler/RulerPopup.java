@@ -9,15 +9,16 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.menubar.MainMenu;
+import org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolModeIconSpecAdapter;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.Dom;
+import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.resources.SVGResource;
-import org.geogebra.web.resources.SVGResourcePrototype;
+import org.geogebra.web.html5.main.toolbox.ToolboxIcon;
 
 public class RulerPopup extends GPopupMenuW implements SetLabels {
-	private RulerIconButton rulerButton;
+	private final RulerIconButton rulerButton;
 	private int activeRulerMode = MODE_RULER;
 
 	/**
@@ -41,26 +42,30 @@ public class RulerPopup extends GPopupMenuW implements SetLabels {
 	}
 
 	private void addItem(String text, int mode) {
-		AriaMenuItem item = MainMenu.getMenuBarItem(
-				SVGResourcePrototype.EMPTY, text, () -> {});
+		ToolboxIcon toolboxIcon = ToolModeIconSpecAdapter.getToolboxIcon(mode);
+		IconSpec iconSpec = getApp().getToolboxIconResource().getImageResource(toolboxIcon);
+
+		AriaMenuItem item = MainMenu.getMenuBarItem(iconSpec, text, () -> {});
 		GGWToolBar.getImageResource(mode, getApp(), item);
 		item.setScheduledCommand(() -> {
 			activeRulerMode = mode;
 			updateRulerButton(mode);
 			setHighlight(item);
 		});
+
 		addItem(item);
 	}
 
 	private void updateRulerButton(int mode) {
-		GGWToolBar.getImageResource(mode, getApp(), image -> {
-			String fillColor = rulerButton.isActive()
-					? getApp().getGeoGebraElement().getDarkColor(getApp().getFrameElement())
-					: GColor.BLACK.toString();
-			rulerButton.removeTool();
-			rulerButton.updateImgAndTxt(((SVGResource) image).withFill(fillColor), mode, getApp());
-			rulerButton.handleRuler();
-		});
+		ToolboxIcon toolboxIcon = ToolModeIconSpecAdapter.getToolboxIcon(mode);
+		IconSpec iconSpec = getApp().getToolboxIconResource().getImageResource(toolboxIcon);
+
+		String fillColor = rulerButton.isActive()
+				? getApp().getGeoGebraElement().getDarkColor(getApp().getFrameElement())
+				: GColor.BLACK.toString();
+		rulerButton.removeTool();
+		rulerButton.updateImgAndTxt(iconSpec.withFill(fillColor), mode, getApp());
+		rulerButton.handleRuler();
 	}
 
 	private void setHighlight(AriaMenuItem highlighted) {

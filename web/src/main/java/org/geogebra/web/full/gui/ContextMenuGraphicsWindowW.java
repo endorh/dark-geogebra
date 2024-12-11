@@ -18,7 +18,9 @@ import org.geogebra.web.full.javax.swing.GCollapseMenuItem;
 import org.geogebra.web.html5.css.GuiResourcesSimple;
 import org.geogebra.web.html5.gui.menu.AriaMenuBar;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
+import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.topbar.TopBarIcon;
 import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.gwtproject.resources.client.ResourcePrototype;
@@ -131,10 +133,8 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 
 	private void addBackgroundMenuItem() {
 		AriaMenuItem miBackgroundCol =
-				MainMenu.getMenuBarItem(
-						MaterialDesignResources.INSTANCE.color_black(),
-						loc.getMenu("BackgroundColor"),
-				this::openColorChooser);
+				MainMenu.getMenuBarItem(((AppW) app).getTopBarIconResource().getImageResource(
+						TopBarIcon.COLOR), loc.getMenu("BackgroundColor"), this::openColorChooser);
 		wrappedPopup.addItem(miBackgroundCol);
 	}
 
@@ -285,10 +285,11 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW {
 	 *            of option
 	 */
 	protected void addMiProperties(String name, final OptionType type) {
-		SVGResource img = MaterialDesignResources.INSTANCE.gear();
+		IconSpec gearIcon = ((AppW) app).getTopBarIconResource().getImageResource(
+				TopBarIcon.SETTINGS);
 
 		AriaMenuItem miProperties =
-				MainMenu.getMenuBarItem(img,
+				MainMenu.getMenuBarItem(gearIcon,
 						app.isUnbundledOrWhiteboard()
 						? loc.getMenu("Settings")
 						: loc.getMenu(name) + " ...",

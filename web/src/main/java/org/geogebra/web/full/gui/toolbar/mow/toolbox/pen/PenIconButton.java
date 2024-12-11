@@ -8,12 +8,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
-import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolboxPopupPositioner;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.html5.gui.util.AriaHelper;
+import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.resources.SVGResource;
 
 public class PenIconButton extends IconButton {
 	private final AppW appW;
@@ -56,13 +55,14 @@ public class PenIconButton extends IconButton {
 	}
 
 	private Consumer<Integer> getUpdateButtonCallback() {
-		return mode -> GGWToolBar.getImageResource(mode, appW, image -> {
-			updateImgAndTxt((SVGResource) image, mode, appW);
+		return mode -> {
+			IconSpec icon = getIconFromMode(mode, appW.getToolboxIconResource());
+			updateImgAndTxt(icon, mode, appW);
 			setActive(true);
 			if (penPopup != null) {
 				penPopup.update();
 			}
-		});
+		};
 	}
 
 	@Override

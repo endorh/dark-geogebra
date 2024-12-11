@@ -6,8 +6,8 @@ import org.geogebra.web.full.gui.toolbar.mow.toolbox.NotesToolbox;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolboxPopupPositioner;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.AriaHelper;
+import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.resources.SVGResource;
 
 public class IconButtonWithMenu extends IconButton {
 	private final AppW appW;
@@ -23,7 +23,7 @@ public class IconButtonWithMenu extends IconButton {
 	 * @param deselectButtons - deselect button callback
 	 * @param toolbox - notes toolbox
 	 */
-	public IconButtonWithMenu(AppW appW, SVGResource icon, String ariaLabel,
+	public IconButtonWithMenu(AppW appW, IconSpec icon, String ariaLabel,
 			List<Integer> tools, Runnable deselectButtons, NotesToolbox toolbox) {
 		super(appW, icon, ariaLabel, ariaLabel, "", () -> {}, null);
 		this.appW = appW;

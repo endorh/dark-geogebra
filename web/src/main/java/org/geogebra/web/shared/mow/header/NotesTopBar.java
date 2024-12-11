@@ -13,16 +13,16 @@ import org.geogebra.common.gui.AccessibilityGroup;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.gwtutil.NavigatorUtil;
-import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.css.GuiResourcesSimple;
-import org.geogebra.web.html5.css.ZoomPanelResources;
 import org.geogebra.web.html5.gui.zoompanel.FocusableWidget;
 import org.geogebra.web.html5.gui.zoompanel.ZoomPanel;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.topbar.DefaultTopBarIconProvider;
+import org.geogebra.web.html5.main.topbar.MebisTopBarIconProvider;
+import org.geogebra.web.html5.main.topbar.TopBarIcon;
+import org.geogebra.web.html5.main.topbar.TopBarIconResource;
 import org.geogebra.web.html5.util.AppletParameters;
-import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.GlobalHeader;
 import org.gwtproject.event.dom.client.TouchStartEvent;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -33,13 +33,14 @@ import elemental2.dom.DomGlobal;
 public class NotesTopBar extends FlowPanel implements SetLabels, CoordSystemListener,
 		ModeChangeListener {
 	private final AppletParameters appletParams;
-	private final TopbarController controller;
+	private final TopBarController controller;
 	private final List<IconButton> buttons = new ArrayList<>();
 	private @CheckForNull IconButton undoBtn;
 	private @CheckForNull IconButton redoBtn;
 	private IconButton homeBtn;
 	private IconButton dragBtn;
 	private IconButton fullscreenButton;
+	private final TopBarIconResource topBarIconResource;
 
 	/**
 	 * constructor
@@ -47,10 +48,14 @@ public class NotesTopBar extends FlowPanel implements SetLabels, CoordSystemList
 	 */
 	public NotesTopBar(AppW appW) {
 		this.appletParams = appW.getAppletParameters();
-		controller = new TopbarController(appW);
+		topBarIconResource = new TopBarIconResource(appW.isMebis()
+				? new MebisTopBarIconProvider() : new DefaultTopBarIconProvider());
+		controller = new TopBarController(appW, topBarIconResource);
+
 		if (appW.getActiveEuclidianView() != null) {
 			appW.getActiveEuclidianView().getEuclidianController().addZoomerListener(this);
 		}
+
 		addStyleName("topbar");
 		buildGui();
 	}
@@ -74,17 +79,17 @@ public class NotesTopBar extends FlowPanel implements SetLabels, CoordSystemList
 
 	private void addMenuButton() {
 		if (!GlobalHeader.isInDOM() && appletParams.getDataParamShowMenuBar(false)) {
-			addSmallPressButton(MaterialDesignResources.INSTANCE.toolbar_menu_black(), "Menu",
-					controller::onMenuToggle, AccessibilityGroup.MENU);
+			addSmallPressButton(TopBarIcon.MENU, "Menu", controller::onMenuToggle,
+					AccessibilityGroup.MENU);
 			addDivider();
 		}
 	}
 
 	private void addUndoRedo() {
 		if (appletParams.getDataParamEnableUndoRedo()) {
-			undoBtn = addSmallPressButton(MaterialDesignResources.INSTANCE.undo_border(), "Undo",
+			undoBtn = addSmallPressButton(TopBarIcon.UNDO, "Undo",
 					controller::onUndo, AccessibilityGroup.UNDO);
-			redoBtn = addSmallPressButton(MaterialDesignResources.INSTANCE.redo_border(), "Redo",
+			redoBtn = addSmallPressButton(TopBarIcon.REDO, "Redo",
 					controller::onRedo, AccessibilityGroup.REDO);
 			addDivider();
 		}
@@ -96,13 +101,13 @@ public class NotesTopBar extends FlowPanel implements SetLabels, CoordSystemList
 		}
 
 		if (!NavigatorUtil.isMobile()) {
-			addSmallPressButton(GuiResourcesSimple.INSTANCE.zoom_in(), "ZoomIn.Tool",
+			addSmallPressButton(TopBarIcon.ZOOM_IN, "ZoomIn.Tool",
 					controller::onZoomIn, AccessibilityGroup.ZOOM_NOTES_PLUS);
-			addSmallPressButton(GuiResourcesSimple.INSTANCE.zoom_out(), "ZoomOut.Tool",
+			addSmallPressButton(TopBarIcon.ZOOM_OUT, "ZoomOut.Tool",
 					controller::onZoomOut, AccessibilityGroup.ZOOM_NOTES_MINUS);
 		}
 
-		homeBtn = addSmallPressButton(ZoomPanelResources.INSTANCE.home_zoom_black18(),
+		homeBtn = addSmallPressButton(TopBarIcon.STANDARD_VIEW,
 				"StandardView", controller::onHome, AccessibilityGroup.ZOOM_NOTES_HOME);
 		homeBtn.setDisabled(true);
 
@@ -111,15 +116,15 @@ public class NotesTopBar extends FlowPanel implements SetLabels, CoordSystemList
 	}
 
 	private void addDragButton() {
-		dragBtn = new IconButton(controller.getApp(), MaterialDesignResources
-				.INSTANCE.move_canvas(), "PanView", "PanView", "", null);
+		dragBtn = new IconButton(controller.getApp(), topBarIconResource.getImageResource(
+				TopBarIcon.PAN_VIEW), "PanView", "PanView", "", null);
 		dragBtn.addFastClickHandler((event) -> controller.onDrag(dragBtn.isActive()));
 
 		registerFocusable(dragBtn, AccessibilityGroup.ZOOM_NOTES_DRAG_VIEW);
-		styleAndRegisterTopbarButton(dragBtn);
+		styleAndRegisterTopBarButton(dragBtn);
 	}
 
-	private void styleAndRegisterTopbarButton(IconButton button) {
+	private void styleAndRegisterTopBarButton(IconButton button) {
 		button.addStyleName("small");
 		buttons.add(button);
 		add(button);
@@ -140,8 +145,7 @@ public class NotesTopBar extends FlowPanel implements SetLabels, CoordSystemList
 
 	private void addFullscreenButton() {
 		if (controller.needsFullscreenButton()) {
-			fullscreenButton = addSmallPressButton(ZoomPanelResources.INSTANCE
-					.fullscreen_black18(), "Fullscreen", null,
+			fullscreenButton = addSmallPressButton(TopBarIcon.FULLSCREEN_ON, "Fullscreen", null,
 					AccessibilityGroup.FULL_SCREEN_NOTES);
 			fullscreenButton.addFastClickHandler(source ->
 					controller.onFullscreenOn(fullscreenButton));
@@ -159,8 +163,8 @@ public class NotesTopBar extends FlowPanel implements SetLabels, CoordSystemList
 
 	private void addSettingsButton() {
 		if (controller.getApp().allowStylebar()) {
-			IconButton settingsBtn = addSmallPressButton(MaterialDesignResources.INSTANCE.gear(),
-					"Settings", null, null);
+			IconButton settingsBtn = addSmallPressButton(TopBarIcon.SETTINGS, "Settings",
+					null, null);
 			FocusableWidget focusableSettingsBtn = controller.getRegisteredFocusable(
 					AccessibilityGroup.SETTINGS_NOTES, settingsBtn);
 
@@ -171,8 +175,8 @@ public class NotesTopBar extends FlowPanel implements SetLabels, CoordSystemList
 
 	private void addPageOverviewButton() {
 		if (controller.getApp().isMultipleSlidesOpen() || appletParams.getParamShowSlides()) {
-			IconButton pageOverviewBtn = addSmallPressButton(MaterialDesignResources.INSTANCE
-							.mow_page_control(), "PageControl", null, null);
+			IconButton pageOverviewBtn = addSmallPressButton(TopBarIcon.PAGE_OVERVIEW,
+					"PageControl", null, null);
 			pageOverviewBtn.addStyleName("pageOverview");
 			pageOverviewBtn.setTooltipPositionRight();
 			pageOverviewBtn.addFastClickHandler(source -> {
@@ -184,9 +188,10 @@ public class NotesTopBar extends FlowPanel implements SetLabels, CoordSystemList
 		}
 	}
 
-	private IconButton addSmallPressButton(SVGResource image, String ariaLabel,
+	private IconButton addSmallPressButton(TopBarIcon icon, String ariaLabel,
 			Runnable clickHandler, AccessibilityGroup group) {
-		IconButton button = new IconButton(controller.getApp(), clickHandler, image, ariaLabel);
+		IconButton button = new IconButton(controller.getApp(), clickHandler,
+				topBarIconResource.getImageResource(icon), ariaLabel);
 		add(button);
 		buttons.add(button);
 

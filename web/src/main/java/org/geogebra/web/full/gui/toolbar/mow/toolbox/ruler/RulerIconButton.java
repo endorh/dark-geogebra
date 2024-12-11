@@ -3,8 +3,8 @@ package org.geogebra.web.full.gui.toolbar.mow.toolbox.ruler;
 import org.geogebra.common.euclidian.EuclidianController;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolboxPopupPositioner;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
+import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.resources.SVGResource;
 
 public class RulerIconButton extends IconButton {
 	private final EuclidianController ec;
@@ -19,7 +19,7 @@ public class RulerIconButton extends IconButton {
 	 * @param dataTitle - title
 	 * @param dataTest - ui test id
 	 */
-	public RulerIconButton(AppW appW, SVGResource icon, String ariaLabel, String dataTitle,
+	public RulerIconButton(AppW appW, IconSpec icon, String ariaLabel, String dataTitle,
 			String dataTest) {
 		super(appW, icon, ariaLabel, dataTitle, dataTest, null);
 		this.appW = appW;

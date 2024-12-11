@@ -136,6 +136,12 @@ import org.geogebra.web.html5.kernel.UndoManagerW;
 import org.geogebra.web.html5.kernel.commands.CommandDispatcherW;
 import org.geogebra.web.html5.main.settings.DefaultSettingsW;
 import org.geogebra.web.html5.main.settings.SettingsBuilderW;
+import org.geogebra.web.html5.main.toolbox.DefaultToolboxIconProvider;
+import org.geogebra.web.html5.main.toolbox.MebisToolboxIconProvider;
+import org.geogebra.web.html5.main.toolbox.ToolboxIconResource;
+import org.geogebra.web.html5.main.topbar.DefaultTopBarIconProvider;
+import org.geogebra.web.html5.main.topbar.MebisTopBarIconProvider;
+import org.geogebra.web.html5.main.topbar.TopBarIconResource;
 import org.geogebra.web.html5.move.googledrive.GoogleDriveOperation;
 import org.geogebra.web.html5.safeimage.ImageLoader;
 import org.geogebra.web.html5.sound.GTimerW;
@@ -256,6 +262,8 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	private FullScreenState fullscreenState;
 	private ToolTipManagerW toolTipManager;
 	private final ExamController examController = GlobalScope.examController;
+	private ToolboxIconResource toolboxIconResource;
+	private TopBarIconResource topBarIconResource;
 
 	/**
 	 * @param geoGebraElement
@@ -3558,5 +3566,29 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 */
 	public void detachFromExamController() {
 		// only with UI
+	}
+
+	/**
+	 * @return toolbox icon resource provider
+	 */
+	public ToolboxIconResource getToolboxIconResource() {
+		if (toolboxIconResource == null) {
+			toolboxIconResource = new ToolboxIconResource(isMebis()
+					? new MebisToolboxIconProvider() : new DefaultToolboxIconProvider());
+		}
+
+		return toolboxIconResource;
+	}
+
+	/**
+	 * @return top bar icon resource provider
+	 */
+	public TopBarIconResource getTopBarIconResource() {
+		if (topBarIconResource == null) {
+			topBarIconResource = new TopBarIconResource(isMebis()
+					? new MebisTopBarIconProvider() : new DefaultTopBarIconProvider());
+		}
+
+		return topBarIconResource;
 	}
 }

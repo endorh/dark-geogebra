@@ -10,8 +10,6 @@ import javax.annotation.CheckForNull;
 
 import org.geogebra.common.euclidian.ModeChangeListener;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.css.ToolbarSvgResources;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButtonWithMenu;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButtonWithPopup;
@@ -19,9 +17,10 @@ import org.geogebra.web.full.gui.toolbar.mow.toolbox.pen.PenIconButton;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.ruler.RulerIconButton;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.text.TextIconButton;
 import org.geogebra.web.html5.Browser;
-import org.geogebra.web.html5.css.ZoomPanelResources;
+import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.resources.SVGResource;
+import org.geogebra.web.html5.main.toolbox.ToolboxIcon;
+import org.geogebra.web.html5.main.toolbox.ToolboxIconResource;
 import org.geogebra.web.shared.mow.header.NotesTopBar;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.SimplePanel;
@@ -32,6 +31,7 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 	private final ToolboxController controller;
 	private @CheckForNull IconButton spotlightButton;
 	private final List<IconButton> buttons = new ArrayList<>();
+	private final ToolboxIconResource toolboxIconResource;
 	private IconButton lastSelectedButtonWithMenu;
 
 	/**
@@ -43,6 +43,7 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 		this.appW = appW;
 		decorator = new ToolboxDecorator(this, isTopBarAttached);
 		controller = new ToolboxController(appW, this);
+		toolboxIconResource = appW.getToolboxIconResource();
 		buildGui();
 	}
 
@@ -70,7 +71,7 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 				|| appW.isToolboxCategoryEnabled(ToolboxCategory.RULER.getName());
 	}
 
-	private IconButton addToggleButton(SVGResource image, String ariaLabel, String dataTitle,
+	private IconButton addToggleButton(IconSpec image, String ariaLabel, String dataTitle,
 			String dataTest, Runnable onHandler, Runnable offHandler) {
 		IconButton iconButton = new IconButton(appW, image, ariaLabel, dataTitle,
 				dataTest, onHandler, offHandler);
@@ -79,7 +80,7 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 		return iconButton;
 	}
 
-	private void addToggleButtonWithMenuPopup(SVGResource image, String ariaLabel,
+	private void addToggleButtonWithMenuPopup(IconSpec image, String ariaLabel,
 			List<Integer> tools) {
 		IconButton iconButton = new IconButtonWithMenu(appW, image, ariaLabel, tools,
 				this::deselectButtons, this);
@@ -87,7 +88,7 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 		buttons.add(iconButton);
 	}
 
-	private void addToggleButtonWithPopup(SVGResource image, String ariaLabel,
+	private void addToggleButtonWithPopup(IconSpec image, String ariaLabel,
 			List<Integer> tools) {
 		IconButtonWithPopup iconButton = new IconButtonWithPopup(appW, image, ariaLabel, tools,
 				this::deselectButtons);
@@ -116,8 +117,8 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 			return;
 		}
 
-		spotlightButton = addToggleButton(ZoomPanelResources.INSTANCE.target(), "Spotlight.Tool",
-				"Spotlight.Tool", "spotlightTool",
+		spotlightButton = addToggleButton(toolboxIconResource.getImageResource(
+				ToolboxIcon.SPOTLIGHT), "Spotlight.Tool", "Spotlight.Tool", "spotlightTool",
 				controller.getSpotlightOnHandler(), () -> {});
 	}
 
@@ -127,7 +128,8 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 		}
 
 		RulerIconButton rulerButton = new RulerIconButton(appW,
-				ToolbarSvgResources.INSTANCE.mode_ruler(), appW.getToolAriaLabel(MODE_RULER),
+				toolboxIconResource.getImageResource(ToolboxIcon.RULER),
+				appW.getToolAriaLabel(MODE_RULER),
 				"Ruler", "selectModeButton" + MODE_RULER);
 		add(rulerButton);
 		buttons.add(rulerButton);
@@ -138,7 +140,8 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 			return;
 		}
 
-		TextIconButton textButton = new TextIconButton(appW, this::deselectButtons);
+		TextIconButton textButton = new TextIconButton(appW, this::deselectButtons,
+				toolboxIconResource);
 		add(textButton);
 		buttons.add(textButton);
 	}
@@ -148,8 +151,8 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 			return;
 		}
 
-		addToggleButtonWithMenuPopup(MaterialDesignResources.INSTANCE.upload(), "Upload",
-				ToolboxConstants.uploadCategory);
+		addToggleButtonWithMenuPopup(toolboxIconResource.getImageResource(ToolboxIcon.UPLOAD),
+				"Upload", ToolboxConstants.uploadCategory);
 	}
 
 	private void addLinkButton() {
@@ -158,7 +161,7 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 		}
 
 		List<Integer> linkTools = ToolboxConstants.linkCategory;
-		addToggleButtonWithMenuPopup(MaterialDesignResources.INSTANCE.resource_card_shared(),
+		addToggleButtonWithMenuPopup(toolboxIconResource.getImageResource(ToolboxIcon.LINK),
 				"Link", linkTools);
 	}
 
@@ -168,7 +171,7 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 		}
 
 		IconButton selectButton = new IconButton(MODE_SELECT_MOW, appW,
-				MaterialDesignResources.INSTANCE.mouse_cursor(),
+				toolboxIconResource.getImageResource(ToolboxIcon.MOUSE_CURSOR),
 				() -> {
 					appW.setMode(MODE_SELECT_MOW);
 					appW.closePopups();
@@ -193,8 +196,8 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 			return;
 		}
 
-		addToggleButtonWithPopup(MaterialDesignResources.INSTANCE.shapes(), "Shape",
-				ToolboxConstants.shapeCategory);
+		addToggleButtonWithPopup(toolboxIconResource.getImageResource(ToolboxIcon.SHAPES),
+				"Shape", ToolboxConstants.shapeCategory);
 	}
 
 	private void addAppsButton() {
@@ -204,8 +207,8 @@ public class NotesToolbox extends FlowPanel implements SetLabels, ModeChangeList
 
 		List<Integer> appsTools
 				= ToolboxConstants.getAppsCategory(Browser.isGraspableMathEnabled());
-		addToggleButtonWithMenuPopup(MaterialDesignResources.INSTANCE.apps(), "Tools.More",
-				appsTools);
+		addToggleButtonWithMenuPopup(toolboxIconResource.getImageResource(ToolboxIcon.APPS),
+				"Tools.More", appsTools);
 	}
 
 	@Override

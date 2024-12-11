@@ -47,6 +47,17 @@
 				opacity: 0.54;
 			}
 
+			.fa-light {
+				position: absolute;
+				left: 0;
+				display: flex;
+				justify-content: center;
+				margin: 0 10px;
+				font-size: 24px;
+				opacity: 0.54;
+				width: 32px;
+			}
+
 			.checkImg, .expandImg, .collapseImg, .submenuArrow {
 				left: auto;
 				right: 8px;

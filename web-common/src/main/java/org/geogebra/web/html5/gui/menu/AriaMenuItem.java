@@ -11,6 +11,8 @@ import org.geogebra.common.util.AttributedString;
 import org.geogebra.common.util.Range;
 import org.geogebra.web.html5.gui.util.HasResource;
 import org.geogebra.web.html5.gui.util.NoDragImage;
+import org.geogebra.web.html5.gui.view.IconSpec;
+import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.gwtproject.core.client.Scheduler.ScheduledCommand;
 import org.gwtproject.dom.client.Document;
 import org.gwtproject.resources.client.ResourcePrototype;
@@ -38,12 +40,9 @@ public class AriaMenuItem extends SimplePanel implements HasResource {
 	private HTMLElement img;
 
 	/**
-	 * @param text
-	 *            content
-	 * @param icon
-	 *            icon
-	 * @param cmd
-	 *            command to run when clicked
+	 * @param text content
+	 * @param icon icon
+	 * @param cmd command to run when clicked
 	 */
 	public AriaMenuItem(String text, ResourcePrototype icon, ScheduledCommand cmd) {
 		this();
@@ -92,12 +91,20 @@ public class AriaMenuItem extends SimplePanel implements HasResource {
 	}
 
 	/**
-	 * @param text
-	 *            content
-	 * @param icon
-	 *            icon
-	 * @param submenu
-	 *            submenu to open when clicked
+	 * @param text content
+	 * @param cmd command to run when clicked
+	 * @param icon icon
+	 */
+	public AriaMenuItem(String text, ScheduledCommand cmd, IconSpec icon) {
+		this();
+		setContent(text, icon);
+		this.cmd = cmd;
+	}
+
+	/**
+	 * @param text content
+	 * @param icon icon
+	 * @param submenu submenu to open when clicked
 	 */
 	public AriaMenuItem(String text, ResourcePrototype icon, AriaMenuBar submenu) {
 		this();
@@ -136,10 +143,8 @@ public class AriaMenuItem extends SimplePanel implements HasResource {
 	}
 
 	/**
-	 * @param text
-	 *            content
-	 * @param icon
-	 *            icon
+	 * @param text content
+	 * @param icon icon
 	 */
 	private void setContent(String text, @CheckForNull ResourcePrototype icon) {
 		this.textNode = DomGlobal.document.createTextNode(text == null ? "" : text);
@@ -164,6 +169,34 @@ public class AriaMenuItem extends SimplePanel implements HasResource {
 	}
 
 	/**
+	 * @param text content
+	 * @param icon icon
+	 */
+	private void setContent(String text, IconSpec icon) {
+		getElement().removeAllChildren();
+		this.textNode = DomGlobal.document.createTextNode(text);
+		try {
+			elemental2.dom.Element el = Js.uncheckedCast(getElement());
+			if (icon != null) {
+				img = Js.uncheckedCast(DomGlobal.document.createElement("img"));
+				if (icon instanceof ImageIconSpec) {
+					img.setAttribute("src", NoDragImage.safeURI(((ImageIconSpec) icon).getImage()));
+					img.setAttribute("draggable", "false");
+					img.classList.add("menuImg");
+					el.appendChild(img);
+				} else {
+					elemental2.dom.Element iconElem = Js.uncheckedCast(icon.toElement());
+					el.insertAdjacentElement("afterbegin", iconElem);
+				}
+
+			}
+			el.appendChild(textNode);
+		} catch (ClassCastException ex) {
+			// mockito
+		}
+	}
+
+	/**
 	 * @return command
 	 */
 	public ScheduledCommand getScheduledCommand() {
@@ -171,8 +204,7 @@ public class AriaMenuItem extends SimplePanel implements HasResource {
 	}
 
 	/**
-	 * @param enabled
-	 *            whether this button is active
+	 * @param enabled whether this button is active
 	 */
 	public void setEnabled(boolean enabled) {
 		if (enabled) {
@@ -184,8 +216,7 @@ public class AriaMenuItem extends SimplePanel implements HasResource {
 	}
 
 	/**
-	 * @param cmd
-	 *            command to run when clicked
+	 * @param cmd command to run when clicked
 	 */
 	public void setScheduledCommand(ScheduledCommand cmd) {
 		this.cmd = cmd;

@@ -5,17 +5,17 @@ import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MEDIA_TEXT;
 
 import org.geogebra.common.awt.GColor;
 import org.geogebra.common.gui.SetLabels;
-import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.full.javax.swing.GPopupMenuW;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
+import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.main.AppW;
-import org.geogebra.web.resources.SVGResource;
-import org.geogebra.web.resources.SVGResourcePrototype;
+import org.geogebra.web.html5.main.toolbox.ToolboxIcon;
+import org.geogebra.web.html5.main.toolbox.ToolboxIconResource;
 
 public class TextCategoryPopup extends GPopupMenuW implements SetLabels {
-	private IconButton textButton;
+	private final IconButton textButton;
 	private int lastSelectedMode = -1;
 
 	/**
@@ -30,25 +30,22 @@ public class TextCategoryPopup extends GPopupMenuW implements SetLabels {
 	}
 
 	private void buildGui() {
-		addItem(MODE_MEDIA_TEXT);
-		addItem(MODE_EQUATION);
+		ToolboxIconResource res = getApp().getToolboxIconResource();
+		addItem(MODE_MEDIA_TEXT, res.getImageResource(ToolboxIcon.TEXT));
+		addItem(MODE_EQUATION, res.getImageResource(ToolboxIcon.EQUATION));
 
 		popupMenu.selectItem(0);
 	}
 
-	private void addItem(int mode) {
+	private void addItem(int mode, IconSpec icon) {
 		String text = getApp().getToolName(mode);
 
-		AriaMenuItem item = MainMenu.getMenuBarItem(
-				SVGResourcePrototype.EMPTY, text, () -> {});
-		GGWToolBar.getImageResource(mode, getApp(), image -> {
-			item.setResource(image);
-			item.setScheduledCommand(() -> {
-				updateMode(mode);
-				updateButton((SVGResource) image, mode);
-				updateSelection(item);
-				hide();
-			});
+		AriaMenuItem item = MainMenu.getMenuBarItem(icon, text, () -> {});
+		item.setScheduledCommand(() -> {
+			updateMode(mode);
+			updateButton(icon, mode);
+			updateSelection(item);
+			hide();
 		});
 		addItem(item);
 	}
@@ -58,7 +55,7 @@ public class TextCategoryPopup extends GPopupMenuW implements SetLabels {
 		lastSelectedMode = mode;
 	}
 
-	private void updateButton(SVGResource image, int mode) {
+	private void updateButton(IconSpec image, int mode) {
 		String fillColor = textButton.isActive()
 				? getApp().getGeoGebraElement().getDarkColor(getApp().getFrameElement())
 				: GColor.BLACK.toString();

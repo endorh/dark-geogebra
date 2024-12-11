@@ -3,15 +3,16 @@ package org.geogebra.web.full.gui.toolbar.mow.toolbox.text;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_EQUATION;
 import static org.geogebra.common.euclidian.EuclidianConstants.MODE_MEDIA_TEXT;
 
-import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolboxPopupPositioner;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.components.IconButton;
 import org.geogebra.web.html5.gui.GPopupPanel;
 import org.geogebra.web.html5.gui.util.AriaHelper;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.toolbox.ToolboxIcon;
+import org.geogebra.web.html5.main.toolbox.ToolboxIconResource;
 
 public class TextIconButton extends IconButton {
-	private AppW appW;
+	private final AppW appW;
 	private TextCategoryPopup textCategoryPopup;
 
 	/**
@@ -19,9 +20,10 @@ public class TextIconButton extends IconButton {
 	 * @param appW - application
 	 * @param deselectButtons - deselect buttons callback
 	 */
-	public TextIconButton(AppW appW, Runnable deselectButtons) {
-		super(appW, MaterialDesignResources.INSTANCE.texts(), "Text.Tool", "Text.Tool",
-				"", null);
+	public TextIconButton(AppW appW, Runnable deselectButtons,
+			ToolboxIconResource toolboxIconResource) {
+		super(appW, toolboxIconResource.getImageResource(ToolboxIcon.TEXTS), "Text.Tool",
+				"Text.Tool", "", null);
 		this.appW = appW;
 
 		AriaHelper.setAriaHasPopup(this);

@@ -10,7 +10,11 @@ import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.dialog.DialogManagerW;
 import org.geogebra.web.html5.gui.util.Dom;
 import org.geogebra.web.html5.gui.util.NoDragImage;
+import org.geogebra.web.html5.gui.view.IconSpec;
+import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.main.AppW;
+import org.geogebra.web.html5.main.toolbox.ToolboxIcon;
+import org.gwtproject.dom.client.Element;
 import org.gwtproject.user.client.ui.FlowPanel;
 import org.gwtproject.user.client.ui.SimplePanel;
 
@@ -79,11 +83,19 @@ public class ColorChooserPanel extends FlowPanel {
 
 		SimplePanel imageHolder = new SimplePanel();
 		imageHolder.addStyleName("imageHolder");
-		NoDragImage plus = new NoDragImage(MaterialDesignResources.INSTANCE.add_black(), 18);
-		plus.addStyleName("plus");
+		IconSpec iconPlus = appW.getToolboxIconResource().getImageResource(ToolboxIcon.PLUS);
 
-		customColorButton.add(imageHolder);
-		customColorButton.add(plus);
+		if (iconPlus instanceof ImageIconSpec) {
+			customColorButton.add(imageHolder);
+			NoDragImage img = new NoDragImage(((ImageIconSpec) iconPlus).getImage(), 18);
+			img.addStyleName("plus");
+			customColorButton.add(img);
+		} else {
+			Element iconElement = iconPlus.toElement();
+			iconElement.addClassName("plus");
+			customColorButton.getElement().insertFirst(iconElement);
+			customColorButton.insert(imageHolder, 0);
+		}
 
 		Dom.addEventListener(customColorButton.getElement(), "click", (event) -> {
 				if (!isDisabled()) {

@@ -228,7 +228,7 @@ public class ParametricProcessor {
 	 *            label for output
 	 * @param info
 	 *            processing information
-	 * @return paramteric curve (or line, conic)
+	 * @return parametric curve (or line, conic)
 	 */
 	protected GeoElement[] processParametricFunction(ExpressionNode exp,
 			ExpressionValue ev, FunctionVariable[] fv, String label,
@@ -583,7 +583,7 @@ public class ParametricProcessor {
 		eq.setForceConic();
 		eq.setLabel(label);
 		GeoElement[] ret = ap.processConic(eq, buildParamEq(exp, label), info);
-		((GeoConicND) ret[0]).toParametric(param);
+		((GeoConicND) ret[0]).setToParametric(param);
 		((GeoConicND) ret[0]).update();
 		return ret;
 	}

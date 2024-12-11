@@ -73,7 +73,7 @@ public class Command extends ValidExpression
 
 	/**
 	 * for commands with different output types and that need to know each
-	 * lenght to set labels correctly
+	 * length to set labels correctly
 	 */
 	private int[] outputSizes;
 
@@ -914,5 +914,9 @@ public class Command extends ValidExpression
 
 	public void setAllowEvaluationForTypeCheck(boolean allowEvaluationForTypeCheck) {
 		this.allowEvaluationForTypeCheck = allowEvaluationForTypeCheck;
+	}
+
+	public ExpressionNode removeLastArgument() {
+		return args.remove(args.size() - 1);
 	}
 }

@@ -34,6 +34,7 @@ import org.geogebra.common.kernel.arithmetic.Inspecting;
 import org.geogebra.common.kernel.arithmetic.ValidExpression;
 import org.geogebra.common.kernel.cas.AlgoDependentCasCell;
 import org.geogebra.common.kernel.commands.EvalInfo;
+import org.geogebra.common.kernel.geos.ConstructionElementSetup;
 import org.geogebra.common.kernel.geos.GeoAxis;
 import org.geogebra.common.kernel.geos.GeoCasCell;
 import org.geogebra.common.kernel.geos.GeoElement;
@@ -115,7 +116,7 @@ public class Construction {
 
 	// in macro mode no new labels or construction elements
 	// can be added
-	private boolean supressLabelCreation = false;
+	private boolean suppressLabelCreation = false;
 
 	// a map for sets with all labeled GeoElements in alphabetical order of
 	// specific types
@@ -201,6 +202,8 @@ public class Construction {
 
 	private LayerManager layerManager;
 
+	private final Set<ConstructionElementSetup> constructionElementSetups = new HashSet<>();
+
 	/**
 	 * Creates a new Construction.
 	 * @param k Kernel
@@ -243,6 +246,28 @@ public class Construction {
 		geoTable = new HashMap<>(200);
 		initGeoTables();
 		groups = new ArrayList<>();
+	}
+
+	/**
+	 * Adds a {@link ConstructionElementSetup} which can modify the initial setup of elements when
+	 * adding them to the {@code Construction} with {@link Construction#addToConstructionList}.
+	 *
+	 * @param constructionElementSetup The {@link ConstructionElementSetup} to be added
+	 */
+	public void addConstructionElementSetup(
+			ConstructionElementSetup constructionElementSetup) {
+		constructionElementSetups.add(constructionElementSetup);
+	}
+
+	/**
+	 * Removes the previously added {@link ConstructionElementSetup} from this {@code Construction}.
+	 * Once removed, it will no longer affect the initial setup of elements added to the
+	 * {@code Construction}.
+	 *
+	 * @param constructionElementSetup The {@link ConstructionElementSetup} to be removed
+	 */
+	public void removeConstructionElementSetup(ConstructionElementSetup constructionElementSetup) {
+		constructionElementSetups.remove(constructionElementSetup);
 	}
 
 	/**
@@ -401,14 +426,14 @@ public class Construction {
 	}
 
 	/**
-	 * @return table of arbitraryConstants from CAS with assigmentVar key
+	 * @return table of arbitraryConstants from CAS with assigmnentVar key
 	 */
 	public HashMap<Integer, ArbitraryConstantRegistry> getArbitraryConsTable() {
 		return arbitraryConsTable;
 	}
 
 	/**
-	 * @param arbitraryConsTable - table of arbitraryConstants from CAS with assigmentVar key
+	 * @param arbitraryConsTable - table of arbitraryConstants from CAS with assignmentVar key
 	 */
 	public void setArbitraryConsTable(
 			HashMap<Integer, ArbitraryConstantRegistry> arbitraryConsTable) {
@@ -507,7 +532,7 @@ public class Construction {
 	 * @param flag true iff labelcreation should be supressed
 	 */
 	public void setSuppressLabelCreation(boolean flag) {
-		supressLabelCreation = flag;
+		suppressLabelCreation = flag;
 	}
 
 	/**
@@ -515,7 +540,7 @@ public class Construction {
 	 * @return true iff new construction elements won't get labels.
 	 */
 	public boolean isSuppressLabelsActive() {
-		return supressLabelCreation;
+		return suppressLabelCreation;
 	}
 
 	/**
@@ -784,6 +809,7 @@ public class Construction {
 	 * @param index index
 	 */
 	public void addToConstructionList(ConstructionElement ce, int index) {
+		constructionElementSetups.forEach(setup -> setup.applyTo(ce));
 		++step;
 		ceList.add(index, ce);
 		updateConstructionIndex(index);
@@ -874,7 +900,7 @@ public class Construction {
 	 */
 	public void addToConstructionList(ConstructionElement ce,
 			boolean checkContains) {
-		if (supressLabelCreation) {
+		if (suppressLabelCreation) {
 			return;
 		}
 		if (checkContains && ce.isInConstructionList()) {
@@ -887,7 +913,7 @@ public class Construction {
 	/**
 	 * Removes the given Construction Element from this Construction and updates
 	 * step if necessary (i.e. if ce.getConstructionIndex() &lt;= getStep()).
-	 * @param ce ConstuctionElement to be removed
+	 * @param ce ConstructionElement to be removed
 	 */
 	public void removeFromConstructionList(ConstructionElement ce) {
 
@@ -1852,7 +1878,7 @@ public class Construction {
 	 * @see #lookupLabel(String)
 	 */
 	public void putLabel(GeoElement geo) {
-		if (supressLabelCreation || geo.getLabelSimple() == null) {
+		if (suppressLabelCreation || geo.getLabelSimple() == null) {
 			return;
 		}
 
@@ -2072,7 +2098,7 @@ public class Construction {
 			return checkConstructionStep(geo);
 		}
 
-		// DESPARATE CASE: variable name not found
+		// DESPERATE CASE: variable name not found
 
 		/*
 		 * CAS VARIABLE HANDLING e.g. ggbtmpvara for a
@@ -2823,7 +2849,7 @@ public class Construction {
 
 		usedMacros = null;
 		spreadsheetTraces = false;
-		supressLabelCreation = false;
+		suppressLabelCreation = false;
 		groups.clear();
 	}
 

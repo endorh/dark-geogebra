@@ -83,7 +83,6 @@ import org.geogebra.common.kernel.matrix.CoordSys;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.main.App;
 import org.geogebra.common.main.App.ExportType;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.GeoGebraColorConstants;
 import org.geogebra.common.main.GuiManagerInterface;
 import org.geogebra.common.main.ScreenReader;
@@ -491,8 +490,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	// keep same center after layout resize
 	private boolean keepCenter = false;
-
-	private boolean screenChanged = false;
 
 	private boolean tracing = false;
 
@@ -2682,7 +2679,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	/**
-	 * tranform in view coords
+	 * transform in view coords
 	 * 
 	 * @param coords
 	 *            point
@@ -3592,7 +3589,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (previewDrawable != null) {
 			previewDrawable.drawPreview(g2);
 		}
-		adjustObjects();
 		drawMasks(g2);
 		drawMeasurementTools(g2);
 	}
@@ -4279,7 +4275,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	/**
 	 * @param preferredSize
-	 *            prefered size
+	 *            preferred size
 	 */
 	public abstract void setPreferredSize(GDimension preferredSize);
 
@@ -6149,15 +6145,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	@Override
 	public void screenChanged() {
-		screenChanged = true;
-	}
-
-	private void adjustObjects() {
-		if (app.has(Feature.ADJUST_WIDGETS) && screenChanged) {
-			app.adjustScreen(true);
-			screenChanged = false;
-			repaint();
-		}
+		// ignore
 	}
 
 	public AutoCompleteTextField getTextField() {

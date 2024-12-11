@@ -13,6 +13,7 @@ import org.apache.commons.math3.linear.RealMatrix;
 import org.geogebra.common.kernel.Construction;
 import org.geogebra.common.kernel.EuclidianViewCE;
 import org.geogebra.common.kernel.Kernel;
+import org.geogebra.common.kernel.LinearEquationRepresentable;
 import org.geogebra.common.kernel.PathMover;
 import org.geogebra.common.kernel.SegmentType;
 import org.geogebra.common.kernel.StringTemplate;
@@ -28,9 +29,9 @@ import org.geogebra.common.kernel.arithmetic.MyDouble;
 import org.geogebra.common.kernel.arithmetic.NumberValue;
 import org.geogebra.common.kernel.arithmetic.Polynomial;
 import org.geogebra.common.kernel.arithmetic.ReplaceChildrenByValues;
-import org.geogebra.common.kernel.arithmetic.Traversing;
 import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.arithmetic.ValueType;
+import org.geogebra.common.kernel.arithmetic.traversing.ConstantSimplifier;
 import org.geogebra.common.kernel.geos.ConicMirrorable;
 import org.geogebra.common.kernel.geos.DescriptionMode;
 import org.geogebra.common.kernel.geos.Dilateable;
@@ -113,12 +114,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	private Equation expanded;
 	private static long fastDrawThreshold = 10;
 	private static final String[] XY_VARIABLES = {"x", "y"};
-	private static final Traversing SIMPLIFY_CONST = ev -> {
-		if (ev.isExpressionNode() && !((ExpressionNode) ev).containsFreeFunctionVariable(null)) {
-			return ev.evaluate(StringTemplate.defaultTemplate);
-		}
-		return ev;
-	};
 
 	/**
 	 * Construct an empty Implicit Curve Object
@@ -333,7 +328,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		factorExpression = new FunctionNVar[1];
 		factorExpression[0] = expression.deepCopy(kernel);
 		try {
-			factorExpression[0].traverse(SIMPLIFY_CONST);
+			factorExpression[0].traverse(ConstantSimplifier.INSTANCE);
 		} catch (MyError err) {
 			// if simplification failed, leave as is
 		}
@@ -449,8 +444,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			FunctionNVar func = expression.getFunction();
 			diffExp[0] = func.getDerivativeNoCAS(x, 1).deepCopy(kernel);
 			diffExp[1] = func.getDerivativeNoCAS(y, 1).deepCopy(kernel);
-			diffExp[0].traverse(SIMPLIFY_CONST);
-			diffExp[1].traverse(SIMPLIFY_CONST);
+			diffExp[0].traverse(ConstantSimplifier.INSTANCE);
+			diffExp[1].traverse(ConstantSimplifier.INSTANCE);
 			ExpressionNode der = new ExpressionNode(kernel,
 					diffExp[0].getExpression().multiply(-1.0), Operation.DIVIDE,
 					diffExp[1].getExpression());
@@ -702,7 +697,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	@Override
 	public boolean isLaTeXDrawableGeo() {
-		return getToStringMode() == GeoLine.EQUATION_USER || coeff == null;
+		return getToStringMode() == LinearEquationRepresentable.Form.USER.rawValue || coeff == null;
 	}
 
 	/**
@@ -1954,11 +1949,6 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	}
 
 	@Override
-	public void setToUser() {
-		toStringMode = GeoLine.EQUATION_USER;
-	}
-
-	@Override
 	public synchronized void preventPathCreation() {
 		calcPath = false;
 
@@ -1969,14 +1959,19 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		return getDefinition() != null;
 	}
 
-	@Override
+	@Override // GeoImplicit
 	public boolean isInputForm() {
-		return getToStringMode() == GeoLine.EQUATION_USER;
+		return getToStringMode() == LinearEquationRepresentable.Form.USER.rawValue;
 	}
 
-	@Override
+	@Override // GeoImplicit
+	public void setToUser() {
+		toStringMode = LinearEquationRepresentable.Form.USER.rawValue;
+	}
+
+	@Override // GeoImplicit
 	public void setToImplicit() {
-		toStringMode = GeoLine.EQUATION_IMPLICIT;
+		toStringMode = LinearEquationRepresentable.Form.IMPLICIT.rawValue;
 	}
 
 	@Override
@@ -2445,15 +2440,10 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 
 	@Override
 	public DescriptionMode getDescriptionMode() {
-		if (toStringMode == GeoLine.EQUATION_USER) {
+		if (toStringMode == LinearEquationRepresentable.Form.USER.rawValue) {
 			return DescriptionMode.VALUE;
 		}
 		return super.getDescriptionMode();
-	}
-
-	@Override
-	public boolean setTypeFromXML(String style, String parameter, boolean force) {
-		return false;
 	}
 
 	@Override

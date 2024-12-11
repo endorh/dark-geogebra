@@ -23,6 +23,9 @@ final class BayernCasExamRestrictions extends ExamRestrictions {
 				null,
 				null,
 				null,
+				null,
+				null,
+				null,
 				null);
 	}
 

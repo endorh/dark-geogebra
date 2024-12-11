@@ -634,7 +634,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 		settingsChanged = false;
 
-		// auxilliary objects
+		// auxiliary objects
 		setShowAuxiliaryObjects(showAuxiliaryObjectsSettings);
 
 		// collapsed nodes
@@ -735,7 +735,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 		addItem(indNode);
 		addItem(depNode);
 
-		// add auxiliary node if neccessary
+		// add auxiliary node if necessary
 		if (app.showAuxiliaryObjects) {
 			if (auxiliaryNode.getTree() != this) {
 				addItem(auxiliaryNode);
@@ -1639,7 +1639,7 @@ public class AlgebraViewW extends Tree implements LayerView, AlgebraView,
 
 	private void stopCurrentEditor() {
 		if (getActiveTreeItem() != null) {
-			getActiveTreeItem().getController().onEnter(false, false);
+			getActiveTreeItem().getController().onEnter(false);
 		}
 	}
 

@@ -538,7 +538,7 @@ public class ArithmeticTest extends BaseUnitTest {
 	@Test
 	public void testImpreciseForDivisionIncludingSlider() {
 		GeoNumeric a = add("a = 1");
-		a.setShowExtendedAV(true);
+		a.setAVSliderOrCheckboxVisible(true);
 		a.initAlgebraSlider();
 		assertTrue(a.getNumber().isImprecise());
 		GeoNumeric b = add("a/7.01");
@@ -643,6 +643,19 @@ public class ArithmeticTest extends BaseUnitTest {
 		add("A1=7");
 		GeoElement nextRow = add("A2=A$1");
 		assertEquals("A2", nextRow.getLabelSimple());
+	}
+
+	@Test
+	public void implicationKeepsBrackets() {
+		add("a=false");
+		add("b=false");
+		add("c=false");
+		GeoElement d = add("d=a->(b->c)");
+		assertThat(d, hasValue("true"));
+		assertThat(d.getDefinitionForEditor(), equalTo("d=a->(b->c)"
+				.replace("->", Unicode.IMPLIES + "")));
+		reload();
+		assertThat(lookup("d"), hasValue("true"));
 	}
 
 	private void assertAreEqual(String first, String second, Object areEqual) {

@@ -45,6 +45,7 @@ public class TextCategoryPopup extends GPopupMenuW implements SetLabels {
 			updateMode(mode);
 			updateButton(icon, mode);
 			updateSelection(item);
+			hide();
 		});
 		addItem(item);
 	}

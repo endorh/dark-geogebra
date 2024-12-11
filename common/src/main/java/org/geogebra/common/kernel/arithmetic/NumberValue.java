@@ -13,14 +13,14 @@ the Free Software Foundation.
 /*
  * NumberValue.java
  *
- * Created on 03. Oktober 2001, 10:09
+ * Created on 03. October 2001, 10:09
  */
 
 package org.geogebra.common.kernel.arithmetic;
 
 import java.math.BigDecimal;
 
-import org.geogebra.common.kernel.GeoElementConvertable;
+import org.geogebra.common.kernel.GeoElementConvertible;
 import org.geogebra.common.kernel.StringTemplate;
 
 /**
@@ -29,7 +29,7 @@ import org.geogebra.common.kernel.StringTemplate;
  * 
  * @author Markus
  */
-public interface NumberValue extends ExpressionValue, GeoElementConvertable {
+public interface NumberValue extends ExpressionValue, GeoElementConvertible {
 	/**
 	 * @return MyDouble whose value equals #getDouble()
 	 */

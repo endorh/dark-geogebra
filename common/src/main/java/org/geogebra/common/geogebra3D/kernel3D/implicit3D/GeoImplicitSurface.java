@@ -18,7 +18,6 @@ import org.geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import org.geogebra.common.kernel.arithmetic.ValueType;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoFunctionNVar;
-import org.geogebra.common.kernel.geos.GeoLine;
 import org.geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoImplicitSurfaceND;
@@ -27,7 +26,7 @@ import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.kernel.matrix.Coords;
 import org.geogebra.common.kernel.matrix.Coords3;
 import org.geogebra.common.kernel.matrix.CoordsDouble3;
-import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.PreviewFeature;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
@@ -102,7 +101,7 @@ public class GeoImplicitSurface extends GeoElement3D
 						new ExpressionNode(kernel, normal, Operation.DIVIDE,
 								coef),
 						Operation.PLUS, fVars[i]);
-				m.simplifyLeafs();
+				m.simplifyLeaves();
 				FunctionNVar fun = new FunctionNVar(m,
 						new FunctionVariable[] { fVars[complement[i][0]],
 								fVars[complement[i][1]] });
@@ -961,28 +960,13 @@ public class GeoImplicitSurface extends GeoElement3D
 	}
 
 	@Override
-	final public void setToUser() {
-		toStringMode = GeoLine.EQUATION_USER;
-	}
-
-	@Override
-	public boolean setTypeFromXML(String style, String parameter, boolean force) {
-		return false;
-	}
-
-	@Override
-	public void setToImplicit() {
-		// TODO Auto-generated method stub
-	}
-
-	@Override
 	final public char getLabelDelimiter() {
 		return ':';
 	}
 
 	@Override
 	public boolean hasDrawable3D() {
-		return kernel.getApplication().has(Feature.IMPLICIT_SURFACES);
+		return PreviewFeature.isAvailable(PreviewFeature.IMPLICIT_SURFACES);
 	}
 
 	/**

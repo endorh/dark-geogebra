@@ -8,6 +8,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.TreeSet;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.Nonnull;
+
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.cas.GeoGebraCAS;
 import org.geogebra.common.euclidian.EuclidianView;
@@ -186,6 +189,8 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	protected AlgebraProcessor algProcessor;
 	/** Evaluator for ExpressionNode */
 	protected ExpressionNodeEvaluator expressionNodeEvaluator;
+
+	private EquationBehaviour equationBehaviour;
 
 	/**
 	 * CAS variable handling
@@ -1112,7 +1117,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * @param sb
 	 *            output buffer
 	 * @param tpl
-	 *            formated number with leading + or -. Skips 1 and -1.
+	 *            formatted number with leading + or -. Skips 1 and -1.
 	 */
 	final public void formatSignedCoefficient(double x, StringBuilder sb,
 			StringTemplate tpl) {
@@ -1134,7 +1139,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * @param sb
 	 *            output buffer
 	 * @param tpl
-	 *            formated number with leading + or -
+	 *            formatted number with leading + or -
 	 */
 	final public void formatSigned(double x, StringBuilder sb,
 			StringTemplate tpl) {
@@ -1154,7 +1159,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * @param sb
 	 *            output buffer
 	 * @param tpl
-	 *            formated number with leading +- or -+. Skips 1 and -1.
+	 *            formatted number with leading +- or -+. Skips 1 and -1.
 	 */
 	final public void formatSignedCoefficientPlusMinus(double x,
 			StringBuilder sb, StringTemplate tpl) {
@@ -1176,7 +1181,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * @param sb
 	 *            output buffer
 	 * @param tpl
-	 *            formated number with leading + or -
+	 *            formatted number with leading + or -
 	 */
 	final public void formatSignedPlusMinus(double x, StringBuilder sb,
 			StringTemplate tpl) {
@@ -1313,7 +1318,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *            number
 	 * @param tpl
 	 *            string template
-	 * @return formated number as string
+	 * @return formatted number as string
 	 */
 	final public String formatRaw(double number, StringTemplate tpl) {
 		double x = number;
@@ -1370,7 +1375,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 				// convert scientific notation 1.0E-20 to 1*10^(-20)
 				String scientificStr = MyDouble.toString(x);
 
-				return tpl.convertScientificNotation(scientificStr);
+				return tpl.convertScientificNotationGiac(scientificStr);
 			}
 
 			// number formatting for screen output
@@ -1433,7 +1438,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *            number
 	 * @param tpl
 	 *            string template
-	 * @return formated string
+	 * @return formatted string
 	 */
 
 	final public String format(double x, StringTemplate tpl) {
@@ -1519,7 +1524,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *            number format
 	 * @param tpl
 	 *            string template
-	 * @return formated number with e's and pi's replaced by suitable symbols
+	 * @return formatted number with e's and pi's replaced by suitable symbols
 	 */
 	final public String formatPiE(double x, NumberFormatAdapter numF,
 			StringTemplate tpl) {
@@ -1963,7 +1968,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 		ScientificFormatAdapter sfa = tpl.getSF(sf);
 		// get scientific format
 		StringUtil.appendFormat(sbFormatSF, x, sfa);
-		return sbFormatSF.toString();
+		return tpl.convertScientificNotationForDisplay(sbFormatSF.toString());
 	}
 
 	/**
@@ -2178,7 +2183,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	// //////////////////////////////////////////////
 
 	/**
-	 * Returns formated angle (in degrees if necessary)
+	 * Returns formatted angle (in degrees if necessary)
 	 *
 	 * @param phi
 	 *            angle in radians
@@ -3343,11 +3348,20 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * 
 	 * @return animation manager
 	 */
-	final public AnimationManager getAnimatonManager() {
+	final public AnimationManager getAnimationManager() {
 		if (animationManager == null) {
 			animationManager = getApplication().newAnimationManager(this);
 		}
 		return animationManager;
+	}
+
+	/**
+	 * @deprecated use {@link #getAnimationManager()} instead
+	 * @return animation manager
+	 */
+	@Deprecated
+	public final AnimationManager getAnimatonManager() {
+		return getAnimationManager();
 	}
 
 	/**
@@ -3948,7 +3962,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * @param geo
 	 *            highlighted geo
 	 */
-	public final void notifyUpdateHightlight(GeoElement geo) {
+	public final void notifyUpdateHighlight(GeoElement geo) {
 		if (notifyViewsActive) {
 			for (View view : views) {
 				view.updateHighlight(geo);
@@ -5225,7 +5239,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 * @return standard precision
 	 */
 	public double getStandardPrecision() {
-		// overiden in Hololens
+		// overridden in Hololens
 		return STANDARD_PRECISION;
 	}
 
@@ -5239,6 +5253,21 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	public GeoFunctionConverter getFunctionConverter() {
 		return functionConverter;
+	}
+
+	/**
+	 * @return The current equation behaviour (may change at runtime, e.g. during exams).
+	 */
+	@CheckForNull
+	public EquationBehaviour getEquationBehaviour() {
+		return equationBehaviour;
+	}
+
+	/**
+	 * Set the current equation behaviour (may change at runtime, e.g. during exams).
+	 */
+	public void setEquationBehaviour(@Nonnull EquationBehaviour equationBehaviour) {
+		this.equationBehaviour = equationBehaviour;
 	}
 
 	/**

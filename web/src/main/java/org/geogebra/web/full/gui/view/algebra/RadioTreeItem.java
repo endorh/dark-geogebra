@@ -109,7 +109,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	private static final int DEFINITION_ROW_EDIT_MARGIN = 5;
 	private static final int MARGIN_RESIZE = 50;
 
-	protected static final int LATEX_MAX_EDIT_LENGHT = 1500;
+	protected static final int LATEX_MAX_EDIT_LENGTH = 1500;
 
 	Boolean stylebarShown;
 	/** Help popup */
@@ -500,7 +500,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			String text = previewGeo
 					.getAlgebraDescriptionForPreviewOutput();
 			outputPanel.showLaTeXPreview(text, previewGeo, getFontSize());
-			outputPanel.addArrowPrefix();
+			outputPanel.addEqualSignPrefix();
 			outputPanel.addValuePanel();
 
 			if (content.getWidgetIndex(definitionValuePanel) == -1) {
@@ -531,7 +531,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 			outputPanel.reset();
 		}
 		// LaTeX
-		String text = getLatexString(LATEX_MAX_EDIT_LENGHT,
+		String text = getLatexString(LATEX_MAX_EDIT_LENGTH,
 				geo.getDescriptionMode() != DescriptionMode.DEFINITION);
 		latex = text != null;
 
@@ -631,7 +631,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 				|| (geo != null && geo.getParentAlgorithm() instanceof AlgoFractionText)) {
 			String text = "";
 			if (geo != null) {
-				text = getLatexString(LATEX_MAX_EDIT_LENGHT, true);
+				text = getLatexString(LATEX_MAX_EDIT_LENGTH, true);
 				latexAfterEdit = (text != null);
 			} else {
 				latexAfterEdit = true;
@@ -771,9 +771,14 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 		}
 		return geo.getLaTeXAlgebraDescriptionWithFallback(
 				substituteNumbers
-						|| (geo instanceof GeoNumeric && geo.isSimple()),
+						|| isSimpleNumber(),
 				tpl, true);
 
+	}
+
+	private boolean isSimpleNumber() {
+		return geo instanceof GeoNumeric && geo.isSimple()
+				&& !((GeoNumeric) geo).isDecimalFraction();
 	}
 
 	private boolean isAlgebraStyleDefAndValue() {

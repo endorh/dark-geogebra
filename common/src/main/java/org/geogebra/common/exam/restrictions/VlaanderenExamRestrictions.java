@@ -25,6 +25,9 @@ final class VlaanderenExamRestrictions extends ExamRestrictions {
 				null,
 				null,
 				null,
+				null,
+				null,
+				null,
 				null);
 	}
 

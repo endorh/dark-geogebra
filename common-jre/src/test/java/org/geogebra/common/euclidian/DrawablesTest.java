@@ -35,7 +35,7 @@ import org.geogebra.common.kernel.geos.Traceable;
 import org.geogebra.common.kernel.geos.properties.FillType;
 import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.AppCommon3D;
-import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.settings.config.AppConfigDefault;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.test.LocalizationCommonUTF;
 import org.junit.Assert;
@@ -49,7 +49,7 @@ public class DrawablesTest extends BaseUnitTest {
 	public AppCommon createAppCommon() {
 		graphics = spy(new GGraphicsCommon());
 		return new AppCommon3D(new LocalizationCommonUTF(3),
-				new AwtFactoryCommon()) {
+				new AwtFactoryCommon(), new AppConfigDefault()) {
 			@Override
 			protected GGraphics2D createGraphics() {
 				return graphics;
@@ -111,8 +111,7 @@ public class DrawablesTest extends BaseUnitTest {
 		XmlTestUtil.checkCurrentXML(getApp());
 		for (GeoClass type : GeoClass.values()) {
 			Assert.assertTrue(type + "", types.contains(type)
-					|| (GeoClass.IMPLICIT_SURFACE_3D == type
-							&& !getApp().has(Feature.IMPLICIT_SURFACES))
+					|| GeoClass.IMPLICIT_SURFACE_3D == type
 					|| GeoClass.SURFACECARTESIAN == type
 					|| GeoClass.CAS_CELL == type || GeoClass.SPACE == type
 					|| GeoClass.DEFAULT == type

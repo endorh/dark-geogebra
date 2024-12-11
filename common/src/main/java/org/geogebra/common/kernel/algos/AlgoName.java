@@ -40,7 +40,7 @@ public class AlgoName extends AlgoElement {
 	 * @param cons
 	 *            Construction
 	 * @param geo
-	 *            Element whose name shoul be used
+	 *            Element whose name should be used
 	 */
 	public AlgoName(Construction cons, GeoElement geo) {
 
@@ -63,7 +63,7 @@ public class AlgoName extends AlgoElement {
 	 * @param label
 	 *            Label of the resulting text
 	 * @param geo
-	 *            Element whose name shoul be used
+	 *            Element whose name should be used
 	 */
 	public AlgoName(Construction cons, String label, GeoElement geo) {
 

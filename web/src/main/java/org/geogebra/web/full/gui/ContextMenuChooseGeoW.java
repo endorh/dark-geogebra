@@ -8,7 +8,6 @@ import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.euclidian.EuclidianView;
 import org.geogebra.common.kernel.geos.FromMeta;
 import org.geogebra.common.kernel.geos.GeoElement;
-import org.geogebra.common.main.Feature;
 import org.geogebra.common.main.Localization;
 import org.geogebra.web.html5.gui.menu.AriaMenuBar;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
@@ -51,7 +50,7 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 	 */
 	public ContextMenuChooseGeoW(AppW app, EuclidianView view,
 								 ArrayList<GeoElement> selectedGeos, ArrayList<GeoElement> geos,
-								 GPoint invokerLocation, ContextMenuFactory factory) {
+								 GPoint invokerLocation, ContextMenuItemFactory factory) {
 		super(app, selectedGeos, factory);
 		// return if just one geo, or if first geos more than one
 		if (geos.size() < 2 || selectedGeos.size() > 1) {
@@ -102,18 +101,16 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 			if (geo1 != geoSelected && geo1 != app.getKernel().getXOYPlane()) {
 				tmpAnotherMenuItemList.add(geo1);
 				if (geo1.getMetasLength() > 0) {
-					addMetas(geo1, geoSelected, metaElements);
+					addMetas(geo1, metaElements);
 				}
 			}
 		}
 
 	}
 
-	private void addMetas(GeoElement geo1, GeoElement geoSelected,
-			TreeSet<GeoElement> metaElements) {
+	private void addMetas(GeoElement geo1, TreeSet<GeoElement> metaElements) {
 		for (GeoElement meta : ((FromMeta) geo1).getMetas()) {
-			if (!metaElements.contains(meta) && (meta != geoSelected
-					|| !app.has(Feature.G3D_SELECT_META))) {
+			if (!metaElements.contains(meta)) {
 				tmpAnotherMenuItemList.add(meta);
 			}
 		}

@@ -13,7 +13,7 @@ the Free Software Foundation.
 /*
  * DrawConic.java
  *
- * Created on 16. Oktober 2001, 15:13
+ * Created on 16. October 2001, 15:13
  */
 
 package org.geogebra.common.euclidian.draw;
@@ -112,7 +112,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 	/** transform for ellipse, hyperbola, parabola */
 	protected GAffineTransform transform = AwtFactory.getPrototype()
 			.newAffineTransform();
-	/** shape to be filled (eg. ellipse, space between paralel lines) */
+	/** shape to be filled (eg. ellipse, space between parallel lines) */
 	protected GShape fillShape;
 
 	// CONIC_ELLIPSE

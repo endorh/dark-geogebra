@@ -158,6 +158,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 	private boolean localVarLabelSet = false;
 	private boolean euclidianVisible = true;
+	private boolean restrictedEuclidianVisibility = false;
 	private boolean forceEuclidianVisible = false;
 	private boolean algebraVisible = true;
 	private boolean labelVisible = true;
@@ -170,6 +171,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	/** label, value, caption, label+value */
 	public int labelMode = LABEL_DEFAULT;
 	/** cartesian, polar or complex */
+	// Note: This default value doesn't make sense for most elements (lines, circles, etc)
+	// but some code still relies on this initial value and would break if we'd change it.
 	protected int toStringMode = Kernel.COORD_CARTESIAN;
 	/** default (foreground) color */
 	protected GColor objColor = GColor.BLACK;
@@ -342,6 +345,20 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		if (app != null) {
 			initWith(app);
 		}
+	}
+
+	/**
+	 * Sets the visibility restriction for the element in the Euclidian view.
+	 * <p>
+	 * When {@code restrictedEuclidianVisibility} is set to {@code true}, the element is not visible
+	 * in any form in the Euclidian view. This means that neither the element nor the highlight of
+	 * the element for the "Show/Hide Object" tool should be visible.
+	 *
+	 * @param restrictedEuclidianVisibility {@code true} to restrict the element's visibility in the
+	 *  Euclidian view, {@code false} to allow it to be visible
+	 */
+	public final void setRestrictedEuclidianVisibility(boolean restrictedEuclidianVisibility) {
+		this.restrictedEuclidianVisibility = restrictedEuclidianVisibility;
 	}
 
 	/**
@@ -772,6 +789,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	/**
 	 * Set visual style from defaults
 	 */
+	// TODO rename to setVisualStyleFromConstructionDefaults?
 	final public void setConstructionDefaults() {
 		setConstructionDefaults(true, true);
 	}
@@ -971,7 +989,8 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 *         because Show/Hide tool selected
 	 */
 	public boolean isHideShowGeo() {
-		return isSelected() && (app.getMode() == EuclidianConstants.MODE_SHOW_HIDE_OBJECT);
+		return isSelected() && (app.getMode() == EuclidianConstants.MODE_SHOW_HIDE_OBJECT)
+				&& !restrictedEuclidianVisibility;
 	}
 
 	/**
@@ -1122,7 +1141,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			setAdvancedVisualStyleNoAuxiliary(geo);
 		}
 		if (setAuxiliaryProperty) {
-			// set whether it's an auxilliary object
+			// set whether it's an auxiliary object
 			setAuxiliaryObject(geo.isAuxiliaryObject());
 		}
 
@@ -1182,7 +1201,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	/**
-	 * set visual style to geo, except for
+	 * Set visual style from geo, except for
 	 *  * auxiliary flag
 	 *  * fixed flag
 	 *  * selection allowed flag
@@ -1316,7 +1335,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	@Override
 	public void setAdvancedVisualStyle(final GeoElement geo) {
 		setAdvancedVisualStyleNoAuxiliary(geo);
-		// set whether it's an auxilliary object
+		// set whether it's an auxiliary object
 		setAuxiliaryObject(geo.isAuxiliaryObject());
 	}
 
@@ -1408,6 +1427,10 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		}
 
 		if (!showInEuclidianView()) {
+			return false;
+		}
+
+		if (restrictedEuclidianVisibility) {
 			return false;
 		}
 
@@ -1803,7 +1826,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 */
 	final public boolean isEuclidianToggleable() {
 		return isEuclidianShowable() && getShowObjectCondition() == null
-				&& (!isGeoBoolean() || isIndependent());
+				&& (!isGeoBoolean() || isIndependent()) && !restrictedEuclidianVisibility;
 	}
 
 	/**
@@ -2188,7 +2211,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 
 		// tell animation manager
 		if (oldValue != animating) {
-			final AnimationManager am = kernel.getAnimatonManager();
+			final AnimationManager am = kernel.getAnimationManager();
 			if (animating) {
 				am.addAnimatedGeo(this);
 			} else {
@@ -3741,7 +3764,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		}
 		final StringBuilder sbLongDescHTML = new StringBuilder();
 
-		final String formatedLabel = getLabel(StringTemplate.defaultTemplate);
+		final String formattedLabel = getLabel(StringTemplate.defaultTemplate);
 		final String typeString = translatedTypeString();
 
 		// html string
@@ -3765,7 +3788,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 			sbLongDescHTML.append(StringUtil.toHexString(colorAdapter));
 			sbLongDescHTML.append("\">");
 		}
-		sbLongDescHTML.append(indicesToHTML(formatedLabel, false));
+		sbLongDescHTML.append(indicesToHTML(formattedLabel, false));
 		if (colored) {
 			sbLongDescHTML.append("</font></b>");
 		}
@@ -3812,11 +3835,11 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 * @return the colored label
 	 */
 	final public String getColoredLabel() {
-		String formatedLabel = getLabel(StringTemplate.defaultTemplate);
+		String formattedLabel = getLabel(StringTemplate.defaultTemplate);
 		return "<b><font color=\"#"
 				+ StringUtil.toHexString(getAlgebraColor())
 				+ "\">"
-				+ indicesToHTML(formatedLabel, false)
+				+ indicesToHTML(formattedLabel, false)
 				+ "</font></b>";
 	}
 
@@ -4543,7 +4566,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 				sb.append("\t<auxiliary val=\"false\"/>\n");
 			}
 		} else if (!auxiliaryObject.isOn()) {
-				// needed for eg GeoTexts (in Algebra View but Auxilliary by
+				// needed for eg GeoTexts (in Algebra View but Auxiliary by
 				// default from ggb 4.0)
 			sb.append("\t<auxiliary val=\"false\"/>\n");
 		}
@@ -5087,7 +5110,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	public boolean setSelected(final boolean flag) {
 		if (flag != selected) {
 			selected = flag;
-			kernel.notifyUpdateHightlight(this);
+			kernel.notifyUpdateHighlight(this);
 			return true;
 		}
 		return false;
@@ -5097,7 +5120,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	public boolean setHighlighted(final boolean flag) {
 		if (flag != highlighted) {
 			highlighted = flag;
-			kernel.notifyUpdateHightlight(this);
+			kernel.notifyUpdateHighlight(this);
 			return true;
 		}
 		return false;
@@ -5264,7 +5287,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	/**
-	 * @return temporary set of algoritms
+	 * @return temporary set of algorithms
 	 */
 	protected static TreeSet<AlgoElement> getTempSet() {
 		if (tempSet == null) {
@@ -6048,12 +6071,12 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 *            geo whose dependencies should be moved
 	 */
 	public void moveDependencies(final GeoElement oldGeo) {
-		// in general case do nothing; overriden in GeoPoint, GeoNumeric and
+		// in general case do nothing; overridden in GeoPoint, GeoNumeric and
 		// GeoBoolean
 	}
 
 	/**
-	 * Randomize for probability chacking overriden in subclasses that allow
+	 * Randomize for probability chacking overridden in subclasses that allow
 	 * randomization
 	 */
 	public void randomizeForProbabilisticChecking() {
@@ -6399,7 +6422,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	/**
-	 * @return flag wheter this objects value or label should be sent to CAS
+	 * @return flag whether this objects value or label should be sent to CAS
 	 */
 	public boolean getSendValueToCas() {
 		return sendValueToCas;

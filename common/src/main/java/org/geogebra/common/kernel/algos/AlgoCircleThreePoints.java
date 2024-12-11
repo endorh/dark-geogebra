@@ -105,6 +105,8 @@ public class AlgoCircleThreePoints extends AlgoElement
 
 		compute();
 		setIncidence();
+
+		circle.setToSpecific();
 	}
 
 	private void setIncidence() {
@@ -199,7 +201,7 @@ public class AlgoCircleThreePoints extends AlgoElement
 			return;
 		}
 
-		// get inhomogenous coords of points
+		// get inhomogeneous coords of points
 		ax = getA().inhomX;
 		ay = getA().inhomY;
 		bx = getB().inhomX;

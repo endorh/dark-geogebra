@@ -13,7 +13,7 @@ the Free Software Foundation.
 /*
  * AlgoAngularBisectorLines.java
  *
- * Created on 26. Oktober 2001
+ * Created on 26. October 2001
  */
 
 package org.geogebra.common.geogebra3D.kernel3D.algos;

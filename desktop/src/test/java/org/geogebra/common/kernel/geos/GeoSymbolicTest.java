@@ -28,16 +28,17 @@ import org.geogebra.common.gui.view.algebra.Suggestion;
 import org.geogebra.common.gui.view.algebra.SuggestionIntersectExtremum;
 import org.geogebra.common.gui.view.algebra.scicalc.LabelHiderCallback;
 import org.geogebra.common.kernel.CASGenericInterface;
+import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 import org.geogebra.common.kernel.arithmetic.SymbolicMode;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.commands.EvalInfo;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.main.error.ErrorHandler;
 import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.scientific.LabelController;
-import org.geogebra.common.util.DoubleUtil;
 import org.geogebra.common.util.SymbolicUtil;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.TestStringUtil;
@@ -55,12 +56,6 @@ import org.junit.Test;
 import com.himamis.retex.editor.share.util.Unicode;
 
 public class GeoSymbolicTest extends BaseSymbolicTest {
-
-	private void testValidResultCombinations(String input, String... validResults) {
-		AlgebraTestHelper.checkValidResultCombinations(
-				input, validResults,
-				ap, StringTemplate.testTemplate);
-	}
 
 	@Before
 	public void clean() {
@@ -82,11 +77,6 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		checkInput("b", "b = p + q");
 		t("c:p+q", "p + q");
 		checkInput("c", "c = p + q");
-	}
-
-	private void checkInput(String label, String expectedInput) {
-		assertEquals(expectedInput,
-				getSymbolic(label).getDefinitionForInputBar());
 	}
 
 	@Test
@@ -118,13 +108,6 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertEquals("a\\, = \\,2 \\; \\sqrt{2}", text);
 	}
 
-	private String getLatex(String string) {
-		GeoElement geo1 = getSymbolic(string);
-		return geo1.getLaTeXAlgebraDescription(
-				geo1.getDescriptionMode() != DescriptionMode.DEFINITION,
-				StringTemplate.latexTemplate);
-	}
-
 	@Test
 	public void variables() {
 		t("f(x,y)=x+y", "x + y");
@@ -146,7 +129,7 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void nestedCommands() {
 		t("Derivative(Derivative(a*x^3))", "6 * a * x");
-		t("Factor(Expand((x-aaa)^2+4x aaa))", "(x + aaa)^(2)");
+		t("Factor(Expand((x-aaa)^2+4x aaa))", "(aaa + x)^(2)");
 	}
 
 	@Test
@@ -161,7 +144,6 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Invert(Sequence(Sequence(1/k^2+j^3+(k+j)^2,k,1,3),j,1,3))",
 				"{{3593 / 1316, -4449 / 1316, 340 / 329}, {-1444 / 329, 1684 / 329, -492 / 329},"
 						+ " {2277 / 1316, -2475 / 1316, 351 / 658}}");
-
 	}
 
 	@Test
@@ -513,11 +495,12 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("Integral(Integral(x*y^2,x,0,2),y,0,q)", "2 / 3 * q^(3)");
 		t("Integral(exp(-x^2),-inf,inf)", "sqrt(" + pi + ")");
 	}
-	
+
 	@Test
 	public void testFactorCommand() {
-		t("Factor(x^2-1)", "(x - 1) * (x + 1)");
-		t("Factor(x^2-a^2 y^2)", "(x - a * y) * (x + a * y)");
+		t("Factor(x^2-1)", "(x + 1) * (x - 1)");
+		t("Factor(x^2-a^2 y^2)", anyOf(equalTo("(a * y + x) * (-a * y + x)"),
+				equalTo("(-a * y + x) * (a * y + x)")));
 	}
 
 	@Test
@@ -752,34 +735,6 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(element.getAlgebraDescriptionDefault(), startsWith("B ="));
 	}
 
-	private void assertLabelStartsWithFx(String input) {
-		GeoSymbolic geo = createGeoWithHiddenLabel(input);
-		assertThat(geo.getTwinGeo(), instanceOf(GeoFunction.class));
-		showLabel(geo);
-		assertThat(geo.getAlgebraDescriptionDefault(), startsWith("f(x)"));
-		clean();
-	}
-
-	private void testOutputLabelOfFunctionsWithApostrophe(String input,
-			String outputStartsWith) {
-		GeoSymbolic firstGeo = createGeoWithHiddenLabel(input);
-		assertThat(firstGeo.getTwinGeo(), instanceOf(GeoFunction.class));
-		showLabel(firstGeo);
-		GeoSymbolic secondGeo = createGeoWithHiddenLabel("f'");
-		assertThat(secondGeo.getAlgebraDescriptionDefault(), startsWith(outputStartsWith));
-		clean();
-	}
-
-	private GeoSymbolic createGeoWithHiddenLabel(String text) {
-		GeoSymbolic geoElement = add(text);
-		new LabelController().hideLabel(geoElement);
-		return geoElement;
-	}
-
-	private void showLabel(GeoSymbolic geoSymbolic) {
-		new LabelController().showLabel(geoSymbolic);
-	}
-
 	@Test
 	public void defaultFunctionLabel() {
 		t("y=x", "y = x");
@@ -804,11 +759,6 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		GeoElement a = getSymbolic("a");
 		redefineSymbolic(a, "a = p-q", TestErrorHandler.INSTANCE);
 		checkInput("a", "a = p - q");
-	}
-
-	private void redefineSymbolic(GeoElement geo, String def, ErrorHandler instance) {
-		ap.changeGeoElement(geo, def, true, false, instance,
-				null);
 	}
 
 	@Test
@@ -888,7 +838,6 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 				fReloaded.getLineType());
 		assertEquals(8, fReloaded.getLineThickness());
 		assertEquals(42, fReloaded.getLineOpacity());
-
 	}
 
 	@Test
@@ -902,12 +851,6 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("f(x)=exp(x)", EULER_STRING + "^(x)");
 		t("f'(x)=f'(x)", EULER_STRING + "^(x)");
 		checkInput("f'", "f'(x) = f'(x)");
-	}
-
-	private GeoSymbolic getSymbolic(String label) {
-		GeoElement geo = app.getKernel().lookupLabel(label);
-		assertThat(geo, CoreMatchers.instanceOf(GeoSymbolic.class));
-		return (GeoSymbolic) geo;
 	}
 
 	@Test
@@ -943,11 +886,6 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("f(1, a,b)=1", "-a * ln(b) = 1"); // autolabeling here
 		t("Solve({eq1,eq2},{a,b})",
 				"{{a = -1, b = " + Unicode.EULER_STRING + "}}");
-	}
-
-	private EvalInfo infoWithRedefine(String object) {
-		return new EvalInfo(true).withLabelRedefinitionAllowedFor(object)
-				.withSymbolicMode(SymbolicMode.SYMBOLIC_AV);
 	}
 
 	@Test
@@ -1011,20 +949,6 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(symbolic.getDescriptionMode(), is(DescriptionMode.DEFINITION_VALUE));
 	}
 
-	private void shouldFail(String string, String errorMsg) {
-		AlgebraTestHelper.shouldFail(string, errorMsg, app);
-	}
-
-	private String getObjectLHS(String label) {
-		GeoElement geo = getSymbolic(label);
-		try {
-			return geo
-					.getAssignmentLHS(StringTemplate.defaultTemplate);
-		} catch (Exception e) {
-			return "";
-		}
-	}
-
 	@Test
 	public void testCASSpecialPoints() {
 		t("f:x", "x");
@@ -1084,41 +1008,23 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	@Test
 	public void testSliderCommandCreatesSlider() {
 		GeoNumeric element = add("Slider(1, 10)");
-		Assert.assertTrue(element.isShowingExtendedAV());
-		Assert.assertTrue(DoubleUtil.isEqual(element.getIntervalMin(), 1));
-		Assert.assertTrue(DoubleUtil.isEqual(element.getIntervalMax(), 10));
+		Assert.assertTrue("Should show slider for command output",
+				element.isAVSliderOrCheckboxVisible());
+		assertEquals(element.getIntervalMin(), 1.0, Kernel.STANDARD_PRECISION);
+		assertEquals(element.getIntervalMax(), 10, Kernel.STANDARD_PRECISION);
 	}
 
 	@Test
 	public void testUndoRedoKeepsShowingIntegralArea() {
 		GeoSymbolic integralArea = add("a(x)=Integral(xx,2,3)");
-		Assert.assertTrue(integralArea.isEuclidianVisible());
-		Assert.assertTrue(integralArea.getTwinGeo().isEuclidianVisible());
+		assertThat(integralArea, isEuclidianVisible());
+		assertThat(integralArea.getTwinGeo(), isEuclidianVisible());
 
 		app.setXML(app.getXML(), true);
 		integralArea = (GeoSymbolic) app.getKernel().lookupLabel("a");
 
-		Assert.assertTrue(integralArea.isEuclidianVisible());
-		Assert.assertTrue(integralArea.getTwinGeo().isEuclidianVisible());
-	}
-
-	private int numberOfSpecialPoints() {
-		if (app.getSpecialPointsManager().getSelectedPreviewPoints() == null) {
-			return 0;
-		}
-		return app.getSpecialPointsManager().getSelectedPreviewPoints().size();
-	}
-
-	private void updateSpecialPoints(String string) {
-		app.getSpecialPointsManager()
-				.updateSpecialPoints(app.getKernel().lookupLabel(string));
-	}
-
-	/**
-	 * Emulate file reload
-	 */
-	private void reload() {
-		app.setXML(app.getXML(), true);
+		assertThat(integralArea, isEuclidianVisible());
+		assertThat(integralArea.getTwinGeo(), isEuclidianVisible());
 	}
 
 	@Test
@@ -1227,13 +1133,6 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("IsInteger(1.5)", "false");
 		t("IsInteger(pi)", "false");
 		t("IsInteger(123456789123456789.1)", "false");
-	}
-
-	private void assertSameAnswer(String input1, String input2) {
-		GeoSymbolic solve1 = add(input1);
-		GeoSymbolic solve2 = add(input2);
-		assertThat(solve1.toValueString(StringTemplate.defaultTemplate),
-				is(solve2.toValueString(StringTemplate.defaultTemplate)));
 	}
 
 	@Test
@@ -1467,6 +1366,15 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	}
 
 	@Test
+	public void shouldNotAddInitialGuessToSolve() {
+		GeoSymbolic nsolve = add("NSolve(x^(2)=2,x=1)");
+		SymbolicUtil.toggleSymbolic(nsolve);
+		assertEquals(nsolve.getDefinitionForEditor(), "l1=Solve(x²=2)");
+		SymbolicUtil.toggleSymbolic(nsolve);
+		assertEquals(nsolve.getDefinitionForEditor(), "l1=NSolve(x²=2,x=1)");
+	}
+
+	@Test
 	public void testSolveNSolveCase2a() {
 		GeoSymbolic symbolic = add("Solve({x²+y=10, x²-y=8},{x,y})");
 		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
@@ -1519,7 +1427,6 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		assertThat(symbolic.toValueString(StringTemplate.defaultTemplate),
 				equalTo("{x = 2, y = 1}"));
 		assertThat(AlgebraItem.shouldShowSymbolicOutputButton(symbolic), equalTo(false));
-
 	}
 
 	@Test
@@ -2187,11 +2094,6 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 				+ "cos(4 * π / 15) / 9), x = 2 * k_{1} * π + π - sin⁻¹(10 * cos(4 * π / 15) / 9)}");
 	}
 
-	private Matcher<GeoSymbolic> hasFormulaString(String f) {
-		return hasProperty("formula",
-				geo -> geo.getFormulaString(StringTemplate.latexTemplate, true), f);
-	}
-
 	@Test
 	public void bracketShouldBeMultiplicationForSymbolicNumbers() {
 		add("a=2");
@@ -2257,15 +2159,21 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 		t("A = Max(f, 0, 10)", "(-2 / ln(3 / 5), (4 * (3 / 5)^(-2 / ln(3 / 5)) + "
 				+ "4 * (ln(3 / 5))^(2)) / (ln(3 / 5))^(2))");
 		GeoSymbolic maxCommand = getSymbolic("A");
-		assertTrue(AlgebraItem.isSymbolicDiffers(maxCommand));
+		assertThat(AlgebraItem.isSymbolicDiffers(maxCommand), is(true));
+	}
+
+	@Test
+	public void simpleMinCommandShouldHaveSymbolicToggle() {
+		GeoSymbolic minCommand = add("A = Min(x^2 * 0.6^x + 4, 0, 5)");
+		assertThat(AlgebraItem.isSymbolicDiffers(minCommand), is(false));
 	}
 
 	@Test
 	public void minCommandShouldHaveSymbolicToggle() {
-		t("f(x) = x^2 * 0.6^x + 4", "(3 / 5)^(x) * x^(2) + 4");
-		t("A = Min(f, 0, 5)", "(0, 4)");
+		t("f(x) = x^2 * 0.6^x + sqrt(2)", "(3 / 5)^(x) * x^(2) + sqrt(2)");
+		t("A = Min(f, 0, 5)", "(0, sqrt(2))");
 		GeoSymbolic minCommand = getSymbolic("A");
-		assertTrue(AlgebraItem.isSymbolicDiffers(minCommand));
+		assertThat(AlgebraItem.isSymbolicDiffers(minCommand), is(true));
 	}
 
 	@Test
@@ -2348,6 +2256,119 @@ public class GeoSymbolicTest extends BaseSymbolicTest {
 	public void twinForSimplifyShouldBeNumber() {
 		GeoSymbolic simplify = add("Simplify(2+3)");
 		assertThat(simplify.getTwinGeo().getGeoClassType(), is(GeoClass.NUMERIC));
+	}
+
+	@Test
+	@Issue("APPS-6033")
+	public void maxShouldUseCASForTwinGeo() {
+		GeoSymbolic max = add("Max(x^3-6x-1, -2, 3)");
+		assertThat(max.getTwinGeo(), hasValue("(3, 8)"));
+	}
+
+	private void shouldFail(String string, String errorMsg) {
+		AlgebraTestHelper.shouldFail(string, errorMsg, app);
+	}
+
+	private String getObjectLHS(String label) {
+		GeoElement geo = getSymbolic(label);
+		return geo.getAssignmentLHS(StringTemplate.defaultTemplate);
+	}
+
+	private void assertSameAnswer(String input1, String input2) {
+		GeoSymbolic solve1 = add(input1);
+		GeoSymbolic solve2 = add(input2);
+		assertThat(solve1.toValueString(StringTemplate.defaultTemplate),
+				is(solve2.toValueString(StringTemplate.defaultTemplate)));
+	}
+
+	private Matcher<GeoSymbolic> hasFormulaString(String f) {
+		return hasProperty("formula",
+				geo -> geo.getFormulaString(StringTemplate.latexTemplate, true), f);
+	}
+
+	private Matcher<GeoElementND> isEuclidianVisible() {
+		return hasProperty("visible in graphics", GeoElementND::isEuclidianVisible, true);
+	}
+
+	private int numberOfSpecialPoints() {
+		if (app.getSpecialPointsManager().getSelectedPreviewPoints() == null) {
+			return 0;
+		}
+		return app.getSpecialPointsManager().getSelectedPreviewPoints().size();
+	}
+
+	private void updateSpecialPoints(String string) {
+		app.getSpecialPointsManager()
+				.updateSpecialPoints(app.getKernel().lookupLabel(string));
+	}
+
+	private GeoSymbolic getSymbolic(String label) {
+		GeoElement geo = app.getKernel().lookupLabel(label);
+		assertThat(geo, CoreMatchers.instanceOf(GeoSymbolic.class));
+		return (GeoSymbolic) geo;
+	}
+
+	/**
+	 * Emulate file reload
+	 */
+	private void reload() {
+		app.setXML(app.getXML(), true);
+	}
+
+	private EvalInfo infoWithRedefine(String object) {
+		return new EvalInfo(true).withLabelRedefinitionAllowedFor(object)
+				.withSymbolicMode(SymbolicMode.SYMBOLIC_AV);
+	}
+
+	private void testValidResultCombinations(String input, String... validResults) {
+		AlgebraTestHelper.checkValidResultCombinations(
+				input, validResults,
+				ap, StringTemplate.testTemplate);
+	}
+
+	private void assertLabelStartsWithFx(String input) {
+		GeoSymbolic geo = createGeoWithHiddenLabel(input);
+		assertThat(geo.getTwinGeo(), instanceOf(GeoFunction.class));
+		showLabel(geo);
+		assertThat(geo.getAlgebraDescriptionDefault(), startsWith("f(x)"));
+		clean();
+	}
+
+	private void checkInput(String label, String expectedInput) {
+		assertEquals(expectedInput,
+				getSymbolic(label).getDefinitionForInputBar());
+	}
+
+	private void redefineSymbolic(GeoElement geo, String def, ErrorHandler instance) {
+		ap.changeGeoElement(geo, def, true, false, instance,
+				null);
+	}
+
+	private String getLatex(String string) {
+		GeoElement geo1 = getSymbolic(string);
+		return geo1.getLaTeXAlgebraDescription(
+				geo1.getDescriptionMode() != DescriptionMode.DEFINITION,
+				StringTemplate.latexTemplate);
+	}
+
+	private void testOutputLabelOfFunctionsWithApostrophe(String input,
+			String outputStartsWith) {
+		GeoSymbolic firstGeo = createGeoWithHiddenLabel(input);
+		assertThat(firstGeo.getTwinGeo(), instanceOf(GeoFunction.class));
+		showLabel(firstGeo);
+		GeoSymbolic secondGeo = createGeoWithHiddenLabel("f'");
+		assertThat(secondGeo.getAlgebraDescriptionDefault(), startsWith(outputStartsWith));
+		clean();
+	}
+
+	private GeoSymbolic createGeoWithHiddenLabel(String text) {
+		GeoSymbolic geoElement = add(text);
+		new LabelController().hideLabel(geoElement);
+		return geoElement;
+	}
+
+	private void showLabel(GeoSymbolic geoSymbolic) {
+		new LabelController().showLabel(geoSymbolic);
 	}
 
 }

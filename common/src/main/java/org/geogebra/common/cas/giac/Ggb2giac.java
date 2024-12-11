@@ -4,7 +4,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.geogebra.common.main.App;
-import org.geogebra.common.main.Feature;
+import org.geogebra.common.main.PreviewFeature;
 
 import com.himamis.retex.editor.share.util.Unicode;
 
@@ -39,7 +39,7 @@ public class Ggb2giac {
 
 	/**
 	 * @param app
-	 *            application,might be needed for featur
+	 *            application, unused
 	 * @return map signature =&gt; syntax
 	 */
 	public static Map<String, String> getMap(App app) {
@@ -308,7 +308,7 @@ public class Ggb2giac {
 
 		// split into real+imag #4522
 		p("Expand.1",
-				"[[ggbexpandarg:=%0],when(contains(ggbexpandarg,i),normal(real(ggbexpandarg))+normal(i*im(ggbexpandarg)),normal(lnexpand(ggbexpandarg)))][1]");
+				"[[ggbexpandarg:=%0],when(contains(ggbexpandarg,i),normal(real(ggbexpandarg))+normal(i*im(ggbexpandarg)),when(inString(string(simplify(ggbexpandarg)), \"sqrt\"),normal(expand(ggbfactor(ggbexpandarg,x,0,1))),normal(lnexpand(ggbexpandarg))))][1]");
 		p("Exponential.2", "1-exp(-(%0)*(%1))");
 
 		// Extrema / Turning Points (UK)
@@ -330,7 +330,7 @@ public class Ggb2giac {
 		// ggbfacans:=factor(lncollect(ggbfacans),x);
 		// fi],with_sqrt(1),ggbfacans][4]");
 		p("Factor.1",
-				"[[ggbfacans:=%0],[if type(ggbfacans)==DOM_INT then ggbfacans:=unquote(ifactor(ggbfacans)); else ggbfacans:=ggbfactor(lncollect(ggbfacans),x, 0, 1); fi],ggbfacans][2]");
+				"[[ggbfacans:=%0],[if type(ggbfacans)==DOM_INT then ggbfacans:=unquote(ifactor(ggbfacans)); elif inString(string(simplify(ggbfacans)), \"sqrt\") then ggbfacans:=regroup(ggbfactor(ggbfacans,x,0,1)); else ggbfacans:=ggbfactor(lncollect(ggbfacans),x, 0, 1); fi],ggbfacans][2]");
 		p("Factor.2",
 				"[[ggbfacans:=%0],[ggbfacans:=ggbfactor(ggbfacans,ggb_is_variable(%1),0,1)],ggbfacans][2]");
 		String iFactor = "[[ggbfacans:=%0],[if type(ggbfacans)==DOM_INT then ggbfacans:=ifactor(ggbfacans);"
@@ -1302,11 +1302,10 @@ public class Ggb2giac {
 
 		p("PlotSolve.1", pointList.replace("%0", root1));
 
-
-
 		SolveODEGiac.add(Ggb2giac::p);
 		p("Substitute.2", "regroup(subst(%0,%1))");
 		p("Substitute.3", "regroup(subst(%0,%1,%2))");
+		p("Substitute.N", "regroup(subst(%0,%[1..]))");
 		// p("SubstituteParallel.2","if hold!!=0 then sub(%1,%0) else
 		// sub(%1,!*hold(%0))");
 
@@ -1560,7 +1559,7 @@ public class Ggb2giac {
 		// http://en.wikipedia.org/wiki/Quartic_function
 
 		// GGB-1635
-		if (app.has(Feature.SOLVE_QUARTIC)) {
+		if (PreviewFeature.isAvailable(PreviewFeature.SOLVE_QUARTIC)) {
 			p("SolveQuartic.1", "[" + "[ggbsqans:={}]," + "[ggbfun:=%0],"
 					+ "[ggbcoeffs:=coeffs(ggbfun)]," + "[a:=ggbcoeffs[0]],"
 					+ "[b:=ggbcoeffs[1]]," + "[c:=ggbcoeffs[2]],"

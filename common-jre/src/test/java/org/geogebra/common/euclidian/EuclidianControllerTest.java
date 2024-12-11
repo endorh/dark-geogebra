@@ -13,6 +13,7 @@ import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoConic;
 import org.geogebra.common.kernel.geos.GeoElement;
 import org.geogebra.common.kernel.geos.GeoInlineText;
+import org.geogebra.common.plugin.EuclidianStyleConstants;
 import org.geogebra.common.plugin.EventListener;
 import org.geogebra.common.plugin.EventType;
 import org.geogebra.test.TestEvent;
@@ -39,9 +40,10 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 
 	@Before
 	public void clearEvents() {
-		// TODO AlgebraTest.enableCAS(app, true);
 		events.clear();
 		getApp().setAppletFlag(false);
+		getApp().getSettings().getEuclidian(1)
+				.setPointCapturing(EuclidianStyleConstants.POINT_CAPTURING_AUTOMATIC);
 	}
 
 	/**
@@ -110,7 +112,6 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		click(0, 0);
 		click(100, 100);
 		checkContent("A = (0, 0)", "B = (2, -2)", "f: x + y = 0");
-
 	}
 
 	@Test
@@ -278,6 +279,53 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	}
 
 	@Test
+	@Issue("APPS-5779")
+	public void segmentWithDrag3Points() {
+		setMode(EuclidianConstants.MODE_SEGMENT);
+		click(0, 0);
+		dragStart(100, 100);
+		pointerRelease(200, 150);
+		checkContent("A = (0, 0)", "B = (4, -3)", "f = 5");
+		events.clear();
+	}
+
+	@Test
+	@Issue("APPS-5779")
+	public void segmentWithDrag3PointsFixed() {
+		getApp().getSettings().getEuclidian(1).setPointCapturing(
+				EuclidianStyleConstants.POINT_CAPTURING_ON_GRID);
+		setMode(EuclidianConstants.MODE_SEGMENT);
+		click(10, 10);
+		dragStart(110, 110);
+		pointerRelease(210, 160);
+		checkContent("A = (0, 0)", "B = (4, -3)", "f = 5");
+		events.clear();
+	}
+
+	@Test
+	@Issue("APPS-5779")
+	public void segmentWithDragPreExisting() {
+		add("B=(2,-2)");
+		setMode(EuclidianConstants.MODE_SEGMENT);
+		click(0, 0);
+		dragStart(100, 100);
+		pointerRelease(200, 150);
+		checkContent("B = (4, -3)", "A = (0, 0)",  "f = 5");
+		events.clear();
+	}
+
+	@Test
+	public void segmentWithDrag() {
+		setMode(EuclidianConstants.MODE_SEGMENT);
+		dragStart(0, 0);
+		dragEnd(200, 150);
+		checkContent("A = (0, 0)", "B = (4, -3)", "f = 5");
+		dragStart(0, 0);
+		dragEnd(400, 300);
+		checkContent("A = (0, 0)", "B = (4, -3)", "f = 5", "C = (8, -6)", "g = 10");
+	}
+
+	@Test
 	public void polygonTool() {
 		setMode(EuclidianConstants.MODE_POLYGON);
 		click(0, 0);
@@ -299,6 +347,9 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 		setMode(EuclidianConstants.MODE_RAY);
 		click(0, 0);
 		click(100, 100);
+		// On master, the initial value of toStringMode = Kernel.COORD_CARTESIAN (=3)
+		// is interpreted as equation form IMPLICIT_NON_CANONICAL (=3), which gives
+		// 2x + 2y = 0; so this outcome is entirely coincidental, not by design!
 		checkContent("A = (0, 0)", "B = (2, -2)", "f: 2x + 2y = 0");
 	}
 
@@ -384,12 +435,12 @@ public class EuclidianControllerTest extends BaseEuclidianControllerTest {
 	@Test
 	public void mirrorAtPointTool() {
 		setMode(EuclidianConstants.MODE_MIRROR_AT_POINT);
-		click(0, 0);
-		click(100, 100);
-		String circle = "c: x^2 + y^2 = 25";
+		click(0, 0);  // A
+		click(100, 100); // reflection point B, reflected point A'
+		String circle = "c: x^2 + y^2 = 25"; // c: circle of radius 5 around origin
 		t(circle);
-		click(150, 200);
-		click(100, 100);
+		click(150, 200); // point on circle D
+		click(100, 100); // reflection point E
 		checkContent("A = (0, 0)", "B = (2, -2)", "A' = (4, -4)",
 				unicode(circle),
 				unicode("c': (x - 4)^2 + (y + 4)^2 = 25"));

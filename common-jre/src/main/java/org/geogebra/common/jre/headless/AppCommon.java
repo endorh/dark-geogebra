@@ -50,6 +50,7 @@ import org.geogebra.common.main.settings.config.AppConfigGraphing;
 import org.geogebra.common.main.settings.config.AppConfigGraphing3D;
 import org.geogebra.common.main.settings.config.AppConfigNotes;
 import org.geogebra.common.main.settings.config.AppConfigScientific;
+import org.geogebra.common.main.settings.config.AppConfigUnrestrictedGraphing;
 import org.geogebra.common.main.undo.DefaultUndoManager;
 import org.geogebra.common.main.undo.UndoManager;
 import org.geogebra.common.plugin.GgbAPI;
@@ -73,7 +74,6 @@ public class AppCommon extends App {
 	private DialogManagerNoGui dialogManager;
 	private DefaultSettings defaultSettings;
 	private SpreadsheetTableModel tableModel;
-	private AppConfig config;
 	private CASFactory casFactory = new CASFactoryDummy();
 	private boolean appletFlag = false;
 	private ImageManager imageManager;
@@ -94,7 +94,7 @@ public class AppCommon extends App {
 	 */
 	public AppCommon(LocalizationJre loc, AwtFactory awtFactory, AppConfig appConfig) {
 		super(Platform.ANDROID);
-		config = appConfig;
+		this.appConfig = appConfig;
 		AwtFactory.setPrototypeIfNull(awtFactory);
 		initFactories();
 		initKernel();
@@ -652,17 +652,17 @@ public class AppCommon extends App {
 		dialogManager = clear ? null : new DialogManagerNoGui(this, inputs);
 	}
 
-	@Override
-	public AppConfig getConfig() {
-		return config;
-	}
-
-	public void setConfig(AppConfig config) {
-		this.config = config;
-	}
-
 	public void setCASFactory(CASFactory casFactory) {
 		this.casFactory = casFactory;
+	}
+
+	/**
+	 * Set the app config and reinitialize the app.
+	 */
+	public void setConfig(AppConfig config) {
+		this.appConfig = config;
+        kernel.setEquationBehaviour(config.getEquationBehaviour());
+		reInit();
 	}
 
 	/**
@@ -670,7 +670,13 @@ public class AppCommon extends App {
 	 */
 	public void setGraphingConfig() {
 		setConfig(new AppConfigGraphing());
-		reInit();
+	}
+
+	/**
+	 * Sets unrestricted/Suite Graphing config and reinitializes the app.
+	 */
+	public void setUnrestrictedGraphingConfig() {
+		setConfig(new AppConfigUnrestrictedGraphing());
 	}
 
 	/**
@@ -678,7 +684,6 @@ public class AppCommon extends App {
 	 */
 	public void setScientificConfig() {
 		setConfig(new AppConfigScientific());
-		reInit();
 	}
 
 	/**
@@ -686,7 +691,6 @@ public class AppCommon extends App {
 	 */
 	public void setGeometryConfig() {
 		setConfig(new AppConfigGeometry());
-		reInit();
 	}
 
 	/**
@@ -694,23 +698,27 @@ public class AppCommon extends App {
 	 */
 	public void set3dConfig() {
 		setConfig(new AppConfigGraphing3D());
-		reInit();
 	}
 
 	/**
-	 * Sets Geometry config and reinitializes the app.
+	 * Sets CAS config and reinitializes the app.
 	 */
 	public void setCasConfig() {
 		setConfig(new AppConfigCas());
-		reInit();
 	}
 
 	/**
-	 * Sets Geometry config and reinitializes the app.
+	 * Sets Classic config and reinitializes the app.
 	 */
 	public void setDefaultConfig() {
 		setConfig(new AppConfigDefault());
-		reInit();
+	}
+
+	/**
+	 * Sets Notes config and reinitializes the app.
+	 */
+	public void setNotesConfig() {
+		setConfig(new AppConfigNotes());
 	}
 
 	private void reInit() {
@@ -735,10 +743,6 @@ public class AppCommon extends App {
 	@Override
 	public Layout getLayout() {
 		return layout;
-	}
-
-	public void setPrerelease() {
-		prerelease = true;
 	}
 
 	private static class LayoutHeadless extends Layout {

@@ -15,7 +15,7 @@ the Free Software Foundation.
  *
  * binary tree node for ExpressionValues (NumberValues, VectorValues)
  *
- * Created on 03. Oktober 2001, 09:37
+ * Created on 03. October 2001, 09:37
  */
 
 package org.geogebra.common.kernel.arithmetic;
@@ -351,12 +351,12 @@ public class ExpressionNode extends ValidExpression
 	 * Replaces all ExpressionNodes in tree that are leafs (=wrappers) by their
 	 * leaf objects (of type ExpressionValue).
 	 */
-	final public void simplifyLeafs() {
+	final public void simplifyLeaves() {
 		if (left.isExpressionNode()) {
 			ExpressionNode node = (ExpressionNode) left;
 			if (node.leaf) {
 				left = node.left;
-				simplifyLeafs();
+				simplifyLeaves();
 			}
 		}
 
@@ -365,7 +365,7 @@ public class ExpressionNode extends ValidExpression
 				ExpressionNode node = (ExpressionNode) right;
 				if (node.leaf) {
 					right = node.left;
-					simplifyLeafs();
+					simplifyLeaves();
 				}
 			}
 		}
@@ -419,7 +419,7 @@ public class ExpressionNode extends ValidExpression
 	public final void resolveVariables(EvalInfo info) {
 		doResolveVariables(info);
 		simplifyAndEvalCommands(info);
-		simplifyLeafs();
+		simplifyLeaves();
 	}
 
 	private void doResolveVariables(EvalInfo info) {
@@ -3142,9 +3142,13 @@ public class ExpressionNode extends ValidExpression
 	 */
 	public boolean containsFreeFunctionVariable(String name) {
 		return checkForFreeVars(left, name)
+				|| (operation == Operation.IF_LIST
+						&& left instanceof MyList && ((ValidExpression) left)
+								.containsFunctionVariable(name))
 				|| (right != null && checkForFreeVars(right, name))
 				|| ((operation == Operation.FUNCTION_NVAR
-						|| operation == Operation.ELEMENT_OF)
+						|| operation == Operation.ELEMENT_OF
+						|| operation == Operation.IF_LIST)
 						&& right instanceof MyList && ((ValidExpression) right)
 								.containsFunctionVariable(name));
 	}
@@ -3248,15 +3252,15 @@ public class ExpressionNode extends ValidExpression
 	/**
 	 * @param parts
 	 *            output parameter
-	 * @param expandPlus
-	 *            whether to expand a/b+c/d to (ad+bc)/bd
+	 * @param expandPlusAndDecimals
+	 *            whether to expand a/b+c/d to (ad+bc)/bd and convert 0.5 to 1/2
 	 */
-	public void getFraction(ExpressionValue[] parts, boolean expandPlus) {
+	public void getFraction(ExpressionValue[] parts, boolean expandPlusAndDecimals) {
 		if (this.resolve != null && this.resolve.isExpressionNode()) {
-			this.resolve.wrap().getFraction(parts, expandPlus);
+			this.resolve.wrap().getFraction(parts, expandPlusAndDecimals);
 			return;
 		}
-		Fractions.getFraction(parts, this, expandPlus);
+		Fractions.getFraction(parts, this, expandPlusAndDecimals);
 	}
 
 	/**
@@ -3487,6 +3491,7 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	/**
+	 * May return a simple fraction or a fraction (a*pi)/b, where a,b are integers.
 	 * @return simplified fraction if this is one; null otherwise
 	 */
 	public ExpressionNode asFraction() {
@@ -3563,7 +3568,7 @@ public class ExpressionNode extends ValidExpression
 
 	/**
 	 * Check if the fraction is a proper fraction
-	 * @return Wheter it is a proper fraction like 3/5 or -2/3
+	 * @return whether it is a proper fraction like 3/5 or -2/3
 	 */
 	public boolean isProperFraction() {
 		ExpressionValue unsigned = getUnsigned(this);

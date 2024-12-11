@@ -60,15 +60,15 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	public static final String SUM_VAR_PREFIX = "gsumvar";
 	@Weak
 	private App app;
-	private CASparser casParser;
+	private final CASparser casParser;
 	private CASGenericInterface cas;
 
-	private ArrayList<String> varSwaps = new ArrayList<>();
+	private final ArrayList<String> varSwaps = new ArrayList<>();
 	// these variables are cached to gain some speed in getPolynomialCoeffs
-	private Map<String, String[]> getPolynomialCoeffsCache = new MaxSizeHashMap<>(
+	private final Map<String, String[]> getPolynomialCoeffsCache = new MaxSizeHashMap<>(
 			Kernel.GEOGEBRA_CAS_CACHE_SIZE);
-	private StringBuilder getPolynomialCoeffsSB = new StringBuilder();
-	private StringBuilder sbPolyCoeffs = new StringBuilder();
+	private final StringBuilder getPolynomialCoeffsSB = new StringBuilder();
+	private final StringBuilder sbPolyCoeffs = new StringBuilder();
 	private int counter = 1;
 
 	/**
@@ -288,7 +288,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			final ArrayList<ExpressionNode> args, boolean symbolic,
 			StringTemplate tpl, SymbolicMode symbolicMode) {
 		// check if completion of variable list is needed
-		boolean paramEquExists = checkForParamEquExistance(args, name);
+		boolean paramEquExists = checkForParamEquExistence(args, name);
 		// check if list of vars needs completion
 		boolean varComplNeeded = false;
 		StringBuilder complOfVarsStr = new StringBuilder();
@@ -785,7 +785,13 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 			for (int i = 0; i < translation.length(); i++) {
 				char ch = translation.charAt(i);
 				if (ch == '%') {
-					appendArg(builder, args, symbolic, tpl, isZipCommand);
+					int pos = translation.charAt(i + 1) - '0';
+					if (0 <= pos && pos <= 9) {
+						builder.append(toString(args.get(pos), symbolic, tpl));
+						i++;
+					} else {
+						appendArg(builder, args, symbolic, tpl, isZipCommand);
+					}
 				} else {
 					builder.append(ch);
 				}
@@ -992,7 +998,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	}
 
 	// method to check if we should make completion of variable list
-	private static boolean checkForParamEquExistance(
+	private static boolean checkForParamEquExistence(
 			ArrayList<ExpressionNode> args, String name) {
 		// case we have command Solve[<Equation list>, <Variable list>]
 		if ("Solve".equals(name) && args.size() == 2) {
@@ -1202,7 +1208,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	@Override
 	public Set<String> getAvailableCommandNames() {
 		Set<String> cmdSet = new HashSet<>();
-		for (String signature : casParser.getTranslationRessourceBundle()
+		for (String signature : casParser.getTranslationResourceBundle()
 				.keySet()) {
 			String cmd = signature.substring(0, signature.indexOf('.'));
 			if (!"Evaluate".equals(cmd)) {

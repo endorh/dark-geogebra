@@ -33,7 +33,7 @@ import org.geogebra.common.kernel.kernelND.GeoSurfaceCartesian2D;
 import org.geogebra.common.main.App;
 import org.geogebra.common.plugin.GeoClass;
 import org.geogebra.common.util.IndexHTMLBuilder;
-import org.geogebra.test.EventAcumulator;
+import org.geogebra.test.EventAccumulator;
 import org.geogebra.test.TestErrorHandler;
 import org.geogebra.test.TestStringUtil;
 import org.geogebra.test.commands.AlgebraTestHelper;
@@ -494,7 +494,7 @@ public class RedefineTest extends BaseUnitTest {
 	@Test
 	public void softRedefineShouldUpdateSiblings() {
 		add("c=Cone((0,0,0),(0,0,1),2)");
-		EventAcumulator listener = new EventAcumulator();
+		EventAccumulator listener = new EventAccumulator();
 		getApp().getEventDispatcher().addEventListener(listener);
 		add("c=Cone((0,0,0),(0,0,1),4)");
 		assertEquals(Arrays.asList("UPDATE c", "UPDATE d", "UPDATE a"),

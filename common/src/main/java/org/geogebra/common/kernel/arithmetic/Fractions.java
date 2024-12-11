@@ -3,6 +3,7 @@ package org.geogebra.common.kernel.arithmetic;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.StringTemplate;
 import org.geogebra.common.kernel.geos.GeoNumeric;
+import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
 
@@ -86,20 +87,22 @@ public class Fractions {
 	}
 
 	private static boolean checkFraction(ExpressionValue[] parts, ExpressionValue lt,
-			boolean expandPlus) {
+			boolean expandPlusAndDecimals) {
 		if (lt == null) {
 			return false;
 		}
 		ExpressionValue left1 = lt.unwrap();
 		if (left1 instanceof ExpressionNode) {
-			((ExpressionNode) left1).getFraction(parts, expandPlus);
+			((ExpressionNode) left1).getFraction(parts, expandPlusAndDecimals);
 			return true;
 		} else if (left1 instanceof GeoNumeric && ((GeoNumeric) left1).getDefinition() != null) {
-			((GeoNumeric) left1).getFraction(parts, expandPlus);
+			((GeoNumeric) left1).getFraction(parts, expandPlusAndDecimals);
 			return true;
 		} else if (left1.isRecurringDecimal()) {
 			RecurringDecimal.asFraction(parts, left1.wrap());
 			return true;
+		} else if (left1 instanceof MySpecialDouble && expandPlusAndDecimals) {
+			return ((MySpecialDouble) left1).asFraction(parts);
 		}
 		return false;
 	}
@@ -109,17 +112,21 @@ public class Fractions {
 	 *            output: [numerator, denominator]
 	 * @param expr
 	 *            expression
-	 * @param expandPlus
-	 *            whether to expand a/d+b/c to a single fraction
+	 * @param expandPlusAndDecimals
+	 *            whether to expand a/d+b/c to a single fraction and convert 0.5 to 1/2
 	 */
 	protected static void getFraction(ExpressionValue[] parts, ExpressionNode expr,
-			boolean expandPlus) {
+			boolean expandPlusAndDecimals) {
 		if (expr.unwrap().isRecurringDecimal()) {
 			RecurringDecimal.asFraction(parts, expr);
 			return;
 		}
+		if (expr.unwrap() instanceof MySpecialDouble && expandPlusAndDecimals) {
+			((MySpecialDouble) expr.unwrap()).asFraction(parts);
+			return;
+		}
 		ExpressionValue numL, numR, denL = null, denR = null;
-		if (checkFraction(parts, expr.getLeft(), expandPlus)) {
+		if (checkFraction(parts, expr.getLeft(), expandPlusAndDecimals)) {
 
 			numL = parts[0];
 			denL = parts[1];
@@ -133,7 +140,7 @@ public class Fractions {
 			return;
 		}
 
-		if (checkFraction(parts, expr.getRight(), expandPlus)) {
+		if (checkFraction(parts, expr.getRight(), expandPlusAndDecimals)) {
 			numR = parts[0];
 			denR = parts[1];
 		} else {
@@ -165,32 +172,89 @@ public class Fractions {
 			return;
 		case PLUS:
 		case INVISIBLE_PLUS:
-			if (expandPlus) {
+			if (expandPlusAndDecimals) {
 				parts[0] = multiplyCheck(denR, numL).wrap().plus(multiplyCheck(denL, numR));
 				parts[1] = multiplyCheck(denR, denL);
 				return;
 			}
 		case MINUS:
-			if (expandPlus) {
+			if (expandPlusAndDecimals) {
 				parts[0] = multiplyCheck(denR, numL).wrap().subtract(multiplyCheck(denL, numR));
 				parts[1] = multiplyCheck(denR, denL);
 				return;
 			}
 		case FUNCTION:
-			if (expandPlus && expr.getLeft() instanceof Functional) {
+			if (expandPlusAndDecimals && expr.getLeft() instanceof Functional) {
 				Function fn = ((Functional) expr.getLeft()).getFunction();
 				ExpressionValue at = denR == null ? numR : numR.wrap().divide(denR);
 				if (fn != null && at instanceof NumberValue) {
 					ExpressionNode expCopy = fn.getExpression().deepCopy(fn.getKernel());
 
 					expCopy.replace(fn.getFunctionVariables()[0], at);
-					expCopy.getFraction(parts, expandPlus);
+					expCopy.getFraction(parts, expandPlusAndDecimals);
 					return;
 				}
 			}
 		default:
 			parts[0] = expr;
 			parts[1] = null;
+		}
+	}
+
+	/**
+	 * Whether given element can be printed as exact fraction with current rounding
+	 * @param geo element
+	 * @param kernel used to determine rounding
+	 * @return whether the fraction has exact decimal value
+	 */
+	public static boolean isExactFraction(GeoElementND geo, Kernel kernel) {
+		if (!(geo instanceof GeoNumeric) || geo.getDefinition() == null) {
+			return false;
+		}
+		ExpressionNode fractionOrMultipleOfPi = geo.getDefinition().asFraction();
+		return isSimpleFraction(fractionOrMultipleOfPi)
+				&& isExactFraction(fractionOrMultipleOfPi, kernel);
+	}
+
+	private static boolean isSimpleFraction(ExpressionNode fractionOrMultipleOfPi) {
+		return fractionOrMultipleOfPi.isOperation(Operation.DIVIDE)
+				&& !fractionOrMultipleOfPi.getLeft().unwrap().isExpressionNode()
+				&& !(fractionOrMultipleOfPi.getLeft().unwrap() instanceof MySpecialDouble);
+	}
+
+	private static boolean isExactFraction(ExpressionNode fraction, Kernel kernel) {
+		ExpressionValue denominator = fraction.getRight();
+		// For any denominator we have unique (q, deg2, deg5) such that
+		// denominator = q * 2^deg2 * 5^deg5, gcd(q,2) = 1, gcd(q,5) = 1.
+		// The fraction has finite number of decimal digits if and only if q==1.
+		int q = (int) denominator.evaluateDouble();
+		int deg2 = 0;
+		while (q % 2 == 0) {
+			q /= 2;
+			deg2++;
+		}
+		int deg5 = 0;
+		while (q % 5 == 0) {
+			q /= 5;
+			deg5++;
+		}
+		if (q != 1) {
+			return false;
+		}
+		// Now we know the fraction is of the form num / (2^deg2*5^deg5),
+		// that can also be written as expandedNum / 10^maxDeg,
+		// where maxDeg = max(deg2, deg5) and expandedNum = num * 2^(maxDeg-deg2) * 5^(maxDeg-deg5).
+		// That is a decimal fraction with log10(expandedNum) digits, maxDeg of them after the ".".
+		int maxDeg = Math.max(deg2, deg5);
+		if (kernel.useSignificantFigures) {
+			// here we care about total digits; assume no trailing zeros since fraction is not int
+			double num = fraction.getLeft().evaluateDouble();
+			double expandedNum = Math.abs(num)
+					* Math.pow(2, maxDeg - deg2) * Math.pow(5, maxDeg - deg5);
+			return Math.log10(expandedNum) < kernel.getPrintFigures();
+		} else {
+			// here we only care about digits after the "."
+			return maxDeg <= kernel.getPrintDecimals();
 		}
 	}
 

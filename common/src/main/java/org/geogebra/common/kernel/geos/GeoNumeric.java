@@ -147,7 +147,7 @@ public class GeoNumeric extends GeoElement
 	private Double origSliderY = null;
 	private ArrayList<EuclidianViewInterfaceSlim> evListeners = null;
 
-	private boolean showExtendedAV = true;
+	private boolean showAVSlider = false;
 	private static volatile Comparator<GeoNumberValue> comparator;
 	private BigDecimal exactValue;
 	private @CheckForNull GeoPointND startPoint;
@@ -691,11 +691,19 @@ public class GeoNumeric extends GeoElement
 		// do not rely on it for leaf nodes: MySpecialDouble overrides rounding
 		if ((symbolicMode || DoubleUtil.isInteger(value))
 				&& getDefinition() != null
-				&& !getDefinition().isLeaf()
-				&& tpl.supportsFractions()) {
+				&& tpl.supportsFractions()
+				&& (!getDefinition().isLeaf() || isDecimalFraction())) {
 			return getDefinition().toFractionString(tpl);
 		}
 		return kernel.format(value, tpl);
+	}
+
+	/**
+	 * @return whether this is a decimal that can be converted to a fraction, e.g. 0.25
+	 */
+	public boolean isDecimalFraction() {
+		return getDefinition() != null && getDefinition().unwrap() instanceof MySpecialDouble
+				&& ((MySpecialDouble) getDefinition().unwrap()).isFraction();
 	}
 
 	/**
@@ -901,7 +909,7 @@ public class GeoNumeric extends GeoElement
 		sb.append("\" horizontal=\"");
 		sb.append(sliderHorizontal);
 		sb.append("\" showAlgebra=\"");
-		sb.append(isShowingExtendedAV());
+		sb.append(isAVSliderOrCheckboxVisible());
 		sb.append("\"/>\n");
 		if (sliderBlobSize != DEFAULT_SLIDER_BLOB_SIZE) {
 			sb.append("\t<pointSize val=\"");
@@ -1136,7 +1144,7 @@ public class GeoNumeric extends GeoElement
 	}
 
 	/**
-	 * Returns whether slider shoud be horizontal or vertical
+	 * Returns whether slider should be horizontal or vertical
 	 * 
 	 * @return true iff should be horizontal
 	 */
@@ -1777,14 +1785,13 @@ public class GeoNumeric extends GeoElement
 	}
 
 	@Override
-	public boolean isShowingExtendedAV() {
-		return showExtendedAV;
+	public boolean isAVSliderOrCheckboxVisible() {
+		return showAVSlider;
 	}
 
 	@Override
-	public void setShowExtendedAV(boolean showExtendedAV) {
-		this.showExtendedAV = showExtendedAV;
-		notifyUpdate();
+	public void setAVSliderOrCheckboxVisible(boolean showSliderOrCheckbox) {
+		this.showAVSlider = showSliderOrCheckbox;
 	}
 
 	@Override
@@ -1883,7 +1890,7 @@ public class GeoNumeric extends GeoElement
 	 * Update min and max for slider in Algebra
 	 */
 	public void initAlgebraSlider() {
-		if (!showExtendedAV) {
+		if (!showAVSlider) {
 			return;
 		}
 		GeoPointND old = startPoint;
@@ -1925,7 +1932,7 @@ public class GeoNumeric extends GeoElement
 
 	@Override
 	public DescriptionMode getDescriptionMode() {
-		boolean simple = isSimple();
+		boolean simple = isSimple() && !isDecimalFraction();
 		if (getDefinition() != null
 				&& !simple
 				&& !"?".equals(getDefinition(StringTemplate.defaultTemplate))) {
@@ -2143,8 +2150,9 @@ public class GeoNumeric extends GeoElement
 	 */
 	public void createSlider() {
 		isDrawable = true;
-		setShowExtendedAV(true);
+		setAVSliderOrCheckboxVisible(true);
 		initAlgebraSlider();
+		notifyUpdate();
 	}
 
 	/**
@@ -2152,10 +2160,11 @@ public class GeoNumeric extends GeoElement
 	 */
 	public void removeSlider() {
 		isDrawable = false;
-		setShowExtendedAV(false);
-		intervalMax = null;
+		setAVSliderOrCheckboxVisible(false);
 		intervalMin = null;
+		intervalMax = null;
 		setEuclidianVisible(false);
+		notifyUpdate();
 	}
 
 	@Override
@@ -2239,15 +2248,15 @@ public class GeoNumeric extends GeoElement
 
 	/**
 	 * @param parts output array for [numerator,denominator]
-	 * @param expandPlus whether to expand + and - operations
+	 * @param expandPlusAndDecimals whether to expand + and - operations and convert decimal numbers
 	 */
-	public void getFraction(ExpressionValue[] parts, boolean expandPlus) {
+	public void getFraction(ExpressionValue[] parts, boolean expandPlusAndDecimals) {
 		if (getDefinition() == null) {
 			parts[0] = getNumber();
 			parts[1] = null;
 			return;
 		}
 		getDefinition().isFraction(); // force fraction caching
-		getDefinition().getFraction(parts, expandPlus);
+		getDefinition().getFraction(parts, expandPlusAndDecimals);
 	}
 }

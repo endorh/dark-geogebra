@@ -6,6 +6,7 @@ import org.geogebra.common.kernel.algos.AlgoFractionText;
 import org.geogebra.common.kernel.algos.Algos;
 import org.geogebra.common.kernel.arithmetic.ExpressionNode;
 import org.geogebra.common.kernel.arithmetic.ExpressionValue;
+import org.geogebra.common.kernel.arithmetic.Fractions;
 import org.geogebra.common.kernel.cas.AlgoSolve;
 import org.geogebra.common.kernel.commands.Commands;
 import org.geogebra.common.kernel.geos.DescriptionMode;
@@ -49,7 +50,7 @@ public class AlgebraItem {
 		if (geo instanceof HasSymbolicMode
 				&& !((HasSymbolicMode) geo).isSymbolicMode()) {
 			if (!(geo.getParentAlgorithm() instanceof AlgoSolve)
-					|| ((AlgoSolve) geo.getParentAlgorithm())
+					|| geo.getParentAlgorithm()
 							.getClassName() == Commands.NSolve) {
 				return CASOutputType.NUMERIC;
 			}
@@ -100,19 +101,26 @@ public class AlgebraItem {
 				&& !GeoFunction.isUndefined(text1) && !GeoFunction.isUndefined(text2);
 	}
 
+	public static boolean checkAllRHSareIntegers(GeoElementND geo) {
+		return geo instanceof GeoList && allRHSareIntegers((GeoList) geo);
+	}
+
 	private static boolean allRHSareIntegers(GeoList geo) {
 		for (int i = 0; i < geo.size(); i++) {
-			if (geo.get(i) instanceof GeoLine
-					&& !DoubleUtil.isInteger(((GeoLine) geo.get(i)).getZ())) {
-				return false;
-			}
-			if (geo.get(i) instanceof GeoPlaneND
-					&& !DoubleUtil.isInteger(((GeoPlaneND) geo.get(i))
-							.getCoordSys().getEquationVector().getW())) {
-				return false;
-			}
-			if (geo.get(i) instanceof GeoList
-					&& !allRHSareIntegers((GeoList) geo.get(i))) {
+			if (geo.get(i) instanceof GeoLine) {
+				if (!DoubleUtil.isInteger(((GeoLine) geo.get(i)).getZ())) {
+					return false;
+				}
+			} else  if (geo.get(i) instanceof GeoPlaneND) {
+				if (!DoubleUtil.isInteger(((GeoPlaneND) geo.get(i))
+						.getCoordSys().getEquationVector().getW())) {
+					return false;
+				}
+			} else if (geo.get(i) instanceof GeoList) {
+				if (!allRHSareIntegers((GeoList) geo.get(i))) {
+					return false;
+				}
+			} else {
 				return false;
 			}
 		}
@@ -409,6 +417,16 @@ public class AlgebraItem {
 	}
 
 	/**
+	 * @param geo element
+	 * @return whether equal sign prefix should be shown (rather than approx sign)
+	 */
+	public static boolean shouldShowEqualSignPrefix(GeoElement geo) {
+		return !AlgebraItem.shouldShowSymbolicOutputButton(geo)
+				|| AlgebraItem.getCASOutputType(geo) == CASOutputType.SYMBOLIC
+				|| Fractions.isExactFraction(geo.unwrapSymbolic(), geo.getKernel());
+	}
+
+	/**
 	 * add geo to selection with its special points.
 	 * TODO rename to selectGeo(WithSpecialPoints?)
 	 * @param geo
@@ -628,7 +646,7 @@ public class AlgebraItem {
 	public static boolean shouldShowSlider(GeoElement geo) {
 		return geo instanceof GeoNumeric
 				&& geo.getApp().getConfig().hasSlidersInAV()
-				&& ((GeoNumeric) geo).isShowingExtendedAV() && geo.isSimple()
+				&& ((GeoNumeric) geo).isAVSliderOrCheckboxVisible() && geo.isSimple()
 				&& Double.isFinite(((GeoNumeric) geo).value);
 	}
 

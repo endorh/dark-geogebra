@@ -5,12 +5,13 @@
 	.topbar {
 		height: 48px;
 		width: 100%;
+		position: relative;
 		display: inline-flex;
 		gap: 8px;
 		background-color: white;
 		border-bottom: 1px solid neutral(300);
 		box-sizing: border-box;
-		z-index: 60;
+		z-index: z-index.$z-top-bar;
 		padding: 6px 0 6px 12px;
 
 		.divider {
@@ -18,6 +19,11 @@
 			width: 1px;
 			margin: 8px;
 			background-color: neutral(300);
+		}
+
+		.pageOverview {
+			right: 16px;
+			position: absolute;
 		}
 	}
 }

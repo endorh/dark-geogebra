@@ -13,7 +13,7 @@ the Free Software Foundation.
 /*
  * DrawPoint.java
  *
- * Created on 11. Oktober 2001, 23:59
+ * Created on 11. October 2001, 23:59
  */
 
 package org.geogebra.common.euclidian.draw;
@@ -155,7 +155,7 @@ public class DrawImage extends Drawable {
 						isVisible = false;
 						return;
 					}
-					// rotate to coord system (-ADn, AD)
+					// rotate to coord system (-normal(AD), AD)
 					double ADx = D.inhomX - ax;
 					double ADy = D.inhomY - ay;
 					tempAT.setTransform(ADy, -ADx, ADx, ADy, 0, 0);

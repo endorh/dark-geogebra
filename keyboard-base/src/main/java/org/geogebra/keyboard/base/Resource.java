@@ -74,11 +74,11 @@ public enum Resource {
 
     RECURRING_DECIMAL("altText.RecurringDecimal"),
 
-    POINT_TEMPLATE("altText.PointTemplate"),
+    POINT_TEMPLATE("Point"),
 
-    VECTOR_TEMPLATE("altText.VectorTemplate"),
+    VECTOR_TEMPLATE("altText.Vector"),
 
-    MATRIX_TEMPLATE("altText.MatrixTemplate");
+    MATRIX_TEMPLATE("Matrix");
 
     public final String altText;
 

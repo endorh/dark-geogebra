@@ -5,7 +5,6 @@ import java.util.List;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.web.full.css.MaterialDesignResources;
-import org.geogebra.web.full.gui.app.GGWToolBar;
 import org.geogebra.web.full.gui.contextmenu.CalculatorSubMenu;
 import org.geogebra.web.full.gui.menubar.MainMenu;
 import org.geogebra.web.full.gui.toolbar.mow.toolbox.ToolModeIconSpecAdapter;

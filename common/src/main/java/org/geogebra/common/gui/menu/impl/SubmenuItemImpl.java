@@ -1,16 +1,16 @@
 package org.geogebra.common.gui.menu.impl;
 
 import org.geogebra.common.gui.menu.ActionableItem;
-import org.geogebra.common.gui.menu.Icon;
+import org.geogebra.common.gui.menu.MenuIcon;
 import org.geogebra.common.gui.menu.MenuItemGroup;
 import org.geogebra.common.gui.menu.SubmenuItem;
 
 class SubmenuItemImpl extends AbtractMenuItem implements SubmenuItem {
 
-	private MenuItemGroup group;
-	private String bottomText;
+	private final MenuItemGroup group;
+	private final String bottomText;
 
-	SubmenuItemImpl(Icon icon, String label, String bottomText, ActionableItem... items) {
+	SubmenuItemImpl(MenuIcon icon, String label, String bottomText, ActionableItem... items) {
 		super(icon, label);
 		this.bottomText = bottomText;
 		group = new MenuItemGroupImpl(items);

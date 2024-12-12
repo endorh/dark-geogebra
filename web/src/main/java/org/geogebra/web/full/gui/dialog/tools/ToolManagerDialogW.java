@@ -19,20 +19,21 @@ import java.util.List;
 import org.geogebra.common.euclidian.EuclidianConstants;
 import org.geogebra.common.gui.dialog.ToolManagerDialogModel;
 import org.geogebra.common.gui.dialog.ToolManagerDialogModel.ToolManagerDialogListener;
+import org.geogebra.common.gui.menu.MenuIcon;
 import org.geogebra.common.kernel.Kernel;
 import org.geogebra.common.kernel.Macro;
 import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.MyError.Errors;
-import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.GuiManagerW;
 import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconProvider;
+import org.geogebra.web.full.gui.menu.icons.MenuIconResource;
 import org.geogebra.web.html5.gui.util.FastClickHandler;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.ListBoxApi;
+import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.gui.view.button.StandardButton;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
-import org.geogebra.web.resources.SVGResource;
 import org.geogebra.web.shared.components.dialog.ComponentDialog;
 import org.geogebra.web.shared.components.dialog.DialogData;
 import org.gwtproject.user.client.ui.FlowPanel;
@@ -47,7 +48,7 @@ public class ToolManagerDialogW extends ComponentDialog implements ToolManagerDi
 
 	AppW appw;
 	final LocalizationW loc;
-	private ToolManagerDialogModel model;
+	private final ToolManagerDialogModel model;
 
 	MacroListBox toolList;
 
@@ -234,9 +235,9 @@ public class ToolManagerDialogW extends ComponentDialog implements ToolManagerDi
 		return new MultiSelectButtonsPanel(this);
 	}
 
-	private StandardButton addStyledButton(SVGResource img, FlowPanel rootPanel,
+	private StandardButton addStyledButton(IconSpec icon, FlowPanel rootPanel,
 			String label, FastClickHandler clickHandler) {
-		StandardButton btn = new StandardButton(img, label, 18);
+		StandardButton btn = new StandardButton(icon, label, 18, 18);
 		btn.addFastClickHandler(clickHandler);
 		btn.addStyleName("containedButton");
 		rootPanel.add(btn);
@@ -261,15 +262,15 @@ public class ToolManagerDialogW extends ComponentDialog implements ToolManagerDi
 		FlowPanel toolButtonPanel = new FlowPanel();
 		toolButtonPanel.addStyleName("toolButtons");
 		panel.add(toolButtonPanel);
-
-		openButton = addStyledButton(
-				MaterialDesignResources.INSTANCE.mow_pdf_open_folder(),
+// TODO
+		MenuIconResource resource = new MenuIconResource(new DefaultMenuIconProvider());
+		openButton = addStyledButton(resource.getImageResource(MenuIcon.FOLDER),
 				toolButtonPanel, loc.getMenu("Open"),
 				w -> this.openMacroEditingTab()
 		);
 		openButton.setEnabled(false);
 
-		addStyledButton(DefaultMenuIconProvider.INSTANCE.save(), toolButtonPanel,
+		addStyledButton(resource.getImageResource(MenuIcon.SAVE), toolButtonPanel,
 				loc.getMenu("Save"), w -> this.saveTools());
 
 		// name & icon

@@ -4,7 +4,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.menu.Action;
 import org.geogebra.common.gui.menu.ActionableItem;
 import org.geogebra.common.gui.menu.DrawerMenu;
-import org.geogebra.common.gui.menu.Icon;
+import org.geogebra.common.gui.menu.MenuIcon;
 import org.geogebra.common.gui.menu.MenuItem;
 import org.geogebra.common.gui.menu.MenuItemGroup;
 import org.geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
@@ -134,11 +134,11 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 		if (isMobile()) {
 			return saveFile();
 		}
-		return new ActionableItemImpl(Icon.SAVE_ONLINE, "SaveOnline", Action.SAVE_FILE);
+		return new ActionableItemImpl(MenuIcon.SAVE_ONLINE, "SaveOnline", Action.SAVE_FILE);
 	}
 
 	protected MenuItem saveFileLocal() {
-		return new ActionableItemImpl(Icon.SAVE, "SaveToYourPC", Action.SAVE_FILE_LOCAL);
+		return new ActionableItemImpl(MenuIcon.SAVE, "SaveToYourPC", Action.SAVE_FILE_LOCAL);
 	}
 
 	private boolean hasPrintPreview() {
@@ -160,13 +160,13 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	private static MenuItemGroup createUserGroup(LogInOperation logInOperation) {
 		if (logInOperation.isLoggedIn()) {
 			GeoGebraTubeUser user = logInOperation.getModel().getLoggedInUser();
-			MenuItem userItem = new ActionableItemImpl(Icon.USER_ICON,
+			MenuItem userItem = new ActionableItemImpl(MenuIcon.USER_ICON,
 					user.getUserName(), Action.OPEN_PROFILE_PAGE);
-			MenuItem signOut = new ActionableItemImpl(Icon.SIGN_OUT,
+			MenuItem signOut = new ActionableItemImpl(MenuIcon.SIGN_OUT,
 					"SignOut", Action.SIGN_OUT);
 			return new MenuItemGroupImpl(userItem, signOut);
 		} else {
-			MenuItem signIn = new ActionableItemImpl(Icon.SIGN_IN, "SignIn", Action.SIGN_IN);
+			MenuItem signIn = new ActionableItemImpl(MenuIcon.SIGN_IN, "SignIn", Action.SIGN_IN);
 			return new MenuItemGroupImpl(signIn);
 		}
 	}
@@ -203,36 +203,36 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	}
 
 	private static MenuItem startExamMode() {
-		return new ActionableItemImpl(Icon.HOURGLASS_EMPTY,
+		return new ActionableItemImpl(MenuIcon.HOURGLASS_EMPTY,
 				"exam_menu_entry", Action.START_EXAM_MODE);
 	}
 
 	protected static MenuItem share() {
-		return new ActionableItemImpl(Icon.EXPORT_FILE, "Share", Action.SHARE_FILE);
+		return new ActionableItemImpl(MenuIcon.EXPORT_FILE, "Share", Action.SHARE_FILE);
 	}
 
 	protected static MenuItem exportImage() {
-		return new ActionableItemImpl(Icon.EXPORT_IMAGE, "exportImage", Action.EXPORT_IMAGE);
+		return new ActionableItemImpl(MenuIcon.EXPORT_IMAGE, "exportImage", Action.EXPORT_IMAGE);
 	}
 
 	protected static MenuItem showSettings() {
-		return new ActionableItemImpl(Icon.SETTINGS, "Settings", Action.SHOW_SETTINGS);
+		return new ActionableItemImpl(MenuIcon.SETTINGS, "Settings", Action.SHOW_SETTINGS);
 	}
 
 	protected static MenuItem previewPrint() {
-		return new ActionableItemImpl(Icon.PRINT, "PrintPreview", Action.PREVIEW_PRINT);
+		return new ActionableItemImpl(MenuIcon.PRINT, "PrintPreview", Action.PREVIEW_PRINT);
 	}
 
 	private MenuItem showHelpAndFeedback() {
-		ActionableItem tutorials = new ActionableItemImpl(Icon.SCHOOL,
+		ActionableItem tutorials = new ActionableItemImpl(MenuIcon.SCHOOL,
 				"Tutorial", Action.SHOW_TUTORIALS);
-		ActionableItem askQuestion = new ActionableItemImpl(Icon.HELP,
+		ActionableItem askQuestion = new ActionableItemImpl(MenuIcon.HELP,
 				"Help", Action.SHOW_FORUM);
-		ActionableItem reportProblem = new ActionableItemImpl(Icon.BUG_REPORT,
+		ActionableItem reportProblem = new ActionableItemImpl(MenuIcon.BUG_REPORT,
 				"ReportProblem", Action.REPORT_PROBLEM);
-		ActionableItem license = new ActionableItemImpl(Icon.INFO,
+		ActionableItem license = new ActionableItemImpl(MenuIcon.INFO,
 				"AboutLicense", Action.SHOW_LICENSE);
-		return new SubmenuItemImpl(Icon.HELP, "HelpAndFeedback", versionNumber,
+		return new SubmenuItemImpl(MenuIcon.HELP, "HelpAndFeedback", versionNumber,
 				tutorials, askQuestion, reportProblem, license);
 	}
 
@@ -260,7 +260,7 @@ public class DefaultDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	}
 
 	private MenuItem buildDownloadAs(ActionableItem... items) {
-		return new SubmenuItemImpl(Icon.DOWNLOAD, "DownloadAs", null, items);
+		return new SubmenuItemImpl(MenuIcon.DOWNLOAD, "DownloadAs", null, items);
 	}
 
 	private static ActionableItem createDownloadGgb() {

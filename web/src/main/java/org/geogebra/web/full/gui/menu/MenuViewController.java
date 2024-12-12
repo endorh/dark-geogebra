@@ -6,7 +6,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.menu.DrawerMenu;
 import org.geogebra.common.gui.menu.DrawerMenuFactory;
-import org.geogebra.common.gui.menu.Icon;
+import org.geogebra.common.gui.menu.MenuIcon;
 import org.geogebra.common.gui.menu.MenuItem;
 import org.geogebra.common.gui.menu.MenuItemGroup;
 import org.geogebra.common.gui.menu.impl.DefaultDrawerMenuFactory;
@@ -29,14 +29,15 @@ import org.geogebra.web.full.gui.menu.action.ScientificMenuActionHandlerFactory;
 import org.geogebra.web.full.gui.menu.action.SuiteMenuActionHandlerFactory;
 import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconProvider;
 import org.geogebra.web.full.gui.menu.icons.MebisMenuIconProvider;
+import org.geogebra.web.full.gui.menu.icons.MenuIconResource;
 import org.geogebra.web.full.main.AppWFull;
 import org.geogebra.web.html5.gui.BaseWidgetFactory;
 import org.geogebra.web.html5.gui.GeoGebraFrameW;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
 import org.geogebra.web.html5.gui.util.Dom;
+import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.html5.main.LocalizationW;
-import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.resources.client.ImageResource;
 import org.gwtproject.resources.client.impl.ImageResourcePrototype;
 import org.gwtproject.safehtml.shared.UriUtils;
@@ -91,7 +92,7 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 		frame = app.getAppletFrame();
 		loginOperation = app.getLoginOperation();
 		menuIconResource = new MenuIconResource(app.isMebis()
-				? MebisMenuIconProvider.INSTANCE : DefaultMenuIconProvider.INSTANCE);
+				? new MebisMenuIconProvider() : new DefaultMenuIconProvider());
 	}
 
 	private void createViews() {
@@ -341,13 +342,12 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 	}
 
 	private AriaMenuItem createMenuItemView(MenuItem menuItem) {
-		if (menuItem.getIcon() == Icon.USER_ICON) {
-			return MenuItemView.create(getUserImage(), menuItem.getLabel(), true);
+		if (menuItem.getIcon() == MenuIcon.USER_ICON) {
+			return MenuItemView.create(getUserImage(), menuItem.getLabel());
 		} else {
-			SVGResource icon = menuItem.getIcon() != null
-					? menuIconResource.getImageResource(menuItem.getIcon()) : null;
+			IconSpec icon = menuIconResource.getImageResource(menuItem.getIcon());
 			String label = localization.getMenu(menuItem.getLabel());
-			return MenuItemView.create(icon, label, false);
+			return MenuItemView.create(icon, label);
 		}
 	}
 

@@ -1976,7 +1976,7 @@ public class ProverBotanasMethod {
 									.getBotanaPolynomials(freePoint);
 						} catch (NoSymbolicParametersException e) {
 							Log.debug(
-									"An error occured during obtaining symbolic parameters");
+									"An error occurred during obtaining symbolic parameters");
 							return null;
 						}
 						int i = 1;

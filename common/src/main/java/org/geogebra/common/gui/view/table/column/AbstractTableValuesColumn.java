@@ -56,7 +56,7 @@ abstract public class AbstractTableValuesColumn implements TableValuesColumn {
 
 	private TableValuesCell createTableValuesCell(int row) {
 		double doubleValue = getDoubleValue(row);
-		boolean isErroneus = false;
+		boolean isErroneous = false;
 		String input;
 		if (Double.isNaN(doubleValue)) {
 			input = getInputValue(row);
@@ -65,12 +65,12 @@ abstract public class AbstractTableValuesColumn implements TableValuesColumn {
 				input = "";
 			} else {
 				// the input is erroneous or empty
-				isErroneus = !StringUtil.isTrimmedEmpty(input);
+				isErroneous = !StringUtil.isTrimmedEmpty(input);
 			}
 		} else {
 			input = formatValue(doubleValue);
 		}
-		return new TableValuesCell(input, isErroneus);
+		return new TableValuesCell(input, isErroneous);
 	}
 
 	private String formatValue(Double value) {

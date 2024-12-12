@@ -38,10 +38,10 @@ public class DiscreteSpaceCenteredTest {
 				0.5);
 		List<Interval> expected = new ArrayList<>();
 		List<Interval> left = new ArrayList<>();
-		List<Interval> rigth = new ArrayList<>();
+		List<Interval> right = new ArrayList<>();
 		space.forEach(expected::add);
 		space.extendLeft(interval(-1.2, 0.8), left::add);
-		space.extendRight(interval(-1.1, 0.9), rigth::add);
+		space.extendRight(interval(-1.1, 0.9), right::add);
 
 		List<Interval> actual = new ArrayList<>();
 		space.forEach(actual::add);

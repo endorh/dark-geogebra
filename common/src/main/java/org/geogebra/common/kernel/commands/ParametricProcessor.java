@@ -589,7 +589,7 @@ public class ParametricProcessor {
 	}
 
 	/**
-	 * Creates a number and replaces all occurences of the variable with it
+	 * Creates a number and replaces all occurrences of the variable with it
 	 * 
 	 * @param exp
 	 *            expression

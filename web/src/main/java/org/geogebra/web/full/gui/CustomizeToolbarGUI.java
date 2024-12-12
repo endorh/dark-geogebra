@@ -231,7 +231,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 
 			TreeItem leaf = branch.getChild(0);
 			if (leaf == null) {
-				Log.debug("[CUSTOMIZE] no leafs, should never happen!");
+				Log.debug("[CUSTOMIZE] no leaves, should never happen!");
 				return;
 			}
 
@@ -433,7 +433,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 				if (draggingTool == tool
 						|| draggingTool.treeItem == treeItem) {
 					Log.debug("Dropping tool to itself");
-					tool.removeHighligts();
+					tool.removeHighlights();
 					return;
 				}
 
@@ -445,7 +445,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 					insertTool(idx, draggingTool);
 				}
 
-				tool.removeHighligts();
+				tool.removeHighlights();
 			});
 
 			tool.addDragOverHandler(event -> {
@@ -457,7 +457,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 				}
 			});
 
-			tool.addDragLeaveHandler(event -> tool.removeHighligts());
+			tool.addDragLeaveHandler(event -> tool.removeHighlights());
 			return leaf;
 		}
 
@@ -472,7 +472,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 					&& !isTopHit(y);
 		}
 
-		void removeHighligts() {
+		void removeHighlights() {
 			removeStyleName("insertBeforeLeaf");
 			removeStyleName("insertAfterLeaf");
 

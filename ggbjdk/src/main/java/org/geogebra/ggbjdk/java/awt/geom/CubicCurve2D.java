@@ -820,7 +820,7 @@ public abstract class CubicCurve2D implements GShape  {
      */
     @Override
 	public boolean intersects(double x, double y, double w, double h) {
-        // Trivially reject non-existant rectangles
+        // Trivially reject non-existent rectangles
         if (w <= 0 || h <= 0) {
             return false;
         }

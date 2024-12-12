@@ -132,10 +132,10 @@ public final class RegressionMath {
 	}
 
 	/**
-	 * Does the Polynom regression for degree &gt; 4
+	 * Does the polynomial regression for degree &gt; 4
 	 * 
 	 * @param gl
-	 *            inut data
+	 *            input data
 	 * @param degree
 	 *            polynomial degree
 	 * @param cof

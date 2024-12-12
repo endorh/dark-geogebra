@@ -764,9 +764,9 @@ public class Constants {
 		public int[] l;
 		public int[] s;
 
-		public SBI(int[] thel, int[] thes) {
-			l = thel;
-			s = thes;
+		public SBI(int[] theL, int[] theS) {
+			l = theL;
+			s = theS;
 		}
 	}
 

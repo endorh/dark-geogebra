@@ -581,7 +581,7 @@ public class EquationSolver implements EquationSolverInterface {
 			// let's polish all complex roots to get all real roots
 			root = laguerreRoots[i];
 
-			// check if root is bounded in intervall [root-eps, root+eps]
+			// check if root is bounded in interval [root-eps, root+eps]
 			double left = i == 0 ? root - 1 : (root + laguerreRoots[i - 1]) / 2;
 			double right = i == laguerreRoots.length - 1 ? root + 1
 					: (root + laguerreRoots[i + 1]) / 2;

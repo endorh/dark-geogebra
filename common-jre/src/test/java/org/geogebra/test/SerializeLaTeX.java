@@ -29,8 +29,8 @@ public class SerializeLaTeX {
 			ObjectOutputStream oos = new ObjectOutputStream(targetStream);
 			oos.writeObject(mf.getRootComponent());
 			InputStream sourceStream = new ByteArrayInputStream(targetStream.toByteArray());
-			ObjectInputStream ois = new ObjectInputStream(sourceStream);
-			Object back = ois.readObject();
+			ObjectInputStream inputStream = new ObjectInputStream(sourceStream);
+			Object back = inputStream.readObject();
 			MatcherAssert.assertThat(back, CoreMatchers.instanceOf(MathSequence.class));
 		} catch (ParseException | IOException | ClassNotFoundException e) {
 			fail("Can't parse: " + e);

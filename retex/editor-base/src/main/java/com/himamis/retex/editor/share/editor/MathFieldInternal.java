@@ -585,7 +585,7 @@ public class MathFieldInternal
 	}
 
 	/**
-	 * @return whwther current formula is empty
+	 * @return whether current formula is empty
 	 */
 	public boolean isEmpty() {
 		return mathFormula.isEmpty();

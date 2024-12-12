@@ -428,7 +428,7 @@ public class GeoConicPart3D extends GeoConic3D
 				}
 			} else {
 				// two rays
-				// we take point at infinty
+				// we take point at infinity
 				/*
 				 * P.x = -lines[0].y; P.y = lines[0].x; P.z = 0.0;
 				 */
@@ -492,7 +492,7 @@ public class GeoConicPart3D extends GeoConic3D
 				}
 			} else {
 				// two rays
-				// we take point at infinty
+				// we take point at infinity
 				P.setX(-lines[0].y);
 				P.setY(lines[0].x);
 				P.setZ(0);

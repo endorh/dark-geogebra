@@ -49,7 +49,7 @@ public class CmdCellRange extends CommandProcessor {
 	private AlgoCellRange getAlgoCellRange(Command c) {
 		ExpressionNode[] args = c.getArguments();
 
-		// check if we really have two leafs
+		// check if we really have two leaves
 
 		String start = spreadsheetLabel(args[0], c);
 		String end = spreadsheetLabel(args[1], c);

@@ -44,7 +44,7 @@ class EventOptimizedList {
 		}
 	}
 
-	// Removes all previous occurences of this event with these parameter
+	// Removes all previous occurrences of this event with these parameters
 	private static void optimizeSingle(Iterator<Event> iterator, Event addedEvent) {
 		while (iterator.hasNext()) {
 			Event event = iterator.next();

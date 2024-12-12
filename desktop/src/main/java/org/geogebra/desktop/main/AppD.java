@@ -1291,11 +1291,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		// quotes (')
 		String lowerCasedPage = StringUtil.toLowerCaseUS(page); // We must
 																// preserve
-		// casing for
-		// base64
-		// strings and
-		// case sensitve
-		// file systems
+		// casing for base64 strings and case-sensitive file systems
 
 		String val = getAttributeValue(page, lowerCasedPage,
 				"data-param-ggbbase64='");

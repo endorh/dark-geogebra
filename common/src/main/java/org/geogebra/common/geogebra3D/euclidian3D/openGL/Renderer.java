@@ -1028,7 +1028,7 @@ public abstract class Renderer {
 			rendererImpl.setClearColor(0, 0, 0, 0f);
 			return;
 		}
-		GColor c = view3D.getApplyedBackground();
+		GColor c = view3D.getAppliedBackground();
 		float r, g, b;
 		if (view3D
 				.getProjection() == EuclidianView3DInterface.PROJECTION_GLASSES

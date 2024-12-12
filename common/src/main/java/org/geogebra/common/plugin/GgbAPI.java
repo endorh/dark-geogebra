@@ -93,8 +93,6 @@ import com.himamis.retex.renderer.share.serialize.TeXAtomSerializer;
  * </ul>
  * 
  * @author H-P Ulven
- * @version 31.10.08 29.05.08: Tranferred applet interface methods (the relevant
- *          ones) from GeoGebraAppletBase
  */
 
 public abstract class GgbAPI implements JavaScriptAPI {
@@ -987,7 +985,7 @@ public abstract class GgbAPI implements JavaScriptAPI {
 	}
 
 	/**
-	 * Returns true if the object with the given name has a vaild value at the
+	 * Returns true if the object with the given name has a valid value at the
 	 * moment.
 	 */
 	@Override

@@ -14,7 +14,7 @@ import com.himamis.retex.editor.share.util.Unicode;
  * Generic rotate dialog
  */
 public abstract class InputDialogRotateW extends AngleInputDialogW {
-	/** selcted polygons */
+	/** selected polygons */
 	GeoPolygon[] polys;
 	/** selected geos */
 	GeoElement[] selGeos;

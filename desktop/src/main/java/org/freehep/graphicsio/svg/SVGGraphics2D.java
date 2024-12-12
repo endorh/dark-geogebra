@@ -765,7 +765,7 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 		}
 
 		if (font.getAttributes().get(TextAttribute.STRIKETHROUGH) != null) {
-			// is the property allready witten?
+			// is the property already witten?
 			if (ul == null) {
 				result.put("text-decoration", "underline, line-through");
 			} else {

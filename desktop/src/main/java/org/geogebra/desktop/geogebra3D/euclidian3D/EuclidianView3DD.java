@@ -133,8 +133,8 @@ public class EuclidianView3DD extends EuclidianView3D
 	}
 
 	@Override
-	public void setBackground(GColor updatedColor, GColor applyedColor) {
-		super.setBackground(updatedColor, applyedColor);
+	public void setBackground(GColor updatedColor, GColor appliedColor) {
+		super.setBackground(updatedColor, appliedColor);
 		evjpanel.setBackground(GColorD.getAwtColor(bgAppliedColor));
 	}
 
@@ -214,7 +214,7 @@ public class EuclidianView3DD extends EuclidianView3D
 	}
 
 	/**
-	 * @return whethe this view is visible
+	 * @return whether this view is visible
 	 */
 	@Override
 	public boolean isShowing() {

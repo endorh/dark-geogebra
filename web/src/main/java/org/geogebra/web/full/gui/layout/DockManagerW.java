@@ -952,7 +952,7 @@ public class DockManagerW extends DockManager {
 	 * Hide a dock panel identified by the view ID.
 	 * 
 	 * @param viewId
-	 *            vew ID
+	 *            view ID
 	 * @param isPermanent
 	 *            permanent?
 	 * @return true if succeeded to hide the panel

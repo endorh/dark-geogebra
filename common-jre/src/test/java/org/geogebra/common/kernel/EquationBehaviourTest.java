@@ -19,7 +19,7 @@ import org.geogebra.common.kernel.statistics.AlgoFitLineY;
 import org.junit.Test;
 
 /**
- * @implNote This partially overlaps and supercedes
+ * @implNote This partially overlaps and supersedes
  * {@link org.geogebra.common.kernel.geos.ForceInputFormTest ForceInputFormTest}
  *
  * @See <a href="https://docs.google.com/spreadsheets/d/1nL071WJP2qu-n1LafYGLoKbcrz486PTYd8q7KgnvGhA/edit?gid=1442218852#gid=1442218852">Equation form matrix</a>

@@ -1151,7 +1151,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	}
 
 	/**
-	 * returns the square distance of this point and P (may return infinty or
+	 * returns the square distance of this point and P (may return infinity or
 	 * NaN).
 	 *
 	 * @param P
@@ -2394,7 +2394,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 	// case by case.
 	// currently implemented for
 	// lines: line by two point, intersect lines, line/conic, point on line
-	// TODO: parallel line, perpenticular line
+	// TODO: parallel line, perpendicular line
 
 	/**
 	 * @return list of objects incident by construction

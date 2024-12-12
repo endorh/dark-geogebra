@@ -204,7 +204,7 @@ public class GeoNumeric extends GeoElement
 	 *
 	 * @param construction Construction
 	 * @param value Numeric value
-	 * @param setDefaults If true, set contruction defaults
+	 * @param setDefaults If true, set construction defaults
 	 */
 	public GeoNumeric(Construction construction, double value, boolean setDefaults) {
 		this(construction, setDefaults);

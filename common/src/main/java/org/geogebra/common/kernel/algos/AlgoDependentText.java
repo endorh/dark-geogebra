@@ -167,7 +167,7 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 		text.setSpreadsheetTraceable(copy, numToTrace);
 	}
 
-	// adpated from ExpressionNode.getCopy()
+	// adapted from ExpressionNode.getCopy()
 	private ExpressionNode getSpecialCopy(ExpressionNode en) {
 		ExpressionNode newNode = null;
 		ExpressionValue lev = null, rev = null;
@@ -194,7 +194,7 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 		return newNode;
 	}
 
-	// adpated from ExpressionNode
+	// adapted from ExpressionNode
 	// finds first "+ NumberValue" and replaces with " x "
 	// eg "value = "+x(A)+"cm"
 	private ExpressionValue copy(ExpressionValue ev) {

@@ -554,9 +554,9 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	}
 
 	/**
-	 * Returns true if this angle shuld be drawn differently when right
+	 * Returns true if this angle should be drawn differently when right
 	 * 
-	 * @return true iff this angle shuld be drawn differently when right
+	 * @return true iff this angle should be drawn differently when right
 	 */
 	@Override
 	public boolean isEmphasizeRightAngle() {

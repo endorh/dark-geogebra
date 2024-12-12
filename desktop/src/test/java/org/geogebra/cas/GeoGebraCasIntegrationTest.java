@@ -2243,8 +2243,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	}
 
 	/*
-	 * Figure 4: "L\u00f6sung mit unbelegten Variablen" (Solution with undefined
-	 * variables)
+	 * Figure 4:Solution with undefined variables
 	 */
 
 	@Test
@@ -2263,8 +2262,7 @@ public class GeoGebraCasIntegrationTest extends BaseCASIntegrationTest {
 	}
 
 	/*
-	 * Figure 5: "Computeralgebra und Geometrie" (Computer Algebra and
-	 * Geometrics)
+	 * Figure 5: Computer Algebra and Geometry
 	 */
 
 	@Test

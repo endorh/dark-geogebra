@@ -504,7 +504,7 @@ public abstract class ContextMenuGeoElement {
 	}
 
 	/**
-	 * Toggle animation falg
+	 * Toggle animation flag
 	 */
 	public void animationCmd() {
 		ArrayList<GeoElement> geos2 = checkOneGeo();

@@ -183,11 +183,11 @@ public class CoordMatrix {
 	}
 
 	/**
-	 * returns translation homogenic matrix, dim v.length+1
+	 * returns translation homogeneous matrix, dim v.length+1
 	 * 
 	 * @param v
 	 *            translation vector
-	 * @return traslation matrix
+	 * @return translation matrix
 	 */
 	public static final CoordMatrix translationMatrix(Coords v) {
 		int n = v.getLength();
@@ -203,7 +203,7 @@ public class CoordMatrix {
 	}
 
 	/**
-	 * returns 3d rotation homogenic matrix, dim 4x4
+	 * returns 3d rotation homogeneous matrix, dim 4x4
 	 * 
 	 * @param axe
 	 *            axis of rotation
@@ -219,7 +219,7 @@ public class CoordMatrix {
 	}
 
     /**
-     * returns 3d rotation homogenic matrix, dim 4x4
+     * returns 3d rotation homogeneous matrix, dim 4x4
      *
      * @param axe
      *            axis of rotation

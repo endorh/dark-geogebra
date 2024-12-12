@@ -11,7 +11,7 @@ public class AdjustViews {
 		this.app = app;
 	}
 
-	public boolean isPortait() {
+	public boolean isPortrait() {
 		return app.getWidth() < app.getHeight();
 	}
 

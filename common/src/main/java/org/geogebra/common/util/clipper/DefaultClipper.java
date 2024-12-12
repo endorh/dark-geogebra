@@ -965,12 +965,12 @@ public class DefaultClipper extends ClipperBase {
 				continue;
 			}
 			outRec.fixHoleLinkage();
-			final PolyNode pn = new PolyNode();
-			polytree.getAllPolys().add(pn);
-			outRec.polyNode = pn;
+			final PolyNode polyNode = new PolyNode();
+			polytree.getAllPolys().add(polyNode);
+			outRec.polyNode = polyNode;
 			OutPt op = outRec.getPoints().prev;
 			for (int j = 0; j < cnt; j++) {
-				pn.getPolygon().add(op.getPt());
+				polyNode.getPolygon().add(op.getPt());
 				op = op.prev;
 			}
 		}

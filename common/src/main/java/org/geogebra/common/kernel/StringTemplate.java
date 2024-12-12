@@ -1306,7 +1306,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				sb.append(leftStr);
 			}
 
-			// we need parantheses around right text
+			// we need parentheses around right text
 			// if right is not a leaf expression or
 			// it is a leaf GeoElement without a label (i.e. it is
 			// calculated somehow)

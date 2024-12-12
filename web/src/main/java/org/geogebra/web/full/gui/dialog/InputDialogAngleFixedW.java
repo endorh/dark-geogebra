@@ -38,7 +38,7 @@ public class InputDialogAngleFixedW extends AngleInputDialogW implements KeyPres
 	 * @param segments
 	 *            selected segments
 	 * @param points
-	 *            selcted points
+	 *            selected points
 	 * @param kernel
 	 *            kernel
 	 * @param ec

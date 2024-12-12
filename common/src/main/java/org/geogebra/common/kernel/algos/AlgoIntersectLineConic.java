@@ -707,11 +707,11 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements
 		double delta = Math.min(Kernel.MIN_PRECISION,
 				Math.max(1, Math.abs(2 * d) + Math.abs(u) + Math.abs(w)) * eps);
 
-		// Erzeugende, Asymptote oder Treffgerade
+		// Degenerate, asymptote or tangent
 		if (DoubleUtil.isZero(u, eps)) {
-			// Erzeugende oder Asymptote
+			// Degenerate or asymptote
 			if (DoubleUtil.isZero(d, eps)) {
-				// Erzeugende
+				// Degenerate
 				if (DoubleUtil.isZero(w, eps)) {
 					sol[0].setUndefined();
 					sol[1].setUndefined();

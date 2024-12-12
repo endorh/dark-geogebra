@@ -168,7 +168,7 @@ public abstract class AwtFactory {
 	/**
 	 * @param theta
 	 *            angle
-	 * @return roation transform
+	 * @return rotation transform
 	 */
 	public static GAffineTransform getRotateInstance(double theta) {
 		GAffineTransform Tx = prototype.newAffineTransform();
@@ -183,7 +183,7 @@ public abstract class AwtFactory {
 	 *            center x
 	 * @param y
 	 *            center y
-	 * @return roation transform
+	 * @return rotation transform
 	 */
 	public static GAffineTransform getRotateInstance(double theta, double x,
 			double y) {

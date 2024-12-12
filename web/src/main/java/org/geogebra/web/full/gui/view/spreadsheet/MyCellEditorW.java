@@ -598,7 +598,7 @@ public class MyCellEditorW implements BaseCellEditor {
 	}
 
 	/**
-	 * Hanldle Enter key.
+	 * Handle the Enter key.
 	 */
 	public void onEnter() {
 		if (tabReturnCol > -1) {

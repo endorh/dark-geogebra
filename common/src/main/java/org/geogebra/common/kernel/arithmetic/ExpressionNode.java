@@ -211,7 +211,7 @@ public class ExpressionNode extends ValidExpression
 	 */
 	final public void setLeft(ExpressionValue l) {
 		left = l;
-		left.setInTree(true); // needed fot list operations eg k=2 then k {1,2}
+		left.setInTree(true); // needed for list operations eg k=2 then k {1,2}
 	}
 
 	/**
@@ -269,7 +269,7 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	/**
-	 * copy the whole tree structure except leafs
+	 * copy the whole tree structure except leaves
 	 * 
 	 * @param kernel1
 	 *            kernel
@@ -348,7 +348,7 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	/**
-	 * Replaces all ExpressionNodes in tree that are leafs (=wrappers) by their
+	 * Replaces all ExpressionNodes in tree that are leaves (=wrappers) by their
 	 * leaf objects (of type ExpressionValue).
 	 */
 	final public void simplifyLeaves() {
@@ -1466,7 +1466,7 @@ public class ExpressionNode extends ValidExpression
 	/**
 	 * Returns a string representation of this node in LaTeX syntax. Note: the
 	 * resulting string may contain special unicode characters like greek
-	 * characters or special signs for integer exponents. These sould be handled
+	 * characters or special signs for integer exponents. These should be handled
 	 * afterwards!
 	 * 
 	 * @param symbolic
@@ -3191,7 +3191,7 @@ public class ExpressionNode extends ValidExpression
 	 * @param ev
 	 *            needle (probably function variable, but not necessary to
 	 *            check)
-	 * @return whther the array does NOT contain the variable
+	 * @return whether the array does NOT contain the variable
 	 */
 	public static boolean doesNotInclude(FunctionVariable[] vars,
 			ExpressionValue ev) {

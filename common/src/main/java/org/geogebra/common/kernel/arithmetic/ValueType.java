@@ -72,7 +72,7 @@ public enum ValueType {
 	 * @param right
 	 *            right argument
 	 * @param res
-	 *            resulution to keep list depth if we have a list
+	 *            resolution to keep list depth if we have a list
 	 * @return expected type
 	 */
 	public static ValueType resolve(Operation op, ExpressionValue left,

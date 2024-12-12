@@ -30,7 +30,7 @@ import org.geogebra.desktop.main.AppD;
 
 /**
  * Panel with fields to enter width and height of graphic file to be exported.
- * The ratio of init width and heigth is kept constant. Use methods
+ * The ratio of init width and height is kept constant. Use methods
  * getSelectedWidth() and getSelectedHeight() to retrieve the searched values.
  * 
  * @author Markus Hohenwarter

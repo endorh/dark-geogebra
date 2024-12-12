@@ -835,7 +835,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	void setVisualStyle(GeoElement geo);
 
 	/**
-	 * @return whether this geo can be parametrized
+	 * @return whether this geo can be parameterized
 	 */
 	boolean isParametric();
 
@@ -1215,7 +1215,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	 *
 	 * @param useChangeable if false, point on path is ignored
 	 * @param useOutputValueString if true, use outputValueString rather than valueString
-	 * @return Calls the 2 parametrized version of the function, with the third parameter: StringTemplate.editTemplate
+	 * @return Calls the 2 parameterized version of the function, with the third parameter: StringTemplate.editTemplate
 	 */
 	String getRedefineString(boolean useChangeable, boolean useOutputValueString);
 

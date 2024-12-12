@@ -126,7 +126,7 @@ openclose = {open} | {close}
 undefined = "?" | "\ufffd" | "Undefined" | "NaN" | "und"
 constantes = "%pi" | "pi" | "Pi" | "\u03c0" | "%e" | "\u212f" | "inf" | "minf" | "Infinity" | "infinity" | "\u221e" | "true" | "True" | "false" | "False" | "rad" | {undefined}
 
-assignement = ":="
+assignment = ":="
 vertical_bar = "|"
 not = "\u00ac"
 or = "||" | "\u2228"
@@ -157,7 +157,7 @@ indexdigit = "\u2070" | [\u2074-\u2079] | "\u00b9" | "\u00b2" | "\u00b3"
 powern = {superscript_minus}? {indexdigit}+
 degre = "\u00b0"
 
-operator = {assignement} | {vertical_bar} | {not} | {or} | {and} | {eq_bool} | {not_eq_bool} |
+operator = {assignment} | {vertical_bar} | {not} | {or} | {and} | {eq_bool} | {not_eq_bool} |
                    {is_element_of} | {contains} | {contains_strict} | {set_diff} | {inequality} |
                    {parallel} | {perpendicular} | {equal} | {plus} | {minus} | {multiply} |
                    {vectorproduct} | {divide} | {power} | {factorial} | {powern} | {degre}

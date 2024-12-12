@@ -65,7 +65,7 @@ public class DockSplitPane extends JSplitPane implements DockComponent {
 	 * 
 	 * @param component
 	 *            part of layout
-	 * @return oposite component
+	 * @return opposite component
 	 */
 	public Component getOpposite(Component component) {
 		if (component == leftComponent) {

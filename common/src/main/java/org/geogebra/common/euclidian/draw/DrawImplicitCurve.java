@@ -24,8 +24,8 @@ public class DrawImplicitCurve extends DrawLocus {
 
 	private GeoImplicit implicitCurve;
 
-	// private int fillSign; //0=>no filling, only curve -1=>fill the negativ
-	// part, 1=>fill positiv part
+	// private int fillSign; //0=>no filling, only curve -1=>fill the negative
+	// part, 1=>fill positive part
 
 	/**
 	 * Creates new drawable for implicit Curvenomial

@@ -33,7 +33,7 @@ public interface RegExp {
 	 * Creates a regular expression object from a pattern with no flags.
 	 *
 	 * @param pattern the Javascript regular expression pattern to compile
-	 * @param flags the flags string, containing at most one occurence of {@code 'g'} ({@link
+	 * @param flags the flags string, containing at most one occurrence of {@code 'g'} ({@link
 	 *     #getGlobal()}), {@code 'i'} ({@link #getIgnoreCase()} ), or {@code 'm'} ({@link
 	 *     #getMultiline()}).
 	 * @return a new regular expression
@@ -68,7 +68,7 @@ public interface RegExp {
 	MatchResult exec(String input);
 
 	/**
-	 * Returns whether the regular expression captures all occurences of the pattern.
+	 * Returns whether the regular expression captures all occurrences of the pattern.
 	 *
 	 * @return true if global, false otherwise
 	 */

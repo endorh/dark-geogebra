@@ -276,7 +276,7 @@ public class GeoConic3D extends GeoConicND
 	}
 
 	/**
-	 * set this to sigle point at m location
+	 * set this to single point at location m
 	 * 
 	 * @param conic
 	 *            conic which will be single point

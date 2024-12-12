@@ -61,8 +61,8 @@ public class Paths extends ArrayList<Path> {
 		if (polynode.getPolygon().size() > 0 && match) {
 			add(polynode.getPolygon());
 		}
-		for (final PolyNode pn : polynode.getChildren()) {
-			addPolyNode(pn, nt);
+		for (final PolyNode polyNode : polynode.getChildren()) {
+			addPolyNode(polyNode, nt);
 		}
 	}
 

@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.arithmetic.ExpressionValue;
 
 /**
  * Class to store the product and properties of
- * the product of the coefficent and expression for a polynomial.
+ * the product of the coefficients and expression for a polynomial.
  */
 public final class CoeffPowerProduct {
 	private final int primaryDegree;
@@ -23,8 +23,8 @@ public final class CoeffPowerProduct {
 
 	/**
 	 * @param powerExp expression of the product
-	 * @param coeffValue the coefficenrt
-	 * @param totalDegree the degree of thr expression.
+	 * @param coeffValue the coefficient
+	 * @param totalDegree the degree of the expression.
 	 * @param primaryDegree degree in first variable
 	 */
 	public CoeffPowerProduct(ExpressionValue powerExp, double coeffValue,

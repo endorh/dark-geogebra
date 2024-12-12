@@ -603,7 +603,7 @@ public class PDFStream extends PDFDictionary implements PDFConstants {
 	}
 
 	/**
-	 * Image convenience function (see Table 4.35). Ouputs the data of the image
+	 * Image convenience function (see Table 4.35). Outputs the data of the image
 	 * using "DeviceRGB" colorspace, and the requested encodings
 	 */
 	public void image(RenderedImage image, Color bkg, String[] encode)
@@ -645,7 +645,7 @@ public class PDFStream extends PDFDictionary implements PDFConstants {
 	}
 
 	/**
-	 * Inline Image convenience function (see Table 4.39 and 4.40). Ouputs the
+	 * Inline Image convenience function (see Table 4.39 and 4.40). Outputs the
 	 * data of the image using "DeviceRGB" colorspace, and the requested
 	 * encoding.
 	 */

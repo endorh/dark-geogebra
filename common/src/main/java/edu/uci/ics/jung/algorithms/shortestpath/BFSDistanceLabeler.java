@@ -109,8 +109,8 @@ public class BFSDistanceLabeler<V, E> {
 		}
 	}
 
-	private void addPredecessor(V predecessor, V sucessor) {
-		HashSet<V> predecessors = mPredecessorMap.get(sucessor);
+	private void addPredecessor(V predecessor, V successor) {
+		HashSet<V> predecessors = mPredecessorMap.get(successor);
 		predecessors.add(predecessor);
 	}
 

@@ -1491,7 +1491,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return false;
 	}
 
-	/** @return true if inverse fill is posible */
+	/** @return true if inverse fill is possible */
 	public boolean isInverseFillable() {
 		return false;
 	}
@@ -3899,7 +3899,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	/**
-	 * Returns toValueString() if isDefined() ist true, else the translation of
+	 * Returns toValueString() if isDefined() is true, else the translation of
 	 * "undefined" is returned
 	 * 
 	 * @param tpl
@@ -5104,7 +5104,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	/*
-	 * hightlighting and selecting only for internal purpouses, i.e. this is not saved
+	 * highlighting and selecting only for internal purposes, i.e. this is not saved
 	 */
 	@Override
 	public boolean setSelected(final boolean flag) {

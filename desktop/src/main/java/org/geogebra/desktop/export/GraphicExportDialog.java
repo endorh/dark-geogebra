@@ -432,7 +432,7 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 			FontManagerD fm = app.getFontManager();
 			int fontSize = fm.getFontSize();
 			File pngDestination = toClipboard ? getTmpPNG()
-					: getPNGdestination();
+					: getPNGDestination();
 			if (pngDestination != null) {
 				if (braille) {
 					// GGB-766
@@ -643,7 +643,7 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 	}
 
 	/**
-	 * @return curently selected format
+	 * @return currently selected format
 	 */
 	Format selectedFormat() {
 		return Format.values()[cbFormat.getSelectedIndex()];
@@ -818,7 +818,7 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 	/**
 	 * Exports drawing as png with given resolution in dpi
 	 * 
-	 * @return whether succesful
+	 * @return whether successful
 	 */
 	final public static boolean exportPNGClipboard(boolean transparent0,
 			int dpi, double exportScale0, AppD app,
@@ -834,7 +834,7 @@ public class GraphicExportDialog extends Dialog implements KeyListener {
 		return new File(tempDir + "geogebra.png");
 	}
 
-	private File getPNGdestination() {
+	private File getPNGDestination() {
 
 		return app.getGuiManager().showSaveDialog(FileExtensions.PNG, null,
 				loc.getMenu("png") + " " + loc.getMenu("Files"), true, false);

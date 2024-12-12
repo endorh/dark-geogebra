@@ -547,7 +547,7 @@ public class ListPopupPanel<T extends ListDataModel> extends GPopupPanel
 	 * necessary listeners.
 	 *
 	 * @param widget
-	 *            is an item widget to be wraped.
+	 *            is an item widget to be wrapped.
 	 * @return a focus panel adopted for displaying.
 	 */
 	protected FocusPanel adoptItemWidget(Widget widget) {

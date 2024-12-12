@@ -51,10 +51,10 @@ public class ArcClipper {
 	 * @return clipped path or empty if no intersections
 	 */
 	public Optional<GShape> clipArc(GAffineTransform transform) {
-		GAffineTransform viewTransfrom = AwtFactory.getPrototype().newAffineTransform();
-		viewTransfrom.setTransform(transform);
+		GAffineTransform viewTransform = AwtFactory.getPrototype().newAffineTransform();
+		viewTransform.setTransform(transform);
 		try {
-			viewTransfrom.concatenate(conic.getAffineTransform().createInverse());
+			viewTransform.concatenate(conic.getAffineTransform().createInverse());
 		} catch (Exception e) {
 			return Optional.empty();
 		}
@@ -62,7 +62,7 @@ public class ArcClipper {
 		double[] halfAxes = conic.halfAxes;
 		unitCircleToScreen.scale(halfAxes[0], halfAxes[1]);
 		List<Double> angles = findIntersectionAngles(
-				conic, viewTransfrom, transform);
+				conic, viewTransform, transform);
 		if (angles.isEmpty()) {
 			return Optional.empty();
 		} else {

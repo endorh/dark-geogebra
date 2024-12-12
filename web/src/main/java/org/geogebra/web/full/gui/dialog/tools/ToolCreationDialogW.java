@@ -57,7 +57,7 @@ public class ToolCreationDialogW extends ComponentDialog implements
 	 * Creates new tool creation dialog, if in macro-editing mode,
 	 * 
 	 * @param app
-	 *            Aplication to which this dialog belongs
+	 *            Application to which this dialog belongs
 	 */
 
 	public ToolCreationDialogW(AppW app) {

@@ -283,7 +283,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		 * Compute squarefree factorization of the input poly p. Strange why
 		 * sommet(-x)!='-' (so we do an ugly hack here, FIXME)
 		 */
-		FACTOR_SQR_FREE("factorsqrfree", "factorsqrfree(p):=begin local pf,r,ii; pf:=factor(p); if (sommet(pf)!='*') begin if (sommet(pf)=='^') return op(pf)[0]; else begin if (sommet(pf)!=sommet(-x)) return pf; else return factorsqrfree(-pf); end; end; opf:=op(pf); r:=1; for ii from 0 to size(opf)-1 do r:=r*factorsqrfree(opf[ii]); od return r end"),
+		FACTOR_SQR_FREE("factorsqrfree", "factorsqrfree(p):=begin local pf,r,ii; pf:=factor(p); if (sommet(pf)!='*') begin if (sommet(pf)=='^') return op(pf)[0]; else begin if (sommet(pf)!=sommet(-x)) return pf; else return factorsqrfree(-pf); end; end; opPf:=op(pf); r:=1; for ii from 0 to size(opPf)-1 do r:=r*factorsqrfree(opPf[ii]); od return r end"),
 		/**
 		 * Eliminate variables from a polynomial ideal. If the result is a set
 		 * of discrete points, then convert the linear polynomials to a product
@@ -912,7 +912,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		}
 
 		c.handleCASoutput(result, input.hashCode());
-		if (c.useCacheing()) {
+		if (c.useCaching()) {
 			c.getKernel().putToCasCache(input, result);
 		}
 	}

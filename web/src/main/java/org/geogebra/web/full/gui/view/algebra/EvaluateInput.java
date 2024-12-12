@@ -44,7 +44,7 @@ public class EvaluateInput {
 	}
 
 	/**
-	 * Set wether it should use the last valid input,
+	 * Set whether it should use the last valid input,
 	 * or the user input
 	 * @param usingValidInput use valid input
 	 */
@@ -69,8 +69,8 @@ public class EvaluateInput {
 	}
 
 	/**
-	 * Just evaulate input.
-	 * @return the evaulated geo.
+	 * Just evaluate input.
+	 * @return the evaluated geo.
 	 */
 	public GeoElementND evaluateToGeo() {
 		return app.getKernel().getAlgebraProcessor().evaluateToGeoElement(item.getText(), false);

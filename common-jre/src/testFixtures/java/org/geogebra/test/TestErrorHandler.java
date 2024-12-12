@@ -50,7 +50,7 @@ public final class TestErrorHandler implements ErrorLogger {
 	public void log(Throwable e) {
 		e.printStackTrace();
 		Throwable cause = e.getCause() == null ? e : e.getCause();
-		fail("Unexpeced error: " + cause.getMessage());
+		fail("Unexpected error: " + cause.getMessage());
 	}
 
 }

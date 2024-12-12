@@ -27,7 +27,7 @@ public class Rectangle {
 	}
 
 	/**
-	 * Creates a rectangle objects with origin and size speicifed.
+	 * Creates a rectangle objects with origin and size specified.
 	 * @param origin origin
 	 * @param size size
 	 */

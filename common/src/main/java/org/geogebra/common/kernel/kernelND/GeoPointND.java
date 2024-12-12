@@ -382,7 +382,7 @@ public interface GeoPointND extends PointProperties, Translateable,
 	 * Change coordinates of this point to linear combination of two MyPoints.
 	 * 
 	 * @param param1
-	 *            weight of frst point
+	 *            weight of first point
 	 * @param param2
 	 *            weight of second point
 	 * @param leftPoint

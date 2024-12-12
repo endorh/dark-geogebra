@@ -2030,7 +2030,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		// points needed
 		if (((polygonMode == POLYGON_RIGID) || (polygonMode == POLYGON_VECTOR))
-				&& (selPoints() > 0)) { // only want free points withput
+				&& (selPoints() > 0)) { // only want free points without
 			// children for rigid polys (apart from
 			// first)
 			// testing needed - see GGB-1982
@@ -3082,7 +3082,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	protected final boolean moveRotate(Hits hits, boolean selPreview) {
-		addSelectedGeo(hits.getPointRotateableHits(view, rotationCenter), 1,
+		addSelectedGeo(hits.getPointRotatableHits(view, rotationCenter), 1,
 				false, selPreview);
 		return false;
 	}
@@ -3489,7 +3489,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * @param hits
 	 *            hits
 	 * @param isControlDown
-	 *            whether controll is pressed
+	 *            whether control is pressed
 	 * @return whether highlighting changed
 	 */
 	public boolean refreshHighlighting(Hits hits, boolean isControlDown) {
@@ -3879,7 +3879,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// selectedPoints, because the last point that is selected is used
 			// as rotation center.
 			// Therefore a point that was selected first has to be added to
-			// selecetedPoints, if another geo is selected in the second step
+			// selectedPoints, if another geo is selected in the second step
 			getSelectedPointList()
 					.add((GeoPointND) getSelectedGeoList().get(0));
 		}
@@ -4129,7 +4129,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			case EuclidianView.GRID_ISOMETRIC:
 
 				// isometric Michael Borcherds 2008-04-28
-				// iso grid is effectively two rectangular grids overlayed
+				// iso grid is effectively two rectangular grids overlaid
 				// (offset)
 				// so first we decide which one we're on (oddOrEvenRow)
 				// then compress the grid by a scale factor of root3
@@ -6391,7 +6391,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					&& (hits.size() >= 1)) {
 				setCursorForTranslateView(hits);
 			} else {
-				setCursorForProccessMouseMoveHit();
+				setCursorForProcessMouseMoveHit();
 			}
 		}
 
@@ -6447,7 +6447,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
-	protected void setCursorForProccessMouseMoveHit() {
+	protected void setCursorForProcessMouseMoveHit() {
 		setDragCursor();
 	}
 
@@ -8779,7 +8779,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			moveModeSelectionHandled = true;
 
 			// find and set rotGeoElement
-			hits = hits.getPointRotateableHits(view, rotationCenter);
+			hits = hits.getPointRotatableHits(view, rotationCenter);
 			if (!hits.isEmpty() && hits.contains(rotGeoElement)) {
 				geo = rotGeoElement;
 			} else {
@@ -10453,7 +10453,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * @param hits
 	 *            hits
 	 * @param control
-	 *            whethe ctrl is pressed
+	 *            whether ctrl is pressed
 	 * @param alt
 	 *            whether alt is pessed
 	 * @param type

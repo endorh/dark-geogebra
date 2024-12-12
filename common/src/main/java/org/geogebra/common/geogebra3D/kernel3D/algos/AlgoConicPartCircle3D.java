@@ -53,9 +53,9 @@ public class AlgoConicPartCircle3D extends AlgoConicPart {
 	 * @param center
 	 *            center
 	 * @param startPoint
-	 *            arc start cpoint
+	 *            arc start point
 	 * @param endPoint
-	 *            arc ned point
+	 *            arc end point
 	 * @param type
 	 *            arc type
 	 */
@@ -73,9 +73,9 @@ public class AlgoConicPartCircle3D extends AlgoConicPart {
 	 * @param center
 	 *            center
 	 * @param startPoint
-	 *            arc start cpoint
+	 *            arc start point
 	 * @param endPoint
-	 *            arc ned point
+	 *            arc end point
 	 * @param orientation
 	 *            orientation
 	 * @param type

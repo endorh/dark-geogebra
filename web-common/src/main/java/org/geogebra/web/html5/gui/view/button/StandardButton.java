@@ -128,7 +128,7 @@ public class StandardButton extends Widget implements HasResource {
 	 * @param label
 	 *            - text of button
 	 * @param size
-	 *            - width and hight of button
+	 *            - width and height of the button
 	 */
 	public StandardButton(int size, final ResourcePrototype icon, final String label) {
 		this();

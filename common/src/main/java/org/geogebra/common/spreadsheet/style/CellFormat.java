@@ -50,13 +50,13 @@ public class CellFormat implements CellFormatInterface {
 	public static final int ALIGN_CENTER = 0; // SwingConstants.CENTER;
 	public static final int ALIGN_RIGHT = 4; // SwingConstants.RIGHT;
 
-	// Font syle constants
+	// Font style constants
 	public static final int STYLE_PLAIN = GFont.PLAIN; // Font.PLAIN;
 	public static final int STYLE_BOLD = GFont.BOLD; // Font.BOLD;
 	public static final int STYLE_ITALIC = GFont.ITALIC; // Font.ITALIC;
 	public static final int STYLE_BOLD_ITALIC = GFont.BOLD + GFont.ITALIC;
 
-	// Border style constants used by stylebar.
+	// Border style constants used by style bar.
 	// Keep this order, they are indices to the border popup button menu
 	public static final int BORDER_STYLE_NONE = 0;
 	public static final int BORDER_STYLE_FRAME = 1;

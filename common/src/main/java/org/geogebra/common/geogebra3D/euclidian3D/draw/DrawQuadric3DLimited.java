@@ -38,7 +38,7 @@ public class DrawQuadric3DLimited extends Drawable3D {
 		drawTop = new DrawConic3D(view3d, geo.getTop());
 		drawSide = new DrawQuadric3DPart(view3d, geo.getSide());
 
-		// for hightlight
+		// for highlight
 		drawBottom.setCreatedByDrawList(this);
 		drawTop.setCreatedByDrawList(this);
 		drawSide.setCreatedByDrawList(this);

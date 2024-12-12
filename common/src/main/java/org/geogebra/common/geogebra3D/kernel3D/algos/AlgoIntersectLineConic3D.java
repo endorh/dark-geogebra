@@ -97,7 +97,7 @@ public class AlgoIntersectLineConic3D extends AlgoIntersectConic3D {
 	 * @return line input
 	 */
 	GeoLineND getLine() {
-		return (GeoLineND) getFirtGeo();
+		return (GeoLineND) getFirstGeo();
 	}
 
 	@Override

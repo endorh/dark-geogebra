@@ -577,7 +577,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	/**
-	 * Retuns first defining point of this line or null.
+	 * Returns first defining point of this line or null.
 	 */
 	@Override
 	final public GeoPoint getStartPoint() {
@@ -585,7 +585,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	/**
-	 * Retuns second point of this line or null.
+	 * Returns second point of this line or null.
 	 */
 	@Override
 	final public GeoPoint getEndPoint() {

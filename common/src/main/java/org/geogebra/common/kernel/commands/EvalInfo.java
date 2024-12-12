@@ -454,7 +454,7 @@ public class EvalInfo {
 	}
 
 	/**
-	 * @return wether the algebra processor keeps the definition of strips it.
+	 * @return whether the algebra processor keeps the definition of strips it.
 	 */
 	public boolean getKeepDefinition() {
 		return keepDefinition;

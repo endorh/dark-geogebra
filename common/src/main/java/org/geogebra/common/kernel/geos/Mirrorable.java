@@ -22,7 +22,7 @@ import org.geogebra.common.kernel.matrix.Coords;
  */
 public interface Mirrorable extends GeoElementND {
 	/**
-	 * Miror at point
+	 * Mirror at point
 	 * 
 	 * @param Q
 	 *            mirror
@@ -30,7 +30,7 @@ public interface Mirrorable extends GeoElementND {
 	public void mirror(Coords Q);
 
 	/**
-	 * Miror at line
+	 * Mirror at line
 	 * 
 	 * @param g
 	 *            mirror

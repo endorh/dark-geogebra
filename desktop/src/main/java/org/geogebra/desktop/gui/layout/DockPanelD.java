@@ -263,7 +263,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 
 	/**
 	 * Flag to determine if the frame field will be created as a JDialog (true)
-	 * or as a JFram (false). Default is false.
+	 * or as a JFrame (false). Default is false.
 	 */
 	private boolean isDialog = false;
 

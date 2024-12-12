@@ -20,8 +20,8 @@ public class InternalClipboardTest extends BaseUnitTest {
 		String clipboard = InternalClipboard.getTextToSave(getApp(),
 				Collections.singletonList(s), txt -> txt);
 		String labels = clipboard.split("\n")[0];
-		assertEquals("CLIPBOARDmagicSTRINGA CLIPBOARDmagicSTRINGB CLIPBOARDmagicSTRINGs",
-				labels.trim());
+		assertEquals("@A @B @s",
+				labels.trim().replace(CopyPaste.labelPrefix, "@"));
 		EventAccumulator acu = new EventAccumulator();
 		getApp().getEventDispatcher().addEventListener(acu);
 		InternalClipboard.pasteGeoGebraXMLInternal(getApp(), Arrays.asList(labels.split(" ")),

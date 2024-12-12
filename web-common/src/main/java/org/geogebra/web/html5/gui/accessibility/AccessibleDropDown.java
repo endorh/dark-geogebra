@@ -50,7 +50,7 @@ public class AccessibleDropDown implements AccessibleWidget {
 		options.getElement().setAttribute("role", "listbox");
 		options.getElement().setTabIndex(-1);
 		label = new Label();
-		label.setVisible(false); // hide; only used via aria-labeledby
+		label.setVisible(false); // hide; only used via aria-labelledby
 		String labelId = DOM.createUniqueId();
 		label.getElement().setId(labelId);
 		String buttonId = DOM.createUniqueId();

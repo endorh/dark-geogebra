@@ -76,11 +76,11 @@ public class GeoImplicitSurface extends GeoElement3D
 								// be created
 		this.surface3D = new GeoTriangulatedSurface3D();
 		fromEquation(eqn);
-		updateParametic(eqn);
+		updateParametric(eqn);
 
 	}
 
-	private void updateParametic(Equation eqn) {
+	private void updateParametric(Equation eqn) {
 		ExpressionNode normal = eqn.getLHS().apply(Operation.MINUS,
 				eqn.getRHS());
 		normal = normal.deepCopy(cons.getKernel());

@@ -1,7 +1,7 @@
 /*
  * 11/19/04 1.0 moved to LGPL.
  * 
- * 11/17/04 Uncomplete frames discarded. E.B, javalayer@javazoom.net 
+ * 11/17/04 Incomplete frames discarded. E.B, javalayer@javazoom.net
  *
  * 12/05/03 ID3v2 tag returned. E.B, javalayer@javazoom.net 
  *

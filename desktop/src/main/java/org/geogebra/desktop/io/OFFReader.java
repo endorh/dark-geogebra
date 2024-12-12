@@ -17,8 +17,8 @@ import org.geogebra.common.util.opencsv.CSVException;
  * Read OFF (Object File Format) file. Off file begins with "OFF" indicating it
  * is an off file, followed by one or more comments. Each comment line start
  * with '#'. Thereafter three integers in a single line representing
- * vertixCount(V), faceCount(F) and edgeCount(F) respectively. Since V + F - E =
- * 2, E can be ignored safely or it can be used for verification purpose. The
+ * vertexCount(V), faceCount(F) and edgeCount(F) respectively. Since V + F - E =
+ * 2, E can be ignored safely, or it can be used for verification purpose. The
  * file is followed by V lines, each contains three doubles representing
  * coordinates x, y, and z respectively. Finally the file is followed by F
  * lines, every line represents for a face. Each line start with an integer N,

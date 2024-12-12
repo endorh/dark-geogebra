@@ -43,7 +43,7 @@ public interface AsynchronousCommand {
 	/**
 	 * @return whether caching is allowed for this command
 	 */
-	public boolean useCacheing();
+	public boolean useCaching();
 
 	/**
 	 * @return input for CAS as GeoGebraCAS string

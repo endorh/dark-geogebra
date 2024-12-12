@@ -54,7 +54,7 @@ public interface Row {
 
 	/**
 	 * Sets the given dummy containing the atom that comes just before the first
-	 * child atom of this "composed atom". This method will allways be called by
+	 * child atom of this "composed atom". This method will always be called by
 	 * another composed atom, so this composed atom will be a child of it
 	 * (nested). This is necessary to determine the glue to insert between the
 	 * first child atom of this nested composed atom and the atom that the dummy

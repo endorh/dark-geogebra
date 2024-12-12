@@ -280,7 +280,7 @@ public abstract class AlgoIntersectConic3D extends AlgoIntersect3D {
 	 * 
 	 * @return first geo
 	 */
-	protected GeoElement getFirtGeo() {
+	protected GeoElement getFirstGeo() {
 		return firstGeo;
 	}
 

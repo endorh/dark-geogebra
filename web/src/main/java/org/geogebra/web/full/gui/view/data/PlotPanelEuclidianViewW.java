@@ -19,7 +19,7 @@ public class PlotPanelEuclidianViewW extends EuclidianViewW
 		implements PlotPanelEuclidianViewInterface {
 	
 	/**
-	 * default height ot PlotPanelEuclidianViewW
+	 * default height of the PlotPanelEuclidianViewW
 	 */
 	public static final int DEFAULT_HEIGHT = 300;
 	

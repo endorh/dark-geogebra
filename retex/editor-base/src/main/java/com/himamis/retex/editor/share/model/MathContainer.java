@@ -420,7 +420,7 @@ abstract public class MathContainer extends MathComponent implements Iterable<Ma
 	}
 
 	/**
-	 * Remove an argument without reseting parent
+	 * Remove an argument without resetting parent
 	 * 
 	 * @param i
 	 *            index

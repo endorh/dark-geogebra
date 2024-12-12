@@ -956,7 +956,7 @@ public class PageListController implements PageListControllerInterface,
 	}
 
 	/**
-	 * Rmove page and store undo info
+	 * Remove page and store undo info
 	 * @param index page index
 	 */
 	public void removePage(int index) {

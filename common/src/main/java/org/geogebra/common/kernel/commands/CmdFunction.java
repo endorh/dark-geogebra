@@ -57,11 +57,11 @@ public class CmdFunction extends CommandProcessor {
 			String varName = c.getArgument(1).toString(StringTemplate.defaultTemplate);
 			c.setArgument(1, c.getArgument(2));
 			c.setArgument(2, c.getArgument(3));
-			return proces1VarFunction(c, varName, info);
+			return process1VarFunction(c, varName, info);
 		case 3:
 
 			// file might be saved with old Function[sin(x),1,2]
-			return proces1VarFunction(c, null, info);
+			return process1VarFunction(c, null, info);
 		case 7:
 			return process2VarFunction(c);
 		case 5:
@@ -90,7 +90,7 @@ public class CmdFunction extends CommandProcessor {
 		throw argErr(c, getBadArg(ok, arg));
 	}
 
-	private GeoElement[] proces1VarFunction(Command c, String varNameOverride, EvalInfo info) {
+	private GeoElement[] process1VarFunction(Command c, String varNameOverride, EvalInfo info) {
 		String varName = varNameOverride;
 		boolean[] ok = new boolean[c.getArgumentNumber()];
 		GeoElement[] arg;

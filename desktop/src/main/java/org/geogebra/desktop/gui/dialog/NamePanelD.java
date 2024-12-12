@@ -172,7 +172,7 @@ class NamePanelD extends JPanel implements ActionListener, ErrorHandler, FocusLi
 	}
 
 	/**
-	 * current geo on which focus lost shouls apply (may be different to current
+	 * current geo on which focus lost should apply (might be different to current
 	 * geo, due to threads)
 	 */
 	private GeoElementND currentGeoForFocusLost = null;

@@ -245,7 +245,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	}
 
 	/**
-	 * Retuns starting point of this vector or null.
+	 * Returns starting point of this vector or null.
 	 */
 	@Override
 	public GeoPointND getStartPoint() {
@@ -822,7 +822,7 @@ final public class GeoVector extends GeoVec3D implements Path, VectorValue,
 	 * @param y
 	 *            y-coord
 	 * @param vector
-	 *            vector coresponding to x,y (result depends on parent algo)
+	 *            vector corresponding to x,y (result depends on parent algo)
 	 * @return content of string builder
 	 */
 	static public String buildLatexString(Kernel kernel, StringBuilder sb,

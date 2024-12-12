@@ -2268,7 +2268,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		if (size > 0) {
 			setPointSize(size);
 		} else {
-			setPointNotVisibile();
+			setPointNotVisible();
 		}
 	}
 
@@ -2280,7 +2280,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		}
 	}
 
-	private void setPointNotVisibile() {
+	private void setPointNotVisible() {
 		for (GeoPointND point : points) {
 			point.setEuclidianVisibleIfNoConditionToShowObject(false);
 			point.updateRepaint();

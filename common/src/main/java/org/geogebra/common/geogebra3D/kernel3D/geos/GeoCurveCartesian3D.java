@@ -329,7 +329,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	 * @param funZ
 	 *            z(t)
 	 * @param fun
-	 *            additionnal function for view for plane
+	 *            additional function for view for plane
 	 * @return an interval within [a, b] where the funX, funY, funZ are defined.
 	 * 
 	 */

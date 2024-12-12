@@ -20,7 +20,7 @@ import com.google.j2objc.annotations.Weak;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
- * Container for condition tripples (upper bound, lower bound, other conditions)
+ * Container for condition triples (upper bound, lower bound, other conditions)
  * 
  * @author Zbynek
  * 
@@ -252,7 +252,7 @@ public class Bounds {
 					ret.append(kernel.format(upper, tpl));
 				}
 			}
-			// upper and lower are null, we only retrn condition right here
+			// upper and lower are null, we only return condition right here
 			else if (condition != null) {
 				return condition.toLaTeXString(symbolic, tpl);
 			}

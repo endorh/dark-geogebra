@@ -52,7 +52,7 @@ import org.geogebra.common.awt.GRectangle2D;
  * <p>
  * A {@code Rectangle} whose width or height is negative has neither
  * location nor dimension along those axes with negative dimensions.
- * Such a {@code Rectangle} is treated as non-existant along those axes.
+ * Such a {@code Rectangle} is treated as non-existent along those axes.
  * Such a {@code Rectangle} is also empty with respect to containment
  * calculations and methods which test if it contains or intersects a
  * point or rectangle will always return false.

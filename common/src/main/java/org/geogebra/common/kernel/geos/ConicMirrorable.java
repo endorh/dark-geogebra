@@ -6,7 +6,7 @@ package org.geogebra.common.kernel.geos;
  */
 public interface ConicMirrorable {
 	/**
-	 * Miror at circle
+	 * Mirror at circle
 	 * 
 	 * @param c
 	 *            mirror circle

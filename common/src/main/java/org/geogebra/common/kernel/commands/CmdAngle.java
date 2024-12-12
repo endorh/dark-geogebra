@@ -71,21 +71,7 @@ public class CmdAngle extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		/**
-		 * // Anlge[ constant number ] // get number value ExpressionNode en =
-		 * null; ExpressionValue eval; double value = 0.0; // check if we got
-		 * number: // ExpressionNode && NumberValue || Assignment // build
-		 * ExpressionNode from one of these cases ok[0] = false; Object ob =
-		 * c.getArgument(0); if (ob instanceof ExpressionNode) { en =
-		 * (ExpressionNode) ob; eval = en.evaluate(); if (eval .isNumberValue()
-		 * && !(eval .isGeoPolygon())) { value = ((NumberValue)
-		 * eval).getDouble(); ok[0] = true; } } else if (ob instanceof
-		 * Assignment) { GeoElement geo = cons.lookupLabel(((Assignment)
-		 * ob).getVariable()); if (geo .isGeoNumeric()) { // wrap GeoNumeric int
-		 * ExpressionNode for // kernel.DependentNumer() en = new
-		 * ExpressionNode(kernel, (NumberValue) geo,
-		 * ExpressionNode.NO_OPERATION, null); ok[0] = true; } }
-		 */
+		// Angle[ constant number ]
 		case 1:
 			arg = resArgs(c);
 

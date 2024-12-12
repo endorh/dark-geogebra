@@ -86,7 +86,7 @@ public class Parser {
 
 	private boolean shouldStartAbsoluteValue() {
 		return absoluteValueDepth == 0 || (token.kind == OPERATOR || token.kind == VERTICAL_BAR
-				|| token.kind == PARANTHESES_OPEN) && absoluteValueDepth < absoluteValueCount;
+				|| token.kind == PARENTHESES_OPEN) && absoluteValueDepth < absoluteValueCount;
 	}
 
 	public MathFormula parse(String text) throws ParseException {
@@ -122,8 +122,8 @@ PARSER_END(Parser)
 	   [ "\u2070","\u2074"-"\u2079","\u00b9","\u00b2","\u00b3","\u207a"] >
 	| < SUBSCRIPT : "_" >
 	| < FRACTION : "/" >
-	| < PARANTHESES_OPEN : "(" >
-	| < PARANTHESES_CLOSE : ")" >
+	| < PARENTHESES_OPEN : "(" >
+	| < PARENTHESES_CLOSE : ")" >
 	| < SQUARE_BRACKETS_OPEN : "[" >
 	| < SQUARE_BRACKETS_CLOSE : "]" >
 	| < CURLY_BRACKETS_OPEN : "{" >
@@ -195,7 +195,7 @@ void atomicWrapper(MathContainer currentField) : {}
 	LOOKAHEAD(<VERTICAL_BAR>, { shouldStartAbsoluteValue() })
 	absVerticalBar(currentField)
 	|
-	arrayParantheses(currentField)
+	arrayParentheses(currentField)
 	|
 	arrayFloorCeil(currentField)
 	|
@@ -237,7 +237,7 @@ void mathAtomOrPower(MathContainer currentField) : {
 		(
 		  (mathAtomCharacter(currentField))+
 		  (power(currentField) | superscript(currentField) | subscript(currentField))?
-		  (arrayParantheses(currentField))?
+		  (arrayParentheses(currentField))?
 		)
 	) (power(currentField) | superscript(currentField) | subscript(currentField))?
 }
@@ -353,14 +353,14 @@ void nroot(MathContainer currentField) : {}
 		nroot.setArgument(1, param1);
 		nroot.setArgument(0, param2);
 		currentField.addArgument(nroot);
-	} <PARANTHESES_CLOSE>
+	} <PARENTHESES_CLOSE>
 }
 
 void defintSumProduct(MathContainer currentField) : {
 	Token symbol;
 }
 {
-	(symbol = <DEF_INT> | symbol = <SUM_EQ> | symbol = <PROD_EQ>) <PARANTHESES_OPEN> {
+	(symbol = <DEF_INT> | symbol = <SUM_EQ> | symbol = <PROD_EQ>) <PARENTHESES_OPEN> {
 		MathFunction defint = new MathFunction(metaModel.getGeneral(Tag.lookup(symbol.image)));
 		MathSequence param0 = new MathSequence();
 		mathContainer(param0);
@@ -370,14 +370,14 @@ void defintSumProduct(MathContainer currentField) : {
 		defint.setArgument(0, param0);
 		defint.setArgument(1, param1);
 		currentField.addArgument(defint);
-	} <PARANTHESES_CLOSE>
+	} <PARENTHESES_CLOSE>
 }
 
 void atomicPrePost(MathContainer currentField) : {
 	Token symbol;
 }
 {
-	(symbol = <ATOMIC_POST> | symbol = <ATOMIC_PRE>) <PARANTHESES_OPEN> {
+	(symbol = <ATOMIC_POST> | symbol = <ATOMIC_PRE>) <PARENTHESES_OPEN> {
 		MathFunction atomic = new MathFunction(metaModel.getGeneral(Tag.lookup(symbol.image)));
 		MathSequence param0 = new MathSequence();
 		mathContainer(param0);
@@ -391,7 +391,7 @@ void atomicPrePost(MathContainer currentField) : {
 		atomic.setArgument(1, param1);
 		atomic.setArgument(2, param2);
 		currentField.addArgument(atomic);
-	} <PARANTHESES_CLOSE>
+	} <PARENTHESES_CLOSE>
 }
 
 void absVecLimeq(MathContainer currentField) : {
@@ -409,7 +409,7 @@ void absVecLimeq(MathContainer currentField) : {
 		mathContainerWithCommas(param1);
 		vec.setArgument(0, param1);
 		currentField.addArgument(vec);
-	} <PARANTHESES_CLOSE>
+	} <PARENTHESES_CLOSE>
 }
 
 void log(MathContainer currentField) : { }
@@ -425,20 +425,20 @@ void log(MathContainer currentField) : { }
 		mathContainer(param2);
 		nroot.setArgument(0, param1);
 		nroot.setArgument(1, param2);
-	})? <PARANTHESES_CLOSE>
+	})? <PARENTHESES_CLOSE>
 	{
 	  currentField.addArgument(nroot);
 	}
 }
 
-void arrayParantheses(MathContainer currentField) :
+void arrayParentheses(MathContainer currentField) :
 {
 	MathContainer mathArrayOrFunction = null;
 	MathSequence mathSequence = null;
 	Token open = null;
 }
 {
-	(open = <PARANTHESES_OPEN> | open = <SQUARE_BRACKETS_OPEN>)
+	(open = <PARENTHESES_OPEN> | open = <SQUARE_BRACKETS_OPEN>)
 	{
 		editorState.setCurrentField((MathSequence) currentField);
 		editorState.setCurrentOffset(currentField.size());
@@ -449,7 +449,7 @@ void arrayParantheses(MathContainer currentField) :
 	}
 	mathContainerWithCommas(mathSequence)
 
-	(<PARANTHESES_CLOSE> | <SQUARE_BRACKETS_CLOSE>)
+	(<PARENTHESES_CLOSE> | <SQUARE_BRACKETS_CLOSE>)
 }
 
 void arrayFloorCeil(MathContainer currentField) : {

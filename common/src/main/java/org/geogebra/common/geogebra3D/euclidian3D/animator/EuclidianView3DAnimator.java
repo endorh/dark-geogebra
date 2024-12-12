@@ -94,7 +94,7 @@ public class EuclidianView3DAnimator {
 			return;
 		}
 
-		// if last drag occured more than 200ms ago, then no animation
+		// if last drag occurred more than 200ms ago, then no animation
 		if (delay > ROTATION_CONTINUE_MAX_DELAY) {
 			return;
 		}

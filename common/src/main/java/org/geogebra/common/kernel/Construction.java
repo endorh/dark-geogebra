@@ -529,7 +529,7 @@ public class Construction {
 
 	/**
 	 * If this is set to true new construction elements won't get labels.
-	 * @param flag true iff labelcreation should be supressed
+	 * @param flag true iff label creation should be suppressed
 	 */
 	public void setSuppressLabelCreation(boolean flag) {
 		suppressLabelCreation = flag;
@@ -2734,7 +2734,7 @@ public class Construction {
 	 * order of their type strings and labels (e.g. Line g, Line h, Point A,
 	 * Point B, ...). Note: the returned TreeSet is a copy of the current
 	 * situation and is not updated by the construction later on.
-	 * @return Set of all labeld GeoElements orted by name and description
+	 * @return Set of all labeled GeoElements sorted by name and description
 	 */
 	final public TreeSet<GeoElement> getGeoSetNameDescriptionOrder() {
 		// sorted set of geos

@@ -47,7 +47,7 @@ public class AlgoIntersectFunctionsNewton extends AlgoRootNewton {
 	 * @param g
 	 *            second function
 	 * @param startPoint
-	 *            initial point for newthon method
+	 *            initial point for Newton method
 	 */
 	public AlgoIntersectFunctionsNewton(Construction cons, GeoFunctionable f,
 			GeoFunctionable g, GeoPoint startPoint) {
@@ -74,7 +74,7 @@ public class AlgoIntersectFunctionsNewton extends AlgoRootNewton {
 	 * @param g
 	 *            second function
 	 * @param startPoint
-	 *            initial point for newthon method
+	 *            initial point for Newton method
 	 */
 	public AlgoIntersectFunctionsNewton(Construction cons, String label,
 			GeoFunctionable f, GeoFunctionable g, GeoPoint startPoint) {

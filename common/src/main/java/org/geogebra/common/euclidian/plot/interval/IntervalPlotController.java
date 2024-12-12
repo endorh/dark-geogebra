@@ -60,7 +60,7 @@ public class IntervalPlotController implements CoordSystemAnimationListener, Set
 
 	@Override
 	public void onMove(CoordSystemInfo info) {
-		if (info.isXAxisZoom() || info.isCenterVew()) {
+		if (info.isXAxisZoom() || info.isCenterView()) {
 			return;
 		}
 

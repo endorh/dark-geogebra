@@ -70,7 +70,7 @@ public class MatchingBlockManager {
 	}
 
 	/**
-	 * @return the scanner used by thhis manager
+	 * @return the scanner used by this manager
 	 */
 	public MatchingBlockScanner getScanner() {
 		return scanner;
@@ -148,10 +148,10 @@ public class MatchingBlockManager {
 	}
 
 	/**
-	 * Desactivate this MatchingBlockManager to listen to the KeywordEvent
+	 * Deactivate this MatchingBlockManager to listen to the KeywordEvent
 	 * generate by a MouseOver.
 	 */
-	public void desactivateMouseOver() {
+	public void deactivateMouseOver() {
 		if (mouseover != null) {
 			pane.removeKeywordListener(mouseover);
 			mouseover = null;
@@ -517,7 +517,7 @@ public class MatchingBlockManager {
 	class MouseOverMatcher extends KeywordAdapter.MouseOverAdapter {
 
 		/**
-		 * What to do when the event occured
+		 * What to do when the event occurred
 		 * 
 		 * @param e
 		 *            the event

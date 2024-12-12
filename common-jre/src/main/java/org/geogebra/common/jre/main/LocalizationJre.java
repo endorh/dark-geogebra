@@ -331,9 +331,9 @@ public abstract class LocalizationJre extends Localization {
 
 		try {
 
-			Enumeration<String> enumer = rbcolors.getKeys();
-			while (enumer.hasMoreElements()) {
-				String key = enumer.nextElement();
+			Enumeration<String> keys = rbcolors.getKeys();
+			while (keys.hasMoreElements()) {
+				String key = keys.nextElement();
 				if (str.equals(StringUtil.removeSpaces(
 						StringUtil.toLowerCaseUS(rbcolors.getString(key))))) {
 					return key;
@@ -351,7 +351,7 @@ public abstract class LocalizationJre extends Localization {
 	}
 
 	/**
-	 * @return list of suported locales
+	 * @return list of supported locales
 	 */
 	protected ArrayList<Locale> getSupportedLocales() {
 		return getSupportedLocales(hasAllLanguages());

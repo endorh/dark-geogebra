@@ -100,7 +100,7 @@ public class ScientificFormat extends Format
 	}
 
 	/**
-	 * Sets the maximum allowable length of the formattted number mantissa
+	 * Sets the maximum allowable length of the formatted number mantissa
 	 * before exponential notation is used.
 	 */
 	@Override

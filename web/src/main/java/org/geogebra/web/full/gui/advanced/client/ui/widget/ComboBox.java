@@ -784,7 +784,7 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
 	}
 
 	/**
-	 * This method gets a keybord manager implementation for the component.
+	 * This method gets a keyboard manager implementation for the component.
 	 *
 	 * @return an instance of the manager.
 	 */

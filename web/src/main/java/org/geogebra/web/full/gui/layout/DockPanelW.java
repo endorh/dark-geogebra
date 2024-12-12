@@ -137,15 +137,13 @@ public abstract class DockPanelW extends ResizeComposite
 	private boolean hidden;
 
 	/**
-	 * Flag to determine if the frame field will be created as a JDialog (true)
-	 * or as a JFram (false). Default is false.
+	 * Copied from Desktop, not supported.
 	 */
 	private boolean dialog = false;
 
 	/** dock panel */
 	InnerDockLayoutPanel dockPanel;
 	/** the main panel of this stylebar */
-	//protected TitleBarPanel titleBarPanel;
 	protected DockControlPanel dockControlPanel;
 	private boolean initializedGui;
 

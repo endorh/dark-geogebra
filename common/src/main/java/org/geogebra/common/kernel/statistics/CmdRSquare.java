@@ -22,7 +22,7 @@ import org.geogebra.common.kernel.geos.GeoList;
 import org.geogebra.common.main.MyError;
 
 /**
- * RSquare[&lt;List of Points&gt;,&lt;Funtion&gt;]
+ * RSquare[&lt;List of Points&gt;,&lt;Function&gt;]
  * 
  * @author G.Sturr
  * @version 2010-9-13

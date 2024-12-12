@@ -1412,7 +1412,7 @@ public class DelaunayTriangulation {
 	}
 
 	/**
-	 * @return The bounding rectange between the minimum and maximum coordinates
+	 * @return The bounding rectangle between the minimum and maximum coordinates
 	 */
 	public BoundingBox getBoundingBox() {
 		return new BoundingBox(_bb_min, _bb_max);

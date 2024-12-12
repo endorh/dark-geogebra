@@ -96,7 +96,7 @@ public class UnicodeTeX {
 		p('\ue84d', "nbumpeq");
 		p('\ue84e', "neqsim");
 
-		// all folowing do work in JLaTeXMath
+		// all following do work in JLaTeXMath
 		p('\u00a5', "yen");
 		p('\u00a9', "copyright");
 		p('\u00ab', "ll");

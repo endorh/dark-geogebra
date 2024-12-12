@@ -172,14 +172,14 @@ public class AlgoAreEqual extends AlgoElement
 						}
 
 						// Decimal numbers with less than 8 significant digits are allowed
-						return countSignifiantDigits(d) > 8;
+						return countSignificantDigits(d) > 8;
 					}
 
 					return false;
 				});
 	}
 
-	private int countSignifiantDigits(double d) {
+	private int countSignificantDigits(double d) {
 		String s = formatter.format(d);
 		if (s.contains(".")) {
 			return s.length() - 1;
@@ -229,7 +229,7 @@ public class AlgoAreEqual extends AlgoElement
 			PVariable[] v1 = ((GeoLine) inputElement1).getBotanaVars(inputElement1); // AB
 			PVariable[] v2 = ((GeoLine) inputElement2).getBotanaVars(inputElement2); // CD
 
-			// We want to prove: 1) ABC collinear, 2) ABD collinear
+			// We want to prove: 1) A,B,C collinear, 2) A,B,D collinear
 			botanaPolynomials[0][0] = PPolynomial.collinear(v1[0], v1[1], v1[2],
 					v1[3], v2[0], v2[1]);
 			botanaPolynomials[1][0] = PPolynomial.collinear(v1[0], v1[1], v1[2],

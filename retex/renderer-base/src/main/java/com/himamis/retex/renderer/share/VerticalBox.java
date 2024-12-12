@@ -183,7 +183,7 @@ class VerticalBox extends Box {
 	public FontInfo getLastFont() {
 		// iterate from the last child box (the lowest) to the first (the
 		// highest)
-		// untill a font id is found that's not equal to NO_FONT
+		// until a font id is found that's not equal to NO_FONT
 		FontInfo fontId = null;
 		for (ListIterator it = children
 				.listIterator(children.size()); fontId == null

@@ -55,9 +55,9 @@ public class LineEqnModel extends MultipleOptionsModel {
 			}
 			if (geo instanceof GeoLine) {
 				AlgoElement algo = geo.getParentAlgorithm();
-				boolean isFitLineOuput = (algo instanceof AlgoFitLineX)
+				boolean isFitLineOutput = (algo instanceof AlgoFitLineX)
 						|| (algo instanceof AlgoFitLineY);
-				if (isFitLineOuput) {
+				if (isFitLineOutput) {
 					return equationBehaviour.getFitLineCommandEquationForm() != null
 							&& !equationBehaviour.allowsChangingEquationFormsByUser();
 				}

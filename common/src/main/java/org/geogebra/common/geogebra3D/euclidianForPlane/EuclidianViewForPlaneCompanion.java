@@ -573,7 +573,7 @@ public class EuclidianViewForPlaneCompanion extends EuclidianViewFor3DCompanion
 	}
 
 	/**
-	 * remove the view when the creator doens't exist anymore
+	 * remove the view when the creator doesn't exist anymore
 	 */
 	@Override
 	public void doRemove() {

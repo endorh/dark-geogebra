@@ -134,7 +134,7 @@ public abstract class GeoGebraExport {
 	// This is not visible, on the view, but one may expect that when
 	// the selection rectangle is changed it is displayed on the view.
 	// This may be implemented by changing the class EuclidianView.
-	// Furthermore the definition of a class EuclidianView listerner
+	// Furthermore the definition of a class EuclidianView listener
 	// which this class would implement would be desirable so that
 	// when the selection is modified by the mouse, this is reported
 	// to the values xmin, xmax, ymin and ymax of instances of this class.

@@ -49,7 +49,7 @@ package com.himamis.retex.renderer.share.exception;
 import com.himamis.retex.renderer.share.TeXParser;
 
 /**
- * Signals that an error occured while parsing a string to a formula.
+ * Signals that an error occurred while parsing a string to a formula.
  */
 public class ParseException extends JMathTeXException {
 

@@ -437,7 +437,7 @@ public abstract class ScriptManager implements EventListener {
 	}
 
 	/**
-	 * @return strore undo listeners
+	 * @return store undo listeners
 	 */
 	public ArrayList<JsReference> getStoreUndoListeners() {
 		return storeUndoListeners;

@@ -64,7 +64,7 @@ public class CurveSegmentPlotter {
 	 *            whether label position should be calculated and returned
 	 * @param moveToAllowed
 	 *            whether moveTo() may be used for gp
-	 * @author Markus Hohenwarter, based on an algori5thm by John Gillam
+	 * @author Markus Hohenwarter, based on an algorithm by John Gillam
 	 */
 	public CurveSegmentPlotter(CurveEvaluable curve, double tMin,
 			double tMax, int intervalDepth, double maxParamStep,

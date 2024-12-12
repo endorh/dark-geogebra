@@ -652,7 +652,7 @@ public class EuclidianViewD extends EuclidianView
 	}
 
 	/**
-	 * @return whethe this view is visible
+	 * @return whether this view is visible
 	 */
 	@Override
 	public boolean isShowing() {

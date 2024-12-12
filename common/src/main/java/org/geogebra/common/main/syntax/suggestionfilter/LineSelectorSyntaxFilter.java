@@ -15,9 +15,9 @@ public class LineSelectorSyntaxFilter implements SyntaxFilter {
 	/**
 	 * Adds a syntax line selector for the specified command.
 	 * {@link SyntaxFilter#getFilteredSyntax(String, String)} will then select only those lines
-	 * from the syntax defintion which are specified.
+	 * from the syntax definition which are specified.
 	 * @param command specify the command to select the lines from
-	 * @param lines the lines to select from the syntax defintion
+	 * @param lines the lines to select from the syntax definition
 	 */
 	public void addSelector(Commands command, Integer... lines) {
 		syntaxFilterMap.put(command, lines);

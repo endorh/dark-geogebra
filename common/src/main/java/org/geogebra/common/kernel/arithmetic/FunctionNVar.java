@@ -614,7 +614,7 @@ public class FunctionNVar extends ValidExpression
 
 		StringTemplate tpl = StringTemplate.numericNoLocal;
 		// did expression change since last time?
-		// or did symbolic falg change?
+		// or did symbolic flag change?
 		if (casEvalExpression != expression
 				|| (symbolic && casEvalStringSymbolic == null)) {
 			casEvalExpression = expression;
@@ -1538,10 +1538,10 @@ public class FunctionNVar extends ValidExpression
 	}
 
 	/**
-	 * If it is a two variable function, it returns the coefficents of the function
+	 * If it is a two variable function, it returns the coefficients of the function
 	 * written in polynomial form if possible, null otherwise.
 	 *
-	 * @return the coefficents if possible, null otherwise.
+	 * @return the coefficients if possible, null otherwise.
 	 */
 	public ExpressionValue[][] getCoeff() {
 		ExpressionNode lhs = replaceFunctionVarsIn(getExpression());

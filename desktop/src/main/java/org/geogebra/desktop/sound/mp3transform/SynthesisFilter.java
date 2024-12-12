@@ -80,7 +80,7 @@ final class SynthesisFilter {
 	private static final double[][] D16 = Constants.D16;
 
 	/**
-	 * Contructor. The scalefactor scales the calculated double pcm samples to
+	 * Constructor. The scalefactor scales the calculated double pcm samples to
 	 * short values (raw pcm samples are in [-1.0, 1.0], if no violations
 	 * occur).
 	 */

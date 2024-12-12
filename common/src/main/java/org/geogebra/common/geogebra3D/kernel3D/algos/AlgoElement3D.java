@@ -14,7 +14,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
  * We'll call here our new element "AlgoNew3D" and create an new class
  * AlgoNew3D.
  * <ul>
- * <li>Create a member referring to the ouput(s)
+ * <li>Create a member referring to the output(s)
  * <p>
  * <code>
       private GeoNew3D geoNew3D;

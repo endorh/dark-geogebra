@@ -675,7 +675,7 @@ final class Layer3Decoder {
 				xr[sb][ss] = getT43(is1d[i], globalGain);
 			}
 		}
-		// choose correct scalefactor band per block type, initalize boundary
+		// choose correct scalefactor band per block type, initialize boundary
 		if (gi.windowSwitching && (gi.blockType == 2)) {
 			if (gi.mixedBlock) {
 				nextCb = l[1];

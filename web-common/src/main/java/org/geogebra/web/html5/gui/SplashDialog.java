@@ -19,7 +19,7 @@ import jsinterop.base.Js;
 public class SplashDialog extends SimplePanel {
 	public static final int SPLASH_DIALOG_DELAY = 1000;
 	boolean appLoaded = false;
-	boolean timerEllapsed = false;
+	boolean timerElapsed = false;
 	boolean previewExists = false;
 	private GeoGebraElement geoGebraElement;
 
@@ -29,7 +29,7 @@ public class SplashDialog extends SimplePanel {
 			if (appLoaded) {
 				hide();
 			}
-			timerEllapsed = true;
+			timerElapsed = true;
 		}
 	};
 
@@ -116,7 +116,7 @@ public class SplashDialog extends SimplePanel {
 	 */
 	public void canNowHide() {
 		appLoaded = true;
-		if (timerEllapsed) {
+		if (timerElapsed) {
 			hide();
 		}
 	}

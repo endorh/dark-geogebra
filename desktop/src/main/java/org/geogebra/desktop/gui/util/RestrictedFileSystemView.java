@@ -134,7 +134,7 @@ public class RestrictedFileSystemView extends FileSystemView {
 
 	/**
 	 * @param folder
-	 *            a <code>File</code> object repesenting a directory
+	 *            a <code>File</code> object representing a directory
 	 * @param file
 	 *            a <code>File</code> object
 	 * @return <code>true</code> if <code>folder</code> is a directory and
@@ -150,7 +150,7 @@ public class RestrictedFileSystemView extends FileSystemView {
 
 	/**
 	 * @param parent
-	 *            a <code>File</code> object repesenting a directory
+	 *            a <code>File</code> object representing a directory
 	 * @param fileName
 	 *            a name of a file or folder which exists in <code>parent</code>
 	 * @return a File object. This is normally constructed with <code>new

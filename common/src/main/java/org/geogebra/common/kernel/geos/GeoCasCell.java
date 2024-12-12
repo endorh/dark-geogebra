@@ -1265,7 +1265,7 @@ public class GeoCasCell extends GeoElement
 			ret = node; // return a new ExpressionNode
 		}
 
-		// replace GeoDummyVariable occurances for each geo
+		// replace GeoDummyVariable occurrences for each geo
 		if (inputGeos != null) {
 			for (GeoElement inGeo : inputGeos) {
 				// replacement uses default template

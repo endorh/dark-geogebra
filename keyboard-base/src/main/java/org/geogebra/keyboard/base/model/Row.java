@@ -12,7 +12,7 @@ public interface Row {
      * relative to the total width.<p>
      * <p>
      * The rowWeightSum should match with the sum of the weight of the buttons.
-     * In case they don't match, the functionality is unsepcified.
+     * In case they don't match, the functionality is unspecified.
      *
      * @return the weight of the row.
      */

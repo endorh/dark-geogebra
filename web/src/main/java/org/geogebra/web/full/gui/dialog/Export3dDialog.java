@@ -36,11 +36,11 @@ public class Export3dDialog extends ComponentDialog
 	private double lastUpdatedThickness;
 
 	/**
-	 * number formating for dimensions
+	 * number formatting for dimensions
 	 */
 	private static final NumberFormatAdapter dimensionNF;
 	/**
-	 * number formating for scale
+	 * number formatting for scale
 	 */
 	private static final NumberFormatAdapter scaleNF;
 

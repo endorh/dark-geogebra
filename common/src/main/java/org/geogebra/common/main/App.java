@@ -328,11 +328,11 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 */
 	protected boolean showInputHelpToggle = true;
 	/**
-	 * whether righ click is enabled
+	 * whether right click is enabled
 	 */
 	protected boolean rightClickEnabled = true;
 	/**
-	 * whether righ click is enabled for Algebra View
+	 * whether right click is enabled for Algebra View
 	 */
 	protected boolean rightClickEnabledForAV = true;
 	/**
@@ -3172,7 +3172,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	/**
-	 * @return selction manager
+	 * @return selection manager
 	 */
 	public SelectionManager getSelectionManager() {
 		if (selection == null) {
@@ -4124,7 +4124,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 * Get url to eg play an MP3.
 	 *
 	 * @param id
-	 *            matrial ID
+	 *            material ID
 	 * @return download URL
 	 */
 	public String getURLforID(String id) {
@@ -4247,7 +4247,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 			adjustViews = new AdjustViews(this);
 		}
 		adjustViews.apply(force);
-		return adjustViews.isPortait();
+		return adjustViews.isPortrait();
 	}
 
 	/**

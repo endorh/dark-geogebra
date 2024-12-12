@@ -53,7 +53,7 @@ public class AlgoPolygonIntersection extends AlgoPolygonOperation {
 	 * @param inPoly1
 	 *            second input polygon
 	 * @param outputSizes
-	 *            sizes of the results of the operation. Consist of polgonSize,
+	 *            sizes of the results of the operation. Consist of polygonSize,
 	 *            pointSize, segmentSize
 	 */
 	public AlgoPolygonIntersection(Construction cons, String[] labels,

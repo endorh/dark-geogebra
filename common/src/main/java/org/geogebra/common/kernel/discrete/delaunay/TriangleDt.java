@@ -118,7 +118,7 @@ public class TriangleDt {
 	}
 
 	/**
-	 * @return The bounding rectange between the minimum and maximum coordinates
+	 * @return The bounding rectangle between the minimum and maximum coordinates
 	 *         of the triangle
 	 */
 	public BoundingBox getBoundingBox() {

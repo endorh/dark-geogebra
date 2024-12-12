@@ -761,7 +761,7 @@ public abstract class AlgoElement extends ConstructionElement
 	}
 
 	/**
-	 * Note : maybe overridden for xOy plane additionnal input
+	 * Note : maybe overridden for xOy plane additional input
 	 * 
 	 * @param i
 	 *            index
@@ -1356,7 +1356,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 * format. GeoGebra File Format.
 	 */
 	@Override
-	public void getXML(boolean getlistenersToo, StringBuilder sb) {
+	public void getXML(boolean getListenersToo, StringBuilder sb) {
 		getXML(sb, true);
 	}
 

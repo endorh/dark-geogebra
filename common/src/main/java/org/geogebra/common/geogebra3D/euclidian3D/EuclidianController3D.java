@@ -1598,18 +1598,18 @@ public abstract class EuclidianController3D extends EuclidianController {
 				}
 			}
 
-			boolean selectionOccured = false;
+			boolean selectionOccurred = false;
 
 			if (selPoints() < 2) { // already two points : not a polygon for
 									// basis
 				if (addSelectedPolygon(hits, 1, false, selPreview) == 1) {
 					polygonForPyramidBasis = true;
-					selectionOccured = true;
+					selectionOccurred = true;
 				}
 			}
 
 			// there is 1 polygon, look for top point
-			if (!selectionOccured) {
+			if (!selectionOccurred) {
 				addSelectedPoint(hits, 1, false, selPreview);
 			}
 
@@ -4381,7 +4381,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	/**
 	 * @param flag
-	 *            whether view rotation occured
+	 *            whether view rotation occurred
 	 */
 	public void setViewRotationOccured(boolean flag) {
 		viewRotationOccured = flag;
@@ -4417,7 +4417,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	@Override
-	protected void setCursorForProccessMouseMoveHit() {
+	protected void setCursorForProcessMouseMoveHit() {
 		setHitCursor();
 	}
 

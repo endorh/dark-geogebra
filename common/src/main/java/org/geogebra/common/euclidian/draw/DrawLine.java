@@ -757,7 +757,7 @@ public class DrawLine extends SetDrawable implements Previewable {
 			gpc.lineTo(view.getWidth(), y1);
 			invert ^= forConic || (y1 > 0);
 		}
-		// cros left and bottom/top
+		// cross left and bottom/top
 		else if (x1 <= 0 && x2 <= view.getWidth()) {
 			gpc.lineTo(0, y2);
 			invert ^= y2 > 0;

@@ -3,7 +3,7 @@ package org.geogebra.common.kernel.interval.node;
 import org.geogebra.common.kernel.interval.Interval;
 
 /**
- * Interface for nodes and leafs in interval expression tree.
+ * Interface for nodes and leaves in interval expression tree.
  */
 public interface IntervalNode {
 	/**

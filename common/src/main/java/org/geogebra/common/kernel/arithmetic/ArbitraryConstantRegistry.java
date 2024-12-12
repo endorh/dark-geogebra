@@ -20,7 +20,7 @@ import org.geogebra.common.plugin.Operation;
 import com.google.j2objc.annotations.Weak;
 
 /**
- * Arbitrary constant comming from native CAS
+ * Arbitrary constant coming from native CAS
  *
  * Each scope (cas cell or CAS using algo) should have an own instance of this
  * class

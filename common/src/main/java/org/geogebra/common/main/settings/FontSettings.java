@@ -3,7 +3,7 @@ package org.geogebra.common.main.settings;
 /**
  * Font settings.
  */
-public class FontSettings implements Resetable {
+public class FontSettings implements Resettable {
 
 	private DefaultSettings defaultSettings;
 	private int appFontSize;

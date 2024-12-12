@@ -85,7 +85,7 @@ public class CmdCone extends CommandProcessor {
 
 	}
 
-	// overridded by CmdConeInfinite
+	// overridden by CmdConeInfinite
 
 	/**
 	 * @param c

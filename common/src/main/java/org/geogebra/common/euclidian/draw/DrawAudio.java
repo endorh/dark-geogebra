@@ -149,10 +149,10 @@ public class DrawAudio extends DrawWidget {
 		diameter = 2 * BLOB_RADIUS + 1;
 		int innerDiameter = 2 * INNER_BLOB_RADIUS + 1;
 
-		int hightlightDiameter = 2 * BLOB_RADIUS + 1;
+		int highlightDiameter = 2 * BLOB_RADIUS + 1;
 		circle.setFrame(ixUL, iyUL, innerDiameter, innerDiameter);
 		// selection area
-		circleOuter.setFrame(xUL, yUL, hightlightDiameter, hightlightDiameter);
+		circleOuter.setFrame(xUL, yUL, highlightDiameter, highlightDiameter);
 	}
 
 	@Override

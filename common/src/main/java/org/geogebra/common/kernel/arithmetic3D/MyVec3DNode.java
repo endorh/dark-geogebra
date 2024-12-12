@@ -78,7 +78,7 @@ public class MyVec3DNode extends ValidExpression
 	}
 
 	/**
-	 * Creates new MyPoint3DNode with coordinates (x,y,z) as ExpresssionNodes.
+	 * Creates new MyPoint3DNode with coordinates (x,y,z) as ExpressionNodes.
 	 * Both nodes must evaluate to NumberValues.
 	 * 
 	 * @param kernel

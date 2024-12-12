@@ -260,7 +260,7 @@ public class AlgoIntersectPolyLineConic extends AlgoIntersect {
 					dummyOutputPoints, Kernel.MIN_PRECISION);
 
 			/*
-			 * checks the validitiy and the incidence on both conic and polyline
+			 * checks the validity and the incidence on both conic and polyline
 			 * of intersection point
 			 */
 			if (dummyOutputPoints[0].isDefined()) {

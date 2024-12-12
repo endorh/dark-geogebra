@@ -1369,7 +1369,7 @@ public enum Commands implements CommandsConstants,
 	 * Like valueOf(), but no error is thrown
 	 *
 	 * @param str
-	 *            command nam
+	 *            command name
 	 * @return command with that name
 	 */
 	public static Commands stringToCommand(String str) {

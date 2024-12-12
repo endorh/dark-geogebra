@@ -135,7 +135,7 @@ public abstract class Localization extends LocalizationI {
 	}
 
 	/**
-	 * @return the sigificant figures in this localization
+	 * @return the significant figures in this localization
 	 */
 	public int[] getSignificantFigures() {
 		return significantFiguresOptions;

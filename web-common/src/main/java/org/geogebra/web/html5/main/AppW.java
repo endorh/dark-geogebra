@@ -590,7 +590,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 		setLabels();
 
 		notifyLocalizationLoaded();
-		// importatnt for accessibility
+		// important for accessibility
 		getFrameElement().setLang(lang == null ? "" : lang.replace("_", "-"));
 	}
 
@@ -1398,7 +1398,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
-	 * Set wether the undo redo panel is allowed in the app.
+	 * Set whether the undo redo panel is allowed in the app.
 	 *
 	 * @param flag true if the panel is allowed, false otherwise
 	 */
@@ -2161,7 +2161,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	 * File loading callback
 	 *
 	 * @param asSlide
-	 *            whether jus a slide is loaded
+	 *            whether just a slide is loaded
 	 */
 	public void afterLoadFileAppOrNot(boolean asSlide) {
 		boolean commandsLoaded = false;
@@ -2594,8 +2594,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
-	 * Resets the width of the Canvas converning the Width of its wrapper
-	 * (splitlayoutpanel center)
+	 * Sets the physical and logical size of the Canvas, updates settings if possible
 	 *
 	 * @param width
 	 *            width in px
@@ -2616,8 +2615,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
-	 * Resets the width of the Canvas converning the Width of its wrapper
-	 * (splitlayoutpanel center)
+	 * Sets the physical and logical size of the Canvas for Graphics 2m updates settings if possible
 	 *
 	 * @param width
 	 *            new view width
@@ -2638,8 +2636,7 @@ public abstract class AppW extends App implements SetLabels, HasLanguage {
 	}
 
 	/**
-	 * Resets the width of the Canvas converning the Width of its wrapper
-	 * (splitlayoutpanel center)
+	 * Resets the physical and logical size of the 3D Canvas
 	 *
 	 * @param width
 	 *            in pixels

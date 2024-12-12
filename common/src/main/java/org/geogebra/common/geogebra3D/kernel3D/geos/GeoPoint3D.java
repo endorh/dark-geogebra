@@ -1797,7 +1797,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 	// case by case.
 	// currently implemented for
 	// lines: line by two point, intersect lines, line/conic, point on line
-	// TODO: parallel line, perpenticular line
+	// TODO: parallel line, perpendicular line
 	/**
 	 * @return list of objects incident by construction
 	 */

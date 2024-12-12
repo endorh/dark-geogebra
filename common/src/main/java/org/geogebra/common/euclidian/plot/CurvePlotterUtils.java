@@ -16,7 +16,7 @@ public class CurvePlotterUtils {
 	 * @param pointList
 	 *            list of points
 	 * @param transformSys
-	 *            coordinte system to be applied on 2D points
+	 *            coordinate system to be applied on 2D points
 	 * @return last point drawn
 	 */
 	static public double[] draw(PathPlotter gp,

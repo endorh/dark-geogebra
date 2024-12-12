@@ -188,7 +188,7 @@ public abstract class AlgoConicPartCircumcircleND extends AlgoConicPart {
 		GeoVec3D.lineThroughPoints(getA(), getC(), line);
 
 		// check if B is between A and C => (1) segment AC
-		// otherwise we got (2) two rays starting at A and C in oposite
+		// otherwise we got (2) two rays starting at A and C in opposite
 		// directions
 		// case (1): use parameters 0, 1 and positive orientation to tell
 		// conicPart how to behave
@@ -199,7 +199,7 @@ public abstract class AlgoConicPartCircumcircleND extends AlgoConicPart {
 			// second ray with start point C and direction of AC
 			conicPart.getLines()[1].setCoords(line);
 			conicPart.getLines()[1].setStartPoint(getC());
-			// first ray with start point A and oposite direction
+			// first ray with start point A and opposite direction
 			line.changeSign();
 
 			// tell conicPart about this case: two rays

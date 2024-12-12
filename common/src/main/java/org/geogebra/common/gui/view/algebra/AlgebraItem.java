@@ -32,7 +32,7 @@ import org.geogebra.common.util.IndexLaTeXBuilder;
 import org.geogebra.common.util.SymbolicUtil;
 
 /**
- * Utitlity class for AV items
+ * Utility class for AV items
  */
 public class AlgebraItem {
 
@@ -376,7 +376,7 @@ public class AlgebraItem {
 	 * @param geoElement
 	 *            element
 	 * @param style
-	 *            Kenel.ALGEBRA_STYLE_*
+	 *            Kernel.ALGEBRA_STYLE_*
 	 * @param sb
 	 *            builder
 	 * @param stringTemplateForPlainText

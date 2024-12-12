@@ -427,7 +427,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	protected boolean[] showAxesNumbers;
 
 	/**
-	 * Labels fo xAxis and yAxis
+	 * Labels for xAxis and yAxis
 	 */
 	protected String[] axesLabels;
 
@@ -1452,7 +1452,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 				// app.updateStatusLabelAxesRatio();
 			}
 		}
-		// tells app that set coord system occured during user interaction
+		// tells app that set coord system occurred during user interaction
 		if (!app.getKernel().getLoadingMode()) {
 			app.setCoordSystemOccured();
 		}
@@ -2839,7 +2839,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	/**
 	 * @param mode
-	 *            new mode for sylebar
+	 *            new mode for style bar
 	 */
 	protected abstract void setStyleBarMode(int mode);
 
@@ -3753,7 +3753,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * @param g2
 	 *            {@link GGraphics2D}
 	 */
-	public void paintMOWBackround(GGraphics2D g2) {
+	public void paintMOWBackground(GGraphics2D g2) {
 		if (!(app.isWhiteboardActive() && settings != null)) {
 			return;
 		}
@@ -3912,7 +3912,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (showGrid) {
 			drawGrid(g);
 		}
-		paintMOWBackround(g);
+		paintMOWBackground(g);
 
 		// this will fill axesLabelsBounds with the rectangles where the axes
 		// labels are
@@ -5348,7 +5348,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	 * Restores standard zoom + origin position
 	 * 
 	 * @param storeUndo
-	 *            true to store undo infor
+	 *            true to store undo info
 	 */
 	@Override
 	public void setStandardView(boolean storeUndo) {

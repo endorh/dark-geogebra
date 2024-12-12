@@ -937,7 +937,7 @@ public class GuiManagerW extends GuiManager
 	}
 
 	/**
-	 * Get the properties view and initilize the right tab.
+	 * Get the properties view and initialize the right tab.
 	 *
 	 * @param optionType
 	 *            initial tab
@@ -955,13 +955,13 @@ public class GuiManagerW extends GuiManager
 	 *
 	 * @param app1
 	 *            application
-	 * @param ot
+	 * @param optionType
 	 *            option type
 	 * @return new properties view
 	 */
 	protected PropertiesViewW newPropertiesViewW(final AppW app1,
-			OptionType ot) {
-		return new PropertiesViewW(app1, ot);
+			OptionType optionType) {
+		return new PropertiesViewW(app1, optionType);
 	}
 
 	@Override

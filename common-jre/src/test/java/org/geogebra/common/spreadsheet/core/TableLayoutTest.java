@@ -12,9 +12,9 @@ import org.junit.Test;
 
 public class TableLayoutTest {
 	private final int rowHeight = 20;
-	private final int columWidth = 40;
+	private final int columnWidth = 40;
 
-	TableLayout layout = new TableLayout(5, 5, rowHeight, columWidth);
+	TableLayout layout = new TableLayout(5, 5, rowHeight, columnWidth);
 
 	@Test
 	public void testFindColumn() {
@@ -102,7 +102,7 @@ public class TableLayoutTest {
 
 		// in the center of the corner, viewport scrolled horizontally by rowHeaderWidth / 2
 		// + width of first column
-		viewportOrigin = new Point(rowHeaderWidth / 2 + columWidth, 0);
+		viewportOrigin = new Point(rowHeaderWidth / 2 + columnWidth, 0);
 		assertThat(layout.getResizeAction(mouseX, columnHeaderHeight / 2,
 						new Rectangle(viewportOrigin, viewportSize)).cursor,
 				equalTo(MouseCursor.DEFAULT));

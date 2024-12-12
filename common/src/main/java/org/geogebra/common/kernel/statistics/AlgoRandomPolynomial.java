@@ -100,7 +100,7 @@ public class AlgoRandomPolynomial extends AlgoElement {
 			return kernel.getApplication().getRandomIntegerBetween(minD, maxD);
 		}
 
-		// logic doen't work unless minD < 0 < maxD
+		// logic doesn't work unless minD < 0 < maxD
 		int rnd = kernel.getApplication().getRandomIntegerBetween(minD,
 				maxD - 1);
 		return rnd >= 0 ? rnd + 1 : rnd;

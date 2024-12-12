@@ -210,7 +210,7 @@ public class DrawButtonWidget {
 		}
 
 		int arcSize = (int) Math.round(Math.min(getWidth(), getHeight())
-				* styleSettings.getButtonRouding());
+				* styleSettings.getButtonRounding());
 
 		int shadowSize = 0;
 

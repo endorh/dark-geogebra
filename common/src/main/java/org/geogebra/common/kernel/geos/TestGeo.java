@@ -515,8 +515,8 @@ public enum TestGeo implements Predicate<Object> {
 		}
 	},
 
-	/** Test for ROTATEABLE */
-	ROTATEABLE {
+	/** Test for ROTATABLE */
+	ROTATABLE {
 		@Override
 		public boolean test(Object ob) {
 			return ob instanceof Rotatable;

@@ -34,7 +34,7 @@ import org.geogebra.common.kernel.geos.GeoList;
  * @author Markus Hohenwarter
  */
 public final class DrawList extends Drawable implements RemoveNeeded {
-	/** coresponding list as geo */
+	/** corresponding list as geo */
 	GeoList geoList;
 	private DrawListArray drawables;
 	/** whether this is visible */

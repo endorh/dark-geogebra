@@ -286,7 +286,7 @@ public class AlgoTangentPoint extends AlgoTangentPointND
 					botanaVarsThis[0], botanaVarsThis[1], botanaVarsThis[4],
 					botanaVarsThis[5], vPoint[0], vPoint[1]);
 
-			// OT = OB
+			// OT = OB                     # NO-TYPO
 			botanaPolynomialsThis[3] = PPolynomial.equidistant(
 					botanaVarsThis[0], botanaVarsThis[1], vcircle[0],
 					vcircle[1], vcircle[2], vcircle[3]);

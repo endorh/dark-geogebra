@@ -3,7 +3,7 @@ package org.geogebra.common.move.ggtapi.events;
 import org.geogebra.common.move.events.BaseEvent;
 
 /**
- * User loged out from GGB account
+ * User logged out from GGB account
  * 
  * @author gabor
  */

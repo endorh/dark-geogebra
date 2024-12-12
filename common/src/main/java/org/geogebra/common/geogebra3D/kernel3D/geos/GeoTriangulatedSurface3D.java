@@ -6,7 +6,7 @@ import org.geogebra.common.kernel.matrix.Coords3;
 import org.geogebra.common.kernel.matrix.CoordsDouble3;
 
 /**
- * Represent 3D triangulated surface. The set of points {p1, p2, p3, ... , pn}
+ * Represent 3D triangulated surface. The set of points {p_1, p_2, p_3, ... , p_n}
  * added between a consecutive call of {@code startTriangulation()} and
  * {@code endTriangulation()} represent vertices of the surface. Triangular
  * surfaces are created by joining three consecutive points in the list and

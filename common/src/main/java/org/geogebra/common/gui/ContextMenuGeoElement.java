@@ -259,7 +259,7 @@ public abstract class ContextMenuGeoElement {
 
 	/**
 	 * @param removeParents
-	 *            whether to also remove parents (eg vertices of a ploygon)
+	 *            whether to also remove parents (eg vertices of a polygon)
 	 */
 	public void deleteCmd(boolean removeParents) {
 

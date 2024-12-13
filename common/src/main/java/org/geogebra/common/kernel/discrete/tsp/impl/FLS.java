@@ -17,7 +17,7 @@ public final class FLS {
 	 * of these subtours is then reversed and the 2 subtours reconnected in a
 	 * different (shorter) way.
 	 *
-	 * Bentley, in his experiements on TSP heuristics paper notes that since
+	 * Bentley, in his experiments on TSP heuristics paper notes that since
 	 * either subtour can be reversed, it is best to reverse the shortest one,
 	 * otherwise an arbitrary reversal will be N/2 array accesses.
 	 *

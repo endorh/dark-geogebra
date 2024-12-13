@@ -315,7 +315,7 @@ public class PerspectiveDecoder {
 	}
 
 	/**
-	 * Checks allowed views, asssumes we're in an unbundled app
+	 * Checks allowed views, assumes we're in an unbundled app
 	 * @param viewId view ID
 	 * @param forcedPerspective perspective number (as string)
 	 * @return which views are allowed in the perspective

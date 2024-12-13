@@ -35,7 +35,7 @@ public class DistributionPanel extends FlowPanel implements InsertHandler, ExamL
 	private DistributionTypeProperty distTypeProperty;
 
 	/**
-	 * costructor
+	 * Creates a distribution panel.
 	 * @param view - prob calc view
 	 * @param loc - localization
 	 */

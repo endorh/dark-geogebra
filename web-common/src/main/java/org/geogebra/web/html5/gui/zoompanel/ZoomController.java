@@ -257,7 +257,7 @@ public class ZoomController {
 	}
 
 	/**
-	 * @param app - appication
+	 * @param app - application
 	 * @return whether fullscreen button should be added
 	 */
 	public static boolean needsFullscreenButton(AppW app) {

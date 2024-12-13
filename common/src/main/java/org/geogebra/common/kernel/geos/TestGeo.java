@@ -599,7 +599,7 @@ public enum TestGeo implements Predicate<Object> {
 	 *            changed object
 	 * @param setter
 	 *            setter
-	 * @return whether objec.set(setter) will run OK
+	 * @return whether object.set(setter) will run OK
 	 */
 	public static boolean canSet(GeoElement object, GeoElement setter) {
 		return getSpecificTest(setter).isSubtypeOrEqual(getSpecificTest(object));

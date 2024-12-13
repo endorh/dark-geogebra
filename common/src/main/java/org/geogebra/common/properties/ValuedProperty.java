@@ -34,7 +34,7 @@ public interface ValuedProperty<V> extends Property {
 
 	/**
 	 * Marks this property as setting value has ended. For every call of this method,
-	 * there must be a preceeding {@link ValuedProperty#beginSetValue()} call, otherwise
+	 * there must be a preceding {@link ValuedProperty#beginSetValue()} call, otherwise
 	 * the functionality is undefined.
 	 */
 	void endSetValue();

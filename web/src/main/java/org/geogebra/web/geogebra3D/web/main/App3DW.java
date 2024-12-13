@@ -50,8 +50,7 @@ public class App3DW {
 	}
 
 	/**
-	 * Resets the width of the Canvas converning the Width of its wrapper
-	 * (splitlayoutpanel center)
+	 * Sets the physical size of the 3D Canvas.
 	 * 
 	 * @param app
 	 *            application instance

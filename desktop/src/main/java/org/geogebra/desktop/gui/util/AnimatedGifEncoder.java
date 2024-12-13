@@ -157,7 +157,7 @@ public class AnimatedGifEncoder {
 			getImagePixels(); // convert to correct format if necessary
 			analyzePixels(); // build color table & map pixels
 			if (firstFrame) {
-				writeLSD(); // logical screen descriptior
+				writeLSD(); // logical screen description
 				writePalette(); // global color table
 				if (repeat >= 0) {
 					// use NS app extension to indicate reps

@@ -23,7 +23,7 @@ public class InputDialogSpherePointW extends InputDialogRadiusW {
 	 * @param handler
 	 *            input handler
 	 * @param center
-	 *            sphere cnter
+	 *            sphere center
 	 * @param kernel
 	 *            kernel
 	 */

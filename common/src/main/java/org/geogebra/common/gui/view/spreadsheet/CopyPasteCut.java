@@ -293,16 +293,16 @@ public abstract class CopyPasteCut {
 		GeoElement[][] values1 = getCellBufferGeo();
 		try {
 			for (int x = x1; x <= x2; ++x) {
-				int ix = x - x1;
+				int relX = x - x1;
 				for (int y = y1; y <= y2; ++y) {
-					int iy = y - y1;
+					int relY = y - y1;
 
 					// check if we're pasting back into what we're copying from
 					boolean inSource = x + (x3 - x1) <= x2
 							&& x + (x3 - x1) >= x1 && y + (y3 - y1) <= y2
 							&& y + (y3 - y1) >= y1;
 
-					if (ix + column1 <= maxColumn && iy + row1 <= maxRow// ) {
+					if (relX + column1 <= maxColumn && relY + row1 <= maxRow// ) {
 																		// //
 																		// check
 																		// not
@@ -312,20 +312,20 @@ public abstract class CopyPasteCut {
 							&& (!inSource)) { // check we're not pasting over
 												// what we're copying
 
-						if (values1[ix][iy] != null) {
+						if (values1[relX][relY] != null) {
 
 							// just record the coordinates for pasting
 							constructionIndexes[count] = new Record(
-									values1[ix][iy].getConstructionIndex(), ix,
-									iy, x3 - x1, y3 - y1);
+									values1[relX][relY].getConstructionIndex(), relX,
+									relY, x3 - x1, y3 - y1);
 							count++;
 						}
-						// values2[ix][iy] =
+						// values2[relX][relY] =
 						// RelativeCopy.doCopyNoStoringUndoInfo0(kernel, table,
-						// values1[ix][iy], values2[ix][iy], x3 - x1, y3 - y1);
-						// if (values1[ix][iy] != null && values2[ix][iy] !=
+						// values1[relX][relY], values2[relX][relY], x3 - x1, y3 - y1);
+						// if (values1[relX][relY] != null && values2[relX][relY] !=
 						// null)
-						// values2[ix][iy].setAllVisualProperties(values1[ix][iy]);
+						// values2[relX][relY].setAllVisualProperties(values1[relX][relY]);
 					}
 				}
 			}
@@ -337,10 +337,10 @@ public abstract class CopyPasteCut {
 			// do the pasting
 			for (int i = 0; i < count; i++) {
 				Record r = constructionIndexes[i];
-				int ix = r.getx1();
-				int iy = r.gety1();
-				values2[ix][iy] = relativeCopy.doCopyNoStoringUndoInfo0(values1[ix][iy],
-						values2[ix][iy], r.getx2(), r.gety2());
+				int relX = r.getx1();
+				int relY = r.gety1();
+				values2[relX][relY] = relativeCopy.doCopyNoStoringUndoInfo0(values1[relX][relY],
+						values2[relX][relY], r.getx2(), r.gety2());
 
 			}
 

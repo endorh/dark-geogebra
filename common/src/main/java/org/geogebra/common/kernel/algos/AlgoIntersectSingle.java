@@ -224,9 +224,8 @@ public class AlgoIntersectSingle extends AlgoIntersect implements
 		}
 		parentOutput = algo.getIntersectionPoints();
 
-		if (kernel.getLoadingMode() && point.hasUpdatePrivilege) { // for
-			// backward
-			// compatability
+		if (kernel.getLoadingMode() && point.hasUpdatePrivilege) {
+			// for backward compatibility
 			algo.setIntersectionPoint(idx, point);
 			point.hasUpdatePrivilege = false;
 		}

@@ -95,9 +95,9 @@ abstract public class ExportFrame extends JFrame implements ExportSettings {
 
 	// definition of the behaviour of the textValues corresponding
 	// to xmin, xmax, ymin and ymax.
-	// Explaination for xs:
+	// Explanation for xs:
 	// if xmin is changed, then both xmin and xmax are changed
-	// to be sure that everything is allright even though xmin is set
+	// to be sure that everything is alright even though xmin is set
 	// to a higher value than xmax
 	// then the width is changed.
 

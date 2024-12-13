@@ -786,7 +786,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	 */
 	boolean isGeoFunction();
 
-	/** @return true if tracing is posible */
+	/** @return true if tracing is possible */
 	boolean isTraceable();
 
 	/**
@@ -1049,7 +1049,7 @@ public interface GeoElementND extends ExpressionValue, GeoElementConvertible {
 	Script getScript(EventType type);
 
 	/**
-	 * @return deafult label for this geo (depends on type)
+	 * @return default label for this geo (depends on type)
 	 */
 	String getDefaultLabel();
 

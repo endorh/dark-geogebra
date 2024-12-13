@@ -4719,7 +4719,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * When function (or parabola) is transformed to curve, we need some good
-	 * estimate for which part of curve should be ploted
+	 * estimate for which part of curve should be plotted
 	 * 
 	 * @return lower bound for function -&gt; curve transform
 	 */

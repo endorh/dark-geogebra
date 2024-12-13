@@ -816,7 +816,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 		 */
 
 		// test whether conics A and B have proportional submatrix S
-		// => degnerate is single line
+		// => degenerate is single line
 		// (e.g. for circles)
 
 		double[] Amatrix = conic1.getFlatMatrix();

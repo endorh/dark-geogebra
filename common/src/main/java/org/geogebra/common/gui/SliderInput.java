@@ -38,7 +38,7 @@ public enum SliderInput {
 	/**
 	 * TODO screen reader features are English only for now
 	 * 
-	 * @return english descrtiption
+	 * @return english description
 	 */
 	public String getDescription() {
 		return description;

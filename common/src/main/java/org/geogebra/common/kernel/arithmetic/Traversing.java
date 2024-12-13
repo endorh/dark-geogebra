@@ -1464,7 +1464,7 @@ public interface Traversing {
 		}
 
 		/**
-		 * @return instance of FunctionCreater
+		 * @return instance of FunctionCreator
 		 */
 		public static FunctionCreator getCreator() {
 			return creator;

@@ -66,9 +66,9 @@ import org.geogebra.common.util.debug.Log;
 import com.himamis.retex.editor.share.util.Unicode;
 
 /**
- * @author gabor
+ * Common view for probability calculator
  *
- * Commmon view for ProbabilityCalculator
+ * @author gabor
  */
 public abstract class ProbabilityCalculatorView
 		implements View, SettingListener, SetLabels {

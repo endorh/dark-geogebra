@@ -17,7 +17,7 @@ public class CollaborationStoppedDialog extends ComponentDialog {
 
 	/**
 	 * Dialog for stopping the collaboration
-	 * @param app applcation
+	 * @param app application
 	 */
 	public CollaborationStoppedDialog(AppW app) {
 		super(app, new DialogData("CollaborationStopped.title",

@@ -42,7 +42,7 @@ public class DynamicPropertyList {
 
 	/**
 	 * Apply property to all elements and clears the list
-	 * @param handler propery setter
+	 * @param handler property setter
 	 */
 	public void process(Handler handler) {
 		for (GeoExpPair pair: pairs) {

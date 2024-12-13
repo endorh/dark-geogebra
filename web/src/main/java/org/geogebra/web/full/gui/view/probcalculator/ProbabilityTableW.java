@@ -12,9 +12,8 @@ import org.gwtproject.event.dom.client.ClickHandler;
 import org.gwtproject.user.client.ui.FlowPanel;
 
 /**
+ * Probability table for Web
  * @author gabor
- * 
- * ProbablityTable for Web
  *
  */
 public class ProbabilityTableW extends ProbabilityTable implements ClickHandler {

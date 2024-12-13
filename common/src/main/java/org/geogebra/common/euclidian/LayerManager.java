@@ -229,7 +229,7 @@ public class LayerManager {
 	}
 
 	/**
-	 * Move the selected geos to the botom of the drawing priority list
+	 * Move the selected geos to the bottom of the drawing priority list
 	 * while respecting their relative ordering
 	 */
 	public void moveToBack(List<GeoElement> selection) {

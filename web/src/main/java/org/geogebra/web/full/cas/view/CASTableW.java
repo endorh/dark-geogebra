@@ -152,7 +152,7 @@ public class CASTableW extends Grid implements CASTable {
 	}
 
 	/**
-	 * Stop editing without comitting changes
+	 * Stop editing without committing changes
 	 */
 	public void cancelEditing() {
 		if (editing != null) {

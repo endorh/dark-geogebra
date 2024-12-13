@@ -652,7 +652,7 @@ public class AlgebraItem {
 
 	/**
 	 * Initializes the element for the Algebra View.
-	 * @param geo element to initialzie
+	 * @param geo element to initialize
 	 */
 	public static void initForAlgebraView(GeoElement geo) {
 		if (shouldShowSlider(geo) && !geo.isEuclidianVisible()) {

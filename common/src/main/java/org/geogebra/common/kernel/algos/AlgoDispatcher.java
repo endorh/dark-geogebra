@@ -1884,7 +1884,7 @@ public class AlgoDispatcher {
 	 *            line
 	 * @param p
 	 *            polygon
-	 * @return intersetion points
+	 * @return intersection points
 	 */
 	final public GeoElement[] intersectLinePolygon(String[] labels, GeoLine g,
 			GeoPolygon p) {

@@ -9,7 +9,7 @@ public interface HasLanguage {
 	 * @param lang
 	 *            locale string
 	 * @param asyncCall
-	 *            whether to call this asyncronously
+	 *            whether to call this asynchronously
 	 */
 	void doSetLanguage(String lang, boolean asyncCall);
 

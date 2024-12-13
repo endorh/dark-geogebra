@@ -74,7 +74,7 @@ class ParserFunctionsImpl implements ParserFunctions {
 	/**
 	 * Adds translatable single argument operation
 	 * @param fn function name
-	 * @param arg argument (for autcomplete)
+	 * @param arg argument (for autocomplete)
 	 */
 	public void addTranslatable(String fn, String arg) {
 		addTranslatable(fn, 1, arg, get(fn ,1));

@@ -12,7 +12,7 @@ public class HTML5Export {
 
 	/**
 	 * @param app
-	 *            appplication
+	 *            application
 	 * @return complete HTML embed code
 	 */
 	public static String getFullString(App app) {

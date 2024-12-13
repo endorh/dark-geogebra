@@ -12,7 +12,7 @@ public class EuclidianViewBoundsMock implements EuclidianViewBounds {
 	private int height;
 
 	/**
-	 * Consrtuctor with bound values.
+	 * Constructor with bound values.
 	 *
 	 * @param xmin minimum x coordinate
 	 * @param xmax maximum x coordinate

@@ -825,7 +825,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 */
 	protected final void setEfficientDependencies(GeoElement[] standardInput,
 			GeoElementND[] efficientInput) {
-		// dependens on standardInput
+		// dependency on standardInput
 		for (int i = 0; i < standardInput.length; i++) {
 			standardInput[i].addToAlgorithmListOnly(this);
 		}
@@ -1730,7 +1730,7 @@ public abstract class AlgoElement extends ConstructionElement
 	}
 
 	/**
-	 * @return class identificator (may not be unique)
+	 * @return class identifier (may not be unique)
 	 */
 	public abstract GetCommand getClassName();
 

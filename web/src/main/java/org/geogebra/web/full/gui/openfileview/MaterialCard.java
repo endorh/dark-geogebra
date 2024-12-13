@@ -103,7 +103,7 @@ public class MaterialCard extends FlowPanel implements MaterialCardI {
 	}
 
 	/**
-	 * Call API to copy yhe material.
+	 * Call API to copy the material.
 	 */
 	public void copy() {
 		controller.copy();

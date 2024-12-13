@@ -2985,7 +2985,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		m.addInside(v);
 		setMidpoint(m.get());
 
-		// current symetric matrix
+		// current symmetric matrix
 		CoordMatrix sm = getSymmetricMatrix();
 		// transformation matrix
 		CoordMatrix tm = CoordMatrix.identity(4);

@@ -191,7 +191,7 @@ public class ToolCreationDialogModel {
 	 * Finish creation of user defined tool
 	 * 
 	 * @param appToSave
-	 *            application in which the macro should be saved (differnt from
+	 *            application in which the macro should be saved (different from
 	 *            current if in macro editing mode)
 	 * @param cmdName
 	 *            command name of the macro

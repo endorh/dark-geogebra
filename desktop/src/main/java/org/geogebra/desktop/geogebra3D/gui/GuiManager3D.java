@@ -216,7 +216,7 @@ public class GuiManager3D extends GuiManagerD {
 	 * @param view
 	 *            view calling
 	 * @param p
-	 *            place to show the popup menue
+	 *            place to show the popup menu
 	 */
 	@Override
 	public void showPopupChooseGeo(ArrayList<GeoElement> selectedGeos,

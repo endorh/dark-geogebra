@@ -456,7 +456,7 @@ public class TextInputDialogD extends InputDialogD
 		menu = new JMenu();
 		laTexButtonTitleMap.put("CalligraphicLetters", menu);
 		menu.add(new LatexTable(app, this, btInsertLaTeX,
-				TableSymbolsD.mathcal(), 2, -1, SelectionTable.MODE_LATEX));
+				TableSymbolsD.mathCal(), 2, -1, SelectionTable.MODE_LATEX));
 		btInsertLaTeX.addPopupMenuItem(menu);
 
 		menu = new JMenu();

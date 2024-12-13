@@ -921,7 +921,7 @@ public class DrawConic extends SetDrawable implements Previewable {
 	}
 
 	/**
-	 * close hyperbola branchs
+	 * close hyperbola branches
 	 */
 	protected void updateHyperbolaClosePaths(double x, double y) {
 

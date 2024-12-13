@@ -98,7 +98,7 @@ public class DrawInequality extends Drawable {
 			// radius of the dots
 			double radius = geo.getLineThickness()
 					* DrawInequality1Var.DOT_RADIUS;
-			// we add poits 2*radius to the left and right of the screen
+			// we add points 2*radius to the left and right of the screen
 			zeros.add(view.getXmin() - 2 * radius * view.getXscale());
 			zeros.add(view.getXmax() + 2 * radius * view.getXscale());
 			gpAxis = new GeneralPathClipped[zeros.size()];

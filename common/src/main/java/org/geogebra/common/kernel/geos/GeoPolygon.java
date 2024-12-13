@@ -1326,7 +1326,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	/**
 	 * @param coords
-	 *            coordiantes
+	 *            coordinates
 	 * @param eps
 	 *            precision
 	 * @return whether given point is on boundary of the polygon within given

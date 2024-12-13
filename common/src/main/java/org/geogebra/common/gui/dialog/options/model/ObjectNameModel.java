@@ -44,7 +44,7 @@ public class ObjectNameModel extends OptionsModel {
 		busy = false;
 		redefinitionFailed = false;
 		setNameInputHandler(new RenameInputHandler(app, null, false));
-		// DEFINITON PANEL
+		// DEFINITION PANEL
 		setDefInputHandler(new RedefineInputHandler(app, null, null));
 
 	}

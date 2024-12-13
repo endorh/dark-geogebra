@@ -273,7 +273,7 @@ public interface Inspecting {
 
 	/**
 	 * Instead of isConstant we sometimes (always?) want to check only for Geos
-	 * that are not labeled, symbolic or dependent ie we don't nned to
+	 * that are not labeled, symbolic or dependent ie we don't need to
 	 * distinguish between MyDouble(1) and GeoNumeric(1)
 	 */
 	public static Inspecting dynamicGeosFinder = new Inspecting() {

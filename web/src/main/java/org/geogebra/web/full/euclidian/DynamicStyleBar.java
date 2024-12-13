@@ -215,7 +215,7 @@ public class DynamicStyleBar extends EuclidianStyleBarW {
 
 	@Override
 	public void setVisible(boolean v) {
-		// Close label popup if opened when dynamic stylebar visiblity changed
+		// Close label popup if opened when dynamic style bar visibility changed
 		if (isVisible()) {
 			closeLabelPopup();
 		}

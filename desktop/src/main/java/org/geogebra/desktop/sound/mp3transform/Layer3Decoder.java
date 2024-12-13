@@ -5,7 +5,7 @@
  *           negative indexes in method huffmann_decode and in method 
  *           dequanisize_sample.
  *
- * 16/07/01  Michael Scheerer, Catched a bug in method
+ * 16/07/01  Michael Scheerer, Caught a bug in method
  *           huffmann_decode, which causes an outOfIndexException.
  *           Cause : Indexnumber of 24 at SfBandIndex,
  *           which has only a length of 22. I have simply and dirty 

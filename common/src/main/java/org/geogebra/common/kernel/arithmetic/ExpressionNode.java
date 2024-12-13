@@ -689,7 +689,7 @@ public class ExpressionNode extends ValidExpression
 	}
 
 	/**
-	 * Replaces all XCOORD, YCOORD, ZCOORD nodes by mutliplication nodes, e.g.
+	 * Replaces all XCOORD, YCOORD, ZCOORD nodes by multiplication nodes, e.g.
 	 * x(x+1) becomes x*(x+1). The given function variables for "x", "y", "z"
 	 * are used in this process.
 	 * 
@@ -2269,7 +2269,7 @@ public class ExpressionNode extends ValidExpression
 	/**
 	 * @param v2
 	 *            clause
-	 * @return result of conjuction
+	 * @return result of conjunction
 	 */
 	public ExpressionNode and(ExpressionValue v2) {
 		return new ExpressionNode(kernel, this, Operation.AND, v2);
@@ -3156,7 +3156,7 @@ public class ExpressionNode extends ValidExpression
 	/**
 	 * @param vars
 	 *            forbidden vars
-	 * @return whether one of the forbidden vars appers in expression node
+	 * @return whether one of the forbidden vars appears in expression node
 	 */
 	public boolean containsFreeFunctionVariableOtherThan(
 			FunctionVariable[] vars) {

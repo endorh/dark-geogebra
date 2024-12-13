@@ -7,7 +7,7 @@ import org.geogebra.common.kernel.geos.GeoElement;
  * It contains the source cell, the destination cell
  * and an id (constructionIndex for GeoElements) of the source content.
  *
- * To perserve creation order at paste, first we collect these records,
+ * To preserve creation order at paste, first we collect these records,
  * and paste them to the designation cells in order of their ids.
  *
  */

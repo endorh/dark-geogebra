@@ -104,11 +104,10 @@ public class CASInputPanel extends JPanel {
 	}
 
 	/**
-	 * Update the orienation
+	 * Update the orientation
 	 */
 	public void setOrientation() {
 		app.setComponentOrientation(this);
-		// inputArea.setOrientation();
 	}
 
 }

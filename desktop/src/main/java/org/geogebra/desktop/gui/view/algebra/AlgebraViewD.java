@@ -426,7 +426,7 @@ public class AlgebraViewD extends AlgebraTree
 			expandPath(tp);
 			makeVisible(tp);
 			scrollPathToVisible(tp);
-			startEditingAtPath(tp); // opend editing text field
+			startEditingAtPath(tp); // open editing text field
 		}
 	}
 

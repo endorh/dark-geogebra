@@ -79,7 +79,7 @@ public class AlgoDependentGeoCopy extends AlgoElement implements DependentAlgo {
 	}
 
 	/**
-	 * @return depedent copy of original geo
+	 * @return dependent copy of original geo
 	 */
 	public GeoElement getGeo() {
 		return copyGeo;

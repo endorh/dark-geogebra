@@ -120,7 +120,7 @@ public class NDGDetector {
 				TreeMap<PTerm, BigInteger> tm1 = p.getTerms();
 				ExpressionNode lhs = new ExpressionNode(kernel, 0);
 				ExpressionNode rhs = new ExpressionNode(kernel, 0);
-				/* are there any expressions on boths sides? */
+				/* are there any expressions on both sides? */
 				boolean lt = false;
 				boolean rt = false;
 

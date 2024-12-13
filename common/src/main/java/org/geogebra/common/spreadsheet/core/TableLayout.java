@@ -335,8 +335,8 @@ public final class TableLayout implements CustomRowAndColumnSizeProvider {
 	}
 
 	/**
-	 * After a row has been deleted, the reamining rows (i.e. the ones succeeding the deleted row)
-	 * need to be resized. In this scenario, row 10 applies the hieght of row 11, row 11 applies
+	 * After a row has been deleted, the remaining rows (i.e. the ones succeeding the deleted row)
+	 * need to be resized. In this scenario, row 10 applies the height of row 11, row 11 applies
 	 * the height of row 12, etc.
 	 * @param resizeFrom Index of where to start resizing the remaining rows
 	 * @param numberOfRows Number of rows

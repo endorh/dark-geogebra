@@ -213,7 +213,7 @@ public class EvalInfo {
 	}
 
 	/**
-	 * @return slider autocreation flag
+	 * @return slider auto-creation flag
 	 */
 	public boolean isAutocreateSliders() {
 		return this.autocreateSliders;
@@ -221,7 +221,7 @@ public class EvalInfo {
 
 	/**
 	 * @param sliders
-	 *            whether this may ceate sliders
+	 *            whether this may create sliders
 	 * @return derived eval info
 	 */
 	public EvalInfo withSliders(boolean sliders) {

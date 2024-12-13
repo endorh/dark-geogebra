@@ -811,7 +811,7 @@ public class MathMLParser {
 
 		// Remove newlines first;
 		String strBuf1 = strBuf0.replace('\n', ' ').replace('\r', ' ');
-		// now remove coments
+		// now remove comments
 		strBuf1 = strBuf1.replaceAll("<!--.*?-->", "");
 
 		// Avoiding bugs due to wrong parsing (quick workarounds)
@@ -852,7 +852,7 @@ public class MathMLParser {
 	}
 
 	/**
-	 * TODO Pseudocode berarbeiten, Algorithmus noch einmal nachvollziehen
+	 * TODO edit pseudocode, check the algorithm again
 	 * Parses a MathML block in strBuf recursively into LaTeX code.
 	 * <p>
 	 * Pseudocode:
@@ -988,7 +988,7 @@ public class MathMLParser {
 							} catch (NumberFormatException nfe) {
 								throw new XMLParseException(
 										"Parsing error at character " + pos
-												+ ": Unparseable block number in substitution.");
+												+ ": Unparsable block number in substitution.");
 							}
 
 							// skip PH_BLOCK_END

@@ -2284,7 +2284,7 @@ public class GeoCasCell extends GeoElement
 				cons.updateCasCellRows();
 
 				if (!cons.getArbitraryConsTable().isEmpty()) {
-					// get abritraryConstant for this cell from construction
+					// get arbitraryConstant for this cell from construction
 					ArbitraryConstantRegistry myArbconst = cons
 							.getArbitraryConsTable().get(this.row);
 					// case we found an arbconst

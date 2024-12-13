@@ -14,7 +14,7 @@ public class CASTableCellController {
 	 * Numeric) and Ctrl, Alt keys.
 	 * 
 	 * @param control
-	 *            whether contrrol is pressed
+	 *            whether control is pressed
 	 * @param alt
 	 *            whether alt is pressed
 	 * 

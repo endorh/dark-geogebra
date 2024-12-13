@@ -389,8 +389,8 @@ public class GlobalKeyDispatcherW extends GlobalKeyDispatcher
 	}
 
 	/**
-	 * Whether an event should be handled globally rather than by specific textfield
-	 * @param event keybaord event
+	 * Whether an event should be handled globally rather than by specific text-field
+	 * @param event keyboard event
 	 * @return whether event is global
 	 */
 	public static boolean isGlobalEvent(NativeEvent event) {

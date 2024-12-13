@@ -1320,19 +1320,19 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	/**
 	 * Sets real world coord system, where zero point has screen coords (xZero,
-	 * yZero) and one unit is xscale pixels wide on the x-Axis and yscale pixels
-	 * heigh on the y-Axis.
+	 * yZero) and one unit is xScale pixels wide on the x-Axis and yScale pixels
+	 * height on the y-Axis.
 	 * 
 	 * Also updates settings *before* all the algos that might need them are
 	 * updated
 	 */
 	@Override
-	final public void setCoordSystem(double xZero, double yZero, double xscale,
-			double yscale) {
+	final public void setCoordSystem(double xZero, double yZero, double xScale,
+			double yScale) {
 		if (settings != null) {
-			settings.setCoordSystem(xZero, yZero, xscale, yscale, false);
+			settings.setCoordSystem(xZero, yZero, xScale, yScale, false);
 		}
-		setCoordSystem(xZero, yZero, xscale, yscale, true);
+		setCoordSystem(xZero, yZero, xScale, yScale, true);
 	}
 
 	protected Map<String, Object> getCoordinates() {
@@ -1454,7 +1454,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		}
 		// tells app that set coord system occurred during user interaction
 		if (!app.getKernel().getLoadingMode()) {
-			app.setCoordSystemOccured();
+			app.setCoordSystemOccurred();
 		}
 	}
 
@@ -2696,12 +2696,12 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	@Override
-	public double getWidthd() {
+	public double getWidthD() {
 		return getWidth();
 	}
 
 	@Override
-	public double getHeightd() {
+	public double getHeightD() {
 		return getHeight();
 	}
 
@@ -5917,7 +5917,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 		if (exportFrame != null) {
 			return (int) exportFrame.getMaxX();
 		}
-		return (int) Math.ceil(getWidthd());
+		return (int) Math.ceil(getWidthD());
 	}
 
 	/**
@@ -5940,7 +5940,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			return (int) exportFrame.getMaxY();
 		}
 
-		return (int) Math.ceil(getHeightd());
+		return (int) Math.ceil(getHeightD());
 	}
 
 	/**
@@ -6105,14 +6105,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	public void cancelBlur() {
 		// TODO Auto-generated method stub
-	}
-
-	/**
-	 * @return whether size was decreased after file was loaded
-	 */
-	public boolean shrinkedSinceLoad() {
-		return getSettings() != null && getWidth() > 2 && (getWidth() < getSettings()
-				.getFileWidth() || getHeight() < getSettings().getFileHeight());
 	}
 
 	@Override
@@ -6630,7 +6622,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 	/**
 	 *
-	 * @return info of the coord syste,
+	 * @return info of the coord system
 	 */
 	CoordSystemInfo getCoordSystemInfo() {
 		return coordSystemInfo;

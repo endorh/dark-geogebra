@@ -53,7 +53,7 @@ public interface EuclidianViewInterfaceSlim extends LayerView {
 	/**
 	 * @return width in pixels of physical view as a double.
 	 */
-	double getWidthd();
+	double getWidthD();
 
 	/**
 	 * @return height in pixels of physical view. use getMaxYScreen() -
@@ -64,7 +64,7 @@ public interface EuclidianViewInterfaceSlim extends LayerView {
 	/**
 	 * @return height in pixels of physical view as a double.
 	 */
-	double getHeightd();
+	double getHeightD();
 
 	/**
 	 * @return width of the EV's visible part
@@ -111,7 +111,7 @@ public interface EuclidianViewInterfaceSlim extends LayerView {
 	 *            whether drawables need updating
 	 * @param updateSettings
 	 *            whether the settings object should be changed (to prevent
-	 *            infinte recursion)
+	 *            infinite recursion)
 	 */
 	void updateBounds(boolean updateDrawables, boolean updateSettings);
 

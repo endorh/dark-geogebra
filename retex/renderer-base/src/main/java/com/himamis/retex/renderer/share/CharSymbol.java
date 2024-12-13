@@ -53,7 +53,7 @@ package com.himamis.retex.renderer.share;
 public abstract class CharSymbol extends Atom {
 
 	/**
-	 * Mrow will mark certain CharSymbol atoms as a text symbol. Msubsup wil use
+	 * RowAtom will mark certain CharSymbol atoms as text symbols. Msubsup will use
 	 * this property for a certain spacing rule.
 	 */
 	protected boolean textSymbol = false;

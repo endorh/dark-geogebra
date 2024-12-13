@@ -1672,13 +1672,13 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	@Override
 	public void wrapMouseReleased(AbstractEvent e) {
-		boolean longDragOccured = isDraggingOccuredBeyondThreshold();
-		if (!longDragOccured && !app.isControlDown(e)) {
+		boolean longDragOccurred = isDraggingOccuredBeyondThreshold();
+		if (!longDragOccurred && !app.isControlDown(e)) {
 			view3D.switchMoveCursor();
 		}
 
         super.wrapMouseReleasedND(e, true);
-        if (!longDragOccured && mode == EuclidianConstants.MODE_MOVE) {
+        if (!longDragOccurred && mode == EuclidianConstants.MODE_MOVE) {
             showDynamicStylebar();
         }
         view3D.enlargeClippingWhenAREnabled();
@@ -3055,7 +3055,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			return;
 		}
 
-		// else, we show the intersection, and add A,B to highligtedgeos
+		// else, we show the intersection, and add A,B to highlighted geos
 
 		addToGoodHits(hits.get(0));
 		addToGoodHits(hits.get(1));

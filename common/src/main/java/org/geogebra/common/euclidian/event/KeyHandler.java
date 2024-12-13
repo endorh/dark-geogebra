@@ -2,7 +2,7 @@ package org.geogebra.common.euclidian.event;
 
 public interface KeyHandler {
 	/**
-	 * Handles new chracter
+	 * Handles new character
 	 * 
 	 * @param e
 	 *            key event

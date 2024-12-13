@@ -40,7 +40,7 @@ public class MySpecialDouble extends MyDouble {
 	private final boolean scientificNotation;
 	private boolean setFromOutside;
 	BigDecimal bd;
-	// 0 = unitialized, NaN = not a fraction, power of 10 otherwise
+	// 0 = uninitialized, NaN = not a fraction, power of 10 otherwise
 	private double denominator = 0;
 
 	/**

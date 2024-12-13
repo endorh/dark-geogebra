@@ -43,7 +43,7 @@ public class Quaternion {
 	}
 
 	/**
-	 * construct a quarternion corresponding to rotations around X then Y
+	 * construct a quaternion corresponding to rotations around X then Y
 	 * 
 	 * @param rotX
 	 *            rotation around X

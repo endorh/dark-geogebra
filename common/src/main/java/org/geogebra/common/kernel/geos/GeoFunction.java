@@ -2826,7 +2826,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	}
 
 	/**
-	 * @return parent algo (if it's dpendent function)
+	 * @return parent algo (if it's dependent function)
 	 */
 	public AlgoDependentFunction getDependentFunction() {
 		return dependentFunction;

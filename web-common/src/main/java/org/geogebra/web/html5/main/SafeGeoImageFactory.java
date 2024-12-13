@@ -206,7 +206,7 @@ public class SafeGeoImageFactory implements SafeImageProvider {
 
 	/**
 	 *
-	 * @param autoCorners if factory should create corners auotmatically
+	 * @param autoCorners if factory should create corners automatically
 	 * @return factory object with autoCorners set.
 	 */
 	public SafeGeoImageFactory withAutoCorners(boolean autoCorners) {

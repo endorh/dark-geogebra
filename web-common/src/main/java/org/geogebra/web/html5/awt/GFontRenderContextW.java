@@ -15,7 +15,7 @@ public class GFontRenderContextW extends GFontRenderContext {
 
 	/**
 	 * @param ctx
-	 *            conext
+	 *            context
 	 */
 	public GFontRenderContextW(JLMContext2d ctx) {
 		this.context = ctx;

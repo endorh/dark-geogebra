@@ -28,7 +28,7 @@ import org.gwtproject.user.client.ui.HasValue;
 import org.gwtproject.user.client.ui.SimplePanel;
 
 /**
- * This is a basic class for all text boxs with a button.
+ * This is a basic class for all text boxes with a button.
  * 
  * @see ComboBox
  * 

@@ -373,7 +373,7 @@ public class MirrorAdapter extends ProverAdapter {
 					PPolynomial n2_1 = new PPolynomial(botanaVars[18]);
 					PPolynomial n2_2 = new PPolynomial(botanaVars[19]);
 
-					// 6 equations to deifne B'
+					// 6 equations to define B'
 					// BV2 = V2B'
 					botanaPolynomials[6] = new PPolynomial(2).multiply(v2_1)
 							.subtract(b1).subtract(b_1);

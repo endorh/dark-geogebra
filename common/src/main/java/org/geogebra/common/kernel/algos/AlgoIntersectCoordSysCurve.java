@@ -29,7 +29,7 @@ public abstract class AlgoIntersectCoordSysCurve extends AlgoIntersectAbstract {
 
 	/**
 	 * @param enx
-	 *            eqution of the corrd sys with x,y,z replaced by corresponding
+	 *            equation of the coord sys with x,y,z replaced by corresponding
 	 *            curve expressions
 	 * @param fv
 	 *            function variable

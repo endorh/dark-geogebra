@@ -85,7 +85,7 @@ public class DnDState {
 
 	/**
 	 * @param region
-	 *            one of the DnDState.TOP / BOTTOM etc. contstants
+	 *            one of the DnDState.TOP / BOTTOM etc. constants
 	 */
 	public void setRegion(int region) {
 		if (region < 0 || region > LEFT_OUT) {

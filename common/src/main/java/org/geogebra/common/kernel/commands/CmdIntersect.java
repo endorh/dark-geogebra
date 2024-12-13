@@ -179,7 +179,7 @@ public class CmdIntersect extends CommandProcessor {
 			return ret;
 		}
 
-		// Line - Polygon(as boudary)
+		// Line - Polygon(as boundary)
 		else if ((ok[0] = (arg[0].isGeoLine()))
 				&& (ok[1] = (arg[1].isGeoPolygon()))) {
 			GeoElement[] ret = getAlgoDispatcher().intersectLinePolygon(

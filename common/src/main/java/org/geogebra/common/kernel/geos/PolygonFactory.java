@@ -212,7 +212,7 @@ public class PolygonFactory {
 		GeoVec2D b = new GeoVec2D(cons.getKernel(), yA - yB, xB - xA); // perpendicular
 																		// to
 		// AB
-		// changed to use this instead of Unit(Orthoganal)Vector
+		// changed to use this instead of Unit(Orthogonal)Vector
 		// https://www.geogebra.org/forum/viewtopic.php?f=13&p=82764#p82764
 		double aLength = Math.sqrt(a.inner(a));
 

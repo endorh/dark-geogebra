@@ -582,7 +582,7 @@ public class PropertiesViewD extends PropertiesView implements SetLabels {
 		}
 
 		// close undocked properties view when setting mode
-		// if propreties view covers a part of the main window
+		// if properties view covers a part of the main window
 		DockManagerD manager = ((LayoutD) app.getGuiManager().getLayout())
 				.getDockManager();
 		DockPanelD panel = manager.getPanel(getViewID());

@@ -315,7 +315,7 @@ public class EmbedManagerW implements EmbedManager, EventRenderable, ActionExecu
 			embedElement.getGreatParent().setSize(
 					(int) drawEmbed.getWidth() + "px",
 					(int) drawEmbed.getHeight() + "px");
-			// above the oject canvas (50) and below MOW toolbar (51)
+			// above the object canvas (50) and below MOW toolbar (51)
 			toggleBackground(embedElement, drawEmbed);
 			int contentWidth = drawEmbed.getGeoEmbed().getContentWidth();
 			int contentHeight = drawEmbed.getGeoEmbed().getContentHeight();

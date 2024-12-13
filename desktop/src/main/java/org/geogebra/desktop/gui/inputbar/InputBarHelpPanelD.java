@@ -323,7 +323,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 	}
 
 	/**
-	 * Udate fonts
+	 * Update fonts
 	 */
 	public void updateFonts() {
 		functionTable.updateFonts();

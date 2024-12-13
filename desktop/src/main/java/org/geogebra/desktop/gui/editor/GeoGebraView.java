@@ -152,7 +152,7 @@ public class GeoGebraView extends WrappedPlainView {
 		if (enableDesktopFontHints && desktopFontHints == null) {
 			/*
 			 * This hint is used to have antialiased fonts in the view in using
-			 * the same method (differents way to antialias with LCD screen) as
+			 * the same method (different way to do antialiasing with LCD screen) as
 			 * the desktop.
 			 */
 			desktopFontHints = (Map<?, ?>) Toolkit.getDefaultToolkit()

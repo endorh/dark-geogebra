@@ -108,7 +108,7 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 	 * Returns whether str is equal to this axis' label.
 	 * 
 	 * @param str
-	 *            string for comparsion
+	 *            string for comparison
 	 * @return whether str is equal to this axis' label.
 	 */
 	public boolean equalsLabel(String str) {

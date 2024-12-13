@@ -94,7 +94,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 	// GeoGebra obligatory:
 	private GeoList geolist; // input
 	private GeoFunction geofunction; // output
-	// Variables in calcultions that tries to prevent rounding off errors:
+	// Variables in calculations that tries to prevent rounding off errors:
 	private double x1;
 	private double y1;
 	private double x2;

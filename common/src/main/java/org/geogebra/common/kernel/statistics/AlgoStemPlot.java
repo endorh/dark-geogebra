@@ -155,7 +155,7 @@ public class AlgoStemPlot extends AlgoElement implements TableAlgo {
 			break;
 		}
 
-		// test for outliers and adjust the indicies accordingly
+		// test for outliers and adjust the indices accordingly
 		double IQRplus = 1.5 * (Q3 - Q1);
 
 		for (int i = 0; i < data.length

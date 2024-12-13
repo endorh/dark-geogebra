@@ -1028,7 +1028,7 @@ public abstract class Renderer {
 			rendererImpl.setClearColor(0, 0, 0, 0f);
 			return;
 		}
-		GColor c = view3D.getAppliedBackground();
+		GColor c = view3D.getApplyedBackground();
 		float r, g, b;
 		if (view3D
 				.getProjection() == EuclidianView3DInterface.PROJECTION_GLASSES
@@ -1991,7 +1991,7 @@ public abstract class Renderer {
 	}
 
 	/**
-	 * dispaly for export image
+	 * display for export image
 	 */
 	public void display() {
 		// used in desktop and for export image

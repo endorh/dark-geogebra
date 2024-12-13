@@ -226,7 +226,7 @@ public class HitDetector {
 	 * Update hits based on cursor position and event type
 	 * 
 	 * @param p
-	 *            postion
+	 *            position
 	 * @param type
 	 *            event type
 	 */

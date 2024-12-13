@@ -40,7 +40,7 @@ public interface GeoPointND extends PointProperties, Translateable,
 	/** cannot move */
 	public static int MOVE_MODE_NONE = 0; // for intersection points and fixed
 											// points
-	/** cna move in xy directions */
+	/** can move in x,y directions */
 	public static int MOVE_MODE_XY = 1;
 	/** can move in z direction */
 	public static int MOVE_MODE_Z = 2;

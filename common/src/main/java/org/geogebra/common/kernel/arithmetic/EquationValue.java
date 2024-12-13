@@ -13,7 +13,7 @@ public interface EquationValue {
 	Equation getEquation();
 
 	/**
-	 * @return array of variables with nonzero cofficients
+	 * @return array of variables with nonzero coefficients
 	 */
 	String[] getEquationVariables();
 }

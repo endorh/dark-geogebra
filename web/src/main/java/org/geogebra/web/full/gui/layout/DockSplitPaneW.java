@@ -108,7 +108,7 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel
 	}
 
 	/**
-	 * Recursively compute sizes using the embeded size of panels.
+	 * Recursively compute sizes using the embedded size of panels.
 	 * 
 	 * @return divider location (relative)
 	 */

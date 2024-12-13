@@ -165,7 +165,7 @@ public class GeoImage extends GeoElement implements
 		if (tempPoints == null) {
 			// temp corner points for transformations and absolute location
 			tempPoints = new GeoPoint[4];
-			tempPoints[CENTER_INDEX] = new GeoPoint(cons); //only care abou the center
+			tempPoints[CENTER_INDEX] = new GeoPoint(cons); //only care about the center
 		}
 
 		if (corners[CENTER_INDEX] == null) {

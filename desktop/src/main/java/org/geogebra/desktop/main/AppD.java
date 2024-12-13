@@ -629,7 +629,7 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 		if (args.containsArg("help")) {
 			// help message
 			System.out.println("Usage: java -jar geogebra.jar [OPTION] [FILE]\n"
-					+ "Start GeoGebra with the specified OPTIONs and open the given FILE.\n"
+					+ "Start GeoGebra with the specified options and open the given file.\n"
 					+ "  --help\t\tprint this message\n"
 					+ "  --v\t\tprint version\n"
 					+ "  --language=LANGUAGE_CODE"
@@ -4242,11 +4242,11 @@ public class AppD extends App implements KeyEventDispatcher, AppDI {
 	}
 
 	/**
-	 * Initializes the sign in Operation and tries to login in the user with the
+	 * Initializes the sign in Operation and tries to log in as the user with the
 	 * stored token
 	 */
 	protected void initSignInEventFlow() {
-		// Inizialize the login operation -- stub only, no sign in UI in desktop
+		// Initialize the login operation -- stub only, no sign in UI in desktop
 		loginOperation = new LoginOperationD();
 	}
 

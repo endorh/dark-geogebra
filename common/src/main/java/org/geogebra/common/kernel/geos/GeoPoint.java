@@ -506,7 +506,7 @@ public class GeoPoint extends GeoVec3D implements VectorValue, PathOrPoint,
 
 				double angle = DoubleUtil.convertToAngleValue(
 						yvar.getDouble() - oldAngle + endAngle);
-				// angle outsid of slider range
+				// angle outside of slider range
 				if (((GeoNumeric) yvar).isIntervalMinActive()
 						&& ((GeoNumeric) yvar).isIntervalMaxActive()
 						&& (angle < ((GeoNumeric) yvar).getIntervalMin()

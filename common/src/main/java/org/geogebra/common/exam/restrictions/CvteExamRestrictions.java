@@ -90,7 +90,7 @@ public final class CvteExamRestrictions extends ExamRestrictions {
 			@Nullable ContextMenuFactory contextMenuFactory) {
 		if (settings != null) {
 			casEnabled = settings.getCasSettings().isEnabled();
-			// Note: The effect we want to acchieve here is disable the symbolic versions of the
+			// Note: The effect we want to achieve here is disable the symbolic versions of the
 			// Derivative and Integral commands, and replace them on the fly with their numeric
 			// counterparts (a requirement of APPS-4871/APPS-4961). This behavior is
 			// implemented using the "CAS enabled" flag (deep inside the algebra processor and

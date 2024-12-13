@@ -50,7 +50,7 @@ public class AlgoZMean2Estimate extends AlgoElement {
 	 * @param n
 	 *            first sample size
 	 * @param mean_2
-	 *            secons sample mean
+	 *            second sample mean
 	 * @param sd_2
 	 *            second sample standard deviation
 	 * @param n_2

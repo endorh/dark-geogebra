@@ -906,7 +906,7 @@ public class AutoCompleteTextFieldW extends FlowPanel
 			}
 
 			/*
-			 * Try handling here that is originaly in keyup
+			 * Try handling here that is originally in keyup
 			 */
 			boolean modifierKeyPressed = e.isControlKeyDown()
 					|| e.isAltKeyDown();

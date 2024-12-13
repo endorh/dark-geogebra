@@ -317,7 +317,7 @@ public class CellRangeProcessor {
 
 	/**
 	 * @param rangeList
-	 *            list odf selected ranges
+	 *            list of selected ranges
 	 * @return whether it contains single 1D range
 	 */
 	public boolean is1DRangeList(ArrayList<TabularRange> rangeList) {

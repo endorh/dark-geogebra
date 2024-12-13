@@ -796,7 +796,7 @@ public class QuickHull3D {
 	}
 
 	/**
-	 * Returns an array specifing the index of each hull vertex with respect to
+	 * Returns an array specifying the index of each hull vertex with respect to
 	 * the original input points.
 	 * 
 	 * @return vertex indices with respect to the original points

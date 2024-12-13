@@ -3531,7 +3531,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * Highlight single geo, blur all others.
 	 * 
 	 * @param geo
-	 *            geo to higlight
+	 *            geo to highlight
 	 * @return whether highlighting changed
 	 */
 	public boolean highlight(GeoElement geo) {
@@ -3547,8 +3547,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	/**
 	 * @param geos
-	 *            geos to gighlight
-	 * @return whether higlighting changed
+	 *            geos to highlight
+	 * @return whether highlighting changed
 	 */
 	public boolean highlight(ArrayList<GeoElement> geos) {
 		boolean repaintNeeded = clearHighlightedGeos();
@@ -6507,7 +6507,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
             return;
         }
         this.animationButtonPressed = false;
-        app.storeUndoInfoIfSetCoordSystemOccured();
+        app.storeUndoInfoIfSetCoordSystemOccurred();
 
         refreshHighlighting(null, app.isControlDown(event));
         resetToolTipManager();
@@ -7096,7 +7096,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 								- c;
 						double b = s - a - c;
 
-						// cordinates of vertex (just calculated once)
+						// coordinates of the vertex (just calculated once)
 						// used for alt-drag as well
 						vertexX = -b / a / 2.0;
 						vertexY = -(b * b - 4.0 * a * c) / (4.0 * a);
@@ -9100,7 +9100,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		lastMousePressedTime = System.currentTimeMillis();
 
-		app.storeUndoInfoIfSetCoordSystemOccured();
+		app.storeUndoInfoIfSetCoordSystemOccurred();
 		app.maySetCoordSystem();
 
 		scriptsHaveRun = false;
@@ -9341,7 +9341,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	protected void runScriptsIfNeeded(GeoElement geo1) {
 		// GGB-1196
-		// no script run if Properies View is open.
+		// no script run if Properties View is open.
 
 		if (app.showView(App.VIEW_PROPERTIES)) {
 			return;
@@ -10102,7 +10102,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		int y = event.getY();
 		this.setLastMouseUpLoc(new GPoint(x, y));
 
-		app.storeUndoInfoIfSetCoordSystemOccured();
+		app.storeUndoInfoIfSetCoordSystemOccurred();
 
 		if (pressedButton != null && !(app.showView(App.VIEW_PROPERTIES))) {
 			pressedButton.setDraggedOrContext(

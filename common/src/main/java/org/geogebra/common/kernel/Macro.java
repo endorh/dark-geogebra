@@ -32,7 +32,7 @@ import org.geogebra.common.util.StringUtil;
 import org.geogebra.common.util.debug.Log;
 
 /**
- * A macro is a user defined commmand. It has its own macro construction that is
+ * A macro is a user defined command. It has its own macro construction that is
  * used by all using AlgoMacro instances.
  * 
  * @author Markus Hohenwarter
@@ -619,7 +619,7 @@ public class Macro {
 	}
 
 	/**
-	 * Sets commandd name
+	 * Sets command name
 	 * 
 	 * @param name
 	 *            Command name

@@ -236,7 +236,6 @@ public class MyMath2 {
 		int i, k;
 		boolean odd;
 		double a, err, fact, sign, sum, sumc, sums, t, term;
-		// double him, hre, bim, bre, cim, cre, dim, dre, delim = 0, delre = 0;
 		Complex h, b, c, d, del, one, two;
 		one = new Complex(1, 0);
 		two = new Complex(2, 0);
@@ -251,7 +250,6 @@ public class MyMath2 {
 			c = new Complex(1000, 0);
 			d = one.divide(b);
 			h = one.divide(b);
-			// d=h=1/b=1/(bre+ibim)=bre-ibim/(bre^2+bim^2);
 
 			for (i = 2; i <= MAXIT; i++) {
 				a = -(i - 1) * (i - 1);
@@ -362,7 +360,7 @@ public class MyMath2 {
 	/**
 	 * @param d
 	 *            real number
-	 * @return erf for normal distibution with mean 0 and SD=1
+	 * @return erf for normal distribution with mean 0 and SD=1
 	 */
 	public static double erf(double d) {
 		return erf(0, 1, d);

@@ -49,7 +49,7 @@ public class AlgoIntersectCurveTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void testSplineWithOnwLine() {
+	public void testSplineWithOneLine() {
 		add("a = Spline({(1,5),(2,4),(1,3),(2,2)},3)");
 		add("f:y=3.26");
 		add("Intersect(a, f)");

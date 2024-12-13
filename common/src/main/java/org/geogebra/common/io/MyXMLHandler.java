@@ -3200,7 +3200,7 @@ public class MyXMLHandler implements DocHandler {
 	 * create absolute start point (coords expected)
 	 * 
 	 * @param attrs
-	 *            tag atributes
+	 *            tag attributes
 	 * @return start point
 	 */
 	protected GeoPointND handleAbsoluteStartPoint(
@@ -3338,7 +3338,7 @@ public class MyXMLHandler implements DocHandler {
 					geo1 = kernel.lookupLabel(arg);
 				}
 
-				// arg is a label and does not conatin $ signs (e.g. $A1 in
+				// arg is a label and does not contain $ signs (e.g. $A1 in
 				// spreadsheet)
 				if (geo1 != null && arg.indexOf('$') < 0) {
 					en = new ExpressionNode(kernel, geo1);

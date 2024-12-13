@@ -1522,7 +1522,7 @@ public class DockManagerW extends DockManager {
 		portrait = ExtendedBoolean.newExtendedBoolean(app.isPortrait());
 		boolean orientationChanged = old != portrait;
 		if (force || orientationChanged) {
-			// run only if oreintation has changed;
+			// run only if orientation has changed;
 			final double landscape = PerspectiveDecoder.landscapeRatio(app,
 					app.getWidth());
 

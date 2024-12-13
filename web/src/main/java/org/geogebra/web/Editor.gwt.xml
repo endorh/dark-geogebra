@@ -23,7 +23,7 @@
     <inherits name="com.himamis.retex.editor.JLMEditorDev" />
 
     <!-- Specify the paths for translatable code                    -->
-    <!-- resources is both in source and resource bacause of SVGResource classes -->
+    <!-- resources is both in source and resource because of SVGResource classes -->
     <source path='resources'/>
     <!-- not using any browser-specific overrides: only compile for one browser -->
     <set-property name="user.agent" value="safari" />

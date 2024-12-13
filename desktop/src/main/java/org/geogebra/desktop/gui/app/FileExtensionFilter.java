@@ -25,7 +25,7 @@ import org.geogebra.common.util.StringUtil;
  * for those type extensions that it knows about.
  *
  * Extensions are of the type ".foo", which is typically found on Windows and
- * Unix boxes, but not on Macinthosh. Case is ignored.
+ * Unix boxes, but not on Macintosh. Case is ignored.
  *
  * Example - create a new filter that filters out all files but gif and jpg
  * image files:

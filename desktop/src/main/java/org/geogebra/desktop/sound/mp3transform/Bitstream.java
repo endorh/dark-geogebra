@@ -383,7 +383,7 @@ public final class Bitstream {
 	}
 
 	/**
-	 * Simlar to readFully, but doesn't throw exception when EOF is reached.
+	 * Similar to readFully, but doesn't throw exception when EOF is reached.
 	 */
 	private int readBytes(byte[] b, int offs, int len) throws IOException {
 		int totalBytesRead = 0;

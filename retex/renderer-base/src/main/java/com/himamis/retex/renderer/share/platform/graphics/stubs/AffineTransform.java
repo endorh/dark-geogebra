@@ -801,7 +801,7 @@ public class AffineTransform implements Transform {
 	/**
 	 * Retrieves the flag bits describing the conversion properties of this
 	 * transform. The return value is either one of the constants TYPE_IDENTITY
-	 * or TYPE_GENERAL_TRANSFORM, or a combination of the appriopriate flag
+	 * or TYPE_GENERAL_TRANSFORM, or a combination of the appropriate flag
 	 * bits. A valid combination of flag bits is an exclusive OR operation that
 	 * can combine the TYPE_TRANSLATION flag bit in addition to either of the
 	 * TYPE_UNIFORM_SCALE or TYPE_GENERAL_SCALE flag bits as well as either of

@@ -54,7 +54,7 @@ package com.himamis.retex.renderer.share;
  * {@link #createBox(TeXEnvironment)} method that transforms this logical unit
  * into a concrete box (that can be painted). They also must define their type,
  * used for determining what glue to use between adjacent atoms in a
- * "row construction". That can be one single type by asigning one of the type
+ * "row construction". That can be one single type by assigning one of the type
  * constants to the {@link #type} field. But they can also be defined as having
  * two types: a "left type" and a "right type". This can be done by implementing
  * the methods {@link #getLeftType()} and {@link #getRightType()}. The left type

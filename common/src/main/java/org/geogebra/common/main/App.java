@@ -973,8 +973,8 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	/**
 	 * store undo info only if view coord system has changed
 	 */
-	public void storeUndoInfoIfSetCoordSystemOccured() {
-		if (storeUndoInfoForSetCoordSystem == CoordSystemStateForUndo.SET_COORD_SYSTEM_OCCURED) {
+	public void storeUndoInfoIfSetCoordSystemOccurred() {
+		if (storeUndoInfoForSetCoordSystem == CoordSystemStateForUndo.SET_COORD_SYSTEM_OCCURRED) {
 			storeUndoInfo();
 		}
 
@@ -984,9 +984,9 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	/**
 	 * tells the application that a view coord system has changed
 	 */
-	public void setCoordSystemOccured() {
+	public void setCoordSystemOccurred() {
 		if (storeUndoInfoForSetCoordSystem == CoordSystemStateForUndo.MAY_SET_COORD_SYSTEM) {
-			storeUndoInfoForSetCoordSystem = CoordSystemStateForUndo.SET_COORD_SYSTEM_OCCURED;
+			storeUndoInfoForSetCoordSystem = CoordSystemStateForUndo.SET_COORD_SYSTEM_OCCURRED;
 		}
 	}
 
@@ -1004,7 +1004,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	}
 
 	public void setPropertiesOccured() {
-		getUndoManager().setPropertiesOccured();
+		getUndoManager().setPropertiesOccurred();
 	}
 
 	/**
@@ -2411,7 +2411,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	/**
 	 * @param type
-	 *            what properties panel should be showing (object, defults,
+	 *            what properties panel should be showing (object, defaults,
 	 *            advanced, ...)
 	 */
 	public void setPropertiesViewPanel(OptionType type) {
@@ -3071,7 +3071,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 	 *            possibly localized text
 	 * @param translate
 	 *            whether to convert from localized
-	 * @return sript object
+	 * @return script object
 	 */
 	public Script createScript(ScriptType type, String scriptText0,
 			boolean translate) {
@@ -4046,7 +4046,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 		/** tells that the mouse has been pressed */
 		MAY_SET_COORD_SYSTEM,
 		/** tells that the coord system has changed */
-		SET_COORD_SYSTEM_OCCURED,
+		SET_COORD_SYSTEM_OCCURRED,
 		/** no particular state */
 		NONE
 	}
@@ -4427,7 +4427,7 @@ public abstract class App implements UpdateSelection, AppInterface, EuclidianHos
 
 	/**
 	 * @return a tool collection factory
-	 * Depreacted. Use {@link #getAvailableTools()} instead.
+	 * @deprecated Use {@link #getAvailableTools()} instead.
 	 */
 	@Deprecated
 	public ToolCollectionFactory createToolCollectionFactory() {

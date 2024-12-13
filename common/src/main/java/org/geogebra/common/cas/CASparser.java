@@ -118,8 +118,6 @@ public class CASparser implements CASParserInterface {
 			}
 
 			return ve;
-			// }catch (MaximaVersionUnsupportedExecption e) {
-			// throw e; // propagate exception
 		} catch (CASException ce) {
 			throw ce;
 		} catch (Throwable e) {

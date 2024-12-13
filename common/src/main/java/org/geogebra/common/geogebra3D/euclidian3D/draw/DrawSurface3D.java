@@ -327,7 +327,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 			}
 		}
 
-		boolean drawOccured = false;
+		boolean drawOccurred = false;
 
 		if (drawFromScratch) {
 			borders.clear();
@@ -339,7 +339,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 			if (levelOfDetail == LevelOfDetail.QUALITY
 					&& splitsStartedNotFinished) {
 				draw();
-				drawOccured = true;
+				drawOccurred = true;
 			}
 
 			// calc min/max values
@@ -449,7 +449,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 			splitsStartedNotFinished = splitsStartedNotFinished
 					&& stillRoomLeft;
 			if (!splitsStartedNotFinished) {
-				if (!drawOccured) {
+				if (!drawOccurred) {
 					// no draw at start: can do the draw now
 					draw();
 					drawUpToDate = true;

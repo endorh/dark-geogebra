@@ -7,7 +7,7 @@ apps.
 The instructions below assume that `npm` (which is part of NodeJS distribution) 
 is installed on your path.
 - In parallel with the tests you need to run a server that serves GeoGebra web.
-  - The test harness looks by default at `localhost:8888`, so defualt GWT dev server works
+  - The test harness looks by default at `localhost:8888`, so default GWT dev server works
   - The URL can be overridden using the `CYPRESS_baseUrl` environment variable
     (should work with autotest server).
   - To reduce the network latency you can also copy the `web3d` files to `content`

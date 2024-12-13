@@ -714,7 +714,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 			case QUADRIC_LIMITED:
 				if (!((GeoQuadric3DLimited) geo).getSide().isLabelSet()) {
-					// create drawable when side is not explicitely created
+					// create drawable when side is not explicitly created
 					// (e.g. in sequence, or with transformation)
 					d = new DrawQuadric3DLimited(this,
 							(GeoQuadric3DLimited) geo);
@@ -4192,7 +4192,7 @@ public abstract class EuclidianView3D extends EuclidianView
 		getCompanion().setBackground(color);
 	}
 
-	public GColor getAppliedBackground() {
+	public GColor getApplyedBackground() {
 		return bgAppliedColor;
 	}
 

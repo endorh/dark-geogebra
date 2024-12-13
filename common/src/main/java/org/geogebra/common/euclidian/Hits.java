@@ -520,7 +520,7 @@ public class Hits extends ArrayList<GeoElement> {
 	}
 
 	/**
-	 * PointRotateable
+	 * Point rotatable hits.
 	 * 
 	 * @param view
 	 *            view

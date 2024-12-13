@@ -2,7 +2,9 @@ package org.geogebra.web.full.gui.menu.icons;
 
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.resources.client.ClientBundle;
+import org.gwtproject.resources.client.Resource;
 
+@Resource
 public interface DefaultMenuIconResources extends ClientBundle {
 
 	DefaultMenuIconResources INSTANCE = new DefaultMenuIconResourcesImpl();

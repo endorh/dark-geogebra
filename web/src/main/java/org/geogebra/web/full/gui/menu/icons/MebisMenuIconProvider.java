@@ -2,12 +2,10 @@ package org.geogebra.web.full.gui.menu.icons;
 
 import org.geogebra.common.gui.menu.MenuIcon;
 import org.geogebra.web.html5.gui.view.IconSpec;
-import org.gwtproject.resources.client.Resource;
 
 /**
  * Gives access to Mebis menu icons.
  */
-@Resource
 public class MebisMenuIconProvider extends DefaultMenuIconProvider {
 
 	/*@Override

@@ -4,12 +4,10 @@ import org.geogebra.common.gui.menu.MenuIcon;
 import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.resources.SVGResource;
-import org.gwtproject.resources.client.Resource;
 
 /**
  * Gives default access to menu icons.
  */
-@Resource
 public class DefaultMenuIconProvider implements MenuIconProvider {
 
 	private static final DefaultMenuIconResources res = DefaultMenuIconResources.INSTANCE;

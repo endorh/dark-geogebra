@@ -14,7 +14,7 @@ public class DefaultMenuIconProvider implements MenuIconProvider {
 
 	@Override
 	public IconSpec matchIconWithResource(MenuIcon icon) {
-		return new ImageIconSpec(findImage(icon));
+		return icon != null ? new ImageIconSpec(findImage(icon)) : null;
 	}
 
 	private SVGResource findImage(MenuIcon icon) {

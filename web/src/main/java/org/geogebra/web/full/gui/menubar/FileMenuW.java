@@ -41,15 +41,14 @@ public class FileMenuW extends Submenu implements BooleanRenderable {
 		super("file", app);
 		addExpandableStyleWithColor(false);
 		this.loc = app.getLocalization();
-		initActions();
 		iconProvider = new MenuIconResource(new DefaultMenuIconProvider());
+		initActions();
 	}
 
 	private void initActions() {
 		if (!GlobalScope.examController.isIdle()) {
 			addItem("exam_menu_exit",
-					new ExitExamAction(), new ImageIconSpec(MaterialDesignResources.INSTANCE
-							.signout_black()));
+					new ExitExamAction(), iconProvider.getImageResource(MenuIcon.SIGN_OUT));
 			return;
 		}
 

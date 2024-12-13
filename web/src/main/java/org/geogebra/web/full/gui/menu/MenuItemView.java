@@ -10,7 +10,7 @@ final class MenuItemView {
 	static AriaMenuItem create(ResourcePrototype icon, String label) {
 		AriaMenuItem item = MainMenu.getMenuBarItem(icon, label, null);
 		item.addStyleName("menuItemView");
-		item.setStyleName("userMenuItemView");
+		item.addStyleName("userMenuItemView");
 		if (icon == null) {
 			item.addStyleName("noImage");
 		}

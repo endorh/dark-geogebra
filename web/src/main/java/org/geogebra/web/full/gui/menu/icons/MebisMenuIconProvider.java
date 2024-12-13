@@ -9,14 +9,6 @@ import org.geogebra.web.html5.main.toolbox.FaIconSpec;
  */
 public class MebisMenuIconProvider extends DefaultMenuIconProvider {
 
-	/*@Override
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/file_plus.svg")
-	SVGResource clear();
-
-	@Override
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/folder-open.svg")
-	SVGResource search();*/
-
 	@Override
 	public IconSpec matchIconWithResource(MenuIcon icon) {
 		switch (icon) {

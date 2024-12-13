@@ -111,7 +111,7 @@ public interface EmbedManager {
 	void executeAction(ActionType action);
 
 	/**
-	 * Move embeds to chache so that they don't need rebuilding during undo
+	 * Move embeds to cache so that they don't need rebuilding during undo
 	 */
 	void storeEmbeds();
 

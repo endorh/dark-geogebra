@@ -941,7 +941,7 @@ public abstract class Drawable3D extends DrawableND implements CaptionFactory {
 	 * 
 	 * @param renderer
 	 *            3D renderer
-	 * @return if picking occured
+	 * @return if picking occurred
 	 */
 	public boolean drawLabelForPicking(Renderer renderer) {
 		return drawLabel(renderer, true);

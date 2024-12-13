@@ -147,7 +147,7 @@ public class AlgoLimit extends AlgoElement
 	}
 
 	@Override
-	public boolean useCacheing() {
+	public boolean useCaching() {
 		return true;
 	}
 

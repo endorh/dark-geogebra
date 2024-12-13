@@ -418,7 +418,7 @@ public class Term implements Comparable<Object> {
 	/**
 	 * @param var
 	 *            var name
-	 * @return True if contins given variable
+	 * @return True if contains given variable
 	 */
 	boolean contains(String var) {
 		return getVars().indexOf(var) >= 0;

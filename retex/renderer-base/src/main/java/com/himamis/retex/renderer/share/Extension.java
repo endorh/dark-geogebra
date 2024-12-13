@@ -52,7 +52,7 @@ package com.himamis.retex.renderer.share;
  */
 public class Extension {
 
-	// there ALLWAYS is a repeat character! (check TFM.isExtensionChar())
+	// there ALWAYS is a repeat character! (check TFM.isExtensionChar())
 	private final Char top;
 	private final Char middle;
 	private final Char bottom;

@@ -135,7 +135,7 @@ public abstract class Localization extends LocalizationI {
 	}
 
 	/**
-	 * @return the sigificant figures in this localization
+	 * @return the significant figures in this localization
 	 */
 	public int[] getSignificantFigures() {
 		return significantFiguresOptions;
@@ -393,7 +393,7 @@ public abstract class Localization extends LocalizationI {
 				// unnecessary.)
 				// 00-zal, 10-zel, 30-cal etc.
 				// FIXME: A_{00}-val will be replaced to A_{00}-zal currently,
-				// because we silently assume that 00 is preceeded by another
+				// because we silently assume that 00 is preceded by another
 				// number.
 				String valVelFrom = "013456789";
 				String valVelTo = "zzcnnnnnn";

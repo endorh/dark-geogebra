@@ -111,8 +111,8 @@ public class GuiManager3DW extends GuiManagerW {
 	}
 
 	@Override
-	protected PropertiesViewW newPropertiesViewW(AppW app1, OptionType ot) {
-		return new PropertiesView3DW(app1, ot);
+	protected PropertiesViewW newPropertiesViewW(AppW app1, OptionType optionType) {
+		return new PropertiesView3DW(app1, optionType);
 	}
 
 }

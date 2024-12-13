@@ -962,12 +962,12 @@ public abstract class Curve {
         if (this.getXMin() >= that.getXMax()) {
             return 1;
         }
-        // Parameter s for thi(s) curve and t for tha(t) curve
+        // Parameter s for this(s) curve and t for that(t) curve
         // [st]0 = parameters for top of current section of interest
         // [st]1 = parameters for bottom of valid range
         // [st]h = parameters for hypothesis point
-        // [d][xy]s = valuations of thi(s) curve at sh
-        // [d][xy]t = valuations of tha(t) curve at th
+        // [d][xy]s = valuations of this(s) curve at sh
+        // [d][xy]t = valuations of that(t) curve at th
         double s0 = this.getTforY(y0);
         double ys0 = this.getYforT(s0);
         if (ys0 < y0) {

@@ -24,7 +24,7 @@ public class LaTeXSerializationTest {
 	private static Parser parser;
 
 	/**
-	 * Initilize parser and serializer.
+	 * Initialize parser and serializer.
 	 */
 	@BeforeClass
 	public static void prepare() {

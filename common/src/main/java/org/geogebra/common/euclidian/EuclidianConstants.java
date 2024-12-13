@@ -951,17 +951,17 @@ public final class EuclidianConstants {
 	/**
 	 * @param mode
 	 *            mode number
-	 * @param draggingOccured
-	 *            tells if dragging occured
+	 * @param draggingOccurred
+	 *            tells if dragging occurred
 	 *
 	 * @return whether mode is MOVE or SELECT, and return false if the mode is
-	 *         not compatible with dragging occured
+	 *         not compatible with dragging occurred
 	 */
 	static public boolean isMoveOrSelectionModeCompatibleWithDragging(int mode,
-			boolean draggingOccured) {
+			boolean draggingOccurred) {
 		switch (mode) {
 		case MODE_MOVE:
-			return !draggingOccured;
+			return !draggingOccurred;
 		case MODE_SELECT:
 		case MODE_SELECT_MOW:
 			return true;

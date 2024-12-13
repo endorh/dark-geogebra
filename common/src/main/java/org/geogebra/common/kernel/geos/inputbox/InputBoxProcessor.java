@@ -69,7 +69,7 @@ public class InputBoxProcessor {
 		InputBoxErrorHandler errorHandler = new InputBoxErrorHandler();
 		updateLinkedGeoNoErrorHandling(tpl, errorHandler, content);
 
-		if (errorHandler.errorOccured) {
+		if (errorHandler.errorOccurred) {
 			if (content.isEmpty(inputBox.isListEditor())) {
 				inputBox.setTempUserInput("", "");
 			} else {

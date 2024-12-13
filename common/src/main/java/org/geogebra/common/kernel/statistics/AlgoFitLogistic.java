@@ -49,7 +49,7 @@ import org.geogebra.common.util.debug.Log;
  * Constraints: &lt;List of Points&gt; should have at least 3 points. The first and
  * last datapoint should not be too far from the solution curve. Negative a,b
  * and c: Asymptotes: Quality of points get even more important, should not be
- * too close to either vertical or horisontal asymptotes, should have several
+ * too close to either vertical or horizontal asymptotes, should have several
  * "good" points on each branch of the curve. (Positive a, b and c is quite
  * robust though. :-) ) Problems: Non-linear regression is difficult, and the
  * choice of initial values for the parameters are highly critical. The
@@ -94,7 +94,7 @@ public final class AlgoFitLogistic extends AlgoElement implements FitAlgo {
 	// GeoGebra obligatory:
 	private GeoList geolist; // input
 	private GeoFunction geofunction; // output
-	// Variables in calcultions that tries to prevent rounding off errors:
+	// Variables in calculations that tries to prevent rounding off errors:
 	private double x1;
 	private double y1;
 	private double x2;

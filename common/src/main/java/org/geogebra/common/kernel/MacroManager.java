@@ -155,7 +155,7 @@ public class MacroManager {
 	}
 
 	/**
-	 * Returns an XML represenation of the specified macros in this kernel.
+	 * Returns an XML representation of the specified macros in this kernel.
 	 * 
 	 * @param macros
 	 *            list of macros

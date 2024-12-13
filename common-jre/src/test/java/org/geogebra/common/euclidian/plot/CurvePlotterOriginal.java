@@ -113,7 +113,7 @@ public class CurvePlotterOriginal {
 	 * @param moveToAllowed
 	 *            whether moveTo() may be used for gp
 	 * @return label position as Point
-	 * @author Markus Hohenwarter, based on an algori5thm by John Gillam
+	 * @author Markus Hohenwarter, based on an algorithm by John Gillam
 	 */
 	private static GPoint plotInterval(CurveEvaluable curve, double t1,
 			double t2, int intervalDepth, double max_param_step,
@@ -618,7 +618,7 @@ public class CurvePlotterOriginal {
 	 * @param pointList
 	 *            list of points
 	 * @param transformSys
-	 *            coordinte system to be applied on 2D points
+	 *            coordinate system to be applied on 2D points
 	 * @return last point drawn
 	 */
 	static public double[] draw(PathPlotter gp,

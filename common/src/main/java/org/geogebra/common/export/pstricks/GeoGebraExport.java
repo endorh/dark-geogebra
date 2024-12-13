@@ -130,17 +130,17 @@ public abstract class GeoGebraExport {
 
 	// Functions added to access and modify xmin, xmax, ymin and ymax
 	// When xmin,xmax,ymin or ymax are changed
-	// the selected area is reported accodingly on the euclidianView.
+	// the selected area is reported accordingly on the euclidianView.
 	// This is not visible, on the view, but one may expect that when
 	// the selection rectangle is changed it is displayed on the view.
 	// This may be implemented by changing the class EuclidianView.
-	// Furthermore the definition of a class EuclidianView listerner
+	// Furthermore the definition of a class EuclidianView listener
 	// which this class would implement would be desirable so that
 	// when the selection is modified by the mouse, this is reported
 	// to the values xmin, xmax, ymin and ymax of instances of this class.
 	// refresh the selection rectangle when values change in TextField
 	/**
-	 * Change selection rectanlge to fit user input.
+	 * Change selection rectangle to fit user input.
 	 */
 	public void refreshSelectionRectangle() {
 		int x1 = euclidianView.toScreenCoordX(xmin);
@@ -1435,21 +1435,21 @@ public abstract class GeoGebraExport {
 	/**
 	 * @param geo
 	 *            curve
-	 * @param xrangemax
+	 * @param xRangeMax
 	 *            max parameter value
-	 * @param xrangemin
+	 * @param xRangeMin
 	 *            min parameter value
 	 * @param point
 	 *            number of pints
 	 * @param template
-	 *            template for outputing lines
+	 *            template for outputting lines
 	 * @return string builder with all the lines
 	 */
 	protected final StringBuilder drawNoLatexFunction(CurveEvaluable geo,
-			double xrangemax, double xrangemin, int point, String template) {
+			double xRangeMax, double xRangeMin, int point, String template) {
 		StringBuilder lineBuilder = new StringBuilder();
 		double[] out = new double[2];
-		geo.evaluateCurve(xrangemin, out);
+		geo.evaluateCurve(xRangeMin, out);
 		double y = out[1];
 		double yprec = y;
 		if (Math.abs(y) < 0.001) {
@@ -1460,10 +1460,10 @@ public abstract class GeoGebraExport {
 		if (Math.abs(x) < 0.001) {
 			x = xprec = 0;
 		}
-		double step = (xrangemax - xrangemin) / point;
-		double tprec = xrangemin;
+		double step = (xRangeMax - xRangeMin) / point;
+		double tprec = xRangeMin;
 		double t = tprec;
-		for (; t <= xrangemax; t += step) {
+		for (; t <= xRangeMax; t += step) {
 			geo.evaluateCurve(t, out);
 			y = out[1];
 			x = out[0];

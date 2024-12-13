@@ -84,7 +84,7 @@ public class CmdCylinder extends CommandProcessor {
 
 	}
 
-	// overridded by CmdCylinderInfinite
+	// overridden by CmdCylinderInfinite
 
 	/**
 	 * @param c

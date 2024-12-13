@@ -147,7 +147,7 @@ public class AlgoPointOnPath extends AlgoElement
 
 	/**
 	 * @param z
-	 *            point z-coord; igored in 2D
+	 *            point z-coord; ignored in 2D
 	 */
 	protected void createPoint(Path path1, double x, double y, double z) {
 		P = new GeoPoint(cons);

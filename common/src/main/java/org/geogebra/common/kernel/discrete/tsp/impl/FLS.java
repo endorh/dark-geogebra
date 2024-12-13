@@ -17,7 +17,7 @@ public final class FLS {
 	 * of these subtours is then reversed and the 2 subtours reconnected in a
 	 * different (shorter) way.
 	 *
-	 * Bentley, in his experiements on TSP heuristics paper notes that since
+	 * Bentley, in his experiments on TSP heuristics paper notes that since
 	 * either subtour can be reversed, it is best to reverse the shortest one,
 	 * otherwise an arbitrary reversal will be N/2 array accesses.
 	 *
@@ -90,7 +90,7 @@ public final class FLS {
 	/**
 	 * try to find a move from the current city. given the current city, search
 	 * for a 2-opt move that will result in an improvement to the tour length.
-	 * the edge before the current city, (prevPoint,currenPoint) and after
+	 * the edge before the current city, (prevPoint,currentPoint) and after
 	 * (currentPoint,nextPoint) are compared to all over edges (c,d), starting
 	 * at (c=currentPoint+2, d=currentPoint+3) until an improvement is found.
 	 */
@@ -114,7 +114,7 @@ public final class FLS {
 			final MyPoint d = points[j];
 
 			// previous edge:
-			// see if swaping the current 2 edges:
+			// see if swapping the current 2 edges:
 			// (prevPoint, currentPoint) (c, d) to:
 			// (prevPoint, c) (currentPoint, d)
 			// will result in an improvement. if so, set active bits for
@@ -128,7 +128,7 @@ public final class FLS {
 			}
 
 			// next edge:
-			// see if swaping the current 2 edges:
+			// see if swapping the current 2 edges:
 			// (currentPoint, nextPoint) (c, d) to:
 			// (currentPoint, c) (nextPoint, d)
 			// will result in an improvement. if so, set active bits for

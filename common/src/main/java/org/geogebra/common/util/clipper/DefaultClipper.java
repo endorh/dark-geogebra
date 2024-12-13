@@ -390,7 +390,7 @@ public class DefaultClipper extends ClipperBase {
 			} // a flat 'polygon'
 
 			final double[] LeftV = new double[1], RightV = new double[1];
-			// Op1 -. Op1b & Op2 -. Op2b are the extremites of the horizontal
+			// Op1 -. Op1b & Op2 -. Op2b are the extremities of the horizontal
 			// edges
 			if (!getOverlap(op1.getPt().getX(), op1b.getPt().getX(),
 					op2.getPt().getX(), op2b.getPt().getX(), LeftV, RightV)) {
@@ -965,12 +965,12 @@ public class DefaultClipper extends ClipperBase {
 				continue;
 			}
 			outRec.fixHoleLinkage();
-			final PolyNode pn = new PolyNode();
-			polytree.getAllPolys().add(pn);
-			outRec.polyNode = pn;
+			final PolyNode polyNode = new PolyNode();
+			polytree.getAllPolys().add(polyNode);
+			outRec.polyNode = polyNode;
 			OutPt op = outRec.getPoints().prev;
 			for (int j = 0; j < cnt; j++) {
-				pn.getPolygon().add(op.getPt());
+				polyNode.getPolygon().add(op.getPt());
 				op = op.prev;
 			}
 		}
@@ -2551,7 +2551,7 @@ public class DefaultClipper extends ClipperBase {
 	private void updateWindingCount(Edge edge) {
 
 		Edge e = edge.prevInAEL;
-		// find the edge of the same polytype that immediately preceeds 'edge'
+		// find the edge of the same polyType that immediately precedes 'edge'
 		// in AEL
 		while (e != null && (e.polyTyp != edge.polyTyp || e.windDelta == 0)) {
 			e = e.prevInAEL;

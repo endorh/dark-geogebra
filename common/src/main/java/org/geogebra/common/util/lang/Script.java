@@ -14,7 +14,7 @@ public enum Script {
 
 	ARMENIAN("Armn", "\u0570"),
 
-	BENGALI("Beng"),
+	BENGALI("Beng"), // NO-TYPO
 
 	CYRILLIC("Cyrl", "\u0439"),
 

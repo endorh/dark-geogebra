@@ -107,7 +107,7 @@ public abstract class CommandProcessor {
 			throws MyError, CircularDefinitionException;
 
 	/**
-	 * Resolves arguments. When argument produces mor geos, only first is taken.
+	 * Resolves arguments. When argument produces more geos, only the first is taken.
 	 * 
 	 * @param c
 	 *            command
@@ -121,7 +121,7 @@ public abstract class CommandProcessor {
 	}
 
 	/**
-	 * Resolves arguments. When argument produces mor geos, only first is taken.
+	 * Resolves arguments. When argument produces more geos, only the first is taken.
 	 * 
 	 * @param c
 	 *            command

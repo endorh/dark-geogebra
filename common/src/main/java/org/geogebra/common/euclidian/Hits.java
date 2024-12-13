@@ -450,7 +450,7 @@ public class Hits extends ArrayList<GeoElement> {
 
 	/**
 	 * Find the first set of geo corresponding to one of the tests. Found geos
-	 * are supposed to be in the same intervall.
+	 * are supposed to be in the same interval.
 	 * 
 	 * @param tests
 	 *            class tests
@@ -520,15 +520,15 @@ public class Hits extends ArrayList<GeoElement> {
 	}
 
 	/**
-	 * PointRotateable
+	 * Point rotatable hits.
 	 * 
 	 * @param view
 	 *            view
 	 * @param rotCenter
 	 *            rotation center
-	 * @return array of changeable GeoElements out of hits that implement
+	 * @return list of changeable GeoElements out of hits that implement
 	 */
-	final public Hits getPointRotateableHits(EuclidianViewInterfaceSlim view,
+	final public Hits getPointRotatableHits(EuclidianViewInterfaceSlim view,
 			GeoPointND rotCenter) {
 		return getMoveables(view, TestGeo.ROTATEMOVEABLE, rotCenter);
 	}

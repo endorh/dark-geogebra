@@ -466,7 +466,7 @@ public class RadioTreeItem extends AVTreeItem implements MathKeyboardListener,
 	}
 
 	/**
-	 * Clear preview and sugggestions
+	 * Clear preview and suggestions.
 	 */
 	public void clearPreviewAndSuggestions() {
 		clearPreview();

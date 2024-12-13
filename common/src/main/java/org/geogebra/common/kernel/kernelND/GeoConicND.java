@@ -1781,9 +1781,9 @@ public abstract class GeoConicND extends GeoQuadricND
 	}
 
 	/**
-	 * Returns the eigenvector-real worl transformation
+	 * Returns the eigenvector-real world transformation
 	 * 
-	 * @return eigenvector-real worl transformation
+	 * @return eigenvector-real world transformation
 	 */
 	final public GAffineTransform getAffineTransform() {
 		if (transform == null) {
@@ -2661,7 +2661,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	final private void classifyMidpointConic(boolean degenerate) {
 		// calc eigenvalues and eigenvectors
 		if (DoubleUtil.isZero(matrix[3])) {
-			// special case: submatrix S is allready diagonal
+			// special case: submatrix S is already diagonal
 			eigenval[0] = matrix[0];
 			eigenval[1] = matrix[1];
 			eigenvecX = 1.0d;
@@ -2789,7 +2789,7 @@ public abstract class GeoConicND extends GeoQuadricND
 			halfAxes[1] = halfAxes[0];
 			linearEccentricity = 0.0d;
 			eccentricity = 0.0d;
-		} else { // elipse
+		} else { // ellipse
 
 			if (mu1[0] > mu1[1]) {
 				// swap eigenvectors and mu
@@ -2844,7 +2844,7 @@ public abstract class GeoConicND extends GeoQuadricND
 	final private void classifyParabolicConic(boolean degenerate) {
 		// calc eigenvalues and first eigenvector
 		if (DoubleUtil.isZero(matrix[3])) {
-			// special cases: submatrix S is allready diagonal
+			// special cases: submatrix S is already diagonal
 			// either A[0] or A[1] have to be zero (due to detS = 0)
 			if (DoubleUtil.isZero(matrix[0])) {
 
@@ -2876,7 +2876,7 @@ public abstract class GeoConicND extends GeoQuadricND
 					// eigenvalues are solutions of
 					// 0 = det(S - x E) = x^2 - spurS x + detS = x (x - spurS)
 			lambda = matrix[0] + matrix[1]; // spurS
-			// set first eigenvector as a unit vector (needed fo computing
+			// set first eigenvector as a unit vector (needed for computing
 			// vector c)
 			length = MyMath.length(matrix[3], matrix[0]);
 			eigenvecX = matrix[3] / length;
@@ -3575,14 +3575,12 @@ public abstract class GeoConicND extends GeoQuadricND
 	}
 
 	/**
-	 * When elipse is moved, the points moves as well and its EV coordinates
+	 * When ellipse is moved, the points moves as well and its EV coordinates
 	 * remain the same
-	 * 
-	 * @version 2010-07-30
+	 *
 	 * @param PI
 	 *            point
 	 */
-
 	@Override
 	public void regionChanged(GeoPointND PI) {
 		// if kernel doesn't use path/region parameters, do as if point changed

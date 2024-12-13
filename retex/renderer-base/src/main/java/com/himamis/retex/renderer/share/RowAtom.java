@@ -44,7 +44,7 @@
  *
  */
 
-/* Modified by Calixte Denizet to handle the case where several ligatures occure*/
+/* Modified by Calixte Denizet to handle the case where several ligatures occur */
 
 package com.himamis.retex.renderer.share;
 

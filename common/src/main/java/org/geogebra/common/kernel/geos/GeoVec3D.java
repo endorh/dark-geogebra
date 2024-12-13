@@ -45,7 +45,7 @@ public abstract class GeoVec3D extends GeoElement
 	/**
 	 * For backward compatibility
 	 */
-	public boolean hasUpdatePrevilege = false;
+	public boolean hasUpdatePrivilege = false;
 	private StringBuilder sbToString = new StringBuilder(50);
 
 	/**

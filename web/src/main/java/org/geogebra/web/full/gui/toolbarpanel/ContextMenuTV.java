@@ -115,7 +115,7 @@ public class ContextMenuTV {
 		case ImportData:
 			return "importData";
 		case Regression:
-			return "regresssion";
+			return "regression";
 		case Statistics1:
 		case Statistics2:
 			return "stats";

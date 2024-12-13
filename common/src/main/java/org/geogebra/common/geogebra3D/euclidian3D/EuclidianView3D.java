@@ -714,7 +714,7 @@ public abstract class EuclidianView3D extends EuclidianView
 
 			case QUADRIC_LIMITED:
 				if (!((GeoQuadric3DLimited) geo).getSide().isLabelSet()) {
-					// create drawable when side is not explicitely created
+					// create drawable when side is not explicitly created
 					// (e.g. in sequence, or with transformation)
 					d = new DrawQuadric3DLimited(this,
 							(GeoQuadric3DLimited) geo);
@@ -2488,7 +2488,7 @@ public abstract class EuclidianView3D extends EuclidianView
 				// do nothing
 				break;
 			case PREVIEW_POINT_FREE:
-				// use default directions for the cros
+				// use default directions for the cross
 				cursorMatrix.setDiagonal3(1);
 				cursorMatrix.setOrigin(getCursor3D().getDrawingMatrix().getOrigin());
 				scaleXYZ(cursorMatrix.getOrigin());
@@ -4648,13 +4648,13 @@ public abstract class EuclidianView3D extends EuclidianView
 	 *
 	 * @param updatedColor
 	 *            color to update background
-	 * @param applyedColor
-	 *            color actually applyed
+	 * @param appliedColor
+	 *            color actually applied
 	 *
 	 */
-	public void setBackground(GColor updatedColor, GColor applyedColor) {
+	public void setBackground(GColor updatedColor, GColor appliedColor) {
 		this.bgColor = updatedColor;
-		this.bgAppliedColor = applyedColor;
+		this.bgAppliedColor = appliedColor;
 		if (renderer != null) {
 			renderer.setWaitForUpdateClearColor();
 		}

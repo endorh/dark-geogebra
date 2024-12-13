@@ -178,7 +178,7 @@ public class EditorPointTest {
 	}
 
 	@Test
-	public void testDeleteFromMultiCharsFromMidleWithBackspace() {
+	public void testDeleteFromMultiCharsFromMiddleWithBackspace() {
 		checker.convertFormula("(123,456,789)")
 				.right(7)
 				.typeKey(JavaKeyCodes.VK_BACK_SPACE)
@@ -198,7 +198,7 @@ public class EditorPointTest {
 	}
 
 	@Test
-	public void testDeleteOneFromMultiCharsFromMidleWithBackspace() {
+	public void testDeleteOneFromMultiCharsFromMiddleWithBackspace() {
 		checker.convertFormula("(123,456,789)")
 				.right(6)
 				.typeKey(JavaKeyCodes.VK_BACK_SPACE)

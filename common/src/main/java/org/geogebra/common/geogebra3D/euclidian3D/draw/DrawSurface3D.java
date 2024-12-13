@@ -327,7 +327,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 			}
 		}
 
-		boolean drawOccured = false;
+		boolean drawOccurred = false;
 
 		if (drawFromScratch) {
 			borders.clear();
@@ -339,7 +339,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 			if (levelOfDetail == LevelOfDetail.QUALITY
 					&& splitsStartedNotFinished) {
 				draw();
-				drawOccured = true;
+				drawOccurred = true;
 			}
 
 			// calc min/max values
@@ -394,7 +394,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 				splitRootMesh(firstCorner);
 				debug("\nnot drawn after split root mesh: " + notDrawn);
 
-				// now splitted root mesh is ready
+				// now root mesh with splits is ready
 				drawFromScratch = false;
 			} catch (NotEnoughCornersException e) {
 				e.caught();
@@ -449,7 +449,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 			splitsStartedNotFinished = splitsStartedNotFinished
 					&& stillRoomLeft;
 			if (!splitsStartedNotFinished) {
-				if (!drawOccured) {
+				if (!drawOccurred) {
 					// no draw at start: can do the draw now
 					draw();
 					drawUpToDate = true;
@@ -504,7 +504,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 		// point were already scaled
 		renderer.getGeometryManager().setScalerIdentity();
 
-		// draw splitted, still to split, and next to split
+		// draw already split, still to split, and next to split
 		PlotterSurface surface = renderer.getGeometryManager().getSurface();
 		setPackSurface(true);
 		surface.start(getReusableSurfaceIndex());
@@ -892,7 +892,7 @@ public class DrawSurface3D extends Drawable3DSurfaces implements HasZPick {
 			nextAbove = current.a;
 			while (current.l != null) {
 				nextLeft = current.l;
-				if (nextLeft.a == null) { // already splitted by last row
+				if (nextLeft.a == null) { // already split by last row
 					nextLeft = nextLeft.l;
 				}
 				// Log.debug(current.u + "," + current.v);

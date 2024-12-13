@@ -71,7 +71,7 @@ public class AlgoLengthCurve2Points extends AlgoUsingTempCASalgo {
 	}
 
 	/**
-	 * @return resulting legth
+	 * @return resulting length
 	 */
 	public GeoNumeric getLength() {
 		return length;

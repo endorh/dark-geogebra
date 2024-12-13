@@ -95,9 +95,9 @@ public class MathFieldInternal
 	private final List<MathFieldListener> listeners = new ArrayList<>();
 	private UnhandledArrowListener unhandledArrowListener;
 
-	private boolean scrollOccured = false;
+	private boolean scrollOccurred = false;
 
-	private boolean longPressOccured = false;
+	private boolean longPressOccurred = false;
 
 	private boolean selectionMode = false;
 
@@ -440,10 +440,10 @@ public class MathFieldInternal
 
 	@Override
 	public void onPointerUp(int x, int y) {
-		if (scrollOccured) {
-			scrollOccured = false;
-		} else if (longPressOccured) {
-			longPressOccured = false;
+		if (scrollOccurred) {
+			scrollOccurred = false;
+		} else if (longPressOccurred) {
+			longPressOccurred = false;
 		} else {
 			if (this.selectionDrag) {
 				selectionDrag = false;
@@ -482,7 +482,7 @@ public class MathFieldInternal
 
 	@Override
 	public void onLongPress(int x, int y) {
-		longPressOccured = true;
+		longPressOccurred = true;
 		selectCurrentEntry();
 		mathField.showCopyPasteButtons();
 		mathField.showKeyboard();
@@ -500,7 +500,7 @@ public class MathFieldInternal
 	public void onScroll(int dx, int dy) {
 		if (!selectionMode) {
 			mathField.scroll(dx, dy);
-			scrollOccured = true;
+			scrollOccurred = true;
 		}
 		mathField.requestViewFocus();
 	}
@@ -585,7 +585,7 @@ public class MathFieldInternal
 	}
 
 	/**
-	 * @return whwther current formula is empty
+	 * @return whether current formula is empty
 	 */
 	public boolean isEmpty() {
 		return mathFormula.isEmpty();

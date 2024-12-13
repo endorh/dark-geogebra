@@ -764,9 +764,9 @@ public class Constants {
 		public int[] l;
 		public int[] s;
 
-		public SBI(int[] thel, int[] thes) {
-			l = thel;
-			s = thes;
+		public SBI(int[] theL, int[] theS) {
+			l = theL;
+			s = theS;
 		}
 	}
 
@@ -873,7 +873,7 @@ public class Constants {
 	 *            The offset in the array that corresponds to the first index of
 	 *            the subarray.
 	 * @param len
-	 *            The number of indeces in the subarray.
+	 *            The number of indices in the subarray.
 	 * @return The subarray, which may be of length 0.
 	 */
 	private static double[] subArray(final double[] array, final int offs,

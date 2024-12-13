@@ -72,8 +72,6 @@ import org.geogebra.desktop.util.UtilD;
  * </ul>
  * 
  * @author H-P Ulven
- * @version 31.10.08 29.05.08: Tranferred applet interface methods (the relevant
- *          ones) from GeoGebraAppletBase
  */
 
 public class GgbAPID extends GgbAPIJre {
@@ -127,7 +125,7 @@ public class GgbAPID extends GgbAPIJre {
 	}
 
 	/**
-	 * Refreshs all views. Note: clears traces in geometry window.
+	 * Refreshes all views. Note: clears traces in geometry window.
 	 */
 	@Override
 	public synchronized void refreshViews() {

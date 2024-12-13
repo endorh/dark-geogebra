@@ -1326,7 +1326,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 
 	/**
 	 * @param coords
-	 *            coordiantes
+	 *            coordinates
 	 * @param eps
 	 *            precision
 	 * @return whether given point is on boundary of the polygon within given
@@ -2268,7 +2268,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		if (size > 0) {
 			setPointSize(size);
 		} else {
-			setPointNotVisibile();
+			setPointNotVisible();
 		}
 	}
 
@@ -2280,7 +2280,7 @@ public class GeoPolygon extends GeoElement implements GeoNumberValue,
 		}
 	}
 
-	private void setPointNotVisibile() {
+	private void setPointNotVisible() {
 		for (GeoPointND point : points) {
 			point.setEuclidianVisibleIfNoConditionToShowObject(false);
 			point.updateRepaint();

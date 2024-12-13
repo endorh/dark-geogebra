@@ -45,7 +45,7 @@ public abstract class Analytics {
 		if (INSTANCE != null) {
 			INSTANCE.recordEvent(name, params);
 		} else {
-			Log.trace("Analytics is not set, event with name '" + name + "' cannot be recored");
+			Log.trace("Analytics is not set, event with name '" + name + "' cannot be recorded");
 		}
 	}
 
@@ -102,7 +102,7 @@ public abstract class Analytics {
 		public static final String INPUT_SOURCE = "input_source";
 
 		/**
-		 * Convert sub app code to analyitcs sub app parameter
+		 * Convert sub app code to analytics sub app parameter
 		 * @param subAppName sub app name
 		 * @return sub app parameter
 		 */

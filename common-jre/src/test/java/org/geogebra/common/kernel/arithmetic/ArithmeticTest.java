@@ -333,7 +333,7 @@ public class ArithmeticTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void functionCopySHouldBeDependent() {
+	public void functionCopyShouldBeDependent() {
 		t("f:x", "x");
 		t("g(x)=f", "x");
 		assertEquals("f(x)",

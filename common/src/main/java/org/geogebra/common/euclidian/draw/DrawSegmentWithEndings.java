@@ -77,7 +77,7 @@ public class DrawSegmentWithEndings {
 	private void createSolidShape(SegmentStyle startStyle, SegmentStyle endStyle) {
 		solidStart = createSolidStart(startStyle);
 		solidEnd = createSolidEnd(endStyle);
-		subtractedLine = substractFromLine(solidStart, solidEnd);
+		subtractedLine = subtractFromLine(solidStart, solidEnd);
 	}
 
 	private GShape createSolidStart(SegmentStyle style) {
@@ -92,7 +92,7 @@ public class DrawSegmentWithEndings {
 		return createSolidEnding(style);
 	}
 
-	private GArea substractFromLine(GShape... shapes) {
+	private GArea subtractFromLine(GShape... shapes) {
 		GShape strokedLine = drawSegment.getObjStroke().createStrokedShape(line, 255);
 		GArea area = GCompositeShape.toArea(strokedLine);
 		for (GShape shape : shapes) {

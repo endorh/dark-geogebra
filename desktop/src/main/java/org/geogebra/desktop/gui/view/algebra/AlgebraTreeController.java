@@ -90,7 +90,7 @@ public class AlgebraTreeController extends AlgebraController
 	public void mouseReleased(MouseEvent e) {
 
 		// process click if no dragging
-		if (draggingOccured) {
+		if (draggingOccurred) {
 			return;
 		}
 
@@ -215,7 +215,7 @@ public class AlgebraTreeController extends AlgebraController
 	 */
 	protected void setMousePressed() {
 
-		draggingOccured = false;
+		draggingOccurred = false;
 		lastMousePressedTime = System.currentTimeMillis();
 	}
 
@@ -260,7 +260,7 @@ public class AlgebraTreeController extends AlgebraController
 														// selected object)
 				((GuiManagerD) app.getGuiManager()).showPopupMenu(
 						selection.getSelectedGeos(), tree, mouseCoords);
-			} else { // select only this objet and popup menu
+			} else { // select only this object and popup menu
 				selection.clearSelectedGeos(false);
 				selection.addSelectedGeo(geo, true, true);
 				ArrayList<GeoElement> temp = new ArrayList<>();
@@ -394,7 +394,7 @@ public class AlgebraTreeController extends AlgebraController
 		highlight(app.getActiveEuclidianView(), (GeoElement) null);
 	}
 
-	private boolean draggingOccured = false;
+	private boolean draggingOccurred = false;
 
 	// MOUSE MOTION LISTENER
 	@Override
@@ -402,7 +402,7 @@ public class AlgebraTreeController extends AlgebraController
 		// used for interactive boards
 		if (System.currentTimeMillis() > EuclidianConstants.DRAGGING_DELAY
 				+ lastMousePressedTime) {
-			draggingOccured = true;
+			draggingOccurred = true;
 		}
 	}
 

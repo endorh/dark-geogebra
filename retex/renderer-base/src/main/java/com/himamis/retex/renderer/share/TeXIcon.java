@@ -112,7 +112,7 @@ public class TeXIcon implements Icon {
 
 		/*
 		 * I add this little value because it seems that tftopl calculates badly
-		 * the height and the depth of certains characters.
+		 * the height and the depth of certain characters.
 		 */
 		if (!trueValues) {
 			insets.top += (int) (0.18f * size1);

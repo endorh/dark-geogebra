@@ -77,7 +77,7 @@ public interface PathMover {
 	public boolean hasNext();
 
 	/**
-	 * Resets this path mover to the inital start parameter.
+	 * Resets this path mover to the initial start parameter.
 	 */
 	public void resetStartParameter();
 

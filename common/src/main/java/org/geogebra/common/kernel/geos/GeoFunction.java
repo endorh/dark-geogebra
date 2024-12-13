@@ -182,7 +182,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	 * @param f
 	 *            function
 	 * @param simplifyInt
-	 *            whether integer subexperessions should be simplified
+	 *            whether integer subexpressions should be simplified
 	 */
 	public GeoFunction(Construction c, Function f, boolean simplifyInt) {
 		super(c);
@@ -1492,7 +1492,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 	/*
 	 * Check that the functions differ at given point; false negatives if values are
-	 * too big, too close to each othe or one is undefined.
+	 * too big, too close to each other or one is undefined.
 	 */
 	private static boolean differAt(GeoFunction f1, GeoFunction f2, double x) {
 		double v1 = f1.value(x);
@@ -2285,7 +2285,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 
 	/**
 	 * Returns geo and its function variable in currently set CAS print form
-	 * unsing temp variable prefixes. For example, f(x) = a x^2 returns {
+	 * using temp variable prefixes. For example, f(x) = a x^2 returns {
 	 * "ggbtmpvara ggbtmpvarx^2", "ggbtmpvarx"}
 	 * 
 	 * @param symbolic
@@ -2826,7 +2826,7 @@ public class GeoFunction extends GeoElement implements VarString, Translateable,
 	}
 
 	/**
-	 * @return parent algo (if it's dpendent function)
+	 * @return parent algo (if it's dependent function)
 	 */
 	public AlgoDependentFunction getDependentFunction() {
 		return dependentFunction;

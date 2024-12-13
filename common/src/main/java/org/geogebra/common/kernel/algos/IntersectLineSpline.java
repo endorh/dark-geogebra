@@ -16,7 +16,7 @@ public final class IntersectLineSpline {
 
 	/**
 	 * @param spline the Spline.
-	 * @param coeffs the line coefficents.
+	 * @param coeffs the line coefficients.
 	 * @param solver the equation solver.
 	 */
 	public IntersectLineSpline(Spline spline, Coords coeffs, EquationSolver solver) {

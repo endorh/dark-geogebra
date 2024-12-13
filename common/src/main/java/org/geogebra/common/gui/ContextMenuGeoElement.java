@@ -259,7 +259,7 @@ public abstract class ContextMenuGeoElement {
 
 	/**
 	 * @param removeParents
-	 *            whether to also remove parents (eg vertices of a ploygon)
+	 *            whether to also remove parents (eg vertices of a polygon)
 	 */
 	public void deleteCmd(boolean removeParents) {
 
@@ -504,7 +504,7 @@ public abstract class ContextMenuGeoElement {
 	}
 
 	/**
-	 * Toggle animation falg
+	 * Toggle animation flag
 	 */
 	public void animationCmd() {
 		ArrayList<GeoElement> geos2 = checkOneGeo();

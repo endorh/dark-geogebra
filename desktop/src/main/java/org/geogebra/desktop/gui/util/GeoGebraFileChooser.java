@@ -101,11 +101,11 @@ public class GeoGebraFileChooser extends JFileChooser
 	 * May throw IOException: Could not get shell folder ID list (Java bug
 	 * http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6544857)
 	 * 
-	 * If an exception is catched, the constructor with a restricted file system
+	 * If an exception is caught, the constructor with a restricted file system
 	 * view should be used.
 	 * 
 	 * @param app
-	 *            applivcation
+	 *            application
 	 * 
 	 * @param currentDirectory
 	 *            directory

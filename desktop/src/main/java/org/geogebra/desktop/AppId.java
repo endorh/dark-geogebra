@@ -26,7 +26,7 @@ public class AppId {
 			final Pointer p = r.getValue();
 
 			return p.getWideString(0); // here we leak native memory by
-											// lazyness
+											// laziness
 		}
 		return "N/A";
 	}

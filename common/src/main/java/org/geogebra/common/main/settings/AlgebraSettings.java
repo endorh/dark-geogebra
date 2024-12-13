@@ -162,10 +162,10 @@ public class AlgebraSettings extends AbstractSettings {
 	}
 
 	/**
-	 * Gives the algebra style mode of an index used in listboxs.
+	 * Gives the algebra style mode of an index used in list-box.
 	 * 
 	 * @param idx
-	 *            listbox index
+	 *            index in list-box
 	 * @return The style mode of that index.
 	 */
 	public static int getStyleModeAt(int idx) {

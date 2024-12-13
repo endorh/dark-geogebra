@@ -63,7 +63,7 @@ public class AlgoPerimeterPoly extends AlgoElement {
 	}
 
 	/**
-	 * Compute circumference by adding up the length of it's segemnts.
+	 * Compute circumference by adding up the length of its segments.
 	 */
 	@Override
 	public final void compute() {

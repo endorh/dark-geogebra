@@ -192,10 +192,10 @@ public class SpreadsheetKeyListenerW
 		case GWTKeycodes.KEY_PAGEDOWN:
 			e.preventDefault();
 
-			int pixelx = table.getPixel(pos.x, pos.y, true).getX();
-			int pixely = view.getFocusPanel().getAbsoluteTop()
+			int pixelX = table.getPixel(pos.x, pos.y, true).getX();
+			int pixelY = view.getFocusPanel().getAbsoluteTop()
 			        + view.getFocusPanel().getOffsetHeight();
-			SpreadsheetCoords gip = table.getIndexFromPixel(pixelx, pixely);
+			SpreadsheetCoords gip = table.getIndexFromPixel(pixelX, pixelY);
 			if (gip != null) {
 				table.changeSelection(gip.row, pos.x, false);
 			} else {

@@ -49,7 +49,6 @@ public final class DrawPoint extends SetDrawable {
 
 	private int HIGHLIGHT_OFFSET;
 
-	// used by getSelectionDiamaterMin()
 	private static final int SELECTION_RADIUS_MIN = 12;
 
 	private final GeoPointND P;

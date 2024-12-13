@@ -32,7 +32,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 /**
  * Traversing objects are allowed to traverse through an Equation, MyList,
  * ExpressionNode and MyVecNode(3D) structure to perform some action, e.g.
- * replace one type of objects by another or just count some occurences of
+ * replace one type of objects by another or just count some occurrences of
  * certain types of objects.
  *
  * Each public class in this file which implements Traversing solves a usual
@@ -1011,7 +1011,7 @@ public interface Traversing {
 	}
 
 	/**
-	 * Replaces diff function comming from GIAC
+	 * Replaces diff function coming from GIAC
 	 *
 	 * @author Zbynek Konecny
 	 *
@@ -1464,7 +1464,7 @@ public interface Traversing {
 		}
 
 		/**
-		 * @return instance of FunctionCreater
+		 * @return instance of FunctionCreator
 		 */
 		public static FunctionCreator getCreator() {
 			return creator;

@@ -533,7 +533,7 @@ public class AlgoIntersectSegmentConicRegion extends AlgoIntersect {
 		for (int i = 0; i < 2; i++) {
 			if (intersectPoints[i].isDefined()) {
 
-				// checks the validitiy and the incidence on both conic and
+				// checks the validity and the incidence on both conic and
 				// segment of intersection point
 				if (!(segment.isOnPath(intersectPoints[i], Kernel.MIN_PRECISION)
 						&& conic.isOnPath(intersectPoints[i],

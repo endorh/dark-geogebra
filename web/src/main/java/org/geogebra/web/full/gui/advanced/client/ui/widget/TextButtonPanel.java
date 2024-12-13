@@ -28,7 +28,7 @@ import org.gwtproject.user.client.ui.HasValue;
 import org.gwtproject.user.client.ui.SimplePanel;
 
 /**
- * This is a basic class for all text boxs with a button.
+ * This is a basic class for all text boxes with a button.
  * 
  * @see ComboBox
  * 
@@ -145,7 +145,7 @@ public abstract class TextButtonPanel<T> extends SimplePanel
 	/**
 	 * This method gets a maximum length of the text box.
 	 * <p>
-	 * It makes sence if you allow custom values entering.
+	 * It makes sense if you allow custom values entering.
 	 * <p>
 	 * See also {@link #isCustomTextAllowed()} and
 	 * {@link #setCustomTextAllowed(boolean)}.
@@ -159,7 +159,7 @@ public abstract class TextButtonPanel<T> extends SimplePanel
 	/**
 	 * This method sets a maximum length of the text box.
 	 * <p>
-	 * It makes sence if you allow custom values entering.
+	 * It makes sense if you allow custom values entering.
 	 * <p>
 	 * See also {@link #isCustomTextAllowed()} and
 	 * {@link #setCustomTextAllowed(boolean)}.

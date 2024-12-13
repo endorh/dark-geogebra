@@ -250,7 +250,7 @@ public class DelaunayTriangulation {
 	// by Doron Ganel & Eyal Roth(2009)
 	private void deleteUpdate(PointDt pointToDelete) {
 		for (TriangleDt addedTriangle1 : addedTriangles) {
-			// update between addedd triangles and deleted triangles
+			// update between added triangles and deleted triangles
 			for (TriangleDt deletedTriangle : deletedTriangles) {
 				if (shareSegment(addedTriangle1, deletedTriangle)) {
 					updateNeighbor(addedTriangle1, deletedTriangle,
@@ -1056,7 +1056,7 @@ public class DelaunayTriangulation {
 
 	/**
 	 * compute the number of vertices in the convex hull. <br>
-	 * NOTE: has a 'bug-like' behavor: <br>
+	 * NOTE: has a 'bug-like' behavior: <br>
 	 * in cases of colinear - not on a asix parallel rectangle, colinear points
 	 * are reported
 	 *
@@ -1412,7 +1412,7 @@ public class DelaunayTriangulation {
 	}
 
 	/**
-	 * @return The bounding rectange between the minimum and maximum coordinates
+	 * @return The bounding rectangle between the minimum and maximum coordinates
 	 */
 	public BoundingBox getBoundingBox() {
 		return new BoundingBox(_bb_min, _bb_max);

@@ -969,7 +969,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 					}
 				}
 
-				// Log.debug("Premier point commun : "+iFirstPoint);
 				// next point
 				if (fPointFound) {
 					boolean sPointFound = false;
@@ -989,7 +988,6 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 						}
 					}
 
-					// Log.debug("Second point commun : "+(iFirstPoint+step));
 					// other points
 					if (sPointFound) {
 						int i = 2;

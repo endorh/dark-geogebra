@@ -38,7 +38,7 @@ public class SqrtOperandTest {
 	}
 
 	@Test
-	public void inverseOfNegativeSqrtNegativXShouldConvergeToNegativeInfinity() {
+	public void inverseOfNegativeSqrtNegativeXShouldConvergeToNegativeInfinity() {
 		Interval x = interval(-3.224503997145689E-14, 0.019999999999967755);
 		assertEquals(Double.POSITIVE_INFINITY,
 				evaluator.inverse(evaluator.sqrt(x.negative())).getLow(), 0);
@@ -68,7 +68,7 @@ public class SqrtOperandTest {
 	}
 
 	@Test
-	public void minusSqrtInverseOfMinusXShouldBeAproxZeroAroundZero() {
+	public void minusSqrtInverseOfMinusXShouldBeApproxZeroAroundZero() {
 		Interval x = interval(-1E-4, 1E-4);
 		Interval sqrt = evaluator.sqrt(evaluator.inverse(x));
 		Interval inverse = evaluator.inverse(sqrt);

@@ -237,7 +237,7 @@ public class AlgoAngularBisectorLines extends AlgoElement
 			// set direction vector of bisector
 			bisector[index].x = -wv[index].y;
 			bisector[index].y = wv[index].x;
-			// ohter bisector is undefined
+			// other bisector is undefined
 			bisector[1 - index].setUndefined();
 		}
 		// standard case: B is not at infinity

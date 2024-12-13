@@ -729,7 +729,7 @@ public class Function extends FunctionNVar
 			return null;
 		}
 
-		// convert sring coefficients to coefficients of a SymbolicPolyFunction
+		// convert string coefficients to coefficients of a SymbolicPolyFunction
 		// resp. PolyFunction
 		int degree = strCoeffs.length - 1;
 		if (symbolic) {

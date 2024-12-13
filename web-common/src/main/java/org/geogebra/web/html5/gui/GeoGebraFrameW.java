@@ -153,7 +153,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		int splashHeight = LOGO_HEIGHT;
 
 		// to not touch the DOM twice when computing width and height
-		preProcessFitToSceen();
+		preProcessFitToScreen();
 
 		int width = computeWidth();
 		int height = computeHeight();
@@ -204,7 +204,7 @@ public abstract class GeoGebraFrameW extends FlowPanel implements
 		Dom.toggleClass(this, "small", hasCompactNavigationRail());
 	}
 
-	private void preProcessFitToSceen() {
+	private void preProcessFitToScreen() {
 		if (appletParameters.getDataParamFitToScreen()) {
 			Document.get().getDocumentElement().getStyle()
 					.setHeight(100, Unit.PCT);

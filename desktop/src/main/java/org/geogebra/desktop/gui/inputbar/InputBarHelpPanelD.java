@@ -323,7 +323,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 	}
 
 	/**
-	 * Udate fonts
+	 * Update fonts
 	 */
 	public void updateFonts() {
 		functionTable.updateFonts();
@@ -439,7 +439,7 @@ public class InputBarHelpPanelD extends JPanel implements TreeSelectionListener,
 			}
 		}
 
-		// laod the All Commands node
+		// load the All Commands node
 		LowerCaseDictionary dict = app.getCommandDictionary();
 		for (String s : dict) {
 			String cmdName = dict.get(s);

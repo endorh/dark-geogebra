@@ -96,7 +96,7 @@ public class RecurringDecimal extends MyDouble {
 	}
 
 	/**
-	 * Parses RecuringDecimal from string.
+	 * Parses RecurringDecimal from string.
 	 *
 	 * @param kernel {@link Kernel}
 	 * @param preperiod the preperiod part of the number (integer.nonrecurring)

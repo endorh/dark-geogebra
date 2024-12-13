@@ -32,7 +32,7 @@ import org.geogebra.common.util.IndexLaTeXBuilder;
 import org.geogebra.common.util.SymbolicUtil;
 
 /**
- * Utitlity class for AV items
+ * Utility class for AV items
  */
 public class AlgebraItem {
 
@@ -376,7 +376,7 @@ public class AlgebraItem {
 	 * @param geoElement
 	 *            element
 	 * @param style
-	 *            Kenel.ALGEBRA_STYLE_*
+	 *            Kernel.ALGEBRA_STYLE_*
 	 * @param sb
 	 *            builder
 	 * @param stringTemplateForPlainText
@@ -652,7 +652,7 @@ public class AlgebraItem {
 
 	/**
 	 * Initializes the element for the Algebra View.
-	 * @param geo element to initialzie
+	 * @param geo element to initialize
 	 */
 	public static void initForAlgebraView(GeoElement geo) {
 		if (shouldShowSlider(geo) && !geo.isEuclidianVisible()) {

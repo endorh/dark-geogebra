@@ -273,12 +273,12 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 	}
 
 	/**
-	 * Prevents the different KeywordListener that a MouseEvent occured
+	 * Prevents the different KeywordListener that a MouseEvent occurred
 	 *
 	 * @param position
 	 *            of the mouse
 	 * @param ev
-	 *            the event which occured
+	 *            the event which occurred
 	 * @param type1
 	 *            of the event : KeywordListener.ONMOUSECLICKED or
 	 *            KeywordListener.ONMOUSEOVER

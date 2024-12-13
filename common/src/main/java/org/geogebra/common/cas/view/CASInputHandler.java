@@ -902,7 +902,7 @@ public class CASInputHandler {
 
 					foundReference = false;
 					// needed if the reference is the first term in the
-					// expression, because in this case addParantheses isn't
+					// expression, because in this case addParentheses isn't
 					// true yet
 					if (c != ')') {
 						addParentheses = true;
@@ -980,11 +980,11 @@ public class CASInputHandler {
 
 	private void appendReference(StringBuilder sb, String reference,
 			boolean addParentheses, boolean noParentheses) {
-		boolean parantheses = addParentheses;
+		boolean parentheses = addParentheses;
 		// don't add parenthesis if the given expression is just a positive
 		// number
 		if (isPositiveNumber(reference)) {
-			parantheses = false;
+			parentheses = false;
 		}
 		// or if the given reference is just one variable
 		else {
@@ -993,14 +993,14 @@ public class CASInputHandler {
 				// since parseLabel parses only the first label we need to check
 				// if the parsed String is the full reference
 				if (parsed.equals(reference)) {
-					parantheses = false;
+					parentheses = false;
 				}
 			} catch (ParseException e) {
 				// do nothing because the reference isn't a label
 			}
 		}
 
-		if (parantheses && !noParentheses) {
+		if (parentheses && !noParentheses) {
 			sb.append("(").append(reference).append(")");
 		} else {
 			sb.append(reference);

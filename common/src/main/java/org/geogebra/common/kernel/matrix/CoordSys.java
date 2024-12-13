@@ -906,7 +906,7 @@ public class CoordSys {
 		Coords vy = m.mul(matrixOrthonormal.getVy());
 		Coords vn = vx.crossProduct4(vy);
 
-		if (vn.isZero()) { // vx, vy not independant
+		if (vn.isZero()) { // vx, vy not independent
 			if (vx.isZero()) {
 				if (vy.isZero()) { // all to 0
 					ret = new double[] { 0, 0, 0 };

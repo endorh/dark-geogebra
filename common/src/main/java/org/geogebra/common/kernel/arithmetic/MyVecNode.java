@@ -70,7 +70,7 @@ public class MyVecNode extends ValidExpression
 	}
 
 	/**
-	 * Creates new MyVec2D with coordinates (x,y) as ExpresssionNodes. Both
+	 * Creates new MyVec2D with coordinates (x,y) as ExpressionNodes. Both
 	 * nodes must evaluate to NumberValues.
 	 * 
 	 * @param kernel

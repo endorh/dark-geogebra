@@ -91,7 +91,7 @@ public class FormulaBar extends JToolBar
 		setFloatable(false);
 
 		// add document listener to enable updating of the spreadsheet cell
-		// editot
+		// editor
 		fldFormula.getDocument().addDocumentListener(documentListener);
 
 		// add an instance of the spreadsheet cell editor listener

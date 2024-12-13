@@ -3,7 +3,7 @@ package org.geogebra.common.kernel.algos;
 import org.geogebra.common.kernel.geos.GeoPoint;
 
 /**
- * Algo for direct creation of ploygons (eg regular)
+ * Algo for direct creation of polygons (eg regular)
  */
 public interface PolygonAlgo {
 	/**

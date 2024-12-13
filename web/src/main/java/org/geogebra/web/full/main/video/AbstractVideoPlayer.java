@@ -57,7 +57,7 @@ public abstract class AbstractVideoPlayer implements IsWidget {
 
 	/**
 	 * @param video2 other video
-	 * @return whether the player is compatible with the oter video
+	 * @return whether the player is compatible with the other video
 	 */
 	abstract boolean matches(GeoVideo video2);
 

@@ -94,7 +94,7 @@ public class AlgoIntersectPlaneQuadric extends AlgoElement3D {
 	}
 
 	/**
-	 * end of contructor for this algo
+	 * end of constructor for this algo
 	 */
 	protected void end() {
 		setInputOutput(new GeoElement[] { plane.toGeoElement(), quadric },

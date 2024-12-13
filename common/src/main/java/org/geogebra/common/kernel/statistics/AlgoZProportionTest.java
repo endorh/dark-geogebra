@@ -29,7 +29,7 @@ import org.geogebra.common.util.StringUtil;
  */
 public class AlgoZProportionTest extends AlgoElement {
 	// input
-	private GeoNumeric hypPropertion;
+	private GeoNumeric hypProportion;
 	private GeoNumeric proportion;
 	private GeoNumeric n;
 	private GeoText tail;
@@ -52,7 +52,7 @@ public class AlgoZProportionTest extends AlgoElement {
 	public AlgoZProportionTest(Construction cons, GeoNumeric proportion,
 			GeoNumeric n, GeoNumeric hypProportion, GeoText tail) {
 		super(cons);
-		this.hypPropertion = hypProportion;
+		this.hypProportion = hypProportion;
 		this.tail = tail;
 		this.proportion = proportion;
 		this.n = n;
@@ -73,7 +73,7 @@ public class AlgoZProportionTest extends AlgoElement {
 		input = new GeoElement[4];
 		input[0] = proportion;
 		input[1] = n;
-		input[2] = hypPropertion;
+		input[2] = hypProportion;
 		input[3] = tail;
 
 		setOnlyOutput(result);
@@ -102,7 +102,7 @@ public class AlgoZProportionTest extends AlgoElement {
 		}
 
 		double n1 = n.getDouble();
-		double hyp = hypPropertion.getDouble();
+		double hyp = hypProportion.getDouble();
 		double phat = proportion.getDouble();
 
 		se = Math.sqrt(hyp * (1 - hyp) / n1);

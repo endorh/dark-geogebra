@@ -348,7 +348,7 @@ public interface MaterialDesignResources extends ClientBundle, ResourceIconProvi
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/baseline-error-24px.svg")
 	SVGResource exam_error();
 
-	// Toolbar resoures
+	// Toolbar resources
 	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/toolBar/ic_keyboard_arrow_down_black_24px.svg")
 	SVGResource toolbar_close_portrait_black();
 

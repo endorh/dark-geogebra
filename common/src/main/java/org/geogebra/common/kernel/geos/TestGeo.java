@@ -515,8 +515,8 @@ public enum TestGeo implements Predicate<Object> {
 		}
 	},
 
-	/** Test for ROTATEABLE */
-	ROTATEABLE {
+	/** Test for ROTATABLE */
+	ROTATABLE {
 		@Override
 		public boolean test(Object ob) {
 			return ob instanceof Rotatable;
@@ -599,7 +599,7 @@ public enum TestGeo implements Predicate<Object> {
 	 *            changed object
 	 * @param setter
 	 *            setter
-	 * @return whether objec.set(setter) will run OK
+	 * @return whether object.set(setter) will run OK
 	 */
 	public static boolean canSet(GeoElement object, GeoElement setter) {
 		return getSpecificTest(setter).isSubtypeOrEqual(getSpecificTest(object));

@@ -12,8 +12,6 @@ the Free Software Foundation.
 
 package org.geogebra.common.util;
 
-//import geogebra.AbstracKernel.AbstracKernel;
-
 import java.math.BigDecimal;
 import java.math.BigInteger;
 

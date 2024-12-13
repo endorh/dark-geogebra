@@ -13,7 +13,7 @@ the Free Software Foundation.
 /*
  * MyXMLHandler.java
  *
- * Created on 14. Juni 2003, 12:04
+ * Created on 14. June 2003, 12:04
  */
 
 package org.geogebra.common.io;
@@ -908,7 +908,7 @@ public class MyXMLHandler implements DocHandler {
 			ok = handleSpreadsheetRow(attrs);
 			break;
 		case "selection":
-			ok = handleSpreadsheetInitalSelection(attrs);
+			ok = handleSpreadsheetInitialSelection(attrs);
 			break;
 		case "spreadsheetCellFormat":
 			ok = handleSpreadsheetFormat(attrs);
@@ -1385,7 +1385,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private boolean handleSpreadsheetInitalSelection(
+	private boolean handleSpreadsheetInitialSelection(
 			LinkedHashMap<String, String> attrs) {
 
 		SpreadsheetSettings settings = app.getSettings().getSpreadsheet();
@@ -1407,7 +1407,7 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	/**
-	 * Background color handlig for view
+	 * Background color handling for view
 	 * 
 	 * @param evSet
 	 *            settings
@@ -1582,7 +1582,7 @@ public class MyXMLHandler implements DocHandler {
 	 *            settings
 	 * @param attrs
 	 *            attributes of &lt;axis&gt; tag
-	 * @return true iff succesful
+	 * @return true iff successful
 	 */
 	protected boolean handleAxis(EuclidianSettings ev,
 			LinkedHashMap<String, String> attrs) {
@@ -3200,7 +3200,7 @@ public class MyXMLHandler implements DocHandler {
 	 * create absolute start point (coords expected)
 	 * 
 	 * @param attrs
-	 *            tag atributes
+	 *            tag attributes
 	 * @return start point
 	 */
 	protected GeoPointND handleAbsoluteStartPoint(
@@ -3338,7 +3338,7 @@ public class MyXMLHandler implements DocHandler {
 					geo1 = kernel.lookupLabel(arg);
 				}
 
-				// arg is a label and does not conatin $ signs (e.g. $A1 in
+				// arg is a label and does not contain $ signs (e.g. $A1 in
 				// spreadsheet)
 				if (geo1 != null && arg.indexOf('$') < 0) {
 					en = new ExpressionNode(kernel, geo1);

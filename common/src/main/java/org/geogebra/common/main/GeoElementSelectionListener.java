@@ -23,7 +23,7 @@ public interface GeoElementSelectionListener {
 	 * @param geo
 	 *            selected element
 	 * @param addToSelection
-	 *            true to add to selecion
+	 *            true to add to selection
 	 */
 	public void geoElementSelected(GeoElement geo, boolean addToSelection);
 

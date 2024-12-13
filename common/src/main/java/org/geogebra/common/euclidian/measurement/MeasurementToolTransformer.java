@@ -9,7 +9,7 @@ import org.geogebra.common.kernel.geos.GeoPoint;
 import org.geogebra.common.kernel.matrix.Coords;
 
 /**
- * Class to transform (or "sitck") the pen to the currently active measuremet tool (ruler or
+ * Class to transform (or "stick") the pen to the currently active measurement tool (ruler or
  * one of the protractors
  */
 public final class MeasurementToolTransformer implements PenTransformer {

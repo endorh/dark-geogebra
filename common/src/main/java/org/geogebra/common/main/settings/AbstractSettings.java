@@ -9,7 +9,7 @@ import java.util.LinkedList;
  * @author Florian Sonner
  * @see "http://dev.geogebra.org/trac/wiki/GuiRefactoring"
  */
-public abstract class AbstractSettings implements Resetable {
+public abstract class AbstractSettings implements Resettable {
 	/**
 	 * Running in batch mode: Only at the end of the batch mode listeners are
 	 * notified if settings changed.

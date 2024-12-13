@@ -199,7 +199,7 @@ public class RedefineTest extends BaseUnitTest {
 	}
 
 	@Test
-	public void undoShouldNotRandomizeShufle() {
+	public void undoShouldNotRandomizeShuffle() {
 		app.setRandomSeed(42);
 		activateUndo();
 		t("L_1=Shuffle(1..10)", "{8, 7, 3, 2, 6, 10, 4, 1, 5, 9}");

@@ -15,7 +15,7 @@ public class AlgoNpR {
 	 * @param n
 	 *            size of the set
 	 * @param r
-	 *            sie of the permutation
+	 *            size of the permutation
 	 * @return number of r-element permutations in a n-element set
 	 */
 	public static double nPr(double n, double r) {

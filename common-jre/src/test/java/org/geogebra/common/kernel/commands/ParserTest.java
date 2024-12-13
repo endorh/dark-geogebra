@@ -80,7 +80,7 @@ public class ParserTest {
 	}
 
 	@Test
-	public void shouldKeppPriorityUnaryBinary() {
+	public void shouldKeepPriorityUnaryBinary() {
 		checkSameStructure("x(x+1)^2", "x*(x+1)^2");
 		checkSameStructure(Unicode.SQUARE_ROOT + "x(x+1)", "sqrt(x)*(x+1)");
 		checkSameStructure("x(x+1)!", "x*(x+1)!");

@@ -514,7 +514,7 @@ public class GeoButton extends GeoElement implements TextProperties,
 	}
 
 	/**
-	 * @return whther this button has fixed size (otherwise depends on text)
+	 * @return whether this button has fixed size (otherwise depends on text)
 	 */
 	public boolean isFixedSize() {
 		return fixedSize;

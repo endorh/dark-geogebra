@@ -37,7 +37,7 @@ public interface DrawEquationI {
 	 * @param updateAgain
 	 *            TODO always false
 	 * @param callback
-	 *            callbak for complete render (needed if font loading is async)
+	 *            callback for complete render (needed if font loading is async)
 	 * @return dimensions of result
 	 */
 	public abstract GDimension drawEquation(App app, GeoElementND geo, GGraphics2D g2, int x, int y,

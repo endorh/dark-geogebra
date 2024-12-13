@@ -647,7 +647,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 
 	/**
 	 * Calls Pcopy.updateCascade() to compute Qcopy. For non-continuous
-	 * constructions caching of previous paramater positions is used.
+	 * constructions caching of previous parameter positions is used.
 	 */
 	private void pcopyUpdateCascade() {
 		if (continuous) {

@@ -147,7 +147,7 @@ public class TableValuesInputProcessorTest extends BaseUnitTest {
 		assertEquals(2, model.getColumnCount());
 
 		processor.processInput("", column, 1);
-		// emptying last row should remove all the empty rows on the bottom fo the table
+		// emptying last row should remove all the empty rows on the bottom for the table
 		assertEquals(0, model.getRowCount());
 		assertEquals(1, model.getColumnCount());
 	}

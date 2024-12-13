@@ -36,7 +36,7 @@ public class ComboBoxChangeEvent extends ChangeEvent {
 	private ChangeEventInputDevice inputDevice;
 
 	/**
-	 * Creates an instance of this class and initalized internal variables.
+	 * Creates an instance of this class and initialized internal variables.
 	 *
 	 * @param row
 	 *            is a row number.

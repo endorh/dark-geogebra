@@ -67,8 +67,8 @@ public class GroupConsumer implements AtomConsumer {
 		return opener;
 	}
 
-	// TODO: cette methode est appele par TeXParser::flush
-	// verifier si on peut pas applique ca a ts les consumers
+	// TODO: this method is called by TeXParser::flush
+	// check if we can't apply this to all consumers
 	public Atom getAtom() {
 		return ra.simplify();
 	}

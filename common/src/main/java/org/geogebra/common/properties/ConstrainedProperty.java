@@ -6,7 +6,7 @@ import javax.annotation.Nullable;
  * A property whose values are constrained to a subset of all possible values.
  * Any possible value can be validated against this property
  * using {@link ConstrainedProperty#validateValue(Object)}.
- * @param <V> the tpye of the value
+ * @param <V> the type of the value
  */
 public interface ConstrainedProperty<V> extends ValuedProperty<V> {
 

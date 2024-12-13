@@ -164,8 +164,8 @@ public class LatexTreeItemController extends RadioTreeItemController
 	}
 
 	/**
-	 * Just evaulate input.
-	 * @return the evaulated geo.
+	 * Just evaluate input.
+	 * @return the evaluated geo.
 	 */
 	public GeoElementND evaluateToGeo() {
 		return evalInput.evaluateToGeo();

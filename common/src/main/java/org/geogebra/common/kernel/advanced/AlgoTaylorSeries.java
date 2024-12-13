@@ -94,7 +94,7 @@ public class AlgoTaylorSeries extends AlgoElement {
 		return g;
 	}
 
-	// ON CHANGE: similiar code is in AlgoPolynomialForFunction
+	// ON CHANGE: similar code is in AlgoPolynomialForFunction
 	@Override
 	public final void compute() {
 		if (!f.isDefined() || !a.isDefined() || !n.isDefined()) {

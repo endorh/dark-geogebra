@@ -13,7 +13,7 @@ import org.geogebra.common.kernel.matrix.CoordMatrix4x4;
 import org.geogebra.common.kernel.matrix.Coords;
 
 /**
- * Helper functions for transfroming parametric curves and surfaces
+ * Helper functions for transforming parametric curves and surfaces
  */
 public class SurfaceTransform {
 	/**

@@ -48,7 +48,7 @@ public class AlgoVertexConic extends AlgoElement {
 	 * @param cons
 	 *            construction
 	 * @param label
-	 *            label for ouputs (for A outputs A_1,A_2,... will be created)
+	 *            label for outputs (for A outputs A_1,A_2,... will be created)
 	 * @param c
 	 *            conic
 	 */
@@ -61,7 +61,7 @@ public class AlgoVertexConic extends AlgoElement {
 	 * @param cons
 	 *            construction
 	 * @param labels
-	 *            labels for ouputs
+	 *            labels for outputs
 	 * @param c
 	 *            conic
 	 */

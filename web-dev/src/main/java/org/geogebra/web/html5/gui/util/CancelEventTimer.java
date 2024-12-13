@@ -109,7 +109,7 @@ public class CancelEventTimer {
 	/**
 	 * called at the end of any blur event
 	 */
-	public static void blurEventOccured() {
+	public static void blurEventOccurred() {
 		lastBlurEvent = System.currentTimeMillis();
 		blurEnabled = true;
 	}

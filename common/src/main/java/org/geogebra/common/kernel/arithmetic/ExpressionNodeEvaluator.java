@@ -1231,7 +1231,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 * Throw illegal comparison error
 	 *
 	 * @param lt     left argument
-	 * @param rt     rigt argument
+	 * @param rt     right argument
 	 * @param opname comparison operator
 	 * @return nothing (error is thrown)
 	 * @throws MyError (always)
@@ -1248,32 +1248,28 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 * @param lt
 	 *            left argument
 	 * @param rt
-	 *            rigt argument
-	 * @param opname
+	 *            right argument
+	 * @param opName
 	 *            list operator
-	 * @return nothing (error is thrown)
-	 * @throws MyError
-	 *             (always)
+	 * @return error for list operation
 	 */
 	public MyError illegalListOp(ExpressionValue lt, ExpressionValue rt,
-			String opname) {
-		return new MyError(loc, Errors.IllegalListOperation, lt, opname, rt);
+			String opName) {
+		return new MyError(loc, Errors.IllegalListOperation, lt, opName, rt);
 
 	}
 
 	/**
-	 * Throws illegal argument "opname lt)"
+	 * Throws illegal argument "opName lt)"
 	 *
 	 * @param lt
 	 *            argument
-	 * @param opname
+	 * @param opName
 	 *            operation name (including "(")
-	 * @return op(lt) or error
-	 * @throws MyError
-	 *             if not polynomial or not constant
+	 * @return error for generic operation
 	 */
-	public MyError illegalArgument(ExpressionValue lt, String opname) {
-		return illegalArgument(lt, opname, ")");
+	public MyError illegalArgument(ExpressionValue lt, String opName) {
+		return illegalArgument(lt, opName, ")");
 	}
 
 	/**

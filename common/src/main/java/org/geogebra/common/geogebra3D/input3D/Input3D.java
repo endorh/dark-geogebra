@@ -182,7 +182,7 @@ abstract public class Input3D {
 
 	/**
 	 * 
-	 * @return true if the input use a robot to controll 2D mouse
+	 * @return true if the input use a robot to control 2D mouse
 	 */
 	abstract public boolean useMouseRobot();
 

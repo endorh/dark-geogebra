@@ -5,16 +5,16 @@ import org.geogebra.common.util.AsyncOperation;
 
 class InputBoxErrorHandler implements ErrorHandler {
 
-	boolean errorOccured;
+	boolean errorOccurred;
 
 	@Override
 	public void showError(String msg) {
-		errorOccured = true;
+		errorOccurred = true;
 	}
 
 	@Override
 	public void showCommandError(String command, String message) {
-		errorOccured = true;
+		errorOccurred = true;
 	}
 
 	@Override
@@ -24,12 +24,12 @@ class InputBoxErrorHandler implements ErrorHandler {
 
 	@Override
 	public boolean onUndefinedVariables(String string, AsyncOperation<String[]> callback) {
-		errorOccured = true;
+		errorOccurred = true;
 		return false;
 	}
 
 	@Override
 	public void resetError() {
-		errorOccured = false;
+		errorOccurred = false;
 	}
 }

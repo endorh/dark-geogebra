@@ -304,7 +304,7 @@ public class AlgoAreCongruent extends AlgoElement
 			v1 = ((GeoLine) inputElement1).getBotanaVars(inputElement1); // AB
 			v2 = ((GeoLine) inputElement2).getBotanaVars(inputElement2); // CD
 
-			// We want to prove: 1) ABC collinear, 2) ABD collinear
+			// We want to prove: 1) A,B,C collinear, 2) A,B,D collinear
 			botanaPolynomials[0][0] = PPolynomial.collinear(v1[0], v1[1], v1[2],
 					v1[3], v2[0], v2[1]);
 			botanaPolynomials[1][0] = PPolynomial.collinear(v1[0], v1[1], v1[2],

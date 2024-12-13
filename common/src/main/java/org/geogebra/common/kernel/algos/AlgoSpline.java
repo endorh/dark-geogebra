@@ -22,7 +22,6 @@ import org.geogebra.common.kernel.kernelND.GeoElementND;
 import org.geogebra.common.kernel.kernelND.GeoPointND;
 import org.geogebra.common.plugin.Operation;
 import org.geogebra.common.util.DoubleUtil;
-import org.geogebra.common.util.debug.Log;
 
 /**
  * Algorithm for spline.
@@ -140,13 +139,11 @@ public class AlgoSpline extends AlgoElement {
 	}
 
 	/**
-	 * @return amount of poitns that are stationary (not free)
+	 * @return whether all input points are freely movable
 	 */
 	@Override
 	public boolean hasOnlyFreeInputPoints(EuclidianViewInterfaceSlim view) {
 		ArrayList<GeoElementND> freeInputPoints = view.getFreeInputPoints(this);
-		Log.error((inputList.size() == freeInputPoints.size())
-				|| (!freeInputPoints.isEmpty() && freeInputPoints.get(0) == inputList));
 		return (inputList.size() == freeInputPoints.size())
 				|| (!freeInputPoints.isEmpty() && freeInputPoints.get(0) == inputList);
 	}

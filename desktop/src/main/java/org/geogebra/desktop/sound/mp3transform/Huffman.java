@@ -113,7 +113,7 @@ final class Huffman {
 			decoder.x = (decoder.y >> 1) & 1;
 			decoder.y = decoder.y & 1;
 			// v, w, x and y are reversed in the bitstream
-			// switch them around to make test bistream work.
+			// switch them around to make test bitstream work.
 			if (decoder.v != 0) {
 				if (br.getOneBit() != 0) {
 					decoder.v = -decoder.v;

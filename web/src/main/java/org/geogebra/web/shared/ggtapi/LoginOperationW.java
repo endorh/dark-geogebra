@@ -82,7 +82,7 @@ public class LoginOperationW extends LogInOperation {
 										performTokenLogin((String) dataObject.get("msg"), false);
 									}
 								} catch (Throwable err) {
-									Log.debug("error occured while logging: \n"
+									Log.debug("error occurred while logging: \n"
 											+ err.getMessage() + " " + data);
 								}
 							}

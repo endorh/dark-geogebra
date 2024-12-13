@@ -43,12 +43,10 @@ public class DecoAngleModel extends IconOptionsModel {
 	protected void apply(int index, int value) {
 		AngleProperties geo = getAnglePropertiesAt(index);
 		geo.setDecorationType(value);
-		// addded by Loic BEGIN
 		// check if decoration could be drawn
 		if (geo.getArcSize() < AngleArcSizeModel.getMinSizeForDecoration(geo)) {
 			geo.setArcSize(AngleArcSizeModel.getMinSizeForDecoration(geo));
 		}
-		// END
 		geo.updateVisualStyleRepaint(GProperty.DECORATION);
 	}
 

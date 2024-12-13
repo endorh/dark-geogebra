@@ -44,7 +44,7 @@ public class SVGFontTable {
 		// is the font stored?
 		Hashtable/* <String, SVGGlyph> */ glyphs = getGlyphs(font);
 
-		// does a glyph allready exist?
+		// does a glyph already exist?
 		SVGGlyph result = (SVGGlyph) glyphs.get(String.valueOf(c));
 
 		// create a new one?

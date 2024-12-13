@@ -1096,9 +1096,9 @@ public class StringUtil extends com.himamis.retex.editor.share.input.Character {
 	}
 
 	/**
-	 * Tokenize a string so that every even indices (e.g. 0) of the returned
-	 * array should contain a String not containing any letters (or digits), and
-	 * every odd incides (e.g. 1) of it should contain a String having only
+	 * Tokenize a string so that all even indices (e.g. 0) of the returned
+	 * array contain a String not containing any letters (or digits), and
+	 * all odd indices (e.g. 1) of the array contain a String having only
 	 * letters (or digits).
 	 * 
 	 * @param input

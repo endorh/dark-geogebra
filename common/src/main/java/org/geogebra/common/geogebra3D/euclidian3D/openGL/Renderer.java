@@ -1991,7 +1991,7 @@ public abstract class Renderer {
 	}
 
 	/**
-	 * dispaly for export image
+	 * display for export image
 	 */
 	public void display() {
 		// used in desktop and for export image

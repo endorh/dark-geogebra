@@ -130,7 +130,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo, StyleSensit
 	 * @param geoList
 	 *            input matrix
 	 * @param args
-	 *            table formating, see parseArgs()
+	 *            table formatting, see parseArgs()
 	 */
 	public AlgoTableText(Construction cons, GeoElement[] input, String label, GeoList geoList,
 			GeoText args, GeoNumberValue[] minWidthHeight) {
@@ -146,7 +146,7 @@ public class AlgoTableText extends AlgoElement implements TableAlgo, StyleSensit
 	 * @param geoList
 	 *            input matrix
 	 * @param args
-	 *            table formating, see parseArgs()
+	 *            table formatting, see parseArgs()
 	 */
 	AlgoTableText(Construction cons, GeoElement[] input, GeoList geoList, GeoText args,
 			GeoNumberValue[] minWidthHeight) {

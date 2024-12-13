@@ -230,7 +230,7 @@ public class SpreadsheetModeProcessor {
 			return;
 		}
 
-		// Get a string representation of the seleced range (e.g. A1:B3)
+		// Get a string representation of the selected range (e.g. A1:B3)
 		String cellRangeString = table.getCellRangeProcessor()
 				.getCellRangeString(selection);
 

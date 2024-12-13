@@ -853,10 +853,10 @@ public class GeoList extends GeoElement
 	}
 
 	/**
-	 * Increases capcity of this list if necessary
+	 * Increases capacity of this list if necessary
 	 *
 	 * @param size
-	 *            capcity to ensure
+	 *            capacity to ensure
 	 */
 	final public void ensureCapacity(final int size) {
 		elements.ensureCapacity(size);
@@ -2716,10 +2716,10 @@ public class GeoList extends GeoElement
 	}
 
 	/**
-	 * Sets this angle shuld be drawn differently when right
+	 * Sets this angle should be drawn differently when right
 	 *
 	 * @param emphasizeRightAngle
-	 *            true iff this angle shuld be drawn differently when right
+	 *            true iff this angle should be drawn differently when right
 	 */
 	@Override
 	public void setEmphasizeRightAngle(boolean emphasizeRightAngle) {

@@ -1125,7 +1125,7 @@ public class SelectionManager {
 	 * @param geo
 	 *            (un)selected geo
 	 * @param max
-	 *            max size of selctionList after addition
+	 *            max size of selectionList after addition
 	 * @return 0/1/-1 if nothing happened / geo selected / geo unselected
 	 */
 	public <T> int addToSelectionList(ArrayList<T> selectionList, T geo,

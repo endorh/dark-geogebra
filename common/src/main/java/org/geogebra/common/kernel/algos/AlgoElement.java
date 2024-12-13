@@ -761,7 +761,7 @@ public abstract class AlgoElement extends ConstructionElement
 	}
 
 	/**
-	 * Note : maybe overridden for xOy plane additionnal input
+	 * Note : maybe overridden for xOy plane additional input
 	 * 
 	 * @param i
 	 *            index
@@ -825,7 +825,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 */
 	protected final void setEfficientDependencies(GeoElement[] standardInput,
 			GeoElementND[] efficientInput) {
-		// dependens on standardInput
+		// dependency on standardInput
 		for (int i = 0; i < standardInput.length; i++) {
 			standardInput[i].addToAlgorithmListOnly(this);
 		}
@@ -1356,7 +1356,7 @@ public abstract class AlgoElement extends ConstructionElement
 	 * format. GeoGebra File Format.
 	 */
 	@Override
-	public void getXML(boolean getlistenersToo, StringBuilder sb) {
+	public void getXML(boolean getListenersToo, StringBuilder sb) {
 		getXML(sb, true);
 	}
 
@@ -1730,7 +1730,7 @@ public abstract class AlgoElement extends ConstructionElement
 	}
 
 	/**
-	 * @return class identificator (may not be unique)
+	 * @return class identifier (may not be unique)
 	 */
 	public abstract GetCommand getClassName();
 

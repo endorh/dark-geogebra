@@ -42,7 +42,7 @@ import com.google.j2objc.annotations.Weak;
  * A controller for coordinating the core aspects of exam mode.
  * <p/>
  * <h3>Responsibilities</h3>
- * Here's the list of responsibilites of this controller:
+ * Here's the list of responsibilities of this controller:
  * <ul>
  *     <li><b>Exam state</b>: Starting, stopping, and finishing up the exam, and making the
  *     current exam state available (both as a getter, and as a change notification to registered

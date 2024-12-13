@@ -816,7 +816,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 		 */
 
 		// test whether conics A and B have proportional submatrix S
-		// => degnerate is single line
+		// => degenerate is single line
 		// (e.g. for circles)
 
 		double[] Amatrix = conic1.getFlatMatrix();
@@ -1398,7 +1398,7 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 	/* NEAREST DISTANCE RELATION */
 
 	/**
-	 * set tabel[i][j] to square distance between D[i] and Q[j]. distSqr(D[i], Q[j])
+	 * set table[i][j] to square distance between D[i] and Q[j]. distSqr(D[i], Q[j])
 	 * := (D[i] - Q[j])^2 + age[i]. age[i] tells for every D[i], how long it has
 	 * been undefined (old points' distances should be larger). Undefined (NaN) or
 	 * infinite distances are set to max of all defined distances + 1. If there are
@@ -1461,10 +1461,10 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 	 * @param pointList   temporary point relation list
 	 *
 	 * @param permutation is an output parameter for the permutation of points Q
-	 *                    used to set points P, e.g. permuation {1,0} means that
+	 *                    used to set points P, e.g. permutation {1,0} means that
 	 *                    P[0]=Q[1] and P[1]=Q[0]
 	 * @param needStrict  false to ignore eps
-	 * @param eps         precision: if csome intersection points are closer than
+	 * @param eps         precision: if some intersection points are closer than
 	 *                    this, don't permute
 	 */
 	static void setNearTo(GeoPoint[] P, boolean[] isPalive, GeoPoint[] Q, boolean[] isQonPath,
@@ -1552,24 +1552,24 @@ public class AlgoIntersectConics extends AlgoIntersect implements SymbolicParame
 	 * set P that really lie on both paths.
 	 *
 	 * @param P           output array for best fitting permutation
-	 * @param isPalive    whether the respective P point was defined already
+	 * @param isPAlive    whether the respective P point was defined already
 	 * @param Q           new permutation
 	 * @param isQonPath   whether respective element of Q is on both (limited) paths
 	 * @param distTable   distance matrix for old points D and new Q
 	 * @param pointList   temporary point relation list
 	 *
 	 * @param permutation is an output parameter for the permutation of points Q
-	 *                    used to set points P, e.g. permuation {1,0} means that
+	 *                    used to set points P, e.g. permutation {1,0} means that
 	 *                    P[0]=Q[1] and P[1]=Q[0]
 	 */
-	static void setNearTo(GeoPoint[] P, boolean[] isPalive, GeoPoint[] Q, boolean[] isQonPath,
+	static void setNearTo(GeoPoint[] P, boolean[] isPAlive, GeoPoint[] Q, boolean[] isQonPath,
 			double[][] distTable, PointPairList pointList, int[] permutation) {
 		int indexP, indexQ;
 		pointList.clear();
 		for (indexP = 0; indexP < P.length; indexP++) {
 			for (indexQ = 0; indexQ < Q.length; indexQ++) {
 				// sorted inserting
-				pointList.insertPointPair(indexP, isPalive[indexP], indexQ, isQonPath[indexQ],
+				pointList.insertPointPair(indexP, isPAlive[indexP], indexQ, isQonPath[indexQ],
 						distTable[indexP][indexQ]);
 			}
 		}

@@ -1119,7 +1119,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 * the original point in plane coords
 	 * 
 	 * @param m
-	 *            matrix {v1 v2 v3 o} where (o,v1,v2) is a coord sys fo the
+	 *            matrix {v1 v2 v3 o} where (o,v1,v2) is a coord sys for the
 	 *            plane, and v3 the direction used for projection
 	 * @param globalCoords
 	 *            output coords (global)
@@ -1407,7 +1407,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 * the original point in plane coords
 	 * 
 	 * @param m
-	 *            matrix {v1 v2 ?? o} where (o,v1,v2) is a coord sys fo the
+	 *            matrix {v1 v2 ?? o} where (o,v1,v2) is a coord sys for the
 	 *            plane, and v3
 	 * @param v
 	 *            the direction used for projection
@@ -1458,7 +1458,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 * the original point in plane coords
 	 * 
 	 * @param m
-	 *            matrix {v1 v2 v3 o} where (o,v1,v2) is a coord sys fo the
+	 *            matrix {v1 v2 v3 o} where (o,v1,v2) is a coord sys for the
 	 *            plane, and v3
 	 * @param v
 	 *            the direction used for projection (v3 is used instead if v is
@@ -1494,7 +1494,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 * the original point in plane coords
 	 * 
 	 * @param m
-	 *            matrix {v1 v2 v3 o} where (o,v1,v2) is a coord sys fo the
+	 *            matrix {v1 v2 v3 o} where (o,v1,v2) is a coord sys for the
 	 *            plane, and v3
 	 * @param v
 	 *            the direction used for projection (v3 is used instead if v is
@@ -1559,7 +1559,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 * the original point in plane coords
 	 * 
 	 * @param m
-	 *            matrix {v1 v2 v3 o} where (o,v1,v2) is a coord sys fo the
+	 *            matrix {v1 v2 v3 o} where (o,v1,v2) is a coord sys for the
 	 *            plane, and v3
 	 * @param v
 	 *            the direction used for projection (v3 is used instead if v is
@@ -1590,7 +1590,7 @@ public class Coords implements AnimatableValue<Coords> {
 	 * (this,v), then project the result using plane third vector
 	 * 
 	 * @param m
-	 *            matrix {v1 v2 v3 o} where (o,v1,v2) is a coord sys fo the
+	 *            matrix {v1 v2 v3 o} where (o,v1,v2) is a coord sys for the
 	 *            plane, and v3
 	 * @param oldCoords
 	 *            old position of this
@@ -2546,7 +2546,7 @@ public class Coords implements AnimatableValue<Coords> {
 	}
 
 	/**
-	 * if the ND hom coords is in x-y plane, return this coords
+	 * if the ND homogeneous coords is in x-y plane, return this coords
 	 * 
 	 * @return
 	 * 
@@ -2577,7 +2577,7 @@ public class Coords implements AnimatableValue<Coords> {
 	}
 
 	/**
-	 * if the ND hom coords is in x-y plane, set this to v coords
+	 * if the ND homogeneous coords is in x-y plane, set this to v coords
 	 * 
 	 * @param v
 	 *            vector

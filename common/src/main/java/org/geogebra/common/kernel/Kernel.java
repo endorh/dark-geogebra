@@ -322,7 +322,6 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	private boolean wantAnimationStarted = false;
 
-	// setResolveUnkownVarsAsDummyGeos
 	private SymbolicMode symbolicMode = SymbolicMode.NONE;
 
 	private boolean updateEVAgain = false; // used for DrawEquationWeb and
@@ -716,7 +715,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 			double x = StringUtil.parseDouble(attrs.get("x"));
 			double y = StringUtil.parseDouble(attrs.get("y"));
 			double z = StringUtil.parseDouble(attrs.get("z"));
-			v.hasUpdatePrevilege = true;
+			v.hasUpdatePrivilege = true;
 			v.setCoords(x, y, z);
 			return true;
 
@@ -951,7 +950,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	 *            original position
 	 * @param to
 	 *            target position
-	 * @return true if succesful
+	 * @return true if successful
 	 */
 	public boolean moveInConstructionList(int from, int to) {
 		return cons.moveInConstructionList(from, to);
@@ -2606,7 +2605,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * @return whether unkown variables are resolved as GeoDummyVariable
+	 * @return whether unknown variables are resolved as GeoDummyVariable
 	 *         objects.
 	 * 
 	 * @see #setSilentMode(boolean)
@@ -3242,11 +3241,11 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * @param coordStlye
+	 * @param coordStyle
 	 *            coordinate style
 	 */
-	public void setCoordStyle(int coordStlye) {
-		getApplication().getSettings().getGeneral().setCoordFormat(coordStlye);
+	public void setCoordStyle(int coordStyle) {
+		getApplication().getSettings().getGeneral().setCoordFormat(coordStyle);
 	}
 
 	/**
@@ -4533,7 +4532,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 	}
 
 	/**
-	 * Returns an XML represenation of the given macros in this kernel.
+	 * Returns an XML representation of the given macros in this kernel.
 	 * 
 	 * @param macros
 	 *            macros
@@ -4720,7 +4719,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * When function (or parabola) is transformed to curve, we need some good
-	 * estimate for which part of curve should be ploted
+	 * estimate for which part of curve should be plotted
 	 * 
 	 * @return lower bound for function -&gt; curve transform
 	 */
@@ -5008,7 +5007,7 @@ public class Kernel implements SpecialPointsListener, ConstructionStepper {
 
 	/**
 	 * 
-	 * @return true if algo (e.g. AlgoOrthoLinePointLine) doens't need to say
+	 * @return true if algo (e.g. AlgoOrthoLinePointLine) doesn't need to say
 	 *         that we work in (or parallel to) xOy plane
 	 */
 	final public boolean noNeedToSpecifyXOYPlane() {

@@ -125,7 +125,7 @@ public class AlgoPrimeFactorization extends AlgoElement {
 		}
 	}
 
-	// copied from AlgoInterationList.java
+	// copied from AlgoIterationList.java
 	// TODO should it be centralised?
 	private void setListElement(int index, double value, double exp) {
 		GeoList listElement;

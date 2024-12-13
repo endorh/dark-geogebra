@@ -669,9 +669,9 @@ public class Complex {
 			// result[1] = sin(z[0]) * ( exp(z[1]) - exp(-z[1]) ) / 2;
 			result = ln(result);
 		} else { // approximately cosh y = sinh y = e^|y| / 2:
-			// ln |cos z| = ln |y| - ln 2 for z = x + iy
+			// ln |cos z| = ln |y| - ln 2 for z = x + i*y
 			result[0] = Math.abs(z[1]) - log(2);
-			// arg |sin z| = arctan( sgn y cot x ) for z = x + iy:
+			// arg |sin z| = arctan( sgn y cot x ) for z = x + i*y:
 			if (z[1] < 0) {
 				result[1] = atan(-1 / tan(z[0]));
 			} else {
@@ -942,9 +942,9 @@ public class Complex {
 			// result[1] = cos(z[0]) * ( exp(z[1]) - exp(-z[1]) ) / 2;
 			result = ln(result);
 		} else { // approximately cosh y = sinh y = e^|y| / 2:
-			// ln |sin z| = ln |y| - ln 2 for z = x + iy
+			// ln |sin z| = ln |y| - ln 2 for z = x + i*y
 			result[0] = Math.abs(z[1]) - log(2);
-			// arg |sin z| = arctan( sgn y cot x ) for z = x + iy:
+			// arg |sin z| = arctan( sgn y cot x ) for z = x + i*y:
 			if (z[1] < 0) {
 				result[1] = atan(-1 / tan(z[0]));
 			} else {

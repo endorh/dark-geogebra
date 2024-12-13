@@ -37,9 +37,9 @@ public class AlgoOrthoPlaneBisectorPointPoint extends AlgoOrthoPlane {
 	 * @param label
 	 *            label
 	 * @param point1
-	 *            bisected segment enpoint
+	 *            bisected segment endpoint
 	 * @param point2
-	 *            bisected segment enpoint
+	 *            bisected segment endpoint
 	 */
 	public AlgoOrthoPlaneBisectorPointPoint(Construction cons, String label,
 			GeoPointND point1, GeoPointND point2) {

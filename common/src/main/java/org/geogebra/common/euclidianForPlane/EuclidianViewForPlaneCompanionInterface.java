@@ -18,7 +18,7 @@ public interface EuclidianViewForPlaneCompanionInterface {
 	public void setTransformRegardingView();
 
 	/**
-	 * remove the view when the creator doens't exist anymore
+	 * remove the view when the creator doesn't exist anymore
 	 */
 	public void doRemove();
 

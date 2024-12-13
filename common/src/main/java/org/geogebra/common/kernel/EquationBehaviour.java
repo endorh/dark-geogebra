@@ -10,7 +10,7 @@ import org.geogebra.common.kernel.commands.EvalInfo;
  * {@link org.geogebra.common.kernel.commands.AlgebraProcessor#processLine(Equation, ExpressionNode, EvalInfo) AlgebraProcessor's processLine}, etc).
  * @apiNote If we need more fine-grained overrides, we can add methods for specific cases here.
  * @implNote The equation form for {@link org.geogebra.common.kernel.geos.GeoLine GeoLine} and
- * subclasses is initalized from the construction defaults (via the call to
+ * subclasses is initialized from the construction defaults (via the call to
  * {@code setConstructionDefaults()} in the {@code GeoLine} constructor). By default, the
  * equation style in the construction defaults for {@code GeoLine} and subclasses is set to
  * {@code EQUATION_IMPLICIT}, but this default setting may be overridden (in the Classic app).

@@ -72,7 +72,7 @@ class StatementFeatures {
 		int parentsComplexity = 1;
 
 		/*
-		 * Compute node complexity by counting multiplicites in occurrences
+		 * Compute node complexity by counting multiplicities in occurrences
 		 * of GeoElement objects, if an expression is found.
 		 */
 

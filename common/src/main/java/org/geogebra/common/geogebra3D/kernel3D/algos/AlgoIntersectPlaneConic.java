@@ -35,7 +35,7 @@ public class AlgoIntersectPlaneConic extends AlgoIntersectConic3D {
 
 	@Override
 	public void compute() {
-		intersect((GeoCoordSys2D) getFirtGeo(), c, P);
+		intersect((GeoCoordSys2D) getFirstGeo(), c, P);
 	}
 
 	/**

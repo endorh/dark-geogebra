@@ -369,7 +369,7 @@ public class BeautifyJS {
 			+ "            var line = output_lines[output_lines.length - 1];\n"
 			+ "            if (output_space_before_token && line.text.length) {\n"
 			+ "                var last_output = line.text[line.text.length - 1];\n"
-			+ "                if (last_output !== ' ' && last_output !== indent_string) { // prevent occassional duplicate space\n"
+			+ "                if (last_output !== ' ' && last_output !== indent_string) { // prevent occasional duplicate space\n"
 			+ "                    line.text.push(' ');\n"
 			+ "                }\n" + "            }\n" + "        }\n" + "\n"
 			+ "        function print_token(printable_token) {\n"

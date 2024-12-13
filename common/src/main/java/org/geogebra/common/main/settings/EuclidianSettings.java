@@ -396,7 +396,7 @@ public class EuclidianSettings extends AbstractSettings {
 
 	/**
 	 * @param neverShowMouseCoords
-	 *            whther to show mouse coordinates
+	 *            whether to show mouse coordinates
 	 */
 	public void setAllowShowMouseCoords(boolean neverShowMouseCoords) {
 		if (neverShowMouseCoords == this.allowShowMouseCoords) {
@@ -1030,7 +1030,7 @@ public class EuclidianSettings extends AbstractSettings {
 	 * Set grid type: cartesian, polar, isometric, ....
 	 * 
 	 * @param type
-	 *            one fof EuclidianView.GRID_* constants
+	 *            one of EuclidianView.GRID_* constants
 	 */
 	public void setGridType(int type) {
 		if (gridType == type) {
@@ -1219,7 +1219,7 @@ public class EuclidianSettings extends AbstractSettings {
 	 * 
 	 * @param i
 	 *            index of axis (0 for x, 1 for y)
-	 * @return axis label including formating tags
+	 * @return axis label including formatting tags
 	 */
 	public String axisLabelForXML(int i) {
 		return axesLabels[i];

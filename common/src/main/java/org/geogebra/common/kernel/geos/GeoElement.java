@@ -238,7 +238,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	private boolean useVisualDefaults = true;
 	/** true if color is set */
 	private boolean isColorSet = false;
-	/** true if geo is highlited */
+	/** true if geo is highlighted */
 	protected boolean highlighted = false;
 	private boolean selected = false;
 	private String strAlgebraDescription;
@@ -1491,7 +1491,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		return false;
 	}
 
-	/** @return true if inverse fill is posible */
+	/** @return true if inverse fill is possible */
 	public boolean isInverseFillable() {
 		return false;
 	}
@@ -3102,7 +3102,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	 * Same as update(), but do not notify kernel
 	 * 
 	 * @param mayUpdateCas
-	 *            whether update migt be sent to CAS
+	 *            whether update might be sent to CAS
 	 * @param dragging
 	 *            whether this was triggered by drag
 	 */
@@ -3899,7 +3899,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	/**
-	 * Returns toValueString() if isDefined() ist true, else the translation of
+	 * Returns toValueString() if isDefined() is true, else the translation of
 	 * "undefined" is returned
 	 * 
 	 * @param tpl
@@ -3936,7 +3936,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 		}
 
 		final String algDesc = getAlgebraDescriptionDefault();
-		// convertion to html is only needed if indices are found
+		// conversion to html is only needed if indices are found
 		if (hasIndexLabel()) {
 			builder.indicesToHTML(algDesc);
 			return builder.toString();
@@ -5104,7 +5104,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	/*
-	 * hightlighting and selecting only for internal purpouses, i.e. this is not saved
+	 * highlighting and selecting only for internal purposes, i.e. this is not saved
 	 */
 	@Override
 	public boolean setSelected(final boolean flag) {
@@ -5203,7 +5203,7 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	/**
-	 * @return true if this can have absoute screen location
+	 * @return true if this can have absolute screen location
 	 */
 	public boolean isAbsoluteScreenLocateable() {
 		return false;
@@ -6076,11 +6076,11 @@ public abstract class GeoElement extends ConstructionElement implements GeoEleme
 	}
 
 	/**
-	 * Randomize for probability chacking overridden in subclasses that allow
+	 * Randomize for probability checking overridden in subclasses that allow
 	 * randomization
 	 */
 	public void randomizeForProbabilisticChecking() {
-		// overode by subclasses
+		// overridden by subclasses
 	}
 
 	/**

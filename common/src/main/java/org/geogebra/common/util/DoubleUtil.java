@@ -316,7 +316,7 @@ public class DoubleUtil {
 
 	/**
 	 * Checks if x is very close (1E-8) to an integer. If it is, the integer
-	 * value is returned, otherwise x is returnd.
+	 * value is returned, otherwise x is returned.
 	 * 
 	 * @param x
 	 *            real number

@@ -242,7 +242,7 @@ public class LoadFilePresenter {
 	}
 
 	/**
-	 * FInish loading when no base64 / filename enetered
+	 * Finish loading when no base64 / filename entered
 	 * 
 	 * @param app
 	 *            application

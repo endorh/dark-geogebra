@@ -11,7 +11,7 @@ public interface ScriptLoadCallback {
 	void onError();
 
 	/**
-	 * Prevent runing load callback if not already loaded
+	 * Prevent running load callback if not already loaded
 	 */
 	void cancel();
 

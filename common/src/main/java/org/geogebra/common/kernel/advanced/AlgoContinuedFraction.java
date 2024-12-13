@@ -39,7 +39,7 @@ public class AlgoContinuedFraction extends AlgoElement {
 	 * @param cons
 	 *            construction
 	 * @param num
-	 *            aproximated number
+	 *            approximated number
 	 * @param level
 	 *            number of denominators
 	 * @param shorthand

@@ -389,7 +389,7 @@ public abstract class GlobalKeyDispatcher {
 			boolean fromEuclidianView) {
 
 		// eventually make an undo point (e.g. after zooming)
-		app.storeUndoInfoIfSetCoordSystemOccured();
+		app.storeUndoInfoIfSetCoordSystemOccurred();
 
 		boolean consumed = false;
 

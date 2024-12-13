@@ -72,7 +72,9 @@ public class AlgoPercentile extends AlgoElement {
 		setDependencies(); // done by AlgoElement
 	}
 
-	/** @return value oistics at given percenntile */
+	/**
+	 * @return estimate of the <code>p</code>th percentile of the values in the input list
+	 */
 	public GeoNumeric getResult() {
 		return result;
 	}

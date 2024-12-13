@@ -19,7 +19,7 @@ public class CmdEnds extends CommandProcessor {
 
 	/**
 	 * @param kernel
-	 *            kenrel
+	 *            kernel
 	 */
 	public CmdEnds(Kernel kernel) {
 		super(kernel);

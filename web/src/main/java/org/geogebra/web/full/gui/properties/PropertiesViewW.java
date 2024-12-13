@@ -59,17 +59,17 @@ public class PropertiesViewW extends PropertiesView
 	 * 
 	 * @param app
 	 *            app
-	 * @param ot
+	 * @param optionType
 	 *            initial options type
 	 */
-	public PropertiesViewW(AppW app, OptionType ot) {
+	public PropertiesViewW(AppW app, OptionType optionType) {
 		super(app);
 		this.wrappedPanel = app.isUnbundledOrWhiteboard()
 				? new PersistablePanel() : new FlowPanel();
 		app.setPropertiesView(this);
 		app.setWaitCursor();
 
-		optionType = ot;
+		this.optionType = optionType;
 		initGUI();
 		app.setDefaultCursor();
 	}
@@ -541,7 +541,7 @@ public class PropertiesViewW extends PropertiesView
 	 * @param width
 	 *            width
 	 * @param height
-	 *            heigth
+	 *            height
 	 */
 	public void resize(double width, double height) {
 		wrappedPanel.setPixelSize((int) Math.min(width, 500), (int) height);

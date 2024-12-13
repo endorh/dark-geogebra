@@ -14,7 +14,7 @@ public interface ScreenReaderAdapter {
 	 * Read text if possible after a short delay
 	 *
 	 * @param text
-	 *            tect to be read
+	 *            text to be read
 	 */
     void readDelayed(String text);
 

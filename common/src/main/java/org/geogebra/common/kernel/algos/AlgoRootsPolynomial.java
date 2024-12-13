@@ -115,7 +115,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 			diffFunction = new Function(kernel);
 		}
 		this.labels = labels;
-		this.setLabels = setLabels; // should lables be used?
+		this.setLabels = setLabels; // should labels be used?
 
 		eqnSolver = cons.getKernel().getEquationSolver();
 
@@ -260,7 +260,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 		case MULTIPLE_ROOTS:
 			if (f.isDefined()) {
 				Function fun = f.getFunctionForRoot();
-				// get polynomial factors anc calc roots
+				// get polynomial factors and calc roots
 				calcRootsMultiple(fun, 0, solution, eqnSolver, false);
 			} else {
 				solution.resetRoots();
@@ -284,7 +284,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	protected void computeRoots() {
 		if (f.isDefined()) {
 			Function fun = f.getFunctionForRoot();
-			// get polynomial factors anc calc roots
+			// get polynomial factors and calc roots
 			calcRoots(fun, 0);
 		} else {
 			solution.resetRoots();

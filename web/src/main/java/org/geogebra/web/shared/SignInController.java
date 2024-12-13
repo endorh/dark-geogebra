@@ -16,7 +16,7 @@ public class SignInController implements EventRenderable, SignInControllerI {
 	/** application */
 	protected final App app;
 	/**
-	 * Interval for checking login cookie (when popup comunication not possible)
+	 * Interval for checking login cookie (when popup communication not possible)
 	 */
 	protected Timer loginChecker;
 

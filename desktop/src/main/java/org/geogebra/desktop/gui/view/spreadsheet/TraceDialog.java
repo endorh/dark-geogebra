@@ -153,7 +153,7 @@ public class TraceDialog extends Dialog
 	// ======================================================
 
 	/**
-	 * Sets the intial selection of a trace geo and handles these different
+	 * Sets the initial selection of a trace geo and handles these different
 	 * calling contexts:
 	 * 
 	 * 1) Spreadsheet context menu. This passes either a currently tracing geo,

@@ -375,7 +375,7 @@ public abstract class UndoManager implements UndoProvider {
 	/**
 	 * Notify about properties change
 	 */
-	public void setPropertiesOccured() {
+	public void setPropertiesOccurred() {
 		if (!storeUndoInfoNeededForProperties) {
 			storeUndoInfoNeededForProperties = true;
 			if (redoPossible()) {

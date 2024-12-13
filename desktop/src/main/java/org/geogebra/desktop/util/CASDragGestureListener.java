@@ -98,7 +98,7 @@ public class CASDragGestureListener
 	/**
 	 * Extension of Transferable for exporting CAS selections as a list of Geo
 	 * labels can transfer: algebraViewFlavor: geoLabelList (ArrayList) only
-	 * with the labels of the transfered variables casTableFlavor: tableRef
+	 * with the labels of the transferred variables casTableFlavor: tableRef
 	 * (int) return the reference to the specific cell number casLaTeXFlavor:
 	 * latexText (String) for not dynamic functionality, return the content of
 	 * the cas cell as latex string

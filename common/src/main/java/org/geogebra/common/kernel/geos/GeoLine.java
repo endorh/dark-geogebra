@@ -577,7 +577,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	/**
-	 * Retuns first defining point of this line or null.
+	 * Returns first defining point of this line or null.
 	 */
 	@Override
 	final public GeoPoint getStartPoint() {
@@ -585,7 +585,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	/**
-	 * Retuns second point of this line or null.
+	 * Returns second point of this line or null.
 	 */
 	@Override
 	final public GeoPoint getEndPoint() {
@@ -1623,7 +1623,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	}
 
 	/**
-	 * normalize coeffients so that Intersect[ (x - 1.62010081566832)^2 + (y +
+	 * normalize coefficients so that Intersect[ (x - 1.62010081566832)^2 + (y +
 	 * 31.674457260881873)^2 = 0.028900000000021 , 0.000158120368003x +
 	 * 0.000144840828995y = -0.004331583710062 ] works
 	 * 
@@ -1635,7 +1635,7 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	 * 
 	 * @return normalized coefficients x,y,z
 	 */
-	public double[] getnormalizedCoefficients(double[] ret, double max, double min) {
+	public double[] getNormalizedCoefficients(double[] ret, double max, double min) {
 		ret[0] = x;
 		ret[1] = y;
 		ret[2] = z;

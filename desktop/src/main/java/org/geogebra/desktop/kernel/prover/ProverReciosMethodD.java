@@ -52,7 +52,7 @@ public class ProverReciosMethodD extends AbstractProverReciosMethod {
 	final LinkedBlockingQueue<BigInteger[]> coordinatesQueue = new LinkedBlockingQueue<>();
 	private AtomicInteger verifiedPoints;
 	private boolean stop;
-	private boolean errorOccured;
+	private boolean errorOccurred;
 	private Thread[] threads;
 
 	// stops all working threads
@@ -74,7 +74,7 @@ public class ProverReciosMethodD extends AbstractProverReciosMethod {
 			verifiedPoints.incrementAndGet();
 			break;
 		case ERROR:
-			errorOccured = true;
+			errorOccurred = true;
 			//$FALL-THROUGH$
 		case FALSE:
 			stop = true;
@@ -82,8 +82,8 @@ public class ProverReciosMethodD extends AbstractProverReciosMethod {
 		}
 	}
 
-	private boolean getErrorOccured() {
-		return errorOccured;
+	private boolean getErrorOccurred() {
+		return errorOccurred;
 	}
 
 	@Override
@@ -100,7 +100,7 @@ public class ProverReciosMethodD extends AbstractProverReciosMethod {
 		coordinatesQueue.clear();
 		verifiedPoints = new AtomicInteger(0);
 		stop = false;
-		errorOccured = false;
+		errorOccurred = false;
 
 		int[] indices = new int[n];
 		for (int i = 0; i < n; i++) {
@@ -188,7 +188,7 @@ public class ProverReciosMethodD extends AbstractProverReciosMethod {
 
 		if (stop) {
 			interruptThreads();
-			if (getErrorOccured()) {
+			if (getErrorOccurred()) {
 				return ProofResult.UNKNOWN;
 			}
 			return ProofResult.FALSE;
@@ -259,7 +259,7 @@ public class ProverReciosMethodD extends AbstractProverReciosMethod {
 
 		if (stop) {
 			// the theorem could not be verified in one point
-			if (getErrorOccured()) {
+			if (getErrorOccurred()) {
 				return ProofResult.UNKNOWN;
 			}
 			return ProofResult.FALSE;

@@ -7,7 +7,7 @@ import java.util.Objects;
 import org.geogebra.common.kernel.geos.GeoNumberValue;
 
 /**
- * Classs to store distribution parameters
+ * Stores distribution parameters
  */
 public class DistributionParameters {
 	final boolean isCumulative;

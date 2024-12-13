@@ -27,7 +27,7 @@ class LZWEncoder {
 	// Lempel-Ziv compression based on 'compress'. GIF modifications by
 	// David Rowley (mgardi@watdcsu.waterloo.edu)
 
-	// General DEFINEs
+	// General constants
 
 	static final int BITS = 12;
 

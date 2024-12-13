@@ -63,7 +63,7 @@ public class AlgoPerimeterLocus extends AlgoElement {
 	}
 
 	/**
-	 * Compute circumference by adding up the length of its segemnts.
+	 * Compute circumference by adding up the length of its segments.
 	 */
 	@Override
 	public final void compute() {

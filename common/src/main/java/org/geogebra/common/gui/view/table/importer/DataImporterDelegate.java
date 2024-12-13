@@ -23,7 +23,7 @@ public interface DataImporterDelegate {
 	 * Informs the delegate about a non-fatal problem during data import.
 	 * Import will continue after this warning.
 	 * @param warning The import warning.
-	 * @param currentRow The row in which the problem occured.
+	 * @param currentRow The row in which the problem occurred.
 	 */
 	void onImportWarning(DataImporterWarning warning, int currentRow);
 

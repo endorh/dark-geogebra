@@ -286,7 +286,7 @@ public class InputBarHelpPanel {
 	 * verify that word is not reserved or an existing geo
 	 *
 	 * @param word
-	 *            word arround cursor
+	 *            word around cursor
 	 * @return whether it's a function or geo
 	 */
 	public boolean checkWordAroundCursorIsUsable(String word) {

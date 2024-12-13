@@ -38,6 +38,6 @@
 
 * Make a new icon: 
   * SVG needed for web (see `ToolbarSvgResources` for list of SVGs and `GGWToolbar` for ID -> SVG mapping)
-  * 32x32px and 64x64px PNGs needed for desktop/Android/iOS. If you don't want to add the tool to Classic 5, an exception in `ResourceAvailability` test is needed.
+  * 32x32px and 64x64px PNG files needed for desktop/Android/iOS. If you don't want to add the tool to Classic 5, an exception in `ResourceAvailability` test is needed.
 
 **Note:** when testing with Classic5, don't forget Options -> Restore Default Settings so that you can see the new Tool :)

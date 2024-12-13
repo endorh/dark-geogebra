@@ -39,7 +39,7 @@ public final class GeoGebraPreferencesW {
 	}
 
 	/**
-	 * Take prefernces from app and save them to local storage
+	 * Take preferences from app and save them to local storage
 	 * 
 	 * @param app
 	 *            application

@@ -95,7 +95,7 @@ public class RealRootUtil {
 	 * @param a
 	 *            interval min
 	 * @param b
-	 *            inteval max
+	 *            interval max
 	 * @return border between defined an undefined
 	 */
 	static double getDefinitionBorder(UnivariateFunction f, double a,

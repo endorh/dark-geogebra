@@ -263,7 +263,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 
 	/**
 	 * Flag to determine if the frame field will be created as a JDialog (true)
-	 * or as a JFram (false). Default is false.
+	 * or as a JFrame (false). Default is false.
 	 */
 	private boolean isDialog = false;
 
@@ -295,7 +295,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 	/**
 	 * Prepare dock panel. DockPanel::register() has to be called to make this
 	 * panel fully functional! No shortcut is assigned to the view in this
-	 * construtor.
+	 * constructor.
 	 * 
 	 * @param id
 	 *            The id of the panel
@@ -1029,7 +1029,7 @@ public abstract class DockPanelD extends JPanel implements ActionListener,
 
 	}
 
-	/** loads the styleBar and puts it into the stylBarPanel */
+	/** loads the styleBar and puts it into the styleBarPanel */
 	protected void setStyleBar() {
 		if (styleBar == null) {
 			styleBar = loadStyleBar();

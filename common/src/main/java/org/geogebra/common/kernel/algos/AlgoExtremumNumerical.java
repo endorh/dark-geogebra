@@ -242,9 +242,6 @@ public class AlgoExtremumNumerical extends AlgoElement {
 				E.setUndefined();
 			} // if not really a minimum
 		} // if not extremum
-
-		// debug("iterations: "+iterations+"point: ("+max+","+y+")"+"in
-		// intervall: <"+left.getDouble()+","+right.getDouble()+">");
 	}
 
 }

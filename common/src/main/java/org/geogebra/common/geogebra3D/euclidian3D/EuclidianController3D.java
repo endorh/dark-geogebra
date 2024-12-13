@@ -1598,18 +1598,18 @@ public abstract class EuclidianController3D extends EuclidianController {
 				}
 			}
 
-			boolean selectionOccured = false;
+			boolean selectionOccurred = false;
 
 			if (selPoints() < 2) { // already two points : not a polygon for
 									// basis
 				if (addSelectedPolygon(hits, 1, false, selPreview) == 1) {
 					polygonForPyramidBasis = true;
-					selectionOccured = true;
+					selectionOccurred = true;
 				}
 			}
 
 			// there is 1 polygon, look for top point
-			if (!selectionOccured) {
+			if (!selectionOccurred) {
 				addSelectedPoint(hits, 1, false, selPreview);
 			}
 
@@ -1672,13 +1672,13 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	@Override
 	public void wrapMouseReleased(AbstractEvent e) {
-		boolean longDragOccured = isDraggingOccuredBeyondThreshold();
-		if (!longDragOccured && !app.isControlDown(e)) {
+		boolean longDragOccurred = isDraggingOccuredBeyondThreshold();
+		if (!longDragOccurred && !app.isControlDown(e)) {
 			view3D.switchMoveCursor();
 		}
 
         super.wrapMouseReleasedND(e, true);
-        if (!longDragOccured && mode == EuclidianConstants.MODE_MOVE) {
+        if (!longDragOccurred && mode == EuclidianConstants.MODE_MOVE) {
             showDynamicStylebar();
         }
         view3D.enlargeClippingWhenAREnabled();
@@ -3055,7 +3055,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			return;
 		}
 
-		// else, we show the intersection, and add A,B to highligtedgeos
+		// else, we show the intersection, and add A,B to highlighted geos
 
 		addToGoodHits(hits.get(0));
 		addToGoodHits(hits.get(1));
@@ -4381,7 +4381,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	/**
 	 * @param flag
-	 *            whether view rotation occured
+	 *            whether view rotation occurred
 	 */
 	public void setViewRotationOccured(boolean flag) {
 		viewRotationOccured = flag;
@@ -4417,7 +4417,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	@Override
-	protected void setCursorForProccessMouseMoveHit() {
+	protected void setCursorForProcessMouseMoveHit() {
 		setHitCursor();
 	}
 

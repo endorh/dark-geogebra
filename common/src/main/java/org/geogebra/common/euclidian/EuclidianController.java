@@ -2030,7 +2030,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		// points needed
 		if (((polygonMode == POLYGON_RIGID) || (polygonMode == POLYGON_VECTOR))
-				&& (selPoints() > 0)) { // only want free points withput
+				&& (selPoints() > 0)) { // only want free points without
 			// children for rigid polys (apart from
 			// first)
 			// testing needed - see GGB-1982
@@ -3082,7 +3082,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	}
 
 	protected final boolean moveRotate(Hits hits, boolean selPreview) {
-		addSelectedGeo(hits.getPointRotateableHits(view, rotationCenter), 1,
+		addSelectedGeo(hits.getPointRotatableHits(view, rotationCenter), 1,
 				false, selPreview);
 		return false;
 	}
@@ -3489,7 +3489,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * @param hits
 	 *            hits
 	 * @param isControlDown
-	 *            whether controll is pressed
+	 *            whether control is pressed
 	 * @return whether highlighting changed
 	 */
 	public boolean refreshHighlighting(Hits hits, boolean isControlDown) {
@@ -3531,7 +3531,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * Highlight single geo, blur all others.
 	 * 
 	 * @param geo
-	 *            geo to higlight
+	 *            geo to highlight
 	 * @return whether highlighting changed
 	 */
 	public boolean highlight(GeoElement geo) {
@@ -3547,8 +3547,8 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	/**
 	 * @param geos
-	 *            geos to gighlight
-	 * @return whether higlighting changed
+	 *            geos to highlight
+	 * @return whether highlighting changed
 	 */
 	public boolean highlight(ArrayList<GeoElement> geos) {
 		boolean repaintNeeded = clearHighlightedGeos();
@@ -3879,7 +3879,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			// selectedPoints, because the last point that is selected is used
 			// as rotation center.
 			// Therefore a point that was selected first has to be added to
-			// selecetedPoints, if another geo is selected in the second step
+			// selectedPoints, if another geo is selected in the second step
 			getSelectedPointList()
 					.add((GeoPointND) getSelectedGeoList().get(0));
 		}
@@ -4129,7 +4129,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			case EuclidianView.GRID_ISOMETRIC:
 
 				// isometric Michael Borcherds 2008-04-28
-				// iso grid is effectively two rectangular grids overlayed
+				// iso grid is effectively two rectangular grids overlaid
 				// (offset)
 				// so first we decide which one we're on (oddOrEvenRow)
 				// then compress the grid by a scale factor of root3
@@ -6391,7 +6391,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 					&& (hits.size() >= 1)) {
 				setCursorForTranslateView(hits);
 			} else {
-				setCursorForProccessMouseMoveHit();
+				setCursorForProcessMouseMoveHit();
 			}
 		}
 
@@ -6447,7 +6447,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		}
 	}
 
-	protected void setCursorForProccessMouseMoveHit() {
+	protected void setCursorForProcessMouseMoveHit() {
 		setDragCursor();
 	}
 
@@ -6507,7 +6507,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
             return;
         }
         this.animationButtonPressed = false;
-        app.storeUndoInfoIfSetCoordSystemOccured();
+        app.storeUndoInfoIfSetCoordSystemOccurred();
 
         refreshHighlighting(null, app.isControlDown(event));
         resetToolTipManager();
@@ -7096,7 +7096,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 								- c;
 						double b = s - a - c;
 
-						// cordinates of vertex (just calculated once)
+						// coordinates of the vertex (just calculated once)
 						// used for alt-drag as well
 						vertexX = -b / a / 2.0;
 						vertexY = -(b * b - 4.0 * a * c) / (4.0 * a);
@@ -8779,7 +8779,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 			moveModeSelectionHandled = true;
 
 			// find and set rotGeoElement
-			hits = hits.getPointRotateableHits(view, rotationCenter);
+			hits = hits.getPointRotatableHits(view, rotationCenter);
 			if (!hits.isEmpty() && hits.contains(rotGeoElement)) {
 				geo = rotGeoElement;
 			} else {
@@ -9100,7 +9100,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 		lastMousePressedTime = System.currentTimeMillis();
 
-		app.storeUndoInfoIfSetCoordSystemOccured();
+		app.storeUndoInfoIfSetCoordSystemOccurred();
 		app.maySetCoordSystem();
 
 		scriptsHaveRun = false;
@@ -9341,7 +9341,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 
 	protected void runScriptsIfNeeded(GeoElement geo1) {
 		// GGB-1196
-		// no script run if Properies View is open.
+		// no script run if Properties View is open.
 
 		if (app.showView(App.VIEW_PROPERTIES)) {
 			return;
@@ -10102,7 +10102,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 		int y = event.getY();
 		this.setLastMouseUpLoc(new GPoint(x, y));
 
-		app.storeUndoInfoIfSetCoordSystemOccured();
+		app.storeUndoInfoIfSetCoordSystemOccurred();
 
 		if (pressedButton != null && !(app.showView(App.VIEW_PROPERTIES))) {
 			pressedButton.setDraggedOrContext(
@@ -10453,7 +10453,7 @@ public abstract class EuclidianController implements SpecialPointsListener {
 	 * @param hits
 	 *            hits
 	 * @param control
-	 *            whethe ctrl is pressed
+	 *            whether ctrl is pressed
 	 * @param alt
 	 *            whether alt is pessed
 	 * @param type

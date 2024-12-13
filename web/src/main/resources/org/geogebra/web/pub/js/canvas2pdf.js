@@ -1449,7 +1449,7 @@
 	// n = 0 or 1
 	PDFGradientFill.prototype.addColorStop = function(n, col) {
 		if (n != 0 && n != 1) {
-			console.error("only 0 and 1 suppored for addColorStop", n);
+			console.error("only 0 and 1 supported for addColorStop", n);
 		}
 		this.cols[Math.round(n)] = col;
 	}

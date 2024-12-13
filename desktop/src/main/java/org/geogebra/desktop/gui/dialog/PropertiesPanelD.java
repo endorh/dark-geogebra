@@ -166,7 +166,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts,
 	LocalizationD loc;
 	/** kernel */
 	Kernel kernel;
-	/** color choser */
+	/** color chooser */
 	GeoGebraColorChooser colChooser;
 
 	private static final long serialVersionUID = 1L;

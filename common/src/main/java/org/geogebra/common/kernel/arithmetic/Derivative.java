@@ -501,15 +501,15 @@ public class Derivative {
 
 	private static ExpressionNode derivativeConstantPower(ExpressionValue left,
 			ExpressionValue right, FunctionVariable fv, Kernel kernel0) {
-		double rightDoub = right.evaluateDouble();
-		if (DoubleUtil.isEqual(rightDoub, 2)) {
+		double rightDouble = right.evaluateDouble();
+		if (DoubleUtil.isEqual(rightDouble, 2)) {
 			return wrap(left).multiply(left.derivative(fv, kernel0)).multiply(
 					right);
 		}
 		// not an integer, convert to x^(a/b)
-		if (!DoubleUtil.isInteger(rightDoub)) {
+		if (!DoubleUtil.isInteger(rightDouble)) {
 
-			double[] fraction = AlgoFractionText.decimalToFraction(rightDoub,
+			double[] fraction = AlgoFractionText.decimalToFraction(rightDouble,
 					Kernel.STANDARD_PRECISION);
 
 			double a = fraction[0];

@@ -2165,7 +2165,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	/**
 	 * Passes a transferable object to the application's dropTargetListener.
-	 * Returns true if a ggb file was dropped succesfully. This is a utility
+	 * Returns true if a ggb file was dropped successfully. This is a utility
 	 * method for component transfer handlers that need to pass potential ggb
 	 * file drops on to the top level drop handler.
 	 * 

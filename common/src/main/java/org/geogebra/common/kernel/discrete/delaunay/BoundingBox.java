@@ -128,7 +128,7 @@ public class BoundingBox {
 	}
 
 	/**
-	 * Tests if the other BoundingBox lies wholely inside this BoundingBox
+	 * Tests if the other BoundingBox lies completely inside this BoundingBox
 	 *
 	 * @param other
 	 *            the BoundingBox to check

@@ -153,7 +153,7 @@ public class AutoCompleteTextFieldD extends MathTextField
 	}
 
 	/**
-	 * @param columns collumns
+	 * @param columns columns
 	 * @param app application
 	 * @param drawTextField associated input box drawable
 	 */

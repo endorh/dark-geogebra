@@ -547,12 +547,12 @@ public class AlgoFitSin extends AlgoElement implements FitAlgo {
 	}
 
 	// 3 yd's on the row: up=1, down=-1, uncertain=0
-	private final static int direction(double y1, double y2, double y3) {
+	private static int direction(double y1, double y2, double y3) {
 		if ((y3 > y2) && (y2 > y1)) { // Rising!
 			return 1;
 		} else if ((y1 > y2) && (y2 > y3)) { // All under a
 			return -1;
-		} else { // Some over, som under...
+		} else { // Some over, some under...
 			return 0;
 		} // if
 	}

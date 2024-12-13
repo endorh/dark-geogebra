@@ -32,7 +32,7 @@ public class MinimumSpanningForest2<V, E> {
 	 * create a Forest from the supplied Graph and supplied Factory, which is
 	 * used to create a new, empty Forest. If non-null, the supplied root will
 	 * be used as the root of the tree/forest. If the supplied root is null, or
-	 * not present in the Graph, then an arbitary Graph vertex will be selected
+	 * not present in the Graph, then an arbitrary Graph vertex will be selected
 	 * as the root. If the Minimum Spanning Tree does not include all vertices
 	 * of the Graph, then a leftover vertex is selected as a root, and another
 	 * tree is created
@@ -51,7 +51,7 @@ public class MinimumSpanningForest2<V, E> {
 	/**
 	 * create a forest from the supplied graph, populating the supplied Forest,
 	 * which must be empty. If the supplied root is null, or not present in the
-	 * Graph, then an arbitary Graph vertex will be selected as the root. If the
+	 * Graph, then an arbitrary Graph vertex will be selected as the root. If the
 	 * Minimum Spanning Tree does not include all vertices of the Graph, then a
 	 * leftover vertex is selected as a root, and another tree is created
 	 * 

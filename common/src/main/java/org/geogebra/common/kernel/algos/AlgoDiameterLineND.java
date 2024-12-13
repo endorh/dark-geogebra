@@ -122,7 +122,7 @@ public abstract class AlgoDiameterLineND extends AlgoElement {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
 		return getLoc().getPlainDefault("DiameterOfAConjugateToB",
-				"Diamater of %0 conjugate to %1", c.getLabel(tpl),
+				"Diameter of %0 conjugate to %1", c.getLabel(tpl),
 				g.getLabel(tpl));
 	}
 

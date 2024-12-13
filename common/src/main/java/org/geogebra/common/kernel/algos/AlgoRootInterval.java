@@ -136,7 +136,7 @@ public class AlgoRootInterval extends AlgoElement {
 		// Log.debug("result from Brent: " + root);
 
 		// ******** Polish Root ***************
-		// adpated from EquationSolver
+		// adapted from EquationSolver
 		// #4691
 
 		try {

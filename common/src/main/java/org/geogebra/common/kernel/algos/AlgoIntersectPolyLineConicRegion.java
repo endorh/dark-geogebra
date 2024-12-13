@@ -51,8 +51,8 @@ public class AlgoIntersectPolyLineConicRegion extends AlgoIntersect {
 	 * @param conic
 	 *            input conic
 	 * @param isPolyClosed
-	 *            indicate whether the input poly is polgon(closed) or
-	 *            polyLine(no closed)
+	 *            indicate whether the input poly is polygon(closed) or
+	 *            polyLine(not closed)
 	 */
 	public AlgoIntersectPolyLineConicRegion(Construction cons, String[] labels,
 			GeoPoly poly, GeoConic conic, boolean isPolyClosed) {

@@ -2,7 +2,7 @@ package org.geogebra.common.kernel.barycentric;
 
 /**
  * Most of the content of this class is moved here from AlgoKimberling, to
- * facilitate asyncronous running... comment from AlgoKimberling:
+ * facilitate asynchronous running... comment from AlgoKimberling:
  *
  * credit goes to Jason Cantarella of the University of Georgia for creating a
  * perl script which was used to create this class.

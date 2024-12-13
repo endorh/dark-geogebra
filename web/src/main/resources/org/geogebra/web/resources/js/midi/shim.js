@@ -122,7 +122,7 @@ var Base64Binary = {
 		input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
 
 		for (i=0; i<bytes; i+=3) {	
-			//get the 3 octects in 4 ascii chars
+			//get the 3 octets in 4 ascii chars
 			enc1 = this._keyStr.indexOf(input.charAt(j++));
 			enc2 = this._keyStr.indexOf(input.charAt(j++));
 			enc3 = this._keyStr.indexOf(input.charAt(j++));
@@ -635,7 +635,7 @@ window.OfflineAudioContext = window.OfflineAudioContext || window.webkitOfflineA
                 }(Date.now()))
             };
 
-        //seach for vendor prefixed version
+        //search for vendor prefixed version
         for (; i >= 0; i--) {
             if ((prefix[i] + "Now") in exports.performance) {
                 props.value = function (method) {

@@ -59,7 +59,7 @@ public class DrawGrid {
 		double start = view.getYZero() % tickStepY;
 		int topSubGrids = 0;
 
-		// number of parts splitted by subgrids
+		// number of parts per major grid cell (split by subgrids)
 		int n = 1;
 		if (subGrid) {
 			n = 5;
@@ -151,7 +151,7 @@ public class DrawGrid {
 		double xAxisStart = xAxisStartMajor;
 		int leftSubGrids = 0;
 
-		// number of parts splitted by subgrids
+		// number of parts per major grid cell (split by subgrids)
 		int n = 1;
 		if (subGrid) {
 			n = 5;

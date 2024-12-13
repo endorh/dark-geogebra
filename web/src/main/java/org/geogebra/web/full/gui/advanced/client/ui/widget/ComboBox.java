@@ -88,7 +88,7 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
 	private DelegateHandler delegateHandler;
 	/**
 	 * a keyboard events listener that switches off default browser handling and
-	 * replaces it with conponents'
+	 * replaces it with components'
 	 */
 	private ComboBoxKeyboardManager keyboardManager;
 	/** a flag that is <code>true</code> if any control key is pressed */
@@ -206,8 +206,8 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
 	/**
 	 * This method sets focus on this widget.
 	 * <p>
-	 * But note that the combo box is not a focus event sourcer. It siply
-	 * delegtes this functionality to the text box.
+	 * But note that the combo box is not a focus event source. It simply
+	 * delegates this functionality to the text box.
 	 *
 	 * @param focus
 	 *            is a flag of focus.
@@ -784,7 +784,7 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
 	}
 
 	/**
-	 * This method gets a keybord manager implementation for the component.
+	 * This method gets a keyboard manager implementation for the component.
 	 *
 	 * @return an instance of the manager.
 	 */

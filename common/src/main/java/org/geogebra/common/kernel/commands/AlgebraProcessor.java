@@ -673,7 +673,7 @@ public class AlgebraProcessor {
 
 			processAlgebraCommandNoExceptionHandling(newValue, false, handler,
 					changeCallback, info);
-			// make sure listeneres are enabled if redefinition failed
+			// make sure listeners are enabled if redefinition failed
 			app.getEventDispatcher().enableListeners();
 			cons.registerFunctionVariable(null);
 			return;

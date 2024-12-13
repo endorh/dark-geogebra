@@ -150,12 +150,12 @@ public class FractionAtom extends Atom {
 		int style = env.getStyle();
 		// set thickness to default if default value should be used
 		final double drt = tf.getDefaultRuleThickness(style);
-		double thn;
+		double thicknessVal;
 		if (thickness != null) {
 			// convert the thickness to pixels
-			thn = thickness.getValue(env);
+			thicknessVal = thickness.getValue(env);
 		} else {
-			thn = drt;
+			thicknessVal = drt;
 		}
 
 		// create equal width boxes (in appropriate styles)
@@ -178,7 +178,7 @@ public class FractionAtom extends Atom {
 			shiftDown = tf.getDenom1(style);
 		} else {
 			shiftDown = tf.getDenom2(style);
-			if (thn > 0) {
+			if (thicknessVal > 0) {
 				shiftUp = tf.getNum2(style);
 			} else {
 				shiftUp = tf.getNum3(style);
@@ -194,12 +194,12 @@ public class FractionAtom extends Atom {
 		double delta;
 		double axis = tf.getAxisHeight(style);
 
-		if (thn > 0) { // with fraction rule
+		if (thicknessVal > 0) { // with fraction rule
 			// clearance clr
-			clr = style < TeXConstants.STYLE_TEXT ? 3. * thn : thn;
+			clr = style < TeXConstants.STYLE_TEXT ? 3. * thicknessVal : thicknessVal;
 
 			// adjust shift amounts
-			delta = thn / 2.;
+			delta = thicknessVal / 2.;
 			double kern1 = shiftUp - num.getDepth() - (axis + delta);
 			double kern2 = axis - delta - (denom.getHeight() - shiftDown);
 			double delta1 = clr - kern1;
@@ -215,7 +215,7 @@ public class FractionAtom extends Atom {
 
 			// fill vertical box
 			vBox.add(new StrutBox(0., kern1, 0., 0.));
-			vBox.add(new HorizontalRule(thn, num.getWidth(), 0.));
+			vBox.add(new HorizontalRule(thicknessVal, num.getWidth(), 0.));
 			vBox.add(new StrutBox(0., kern2, 0., 0.));
 		} else { // without fraction rule
 			// clearance clr

@@ -51,7 +51,7 @@ public class BaseView<T> {
 	 * Notifies all view components of an event
 	 *
 	 * @param event
-	 *            The event that occured.
+	 *            The event that occurred.
 	 */
 	public void onEvent(GenericEvent<T> event) {
 		for (T view : viewComponents) {

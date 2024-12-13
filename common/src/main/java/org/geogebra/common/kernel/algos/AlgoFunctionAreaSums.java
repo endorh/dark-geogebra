@@ -805,7 +805,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement
 			double totalArea = 0;
 			double left, right, min;
 
-			// calulate the min and max x-coords of what actually needs to be
+			// calculate the min and max x-coords of what actually needs to be
 			// drawn
 			// do subsampling only in this region
 

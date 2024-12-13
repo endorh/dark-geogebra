@@ -21,9 +21,9 @@ public class TableSymbolsD {
 	}
 
 	/**
-	 * @return math caligraphy symbols
+	 * @return math calligraphy symbols
 	 */
-	public static String[] mathcal() {
+	public static String[] mathCal() {
 		String[] mathcal = new String[26];
 		char letter;
 		int i = 0;

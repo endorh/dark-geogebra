@@ -77,7 +77,7 @@ public class ToolCreationDialogD extends Dialog
 
 	/**
 	 * Creates new tool creation dialog, if in macro-editing mode,
-	 * @param app Aplication to which this dialog belongs
+	 * @param app Application to which this dialog belongs
 	 */
 	public ToolCreationDialogD(AppD app) {
 		super(app.getFrame());
@@ -540,7 +540,7 @@ public class ToolCreationDialogD extends Dialog
 	/**
 	 * Creates a panel with a list to choose input/output objects of the new
 	 * tool.
-	 * @param showUpDownButtons true if up and down butons should appear on the right
+	 * @param showUpDownButtons true if up and down buttons should appear on the right
 	 * @param cbModel Combobox model with items than can be added to list (not
 	 * displayed if null)
 	 * @param loc Application this dialog belongs to
@@ -603,12 +603,12 @@ public class ToolCreationDialogD extends Dialog
 
 	/**
 	 * Creates a panel with a list on the left and buttons (up, down, remove) on
-	 * the right. If the combobox is not null it is added on top of the list.
+	 * the right. If the combo-box is not null it is added on top of the list.
 	 * @param loc Application this dialog belongs to
 	 * @param list list of active geos
-	 * @param showRemoveButton true if remove buton should appear on the right
-	 * @param showUpDownButtons true if up and down butons should appear on the right
-	 * @param cbAdd Combobox with items than can be added to list (not displayed
+	 * @param showRemoveButton true if remove button should appear on the right
+	 * @param showUpDownButtons true if up and down buttons should appear on the right
+	 * @param cbAdd Combo-box with items than can be added to list (not displayed
 	 * if null)
 	 * @return Panel with the list, buttons and comboBox
 	 */

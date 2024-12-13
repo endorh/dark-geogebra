@@ -1776,7 +1776,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 		/**
 		 * Given x, constants Ck, and invertible function f, find x = f(y) where
-		 * y is fit in the type of LINEAR_COMINATION
+		 * y is fit in the type of LINEAR_COMBINATION
 		 */
 		FUNCTION_OF_LINEAR_COMBINATION,
 

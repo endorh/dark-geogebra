@@ -448,7 +448,7 @@ public class Interval {
 	/**
 	 * Shift the interval (both low and high) by a given value.
 	 * @param deltaX to shift by.
-	 * @return the result inteval;
+	 * @return the result interval;
 	 */
 	public Interval shiftBy(double deltaX) {
 		set(low + deltaX, high + deltaX);

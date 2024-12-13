@@ -22,7 +22,7 @@ public interface TableValuesDimensions {
 	/**
 	 * Returns the column width.
 	 * @param column column
-	 * @return the width of the colum
+	 * @return the width of the column
 	 */
 	int getColumnWidth(int column);
 

@@ -8,7 +8,7 @@ import java.awt.LayoutManager;
 
 /**
  * Layout manager which stretches all component to the full possible width, but
- * unlike GridLayout does not enforce any height. Unncessary space is left empty
+ * unlike GridLayout does not enforce any height. Unnecessary space is left empty
  * at the bottom of the container.
  */
 public class FullWidthLayout implements LayoutManager {

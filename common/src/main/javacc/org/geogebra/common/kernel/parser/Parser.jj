@@ -506,7 +506,7 @@ ValidExpression buildValidExpression() :
      |
         // special case "A: (3,2)" should become a point
         // CAS assignment "a := 5" should be supported too
-        // inequalities "a: 3x + 4y < 7" and intervalls "b: 3 < x < 7" can be named too
+        // inequalities "a: 3x + 4y < 7" and intervals "b: 3 < x < 7" can be named too
       LOOKAHEAD(2147483647)
       l = label() (":" | <ASSIGNMENT> )  ve = expressionOrEquation()
       {
@@ -638,9 +638,9 @@ Token casVar():
 
 
 /******************************************************************
- * ARTIHMETIC FOR NUMBERS AND 2D VECTORS WITH VARIABLES
+ * ARITHMETIC FOR NUMBERS AND 2D VECTORS WITH VARIABLES
  * plus
- * ARTIHMETIC FOR POLYNOMIALS WITH VARIABLES "x" AND "y"
+ * ARITHMETIC FOR POLYNOMIALS WITH VARIABLES "x" AND "y"
  * exponents must be integers >= 0
  * divisors must be simplifyable to numbers
  ******************************************************************/

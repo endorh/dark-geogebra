@@ -108,7 +108,7 @@ class VertexList {
 	}
 
 	/**
-	 * Inserts a vertex into this list before another specificed vertex.
+	 * Inserts a vertex into this list before another specified vertex.
 	 */
 	public void insertBefore(Vertex vtx, Vertex next) {
 		vtx.prev = next.prev;

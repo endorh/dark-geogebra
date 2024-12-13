@@ -12,7 +12,7 @@ import org.geogebra.common.kernel.geos.GeoNumberValue;
 import org.geogebra.common.main.MyError;
 
 /**
- * ComonDenominator[ a, b ]
+ * CommonDenominator[ a, b ]
  */
 public class CmdCommonDenominator extends CommandProcessor {
 

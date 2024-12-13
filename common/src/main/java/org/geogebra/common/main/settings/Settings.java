@@ -18,7 +18,7 @@ import org.geogebra.common.main.App;
  */
 public class Settings {
 
-	private Set<Resetable> resetableSettings;
+	private Set<Resettable> resettableSettings;
 
 	private final EuclidianSettings[] euclidianSettings;
 
@@ -64,7 +64,7 @@ public class Settings {
 	public Settings(App app, int euclidianLength) {
 		euclidianSettings = new EuclidianSettings[euclidianLength];
 		euclidianSettingsForPlane = new HashMap<>();
-		resetableSettings = new HashSet<>();
+		resettableSettings = new HashSet<>();
 		resetSettings(app);
 	}
 
@@ -146,7 +146,7 @@ public class Settings {
 		styleSettings = new StyleSettings();
 		penToolsSettings = new PenToolsSettings();
 
-		for (Resetable setting : resetableSettings) {
+		for (Resettable setting : resettableSettings) {
 			setting.resetDefaults();
 		}
 	}
@@ -410,7 +410,7 @@ public class Settings {
 
 	void setAlgebraSettings(AlgebraSettings algebraSettings) {
 		this.algebraSettings = algebraSettings;
-		resetableSettings.add(algebraSettings);
+		resettableSettings.add(algebraSettings);
 	}
 
 	public PenToolsSettings getPenTools() {

@@ -191,7 +191,7 @@ public class TextLineNumber extends JPanel
 	}
 
 	/**
-	 * Specify the mimimum number of digits used to calculate the preferred
+	 * Specify the minimum number of digits used to calculate the preferred
 	 * width of the component. Default is 3.
 	 * 
 	 * @param minimumDisplayDigits

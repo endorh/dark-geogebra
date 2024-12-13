@@ -40,7 +40,7 @@ public class StyleSettings {
 	/**
 	 * @return how rounded buttons are
 	 */
-	public double getButtonRouding() {
+	public double getButtonRounding() {
 		return buttonRounding;
 	}
 

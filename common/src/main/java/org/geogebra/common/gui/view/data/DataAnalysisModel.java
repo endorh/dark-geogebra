@@ -385,7 +385,7 @@ public class DataAnalysisModel {
 
 	/**
 	 * @param showComboPanel2
-	 *            wehther to show second panel
+	 *            whether to show second panel
 	 */
 	public void setShowComboPanel2(boolean showComboPanel2) {
 		this.showDataDisplayPanel2 = showComboPanel2;

@@ -12,7 +12,7 @@ public class AlgebraViewVisibilityDelegate {
 
     private boolean isViewVisible;
 	private boolean updateOccurred;
-	private boolean clearOccured;
+	private boolean clearOccurred;
 
     private TreeSet<GeoElement> geosToAdd;
     private TreeSet<GeoElement> geosToRemove;
@@ -89,7 +89,7 @@ public class AlgebraViewVisibilityDelegate {
         }
         geosToAdd.clear();
         geosToRemove.clear();
-        clearOccured = true;
+        clearOccurred = true;
         return false;
     }
 
@@ -108,9 +108,9 @@ public class AlgebraViewVisibilityDelegate {
      */
     public void onViewShown(AlgebraView view) {
         isViewVisible = true;
-        if (clearOccured) {
+        if (clearOccurred) {
             view.clearView();
-            clearOccured = false;
+            clearOccurred = false;
         }
         for (GeoElement geo : geosToRemove) {
             view.doRemove(geo);
@@ -131,6 +131,6 @@ public class AlgebraViewVisibilityDelegate {
 	 * @return true if some action needs a repaint
 	 */
     public boolean wantsViewToRepaint() {
-        return updateOccurred || clearOccured || !geosToRemove.isEmpty() || !geosToAdd.isEmpty();
+        return updateOccurred || clearOccurred || !geosToRemove.isEmpty() || !geosToAdd.isEmpty();
     }
 }

@@ -342,7 +342,7 @@ public class AlgebraViewD extends AlgebraTree
 
 	/**
 	 * @param sortMode
-	 *            Either AlgebraView.MODE_DEPDENCY or AlgebraView.MODE_TYPE
+	 *            Either AlgebraView.MODE_DEPENDENCY or AlgebraView.MODE_TYPE
 	 */
 	@Override
 	public void setTreeMode(SortMode sortMode) {
@@ -426,7 +426,7 @@ public class AlgebraViewD extends AlgebraTree
 			expandPath(tp);
 			makeVisible(tp);
 			scrollPathToVisible(tp);
-			startEditingAtPath(tp); // opend editing text field
+			startEditingAtPath(tp); // open editing text field
 		}
 	}
 

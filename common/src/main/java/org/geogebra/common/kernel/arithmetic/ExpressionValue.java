@@ -222,7 +222,7 @@ public interface ExpressionValue {
 	public boolean inspect(Inspecting t);
 
 	/**
-	 * If this is an expression node wrapping some other ExpressionValue, retur
+	 * If this is an expression node wrapping some other ExpressionValue, return
 	 * its content, otherwise return this.
 	 * 
 	 * @return unwrapped content

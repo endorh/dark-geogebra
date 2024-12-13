@@ -82,7 +82,7 @@ public final class Util {
 	 * @return next highest number in the list (fallback: return last number in
 	 *         the list)
 	 */
-	public static int getNextHigestNumberInSortedList(int num, int[] nums) {
+	public static int getNextHighestNumberInSortedList(int num, int[] nums) {
 
 		for (int i = 0; i < nums.length; i++) {
 			if (num <= nums[i]) {
@@ -107,7 +107,7 @@ public final class Util {
 	 * @return valid, supported fontSize
 	 */
 	public static int getValidFontSize(int fontSize) {
-		return getNextHigestNumberInSortedList(fontSize, MENU_FONT_SIZES);
+		return getNextHighestNumberInSortedList(fontSize, MENU_FONT_SIZES);
 	}
 
 	/**

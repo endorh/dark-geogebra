@@ -39,7 +39,7 @@ public class AlgoComplexRootsPolynomial extends AlgoRootsPolynomial {
 	private void computeComplexRoots() {
 		if (f.isDefined()) {
 			Function fun = f.getFunctionForRoot();
-			// get polynomial factors anc calc roots
+			// get polynomial factors and calc roots
 			curComplexRoots = calcComplexRoots(fun, solution, curComplexRoots, eqnSolver);
 		} else {
 			solution.resetRoots();

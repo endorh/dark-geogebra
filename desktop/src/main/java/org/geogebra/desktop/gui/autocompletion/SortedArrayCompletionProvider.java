@@ -46,7 +46,7 @@ public abstract class SortedArrayCompletionProvider<T extends Comparable<T>>
 		List<T> options = new ArrayList<>();
 		for (T option : sortedCompletionOptions) {
 			String optionString = toString(option);
-			if (isValidCompletionOpiton(prefixWithProperCase, optionString)) {
+			if (isValidCompletionOption(prefixWithProperCase, optionString)) {
 				options.add(option);
 			}
 		}
@@ -61,8 +61,7 @@ public abstract class SortedArrayCompletionProvider<T extends Comparable<T>>
 		return options;
 	}
 
-	private boolean isValidCompletionOpiton(String prefixWithProperCase,
-			String option) {
+	private boolean isValidCompletionOption(String prefixWithProperCase, String option) {
 		return (caseInsensitiveCompletion ? option.toLowerCase() : option)
 				.startsWith(prefixWithProperCase);
 	}

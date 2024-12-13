@@ -35,7 +35,7 @@ public class CoordSystemInfo {
 				+ '}';
 	}
 
-	public boolean isCenterVew() {
+	public boolean isCenterView() {
 		return centerView;
 	}
 

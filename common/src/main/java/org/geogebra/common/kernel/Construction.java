@@ -401,8 +401,8 @@ public class Construction {
 	}
 
 	/**
-	 * Renames xAxis and yAxis in the geoTable and sets *AxisLocalName-s
-	 * acordingly
+	 * Renames xAxis and yAxis in the geoTable and sets axisLocalName-s
+	 * accordingly
 	 */
 	final public void updateLocalAxesNames() {
 		geoTable.remove(xAxisLocalName);
@@ -426,7 +426,7 @@ public class Construction {
 	}
 
 	/**
-	 * @return table of arbitraryConstants from CAS with assigmnentVar key
+	 * @return table of arbitraryConstants from CAS with assignmentVar key
 	 */
 	public HashMap<Integer, ArbitraryConstantRegistry> getArbitraryConsTable() {
 		return arbitraryConsTable;
@@ -529,7 +529,7 @@ public class Construction {
 
 	/**
 	 * If this is set to true new construction elements won't get labels.
-	 * @param flag true iff labelcreation should be supressed
+	 * @param flag true iff label creation should be suppressed
 	 */
 	public void setSuppressLabelCreation(boolean flag) {
 		suppressLabelCreation = flag;
@@ -1301,7 +1301,7 @@ public class Construction {
 	 * Appends minimal version of the construction XML to given string builder.
 	 * Only elements/commands are preserved, the rest is ignored.
 	 * @param sb String builder
-	 * @param getListenersToo whether to includ JS listener names
+	 * @param getListenersToo whether to include JS listener names
 	 */
 	public void getConstructionElementsXML(StringBuilder sb,
 			boolean getListenersToo) {
@@ -2734,7 +2734,7 @@ public class Construction {
 	 * order of their type strings and labels (e.g. Line g, Line h, Point A,
 	 * Point B, ...). Note: the returned TreeSet is a copy of the current
 	 * situation and is not updated by the construction later on.
-	 * @return Set of all labeld GeoElements orted by name and description
+	 * @return Set of all labeled GeoElements sorted by name and description
 	 */
 	final public TreeSet<GeoElement> getGeoSetNameDescriptionOrder() {
 		// sorted set of geos
@@ -3064,33 +3064,6 @@ public class Construction {
 	public TreeSet<String> getCASdummies() {
 		return casDummies;
 	}
-
-	/**
-	 * TODO place this JavaDoc to the correct spot Build a set with all
-	 * algorithms of this construction (in topological order). The method
-	 * updateAll() of this set can be used to update the whole construction.
-	 *
-	 * public AlgorithmSet buildOveralAlgorithmSet() { // 1) get all independent
-	 * GeoElements in construction and update them // 2) build one overall
-	 * updateSet from all updateSets of (1)
-	 *
-	 * // 1) get all independent geos in construction LinkedHashSet indGeos =
-	 * new LinkedHashSet(); int size = ceList.size(); for (int i = 0; i < size;
-	 * ++i) { ConstructionElement ce = (ConstructionElement) ceList.get(i); if
-	 * (ce.isIndependent()) indGeos.add(ce); else {
-	 * indGeos.addAll(ce.getAllIndependentPredecessors()); } }
-	 *
-	 * // 2) build one overall updateSet AlgorithmSet algoSet = new
-	 * AlgorithmSet(); Iterator it = indGeos.iterator(); while (it.hasNext()) {
-	 * GeoElement geo = (GeoElement) it.next();
-	 *
-	 * // update this geo only geo.update();
-	 *
-	 * // get its update set and add it to the overall updateSet
-	 * algoSet.addAll(geo.getAlgoUpdateSet()); }
-	 *
-	 * return algoSet; }
-	 */
 
 	/**
 	 * Updates all algos in the set. Guards against double updates if location is involved.

@@ -50,7 +50,7 @@ public class AlgoSlopeField extends AlgoElement {
 	 * @param label
 	 *            label
 	 * @param func
-	 *            fucntion
+	 *            function
 	 * @param n
 	 *            length of grid
 	 * @param lengthRatio

@@ -20,7 +20,7 @@ public class SnapController {
 	private static final int DISTANCE_THRESHOLD = 40;
 
 	/* Distance threshold to consider snapping to either direction. */
-	private static final int INITIAL_DISTANE_TRESHOLD = 5;
+	private static final int INITIAL_DISTANCE_THRESHOLD = 5;
 
 	/*
 	 * The size of the angle in degrees in which we consider snapping. We
@@ -106,7 +106,7 @@ public class SnapController {
 				state = State.FREE;
 			} else {
 				float angle = calculateAngle(startLocation, movedLocation);
-				if (distance > INITIAL_DISTANE_TRESHOLD) {
+				if (distance > INITIAL_DISTANCE_THRESHOLD) {
 					if (angleInHorizontal(angle)
 							&& Math.abs(dy) <= MOVE_VIEW_THRESHOLD) {
 						state = State.SNAPPED_HORIZONTAL;

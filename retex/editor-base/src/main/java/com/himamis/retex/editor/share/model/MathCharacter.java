@@ -51,7 +51,7 @@ public class MathCharacter extends MathComponent {
 	 * Use MathFormula.newCharacter(...)
 	 * 
 	 * @param meta
-	 *            meta compenent
+	 *            meta component
 	 */
     public MathCharacter(MetaCharacter meta) {
         this.meta = meta;

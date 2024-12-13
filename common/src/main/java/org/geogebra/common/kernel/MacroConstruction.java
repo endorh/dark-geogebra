@@ -167,19 +167,19 @@ public class MacroConstruction extends Construction {
 	}
 
 	/**
-	 * Returns true if geos of parent costruction can be referenced
+	 * Returns true if geos of parent construction can be referenced
 	 * 
-	 * @return true if geos of parent costruction can be referenced
+	 * @return true if geos of parent construction can be referenced
 	 */
 	public boolean isGlobalVariableLookup() {
 		return globalVariableLookup;
 	}
 
 	/**
-	 * Set to true if geos of parent costruction should be referenced
+	 * Set to true if geos of parent construction should be referenced
 	 * 
 	 * @param globalVariableLookup
-	 *            true if geos of parent costruction should be referenced
+	 *            true if geos of parent construction should be referenced
 	 */
 	public void setGlobalVariableLookup(boolean globalVariableLookup) {
 		this.globalVariableLookup = globalVariableLookup;

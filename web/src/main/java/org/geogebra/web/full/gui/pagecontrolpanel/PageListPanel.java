@@ -302,7 +302,7 @@ public class PageListPanel
 	}
 
 	/**
-	 * set true if touch event occured
+	 * set true if touch event occurred
 	 */
 	public void setIsTouch() {
 		isTouch = true;

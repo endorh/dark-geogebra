@@ -144,7 +144,7 @@ public class AlgoDispatcher {
 	 * @param y
 	 *            y-coordinate
 	 * @param complex
-	 *            whether ot use complex coords
+	 *            whether to use complex coords
 	 * @return point
 	 */
 	final public GeoPoint point(double x, double y,
@@ -1092,7 +1092,7 @@ public class AlgoDispatcher {
 	}
 
 	/**
-	 * ellipse with foci A, B passing thorugh C Michael Borcherds 2008-04-06
+	 * ellipse with foci A, B passing through C
 	 * 
 	 * @param label
 	 *            label
@@ -1310,7 +1310,7 @@ public class AlgoDispatcher {
 	 * @param label
 	 *            output label
 	 * @param func
-	 *            funtion in x,y
+	 *            function in x,y
 	 * @return curve func(x,y)=0
 	 */
 	final public GeoImplicit implicitPoly(String label, GeoFunctionNVar func) {
@@ -1319,10 +1319,6 @@ public class AlgoDispatcher {
 		GeoImplicit implicitPoly = algo.getImplicitPoly();
 		return implicitPoly;
 	}
-
-	/********************
-	 * ALGORITHMIC PART *
-	 ********************/
 
 	/**
 	 * Point in region with cartesian coordinates (x,y)
@@ -1559,7 +1555,7 @@ public class AlgoDispatcher {
 	 * @param poly0
 	 *            first polygon
 	 * @param poly1
-	 *            secod polygon
+	 *            second polygon
 	 * @return union (polygon + vertices + segments)
 	 */
 	final public GeoElement[] union(String[] labels, GeoPolygon poly0,
@@ -1579,7 +1575,7 @@ public class AlgoDispatcher {
 	 * @param poly0
 	 *            first polygon
 	 * @param poly1
-	 *            secod polygon
+	 *            second polygon
 	 * @param outputSizes
 	 *            output size per type
 	 * @return union (polygon + vertices + segments)
@@ -1601,7 +1597,7 @@ public class AlgoDispatcher {
 	 * @param poly0
 	 *            first polygon
 	 * @param poly1
-	 *            secod polygon
+	 *            second polygon
 	 * @return set difference (polygon + vertices + segments)
 	 */
 	final public GeoElement[] difference(String[] labels, GeoPolygon poly0,
@@ -1622,7 +1618,7 @@ public class AlgoDispatcher {
 	 * @param poly0
 	 *            first polygon
 	 * @param poly1
-	 *            secod polygon
+	 *            second polygon
 	 * @return set difference (polygon + vertices + segments)
 	 */
 	final public GeoElement[] difference(String[] labels, GeoPolygon poly0,
@@ -1888,7 +1884,7 @@ public class AlgoDispatcher {
 	 *            line
 	 * @param p
 	 *            polygon
-	 * @return intersetion points
+	 * @return intersection points
 	 */
 	final public GeoElement[] intersectLinePolygon(String[] labels, GeoLine g,
 			GeoPolygon p) {

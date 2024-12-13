@@ -297,7 +297,7 @@ public class Inequality {
 			return new ArrayList<>();
 		}
 		Function fun = f.getFunctionForRoot();
-		// get polynomial factors anc calc roots
+		// get polynomial factors and calc roots
 		if (rootAlgo == null) {
 			rootAlgo = new AlgoRootsPolynomial(f);
 		}

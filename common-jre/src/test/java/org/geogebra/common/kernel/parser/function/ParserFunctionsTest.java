@@ -27,6 +27,7 @@ import com.himamis.retex.editor.share.util.Unicode;
 
 public class ParserFunctionsTest {
 
+	private static final String GAMMA_PREFIX = "gam"; // NO-TYPO
 	private ParserFunctions parserFunctions;
 
 	@Before
@@ -113,13 +114,13 @@ public class ParserFunctionsTest {
 
 	@Test
 	public void testCompletions() {
-		List<String> completions = parserFunctions.getCompletions("gam");
+		List<String> completions = parserFunctions.getCompletions(GAMMA_PREFIX);
 		assertEquals(completions.size(), 3);
 	}
 
 	@Test
 	public void testCompletionsWithFilteredOperations() {
-		List<String> completions = parserFunctions.getCompletions("gam",
+		List<String> completions = parserFunctions.getCompletions(GAMMA_PREFIX,
 				Set.of(Operation.GAMMA,
 						Operation.GAMMA_INCOMPLETE,
 						Operation.GAMMA_INCOMPLETE_REGULARIZED));

@@ -11,7 +11,7 @@ public final class ArcTrigReplacer implements Traversing {
 	private static ArcTrigReplacer replacer = new ArcTrigReplacer();
 
 	private ArcTrigReplacer() {
-		// singleton constructo
+		// singleton constructor
 	}
 
 	@Override

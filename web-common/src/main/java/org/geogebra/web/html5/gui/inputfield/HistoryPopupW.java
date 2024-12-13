@@ -87,7 +87,7 @@ public class HistoryPopupW extends GPopupPanel implements ClickHandler,
 	}
 
 	/**
-	 * @return whether popup is below the fiel
+	 * @return whether popup is below the field
 	 */
 	public boolean isDownPopup() {
 		return downPopup;

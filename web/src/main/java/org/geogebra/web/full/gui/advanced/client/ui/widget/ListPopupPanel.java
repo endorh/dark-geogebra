@@ -532,7 +532,7 @@ public class ListPopupPanel<T extends ListDataModel> extends GPopupPanel
 	}
 
 	/**
-	 * This method higlights a selected row.
+	 * This method highlights a selected row.
 	 *
 	 * @param newRow
 	 *            a row for selection.
@@ -547,7 +547,7 @@ public class ListPopupPanel<T extends ListDataModel> extends GPopupPanel
 	 * necessary listeners.
 	 *
 	 * @param widget
-	 *            is an item widget to be wraped.
+	 *            is an item widget to be wrapped.
 	 * @return a focus panel adopted for displaying.
 	 */
 	protected FocusPanel adoptItemWidget(Widget widget) {
@@ -696,11 +696,11 @@ public class ListPopupPanel<T extends ListDataModel> extends GPopupPanel
 	 * This scroll handler is invoked on any scrolling event caotured by the
 	 * items list.
 	 * <p>
-	 * It check whether the scrolling position value is equal to the last item
+	 * It checks whether the scrolling position value is equal to the last item
 	 * position and tries to render the next page of data.
 	 */
 	protected class ListScrollHandler implements ScrollHandler {
-		/** the list has been scrolled programatically */
+		/** the list has been scrolled programmatically */
 		private boolean autoScrollingEnabled;
 
 		/** see class docs */

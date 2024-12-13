@@ -70,7 +70,7 @@ public class MatchingBlockManager {
 	}
 
 	/**
-	 * @return the scanner used by thhis manager
+	 * @return the scanner used by this manager
 	 */
 	public MatchingBlockScanner getScanner() {
 		return scanner;
@@ -148,10 +148,10 @@ public class MatchingBlockManager {
 	}
 
 	/**
-	 * Desactivate this MatchingBlockManager to listen to the KeywordEvent
+	 * Deactivate this MatchingBlockManager to listen to the KeywordEvent
 	 * generate by a MouseOver.
 	 */
-	public void desactivateMouseOver() {
+	public void deactivateMouseOver() {
 		if (mouseover != null) {
 			pane.removeKeywordListener(mouseover);
 			mouseover = null;
@@ -353,7 +353,7 @@ public class MatchingBlockManager {
 		 *            the text component where to paint
 		 * @param view
 		 *            the view to use
-		 * @return the shape containg the highlighted text
+		 * @return the shape containing the highlighted text
 		 */
 		@Override
 		public Shape paintLayer(Graphics g, int offs0, int offs1, Shape bounds,
@@ -517,7 +517,7 @@ public class MatchingBlockManager {
 	class MouseOverMatcher extends KeywordAdapter.MouseOverAdapter {
 
 		/**
-		 * What to do when the event occured
+		 * What to do when the event occurred
 		 * 
 		 * @param e
 		 *            the event

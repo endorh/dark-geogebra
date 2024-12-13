@@ -196,7 +196,7 @@ public class Accents {
 	/**
 	 * @param txt
 	 *            input
-	 * @return whether input is one of the acent signs
+	 * @return whether input is one of the accent signs
 	 */
 	public static boolean isAccent(String txt) {
 		return ACCENT_GRAVE.equals(txt) || ACCENT_ACUTE.equals(txt)

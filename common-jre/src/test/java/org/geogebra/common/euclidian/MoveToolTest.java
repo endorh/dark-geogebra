@@ -121,12 +121,12 @@ public class MoveToolTest extends BaseEuclidianControllerTest {
 		GeoList list  = add("{(1, -1), (1, 1)}");
 		list.setEuclidianVisible(true);
 		list.updateRepaint();
-		EventAccumulator acumulator = new EventAccumulator();
-		getApp().getEventDispatcher().addEventListener(acumulator);
+		EventAccumulator accumulator = new EventAccumulator();
+		getApp().getEventDispatcher().addEventListener(accumulator);
 		dragStart(50, 50);
 		dragEnd(100, 50);
 		assertThat(list, hasValue("{(2, -1), (2, 1)}"));
-		assertTrue("List should have been updated", acumulator.getEvents().contains("UPDATE l1"));
+		assertTrue("List should have been updated", accumulator.getEvents().contains("UPDATE l1"));
 	}
 
 	private MockCASGiac setupGiac() {

@@ -14,7 +14,7 @@ public interface CoordStyle {
 	/** set to polar coords */
 	public void setPolar();
 
-	/** set to comple coords */
+	/** set to complex coords */
 	public void setComplex();
 
 	/** set to 3D cartesian coords */

@@ -317,7 +317,7 @@ public class CellRangeProcessor {
 
 	/**
 	 * @param rangeList
-	 *            list odf selcted ranges
+	 *            list of selected ranges
 	 * @return whether it contains single 1D range
 	 */
 	public boolean is1DRangeList(ArrayList<TabularRange> rangeList) {
@@ -854,7 +854,7 @@ public class CellRangeProcessor {
 
 		ArrayList<SpreadsheetCoords> cellList = new ArrayList<>();
 
-		// temporary fix for catching duplicate cells caused by ctrl-seelct
+		// temporary fix for catching duplicate cells caused by ctrl-select
 		// will not be needed when sorting of cells by row/column is done
 		HashSet<SpreadsheetCoords> usedCells = new HashSet<>();
 

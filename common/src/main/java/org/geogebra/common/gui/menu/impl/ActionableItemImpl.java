@@ -2,7 +2,7 @@ package org.geogebra.common.gui.menu.impl;
 
 import org.geogebra.common.gui.menu.Action;
 import org.geogebra.common.gui.menu.ActionableItem;
-import org.geogebra.common.gui.menu.MenuIcon;
+import org.geogebra.common.gui.menu.Icon;
 
 class ActionableItemImpl extends AbtractMenuItem implements ActionableItem {
 
@@ -12,7 +12,7 @@ class ActionableItemImpl extends AbtractMenuItem implements ActionableItem {
 		this(null, label, action);
 	}
 
-	ActionableItemImpl(MenuIcon icon, String label, Action action) {
+	ActionableItemImpl(Icon icon, String label, Action action) {
 		super(icon, label);
 		this.action = action;
 	}

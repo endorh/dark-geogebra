@@ -1,6 +1,6 @@
 package org.geogebra.web.full.gui.menu.icons;
 
-import org.geogebra.common.gui.menu.MenuIcon;
+import org.geogebra.common.gui.menu.Icon;
 import org.geogebra.web.html5.gui.view.IconSpec;
 import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.resources.SVGResource;
@@ -13,11 +13,11 @@ public class DefaultMenuIconProvider implements MenuIconProvider {
 	private static final DefaultMenuIconResources res = DefaultMenuIconResources.INSTANCE;
 
 	@Override
-	public IconSpec matchIconWithResource(MenuIcon icon) {
+	public IconSpec matchIconWithResource(Icon icon) {
 		return icon != null ? new ImageIconSpec(findImage(icon)) : null;
 	}
 
-	private SVGResource findImage(MenuIcon icon) {
+	private SVGResource findImage(Icon icon) {
 		switch (icon) {
 		case CLEAR:
 			return res.clear();

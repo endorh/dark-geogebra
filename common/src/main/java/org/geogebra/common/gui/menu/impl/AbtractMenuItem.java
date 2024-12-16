@@ -1,20 +1,20 @@
 package org.geogebra.common.gui.menu.impl;
 
-import org.geogebra.common.gui.menu.MenuIcon;
+import org.geogebra.common.gui.menu.Icon;
 import org.geogebra.common.gui.menu.MenuItem;
 
 abstract class AbtractMenuItem implements MenuItem {
 
-	private final MenuIcon icon;
+	private final Icon icon;
 	private final String label;
 
-	AbtractMenuItem(MenuIcon icon, String label) {
+	AbtractMenuItem(Icon icon, String label) {
 		this.icon = icon;
 		this.label = label;
 	}
 
 	@Override
-	public MenuIcon getIcon() {
+	public Icon getIcon() {
 		return icon;
 	}
 

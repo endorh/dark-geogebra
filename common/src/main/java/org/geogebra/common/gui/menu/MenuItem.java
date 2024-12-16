@@ -15,7 +15,8 @@ public interface MenuItem extends Serializable {
 	 *
 	 * @return icon
 	 */
-	@Nullable MenuIcon getIcon();
+	@Nullable
+	Icon getIcon();
 
 	/**
 	 * Get the translation key of the label of them menu item.

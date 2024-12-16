@@ -3,7 +3,7 @@ package org.geogebra.common.gui.menu.impl;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.menu.Action;
 import org.geogebra.common.gui.menu.DrawerMenu;
-import org.geogebra.common.gui.menu.MenuIcon;
+import org.geogebra.common.gui.menu.Icon;
 import org.geogebra.common.gui.menu.MenuItem;
 import org.geogebra.common.gui.menu.MenuItemGroup;
 
@@ -57,12 +57,12 @@ public class ExamDrawerMenuFactory extends AbstractDrawerMenuFactory {
 	}
 
 	private static MenuItem exitExamMode() {
-		return new ActionableItemImpl(MenuIcon.HOURGLASS_EMPTY,
+		return new ActionableItemImpl(Icon.HOURGLASS_EMPTY,
 				"exam_menu_exit", Action.EXIT_EXAM_MODE);
 	}
 
 	private static MenuItem showExamLog() {
-		return new ActionableItemImpl(MenuIcon.ASSIGNMENT,
+		return new ActionableItemImpl(Icon.ASSIGNMENT,
 				"exam_log_header", Action.SHOW_EXAM_LOG);
 	}
 }

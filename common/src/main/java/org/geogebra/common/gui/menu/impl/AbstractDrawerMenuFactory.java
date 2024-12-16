@@ -8,7 +8,7 @@ import javax.annotation.Nullable;
 import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.menu.Action;
 import org.geogebra.common.gui.menu.DrawerMenuFactory;
-import org.geogebra.common.gui.menu.MenuIcon;
+import org.geogebra.common.gui.menu.Icon;
 import org.geogebra.common.gui.menu.MenuItem;
 
 abstract class AbstractDrawerMenuFactory implements DrawerMenuFactory {
@@ -35,21 +35,21 @@ abstract class AbstractDrawerMenuFactory implements DrawerMenuFactory {
 	}
 
 	static MenuItem clearConstruction() {
-		return new ActionableItemImpl(MenuIcon.CLEAR, "Clear", Action.CLEAR_CONSTRUCTION);
+		return new ActionableItemImpl(Icon.CLEAR, "Clear", Action.CLEAR_CONSTRUCTION);
 	}
 
 	protected static MenuItem openFile() {
-		return new ActionableItemImpl(MenuIcon.SEARCH, "Load", Action.SHOW_SEARCH_VIEW);
+		return new ActionableItemImpl(Icon.SEARCH, "Load", Action.SHOW_SEARCH_VIEW);
 	}
 
 	protected static MenuItem saveFile() {
-		return new ActionableItemImpl(MenuIcon.SAVE, "Save", Action.SAVE_FILE);
+		return new ActionableItemImpl(Icon.SAVE, "Save", Action.SAVE_FILE);
 	}
 
 	@Nullable
 	MenuItem showSwitchCalculator() {
 		return isSuiteApp
-				? new ActionableItemImpl(MenuIcon.GEOGEBRA,
+				? new ActionableItemImpl(Icon.GEOGEBRA,
 				"SwitchCalculator", Action.SWITCH_CALCULATOR)
 				: null;
 	}

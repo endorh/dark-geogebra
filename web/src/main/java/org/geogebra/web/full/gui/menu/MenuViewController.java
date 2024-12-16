@@ -6,7 +6,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.SetLabels;
 import org.geogebra.common.gui.menu.DrawerMenu;
 import org.geogebra.common.gui.menu.DrawerMenuFactory;
-import org.geogebra.common.gui.menu.MenuIcon;
+import org.geogebra.common.gui.menu.Icon;
 import org.geogebra.common.gui.menu.MenuItem;
 import org.geogebra.common.gui.menu.MenuItemGroup;
 import org.geogebra.common.gui.menu.impl.DefaultDrawerMenuFactory;
@@ -342,7 +342,7 @@ public class MenuViewController implements EventRenderable, SetLabels, RequiresR
 	}
 
 	private AriaMenuItem createMenuItemView(MenuItem menuItem) {
-		if (menuItem.getIcon() == MenuIcon.USER_ICON) {
+		if (menuItem.getIcon() == Icon.USER_ICON) {
 			return MenuItemView.create(getUserImage(), menuItem.getLabel());
 		} else {
 			IconSpec icon = menuIconResource.getImageResource(menuItem.getIcon());

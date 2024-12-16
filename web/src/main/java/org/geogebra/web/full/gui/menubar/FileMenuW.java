@@ -1,6 +1,6 @@
 package org.geogebra.web.full.gui.menubar;
 
-import org.geogebra.common.gui.menu.MenuIcon;
+import org.geogebra.common.gui.menu.Icon;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.ownership.GlobalScope;
@@ -48,7 +48,7 @@ public class FileMenuW extends Submenu implements BooleanRenderable {
 	private void initActions() {
 		if (!GlobalScope.examController.isIdle()) {
 			addItem("exam_menu_exit",
-					new ExitExamAction(), iconProvider.getImageResource(MenuIcon.SIGN_OUT));
+					new ExitExamAction(), iconProvider.getImageResource(Icon.SIGN_OUT));
 			return;
 		}
 
@@ -126,21 +126,21 @@ public class FileMenuW extends Submenu implements BooleanRenderable {
 
 	private void addShareItem() {
 		shareItem = addItem("Share",
-				new ShareAction(), iconProvider.getImageResource(MenuIcon.EXPORT_FILE));
+				new ShareAction(), iconProvider.getImageResource(Icon.EXPORT_FILE));
 	}
 
 	private void addExportImageItem() {
 		addItem("exportImage",
-				new ExportImage(), iconProvider.getImageResource(MenuIcon.EXPORT_IMAGE));
+				new ExportImage(), iconProvider.getImageResource(Icon.EXPORT_IMAGE));
 	}
 
 	private void addSaveItems() {
 		if (getApp().getLAF().undoRedoSupported()) {
 			addItem("SaveOnline",
-					new SaveAction(), iconProvider.getImageResource(MenuIcon.SAVE_ONLINE));
+					new SaveAction(), iconProvider.getImageResource(Icon.SAVE_ONLINE));
 
 			addItem("SaveToYourPC",
-					new SaveLocalAction(), iconProvider.getImageResource(MenuIcon.SAVE));
+					new SaveLocalAction(), iconProvider.getImageResource(Icon.SAVE));
 		}
 	}
 

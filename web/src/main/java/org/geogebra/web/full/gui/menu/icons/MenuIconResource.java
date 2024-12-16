@@ -1,6 +1,6 @@
 package org.geogebra.web.full.gui.menu.icons;
 
-import org.geogebra.common.gui.menu.MenuIcon;
+import org.geogebra.common.gui.menu.Icon;
 import org.geogebra.web.html5.gui.view.IconSpec;
 
 public class MenuIconResource {
@@ -10,7 +10,7 @@ public class MenuIconResource {
 		this.menuIconProvider = menuIconProvider;
 	}
 
-	public IconSpec getImageResource(MenuIcon icon) {
+	public IconSpec getImageResource(Icon icon) {
 		return menuIconProvider.matchIconWithResource(icon);
 	}
 

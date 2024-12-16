@@ -4,7 +4,7 @@ import org.geogebra.common.GeoGebraConstants;
 import org.geogebra.common.gui.menu.Action;
 import org.geogebra.common.gui.menu.ActionableItem;
 import org.geogebra.common.gui.menu.DrawerMenu;
-import org.geogebra.common.gui.menu.MenuIcon;
+import org.geogebra.common.gui.menu.Icon;
 import org.geogebra.common.gui.menu.MenuItem;
 import org.geogebra.common.gui.menu.MenuItemGroup;
 import org.geogebra.common.move.ggtapi.operations.LogInOperation;
@@ -47,26 +47,26 @@ public class MebisDrawerMenuFactory extends DefaultDrawerMenuFactory {
 	}
 
 	private MenuItem newFile() {
-		return new ActionableItemImpl(MenuIcon.CLEAR, "New.Mebis", Action.CLEAR_CONSTRUCTION);
+		return new ActionableItemImpl(Icon.CLEAR, "New.Mebis", Action.CLEAR_CONSTRUCTION);
 	}
 
 	private MenuItem myFiles() {
-		return new ActionableItemImpl(MenuIcon.SEARCH, "Open.Mebis", Action.SHOW_SEARCH_VIEW);
+		return new ActionableItemImpl(Icon.SEARCH, "Open.Mebis", Action.SHOW_SEARCH_VIEW);
 	}
 
 	private MenuItem save() {
 		String label = isOffline() ? "SaveAs" : "Save";
 		Action action = isOffline() ? Action.DOWNLOAD_GGS : Action.SAVE_FILE;
-		return new ActionableItemImpl(MenuIcon.SAVE, label, action);
+		return new ActionableItemImpl(Icon.SAVE, label, action);
 	}
 
 	private MenuItem openOfflineFile() {
 		String label = isOffline() ? "mow.openFile" : "mow.offlineMyFiles";
 		return enableFileFeatures()
-				? new ActionableItemImpl(MenuIcon.FOLDER, label, Action.OPEN_OFFLINE_FILE) : null;
+				? new ActionableItemImpl(Icon.FOLDER, label, Action.OPEN_OFFLINE_FILE) : null;
 	}
 
 	private ActionableItem showLicence() {
-		return new ActionableItemImpl(MenuIcon.INFO, "AboutLicense", Action.SHOW_LICENSE);
+		return new ActionableItemImpl(Icon.INFO, "AboutLicense", Action.SHOW_LICENSE);
 	}
 }

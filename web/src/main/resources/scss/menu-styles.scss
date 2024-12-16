@@ -50,6 +50,7 @@ $menuWidth: 320px;
 			margin: 8px 16px 8px 16px;
 			}
 			.menuItemView {
+				display: flex;
 				width: calc(100% - 10px);
 				height: 48px;
 				line-height: 48px;

@@ -6,7 +6,7 @@ import org.geogebra.common.gui.menu.Icon;
 
 class ActionableItemImpl extends AbtractMenuItem implements ActionableItem {
 
-	private Action action;
+	private final Action action;
 
 	ActionableItemImpl(String label, Action action) {
 		this(null, label, action);

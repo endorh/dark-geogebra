@@ -1,11 +1,13 @@
 package org.geogebra.web.full.gui.menubar;
 
+import org.geogebra.common.gui.menu.Icon;
 import org.geogebra.common.main.Localization;
 import org.geogebra.common.move.views.BooleanRenderable;
 import org.geogebra.common.ownership.GlobalScope;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.ShareControllerW;
 import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconProvider;
+import org.geogebra.web.full.gui.menu.icons.MenuIconResource;
 import org.geogebra.web.full.gui.menubar.action.ClearAllAction;
 import org.geogebra.web.full.gui.menubar.action.ExitExamAction;
 import org.geogebra.web.full.gui.menubar.action.ExportImage;
@@ -14,6 +16,7 @@ import org.geogebra.web.full.gui.menubar.action.SaveLocalAction;
 import org.geogebra.web.full.gui.menubar.action.ShareAction;
 import org.geogebra.web.html5.bridge.GeoGebraJSNativeBridge;
 import org.geogebra.web.html5.gui.menu.AriaMenuItem;
+import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.html5.main.AppW;
 import org.geogebra.web.resources.SVGResource;
 import org.gwtproject.user.client.ui.Widget;
@@ -28,6 +31,7 @@ public class FileMenuW extends Submenu implements BooleanRenderable {
 	private AriaMenuItem shareItem;
 
 	private final Localization loc;
+	private final MenuIconResource iconProvider;
 
 	/**
 	 * @param app
@@ -37,13 +41,14 @@ public class FileMenuW extends Submenu implements BooleanRenderable {
 		super("file", app);
 		addExpandableStyleWithColor(false);
 		this.loc = app.getLocalization();
+		iconProvider = new MenuIconResource(new DefaultMenuIconProvider());
 		initActions();
 	}
 
 	private void initActions() {
 		if (!GlobalScope.examController.isIdle()) {
 			addItem("exam_menu_exit",
-					new ExitExamAction(), MaterialDesignResources.INSTANCE.signout_black());
+					new ExitExamAction(), iconProvider.getImageResource(Icon.SIGN_OUT));
 			return;
 		}
 
@@ -116,30 +121,26 @@ public class FileMenuW extends Submenu implements BooleanRenderable {
 	private void addFileNewItem() {
 		addItem("New",
 				new ClearAllAction(true),
-				MaterialDesignResources.INSTANCE.newFileMenu());
+				new ImageIconSpec(MaterialDesignResources.INSTANCE.newFileMenu()));
 	}
 
 	private void addShareItem() {
 		shareItem = addItem("Share",
-				new ShareAction(),
-				DefaultMenuIconProvider.INSTANCE.exportFile());
+				new ShareAction(), iconProvider.getImageResource(Icon.EXPORT_FILE));
 	}
 
 	private void addExportImageItem() {
 		addItem("exportImage",
-				new ExportImage(),
-				MaterialDesignResources.INSTANCE.export_image_black());
+				new ExportImage(), iconProvider.getImageResource(Icon.EXPORT_IMAGE));
 	}
 
 	private void addSaveItems() {
 		if (getApp().getLAF().undoRedoSupported()) {
 			addItem("SaveOnline",
-					new SaveAction(),
-					DefaultMenuIconProvider.INSTANCE.saveOnline());
+					new SaveAction(), iconProvider.getImageResource(Icon.SAVE_ONLINE));
 
 			addItem("SaveToYourPC",
-					new SaveLocalAction(),
-					DefaultMenuIconProvider.INSTANCE.save());
+					new SaveLocalAction(), iconProvider.getImageResource(Icon.SAVE));
 		}
 	}
 

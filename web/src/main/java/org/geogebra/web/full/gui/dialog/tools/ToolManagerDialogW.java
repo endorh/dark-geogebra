@@ -25,7 +25,7 @@ import org.geogebra.common.main.MaterialsManagerI;
 import org.geogebra.common.main.MyError.Errors;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.GuiManagerW;
-import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconProvider;
+import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconResources;
 import org.geogebra.web.html5.gui.util.FastClickHandler;
 import org.geogebra.web.html5.gui.util.LayoutUtilW;
 import org.geogebra.web.html5.gui.util.ListBoxApi;
@@ -47,7 +47,7 @@ public class ToolManagerDialogW extends ComponentDialog implements ToolManagerDi
 
 	AppW appw;
 	final LocalizationW loc;
-	private ToolManagerDialogModel model;
+	private final ToolManagerDialogModel model;
 
 	MacroListBox toolList;
 
@@ -262,14 +262,13 @@ public class ToolManagerDialogW extends ComponentDialog implements ToolManagerDi
 		toolButtonPanel.addStyleName("toolButtons");
 		panel.add(toolButtonPanel);
 
-		openButton = addStyledButton(
-				MaterialDesignResources.INSTANCE.mow_pdf_open_folder(),
+		openButton = addStyledButton(MaterialDesignResources.INSTANCE.mow_pdf_open_folder(),
 				toolButtonPanel, loc.getMenu("Open"),
 				w -> this.openMacroEditingTab()
 		);
 		openButton.setEnabled(false);
 
-		addStyledButton(DefaultMenuIconProvider.INSTANCE.save(), toolButtonPanel,
+		addStyledButton(DefaultMenuIconResources.INSTANCE.save(), toolButtonPanel,
 				loc.getMenu("Save"), w -> this.saveTools());
 
 		// name & icon

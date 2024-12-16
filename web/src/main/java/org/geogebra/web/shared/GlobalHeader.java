@@ -22,7 +22,7 @@ import org.geogebra.common.util.AsyncOperation;
 import org.geogebra.gwtutil.SafeExamBrowser;
 import org.geogebra.web.full.css.MaterialDesignResources;
 import org.geogebra.web.full.gui.exam.ExamUtil;
-import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconProvider;
+import org.geogebra.web.full.gui.menu.icons.DefaultMenuIconResources;
 import org.geogebra.web.full.gui.toolbarpanel.MenuToggleButton;
 import org.geogebra.web.html5.GeoGebraGlobal;
 import org.geogebra.web.html5.gui.util.Dom;
@@ -410,7 +410,7 @@ public final class GlobalHeader implements EventRenderable, ExamListener {
 	}
 
 	private void addExamType(String examTypeName) {
-		HTML examImg = new HTML(DefaultMenuIconProvider.INSTANCE.assignment().getSVG());
+		HTML examImg = new HTML(DefaultMenuIconResources.INSTANCE.assignment().getSVG());
 		examImg.setStyleName("examTypeIcon");
 		Label examType = new Label(examTypeName);
 		examType.setStyleName("examType");

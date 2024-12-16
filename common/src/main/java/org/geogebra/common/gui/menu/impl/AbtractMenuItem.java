@@ -5,8 +5,8 @@ import org.geogebra.common.gui.menu.MenuItem;
 
 abstract class AbtractMenuItem implements MenuItem {
 
-	private Icon icon;
-	private String label;
+	private final Icon icon;
+	private final String label;
 
 	AbtractMenuItem(Icon icon, String label) {
 		this.icon = icon;

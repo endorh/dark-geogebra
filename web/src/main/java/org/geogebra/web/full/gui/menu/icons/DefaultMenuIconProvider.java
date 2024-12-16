@@ -1,90 +1,64 @@
 package org.geogebra.web.full.gui.menu.icons;
 
+import org.geogebra.common.gui.menu.Icon;
+import org.geogebra.web.html5.gui.view.IconSpec;
+import org.geogebra.web.html5.gui.view.ImageIconSpec;
 import org.geogebra.web.resources.SVGResource;
-import org.gwtproject.resources.client.ClientBundle;
-import org.gwtproject.resources.client.Resource;
 
 /**
  * Gives default access to menu icons.
  */
-@Resource
-public interface DefaultMenuIconProvider extends ClientBundle, MenuIconProvider {
+public class DefaultMenuIconProvider implements MenuIconProvider {
 
-	DefaultMenuIconProvider INSTANCE = new DefaultMenuIconProviderImpl();
-
-	@Override
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/av/baseline-clear-24px.svg")
-	SVGResource clear();
+	private static final DefaultMenuIconResources res = DefaultMenuIconResources.INSTANCE;
 
 	@Override
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_file_download_black_24px.svg")
-	SVGResource download();
+	public IconSpec matchIconWithResource(Icon icon) {
+		return icon != null ? new ImageIconSpec(findImage(icon)) : null;
+	}
 
-	@Override
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_save_black_24px.svg")
-	SVGResource save();
-
-	@Override
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_save_online_black_24px.svg")
-	SVGResource saveOnline();
-
-	@Override
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/hourglass_empty-24px.svg")
-	SVGResource hourglassEmpty();
-
-	@Override
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/geogebra.svg")
-	SVGResource geogebra();
-
-	@Override
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/ev/ic_settings_black_24px.svg")
-	SVGResource settings();
-
-	@Override
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/help-24px.svg")
-	SVGResource help();
-
-	@Override
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_print_black_24px.svg")
-	SVGResource print();
-
-	@Override
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_search_black_24px.svg")
-	SVGResource search();
-
-	@Override
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_share_black_24px.svg")
-	SVGResource exportFile();
-
-	@Override
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_collections_black_24px.svg")
-	SVGResource exportImage();
-
-	@Override
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/assignment-24px.svg")
-	SVGResource assignment();
-
-	@Override
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/school-24px.svg")
-	SVGResource school();
-
-	@Override
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/ic_bug_report_black_24px.svg")
-	SVGResource bugReport();
-
-	@Override
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/info-24px.svg")
-	SVGResource info();
-
-	@Override
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/exit_to_app-24px.svg")
-	SVGResource signIn();
-
-	@Override
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/burgerMenu/logout.svg")
-	SVGResource signOut();
-
-	@Override
-	@Source("org/geogebra/common/icons/svg/web/matDesignIcons/mow/baseline-folder_open-24px.svg")
-	SVGResource folder();
+	private SVGResource findImage(Icon icon) {
+		switch (icon) {
+		case CLEAR:
+			return res.clear();
+		case DOWNLOAD:
+			return res.download();
+		case SAVE:
+			return res.save();
+		case SAVE_ONLINE:
+			return res.saveOnline();
+		case HOURGLASS_EMPTY:
+			return res.hourglassEmpty();
+		case GEOGEBRA:
+			return res.geogebra();
+		case SETTINGS:
+			return res.settings();
+		case HELP:
+			return res.help();
+		case PRINT:
+			return res.print();
+		case SEARCH:
+			return res.search();
+		case EXPORT_FILE:
+			return res.exportFile();
+		case EXPORT_IMAGE:
+			return res.exportImage();
+		case ASSIGNMENT:
+			return res.assignment();
+		case SCHOOL:
+			return res.school();
+		case BUG_REPORT:
+			return res.bugReport();
+		case INFO:
+			return res.info();
+		case SIGN_IN:
+			return res.signIn();
+		case SIGN_OUT:
+			return res.signOut();
+		case FOLDER:
+			return res.folder();
+		default:
+			return null;
+		}
+	}
 }

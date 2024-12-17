@@ -9,5 +9,6 @@ dependencies {
     implementation(libs.elemental2.dom)
     implementation(libs.gwt.timer)
     implementation(libs.murok)
+    implementation(variantOf(libs.murok) { classifier("sources") })
     implementation(project(":gwtutil"))
 }

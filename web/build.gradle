@@ -29,6 +29,7 @@ dependencies {
     implementation project(':keyboard-web')
     implementation libs.pdfJs
     implementation libs.multiplayer
+    implementation(variantOf(libs.multiplayer) { classifier("sources") })
     implementation files(file("build/generated/sources/annotationProcessor/java/main/"))
 
     testImplementation libs.junit

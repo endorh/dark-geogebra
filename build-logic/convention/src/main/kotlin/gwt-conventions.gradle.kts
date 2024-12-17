@@ -22,11 +22,6 @@ afterEvaluate {
     dependencies.add("gwt", files(gwtInternal.incoming.files))
 }
 
-//configurations.named("gwt").configure {
-//    dependencies.addAll(gwtInternal.dependencies)
-//}
-//    .get().extendsFrom(gwtInternal)
-
 afterEvaluate {
     logger.debug("GWT DEBUG: Files for {}", project.name)
     configurations.named("gwt").configure {

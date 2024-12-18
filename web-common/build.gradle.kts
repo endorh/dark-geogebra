@@ -23,8 +23,6 @@ dependencies {
     api(libs.giac.gwt)
     api(libs.gwt.dev)
     api(libs.quickJs)
-    implementation(variantOf(libs.giac.gwt) { classifier("sources") })
-    implementation(variantOf(libs.quickJs) { classifier("sources") })
 
     annotationProcessor(project(":gwt-generator"))
     annotationProcessor(libs.gwt.resources.processor)

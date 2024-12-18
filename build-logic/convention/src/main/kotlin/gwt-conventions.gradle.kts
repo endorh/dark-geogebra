@@ -14,7 +14,16 @@ val gwtInternal = configurations.create("gwtInternal") {
     isCanBeConsumed = false
     isCanBeResolved = true
     isTransitive = true
-    exclude(mapOf("group" to "org.gwtproject", "module" to "gwt-dev"))
+    exclude("org.gwtproject", "gwt-dev")
+    resolutionStrategy {
+        eachDependency {
+            if (requested.name in setOf("emscripten", "giac-gwt")) {
+                artifactSelection {
+                    selectArtifact(ArtifactTypeDefinition.JAR_TYPE, null, "sources")
+                }
+            }
+        }
+    }
 }
 
 
@@ -31,9 +40,8 @@ afterEvaluate {
     }
 }
 
-
 gwt {
-// https://github.com/gradle/gradle/issues/15383
+    // https://github.com/gradle/gradle/issues/15383
     versionCatalogs.named("libs").findVersion("gwt").ifPresent {
         gwtVersion = it.requiredVersion
     }

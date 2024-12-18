@@ -5,55 +5,39 @@ plugins {
 
 logger.debug("GWT Conventions: Configuring project {}", name)
 
-configurations.configureEach {
-    if (arrayOf("implementation", "api").contains(name)) {
-        dependencies.configureEach {
-            if (this is ProjectDependency) {
-                logger.debug("GWT Conventions: Evaluation depends on {}", dependencyProject.name)
-                evaluationDependsOn(this.dependencyProject.path)
-            }
-        }
+val gwtInternal = configurations.create("gwtInternal") {
+    extendsFrom(configurations.implementation.get())
+    attributes {
+        attribute(DocsType.DOCS_TYPE_ATTRIBUTE, objects.named(DocsType.SOURCES))
+        attribute(VerificationType.VERIFICATION_TYPE_ATTRIBUTE, objects.named(VerificationType.MAIN_SOURCES))
     }
-}
-
-fun resolveDependencies(configurations: ConfigurationContainer) {
-    configurations.configureEach {
-        if (arrayOf("implementation", "api").contains(name)) {
-            dependencies.configureEach {
-                if (this is ProjectDependency) {
-                    if (dependencyProject.pluginManager.hasPlugin("java")) {
-                        logger.debug("GWT Conventions: Adding sources dependency to project {}", dependencyProject.name)
-                        val javaSources = dependencyProject.sourceSets.main.get().allSource.srcDirs
-                        val javaSourceFiles = files(javaSources)
-
-                        project.dependencies.add("gwt", javaSourceFiles)
-
-                        logger.debug("GWT Conventions: Recursively adding dependencies from {}", dependencyProject.name)
-                        resolveDependencies(dependencyProject.configurations)
-                    } else {
-                        logger.debug("GWT Conventions: Dependency has no java plugin applied {}", dependencyProject.name)
-                    }
-                } else if (this is MinimalExternalModuleDependency) {
-                    logger.debug("GWT Conventions: Adding sources dependency to external dependency {}", this)
-                    val dependencyProvider = provider { this }
-                    val variant = project.dependencies.variantOf(dependencyProvider) {
-                        classifier("sources")
-                    }
-                    val isWebjar = this.group?.contains("webjars");
-                    if (isWebjar != null && !isWebjar) {
-                        project.dependencies.add("gwt", variant)
-                    }
-                } else if (this is FileCollectionDependency) {
-                    logger.debug("GWT Conventions: Adding dependency to file collection {}", files)
-
-                    project.dependencies.add("gwt", this)
+    isCanBeConsumed = false
+    isCanBeResolved = true
+    isTransitive = true
+    exclude("org.gwtproject", "gwt-dev")
+    resolutionStrategy {
+        eachDependency {
+            // These dependencies don't have a proper gradle metadata
+            // so selection with attributes will not work
+            if (requested.name in setOf("emscripten", "giac-gwt")) {
+                artifactSelection {
+                    selectArtifact(ArtifactTypeDefinition.JAR_TYPE, null, "sources")
+                }
+            }
+            // This dependency needs to be included as a jar
+            if (requested.name == "j2objc-annotations") {
+                artifactSelection {
+                    selectArtifact(ArtifactTypeDefinition.JAR_TYPE, null, null)
                 }
             }
         }
     }
 }
 
-resolveDependencies(configurations)
+
+afterEvaluate {
+    dependencies.add("gwt", files(gwtInternal.incoming.files))
+}
 
 gwt {
     // https://github.com/gradle/gradle/issues/15383

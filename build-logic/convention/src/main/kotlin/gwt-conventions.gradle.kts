@@ -17,9 +17,17 @@ val gwtInternal = configurations.create("gwtInternal") {
     exclude("org.gwtproject", "gwt-dev")
     resolutionStrategy {
         eachDependency {
+            // These dependencies don't have a proper gradle metadata
+            // so selection with attributes will not work
             if (requested.name in setOf("emscripten", "giac-gwt")) {
                 artifactSelection {
                     selectArtifact(ArtifactTypeDefinition.JAR_TYPE, null, "sources")
+                }
+            }
+            // This dependency needs to be included as a jar
+            if (requested.name == "j2objc-annotations") {
+                artifactSelection {
+                    selectArtifact(ArtifactTypeDefinition.JAR_TYPE, null, null)
                 }
             }
         }
@@ -29,15 +37,6 @@ val gwtInternal = configurations.create("gwtInternal") {
 
 afterEvaluate {
     dependencies.add("gwt", files(gwtInternal.incoming.files))
-}
-
-afterEvaluate {
-    logger.debug("GWT DEBUG: Files for {}", project.name)
-    configurations.named("gwt").configure {
-        incoming.files.forEach {
-            logger.debug("GWT DEBUG: {}", it)
-        }
-    }
 }
 
 gwt {
